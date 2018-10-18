@@ -2,5 +2,29 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-javadoc.jar!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-glfw.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-glfw-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-glfw-javadoc.jar!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-javadoc.jar!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-stb-javadoc.jar!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
