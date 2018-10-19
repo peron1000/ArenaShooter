@@ -3,6 +3,8 @@ package arenashooter.engine.graphics;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import java.nio.FloatBuffer;
+
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -61,8 +63,24 @@ public class Window {
 	
 	double x=0, y=0, size = 200; //Coordonnées du carré
 	public void update() {
-		x+=1;
-		y+=1;
+		FloatBuffer pad1joys = glfwGetJoystickAxes(GLFW_JOYSTICK_1);
+		
+		float pad1x = 0, pad1y = 0;
+		
+		if(pad1joys != null) {
+			pad1x = pad1joys.get(0);
+			pad1y = pad1joys.get(1);
+		}
+		
+		if( pad1x < -.2 || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
+			x-=3;
+		if( pad1x > .2 || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
+			x+=3;
+		if( pad1y > .2 || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
+			y-=3;
+		if( pad1y < -.2 || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
+			y+=3;
+		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
 		glBegin(GL_QUADS);
