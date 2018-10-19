@@ -12,11 +12,19 @@ import org.lwjgl.opengl.GL;
  */
 
 public class Window {
-
+	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
+	
 	private long window;
+	private GLFWVidMode vidmode;
 	
 	public Window(int width, int height, String title) {
-		if(!glfwInit()) System.err.println("Can't create window !");
+		if(!glfwInit()) System.err.println("Can't initialize GLFW !");
+		
+		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		
+		//On s'assure que la fenetre respecte les tailles minimales et maximales
+		width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
+		height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
 
 		//Interdire le redimensionnement manuel
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
@@ -27,11 +35,9 @@ public class Window {
 		window = glfwCreateWindow(width, height, title, NULL, NULL);
 
 		if (window == NULL) System.err.println("Can't create window !");
-
-		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
 		//Centrer la fenetre
-		glfwSetWindowPos(window, ( vidmode.width()/2 )-( width/2 ), ( vidmode.height()/2 )-( height/2 ));
+		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
 		
 		//Definir le contexte de la fenetre
 		glfwMakeContextCurrent(window);
@@ -53,10 +59,26 @@ public class Window {
 		return glfwWindowShouldClose(window);
 	}
 	
+	double x=0, y=0, size = 200; //Coordonnées du carré
 	public void update() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		x+=1;
+		y+=1;
+		glLoadIdentity();
+		glOrtho(0, 1280, 720, 0, 10, -10);
+		glBegin(GL_QUADS);
+		glColor3d(1, 0, 0);
+		glVertex3d(x+size, y, 0);
+		glColor3d(0, 1, 0);
+		glVertex3d(x, y, 0);
+		glColor3d(1, 1, 0);
+		glVertex3d(x, y+size, 0);
+		glColor3d(0, 0, 1);
+		glVertex3d(x+size, y+size, 0);
+		glEnd();
 		
 		glfwSwapBuffers(window);
+		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glfwPollEvents();
 	}
@@ -73,7 +95,13 @@ public class Window {
 	 * @param newWidth
 	 * @param newHeight
 	 */
-	public void resize(int newWidth, int newHeight) {
-		//TODO: faire ca
+	public void resize(int width, int height) { //TODO: A tester
+		width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
+		height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
+		glfwSetWindowSize(window, width, height);
+	}
+	
+	public void setTitle(String title) {
+		glfwSetWindowTitle(window, title);
 	}
 }
