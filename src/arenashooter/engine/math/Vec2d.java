@@ -10,10 +10,7 @@ public class Vec2d {
 	/**
 	 * Creates a (0, 0) vector
 	 */
-	public Vec2d() {
-		x = 0;
-		y = 0;
-	}
+	public Vec2d() {}
 	
 	/**
 	 * Creates a (x, y) vector
