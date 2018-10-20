@@ -2,8 +2,6 @@ package arenashooter.engine.math;
 
 /**
  * Mutable 2 dimensionnal vector of doubles
- * @author Argan Loisel
- *
  */
 public class Vec2d {
 	

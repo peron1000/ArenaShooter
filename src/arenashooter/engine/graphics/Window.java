@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL;
 import arenashooter.engine.math.Vec2d;
 
 /**
- * @author Argan Loisel
+ * Game window
  */
 
 public class Window {
