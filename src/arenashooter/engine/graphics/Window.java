@@ -9,6 +9,8 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
+import arenashooter.engine.math.Vec2d;
+
 /**
  * @author Argan Loisel
  */
@@ -61,7 +63,10 @@ public class Window {
 		return glfwWindowShouldClose(window);
 	}
 	
-	double x=0, y=0, size = 200; //Coordonnées du carré
+	//Carré de test
+	Vec2d pos = new Vec2d();
+	double size = 200;
+	
 	public void update() {
 		FloatBuffer pad1joys = glfwGetJoystickAxes(GLFW_JOYSTICK_1);
 		
@@ -73,25 +78,25 @@ public class Window {
 		}
 		
 		if( pad1x < -.2 || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
-			x-=3;
+			pos.x-=3;
 		if( pad1x > .2 || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
-			x+=3;
+			pos.x+=3;
 		if( pad1y > .2 || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
-			y-=3;
+			pos.y-=3;
 		if( pad1y < -.2 || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
-			y+=3;
+			pos.y+=3;
 		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
 		glBegin(GL_QUADS);
 		glColor3d(1, 0, 0);
-		glVertex3d(x+size, y, 0);
+		glVertex3d(pos.x+size, pos.y, 0);
 		glColor3d(0, 1, 0);
-		glVertex3d(x, y, 0);
+		glVertex3d(pos.x, pos.y, 0);
 		glColor3d(1, 1, 0);
-		glVertex3d(x, y+size, 0);
+		glVertex3d(pos.x, pos.y+size, 0);
 		glColor3d(0, 0, 1);
-		glVertex3d(x+size, y+size, 0);
+		glVertex3d(pos.x+size, pos.y+size, 0);
 		glEnd();
 		
 		glfwSwapBuffers(window);
