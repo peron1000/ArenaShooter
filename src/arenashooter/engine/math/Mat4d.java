@@ -39,6 +39,45 @@ public class Mat4d {
 		res.val[3][3] = 1;
 		return res;
 	}
+	
+	/**
+	 * Transpose a matrix
+	 * @param m
+	 * @return m transposed
+	 */
+	public static Mat4d transpose( Mat4d m ) {
+		Mat4d res = new Mat4d();
+		
+		for( int i=0; i<4; i++ )
+			for( int j=0; j<4; j++ )
+				res.val[i][j] = m.val[j][i];
+		
+		return res;
+	}
+	
+	/**
+	 * Creates a symmetric perspective projection matrix
+	 * 
+	 * @param near clip plane distance, should be > 0
+	 * @param far clip plane distance, should be > near
+	 * @param yFOV vertival field of view
+	 * @param ratio aspect ratio (width/height)
+	 * @return the projection matrix
+	 */
+	public static Mat4d perspective( double near, double far, double yFOV, double ratio ) {
+		Mat4d res = new Mat4d();
+		
+		double top = Math.tan(yFOV/2)*near;
+		double right = top*ratio;
+		
+		res.val[0][0] = near/right;
+		res.val[1][1] = near/top;
+		res.val[2][2] = -(far+near)/(far-near);
+		res.val[3][2] = -(2*far*near)/(far-near); //TODO: tester si besoin de transposer ou non
+		res.val[2][3] = -1; //TODO: tester si besoin de transposer ou non
+		
+		return res;
+	}
 
 	/**
 	 * Multiplies 2 matrices
