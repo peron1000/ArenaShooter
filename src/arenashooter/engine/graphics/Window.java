@@ -74,10 +74,10 @@ public class Window {
 		
 		if(pad1joys != null) {
 			float deadzone = .2f;
-			if( Math.abs(pad1joys.get(0)) > deadzone )
+			if( Math.abs(pad1joys.get(0)) > deadzone || Math.abs(pad1joys.get(1)) > deadzone ) {
 				moveX = pad1joys.get(0);
-			if( Math.abs(pad1joys.get(1)) > deadzone )
 				moveY = pad1joys.get(1);
+			}
 		}
 		
 		if( glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
