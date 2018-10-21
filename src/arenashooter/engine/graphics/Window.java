@@ -70,21 +70,27 @@ public class Window {
 	public void update() {
 		FloatBuffer pad1joys = glfwGetJoystickAxes(GLFW_JOYSTICK_1);
 		
-		float pad1x = 0, pad1y = 0;
+		float moveX = 0, moveY = 0;
 		
 		if(pad1joys != null) {
-			pad1x = pad1joys.get(0);
-			pad1y = pad1joys.get(1);
+			float deadzone = .2f;
+			if( Math.abs(pad1joys.get(0)) > deadzone )
+				moveX = pad1joys.get(0);
+			if( Math.abs(pad1joys.get(1)) > deadzone )
+				moveY = pad1joys.get(1);
 		}
 		
-		if( pad1x < -.2 || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
-			pos.x-=3;
-		if( pad1x > .2 || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
-			pos.x+=3;
-		if( pad1y < -.2 || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
-			pos.y-=3;
-		if( pad1y > .2 || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
-			pos.y+=3;
+		if( glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
+			moveX=-1;
+		if( glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
+			moveX=1;
+		if( glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
+			moveY=-1;
+		if( glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
+			moveY=1;
+		
+		pos.x += moveX*3;
+		pos.y += moveY*3;
 		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
