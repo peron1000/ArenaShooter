@@ -82,9 +82,9 @@ public class Window {
 		if( pad1x > .2 || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
 			pos.x+=3;
 		if( pad1y > .2 || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
-			pos.y-=3;
-		if( pad1y < -.2 || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
 			pos.y+=3;
+		if( pad1y < -.2 || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
+			pos.y-=3;
 		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
