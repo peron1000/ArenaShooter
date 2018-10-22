@@ -49,11 +49,19 @@ public class Window {
 		//Lier la fenetre a OpenGL
 		GL.createCapabilities();
 		
+		//Activation des textures
+		glEnable(GL_TEXTURE_2D);
+		
+		//Activation de la transparence
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
 		//Definit la couleur de fond de la fenetre
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		
 		//Afficher la fenetre
 		glfwShowWindow(window);
+		
+		tex = new Texture("data/test.png"); //Texture de test
 	}
 	
 	/**
@@ -66,6 +74,7 @@ public class Window {
 	//Carré de test
 	Vec2d pos = new Vec2d();
 	double size = 200;
+	Texture tex;
 	
 	public void update() {
 		FloatBuffer pad1joys = glfwGetJoystickAxes(GLFW_JOYSTICK_1);
@@ -94,15 +103,28 @@ public class Window {
 		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
+		tex.bind(); //On bind la texture
 		glBegin(GL_QUADS);
-		glColor3d(1, 0, 0);
+
+		double color1 = (Math.sin( System.currentTimeMillis()*6000 )/2)+.5;
+		double color2 = (Math.sin( (System.currentTimeMillis()*6000)+3000 )/2)+.5;
+		
+		glColor3d(color2, color1, color1);
+		glTexCoord2i(0, 0);
 		glVertex3d(pos.x+size, pos.y, 0);
-		glColor3d(0, 1, 0);
+		
+		glColor3d(color1, color2, color1);
+		glTexCoord2i(1, 0);
 		glVertex3d(pos.x, pos.y, 0);
-		glColor3d(1, 1, 0);
+		
+		glColor3d(color2, color2, color1);
+		glTexCoord2i(1, 1);
 		glVertex3d(pos.x, pos.y+size, 0);
-		glColor3d(0, 0, 1);
+		
+		glColor3d(color1, color1, color2);
+		glTexCoord2i(0, 1);
 		glVertex3d(pos.x+size, pos.y+size, 0);
+		
 		glEnd();
 		
 		glfwSwapBuffers(window);
