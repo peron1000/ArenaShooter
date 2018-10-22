@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/PNGDecoder.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
