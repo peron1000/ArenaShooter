@@ -3,12 +3,12 @@ package arenashooter.engine.graphics;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import java.nio.FloatBuffer;
-
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
+import arenashooter.engine.Input;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2d;
 
 /**
@@ -61,6 +61,8 @@ public class Window {
 		//Afficher la fenetre
 		glfwShowWindow(window);
 		
+		Input.setWindow(window);
+		
 		tex = new Texture("data/test.png"); //Texture de test
 	}
 	
@@ -71,43 +73,34 @@ public class Window {
 		return glfwWindowShouldClose(window);
 	}
 	
-	//Carré de test
+	//Boule magique
 	Vec2d pos = new Vec2d();
+	Vec2d vel = new Vec2d();
 	double size = 200;
 	Texture tex;
 	
 	public void update() {
-		FloatBuffer pad1joys = glfwGetJoystickAxes(GLFW_JOYSTICK_1);
+		//Physique et controles de la boule magique
+		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*5, .2);
 		
-		float moveX = 0, moveY = 0;
+		if( Input.actionPressed("jump") )
+			if( pos.y == 450 )
+				vel.y = -30;
 		
-		if(pad1joys != null) {
-			float deadzone = .2f;
-			if( Math.abs(pad1joys.get(0)) > deadzone || Math.abs(pad1joys.get(1)) > deadzone ) {
-				moveX = pad1joys.get(0);
-				moveY = pad1joys.get(1);
-			}
-		}
+		if(pos.y < 450)
+			vel.y += 1.807;
+
+		pos.add(vel);
 		
-		if( glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
-			moveX=-1;
-		if( glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
-			moveX=1;
-		if( glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS )
-			moveY=-1;
-		if( glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
-			moveY=1;
-		
-		pos.x += moveX*3;
-		pos.y += moveY*3;
+		pos.y = Math.min(450, pos.y);
 		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
 		tex.bind(); //On bind la texture
 		glBegin(GL_QUADS);
 
-		double color1 = (Math.sin( System.currentTimeMillis()*6000 )/2)+.5;
-		double color2 = (Math.sin( (System.currentTimeMillis()*6000)+3000 )/2)+.5;
+		double color1 = (Math.sin( System.currentTimeMillis()*.02 )/2)+.5;
+		double color2 = (Math.sin( (System.currentTimeMillis()*.02)+2 )/2)+.5;
 		
 		glColor3d(color2, color1, color1);
 		glTexCoord2i(0, 0);
@@ -125,13 +118,14 @@ public class Window {
 		glTexCoord2i(0, 1);
 		glVertex3d(pos.x+size, pos.y+size, 0);
 		
-		glEnd();
+		glEnd(); //Fin de la boule magique
 		
 		glfwSwapBuffers(window);
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glfwPollEvents();
+		Input.update();
 	}
 	
 	/**
