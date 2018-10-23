@@ -66,6 +66,8 @@ public class Vec2d {
 		return new Vec2d(x, y);
 	}
 	
+	public String toString() { return "( "+x+", "+y+" )"; }
+	
 	//Static functions
 	
 	/**
