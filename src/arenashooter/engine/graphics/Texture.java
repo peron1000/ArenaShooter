@@ -1,5 +1,6 @@
 package arenashooter.engine.graphics;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
@@ -27,7 +28,7 @@ public class Texture {
 	
 	private static int loadTexture( String path ) {
 		int texture = 0;
-		InputStream in;
+		InputStream in = null;
 		
 		try {
 			in = ClassLoader.getSystemResourceAsStream( path );
@@ -39,15 +40,22 @@ public class Texture {
 
 			texture = glGenTextures();
 			glBindTexture(GL_TEXTURE_2D, texture);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			in.close();
 		} catch (Exception e) {
 			System.err.println( "Can't load texture: "+path );
-			e.printStackTrace(System.err);
-		} //TODO: faire gaffe a fermer l'input stream
+			e.printStackTrace();
+		}
 
+		if( in != null )
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
 		return texture;
 	}
 }

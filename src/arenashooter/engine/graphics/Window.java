@@ -53,6 +53,7 @@ public class Window {
 		glEnable(GL_TEXTURE_2D);
 		
 		//Activation de la transparence
+		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		//Definit la couleur de fond de la fenetre
@@ -96,6 +97,23 @@ public class Window {
 		
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
+		
+		//Ciel
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBegin(GL_QUADS);
+		glColor3d(.8, .8, 1);
+		glVertex3d(1280, 0, 10);
+		
+		glColor3d(.8, .8, 1);
+		glVertex3d(0, 0, 10);
+		
+		glColor3d(.5, .5, 1);
+		glVertex3d(0, 720, 10);
+		
+		glColor3d(.5, .5, 1);
+		glVertex3d(1280, 720, 10);
+		glEnd();
+		
 		tex.bind(); //On bind la texture
 		glBegin(GL_QUADS);
 
