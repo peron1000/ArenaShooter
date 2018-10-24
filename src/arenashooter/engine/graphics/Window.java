@@ -3,7 +3,12 @@ package arenashooter.engine.graphics;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import java.nio.FloatBuffer;
+
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
@@ -64,6 +69,8 @@ public class Window {
 		
 		Input.setWindow(window);
 		
+		//TODO: Temp test stuff
+		createVBOs();
 		tex = new Texture("data/test.png"); //Texture de test
 	}
 	
@@ -95,48 +102,46 @@ public class Window {
 		
 		pos.y = Math.min(450, pos.y);
 		
+		//Projection orthographique
 		glLoadIdentity();
 		glOrtho(0, 1280, 720, 0, 10, -10);
 		
-		//Ciel
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBegin(GL_QUADS);
-		glColor3d(.8, .8, 1);
-		glVertex3d(1280, 0, 10);
-		
-		glColor3d(.8, .8, 1);
-		glVertex3d(0, 0, 10);
-		
-		glColor3d(.5, .5, 1);
-		glVertex3d(0, 720, 10);
-		
-		glColor3d(.5, .5, 1);
-		glVertex3d(1280, 720, 10);
-		glEnd();
-		
-		tex.bind(); //On bind la texture
-		glBegin(GL_QUADS);
+		//Debut VBOs
+		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
+		glVertexPointer(3, GL_FLOAT, 0, 0l);
 
-		double color1 = (Math.sin( System.currentTimeMillis()*.02 )/2)+.5;
-		double color2 = (Math.sin( (System.currentTimeMillis()*.02)+2 )/2)+.5;
+		glBindBuffer(GL_ARRAY_BUFFER, vboCoords);
+		glTexCoordPointer(2, GL_FLOAT, 0, 0l);
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		//Ciel
+		glColor3d(.8, .8, 1);
 		
-		glColor3d(color2, color1, color1);
-		glTexCoord2i(0, 0);
-		glVertex3d(pos.x+size, pos.y, 0);
+		glPushMatrix();
+		glScaled(1280, 720, 1);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glPopMatrix();
 		
-		glColor3d(color1, color2, color1);
-		glTexCoord2i(1, 0);
-		glVertex3d(pos.x, pos.y, 0);
+		glColor3f(1, 1, 1);
+		//Fin du ciel
 		
-		glColor3d(color2, color2, color1);
-		glTexCoord2i(1, 1);
-		glVertex3d(pos.x, pos.y+size, 0);
+		//Boule magique
+		tex.bind();
 		
-		glColor3d(color1, color1, color2);
-		glTexCoord2i(0, 1);
-		glVertex3d(pos.x+size, pos.y+size, 0);
+		glPushMatrix();
+		glTranslated(pos.x, pos.y, 0);
+		glScaled(size, size, 1);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glPopMatrix();
 		
-		glEnd(); //Fin de la boule magique
+		Texture.unbind();
+		//Fin de la boule magique
+		
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		//Fin VBOs
 		
 		glfwSwapBuffers(window);
 		
@@ -166,5 +171,40 @@ public class Window {
 	
 	public void setTitle(String title) {
 		glfwSetWindowTitle(window, title);
+	}
+	
+	int vboVertex, vboCoords;
+	private void createVBOs() {
+		int vertices = 6;
+
+		FloatBuffer vertexData = BufferUtils.createFloatBuffer(vertices * 3);
+		vertexData.put(new float[] { 1f, 0f, 0f });
+		vertexData.put(new float[] { 0f, 0f, 0f });
+		vertexData.put(new float[] { 0f, 1f, 0f });
+		
+		vertexData.put(new float[] { 0f, 1f, 0f });
+		vertexData.put(new float[] { 1f, 1f, 0f });
+		vertexData.put(new float[] { 1f, 0f, 0f });
+		vertexData.flip();
+
+		FloatBuffer uvData = BufferUtils.createFloatBuffer(vertices * 2);
+		uvData.put(new float[] { 1f, 0f });
+		uvData.put(new float[] { 0f, 0f });
+		uvData.put(new float[] { 0f, 1f });
+		
+		uvData.put(new float[] { 0f, 1f });
+		uvData.put(new float[] { 1f, 1f });
+		uvData.put(new float[] { 1f, 0f });
+		uvData.flip();
+
+		vboVertex = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
+		glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		vboCoords = glGenBuffers();
+		glBindBuffer(GL_ARRAY_BUFFER, vboCoords);
+		glBufferData(GL_ARRAY_BUFFER, uvData, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }

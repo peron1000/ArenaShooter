@@ -22,6 +22,10 @@ public class Texture {
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 	
+	public static void unbind() {
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
 	public String getPath() {
 		return file;
 	}
@@ -56,6 +60,7 @@ public class Texture {
 				e.printStackTrace();
 			}
 		
+		unbind();
 		return texture;
 	}
 }
