@@ -79,18 +79,18 @@ public class Window {
 	double size = 200;
 	Texture tex;
 	
-	public void update() {
+	public void update( double delta ) {
 		//Physique et controles de la boule magique
-		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*5, .2);
+		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*1, .002);
 		
 		if( Input.actionPressed("jump") )
 			if( pos.y == 450 )
-				vel.y = -30;
+				vel.y = -3;
 		
 		if(pos.y < 450)
-			vel.y += 1.807;
+			vel.y += 0.01*delta;
 
-		pos.add(vel);
+		pos.add(Vec2d.multiply(vel, delta));
 		
 		pos.y = Math.min(450, pos.y);
 		
