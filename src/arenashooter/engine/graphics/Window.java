@@ -81,14 +81,14 @@ public class Window {
 	
 	public void update( double delta ) {
 		//Physique et controles de la boule magique
-		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*1, .002);
+		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*500, delta*5);
 		
 		if( Input.actionPressed("jump") )
 			if( pos.y == 450 )
-				vel.y = -3;
+				vel.y = -800;
 		
 		if(pos.y < 450)
-			vel.y += 0.01*delta;
+			vel.y += 9.807*200*delta;
 
 		pos.add(Vec2d.multiply(vel, delta));
 		
