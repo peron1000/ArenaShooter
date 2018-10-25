@@ -9,6 +9,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		window = new Window(1280, 720, "Super Blep");
+		window.setVsync(true);
 		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;
@@ -27,7 +28,7 @@ public class Main {
 			
 			//FPS counter
 			fpsFrames++;
-			if(fpsFrames >= 10) {
+			if(fpsFrames >= 10 && (currentFrame-fpsTime)>=250 ) {
 				double time = ((double)(currentFrame-fpsTime))/fpsFrames;
 				window.setTitle( "Super Blep - " + (int)(1/((double)(time)/1000)) + "fps" );
 				fpsTime = currentFrame;

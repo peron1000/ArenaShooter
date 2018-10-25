@@ -25,6 +25,7 @@ public class Window {
 	
 	private long window;
 	private GLFWVidMode vidmode;
+	private int width, height;
 	
 	public Window(int width, int height, String title) {
 		if(!glfwInit()) System.err.println("Can't initialize GLFW !");
@@ -32,8 +33,8 @@ public class Window {
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
 		//On s'assure que la fenetre respecte les tailles minimales et maximales
-		width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
-		height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
+		this.width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
+		this.height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
 
 		glfwDefaultWindowHints();
 		
@@ -48,13 +49,13 @@ public class Window {
 //		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 //		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 //		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-
-		window = glfwCreateWindow(width, height, title, NULL, NULL);
+		
+		window = glfwCreateWindow(this.width, this.height, title, NULL, NULL);
 
 		if (window == NULL) System.err.println("Can't create window !");
 		
-		//Centrer la fenetre
-		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
+		//Center window
+		glfwSetWindowPos(window, (vidmode.width()-this.width)/2, (vidmode.height()-this.height)/2 );
 		
 		//Definir le contexte de la fenetre
 		glfwMakeContextCurrent(window);
@@ -62,19 +63,20 @@ public class Window {
 		//Lier la fenetre a OpenGL
 		GL.createCapabilities();
 		
-		//Activation des textures
+		//Enable textures
 		glEnable(GL_TEXTURE_2D);
 		
-		//Activation de la transparence
+		//Enable transparency
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		//Definit la couleur de fond de la fenetre
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		//Set the clear color to black
+		glClearColor(0, 0, 0, 0);
 		
-		//Afficher la fenetre
+		//Show the window
 		glfwShowWindow(window);
 		
+		//Link keyboard input to the window
 		Input.setWindow(window);
 		
 		//TODO: Temp test stuff
@@ -112,7 +114,7 @@ public class Window {
 		
 		//Projection orthographique
 		glLoadIdentity();
-		glOrtho(0, 1280, 720, 0, 10, -10);
+		glOrtho(0, width, height, 0, 10, -10);
 		
 		//Debut VBOs
 		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
@@ -128,7 +130,7 @@ public class Window {
 		glColor3d(.8, .8, 1);
 		
 		glPushMatrix();
-		glScaled(1280, 720, 1);
+		glScaled(width, height, 1);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glPopMatrix();
 		
@@ -160,29 +162,42 @@ public class Window {
 	}
 	
 	/**
-	 * Detruit la fenetre
+	 * Destroy the fenetre
 	 */
 	public void destroy() {
 		glfwDestroyWindow(window);
 	}
 	
 	/**
-	 * Modifie la taille de la fenetre
+	 * Change the window size
 	 * @param newWidth
 	 * @param newHeight
 	 */
-	public void resize(int width, int height) { //TODO: A tester
-		width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
-		height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
+	public void resize(int newWidth, int newHeight) { //TODO: Fix this
+		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
+		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
+		
 		glfwSetWindowSize(window, width, height);
 	}
 	
+	/**
+	 * Set the window title
+	 * @param title new title
+	 */
 	public void setTitle(String title) {
 		glfwSetWindowTitle(window, title);
 	}
 	
+	/**
+	 * Enable or disable vertical synchronization
+	 * @param enable new vSync state
+	 */
+	public void setVsync(boolean enable) {
+		glfwSwapInterval( enable ? 1 : 0 );
+	}
+	
 	int vboVertex, vboCoords;
-	private void createVBOs() {
+	private void createVBOs() { //TODO: replace this with an interleaved vbo
 		int vertices = 6;
 
 		FloatBuffer vertexData = BufferUtils.createFloatBuffer(vertices * 3);
