@@ -5,27 +5,42 @@ import arenashooter.engine.graphics.Window;
 public class Main {
 	static Window window;
 	
+	static int minFrametime = 8;
+	
 	public static void main(String[] args) {
 		window = new Window(1280, 720, "Super Blep");
 		
 		long currentFrame;
-		long lastFrame = System.currentTimeMillis();
+		long lastFrame = System.currentTimeMillis()-8;
+		
+		int fpsFrames = 0;
+		long fpsTime = lastFrame;
 		
 		while( !window.requestClose() ) {
 			currentFrame = System.currentTimeMillis();
 			
 			double delta = (double)(currentFrame-lastFrame)/1000;
 			
-			window.setTitle( "Super Blep - " + (int)(1/delta) + "fps" );
-			
 			//TODO: mettre le jeu ici
 			
 			window.update( delta );
-			try {
-				Thread.sleep( Math.max(lastFrame-currentFrame, 15) );
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			
+			//FPS counter
+			fpsFrames++;
+			if(fpsFrames >= 10) {
+				double time = ((double)(currentFrame-fpsTime))/fpsFrames;
+				window.setTitle( "Super Blep - " + (int)(1/((double)(time)/1000)) + "fps" );
+				fpsTime = currentFrame;
+				fpsFrames = 0;
 			}
+			
+			//Limit framerate
+			if(currentFrame-lastFrame < minFrametime)
+				try {
+					Thread.sleep( minFrametime-(currentFrame-lastFrame) );
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			lastFrame = currentFrame;
 		}
 		

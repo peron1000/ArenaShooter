@@ -35,11 +35,19 @@ public class Window {
 		width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
 
+		glfwDefaultWindowHints();
+		
 		//Interdire le redimensionnement manuel
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 		
 		//Masquer la fenetre jusqu'a ce qu'elle soit entierement creee
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+		
+		//OpenGL 3.2
+//		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+//		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+//		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
 		window = glfwCreateWindow(width, height, title, NULL, NULL);
 
