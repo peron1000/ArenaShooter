@@ -1,40 +1,40 @@
 package arenashooter.engine.math;
 
 /**
- * Mutable 4*4 matrix of doubles
+ * Mutable 4*4 matrix of floats
  */
-public class Mat4d {
+public class Mat4f {
 
-//	public double 	m00, m10, m20, m30,
+//	public float 	m00, m10, m20, m30,
 //					m01, m11, m21, m31,
 //					m02, m12, m22, m32,
 //					m03, m13, m23, m33;
 	
-	public double[][] val = new double[4][4];
+	public float[][] val = new float[4][4];
 	
-	public Mat4d() {}
+	public Mat4f() {}
 	
-	public Mat4d( Mat4d m ) {
+	public Mat4f( Mat4f m ) {
 		this.val = m.val.clone();
 	}
 	
 //	public void identity() {
-//		val = 	new double[][] {{ 1, 0, 0, 0 },
+//		val = 	new float[][] {{ 1, 0, 0, 0 },
 //									{ 0, 1, 0, 0 },
 //									{ 0, 0, 1, 0 },
 //									{ 0, 0, 0, 1 }};
 //		}
 //	}
 
-	public Mat4d clone() {
-		return new Mat4d(this);
+	public Mat4f clone() {
+		return new Mat4f(this);
 	}
 	
 	/**
 	 * @return This matrix as a 1 dimension array
 	 */
-	public double[] asArray() {
-		double[] res = new double[16];
+	public float[] asArray() {
+		float[] res = new float[16];
 		
 		for(int i=0; i<4; i++)
 			for(int j=0; j<4; j++)
@@ -43,8 +43,8 @@ public class Mat4d {
 		return res;
 	}
 	
-	public static Mat4d identity() {
-		Mat4d res = new Mat4d();
+	public static Mat4f identity() {
+		Mat4f res = new Mat4f();
 //		res.m00 = res.m11 = res.m22 = res.m33 = 1;
 		res.val[0][0] = 1;
 		res.val[1][1] = 1;
@@ -58,8 +58,8 @@ public class Mat4d {
 	 * @param m
 	 * @return m transposed
 	 */
-	public static Mat4d transpose( Mat4d m ) {
-		Mat4d res = new Mat4d();
+	public static Mat4f transpose( Mat4f m ) {
+		Mat4f res = new Mat4f();
 		
 		for( int i=0; i<4; i++ )
 			for( int j=0; j<4; j++ )
@@ -77,11 +77,11 @@ public class Mat4d {
 	 * @param ratio aspect ratio (width/height)
 	 * @return the projection matrix
 	 */
-	public static Mat4d perspective( double near, double far, double yFOV, double ratio ) {
-		Mat4d res = new Mat4d();
+	public static Mat4f perspective( float near, float far, float yFOV, float ratio ) {
+		Mat4f res = new Mat4f();
 		
-		double top = Math.tan(yFOV/2)*near;
-		double right = top*ratio;
+		float top = (float) (Math.tan(yFOV/2)*near);
+		float right = top*ratio;
 		
 		res.val[0][0] = near/right;
 		res.val[1][1] = near/top;
@@ -98,11 +98,11 @@ public class Mat4d {
 	 * @param m2
 	 * @return m1*m2
 	 */
-	public static Mat4d mul( Mat4d m1, Mat4d m2 ) { 
+	public static Mat4f mul( Mat4f m1, Mat4f m2 ) { 
 		/*TODO: Tester ceci, ca depend de si on stock les matrices par colonnes/lignes ou lignes/colonnes, 
 		 * a adapter plus tard quand on s'atttaquera au rendu
 		 */
-		Mat4d res = new Mat4d();
+		Mat4f res = new Mat4f();
 		
 		for( int i=0; i<4; i++ )
 			for( int j=0; j<4; j++ )
