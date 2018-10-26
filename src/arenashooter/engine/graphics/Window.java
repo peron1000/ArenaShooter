@@ -173,11 +173,12 @@ public class Window {
 	 * @param newWidth
 	 * @param newHeight
 	 */
-	public void resize(int newWidth, int newHeight) { //TODO: Fix this
+	public void resize(int newWidth, int newHeight) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
 		
 		glfwSetWindowSize(window, width, height);
+		glViewport(0, 0, width, height);
 	}
 	
 	/**
