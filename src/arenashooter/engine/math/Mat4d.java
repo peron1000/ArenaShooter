@@ -33,7 +33,7 @@ public class Mat4d {
 	/**
 	 * @return This matrix as a 1 dimension array
 	 */
-	public double[] asArray() {
+	public double[] toArray() {
 		double[] res = new double[16];
 		
 		for(int i=0; i<4; i++)

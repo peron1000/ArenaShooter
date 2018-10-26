@@ -82,6 +82,7 @@ public class Window {
 		//TODO: Temp test stuff
 		createVBOs();
 		tex = new Texture("data/test.png"); //Texture de test
+		shader = new Shader("data/shaders/shader_test_120");
 	}
 	
 	/**
@@ -96,6 +97,7 @@ public class Window {
 	Vec2d vel = new Vec2d();
 	double size = 200;
 	Texture tex;
+	Shader shader;
 	
 	public void update( double delta ) {
 		//Physique et controles de la boule magique
@@ -126,7 +128,7 @@ public class Window {
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-		//Ciel
+		///Debut du ciel
 		glColor3d(.8, .8, 1);
 		
 		glPushMatrix();
@@ -135,19 +137,28 @@ public class Window {
 		glPopMatrix();
 		
 		glColor3f(1, 1, 1);
-		//Fin du ciel
+		///Fin du ciel
 		
-		//Boule magique
+		///Debut de la Boule magique
+		shader.bind();
+		
+		//Texture
+		glActiveTexture(GL_TEXTURE0);
 		tex.bind();
+		shader.setUniformI("baseColor", GL_TEXTURE0);
+		
+		//Color change
+		shader.setUniformF("colorMod", (float)(Math.sin(System.currentTimeMillis()/100d)+1d)/2f);
 		
 		glPushMatrix();
 		glTranslated(pos.x, pos.y, 0);
 		glScaled(size, size, 1);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glPopMatrix();
-		
+
 		Texture.unbind();
-		//Fin de la boule magique
+		Shader.unbind();
+		///Fin de la boule magique
 		
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
