@@ -58,7 +58,7 @@ public class Input {
 			axisMoveY+=1;
 		
 		actionJump = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-		if(joyButtons[0] != null) actionJump = joyButtons[0].get(0) == 1;
+		if(joyButtons[0] != null) actionJump = actionJump || (joyButtons[0].get(0) == 1);
 	}
 	
 	public static void setWindow(long window) {
