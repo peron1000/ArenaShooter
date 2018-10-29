@@ -1,6 +1,7 @@
 package arenashooter;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Utils;
 
 public class Main {
 	static Window window;
@@ -20,7 +21,8 @@ public class Main {
 		while( !window.requestClose() ) {
 			currentFrame = System.currentTimeMillis();
 			
-			double delta = (double)(currentFrame-lastFrame)/1000;
+			//Limit delta to avoid errors
+			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .5);
 			
 			//TODO: mettre le jeu ici
 			
