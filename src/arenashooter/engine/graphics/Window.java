@@ -13,8 +13,10 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Input;
+import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2d;
+import arenashooter.engine.math.Vec3f;
 
 /**
  * Game window
@@ -70,6 +72,10 @@ public class Window {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
+		//Enable depth sorting
+//		glEnable(GL_DEPTH_TEST);
+//	    glDepthFunc(GL_LEQUAL);
+		
 		//Set the clear color to black
 		glClearColor(0, 0, 0, 0);
 		
@@ -80,9 +86,12 @@ public class Window {
 		Input.setWindow(window);
 		
 		//TODO: Temp test stuff
+		proj = Mat4f.perspective(-1, 10, 90, (float)width/(float)height);
 		createVBOs();
 		tex = new Texture("data/test.png"); //Texture de test
-		shader = new Shader("data/shaders/shader_test_120");
+		shader1 = new Shader("data/shaders/shader_test_120");
+		shader2 = new Shader("data/shaders/shader_test_2_120");
+		square = Model.loadSquare();
 	}
 	
 	/**
@@ -97,7 +106,8 @@ public class Window {
 	Vec2d vel = new Vec2d();
 	double size = 200;
 	Texture tex;
-	Shader shader;
+	Shader shader1, shader2;
+	Mat4f proj;
 	
 	public void update( double delta ) {
 		//Physique et controles de la boule magique
@@ -118,7 +128,7 @@ public class Window {
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 10, -10);
 		
-		//Debut VBOs
+		//Sky //TODO: Remove deprecated sky rendering code
 		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
 		glVertexPointer(3, GL_FLOAT, 0, 0l);
 
@@ -127,8 +137,7 @@ public class Window {
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-		///Debut du ciel
+		
 		glColor3d(.8, .8, 1);
 		
 		glPushMatrix();
@@ -137,32 +146,13 @@ public class Window {
 		glPopMatrix();
 		
 		glColor3f(1, 1, 1);
-		///Fin du ciel
-		
-		///Debut de la Boule magique
-		shader.bind();
-		
-		//Texture
-		glActiveTexture(GL_TEXTURE0);
-		tex.bind();
-		shader.setUniformI("baseColor", GL_TEXTURE0);
-		
-		//Color change
-		shader.setUniformF("colorMod", (float)(Math.sin(System.currentTimeMillis()/100d)+1d)/2f);
-		
-		glPushMatrix();
-		glTranslated(pos.x, pos.y, 0);
-		glScaled(size, size, 1);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glPopMatrix();
-
-		Texture.unbind();
-		Shader.unbind();
-		///Fin de la boule magique
 		
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
-		//Fin VBOs
+		///End of sky
+		
+		//Boule magique
+		drawBouleMagique2();
 		
 		glfwSwapBuffers(window);
 		
@@ -170,6 +160,47 @@ public class Window {
 		
 		glfwPollEvents();
 		Input.update();
+	}
+	
+	Model square;
+	void drawBouleMagique2() { //TODO: Use this
+		//TODO: Fix mvp uniforms and remove this
+		glPushMatrix();
+		glTranslated(pos.x, pos.y, 0);
+		glScaled(size, size, 1);
+		
+		//Create matrices
+		Vec3f pos3f = new Vec3f( (float)pos.x+.2f, (float)pos.y, 0 );
+		Vec3f rot = new Vec3f(0, 0, 0);
+		Vec3f scale = new Vec3f( (float)size, (float)size, (float)size );
+		Mat4f model = Mat4f.transform(pos3f, rot, scale);
+		shader1.setUniformM4("model", model);
+		shader1.setUniformM4("view", Mat4f.identity());
+		shader1.setUniformM4("projection", proj);
+		
+		shader2.bind();
+		shader2.setUniformM4("model", model);
+		shader2.setUniformM4("projection", proj);
+		
+		square.bindToShader(shader2);
+		
+		//Bind texture
+		glActiveTexture(GL_TEXTURE0);
+		tex.bind();
+		shader1.setUniformI("baseColor", GL_TEXTURE0);
+		
+		//Color change
+		shader1.setUniformF("colorMod", (float)(Math.sin(System.currentTimeMillis()/100d)+1d)/2f);
+		
+		square.bind();
+		square.draw();
+		
+		Model.unbind();
+		Shader.unbind();
+		Texture.unbind();
+		
+		//TODO: remove this
+		glPopMatrix();
 	}
 	
 	/**
@@ -190,6 +221,7 @@ public class Window {
 		
 		glfwSetWindowSize(window, width, height);
 		glViewport(0, 0, width, height);
+		proj = Mat4f.perspective(-1, 10, 90, (float)width/(float)height);
 	}
 	
 	/**
@@ -231,7 +263,7 @@ public class Window {
 		uvData.put(new float[] { 1f, 1f });
 		uvData.put(new float[] { 1f, 0f });
 		uvData.flip();
-
+		
 		vboVertex = glGenBuffers();
 		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
 		glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);

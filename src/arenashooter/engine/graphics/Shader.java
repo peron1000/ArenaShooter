@@ -44,7 +44,7 @@ public class Shader {
 		program = glCreateProgram();
 		glAttachShader(program, vertex);
 		glAttachShader(program, fragment);
-//		glBindFragDataLocation(program, 0, "fragColor"); //GL30
+		
 		glLinkProgram(program);
 		if( glGetProgrami(program, GL_LINK_STATUS) != GL_TRUE ) {
 			System.err.println( "Can't link shaders: "+vertexPath+", "+fragmentPath );
@@ -55,7 +55,10 @@ public class Shader {
 			System.err.println( "Can't validate shaders: "+vertexPath+", "+fragmentPath );
 			System.err.println( glGetProgramInfoLog(program) );
 		}
+
 	}
+	
+	public int getAttribLocation(String name) { return glGetAttribLocation(program, name); }
 	
 	/**
 	 * Set a Matrix4f uniform variable
@@ -116,6 +119,11 @@ public class Shader {
 		int location = glGetUniformLocation(program, name);
 		glUniform1i(location, value);
 	}
+	
+//	/**
+//	 * @return This shader's program id
+//	 */
+//	public int getID() { return program; }
 	
 	/**
 	 * Use this shader

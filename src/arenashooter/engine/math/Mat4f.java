@@ -10,6 +10,13 @@ public class Mat4f {
 //					m02, m12, m22, m32,
 //					m03, m13, m23, m33;
 	
+	/*
+	 * float[i][j]:
+	 * i0j0, i1j0, i2j0, i3j0
+	 * i0j1, i1j1, i2j1, i3j1
+	 * i0j2, i1j2, i2j2, j3j2
+	 * i0j3, i1j3, i2j3, i3j3
+	 */
 	public float[][] val = new float[4][4];
 	
 	public Mat4f() {}
@@ -25,7 +32,7 @@ public class Mat4f {
 //									{ 0, 0, 0, 1 }};
 //		}
 //	}
-
+	
 	public Mat4f clone() {
 		return new Mat4f(this);
 	}
@@ -36,9 +43,9 @@ public class Mat4f {
 	public float[] toArray() {
 		float[] res = new float[16];
 		
-		for(int i=0; i<4; i++)
-			for(int j=0; j<4; j++)
-				res[ (i*4)+j ] = val[i][j];
+		for(int j=0; j<4; j++)
+			for(int i=0; i<4; i++)
+				res[ (j*4)+i ] = val[i][j];
 		
 		return res;
 	}
@@ -50,6 +57,47 @@ public class Mat4f {
 		res.val[1][1] = 1;
 		res.val[2][2] = 1;
 		res.val[3][3] = 1;
+		return res;
+	}
+	
+	/**
+	 * Create a translation matrix
+	 * @param v
+	 * @return
+	 */
+	public static Mat4f translation(Vec3f v) {
+		Mat4f res = identity();
+		
+		res.val[0][3] = v.x;
+		res.val[1][3] = v.y;
+		res.val[2][3] = v.z;
+		
+		return res;
+	}
+	
+	/**
+	 * Create a scaling matrix
+	 * @param v
+	 * @return
+	 */
+	public static Mat4f scale(Vec3f v) {
+		Mat4f res = new Mat4f();
+		
+		res.val[0][0] = v.x;
+		res.val[1][1] = v.y;
+		res.val[2][2] = v.z;
+		res.val[3][3] = 1;
+		
+		return res;
+	}
+	
+	public static Mat4f rotate(Vec3f rot) { //TODO
+		return identity();
+	}
+	
+	public static Mat4f transform( Vec3f loc, Vec3f rot, Vec3f scale ) {
+		Mat4f res;
+		res = mul(mul(scale(scale), rotate(rot)), translation(loc));
 		return res;
 	}
 	
@@ -86,8 +134,8 @@ public class Mat4f {
 		res.val[0][0] = near/right;
 		res.val[1][1] = near/top;
 		res.val[2][2] = -(far+near)/(far-near);
-		res.val[3][2] = -(2*far*near)/(far-near); //TODO: tester si besoin de transposer ou non
-		res.val[2][3] = -1; //TODO: tester si besoin de transposer ou non
+		res.val[3][2] = -(2*far*near)/(far-near);
+		res.val[2][3] = -1;
 		
 		return res;
 	}
@@ -110,6 +158,20 @@ public class Mat4f {
 								(m1.val[1][j]*m2.val[i][1])+
 								(m1.val[2][j]*m2.val[i][2])+
 								(m1.val[3][j]*m2.val[i][3]);
+		
+		return res;
+	}
+	
+	public String toString() {
+		String res = "Mat4f:\n";
+		
+		for( int j=0; j<4; j++ ) {
+			for( int i=0; i<4; i++ ) {
+				res+=val[i][j];
+				if(i<3) res+=", ";
+			}
+			if(j<3) res+="\n";
+		}
 		
 		return res;
 	}
