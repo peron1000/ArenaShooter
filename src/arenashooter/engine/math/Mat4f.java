@@ -25,14 +25,6 @@ public class Mat4f {
 		this.val = m.val.clone();
 	}
 	
-//	public void identity() {
-//		val = 	new float[][] {{ 1, 0, 0, 0 },
-//									{ 0, 1, 0, 0 },
-//									{ 0, 0, 1, 0 },
-//									{ 0, 0, 0, 1 }};
-//		}
-//	}
-	
 	public Mat4f clone() {
 		return new Mat4f(this);
 	}
@@ -45,7 +37,7 @@ public class Mat4f {
 		
 		for(int j=0; j<4; j++)
 			for(int i=0; i<4; i++)
-				res[ (j*4)+i ] = val[i][j];
+				res[ (i*4)+j ] = val[i][j];
 		
 		return res;
 	}
@@ -68,9 +60,9 @@ public class Mat4f {
 	public static Mat4f translation(Vec3f v) {
 		Mat4f res = identity();
 		
-		res.val[0][3] = v.x;
-		res.val[1][3] = v.y;
-		res.val[2][3] = v.z;
+		res.val[3][0] = v.x;
+		res.val[3][1] = v.y;
+		res.val[3][2] = v.z;
 		
 		return res;
 	}
@@ -95,9 +87,10 @@ public class Mat4f {
 		return identity();
 	}
 	
-	public static Mat4f transform( Vec3f loc, Vec3f rot, Vec3f scale ) {
+	public static Mat4f transform( Vec3f loc, Vec3f rot, Vec3f scale ) { //TODO: add rotation
 		Mat4f res;
-		res = mul(mul(scale(scale), rotate(rot)), translation(loc));
+//		res = mul(mul(translation(loc), rotate(rot)), scale(scale));
+		res = mul(translation(loc), scale(scale));
 		return res;
 	}
 	
@@ -140,6 +133,36 @@ public class Mat4f {
 		return res;
 	}
 
+//	public static Mat4f ortho( float near, float far, float yFOV, float ratio ) {
+//		Mat4f res = new Mat4f();
+//		
+//		float top = (float) (Math.tan(yFOV/2)*near);
+//		float right = top*ratio;
+//		
+//		res.val[0][0] = 1f/right;
+//		res.val[1][1] = 1f/top;
+//		res.val[2][2] = -2f/(far-near);
+//		res.val[3][3] = 1f;
+//		res.val[3][2] = -(far+near)/(far-near);
+//		
+//		return res;
+//	}
+	
+	public static Mat4f ortho( float near, float far, float left, float bottom, float right, float top ) {
+		Mat4f res = new Mat4f();
+		
+		res.val[0][0] = 2f/(right-left);
+		res.val[1][1] = 2f/(top-bottom);
+		res.val[2][2] = -2f/(far-near);
+		res.val[3][3] = 1f;
+		
+		res.val[3][0] = -(right+left)/(right-left);
+		res.val[3][1] = -(top+bottom)/(top-bottom);
+		res.val[3][2] = -(far+near)/(far-near);
+		
+		return res;
+	}
+	
 	/**
 	 * Multiplies 2 matrices
 	 * @param m1
@@ -147,13 +170,10 @@ public class Mat4f {
 	 * @return m1*m2
 	 */
 	public static Mat4f mul( Mat4f m1, Mat4f m2 ) { 
-		/*TODO: Tester ceci, ca depend de si on stock les matrices par colonnes/lignes ou lignes/colonnes, 
-		 * a adapter plus tard quand on s'atttaquera au rendu
-		 */
 		Mat4f res = new Mat4f();
 		
-		for( int i=0; i<4; i++ )
-			for( int j=0; j<4; j++ )
+		for( int j=0; j<4; j++ )
+			for( int i=0; i<4; i++ )
 				res.val[i][j] = (m1.val[0][j]*m2.val[i][0])+
 								(m1.val[1][j]*m2.val[i][1])+
 								(m1.val[2][j]*m2.val[i][2])+

@@ -54,7 +54,7 @@ public class Model {
 		stack.pop();
 	}
 	
-	public static Model loadSquare() {
+	public static Model loadQuad() {
 		//Vertices positions and texture coordinates
 		//		x,  y,  z,    u,  v
 		float[] data = {

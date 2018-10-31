@@ -46,11 +46,11 @@ public class Window {
 		//Masquer la fenetre jusqu'a ce qu'elle soit entierement creee
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		
-		//OpenGL 3.2
-//		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-//		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-//		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+		//Set openGL version to 3.2
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		
 		window = glfwCreateWindow(this.width, this.height, title, NULL, NULL);
 
@@ -86,12 +86,13 @@ public class Window {
 		Input.setWindow(window);
 		
 		//TODO: Temp test stuff
-		proj = Mat4f.perspective(-1, 10, 90, (float)width/(float)height);
+//		proj = Mat4f.perspective(-1, 10, 90, (float)width/(float)height);
+		proj = Mat4f.ortho(-1, 10, 0, height, width, 0);
 		createVBOs();
-		tex = new Texture("data/test.png"); //Texture de test
-		shader1 = new Shader("data/shaders/shader_test_120");
-		shader2 = new Shader("data/shaders/shader_test_2_120");
-		square = Model.loadSquare();
+		tex = new Texture("data/test.png");
+		shaderBouleMagique = new Shader("data/shaders/shader_test_120");
+		shaderSky = new Shader("data/shaders/test_sky");
+		quad = Model.loadQuad();
 	}
 	
 	/**
@@ -101,12 +102,13 @@ public class Window {
 		return glfwWindowShouldClose(window);
 	}
 	
-	//Boule magique
+	//TODO: Temp variables
+	Model quad;
 	Vec2d pos = new Vec2d();
 	Vec2d vel = new Vec2d();
 	double size = 200;
 	Texture tex;
-	Shader shader1, shader2;
+	Shader shaderBouleMagique, shaderSky;
 	Mat4f proj;
 	
 	public void update( double delta ) {
@@ -124,35 +126,11 @@ public class Window {
 		
 		pos.y = Math.min(450, pos.y);
 		
-		//Projection orthographique
-		glLoadIdentity();
-		glOrtho(0, width, height, 0, 10, -10);
-		
-		//Sky //TODO: Remove deprecated sky rendering code
-		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
-		glVertexPointer(3, GL_FLOAT, 0, 0l);
-
-		glBindBuffer(GL_ARRAY_BUFFER, vboCoords);
-		glTexCoordPointer(2, GL_FLOAT, 0, 0l);
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		
-		glColor3d(.8, .8, 1);
-		
-		glPushMatrix();
-		glScaled(width, height, 1);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glPopMatrix();
-		
-		glColor3f(1, 1, 1);
-		
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		///End of sky
+		//Sky
+		drawSky();
 		
 		//Boule magique
-		drawBouleMagique2();
+		drawBouleMagique();
 		
 		glfwSwapBuffers(window);
 		
@@ -162,45 +140,55 @@ public class Window {
 		Input.update();
 	}
 	
-	Model square;
-	void drawBouleMagique2() { //TODO: Use this
-		//TODO: Fix mvp uniforms and remove this
-		glPushMatrix();
-		glTranslated(pos.x, pos.y, 0);
-		glScaled(size, size, 1);
+	void drawBouleMagique() { //TODO: Remove this temp function
+		shaderBouleMagique.bind();
 		
 		//Create matrices
-		Vec3f pos3f = new Vec3f( (float)pos.x+.2f, (float)pos.y, 0 );
+		Vec3f pos3f = new Vec3f( (float)pos.x, (float)pos.y, 0 );
 		Vec3f rot = new Vec3f(0, 0, 0);
 		Vec3f scale = new Vec3f( (float)size, (float)size, (float)size );
 		Mat4f model = Mat4f.transform(pos3f, rot, scale);
-		shader1.setUniformM4("model", model);
-		shader1.setUniformM4("view", Mat4f.identity());
-		shader1.setUniformM4("projection", proj);
+		shaderBouleMagique.setUniformM4("model", model);
+		shaderBouleMagique.setUniformM4("view", Mat4f.identity());
+		shaderBouleMagique.setUniformM4("projection", proj);
 		
-		shader2.bind();
-		shader2.setUniformM4("model", model);
-		shader2.setUniformM4("projection", proj);
-		
-		square.bindToShader(shader2);
+		quad.bindToShader(shaderBouleMagique);
 		
 		//Bind texture
 		glActiveTexture(GL_TEXTURE0);
 		tex.bind();
-		shader1.setUniformI("baseColor", GL_TEXTURE0);
+		shaderBouleMagique.setUniformI("baseColor", GL_TEXTURE0);
 		
 		//Color change
-		shader1.setUniformF("colorMod", (float)(Math.sin(System.currentTimeMillis()/100d)+1d)/2f);
+		shaderBouleMagique.setUniformF("colorMod", (float)(Math.sin(System.currentTimeMillis()/100d)+1d)/2f);
 		
-		square.bind();
-		square.draw();
+		quad.bind();
+		quad.draw();
 		
 		Model.unbind();
 		Shader.unbind();
 		Texture.unbind();
+	}
+	
+	void drawSky() { //TODO: Remove this temp function
+		shaderSky.bind();
 		
-		//TODO: remove this
-		glPopMatrix();
+		//Create matrices
+		Vec3f pos3f = new Vec3f( 0, 0, 0 );
+		Vec3f rot = new Vec3f(0, 0, 0);
+		Vec3f scale = new Vec3f( width, height, 1f );
+		Mat4f model = Mat4f.transform(pos3f, rot, scale);
+		shaderSky.setUniformM4("model", model);
+		shaderSky.setUniformM4("view", Mat4f.identity());
+		shaderSky.setUniformM4("projection", proj);
+		
+		quad.bindToShader(shaderSky);
+		
+		quad.bind();
+		quad.draw();
+		
+		Model.unbind();
+		Shader.unbind();
 	}
 	
 	/**
