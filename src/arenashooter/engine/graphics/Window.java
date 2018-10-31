@@ -90,7 +90,7 @@ public class Window {
 		proj = Mat4f.ortho(-1, 10, 0, height, width, 0);
 		createVBOs();
 		tex = new Texture("data/test.png");
-		shaderBouleMagique = new Shader("data/shaders/shader_test_120");
+		shaderBouleMagique = new Shader("data/shaders/test_boule_magique");
 		shaderSky = new Shader("data/shaders/test_sky");
 		quad = Model.loadQuad();
 	}
