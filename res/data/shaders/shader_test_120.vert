@@ -1,8 +1,8 @@
-#version 120
+#version 150
 
 //In
-attribute vec3 position;
-attribute vec2 uv;
+in vec3 position;
+in vec2 uv;
 
 //Uniforms
 uniform mat4 model;
@@ -10,7 +10,7 @@ uniform mat4 view;
 uniform mat4 projection;
 
 //Out
-varying vec2 texCoord;
+out vec2 texCoord;
 
 void main() {
     mat4 mvp = projection * view * model;

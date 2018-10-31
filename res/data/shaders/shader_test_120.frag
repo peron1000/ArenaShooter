@@ -1,7 +1,7 @@
-#version 120
+#version 150
 
 //In
-varying vec2 texCoord;
+in vec2 texCoord;
 
 //Uniforms
 uniform sampler2D baseColor;
