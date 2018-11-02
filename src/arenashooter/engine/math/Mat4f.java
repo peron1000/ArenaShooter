@@ -114,7 +114,7 @@ public class Mat4f {
 	 * 
 	 * @param near clip plane distance, should be > 0
 	 * @param far clip plane distance, should be > near
-	 * @param yFOV vertival field of view
+	 * @param yFOV vertical field of view
 	 * @param ratio aspect ratio (width/height)
 	 * @return the projection matrix
 	 */
@@ -132,22 +132,18 @@ public class Mat4f {
 		
 		return res;
 	}
-
-//	public static Mat4f ortho( float near, float far, float yFOV, float ratio ) {
-//		Mat4f res = new Mat4f();
-//		
-//		float top = (float) (Math.tan(yFOV/2)*near);
-//		float right = top*ratio;
-//		
-//		res.val[0][0] = 1f/right;
-//		res.val[1][1] = 1f/top;
-//		res.val[2][2] = -2f/(far-near);
-//		res.val[3][3] = 1f;
-//		res.val[3][2] = -(far+near)/(far-near);
-//		
-//		return res;
-//	}
 	
+	/**
+	 * Creates an orthographic projection matrix
+	 * 
+	 * @param near clip plane distance, should be > 0
+	 * @param far clip plane distance, should be > near
+	 * @param left 
+	 * @param bottom 
+	 * @param right 
+	 * @param top 
+	 * @return the projection matrix
+	 */
 	public static Mat4f ortho( float near, float far, float left, float bottom, float right, float top ) {
 		Mat4f res = new Mat4f();
 		

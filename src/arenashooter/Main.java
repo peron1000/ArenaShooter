@@ -32,7 +32,7 @@ public class Main {
 			fpsFrames++;
 			if(fpsFrames >= 10 && (currentFrame-fpsTime)>=250 ) {
 				double time = ((double)(currentFrame-fpsTime))/fpsFrames;
-				window.setTitle( "Super Blep - " + (int)(1/((double)(time)/1000)) + "fps" );
+				window.setTitle( "Super Blep - " + (int)(1/(time/1000)) + "fps" );
 				fpsTime = currentFrame;
 				fpsFrames = 0;
 			}

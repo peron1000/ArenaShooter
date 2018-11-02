@@ -21,6 +21,11 @@ public class Model {
 		loadModel( data, indices );
 	}
 	
+	/**
+	 * Load a model
+	 * @param data vertices data (position + uv)
+	 * @param indices vertices indices ()
+	 */
 	private void loadModel( float[] data, byte[] indices ) {
 		MemoryStack stack = MemoryStack.stackPush();
 		FloatBuffer dataBuffer = stack.mallocFloat(data.length);
@@ -54,6 +59,10 @@ public class Model {
 		stack.pop();
 	}
 	
+	/**
+	 * Create a simple quad from (0, 0, 0) to (1, 1, 0) with corresponding texture coordinates
+	 * @return the quad model
+	 */
 	public static Model loadQuad() {
 		//Vertices positions and texture coordinates
 		//		x,  y,  z,    u,  v
@@ -72,6 +81,10 @@ public class Model {
 		return new Model( data, indices );
 	}
 	
+	/**
+	 * Send this model's data to a shader
+	 * @param shader
+	 */
 	public void bindToShader( Shader shader ) {
 		glBindVertexArray(vaoID);
 
@@ -91,6 +104,9 @@ public class Model {
 		glBindVertexArray(0);
 	}
 	
+	/**
+	 * Bind this model for drawing. Only one bind() is required if you want to draw this model multiple times.
+	 */
 	public void bind() {
 		glBindVertexArray(vaoID);
 		glEnableVertexAttribArray(0); //Enable position
@@ -100,6 +116,9 @@ public class Model {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
 	}
 	
+	/**
+	 * Draw this model. Make sure bind() was called before.
+	 */
 	public void draw() {
 		glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_BYTE, 0);
 	}
@@ -111,6 +130,9 @@ public class Model {
 		glBindVertexArray(0);
 	}
 	
+	/**
+	 * Remove this model from memory
+	 */
 	public void destroy() { //TODO: Test this
 		//destroy vao
 		glBindVertexArray(0);

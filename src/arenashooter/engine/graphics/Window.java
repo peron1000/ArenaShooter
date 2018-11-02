@@ -73,8 +73,8 @@ public class Window {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		//Enable depth sorting
-//		glEnable(GL_DEPTH_TEST);
-//	    glDepthFunc(GL_LEQUAL);
+		glEnable(GL_DEPTH_TEST);
+	    glDepthFunc(GL_LEQUAL);
 		
 		//Set the clear color to black
 		glClearColor(0, 0, 0, 0);
@@ -84,10 +84,11 @@ public class Window {
 		
 		//Link keyboard input to the window
 		Input.setWindow(window);
+
+		//Create projection matrix
+		createProjectionMatrix();
 		
 		//TODO: Temp test stuff
-//		proj = Mat4f.perspective(-1, 10, 90, (float)width/(float)height);
-		proj = Mat4f.ortho(-1, 10, 0, height, width, 0);
 		createVBOs();
 		tex = new Texture("data/test.png");
 		shaderBouleMagique = new Shader("data/shaders/test_boule_magique");
@@ -96,7 +97,7 @@ public class Window {
 	}
 	
 	/**
-	 * @return Si l'utilisateur demande la fermeture de la fenetre
+	 * @return User tries to close the window
 	 */
 	public boolean requestClose() {
 		return glfwWindowShouldClose(window);
@@ -144,7 +145,7 @@ public class Window {
 		shaderBouleMagique.bind();
 		
 		//Create matrices
-		Vec3f pos3f = new Vec3f( (float)pos.x, (float)pos.y, 0 );
+		Vec3f pos3f = new Vec3f( (float)pos.x, (float)pos.y, -1 );
 		Vec3f rot = new Vec3f(0, 0, 0);
 		Vec3f scale = new Vec3f( (float)size, (float)size, (float)size );
 		Mat4f model = Mat4f.transform(pos3f, rot, scale);
@@ -173,15 +174,6 @@ public class Window {
 	void drawSky() { //TODO: Remove this temp function
 		shaderSky.bind();
 		
-		//Create matrices
-		Vec3f pos3f = new Vec3f( 0, 0, 0 );
-		Vec3f rot = new Vec3f(0, 0, 0);
-		Vec3f scale = new Vec3f( width, height, 1f );
-		Mat4f model = Mat4f.transform(pos3f, rot, scale);
-		shaderSky.setUniformM4("model", model);
-		shaderSky.setUniformM4("view", Mat4f.identity());
-		shaderSky.setUniformM4("projection", proj);
-		
 		quad.bindToShader(shaderSky);
 		
 		quad.bind();
@@ -209,7 +201,17 @@ public class Window {
 		
 		glfwSetWindowSize(window, width, height);
 		glViewport(0, 0, width, height);
-		proj = Mat4f.perspective(-1, 10, 90, (float)width/(float)height);
+
+		//Recreate projection matrix
+		createProjectionMatrix();
+	}
+	
+	/**
+	 * Create the projection matrix based on window size
+	 */
+	private void createProjectionMatrix() {
+//		proj = Mat4f.perspective(0.1f, 10, 90, (float)width/(float)height);
+		proj = Mat4f.ortho(0.1f, 10, 0, height, width, 0);
 	}
 	
 	/**
