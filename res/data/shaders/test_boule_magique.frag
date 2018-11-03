@@ -8,6 +8,9 @@ uniform sampler2D baseColor;
 
 uniform float colorMod;
 
+//Out
+out vec4 FragmentColor;
+
 void main() {
     //Wobble effect
     float uvOffset = sin( (colorMod+texCoord.t)*8 )-.5;
@@ -25,5 +28,5 @@ void main() {
     vec4 color = vec4( abs(sin( colorMod*3.0+colorShift )), abs(sin( colorMod*3.0+colorShift+0.7 )), abs(sin( colorMod*3.0+colorShift+1.6 )), 1.0 );
 
 
-    gl_FragColor = texureSample*color;
+    FragmentColor = texureSample*color;
 }
