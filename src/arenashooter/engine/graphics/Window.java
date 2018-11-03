@@ -3,12 +3,9 @@ package arenashooter.engine.graphics;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import java.nio.FloatBuffer;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
@@ -89,7 +86,6 @@ public class Window {
 		createProjectionMatrix();
 		
 		//TODO: Temp test stuff
-		createVBOs();
 		tex = new Texture("data/test.png");
 		shaderBouleMagique = new Shader("data/shaders/test_boule_magique");
 		shaderSky = new Shader("data/shaders/test_sky");
@@ -230,38 +226,4 @@ public class Window {
 		glfwSwapInterval( enable ? 1 : 0 );
 	}
 	
-	int vboVertex, vboCoords;
-	private void createVBOs() { //TODO: replace this with an interleaved vbo
-		int vertices = 6;
-
-		FloatBuffer vertexData = BufferUtils.createFloatBuffer(vertices * 3);
-		vertexData.put(new float[] { 1f, 0f, 0f });
-		vertexData.put(new float[] { 0f, 0f, 0f });
-		vertexData.put(new float[] { 0f, 1f, 0f });
-		
-		vertexData.put(new float[] { 0f, 1f, 0f });
-		vertexData.put(new float[] { 1f, 1f, 0f });
-		vertexData.put(new float[] { 1f, 0f, 0f });
-		vertexData.flip();
-
-		FloatBuffer uvData = BufferUtils.createFloatBuffer(vertices * 2);
-		uvData.put(new float[] { 1f, 0f });
-		uvData.put(new float[] { 0f, 0f });
-		uvData.put(new float[] { 0f, 1f });
-		
-		uvData.put(new float[] { 0f, 1f });
-		uvData.put(new float[] { 1f, 1f });
-		uvData.put(new float[] { 1f, 0f });
-		uvData.flip();
-		
-		vboVertex = glGenBuffers();
-		glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
-		glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		vboCoords = glGenBuffers();
-		glBindBuffer(GL_ARRAY_BUFFER, vboCoords);
-		glBufferData(GL_ARRAY_BUFFER, uvData, GL_STATIC_DRAW);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
 }
