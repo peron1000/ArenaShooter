@@ -18,7 +18,7 @@ void main() {
     texCoordFinal.s = texCoord.s + uvOffset*.01;
     
     //Sample texture
-    vec4 texureSample = texture2D(baseColor, texCoordFinal);
+    vec4 texureSample = texture(baseColor, texCoordFinal);
 
     //Alpha masking
     //if( texureSample.a < 0.8 ) discard;
