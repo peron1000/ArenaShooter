@@ -51,6 +51,44 @@ public class Mat4f {
 		res.val[3][3] = 1;
 		return res;
 	}
+
+	/**
+	 * Create a rotation matrix
+	 * @param q unit quaternion
+	 * @return
+	 */
+	public static Mat4f rotation(Quat q) {
+		Mat4f res = new Mat4f();
+		
+		double ww = q.w * q.w;
+        double xx = q.x * q.x;
+        double yy = q.y * q.y;
+        double zz = q.z * q.z;
+        double zw = q.z * q.w;
+        double xy = q.x * q.y;
+        double xz = q.x * q.z;
+        double yw = q.y * q.w;
+        double yz = q.y * q.z;
+        double xw = q.x * q.w;
+		
+		//First line
+        res.val[0][0] = (float) (ww + xx - zz - yy);
+        res.val[0][1] = (float) (xy + zw + zw + xy);
+        res.val[0][2] = (float) (xz - yw + xz - yw);
+		
+		//Second line
+        res.val[1][0] = (float) (-zw + xy - zw + xy);
+        res.val[1][1] = (float) (yy - zz + ww - xx);
+        res.val[1][2] = (float) (yz + yz + xw + xw);
+
+		//Third line
+        res.val[2][0] = (float) (yw + xz + xz + yw);
+        res.val[2][1] = (float) (yz + yz - xw - xw);
+        res.val[2][2] = (float) (zz - yy - xx + ww);
+		
+		res.val[3][3] = 1;
+		return res;
+	}
 	
 	/**
 	 * Create a translation matrix
@@ -83,14 +121,9 @@ public class Mat4f {
 		return res;
 	}
 	
-	public static Mat4f rotate(Vec3f rot) { //TODO
-		return identity();
-	}
-	
-	public static Mat4f transform( Vec3f loc, Vec3f rot, Vec3f scale ) { //TODO: add rotation
-		Mat4f res;
-//		res = mul(mul(translation(loc), rotate(rot)), scale(scale));
-		res = mul(translation(loc), scale(scale));
+	public static Mat4f transform( Vec3f loc, Quat rot, Vec3f scale ) { //TODO: add rotation
+		Mat4f res = new Mat4f();
+		res = mul(mul(translation(loc), rotation(rot)), scale(scale));
 		return res;
 	}
 	

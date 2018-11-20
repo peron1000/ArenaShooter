@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Input;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2d;
 import arenashooter.engine.math.Vec3f;
@@ -142,7 +143,7 @@ public class Window {
 		
 		//Create matrices
 		Vec3f pos3f = new Vec3f( (float)pos.x, (float)pos.y, -1 );
-		Vec3f rot = new Vec3f(0, 0, 0);
+		Quat rot = Quat.fromAngle(0);
 		Vec3f scale = new Vec3f( (float)size, (float)size, (float)size );
 		Mat4f model = Mat4f.transform(pos3f, rot, scale);
 		shaderBouleMagique.setUniformM4("model", model);
