@@ -60,17 +60,17 @@ public class Model {
 	}
 	
 	/**
-	 * Create a simple quad from (0, 0, 0) to (1, 1, 0) with corresponding texture coordinates
+	 * Create a simple quad from (-.5, -.5, 0) to (.5, .5, 0) with corresponding texture coordinates
 	 * @return the quad model
 	 */
 	public static Model loadQuad() {
 		//Vertices positions and texture coordinates
-		//		x,  y,  z,    u,  v
+		//		x,    y,    z,    u,  v
 		float[] data = {
-				1f, 0f, 0f,   1f, 0f, //0 Top right
-				0f, 0f, 0f,   0f, 0f, //1 Top left
-				0f, 1f, 0f,   0f, 1f, //2 Bot left
-				1f, 1f, 0f,   1f, 1f  //3 Bot right
+				-.5f, -.5f, 0f,   0f, 1f, //0
+				 .5f, -.5f, 0f,   1f, 1f, //1
+				 .5f,  .5f, 0f,   1f, 0f, //2
+				-.5f,  .5f, 0f,   0f, 0f  //3
 		};
 		
 		byte[] indices = {

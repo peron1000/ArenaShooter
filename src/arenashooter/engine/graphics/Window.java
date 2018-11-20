@@ -142,7 +142,7 @@ public class Window {
 		shaderBouleMagique.bind();
 		
 		//Create matrices
-		Vec3f pos3f = new Vec3f( (float)pos.x, (float)pos.y, -1 );
+		Vec3f pos3f = new Vec3f( (float)(pos.x+(size/2)), (float)(pos.y+(size/2)), -1 );
 		Quat rot = Quat.fromAngle(0);
 		Vec3f scale = new Vec3f( (float)size, (float)size, (float)size );
 		Mat4f model = Mat4f.transform(pos3f, rot, scale);
