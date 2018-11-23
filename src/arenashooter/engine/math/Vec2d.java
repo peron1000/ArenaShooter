@@ -50,6 +50,14 @@ public class Vec2d {
 	}
 	
 	/**
+	 * @return vector length squared
+	 * this is cheaper than length() because it avoids using a square root
+	 */
+	public double lengthSquared() {
+		return (x*x)+(y*y);
+	}
+	
+	/**
 	 * Normalizes a vector (sets its length to 1)
 	 * @param v
 	 * @return normalized vector, or (0,0) if length is 0
