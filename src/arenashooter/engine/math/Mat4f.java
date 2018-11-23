@@ -121,7 +121,7 @@ public class Mat4f {
 		return res;
 	}
 	
-	public static Mat4f transform( Vec3f loc, Quat rot, Vec3f scale ) { //TODO: add rotation
+	public static Mat4f transform( Vec3f loc, Quat rot, Vec3f scale ) {
 		Mat4f res = new Mat4f();
 		res = mul(mul(translation(loc), rotation(rot)), scale(scale));
 		return res;
