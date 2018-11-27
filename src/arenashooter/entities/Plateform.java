@@ -7,7 +7,7 @@ public class Plateform extends Spatial {
 	
 
 	public Plateform(Vec2d extent, Vec3f rgb) {
-		Collider coll = new Collider();
+		Collider coll = new Collider(extent);
 		coll.extent = extent;
 		attachToParent(coll, "collider");
 		
