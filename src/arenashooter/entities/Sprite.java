@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2d;
@@ -38,7 +39,7 @@ public class Sprite extends Spatial {
 		Mat4f modelM = Mat4f.transform(pos, rot, scale);
 		shader.setUniformM4("model", modelM);
 		shader.setUniformM4("view", Mat4f.identity()); //TODO: Get view matrix from camera
-		shader.setUniformM4("projection", Mat4f.identity()); //TODO: Get projection matrix from window
+		shader.setUniformM4("projection", Window.proj); //TODO: Get projection matrix properly
 		
 		model.bindToShader(shader);
 		
