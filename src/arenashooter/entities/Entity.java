@@ -5,6 +5,10 @@ import java.util.HashMap;
 public class Entity {
 
 	public HashMap<String, Entity> children;
+	
+	public Entity() {
+		children = new HashMap<>();
+	}
 
 	public void attachToParent(Entity newParent, String name) {
 		Entity e = newParent.children.get(name);
