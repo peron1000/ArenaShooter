@@ -9,4 +9,9 @@ public class Collider extends Spatial {
 		//TODO: faire, merci
 		return false;
 	}
+
+	public Collider(Vec2d extent) {
+		super();
+		this.extent = extent;
+	}
 }
