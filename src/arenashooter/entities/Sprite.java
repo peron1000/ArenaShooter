@@ -3,7 +3,7 @@ package arenashooter.entities;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
 
-public class Sprites extends Spatial {
+public class Sprite extends Spatial {
 	Texture tex;
 	Shader shader;
 	
