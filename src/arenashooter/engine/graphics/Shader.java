@@ -101,6 +101,16 @@ public class Shader {
 	}
 	
 	/**
+	 * Set a float[4] uniform variable
+	 * @param name uniform's name
+	 * @param value uniform value
+	 */
+	public void setUniformV4(String name, float[] value) {
+		int location = glGetUniformLocation(program, name);
+		glUniform4fv(location, value);
+	}
+	
+	/**
 	 * Set a float uniform variable
 	 * @param name uniform's name
 	 * @param value uniform value
