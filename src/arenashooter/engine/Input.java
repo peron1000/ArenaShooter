@@ -61,8 +61,7 @@ public class Input {
 		actionJump = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
 		if(joyButtons[0] != null) actionJump = actionJump || (joyButtons[0].get(0) == 1);
 		
-		actionAttack = glfwGetKey(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS;
-		System.out.println(actionAttack);
+		actionAttack = glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS;
 		if(joyButtons[0] != null) actionAttack = actionAttack || (joyButtons[0].get(1) == 1);
 	}
 	
