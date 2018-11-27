@@ -8,7 +8,7 @@ public class Character extends Spatial {
 	int pv;
 	Vec2d vel;
 	Collider collider;
-	boolean isOnGround;
+	boolean isOnGround =true;
 
 	public Character() {
 		pv = 10;
@@ -16,7 +16,7 @@ public class Character extends Spatial {
 		rotation = 0;
 		collider = new Collider(new Vec2d(160, 160));
 	}
-	
+
 	public void jump() {
 		if (isOnGround)
 			vel.y = -800;
@@ -27,10 +27,21 @@ public class Character extends Spatial {
 		// TODO: attac
 	}
 
-	
 	@Override
 	public void step(double d) {
-		isOnGround = true;
+		for (Entity plat : getParent().children.values()) {
+			if (plat instanceof Plateform) {
+				for (Entity coll : ((Plateform) plat).children.values()) {
+					if (coll instanceof Collider)
+						isOnGround |= (position.y + collider.extent.y == ((Plateform) plat).position.y
+								- ((Collider) coll).extent.y)
+								&& (position.x + collider.extent.x >= ((Plateform) plat).position.x
+										- ((Collider) coll).extent.x)
+								&& (position.x - collider.extent.x >= ((Plateform) plat).position.x
+										+ ((Collider) coll).extent.x);
+				}
+			}
+		}
 
 		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX") * 500, d * 5);
 
@@ -42,7 +53,7 @@ public class Character extends Spatial {
 			vel.y += 9.807 * 200 * d;
 
 		position.add(Vec2d.multiply(vel, d));
-		//position.y = Math.min(450, position.y);
+		// position.y = Math.min(450, position.y);
 
 		position.add(vel);
 		super.step(d);
