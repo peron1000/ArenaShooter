@@ -6,6 +6,7 @@ import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2d;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec4f;
 
 public class Shader {
 	private int vertex, fragment, program;
@@ -108,6 +109,16 @@ public class Shader {
 	public void setUniformV4(String name, float[] value) {
 		int location = glGetUniformLocation(program, name);
 		glUniform4fv(location, value);
+	}
+	
+	/**
+	 * Set a Vec4f uniform variable
+	 * @param name uniform's name
+	 * @param value uniform value
+	 */
+	public void setUniformV4(String name, Vec4f value) {
+		int location = glGetUniformLocation(program, name);
+		glUniform4fv(location, new float[] {(float)value.w, (float)value.x, (float)value.y, (float)value.z});
 	}
 	
 	/**
