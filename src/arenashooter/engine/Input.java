@@ -11,10 +11,10 @@ public class Input {
 	private static long window;
 	
 	private static float axisMoveX, axisMoveY;
-	private static boolean actionJump;
+	private static boolean actionJump, actionAttack;
 
 	public static float getAxis( String axis ) {
-		switch( axis ) {
+		switch( axis ) { //TODO: Enum
 		case "moveX": return axisMoveX;
 		case "moveY": return axisMoveY;
 		default: return 0;			
@@ -22,8 +22,9 @@ public class Input {
 	}
 	
 	public static boolean actionPressed( String action ) {
-		switch( action ) {
+		switch( action ) { //TODO: Enum
 		case "jump": return actionJump;
+		case "attack": return actionAttack;
 		default: return false;
 		}
 	}
@@ -59,6 +60,10 @@ public class Input {
 		
 		actionJump = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
 		if(joyButtons[0] != null) actionJump = actionJump || (joyButtons[0].get(0) == 1);
+		
+		actionAttack = glfwGetKey(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS;
+		System.out.println(actionAttack);
+		if(joyButtons[0] != null) actionAttack = actionAttack || (joyButtons[0].get(1) == 1);
 	}
 	
 	public static void setWindow(long window) {
