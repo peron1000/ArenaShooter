@@ -10,9 +10,9 @@ public class Character extends Spatial {
 	Collider collider;
 	boolean isOnGround;
 
-	public Character(Vec2d pos) {
+	public Character() {
 		pv = 10;
-		position = pos;
+		position = new Vec2d();
 		rotation = 0;
 		collider = new Collider(new Vec2d(160, 160));
 	}
