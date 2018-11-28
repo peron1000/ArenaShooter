@@ -6,6 +6,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
+import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
@@ -30,7 +31,13 @@ public class Window {
 	private int width, height;
 	
 	public Window(int width, int height, String title) {
-		if(!glfwInit()) System.err.println("Can't initialize GLFW !");
+		GLFWErrorCallback errorfun = GLFWErrorCallback.createPrint();
+		glfwSetErrorCallback(errorfun);
+		
+		if(!glfwInit()) {
+			System.err.println("Can't initialize GLFW !");
+			System.exit(1);
+		}
 		
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
@@ -54,7 +61,10 @@ public class Window {
 		
 		window = glfwCreateWindow(this.width, this.height, title, NULL, NULL);
 
-		if (window == NULL) System.err.println("Can't create window !");
+		if (window == NULL) {
+			System.err.println("Can't create window !");
+			System.exit(1);
+		}
 		
 		//Center window
 		glfwSetWindowPos(window, (vidmode.width()-this.width)/2, (vidmode.height()-this.height)/2 );
