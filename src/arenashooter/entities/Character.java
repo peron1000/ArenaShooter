@@ -11,18 +11,18 @@ public class Character extends Spatial {
 	int pv;
 	Vec2d vel = new Vec2d();
 	Collider collider;
-	boolean isOnGround =true;
+	boolean isOnGround = true;
 
 	public Character() {
 		pv = 10;
-		position = new Vec2d(800, 100);
+		position = new Vec2d(800, 500);
 		rotation = 0;
-		vel.y = -10;
+		vel.y = -30;
 		collider = new Collider(new Vec2d(160, 160));
 		Sprite body = new Sprite();
 		body.tex = new Texture("data/UnMoineHD.png");
 		body.size = new Vec2d(156, 234);
-		body.attachToParent(this,"body_texture");
+		body.attachToParent(this, "body_texture");
 	}
 
 	public void jump() {
@@ -57,15 +57,18 @@ public class Character extends Spatial {
 			jump();
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
-		if (!isOnGround)
+		if (!isOnGround) {
 			vel.y += 9.807 * 10 * d;
+		} else {
+			vel.y = 0;
+		}
 
 		position.add(Vec2d.multiply(vel, d));
 		// position.y = Math.min(450, position.y);
 
 		position.add(vel);
-		((Sprite)children.get("body_texture")).position.x = position.x;
-		((Sprite)children.get("body_texture")).position.y = position.y;
+		((Sprite) children.get("body_texture")).position.x = position.x;
+		((Sprite) children.get("body_texture")).position.y = position.y;
 		super.step(d);
 	}
 }
