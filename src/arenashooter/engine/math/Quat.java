@@ -52,18 +52,36 @@ public class Quat {
 		return res;
 	}
 	
-	public double magnitude() {
+	/**
+	 * Conjugate this
+	 */
+    public void conjugate() {
+        x = -x;
+        y = -y;
+        z = -z;
+    }
+    
+    /**
+     * Conjugate a quaternion
+     * @param q quaternion to conjugate
+     * @return conjugate of q
+     */
+    public static Quat conjugate(Quat q) {
+    	return new Quat(q.w, -q.x, -q.y, -q.z);
+    }
+	
+	public double length() {
 		return Math.sqrt( (x*x)+(y*y)+(z*z)+(w*w) );
 	}
 	
 	public static Quat normalize(Quat q) {
 		Quat res = new Quat();
 		
-		double magnitude = q.magnitude();
-		res.x = (float) (q.x/magnitude);
-		res.y = (float) (q.y/magnitude);
-		res.z = (float) (q.z/magnitude);
-		res.w = (float) (q.w/magnitude);
+		double len = q.length();
+		res.x = (float) (q.x/len);
+		res.y = (float) (q.y/len);
+		res.z = (float) (q.z/len);
+		res.w = (float) (q.w/len);
 		
 		return res;
 	}
