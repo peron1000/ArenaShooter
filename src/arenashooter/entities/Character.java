@@ -15,12 +15,13 @@ public class Character extends Spatial {
 
 	public Character() {
 		pv = 10;
-		position = new Vec2d();
+		position = new Vec2d(500, 530);
 		rotation = 0;
 		collider = new Collider(new Vec2d(160, 160));
 		Sprite body = new Sprite();
 		body.tex = new Texture("data/UnMoineHD.png");
-		body.attachToParent(body,"body_texture");
+		body.extent = new Vec2d(156, 234);
+		body.attachToParent(this,"body_texture");
 	}
 
 	public void jump() {
@@ -48,14 +49,14 @@ public class Character extends Spatial {
 				}
 			}
 		}
-
+		isOnGround = false;
 		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
 
 		if (Input.actionPressed(Action.JUMP))
 			jump();
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
-		if (isOnGround)
+		if (!isOnGround)
 			vel.y += 9.807 * 200 * d;
 
 		position.add(Vec2d.multiply(vel, d));
