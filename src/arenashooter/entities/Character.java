@@ -15,6 +15,7 @@ public class Character extends Spatial {
 		position = new Vec2d();
 		rotation = 0;
 		collider = new Collider(new Vec2d(160, 160));
+		attachToParent(new Sprite(), "Sprite_Corps");
 	}
 
 	public void jump() {
