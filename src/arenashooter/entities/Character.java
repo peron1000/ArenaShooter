@@ -3,6 +3,7 @@ package arenashooter.entities;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2d;
 
@@ -17,7 +18,9 @@ public class Character extends Spatial {
 		position = new Vec2d();
 		rotation = 0;
 		collider = new Collider(new Vec2d(160, 160));
-		attachToParent(new Sprite(), "Sprite_Corps");
+		Sprite body = new Sprite();
+//		body.tex = new Texture("data/UnMoineHD");
+		body.attachToParent(body,"body_texture");
 	}
 
 	public void jump() {
