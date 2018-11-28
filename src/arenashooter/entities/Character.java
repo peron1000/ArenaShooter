@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2d;
 
 public class Character extends Spatial {
 	int pv;
-	Vec2d vel;
+	Vec2d vel = new Vec2d();
 	Collider collider;
 	boolean isOnGround =true;
 
