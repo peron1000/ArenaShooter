@@ -17,13 +17,12 @@ public class Sprite extends Spatial {
 	public Texture tex;
 	private static Shader shader;
 	private static Model model;
-	public Vec4f colorMod;
-	public Vec2d extent;
+	public Vec4f colorMod = new Vec4f(1,1,1,1);;
+	public Vec2d extent = new Vec2d(1, 1);
 	
 	public Sprite() {
 		if(shader == null) shader = new Shader("data/shaders/sprite_simple");
 		if(model == null) model = Model.loadQuad();
-		colorMod = new Vec4f(1,1,1,1);
 	}
 	
 	@Override

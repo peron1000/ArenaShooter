@@ -20,7 +20,7 @@ public class Character extends Spatial {
 		collider = new Collider(new Vec2d(160, 160));
 		Sprite body = new Sprite();
 		body.tex = new Texture("data/UnMoineHD.png");
-		body.attachToParent(body,"body_texture");
+		body.attachToParent(this,"body_texture");
 	}
 
 	public void jump() {
