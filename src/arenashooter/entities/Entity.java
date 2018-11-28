@@ -4,30 +4,39 @@ import java.util.HashMap;
 
 public class Entity {
 
-	public HashMap<String, Entity> children;
+	private Entity parent;
+	/**
+	 * Key to find this entity in its parent's children
+	 */
+	private String name = "";
+	public HashMap<String, Entity> children = new HashMap<String, Entity>();
 	
-	public Entity() {
-		children = new HashMap<>();
-	}
-
-	public void attachToParent(Entity newParent, String name) {
+	/**
+	 * Attach this a child of another Entity
+	 * @param newParent new parent Entity
+	 * @param name used as a key in parent's children
+	 * @return previous child of the new parent using that name
+	 */
+	public Entity attachToParent(Entity newParent, String name) {
+		//Remove previously attached entity with that name
 		Entity e = newParent.children.get(name);
 		if (e != null)
 			e.detach();
 
-		newParent.children.put(name, this);
+		//Attach to new parent
 		this.name = name;
+		newParent.children.put(name, this);
+		this.parent = newParent;
+		
+		return e;
 	}
 
 	public void detach() {
 		if (parent != null)
 			parent.children.remove(name);
 		parent = null;
-		name = null;
+		name = "";
 	}
-
-	private String name;
-	private Entity parent;
 
 	public Entity getParent() {
 		return parent;

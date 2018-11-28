@@ -6,10 +6,13 @@ import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
+import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Input;
+import arenashooter.engine.Input.Action;
+import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
@@ -28,7 +31,13 @@ public class Window {
 	private int width, height;
 	
 	public Window(int width, int height, String title) {
-		if(!glfwInit()) System.err.println("Can't initialize GLFW !");
+		GLFWErrorCallback errorfun = GLFWErrorCallback.createPrint();
+		glfwSetErrorCallback(errorfun);
+		
+		if(!glfwInit()) {
+			System.err.println("Can't initialize GLFW !");
+			System.exit(1);
+		}
 		
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
@@ -52,7 +61,10 @@ public class Window {
 		
 		window = glfwCreateWindow(this.width, this.height, title, NULL, NULL);
 
-		if (window == NULL) System.err.println("Can't create window !");
+		if (window == NULL) {
+			System.err.println("Can't create window !");
+			System.exit(1);
+		}
 		
 		//Center window
 		glfwSetWindowPos(window, (vidmode.width()-this.width)/2, (vidmode.height()-this.height)/2 );
@@ -111,9 +123,9 @@ public class Window {
 	
 	public void update( double delta ) {
 		//Physique et controles de la boule magique
-		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*500, delta*5);
+		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X)*500, delta*5);
 		
-		if( Input.actionPressed("jump") )
+		if( Input.actionPressed(Action.JUMP) )
 			if( pos.y == 450 )
 				vel.y = -800;
 		

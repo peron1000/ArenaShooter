@@ -2,6 +2,7 @@ package arenashooter;
 
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
+import arenashooter.entities.Game;
 
 public class Main {
 	static Window window;
@@ -24,9 +25,11 @@ public class Main {
 			//Limit delta to avoid errors
 			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .5);
 			
-			//TODO: mettre le jeu ici
-			
 			window.update( delta );
+			
+			//TODO: Use this properly
+			Game.game.update(delta);
+			Game.game.draw();
 			
 			//FPS counter
 			fpsFrames++;
