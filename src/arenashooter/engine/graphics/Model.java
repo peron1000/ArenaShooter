@@ -67,15 +67,15 @@ public class Model {
 		//Vertices positions and texture coordinates
 		//		x,    y,    z,    u,  v
 		float[] data = {
-				-.5f, -.5f, 0f,   0f, 1f, //0
-				 .5f, -.5f, 0f,   1f, 1f, //1
-				 .5f,  .5f, 0f,   1f, 0f, //2
-				-.5f,  .5f, 0f,   0f, 0f  //3
+				-.5f, -.5f, 0f,   0f, 0f, //0
+				 .5f, -.5f, 0f,   1f, 0f, //1
+				 .5f,  .5f, 0f,   1f, 1f, //2
+				-.5f,  .5f, 0f,   0f, 1f  //3
 		};
 		
 		byte[] indices = {
 				0, 1, 2, //Top triangle
-				2, 3, 0 //Bot triangle
+				2, 3, 0  //Bot triangle
 		};
 		
 		return new Model( data, indices );
