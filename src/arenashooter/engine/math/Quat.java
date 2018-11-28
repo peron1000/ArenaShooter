@@ -67,7 +67,7 @@ public class Quat {
      * @return conjugate of q
      */
     public static Quat conjugate(Quat q) {
-    	return new Quat(q.w, -q.x, -q.y, -q.z);
+    	return new Quat(-q.x, -q.y, -q.z, q.w);
     }
 	
 	public double length() {
@@ -95,5 +95,9 @@ public class Quat {
 		res.w = ( q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z );
 		
 		return res;
+	}
+	
+	public String toString() {
+		return "Quat("+w+", "+x+", "+y+", "+z+")";
 	}
 }
