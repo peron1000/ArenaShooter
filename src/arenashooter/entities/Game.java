@@ -22,5 +22,9 @@ public class Game {
 	
 	public void update(double d) {
 		map.step(d);
-	}	
+	}
+	
+	public void draw() {
+		map.draw();
+	}
 }

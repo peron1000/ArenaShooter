@@ -2,6 +2,7 @@ package arenashooter;
 
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
+import arenashooter.entities.Game;
 
 public class Main {
 	static Window window;
@@ -27,6 +28,10 @@ public class Main {
 			//TODO: mettre le jeu ici
 			
 			window.update( delta );
+			
+			//TODO: fix this
+//			Game.game.update(delta);
+			Game.game.draw();
 			
 			//FPS counter
 			fpsFrames++;
