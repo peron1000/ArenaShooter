@@ -17,13 +17,12 @@ public class Sprite extends Spatial {
 	public Texture tex;
 	private static Shader shader;
 	private static Model model;
-	public Vec4f colorMod;
-	public Vec2d extent;
+	public Vec4f colorMod = new Vec4f(1,1,1,1);
+	public Vec2d size = new Vec2d(100, 100);
 	
 	public Sprite() {
 		if(shader == null) shader = new Shader("data/shaders/sprite_simple");
 		if(model == null) model = Model.loadQuad();
-		colorMod = new Vec4f(1,1,1,1);
 	}
 	
 	@Override
@@ -35,7 +34,7 @@ public class Sprite extends Spatial {
 		//Create matrices
 		Vec3f pos = new Vec3f( (float)position.x, (float)position.y, -1 );
 		Quat rot = Quat.fromAngle(rotation);
-		Vec3f scale = new Vec3f( (float)extent.x, (float)extent.y, 1 );
+		Vec3f scale = new Vec3f( (float)size.x, (float)size.y, 1 );
 		Mat4f modelM = Mat4f.transform(pos, rot, scale);
 		shader.setUniformM4("model", modelM);
 		shader.setUniformM4("view", Mat4f.identity()); //TODO: Get view matrix from camera

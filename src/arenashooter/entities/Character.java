@@ -15,12 +15,13 @@ public class Character extends Spatial {
 
 	public Character() {
 		pv = 10;
-		position = new Vec2d(500, 530);
+		position = new Vec2d(800, 100);
 		rotation = 0;
+		vel.y = -10;
 		collider = new Collider(new Vec2d(160, 160));
 		Sprite body = new Sprite();
 		body.tex = new Texture("data/UnMoineHD.png");
-		body.extent = new Vec2d(156, 234);
+		body.size = new Vec2d(156, 234);
 		body.attachToParent(this,"body_texture");
 	}
 
@@ -57,12 +58,14 @@ public class Character extends Spatial {
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 		if (!isOnGround)
-			vel.y += 9.807 * 200 * d;
+			vel.y += 9.807 * 10 * d;
 
 		position.add(Vec2d.multiply(vel, d));
 		// position.y = Math.min(450, position.y);
 
 		position.add(vel);
+		((Sprite)children.get("body_texture")).position.x = position.x;
+		((Sprite)children.get("body_texture")).position.y = position.y;
 		super.step(d);
 	}
 }
