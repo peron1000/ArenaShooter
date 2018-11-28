@@ -17,7 +17,7 @@ public class Sprite extends Spatial {
 	public Texture tex;
 	private static Shader shader;
 	private static Model model;
-	public Vec4f colorMod = new Vec4f(1,1,1,1);;
+	public Vec4f colorMod = new Vec4f(1,1,1,1);
 	public Vec2d size = new Vec2d(100, 100);
 	
 	public Sprite() {
