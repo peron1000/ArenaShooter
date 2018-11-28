@@ -21,7 +21,7 @@ public class Sprite extends Spatial {
 	public Vec2d extent;
 	
 	public Sprite() {
-		if(shader == null) shader = new Shader("data/shader/sprite_simple");
+		if(shader == null) shader = new Shader("data/shaders/sprite_simple");
 		if(model == null) model = Model.loadQuad();
 		colorMod = new Vec4f(1,1,1,1);
 	}
