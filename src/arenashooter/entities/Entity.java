@@ -18,6 +18,11 @@ public class Entity {
 	 * @return previous child of the new parent using that name
 	 */
 	public Entity attachToParent(Entity newParent, String name) {
+		if(this == newParent) {
+			System.err.println("Trying to attach an entity to itself!");
+			return null;
+		}
+		
 		//Remove previously attached entity with that name
 		Entity e = newParent.children.get(name);
 		if (e != null)
