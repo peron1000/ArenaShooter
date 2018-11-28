@@ -5,9 +5,12 @@ public class Game {
 	
 	private Map map;
 	private Character player;
+	public Camera camera;
 	
 	private Game() {
 		map = new Map();
+		camera = new Camera();
+		camera.attachToParent(map, "camera");
 		player = new Character();
 		player.attachToParent(map, "Player 1");
 	}

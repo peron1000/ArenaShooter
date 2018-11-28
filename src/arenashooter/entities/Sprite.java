@@ -37,7 +37,7 @@ public class Sprite extends Spatial {
 		Vec3f scale = new Vec3f( (float)size.x, (float)size.y, 1 );
 		Mat4f modelM = Mat4f.transform(pos, rot, scale);
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Mat4f.identity()); //TODO: Get view matrix from camera
+		shader.setUniformM4("view", Game.game.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj); //TODO: Get projection matrix properly
 		
 		model.bindToShader(shader);
