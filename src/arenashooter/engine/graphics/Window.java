@@ -10,6 +10,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Input;
+import arenashooter.engine.Input.Action;
+import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
@@ -111,9 +113,9 @@ public class Window {
 	
 	public void update( double delta ) {
 		//Physique et controles de la boule magique
-		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX")*500, delta*5);
+		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X)*500, delta*5);
 		
-		if( Input.actionPressed("jump") )
+		if( Input.actionPressed(Action.JUMP) )
 			if( pos.y == 450 )
 				vel.y = -800;
 		

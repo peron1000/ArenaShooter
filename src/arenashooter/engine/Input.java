@@ -12,19 +12,27 @@ public class Input {
 	
 	private static float axisMoveX, axisMoveY;
 	private static boolean actionJump, actionAttack;
+	
+	public enum Action {
+		JUMP, ATTACK;
+	}
+	
+	public enum Axis {
+		MOVE_X, MOVE_Y;
+	}
 
-	public static float getAxis( String axis ) {
-		switch( axis ) { //TODO: Enum
-		case "moveX": return axisMoveX;
-		case "moveY": return axisMoveY;
+	public static float getAxis( Axis axis ) {
+		switch( axis ) {
+		case MOVE_X: return axisMoveX;
+		case MOVE_Y: return axisMoveY;
 		default: return 0;			
 		}
 	}
 	
-	public static boolean actionPressed( String action ) {
-		switch( action ) { //TODO: Enum
-		case "jump": return actionJump;
-		case "attack": return actionAttack;
+	public static boolean actionPressed( Action action ) {
+		switch( action ) {
+		case JUMP: return actionJump;
+		case ATTACK: return actionAttack;
 		default: return false;
 		}
 	}

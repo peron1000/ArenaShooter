@@ -1,6 +1,8 @@
 package arenashooter.entities;
 
 import arenashooter.engine.Input;
+import arenashooter.engine.Input.Action;
+import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2d;
 
@@ -43,11 +45,11 @@ public class Character extends Spatial {
 			}
 		}
 
-		vel.x = Utils.lerpD(vel.x, Input.getAxis("moveX") * 500, d * 5);
+		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
 
-		if (Input.actionPressed("jump"))
+		if (Input.actionPressed(Action.JUMP))
 			jump();
-		if (Input.actionPressed("attac"))
+		if (Input.actionPressed(Action.ATTACK))
 			attack();
 		if (isOnGround)
 			vel.y += 9.807 * 200 * d;
