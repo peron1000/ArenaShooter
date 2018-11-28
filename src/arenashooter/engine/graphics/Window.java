@@ -4,20 +4,13 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Input;
-import arenashooter.engine.Input.Action;
-import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Quat;
-import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2d;
-import arenashooter.engine.math.Vec3f;
 
 /**
  * Game window
@@ -99,8 +92,6 @@ public class Window {
 		createProjectionMatrix();
 		
 		//TODO: Temp test stuff
-		tex = new Texture("data/test.png");
-		shaderBouleMagique = new Shader("data/shaders/test_boule_magique");
 		shaderSky = new Shader("data/shaders/test_sky");
 		quad = Model.loadQuad();
 	}
@@ -114,70 +105,26 @@ public class Window {
 	
 	//TODO: Temp variables
 	Model quad;
-	Vec2d pos = new Vec2d();
-	Vec2d vel = new Vec2d();
-	double size = 200;
-	Texture tex;
-	Shader shaderBouleMagique, shaderSky;
+	Shader shaderSky;
 	public static Mat4f proj;
 	
-	public void update( double delta ) {
-		//Physique et controles de la boule magique
-		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X)*500, delta*5);
-		
-		if( Input.actionPressed(Action.JUMP) )
-			if( pos.y == 450 )
-				vel.y = -800;
-		
-		if(pos.y < 450)
-			vel.y += 9.807*200*delta;
-
-		pos.add(Vec2d.multiply(vel, delta));
-		
-		pos.y = Math.min(450, pos.y);
-		
-		//Sky
-		drawSky();
-		
-		//Boule magique
-		drawBouleMagique();
-		
-		glfwSwapBuffers(window);
-		
+	/**
+	 * Begin a frame, this will update Input and prepare the window for rendering
+	 */
+	public void beginFrame() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glfwPollEvents();
 		Input.update();
+		
+		drawSky(); //TODO: Remove this
 	}
 	
-	void drawBouleMagique() { //TODO: Remove this temp function
-		shaderBouleMagique.bind();
-		
-		//Create matrices
-		Vec3f pos3f = new Vec3f( (float)(pos.x+(size/2)), (float)(pos.y+(size/2)), -1 );
-		Quat rot = Quat.fromAngle(0);
-		Vec3f scale = new Vec3f( (float)size, (float)size, (float)size );
-		Mat4f model = Mat4f.transform(pos3f, rot, scale);
-		shaderBouleMagique.setUniformM4("model", model);
-		shaderBouleMagique.setUniformM4("view", Mat4f.identity());
-		shaderBouleMagique.setUniformM4("projection", proj);
-		
-		quad.bindToShader(shaderBouleMagique);
-		
-		//Bind texture
-		glActiveTexture(GL_TEXTURE0);
-		tex.bind();
-		shaderBouleMagique.setUniformI("baseColor", GL_TEXTURE0);
-		
-		//Color change
-		shaderBouleMagique.setUniformF("colorMod", (float)(Math.sin(System.currentTimeMillis()/100d)+1d)/2f);
-		
-		quad.bind();
-		quad.draw();
-		
-		Model.unbind();
-		Shader.unbind();
-		Texture.unbind();
+	/**
+	 * End a frame, this will swap framebuffers
+	 */
+	public void endFrame() {
+		glfwSwapBuffers(window);
 	}
 	
 	void drawSky() { //TODO: Remove this temp function
