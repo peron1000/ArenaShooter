@@ -25,12 +25,10 @@ public class Main {
 			//Limit delta to avoid errors
 			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .5);
 			
-			//TODO: mettre le jeu ici
-			
 			window.update( delta );
 			
-			//TODO: fix this
-//			Game.game.update(delta);
+			//TODO: Use this properly
+			Game.game.update(delta);
 			Game.game.draw();
 			
 			//FPS counter
