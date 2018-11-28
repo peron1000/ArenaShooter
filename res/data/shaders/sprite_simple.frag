@@ -11,5 +11,9 @@ uniform vec4 baseColorMod = vec4(1.0, 1.0, 1.0, 1.0);
 out vec4 FragmentColor;
 
 void main() {
-    FragmentColor = texture(baseColor, texCoord)*baseColorMod;
+    vec4 textureSample = texture(baseColor, texCoord);
+    
+    if(textureSample.a <= 0) discard;
+
+    FragmentColor = textureSample*baseColorMod;
 }
