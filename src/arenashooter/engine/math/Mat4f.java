@@ -127,6 +127,14 @@ public class Mat4f {
 		return res;
 	}
 	
+	public static Mat4f viewMatrix(Vec3f loc, Quat rot) {
+		Mat4f res = (rotation(Quat.conjugate(rot)));
+		res.val[3][0] = -loc.x;
+		res.val[3][1] = -loc.y;
+		res.val[3][2] = -loc.z;
+		return res;
+	}
+	
 	/**
 	 * Transpose a matrix
 	 * @param m
