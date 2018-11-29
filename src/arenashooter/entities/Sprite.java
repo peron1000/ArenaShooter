@@ -14,15 +14,25 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Sprite extends Spatial {
+	private static final Texture defaultTex = new Texture("data/white_pixel.png");
 	public Texture tex;
 	private static Shader shader;
 	private static Model model;
 	public Vec4f colorMod = new Vec4f(1,1,1,1);
 	public Vec2d size = new Vec2d(100, 100);
 	
-	public Sprite() {
+	public Sprite(Texture texture) {
 		if(shader == null) shader = new Shader("data/shaders/sprite_simple");
 		if(model == null) model = Model.loadQuad();
+		this.tex = texture;
+	}
+	
+	public Sprite(String texture) {
+		this(new Texture(texture));
+	}
+	
+	public Sprite() {
+		this(defaultTex);
 	}
 	
 	@Override
