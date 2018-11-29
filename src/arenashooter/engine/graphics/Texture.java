@@ -12,10 +12,11 @@ public class Texture {
 	
 	private int id;
 	private String file;
+	private int width, height;
 	
 	public Texture( String path ) {
-		id = loadTexture( path );
 		file = path;
+		loadTexture( path );
 	}
 	
 	public void bind() {
@@ -30,8 +31,17 @@ public class Texture {
 		return file;
 	}
 	
-	private static int loadTexture( String path ) {
-		int texture = 0;
+	/**
+	 * @return the texture's width in pixels
+	 */
+	public int getWidth() { return width; }
+	
+	/**
+	 * @return the texture's height in pixels
+	 */
+	public int getHeight() { return height; }
+	
+	private void loadTexture( String path ) {
 		InputStream in = null;
 		
 		try {
@@ -42,8 +52,11 @@ public class Texture {
 			decoder.decode(buf, decoder.getWidth()*4, PNGDecoder.Format.RGBA);
 			buf.flip();
 
-			texture = glGenTextures();
-			glBindTexture(GL_TEXTURE_2D, texture);
+			width = decoder.getWidth();
+			height = decoder.getHeight();
+			
+			id = glGenTextures();
+			glBindTexture(GL_TEXTURE_2D, id);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -61,6 +74,5 @@ public class Texture {
 			}
 		
 		unbind();
-		return texture;
 	}
 }
