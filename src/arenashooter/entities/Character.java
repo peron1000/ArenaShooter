@@ -35,7 +35,7 @@ public class Character extends Spatial {
 
 	@Override
 	public void step(double d) {
-		System.out.println(System.nanoTime());
+//		System.out.println(System.nanoTime());
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
