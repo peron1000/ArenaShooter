@@ -25,15 +25,17 @@ public class Character extends Spatial {
 
 	public void jump(int saut) {
 		vel.y = -saut;
+		isOnGround = false;
 		// TODO: collider
 	}
 
 	public void attack() {
-		// TODO: attac
+		// TODO: attac SPRITE CHANGE
 	}
 
 	@Override
 	public void step(double d) {
+		System.out.println(System.nanoTime());
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
@@ -47,19 +49,20 @@ public class Character extends Spatial {
 				}
 			}
 		}
-		isOnGround = false;
+		if (position.y < 500)
+			isOnGround = false;
+		else
+			isOnGround = true;
 		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
 
-		if (Input.actionPressed(Action.JUMP) && !isOnGround) {
+		if (Input.actionPressed(Action.JUMP)&&isOnGround)
 			jump(25);
-		System.out.println("jump");}
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 		if (!isOnGround) {
 			vel.y += 9.807 * 10 * d;
-		} else {
+		} else
 			vel.y = 0;
-		}
 
 		position.add(Vec2d.multiply(vel, d));
 		// position.y = Math.min(450, position.y);
