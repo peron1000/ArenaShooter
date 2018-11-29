@@ -19,13 +19,12 @@ public class Character extends Spatial {
 		vel.y = -30;
 		collider = new Collider(new Vec2d(160, 160));
 		Sprite body = new Sprite("data/UnMoineHD.png");
-		body.size = new Vec2d(body.tex.getWidth()*3, body.tex.getHeight()*3);
+		body.size = new Vec2d(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_texture");
 	}
 
-	public void jump() {
-		if (isOnGround)
-			vel.y = -800;
+	public void jump(int saut) {
+		vel.y = -saut;
 		// TODO: collider
 	}
 
@@ -51,8 +50,9 @@ public class Character extends Spatial {
 		isOnGround = false;
 		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
 
-		if (Input.actionPressed(Action.JUMP))
-			jump();
+		if (Input.actionPressed(Action.JUMP) && !isOnGround) {
+			jump(25);
+		System.out.println("jump");}
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 		if (!isOnGround) {
