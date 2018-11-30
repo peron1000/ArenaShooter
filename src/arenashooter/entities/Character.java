@@ -4,22 +4,22 @@ import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2d;
+import arenashooter.engine.math.Vec2f;
 
 public class Character extends Spatial {
 	int pv;
-	Vec2d vel = new Vec2d();
+	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
 
 	public Character() {
 		pv = 10;
-		position = new Vec2d(800, 500);
+		position = new Vec2f(800, 500);
 		rotation = 0;
 		vel.y = -30;
-		collider = new Collider(new Vec2d(160, 160));
+		collider = new Collider(new Vec2f(160, 160));
 		Sprite body = new Sprite("data/UnMoineHD.png");
-		body.size = new Vec2d(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
+		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_texture");
 	}
 
@@ -53,7 +53,7 @@ public class Character extends Spatial {
 			isOnGround = false;
 		else
 			isOnGround = true;
-		vel.x = Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
+		vel.x = (float)Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
 
 		if (Input.actionPressed(Action.JUMP)&&isOnGround)
 			jump(25);
@@ -64,7 +64,7 @@ public class Character extends Spatial {
 		} else
 			vel.y = 0;
 
-		position.add(Vec2d.multiply(vel, d));
+		position.add(Vec2f.multiply(vel, (float)d));
 		// position.y = Math.min(450, position.y);
 
 		position.add(vel);
