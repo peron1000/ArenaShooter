@@ -10,6 +10,7 @@ import arenashooter.engine.math.Vec4f;
 
 public class Shader {
 	private int vertex, fragment, program;
+//	private static int boundShader = 0;
 	
 	/**
 	 * Create a shader from vertex and fragment shader files sharing the same path and name.
@@ -141,16 +142,13 @@ public class Shader {
 		glUniform1i(location, value);
 	}
 	
-//	/**
-//	 * @return This shader's program id
-//	 */
-//	public int getID() { return program; }
-	
 	/**
 	 * Use this shader
 	 */
 	public void bind() {
+//		if( program == boundShader ) return;
 		glUseProgram(program);
+//		boundShader = program;
 	}
 	
 	/**
@@ -158,5 +156,6 @@ public class Shader {
 	 */
 	public static void unbind() {
 		glUseProgram(0);
+//		boundShader = 0;
 	}
 }

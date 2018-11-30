@@ -64,9 +64,5 @@ public class Sprite extends Spatial {
 		
 		model.bind();
 		model.draw();
-		
-		Model.unbind();
-		Shader.unbind();
-		Texture.unbind();
 	}
 }
