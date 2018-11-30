@@ -63,6 +63,9 @@ public class Character extends Spatial {
 			vel.y += 9.807 * 10 * d;
 		} else
 			vel.y = 0;
+		
+		if(Input.getAxis(Axis.MOVE_X) > 0) ((Sprite) children.get("body_texture")).flipX = false;
+		else if(Input.getAxis(Axis.MOVE_X) < 0) ((Sprite) children.get("body_texture")).flipX = true;
 
 		position.add(Vec2f.multiply(vel, (float)d));
 		// position.y = Math.min(450, position.y);
