@@ -24,6 +24,17 @@ public class Utils {
 	}
 	
 	/**
+	 * Clamps a double in a range
+	 * @param a
+	 * @param min
+	 * @param max
+	 * @return a clamped between min and max
+	 */
+	public static float clampF( float a, float min, float max ) {
+		return Math.min(Math.max( min, a ), max);
+	}
+	
+	/**
 	 * Linear interpolation between a and b
 	 * @param a
 	 * @param b

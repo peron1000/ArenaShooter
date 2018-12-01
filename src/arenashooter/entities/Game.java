@@ -31,8 +31,9 @@ public class Game {
 	}
 	
 	public void update(double d) {
-		camera.position.x = Utils.lerpF(camera.position.x, player.position.x, (float)(d*.8));
-		camera.position.y = Utils.lerpF(camera.position.y, player.position.y, (float)(d*.8));
+		camera.position.x = Utils.lerpF(camera.position.x, player.position.x, (float)(d*8));
+		float targetY = Utils.clampF(camera.position.y, player.position.y-50, player.position.y+50);
+		camera.position.y = Utils.lerpF(camera.position.y, targetY, (float)(d*7));
 		map.step(d);
 	}
 	
