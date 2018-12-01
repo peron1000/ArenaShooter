@@ -31,7 +31,7 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		((Sprite)children.get("body_Sprite")).tex= new Texture("data/Chevre.png");
+		((Sprite)children.get("body_Sprite")).tex= new Texture("data/Chevre2.png");
 		// TODO: attac
 	}
 
