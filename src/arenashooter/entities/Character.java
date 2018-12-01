@@ -18,7 +18,7 @@ public class Character extends Spatial {
 		position = new Vec2f(500, 400);
 		rotation = 0;
 		vel.y = -3;
-		collider = new Collider(position, new Vec2f(70, 110));
+		collider = new Collider(position, new Vec2f(50, 110));
 		Sprite body = new Sprite("data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
@@ -58,7 +58,7 @@ public class Character extends Spatial {
 			}
 		}
 
-		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 15, d * 10);
+		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 3, d * 10);
 
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
 			jump(25);
