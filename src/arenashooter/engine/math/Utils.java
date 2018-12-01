@@ -33,4 +33,15 @@ public class Utils {
 	public static double lerpD( double a, double b, double f ) {
 		return a + (b-a)*f;
 	}
+	
+	/**
+	 * Linear interpolation between a and b
+	 * @param a
+	 * @param b
+	 * @param f
+	 * @return
+	 */
+	public static float lerpF( float a, float b, float f ) {
+		return a + (b-a)*f;
+	}
 }

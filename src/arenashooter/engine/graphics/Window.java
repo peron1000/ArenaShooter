@@ -167,7 +167,9 @@ public class Window {
 	 */
 	private void createProjectionMatrix() {
 //		proj = Mat4f.perspective(0.1f, 10, 90, (float)width/(float)height);
-		proj = Mat4f.ortho(0.1f, 10, 0, 800, 800*((float)width/(float)height), 0);
+		float sizeY = 800;
+		float sizeX = sizeY*((float)width/(float)height);
+		proj = Mat4f.ortho(0.1f, 10, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
 	}
 	
 	/**

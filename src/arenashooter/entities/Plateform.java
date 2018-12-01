@@ -1,18 +1,24 @@
 package arenashooter.entities;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 
 public class Plateform extends Spatial {
 	
 
-	public Plateform(Vec2f extent, Vec3f rgb) {
+	public Plateform(Vec2f extent) {
 		Collider coll = new Collider(extent);
 		coll.extent = extent;
-		attachToParent(coll, "collider");
+		coll.attachToParent(this, "collider");
 		
 		Sprite spr = new Sprite();
+		spr.size = new Vec2f(extent.x*2, extent.y*2);
 		//TODO: passer sprite & rgb
-		attachToParent(spr, "sprite");
+		spr.attachToParent(this, "sprite");
+	}
+	
+	@Override
+	public void step(double d) {
+		((Spatial)children.get("sprite")).position = position;
+		((Spatial)children.get("collider")).position = position;
 	}
 }
