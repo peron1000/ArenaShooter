@@ -37,7 +37,7 @@ public class Character extends Spatial {
 		((Sprite) children.get("body_Sprite")).tex = chevre;
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		collider.extent.y = body.size.y / 2;
-		collider.extent.x = body.size.x / 2;
+		collider.extent.x = (body.size.x / 2) - 20;
 		// TODO: attac
 	}
 
@@ -50,20 +50,19 @@ public class Character extends Spatial {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider)
 						if (collider.isColliding((Collider) coll)) {
-							if ((position.y + collider.extent.y) == (((Collider) coll).position.y
-									- ((Collider) coll).extent.y))
-								isOnGround = true;
-							else {
+							if (!((position.y + collider.extent.y) == (((Collider) coll).position.y
+									- ((Collider) coll).extent.y))) {
 								position.y = (((Collider) coll).position.y - ((Collider) coll).extent.y)
 										- collider.extent.y;
-								isOnGround = true;
 							}
+							isOnGround = true;
+
 						}
 				}
 			}
 		}
 
-		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 30, d * 8);
+		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 20, d * 8);
 
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
 			jump(25);
