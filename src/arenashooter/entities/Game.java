@@ -13,13 +13,16 @@ public class Game {
 	private Game() {
 		map = new Map();
 		camera = new Camera();
-		camera.position.z = 250;
+		camera.position.z = 450;
 		camera.attachToParent(map, "camera");
 		player = new Character();
 		player.attachToParent(map, "Player 1");
 		Plateform plat = new Plateform(new Vec2f(500, 20));
 		plat.position = new Vec2f(0, 510);
 		plat.attachToParent(map, "Platform 1");
+		Plateform plat2 = new Plateform(new Vec2f(300, 300));
+		plat2.position = new Vec2f(-800, 200);
+		plat2.attachToParent(map, "Platform 2");
 	}
 	
 	public Map getMap() {
