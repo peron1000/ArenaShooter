@@ -50,7 +50,8 @@ public class Character extends Spatial {
 									- ((Collider) coll).extent.y))
 								isOnGround = true;
 							else {
-								position.y = (((Collider) coll).position.y - ((Collider) coll).extent.y)-collider.extent.y;
+								position.y = (((Collider) coll).position.y - ((Collider) coll).extent.y)
+										- collider.extent.y;
 								isOnGround = true;
 							}
 						}
@@ -58,14 +59,17 @@ public class Character extends Spatial {
 			}
 		}
 
-		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 3, d * 10);
+		if (isOnGround)
+			vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 30, d * 8);
+		else
+			vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 10, d * 8);
 
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
 			jump(25);
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 		if (!isOnGround) {
-			vel.y += 9.807 * 1 * d;
+			vel.y += 9.807 * 6 * d;
 		} else
 			vel.y = 0;
 
