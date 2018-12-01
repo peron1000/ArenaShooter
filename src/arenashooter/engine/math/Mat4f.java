@@ -128,10 +128,11 @@ public class Mat4f {
 	}
 	
 	public static Mat4f viewMatrix(Vec3f loc, Quat rot) {
-		Mat4f res = (rotation(Quat.conjugate(rot)));
+		Mat4f res = identity();
 		res.val[3][0] = -loc.x;
 		res.val[3][1] = -loc.y;
 		res.val[3][2] = -loc.z;
+		res = mul(rotation(Quat.conjugate(rot)), res);
 		return res;
 	}
 	
@@ -155,18 +156,17 @@ public class Mat4f {
 	 * 
 	 * @param near clip plane distance, should be > 0
 	 * @param far clip plane distance, should be > near
-	 * @param yFOV vertical field of view
+	 * @param yFOV vertical field of view (degrees)
 	 * @param ratio aspect ratio (width/height)
 	 * @return the projection matrix
 	 */
 	public static Mat4f perspective( float near, float far, float yFOV, float ratio ) {
 		Mat4f res = new Mat4f();
 		
-		float top = (float) (Math.tan(yFOV/2)*near);
+		float top = (float) (Math.tan(Math.toRadians(yFOV)/2)*near);
 		float right = top*ratio;
-		
 		res.val[0][0] = near/right;
-		res.val[1][1] = near/top;
+		res.val[1][1] = near/-top;
 		res.val[2][2] = -(far+near)/(far-near);
 		res.val[3][2] = -(2*far*near)/(far-near);
 		res.val[2][3] = -1;

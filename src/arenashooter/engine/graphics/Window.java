@@ -166,10 +166,10 @@ public class Window {
 	 * Create the projection matrix based on window size
 	 */
 	private void createProjectionMatrix() {
-//		proj = Mat4f.perspective(0.1f, 10, 90, (float)width/(float)height);
-		float sizeY = 800;
-		float sizeX = sizeY*((float)width/(float)height);
-		proj = Mat4f.ortho(0.1f, 10, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
+//		float sizeY = 800;
+//		float sizeX = sizeY*((float)width/(float)height);
+//		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
+		proj = Mat4f.perspective(0.1f, 500, 120, (float)width/(float)height);
 	}
 	
 	/**

@@ -20,5 +20,6 @@ public class Plateform extends Spatial {
 	public void step(double d) {
 		((Spatial)children.get("sprite")).position = position;
 		((Spatial)children.get("collider")).position = position;
+		super.step(d);
 	}
 }

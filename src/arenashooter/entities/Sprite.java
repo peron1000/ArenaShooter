@@ -44,7 +44,7 @@ public class Sprite extends Spatial {
 		shader.bind();
 		
 		//Create matrices
-		Vec3f pos = new Vec3f( position.x, position.y, -1 );
+		Vec3f pos = new Vec3f( position.x, position.y, 0 );
 		Quat rot = Quat.fromAngle(rotation);
 		Vec3f scale = new Vec3f( flipX ? -size.x : size.x, flipY ? -size.y : size.y, 1 );
 		Mat4f modelM = Mat4f.transform(pos, rot, scale);

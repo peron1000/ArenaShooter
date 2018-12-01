@@ -13,6 +13,7 @@ public class Game {
 	private Game() {
 		map = new Map();
 		camera = new Camera();
+		camera.position.z = 250;
 		camera.attachToParent(map, "camera");
 		player = new Character();
 		player.attachToParent(map, "Player 1");
