@@ -15,10 +15,10 @@ public class Character extends Spatial {
 
 	public Character() {
 		pv = 10;
-		position = new Vec2f(500, 200);
+		position = new Vec2f(500, 400);
 		rotation = 0;
-		vel.y = -30;
-		collider = new Collider(position, new Vec2f(78, 130));
+		vel.y = -3;
+		collider = new Collider(position, new Vec2f(70, 110));
 		Sprite body = new Sprite("data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
@@ -31,7 +31,9 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		((Sprite)children.get("body_Sprite")).tex= new Texture("data/Chevre2.png");
+		Texture chevre = new Texture("data/Chevre2.png");
+		chevre = new Texture("data/Chevre2.png");
+		((Sprite) children.get("body_Sprite")).tex = chevre;
 		// TODO: attac
 	}
 
@@ -43,12 +45,19 @@ public class Character extends Spatial {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider)
-						isOnGround |= (collider.isColliding((Collider) coll) && (position.y
-								+ collider.extent.y) >= (((Collider) coll).position.y - ((Collider) coll).extent.y));
+						if (collider.isColliding((Collider) coll)) {
+							if ((position.y + collider.extent.y) == (((Collider) coll).position.y
+									- ((Collider) coll).extent.y))
+								isOnGround = true;
+							else {
+								position.y = (((Collider) coll).position.y - ((Collider) coll).extent.y)-collider.extent.y;
+								isOnGround = true;
+							}
+						}
 				}
 			}
 		}
-		
+
 		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 15, d * 10);
 
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
@@ -56,7 +65,7 @@ public class Character extends Spatial {
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 		if (!isOnGround) {
-			vel.y += 9.807 * 10 * d;
+			vel.y += 9.807 * 1 * d;
 		} else
 			vel.y = 0;
 
