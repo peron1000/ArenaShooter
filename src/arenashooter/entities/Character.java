@@ -46,6 +46,7 @@ public class Character extends Spatial {
 				}
 			}
 		}
+		
 		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 15, d * 10);
 
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
