@@ -14,10 +14,10 @@ public class Character extends Spatial {
 
 	public Character() {
 		pv = 10;
-		position = new Vec2f(800, 500);
+		position = new Vec2f(500, 200);
 		rotation = 0;
 		vel.y = -30;
-		collider = new Collider(position, new Vec2f(160, 160));
+		collider = new Collider(position, new Vec2f(80, 140));
 		Sprite body = new Sprite("data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_texture");
@@ -35,27 +35,19 @@ public class Character extends Spatial {
 
 	@Override
 	public void step(double d) {
-//		System.out.println(System.nanoTime());
+		isOnGround=false;
+		// System.out.println(System.nanoTime());
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider)
-						isOnGround |= (position.y + collider.extent.y == ((Plateform) plat).position.y
-								- ((Collider) coll).extent.y)
-								&& (position.x + collider.extent.x >= ((Plateform) plat).position.x
-										- ((Collider) coll).extent.x)
-								&& (position.x - collider.extent.x >= ((Plateform) plat).position.x
-										+ ((Collider) coll).extent.x);
+						isOnGround |= collider.isColliding((Collider) coll);
 				}
 			}
 		}
-		if (position.y < 500)
-			isOnGround = false;
-		else
-			isOnGround = true;
-		vel.x = (float)Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 500, d * 5);
+		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 15, d * 5);
 
-		if (Input.actionPressed(Action.JUMP)&&isOnGround)
+		if (Input.actionPressed(Action.JUMP) && isOnGround)
 			jump(25);
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
@@ -63,11 +55,13 @@ public class Character extends Spatial {
 			vel.y += 9.807 * 10 * d;
 		} else
 			vel.y = 0;
-		
-		if(Input.getAxis(Axis.MOVE_X) > 0) ((Sprite) children.get("body_texture")).flipX = false;
-		else if(Input.getAxis(Axis.MOVE_X) < 0) ((Sprite) children.get("body_texture")).flipX = true;
 
-		position.add(Vec2f.multiply(vel, (float)d));
+		if (Input.getAxis(Axis.MOVE_X) > 0)
+			((Sprite) children.get("body_texture")).flipX = false;
+		else if (Input.getAxis(Axis.MOVE_X) < 0)
+			((Sprite) children.get("body_texture")).flipX = true;
+
+		position.add(Vec2f.multiply(vel, (float) d));
 		// position.y = Math.min(450, position.y);
 
 		position.add(vel);
