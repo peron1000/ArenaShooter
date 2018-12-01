@@ -24,8 +24,8 @@ public class Character extends Spatial {
 	}
 
 	public void jump(int saut) {
-		vel.y = -saut;
 		isOnGround = false;
+		vel.y = -saut;
 		// TODO: collider
 	}
 
@@ -35,17 +35,18 @@ public class Character extends Spatial {
 
 	@Override
 	public void step(double d) {
-		isOnGround=false;
+		isOnGround = false;
 		// System.out.println(System.nanoTime());
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider)
-						isOnGround |= collider.isColliding((Collider) coll);
+						isOnGround |= (collider.isColliding((Collider) coll) && (position.y
+								+ collider.extent.y) >= (((Collider) coll).position.y - ((Collider) coll).extent.y));
 				}
 			}
 		}
-		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 15, d * 5);
+		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 15, d * 10);
 
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
 			jump(25);
