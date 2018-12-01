@@ -3,6 +3,7 @@ package arenashooter.entities;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
@@ -20,7 +21,7 @@ public class Character extends Spatial {
 		collider = new Collider(position, new Vec2f(78, 130));
 		Sprite body = new Sprite("data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-		body.attachToParent(this, "body_texture");
+		body.attachToParent(this, "body_Sprite");
 	}
 
 	public void jump(int saut) {
@@ -30,7 +31,8 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		// TODO: attac SPRITE CHANGE
+		((Sprite)children.get("body_Sprite")).tex= new Texture("data/Chevre.png");
+		// TODO: attac
 	}
 
 	@Override
@@ -59,16 +61,16 @@ public class Character extends Spatial {
 			vel.y = 0;
 
 		if (Input.getAxis(Axis.MOVE_X) > 0)
-			((Sprite) children.get("body_texture")).flipX = false;
+			((Sprite) children.get("body_Sprite")).flipX = false;
 		else if (Input.getAxis(Axis.MOVE_X) < 0)
-			((Sprite) children.get("body_texture")).flipX = true;
+			((Sprite) children.get("body_Sprite")).flipX = true;
 
 		position.add(Vec2f.multiply(vel, (float) d));
 		// position.y = Math.min(450, position.y);
 
 		position.add(vel);
-		((Sprite) children.get("body_texture")).position.x = position.x;
-		((Sprite) children.get("body_texture")).position.y = position.y;
+		((Sprite) children.get("body_Sprite")).position.x = position.x;
+		((Sprite) children.get("body_Sprite")).position.y = position.y;
 		super.step(d);
 	}
 }
