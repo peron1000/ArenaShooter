@@ -12,10 +12,7 @@ public class Collider extends Spatial {
 	}
 	
 	boolean isColliding(Collider other) {
-		if(Math.abs(position.x - other.position.x) < extent.x + other.extent.x)
-			if(Math.abs(position.y - other.position.y) < extent.y + other.extent.y)
-				return true;
-
-		return false;
+		return  Math.abs(position.x - other.position.x) < extent.x + other.extent.x &&
+				Math.abs(position.y - other.position.y) < extent.y + other.extent.y;
 	}
 }
