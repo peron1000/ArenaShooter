@@ -17,7 +17,7 @@ public class Character extends Spatial {
 		position = new Vec2f(500, 200);
 		rotation = 0;
 		vel.y = -30;
-		collider = new Collider(position, new Vec2f(80, 140));
+		collider = new Collider(position, new Vec2f(78, 130));
 		Sprite body = new Sprite("data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_texture");
