@@ -15,7 +15,7 @@ public class Character extends Spatial {
 
 	public Character() {
 		pv = 10;
-		position = new Vec2f(500, 400);
+		position = new Vec2f(300, 400);
 		rotation = 0;
 		vel.y = -3;
 		collider = new Collider(position, new Vec2f(50, 110));
@@ -32,8 +32,11 @@ public class Character extends Spatial {
 
 	public void attack() {
 		Texture chevre = new Texture("data/Chevre2.png");
-		chevre = new Texture("data/Chevre2.png");
+		chevre.setFilter(false);
+		Sprite body = ((Sprite) children.get("body_Sprite"));
 		((Sprite) children.get("body_Sprite")).tex = chevre;
+		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
+		collider.extent = body.size;
 		// TODO: attac
 	}
 
