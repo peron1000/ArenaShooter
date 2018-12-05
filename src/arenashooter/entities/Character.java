@@ -48,7 +48,7 @@ public class Character extends Spatial {
 		
 		isOnGround = false;
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * 10);
-		vel.y += 9.807 * 100 * d;
+		vel.y += 9.807 * 800 * d;
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
@@ -65,7 +65,7 @@ public class Character extends Spatial {
 			}
 		}
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
-			jump(1300);
+			jump(3000);
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 
