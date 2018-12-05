@@ -21,6 +21,15 @@ public class Vec2f {
 		this.x = x;
 		this.y = y;
 	}
+	
+	/**
+	 * This becomes Other
+	 * @param other vector to copy
+	 */
+	public void set(Vec2f other) {
+		x = other.x;
+		y = other.y;
+	}
 
 	/**
 	 * Add two vectors together.
@@ -77,6 +86,10 @@ public class Vec2f {
 	public String toString() { return "( "+x+", "+y+" )"; }
 	
 	//Static functions
+	
+	public static Vec2f fromAngle(float angle) {
+		return new Vec2f( (float)Math.cos(angle), (float)Math.sin(angle) );
+	}
 	
 	/**
 	 * Add two vectors together
