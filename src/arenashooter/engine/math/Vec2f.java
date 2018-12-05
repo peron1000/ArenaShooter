@@ -110,4 +110,14 @@ public class Vec2f {
 	public static Vec2f multiply( Vec2f v, float a ) {
 		return new Vec2f( v.x*a, v.y*a );
 	}
+	
+	/**
+	 * Multiplies two vectors
+	 * @param a
+	 * @param b
+	 * @return ( a.x*b.x, a.y*b.y )
+	 */
+	public static Vec2f multiply( Vec2f a, Vec2f b ) {
+		return new Vec2f( a.x*b.x, a.y*b.y );
+	}
 }
