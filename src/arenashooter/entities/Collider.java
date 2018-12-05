@@ -51,4 +51,12 @@ public class Collider extends Spatial {
 	public float getYBottom() {
 		return position.y + extent.y;
 	}
+	
+	public static boolean isY1IncluedInY2(Collider c1 , Collider c2) {
+		return c1.getYBottom() > c2.getYTop() && c1.getYTop() < c2.getYBottom();
+	}
+	
+	public static boolean isX1IncluedInX2(Collider c1 , Collider c2) {
+		return c1.getXLeft() < c2.getXRight() && c1.getXRight() > c2.getXLeft();
+	}
 }

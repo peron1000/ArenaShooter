@@ -26,6 +26,9 @@ public class Game {
 		Plateform plat3 = new Plateform(new Vec2f(300, 300));
 		plat3.position = new Vec2f(800, 200);
 		plat3.attachToParent(map, "Platform 3");
+		Plateform plat4 = new Plateform(new Vec2f(500, 20));
+		plat4.position = new Vec2f(0, -410);
+		plat4.attachToParent(map, "Platform 4");
 	}
 	
 	public Map getMap() {
