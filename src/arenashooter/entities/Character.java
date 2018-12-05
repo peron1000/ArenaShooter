@@ -47,14 +47,14 @@ public class Character extends Spatial {
 		movementInput = Input.getAxis(Axis.MOVE_X); //TODO: Move this to Controller
 		
 		isOnGround = false;
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 20, d * 8);
-		vel.y += 9.807 * 5 * d;
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * 10);
+		vel.y += 9.807 * 100 * d;
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
-						Impact impact = new Impact(collider, c, vel);
+						Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
 						vel.x = vel.x * impact.getResponse().x;
 						vel.y = vel.y * impact.getResponse().y;
 						if (collider.getYBottom() >= c.getYTop() && collider.getYBottom() < c.getYBottom()
@@ -65,7 +65,7 @@ public class Character extends Spatial {
 			}
 		}
 		if (Input.actionPressed(Action.JUMP) && isOnGround)
-			jump(35);
+			jump(1300);
 		if (Input.actionPressed(Action.ATTACK))
 			attack();
 
@@ -74,8 +74,7 @@ public class Character extends Spatial {
 		else if (Input.getAxis(Axis.MOVE_X) < 0)
 			((Sprite) children.get("body_Sprite")).flipX = true;
 
-		position.add(vel);
-//		position.add(Vec2f.multiply(vel, (float) d));
+		position.add(Vec2f.multiply(vel, (float) d));
 		((Sprite) children.get("body_Sprite")).position.x = position.x;
 		((Sprite) children.get("body_Sprite")).position.y = position.y;
 		super.step(d);
