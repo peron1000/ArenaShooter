@@ -12,6 +12,7 @@ public class Character extends Spatial {
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
+	public float movementInput = 0;
 
 	public Character() {
 		pv = 10;
@@ -43,8 +44,10 @@ public class Character extends Spatial {
 
 	@Override
 	public void step(double d) {
+		movementInput = Input.getAxis(Axis.MOVE_X); //TODO: Move this to Controller
+		
 		isOnGround = false;
-		vel.x = (float) Utils.lerpD(vel.x, Input.getAxis(Axis.MOVE_X) * 20, d * 8);
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 20, d * 8);
 		vel.y += 9.807 * 5 * d;
 		for (Entity plat : getParent().children.values()) {
 			if (plat instanceof Plateform) {
