@@ -18,8 +18,6 @@ import arenashooter.entities.Game;
 class EmitterBasic extends Emitter {
 	//Start angle
 	final float angleMin, angleMax;
-	//Color
-	final Vec4f colorStart, colorEnd;
 	//Gravity
 	Vec2f force;
 	
@@ -30,14 +28,11 @@ class EmitterBasic extends Emitter {
 	ArrayList<Float> livesTotal;
 	
 	protected EmitterBasic( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax, float angleMin, float angleMax, Vec4f colorStart, Vec4f colorEnd  ) {
-		super(owner, texture, duration, delay, rate, lifetimeMin, lifetimeMax );
+		super(owner, texture, duration, delay, rate, lifetimeMin, lifetimeMax, colorStart, colorEnd );
 		shader = new Shader("data/shaders/particle_simple");
 		
 		this.angleMin = angleMin;
 		this.angleMax = angleMax;
-		
-		this.colorStart = colorStart;
-		this.colorEnd = colorEnd;
 		
 		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
 		positions = new ArrayList<Vec2f>(capacity);

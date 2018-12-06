@@ -3,6 +3,7 @@ package arenashooter.engine.graphics.particles;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.math.Vec4f;
 
 abstract class Emitter {
 	static final protected Model model = Model.loadQuad();
@@ -27,8 +28,10 @@ abstract class Emitter {
 	///Particles parameters
 	//Lifetime values of a particle
 	float lifetimeMin, lifetimeMax;
+	//Color
+	final Vec4f colorStart, colorEnd;
 	
-	Emitter( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax ) {
+	Emitter( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax, Vec4f colorStart, Vec4f colorEnd ) {
 		this.owner = owner;
 		tex = texture;
 		this.duration = duration;
@@ -40,8 +43,14 @@ abstract class Emitter {
 			remaining = -1;
 		else
 			remaining = (int) Math.max(1, rate*duration);
+		
+		//Lifetime
 		this.lifetimeMin = lifetimeMin;
 		this.lifetimeMax = lifetimeMax;
+		
+		//Colors
+		this.colorStart = colorStart;
+		this.colorEnd = colorEnd;
 	}
 	
 	/**
