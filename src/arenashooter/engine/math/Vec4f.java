@@ -70,6 +70,13 @@ public class Vec4f {
 		return new Vec4f( (float)(v.w/len), (float)(v.x/len), (float)(v.y/len), (float)(v.z/len) );
 	}
 	
+	public static Vec4f lerp( Vec4f a, Vec4f b, float f ) {
+		return new Vec4f( Utils.lerpF(a.w, b.w, f),
+						  Utils.lerpF(a.x, b.x, f),
+						  Utils.lerpF(a.y, b.y, f),
+						  Utils.lerpF(a.z, b.z, f));
+	}
+	
 	public Vec4f clone() {
 		return new Vec4f(w, x, y, z);
 	}

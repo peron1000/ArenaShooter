@@ -29,6 +29,9 @@ public class Game {
 		Plateform plat4 = new Plateform(new Vec2f(500, 20));
 		plat4.position = new Vec2f(0, -410);
 		plat4.attachToParent(map, "Platform 4");
+		
+		Particles p = new Particles(new Vec2f(0, -1000));
+		p.attachToParent(map, "particles");
 	}
 	
 	public Map getMap() {
@@ -43,6 +46,10 @@ public class Game {
 		camera.position.x = Utils.lerpF(camera.position.x, player.position.x, (float)(d*8));
 		float targetY = Utils.clampF(camera.position.y, player.position.y-50, player.position.y+50);
 		camera.position.y = Utils.lerpF(camera.position.y, targetY, (float)(d*7));
+		
+		//TODO: remove temp particle system movement
+		((Spatial)map.children.get("particles")).position.x = (float) (300*Math.sin(.003*System.currentTimeMillis()));
+		
 		map.step(d);
 	}
 	
