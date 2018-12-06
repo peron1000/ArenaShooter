@@ -1,7 +1,5 @@
 package arenashooter.entities;
 
-import java.security.cert.Extension;
-
 import arenashooter.engine.math.Vec2f;
 
 /**
