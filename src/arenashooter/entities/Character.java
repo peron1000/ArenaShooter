@@ -56,8 +56,8 @@ public class Character extends Spatial {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
-						vel.x = vel.x * impact.getResponse().x;
-						vel.y = vel.y * impact.getResponse().y;
+						vel.x = vel.x * impact.getVelMod().x;
+						vel.y = vel.y * impact.getVelMod().y;
 						if (collider.getYBottom() >= c.getYTop() && collider.getYBottom() < c.getYBottom()
 								&& Collider.isX1IncluedInX2(collider, c))
 							isOnGround = true;

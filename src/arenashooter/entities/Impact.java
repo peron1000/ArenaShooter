@@ -11,12 +11,34 @@ public class Impact {
 	private boolean collision;
 	private float entryTime;
 	private ImpactLocation impactLocation;
-	private Vec2f response;
+	private Vec2f velMod;
 
 	public Impact(Collider c1, Collider c2, Vec2f vel) {
-		float x = xReponse(c1, c2, vel);
-		float y = yReponse(c1, c2, vel);
-		response = new Vec2f(x, y);
+		float x = xColliding(c1, c2, vel);
+		float y = yColliding(c1, c2, vel);
+		velMod = new Vec2f(x, y);
+		collision = true;
+		if(y < x) { // Vertical impact first
+			if(y > 0) {
+				impactLocation = ImpactLocation.Bottom;
+			} else {
+				impactLocation = ImpactLocation.Top;
+			}
+		} else if(x < y) { // Horizontal impact first
+			if(x > 0) {
+				impactLocation = ImpactLocation.Right;
+			} else {
+				impactLocation = ImpactLocation.Left;
+			}
+		} else { // x = y
+			if(x == 1) {
+				impactLocation = ImpactLocation.NoImpact;
+				collision = false;
+			} else {
+				impactLocation = ImpactLocation.Bottom; // By default
+			}
+		}
+		entryTime = Math.min(x, y);
 	}
 
 	/**
@@ -28,7 +50,7 @@ public class Impact {
 	 *         <code>c2</code> on Y axe.</br>
 	 *         The <code>float</code> given is a % so its value stay between 0 and 1
 	 */
-	private float yReponse(Collider c1, Collider c2, Vec2f vel) {
+	private float yColliding(Collider c1, Collider c2, Vec2f vel) {
 
 		// check if c1 and c2 can have a collision on X axe (no matter their Y position)
 		boolean xImpact = Collider.isX1IncluedInX2(c1, c2);
@@ -75,7 +97,7 @@ public class Impact {
 	 *         <code>c2</code> on X axe.</br>
 	 *         The <code>float</code> given is a % so its value stay between 0 and 1
 	 */
-	private float xReponse(Collider c1, Collider c2, Vec2f vel) {
+	private float xColliding(Collider c1, Collider c2, Vec2f vel) {
 
 		boolean yImpact = Collider.isY1IncluedInY2(c1, c2); // check if c1 and c2 can have a collision on Y axe (no
 															// matter their X position)
@@ -123,7 +145,12 @@ public class Impact {
 		return impactLocation;
 	}
 
-	public Vec2f getResponse() {
-		return response;
+	/**
+	 * On purpose to be multiplied with the velocity to reduce it so the first {@link Collider}
+	 * will be well placed in case of a colliding
+	 * @return A {@link Vec2f} which is a % before impact for each axe
+	 */
+	public Vec2f getVelMod() {
+		return velMod;
 	}
 }
