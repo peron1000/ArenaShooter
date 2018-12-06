@@ -36,7 +36,7 @@ class EmitterSparks extends Emitter {
 		livesTotal = new ArrayList<Float>(capacity);
 		
 		//TODO: temp force
-		force = new Vec2f(0, 9.807f*100);
+		force = new Vec2f(0, 9.807f*150);
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ class EmitterSparks extends Emitter {
 
 			//TODO: temp random velocity
 			Vec2f vel = Vec2f.fromAngle( (float) (Math.random()*Math.PI*-.4f) );
-			vel.multiply(800);
+			vel.multiply(1000);
 			velocities.add( vel );
 
 			float life = (float) ((Math.random()*(lifetimeMax-lifetimeMin))+lifetimeMin);

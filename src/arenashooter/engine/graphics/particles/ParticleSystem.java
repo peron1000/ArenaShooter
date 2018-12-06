@@ -17,7 +17,7 @@ public class ParticleSystem {
 		
 		//TODO: temp emitter
 		emitters.add(new EmitterBasic(this, new Texture("data/test.png"), -1, .1f, 200, 1, 5, 0, 6.28318530718f, new Vec4f(1, 0, 1, 1), new Vec4f(.8f, 1.2f, 0, .75f)));
-		emitters.add(new EmitterSparks(this, new Texture("data/test.png"), 10, 2, 60, 2, 4, new Vec4f(1, 1, .15f, 1), new Vec4f(.29f, .11f, .4f, 1)));
+		emitters.add(new EmitterSparks(this, new Texture("data/particle_glow.png"), 10, 2, 60, 2, 4, new Vec4f(1f, 1f, 8.15f, 1), new Vec4f(.12f, .07f, .18f, .5f)));
 	}
 	
 	public void update(double delta) {
