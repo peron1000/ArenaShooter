@@ -79,6 +79,10 @@ public class Vec2f {
 		return new Vec2f( (float)(v.x/len), (float)(v.y/len) );
 	}
 	
+	public float angle() {
+		return (float) Math.atan2(y, x);
+	}
+	
 	public Vec2f clone() {
 		return new Vec2f(x, y);
 	}
