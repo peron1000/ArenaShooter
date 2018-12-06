@@ -17,22 +17,34 @@ import arenashooter.entities.Game;
 
 class EmitterBasic extends Emitter {
 	//Start angle
-	float angleMin, angleMax;
+	final float angleMin, angleMax;
+	//Color
+	final Vec4f colorStart, colorEnd;
 	//Gravity
 	Vec2f force;
 	
 	ArrayList<Vec2f> positions;
 	ArrayList<Vec2f> velocities;
-	ArrayList<Float> life;
+	ArrayList<Float> rotations;
+	ArrayList<Float> lives;
+	ArrayList<Float> livesTotal;
 	
-	protected EmitterBasic( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax  ) {
+	protected EmitterBasic( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax, float angleMin, float angleMax, Vec4f colorStart, Vec4f colorEnd  ) {
 		super(owner, texture, duration, delay, rate, lifetimeMin, lifetimeMax );
 		shader = new Shader("data/shaders/particle_simple");
+		
+		this.angleMin = angleMin;
+		this.angleMax = angleMax;
+		
+		this.colorStart = colorStart;
+		this.colorEnd = colorEnd;
 		
 		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
 		positions = new ArrayList<Vec2f>(capacity);
 		velocities = new ArrayList<Vec2f>(capacity);
-		life = new ArrayList<Float>(capacity);
+		lives = new ArrayList<Float>(capacity);
+		livesTotal = new ArrayList<Float>(capacity);
+		rotations = new ArrayList<Float>(capacity);
 		
 		//TODO: temp force
 		force = new Vec2f(0, 9.807f*50);
@@ -43,14 +55,16 @@ class EmitterBasic extends Emitter {
 		super.update(delta);
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
-			if( life.get(i) > 0 ) {
+			if( lives.get(i) > 0 ) {
 				velocities.get(i).add(Vec2f.multiply(force, (float)delta));
 				positions.get(i).add( Vec2f.multiply(velocities.get(i), (float) delta) );
-				life.set(i, life.get(i)-(float)delta);
+				lives.set(i, lives.get(i)-(float)delta);
 			} else {
 				positions.remove(i);
 				velocities.remove(i);
-				life.remove(i);
+				lives.remove(i);
+				rotations.remove(i);
+				livesTotal.remove(i);
 			}
 		}
 		
@@ -69,7 +83,11 @@ class EmitterBasic extends Emitter {
 			vel.multiply(200);
 			velocities.add( vel );
 			
-			life.add( (float) ((Math.random()*(lifetimeMax-lifetimeMin))+lifetimeMin) );
+			float life = (float) ((Math.random()*(lifetimeMax-lifetimeMin))+lifetimeMin);
+			lives.add(life);
+			livesTotal.add(life);
+			
+			rotations.add( (float) ((Math.random()*(angleMax-angleMin))+angleMin) );
 		}
 	}
 
@@ -90,17 +108,18 @@ class EmitterBasic extends Emitter {
 		
 		model.bind();
 		
-		Quat rot = Quat.fromAngle(0);
-		Vec3f scale = new Vec3f( 50, 50, 1 );
 		for( int i=0; i<positions.size(); i++ ) {
-			Vec3f pos = new Vec3f( positions.get(i).x, positions.get(i).y, owner.position.z );
+			float lifetime = lives.get(i)/livesTotal.get(i);
 			
+			Vec3f pos = new Vec3f( positions.get(i).x, positions.get(i).y, owner.position.z );
+			Quat rot = Quat.fromAngle(rotations.get(i));
+			Vec3f scale = new Vec3f( 80*lifetime, 80*lifetime, 1 );
 			Mat4f modelM = Mat4f.transform(pos, rot, scale);
 			
 			shader.setUniformM4("model", modelM);
 			
-			float lifetime = life.get(i)/lifetimeMax;
-			shader.setUniformV4("baseColorMod", new Vec4f(1, 1, 1, lifetime));
+			
+			shader.setUniformV4("baseColorMod", Vec4f.lerp(colorEnd, colorStart, lifetime));
 			
 			model.draw();
 		}
