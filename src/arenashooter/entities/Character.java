@@ -1,5 +1,6 @@
 package arenashooter.entities;
 
+import arenashooter.engine.Device;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
@@ -26,6 +27,7 @@ public class Character extends Spatial {
 	}
 
 	public void jump(int saut) {
+		if( !isOnGround ) return;
 		isOnGround = false;
 		vel.y = -saut;
 		// TODO: collider
@@ -44,7 +46,8 @@ public class Character extends Spatial {
 
 	@Override
 	public void step(double d) {
-		movementInput = Input.getAxis(Axis.MOVE_X); //TODO: Move this to Controller
+		movementInput = Input.getAxis(Device.CONTROLLER01, Axis.MOVE_X); //TODO: Move this to Controller
+		if( movementInput == 0 ) movementInput = Input.getAxis(Device.KEYBOARD, Axis.MOVE_X);
 		
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
 		vel.y += 9.807 * 800 * d;
@@ -67,9 +70,9 @@ public class Character extends Spatial {
 		}
 		
 		//TODO: Move these to Controller
-		if (isOnGround && Input.actionPressed(Action.JUMP))
+		if (Input.actionPressed(Device.CONTROLLER01, Action.JUMP) || Input.actionPressed(Device.KEYBOARD, Action.JUMP))
 			jump(3000);
-		if (Input.actionPressed(Action.ATTACK))
+		if (Input.actionPressed(Device.CONTROLLER01, Action.ATTACK) || Input.actionPressed(Device.KEYBOARD, Action.ATTACK))
 			attack();
 
 		if (movementInput > 0)
