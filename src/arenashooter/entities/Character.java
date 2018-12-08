@@ -9,14 +9,17 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
 public class Character extends Spatial {
-	int pv;
+	private float health, healthMax;
+	
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
 
 	public Character() {
-		pv = 10;
+		healthMax = 100;
+		health = healthMax;
+		
 		position = new Vec2f(300, 0);
 		rotation = 0;
 		vel.y = -3;
@@ -43,11 +46,30 @@ public class Character extends Spatial {
 		collider.extent.x = (body.size.x / 2) - 20;
 		// TODO: attac
 	}
+	
+	public float takeDamage( float damage ) {
+		float res = Math.min(damage, health);
+		
+		health = Math.max(0, health-damage);
+		
+		if( health <= 0 ) death();
+		
+		return res;
+	}
+	
+	private void death() {
+		health = 0;
+		//TODO: Effects
+	}
 
 	@Override
 	public void step(double d) {
-		movementInput = Input.getAxis(Device.CONTROLLER01, Axis.MOVE_X); //TODO: Move this to Controller
-		if( movementInput == 0 ) movementInput = Input.getAxis(Device.KEYBOARD, Axis.MOVE_X);
+		if( isDead() ) {
+			movementInput = 0;
+		} else {
+			movementInput = Input.getAxis(Device.CONTROLLER01, Axis.MOVE_X); //TODO: Move this to Controller
+			if( movementInput == 0 ) movementInput = Input.getAxis(Device.KEYBOARD, Axis.MOVE_X);
+		}
 		
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
 		vel.y += 9.807 * 800 * d;
@@ -70,10 +92,12 @@ public class Character extends Spatial {
 		}
 		
 		//TODO: Move these to Controller
-		if (Input.actionPressed(Device.CONTROLLER01, Action.JUMP) || Input.actionPressed(Device.KEYBOARD, Action.JUMP))
-			jump(3000);
-		if (Input.actionPressed(Device.CONTROLLER01, Action.ATTACK) || Input.actionPressed(Device.KEYBOARD, Action.ATTACK))
-			attack();
+		if( !isDead() ) {
+			if (Input.actionPressed(Device.CONTROLLER01, Action.JUMP) || Input.actionPressed(Device.KEYBOARD, Action.JUMP))
+				jump(3000);
+			if (Input.actionPressed(Device.CONTROLLER01, Action.ATTACK) || Input.actionPressed(Device.KEYBOARD, Action.ATTACK))
+				attack();
+		}
 
 		if (movementInput > 0)
 			((Sprite) children.get("body_Sprite")).flipX = false;
@@ -85,4 +109,8 @@ public class Character extends Spatial {
 		((Sprite) children.get("body_Sprite")).position.y = position.y;
 		super.step(d);
 	}
+	
+	public float getHealth() { return health; }
+	public float getHealthMax() { return healthMax; }
+	public boolean isDead() { return health <= 0; }
 }
