@@ -63,27 +63,28 @@ public class Input {
 				
 				if(joyAxis[i] != null) {
 					float deadzone = .2f;
-					if( Math.abs(joyAxis[i].get(0)) > deadzone || Math.abs(joyAxis[i].get(1)) > deadzone ) {
+					if( Math.abs(joyAxis[i].get(0)) >= deadzone )
 						axisMoveX[i] = joyAxis[i].get(0);
+					if( Math.abs(joyAxis[i].get(1)) >= deadzone )
 						axisMoveY[i] = joyAxis[i].get(1);
-					}
 				}
 
 				if(joyButtons[i] != null) actionJump[i] = joyButtons[i].get(0) == 1;
 				if(joyButtons[i] != null) actionAttack[i] = joyButtons[i].get(2) == 1;
 			}
 		}
-		printController0(); //TODO: Remove this
+		printController(0); //TODO: Remove this
 	}
 	
 	public static void setWindow(long window) {
 		Input.window = window;
 	}
 	
-	private static void printController0() {
-		String res = "Controller 0 axis :";
-		for( int i=0; i<joyAxis[0].capacity(); i++ )
-			res+="\n "+i+" : "+joyAxis[0].get(i);
+	private static void printController(int id) {
+		if(joyAxis[id] == null) return;
+		String res = "Controller "+id+" axis :";
+		for( int i=0; i<joyAxis[id].capacity(); i++ )
+			res+="\n "+i+" : "+joyAxis[id].get(i);
 		System.out.println(res);
 	}
 }
