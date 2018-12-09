@@ -71,9 +71,10 @@ public class Input {
 
 				if(joyButtons[i] != null) actionJump[i] = joyButtons[i].get(0) == 1;
 				if(joyButtons[i] != null) actionAttack[i] = joyButtons[i].get(2) == 1;
+				
+				printController(i); //TODO: Remove this
 			}
 		}
-		printController(0); //TODO: Remove this
 	}
 	
 	public static void setWindow(long window) {
