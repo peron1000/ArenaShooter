@@ -42,7 +42,8 @@ public class Input {
 			axisMoveX[i] = 0;
 			axisMoveY[i] = 0;
 
-			if( i == Device.KEYBOARD.id ) {
+			if( i == Device.KEYBOARD.id ) { //Keyboard
+				
 				if( glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS )
 					axisMoveX[i]-=1;
 				if( glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
@@ -55,7 +56,8 @@ public class Input {
 				actionJump[i] = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
 				actionAttack[i] = glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS;
 				
-			} else {
+			} else { //Controller
+				
 				joyAxis[i] = glfwGetJoystickAxes(i);
 				joyButtons[i] = glfwGetJoystickButtons(i);
 				
@@ -67,15 +69,21 @@ public class Input {
 					}
 				}
 
-
-
 				if(joyButtons[i] != null) actionJump[i] = joyButtons[i].get(0) == 1;
 				if(joyButtons[i] != null) actionAttack[i] = joyButtons[i].get(2) == 1;
 			}
 		}
+		printController0(); //TODO: Remove this
 	}
 	
 	public static void setWindow(long window) {
 		Input.window = window;
+	}
+	
+	private static void printController0() {
+		String res = "Controller 0 axis :";
+		for( int i=0; i<joyAxis[0].capacity(); i++ )
+			res+="\n "+i+" : "+joyAxis[0].get(i);
+		System.out.println(res);
 	}
 }
