@@ -6,9 +6,11 @@ import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.Input;
 import arenashooter.engine.math.Mat4f;
 
@@ -58,6 +60,8 @@ public class Window {
 			System.err.println("Can't create window !");
 			System.exit(1);
 		}
+		
+		setIcon( new String[] {"data/icon_32.png", "data/icon_64.png", "data/icon_128.png"} );
 		
 		//Center window
 		glfwSetWindowPos(window, (vidmode.width()-this.width)/2, (vidmode.height()-this.height)/2 );
@@ -188,4 +192,27 @@ public class Window {
 		glfwSwapInterval( enable ? 1 : 0 );
 	}
 	
+	private void setIcon(String[] paths) {
+		Image image[] = new Image[paths.length];
+		
+		for( int i=0; i<paths.length; i++ )
+			image[i] = FileUtils.loadImage(paths[i]);
+		
+		GLFWImage.Buffer images = GLFWImage.malloc(paths.length);
+		try {
+			for( int i=0; i<paths.length; i++ ) {
+				images
+					.position(i)
+					.width(image[i].width)
+					.height(image[i].height)
+					.pixels(image[i].buffer);
+			}
+			
+			glfwSetWindowIcon(window, images);
+				
+		} catch(Exception e) {
+			System.err.println("Error loading icon !");
+			e.printStackTrace();
+		}
+	}
 }
