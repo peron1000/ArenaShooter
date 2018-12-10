@@ -1,13 +1,14 @@
 package arenashooter.engine.audio;
 
-import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.EXTThreadLocalContext.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
@@ -17,6 +18,7 @@ import org.lwjgl.openal.ALUtil;
 
 public class Audio {
 	private static long device, context;
+	protected static Map<String, Sound> soundBuffers = new HashMap<String, Sound>();
 
 	/**
 	 * Initialize the audio system. Don't forget to destroy it !
