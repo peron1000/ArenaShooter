@@ -10,7 +10,6 @@ import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
-import arenashooter.engine.FileUtils;
 import arenashooter.engine.Input;
 import arenashooter.engine.math.Mat4f;
 
@@ -200,7 +199,7 @@ public class Window {
 		Image image[] = new Image[paths.length];
 		
 		for( int i=0; i<paths.length; i++ )
-			image[i] = FileUtils.loadImage(paths[i]);
+			image[i] = Image.loadImage(paths[i]);
 		
 		GLFWImage.Buffer images = GLFWImage.malloc(paths.length);
 		try {

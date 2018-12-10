@@ -1,13 +1,13 @@
 package arenashooter.engine;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 
-import arenashooter.engine.graphics.Image;
-import de.matthiasmann.twl.utils.PNGDecoder;
+import org.lwjgl.BufferUtils;
 
 public class FileUtils {
 	
@@ -49,42 +49,37 @@ public class FileUtils {
 		return res;
 	}
 	
-	public static Image loadImage(String path) {
-		Image res = null;
-		InputStream in = null;
-		ByteBuffer buf = null;
-		int width, height;
+	public static ByteBuffer resToByteBuffer(String path) { //TODO: Test this
+		ByteBuffer res = null;
+		
+		InputStream in;
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
 		try {
-			in = ClassLoader.getSystemResourceAsStream( path );
-			
+			in = ClassLoader.getSystemResourceAsStream(path);
+
 			if( in == null ) {
 				throw new IOException();
 			}
 			
-			PNGDecoder decoder = new PNGDecoder(in);
+			int val = in.read();
+			while( val != -1 ) {
+				out.write(val);
+				val = in.read();
+			}
 			
-			width = decoder.getWidth();
-			height = decoder.getHeight();
-
-			buf = ByteBuffer.allocateDirect(4*width*height);
-			decoder.decode(buf, width*4, PNGDecoder.Format.RGBA);
-			
-			buf.flip();
-			
-			res = new Image(path, width, height, buf);
-
+			in.close();
 		} catch (Exception e) {
-			System.err.println( "Render - Can't load image : "+path );
+			System.err.println( "Can't load file : "+path );
 			e.printStackTrace();
 		}
-
-		if( in != null ) {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		
+		byte[] array = out.toByteArray();
+		res = BufferUtils.createByteBuffer(array.length);
+		
+		for( int i=0; i<array.length; i++ ) {
+			res.put(array[i]);
 		}
 		
 		return res;

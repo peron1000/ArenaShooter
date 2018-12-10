@@ -38,7 +38,7 @@ public class Texture {
 	public int getHeight() { return height; }
 	
 	private void loadTexture( String path ) {
-		Image img = FileUtils.loadImage(path);
+		Image img = Image.loadImage(path);
 		
 		if( img == null ) {
 			System.err.println( "Render - Can't load texture: "+path );
