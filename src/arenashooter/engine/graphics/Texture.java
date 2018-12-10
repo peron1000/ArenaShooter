@@ -41,7 +41,7 @@ public class Texture {
 		Image img = FileUtils.loadImage(path);
 		
 		if( img == null ) {
-			System.err.println( "Can't load texture: "+path );
+			System.err.println( "Render - Can't load texture: "+path );
 			return;
 		}
 		

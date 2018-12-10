@@ -26,11 +26,13 @@ public class Window {
 	private int width, height;
 	
 	public Window(int width, int height, String title) {
+		System.out.println("Render - Initializing");
+		
 		GLFWErrorCallback errorfun = GLFWErrorCallback.createPrint();
 		glfwSetErrorCallback(errorfun);
 		
 		if(!glfwInit()) {
-			System.err.println("Can't initialize GLFW !");
+			System.err.println("Render - Can't initialize GLFW !");
 			System.exit(1);
 		}
 		
@@ -57,7 +59,7 @@ public class Window {
 		window = glfwCreateWindow(this.width, this.height, title, NULL, NULL);
 
 		if (window == NULL) {
-			System.err.println("Can't create window !");
+			System.err.println("Render - Can't create window !");
 			System.exit(1);
 		}
 		
@@ -147,6 +149,8 @@ public class Window {
 	 * Destroy the fenetre
 	 */
 	public void destroy() {
+		System.out.println("Render - Stopping");
+		
 		glfwDestroyWindow(window);
 	}
 	
@@ -211,7 +215,7 @@ public class Window {
 			glfwSetWindowIcon(window, images);
 				
 		} catch(Exception e) {
-			System.err.println("Error loading icon !");
+			System.err.println("Render - Error loading window icons !");
 			e.printStackTrace();
 		}
 	}

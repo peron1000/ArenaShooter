@@ -75,7 +75,7 @@ public class FileUtils {
 			res = new Image(path, width, height, buf);
 
 		} catch (Exception e) {
-			System.err.println( "Can't load image : "+path );
+			System.err.println( "Render - Can't load image : "+path );
 			e.printStackTrace();
 		}
 
