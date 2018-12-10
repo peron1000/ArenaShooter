@@ -1,5 +1,6 @@
 package arenashooter;
 
+import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.entities.Game;
@@ -10,6 +11,7 @@ public class Main {
 	static int minFrametime = 8;
 	
 	public static void main(String[] args) {
+		Audio.init(false);
 		window = new Window(1280, 720, "Super Blep");
 		window.setVsync(true);
 		
@@ -53,6 +55,7 @@ public class Main {
 		}
 		
 		window.destroy();
+		Audio.destroy();
 	}
 
 }
