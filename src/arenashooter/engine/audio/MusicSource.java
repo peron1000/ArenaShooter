@@ -17,7 +17,7 @@ import static org.lwjgl.openal.AL10.alGetSourcei;
  * Object used to manage a sound with multiple sources. 
  * When playing, a new source is automatically chosen. 
  */
-public class MusicPlayer implements AudioPlayerI {
+public class MusicSource implements AudioSourceI {
 	private Sound sound;
 	private int source;
 	private boolean looping = false;
@@ -27,7 +27,7 @@ public class MusicPlayer implements AudioPlayerI {
 	 * @param path path to the sound file (vorbis)
 	 * @param maxPlays maximum simultaneous plays ( must be >0 )
 	 */
-	public MusicPlayer(String path, boolean looping) {
+	public MusicSource(String path, boolean looping) {
 		sound = Sound.loadSound(path);
 		
 		source = alGenSources();

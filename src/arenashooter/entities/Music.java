@@ -1,12 +1,12 @@
 package arenashooter.entities;
 
-import arenashooter.engine.audio.MusicPlayer;
+import arenashooter.engine.audio.MusicSource;
 
 public class Music extends Entity {
-	private MusicPlayer music;
+	private MusicSource music;
 	
 	public Music(String path, boolean looping) {
-		music = new MusicPlayer(path, looping);
+		music = new MusicSource(path, looping);
 	}
 	
 	public void play() {

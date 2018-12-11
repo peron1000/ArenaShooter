@@ -1,6 +1,6 @@
 package arenashooter.engine.audio;
 
-public interface AudioPlayerI {
+public interface AudioSourceI {
 	/**
 	 * Play this sound
 	 */

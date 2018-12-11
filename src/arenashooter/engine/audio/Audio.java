@@ -24,7 +24,7 @@ public class Audio {
 	private static long device, context;
 	
 	private static Map<String, SoundEntry> sounds = new HashMap<String, SoundEntry>();
-	private static List<PlayerEntry> players = new ArrayList<PlayerEntry>();
+	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
 
 	/**
 	 * Initialize the audio system. Don't forget to destroy it !
@@ -94,8 +94,8 @@ public class Audio {
 		sounds.put(file, newEntry);
 	}
 	
-	protected static void registerPlayer( AudioPlayerI player ) {
-		players.add( new PlayerEntry(player) );
+	protected static void registerPlayer( AudioSourceI player ) {
+		sources.add( new SourceEntry(player) );
 	}
 	
 	/**
@@ -117,11 +117,11 @@ public class Audio {
 		System.out.println("Audio - Cleaning memory...");
 		
 		int sourcesRemoved = 0;
-		for( int i=players.size()-1; i>=0; i-- ) {
-			if(  players.get(i).sound.get() == null ) {
-				alDeleteSources( players.get(i).sources);
+		for( int i=sources.size()-1; i>=0; i-- ) {
+			if(  sources.get(i).sound.get() == null ) {
+				alDeleteSources( sources.get(i).sources);
 				
-				players.remove(i);
+				sources.remove(i);
 				sourcesRemoved++;
 			}
 		}
@@ -161,13 +161,13 @@ public class Audio {
 		}
 	}
 	
-	private static class PlayerEntry {
+	private static class SourceEntry {
 		int sources[];
-		WeakReference<AudioPlayerI> sound;
+		WeakReference<AudioSourceI> sound;
 		
-		PlayerEntry(AudioPlayerI player) {
+		SourceEntry(AudioSourceI player) {
 			this.sources = player.getSources();
-			this.sound = new WeakReference<AudioPlayerI>(player);
+			this.sound = new WeakReference<AudioSourceI>(player);
 		}
 	}
 }
