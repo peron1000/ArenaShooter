@@ -28,14 +28,16 @@ public class Character extends Spatial {
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
 		
-		SoundPlayer testSound = new SoundPlayer( position, "data/sound/test.ogg" );
-		testSound.attachToParent(this, "sndTest");
+		SoundPlayer testSound = new SoundPlayer( position, "data/sound/jump.ogg" );
+		testSound.attachToParent(this, "sndJump");
 	}
 
 	public void jump(int saut) {
 		if( !isOnGround ) return;
 		isOnGround = false;
 		vel.y = -saut;
+		
+		((SoundPlayer)children.get("sndJump")).play();
 		// TODO: collider
 	}
 
@@ -47,8 +49,6 @@ public class Character extends Spatial {
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		collider.extent.y = body.size.y / 2;
 		collider.extent.x = (body.size.x / 2) - 20;
-		
-		((SoundPlayer)children.get("sndTest")).play();
 		// TODO: attac
 	}
 	

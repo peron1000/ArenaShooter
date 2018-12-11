@@ -71,6 +71,9 @@ public class Sound {
 		return pcm;
 	}
 
+	/**
+	 * Remove this sound from memory
+	 */
 	public void destroy() {
 		Audio.soundBuffers.remove(file);
 		alDeleteBuffers(buffer);
