@@ -107,6 +107,7 @@ public class Audio {
 	 * Remove unused sounds from memory
 	 */
 	public static void cleanMemory() {
+		System.out.println("Audio - Cleaning memory...");
 		ArrayList<String> toRemove = new ArrayList<String>(0);
 		
 		for ( SoundEntry entry : sounds.values() ) {
@@ -119,6 +120,7 @@ public class Audio {
 		for( String s : toRemove ) {
 			sounds.remove(s);
 		}
+		System.out.println("Audio - Cleaned up "+toRemove.size()+" buffers.");
 	}
 	
 	private static class SoundEntry {
