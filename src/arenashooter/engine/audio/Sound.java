@@ -10,7 +10,6 @@ import org.lwjgl.stb.STBVorbisInfo;
 import arenashooter.engine.FileUtils;
 
 import static org.lwjgl.openal.AL10.alGenBuffers;
-import static org.lwjgl.openal.AL10.alDeleteBuffers;
 import static org.lwjgl.openal.AL10.alBufferData;
 import static org.lwjgl.openal.AL10.AL_FORMAT_MONO16;
 import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
@@ -18,24 +17,25 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.stb.STBVorbis.*;
 
 public class Sound {
-	private String file;
 	private int buffer;
 
 	private Sound(String path) {
-		file = path;
 		buffer = alGenBuffers();
 		
 		try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
 			ShortBuffer pcm = loadVorbis(path, info);
 			
 			alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
+			
+			Audio.registerSound(path, this);
 		}
 	}
 
 	public static Sound loadSound(String path) {
-		Sound snd = Audio.soundBuffers.get(path);
+		Sound snd = Audio.getSound(path);
+
 		if( snd == null )
-			snd = new Sound(path);
+			return new Sound(path);
 		
 		return snd;
 	}
@@ -69,16 +69,5 @@ public class Sound {
 		stb_vorbis_close(decoder);
 		
 		return pcm;
-	}
-
-	/**
-	 * Remove this sound from memory
-	 */
-	public void destroy() {
-		Audio.soundBuffers.remove(file);
-		alDeleteBuffers(buffer);
-		
-		buffer = 0;
-		file = null;
 	}
 }

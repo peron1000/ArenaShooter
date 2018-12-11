@@ -1,11 +1,14 @@
 package arenashooter.engine.audio;
 
+import static org.lwjgl.openal.AL10.alDeleteBuffers;
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.EXTThreadLocalContext.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +21,8 @@ import org.lwjgl.openal.ALUtil;
 
 public class Audio {
 	private static long device, context;
-	protected static Map<String, Sound> soundBuffers = new HashMap<String, Sound>();
+	
+	private static Map<String, SoundEntry> sounds = new HashMap<String, SoundEntry>();
 
 	/**
 	 * Initialize the audio system. Don't forget to destroy it !
@@ -80,5 +84,52 @@ public class Audio {
 		System.out.println( "Audio - Sync : "+(alcGetInteger(device, ALC_SYNC) == ALC_TRUE) );
 		System.out.println( "Audio - Mono sources : "+alcGetInteger(device, ALC_MONO_SOURCES) );
 		System.out.println( "Audio - Stereo sources : "+alcGetInteger(device, ALC_STEREO_SOURCES) );
+	}
+	
+	protected static void registerSound(String file, Sound sound) {
+		SoundEntry newEntry = new SoundEntry(file, sound);
+		sounds.put(file, newEntry);
+	}
+	
+	/**
+	 * Get a sound from a filename if it is already loaded and available
+	 * @param file
+	 * @return the Sound, null if not loaded
+	 */
+	protected static Sound getSound(String file) {
+		SoundEntry entry = sounds.get(file);
+		if( entry != null )
+			return entry.sound.get();
+		return null;
+	}
+	
+	/**
+	 * Remove unused sounds from memory
+	 */
+	public static void cleanMemory() {
+		ArrayList<String> toRemove = new ArrayList<String>(0);
+		
+		for ( SoundEntry entry : sounds.values() ) {
+		    if( entry.sound.get() == null ) {
+		    	toRemove.add(entry.file);
+				alDeleteBuffers(entry.buffer);
+		    }
+		}
+		
+		for( String s : toRemove ) {
+			sounds.remove(s);
+		}
+	}
+	
+	private static class SoundEntry {
+		int buffer;
+		String file;
+		WeakReference<Sound> sound;
+		
+		SoundEntry(String file, Sound sound) {
+			buffer = sound.getBuffer();
+			this.file = file;
+			this.sound = new WeakReference<Sound>(sound);
+		}
 	}
 }
