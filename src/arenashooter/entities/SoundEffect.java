@@ -1,13 +1,13 @@
 package arenashooter.entities;
 
-import arenashooter.engine.audio.SoundEffect;
+import arenashooter.engine.audio.SoundPlayer;
 import arenashooter.engine.math.Vec2f;
 
-public class SoundPlayer extends Spatial {
-	private SoundEffect sound;
+public class SoundEffect extends Spatial {
+	private SoundPlayer sound;
 
-	public SoundPlayer( Vec2f position, String path ) {
-		sound = new SoundEffect(path, 4);
+	public SoundEffect( Vec2f position, String path ) {
+		sound = new SoundPlayer(path, 4);
 	}
 	
 	public void play() {

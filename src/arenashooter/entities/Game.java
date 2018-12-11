@@ -32,6 +32,10 @@ public class Game {
 		
 		Particles p = new Particles(new Vec2f(0, -1000));
 		p.attachToParent(map, "particles");
+		
+		Music music = new Music("data/music/Juhani Junkala [Retro Game Music Pack] Level 1.ogg", true);
+		music.attachToParent(map, "music");
+//		music.play();
 	}
 	
 	public Map getMap() {

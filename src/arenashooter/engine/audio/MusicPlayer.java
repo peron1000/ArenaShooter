@@ -3,9 +3,13 @@ package arenashooter.engine.audio;
 import static org.lwjgl.openal.AL10.AL_SOURCE_STATE;
 import static org.lwjgl.openal.AL10.AL_PLAYING;
 import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.AL_LOOPING;
+import static org.lwjgl.openal.AL10.AL_TRUE;
+import static org.lwjgl.openal.AL10.AL_FALSE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
 import static org.lwjgl.openal.AL10.alSourcePlay;
+import static org.lwjgl.openal.AL10.alSourcePause;
 import static org.lwjgl.openal.AL10.alSourceStop;
 import static org.lwjgl.openal.AL10.alGetSourcei;
 import static org.lwjgl.openal.AL10.alDeleteSources;
@@ -14,57 +18,65 @@ import static org.lwjgl.openal.AL10.alDeleteSources;
  * Object used to manage a sound with multiple sources. 
  * When playing, a new source is automatically chosen. 
  */
-public class SoundEffect {
+public class MusicPlayer {
 	private Sound sound;
-	private int[] source;
-	private int next = 0;
+	private int source;
+	private boolean looping = false;
 	
 	/**
 	 * 
 	 * @param path path to the sound file (vorbis)
-	 * @param maxPlays maximum simultaneous plays
+	 * @param maxPlays maximum simultaneous plays ( must be >0 )
 	 */
-	public SoundEffect(String path, int maxPlays) {
+	public MusicPlayer(String path, boolean looping) {
 		sound = Sound.loadSound(path);
 		
-		source = new int[maxPlays];
-		for( int i=0; i<source.length; i++ ) {
-			source[i] = alGenSources();
+		source = alGenSources();
 		
-			alSourcei( source[i], AL_BUFFER, sound.getBuffer() );
-		}
+		alSourcei( source, AL_BUFFER, sound.getBuffer() );
+		
+		setLooping(looping);
 	}
 	
 	/**
 	 * Play this sound using a new source or by replacing the oldest one
 	 */
 	public void play() {
-		alSourcePlay(source[next]);
-		next++;
-		if(next >= source.length) next = 0;
+		alSourcePlay(source);
 	}
 	
 	/**
-	 * Stop all sources of this sound
+	 * Stop this sound
 	 */
 	public void stop() {
-		for( int i=0; i<source.length; i++ )
-			alSourceStop(source[i]);
+		alSourceStop(source);
+	}
+	
+	/**
+	 * Pause this sound
+	 */
+	public void pause() {
+		alSourcePause(source);
 	}
 	
 	/**
 	 * Is this sound playing
-	 * @return at least one source of this sound is playing
 	 */
 	public boolean isPlaying() {
-		for( int i=0; i<source.length; i++ )
-			if( alGetSourcei(source[i], AL_SOURCE_STATE) == AL_PLAYING )
-				return true;
-		return false;
+		return alGetSourcei(source, AL_SOURCE_STATE) == AL_PLAYING;
+	}
+	
+	public boolean isLooping() { return looping; }
+	
+	public void setLooping(boolean looping) {
+		if( looping == this.looping ) return;
+		this.looping = looping;
+		
+		alSourcei(source, AL_LOOPING,  looping ? AL_TRUE : AL_FALSE);
 	}
 	
 	/**
-	 * Remove the sources from memory
+	 * Remove the source from memory
 	 */
 	public void destroy() {
 		alDeleteSources(source);

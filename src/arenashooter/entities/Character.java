@@ -28,7 +28,7 @@ public class Character extends Spatial {
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
 		
-		SoundPlayer testSound = new SoundPlayer( position, "data/sound/jump.ogg" );
+		SoundEffect testSound = new SoundEffect( position, "data/sound/jump.ogg" );
 		testSound.attachToParent(this, "sndJump");
 	}
 
@@ -37,7 +37,7 @@ public class Character extends Spatial {
 		isOnGround = false;
 		vel.y = -saut;
 		
-		((SoundPlayer)children.get("sndJump")).play();
+		((SoundEffect)children.get("sndJump")).play();
 		// TODO: collider
 	}
 
