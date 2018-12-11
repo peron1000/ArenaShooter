@@ -78,9 +78,10 @@ public class FileUtils {
 		byte[] array = out.toByteArray();
 		res = BufferUtils.createByteBuffer(array.length);
 		
-		for( int i=0; i<array.length; i++ ) {
+		for( int i=0; i<array.length; i++ )
 			res.put(array[i]);
-		}
+		
+		res.flip();
 		
 		return res;
 	}
