@@ -111,9 +111,9 @@ public class Audio {
 	}
 	
 	/**
-	 * Remove unused sounds from memory
+	 * Remove unused sound players from memory
 	 */
-	public static void cleanMemory() {
+	public static void cleanPlayers() {
 		System.out.println("Audio - Cleaning memory...");
 		
 		int sourcesRemoved = 0;
@@ -126,6 +126,15 @@ public class Audio {
 			}
 		}
 		
+		System.out.println("Audio - Cleaned up "+sourcesRemoved+" sources.");
+	}
+	
+	/**
+	 * Remove unused buffers from memory
+	 */
+	public static void cleanBuffers() {
+		System.out.println("Audio - Cleaning memory...");
+		
 		ArrayList<String> toRemove = new ArrayList<String>(0);
 		for ( SoundEntry entry : sounds.values() ) {
 		    if( entry.sound.get() == null ) {
@@ -137,7 +146,7 @@ public class Audio {
 		for( String s : toRemove )
 			sounds.remove(s);
 		
-		System.out.println("Audio - Cleaned up "+sourcesRemoved+" sources and "+toRemove.size()+" buffers.");
+		System.out.println("Audio - Cleaned up "+toRemove.size()+" buffers.");
 	}
 	
 	private static class SoundEntry {
