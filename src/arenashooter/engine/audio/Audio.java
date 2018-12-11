@@ -1,6 +1,7 @@
 package arenashooter.engine.audio;
 
 import static org.lwjgl.openal.AL10.alDeleteBuffers;
+import static org.lwjgl.openal.AL10.alDeleteSources;
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.EXTThreadLocalContext.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -23,6 +24,7 @@ public class Audio {
 	private static long device, context;
 	
 	private static Map<String, SoundEntry> sounds = new HashMap<String, SoundEntry>();
+	private static List<PlayerEntry> players = new ArrayList<PlayerEntry>();
 
 	/**
 	 * Initialize the audio system. Don't forget to destroy it !
@@ -88,7 +90,12 @@ public class Audio {
 	
 	protected static void registerSound(String file, Sound sound) {
 		SoundEntry newEntry = new SoundEntry(file, sound);
+		if(sounds.get(file)!=null) System.err.println("Audio - Sound already registered !");
 		sounds.put(file, newEntry);
+	}
+	
+	protected static void registerPlayer( AudioPlayerI player ) {
+		players.add( new PlayerEntry(player) );
 	}
 	
 	/**
@@ -108,8 +115,18 @@ public class Audio {
 	 */
 	public static void cleanMemory() {
 		System.out.println("Audio - Cleaning memory...");
-		ArrayList<String> toRemove = new ArrayList<String>(0);
 		
+		int sourcesRemoved = 0;
+		for( int i=players.size()-1; i>=0; i-- ) {
+			if(  players.get(i).sound.get() == null ) {
+				alDeleteSources( players.get(i).sources);
+				
+				players.remove(i);
+				sourcesRemoved++;
+			}
+		}
+		
+		ArrayList<String> toRemove = new ArrayList<String>(0);
 		for ( SoundEntry entry : sounds.values() ) {
 		    if( entry.sound.get() == null ) {
 		    	toRemove.add(entry.file);
@@ -117,10 +134,10 @@ public class Audio {
 		    }
 		}
 		
-		for( String s : toRemove ) {
+		for( String s : toRemove )
 			sounds.remove(s);
-		}
-		System.out.println("Audio - Cleaned up "+toRemove.size()+" buffers.");
+		
+		System.out.println("Audio - Cleaned up "+sourcesRemoved+" sources and "+toRemove.size()+" buffers.");
 	}
 	
 	private static class SoundEntry {
@@ -132,6 +149,16 @@ public class Audio {
 			buffer = sound.getBuffer();
 			this.file = file;
 			this.sound = new WeakReference<Sound>(sound);
+		}
+	}
+	
+	private static class PlayerEntry {
+		int sources[];
+		WeakReference<AudioPlayerI> sound;
+		
+		PlayerEntry(AudioPlayerI player) {
+			this.sources = player.getSources();
+			this.sound = new WeakReference<AudioPlayerI>(player);
 		}
 	}
 }

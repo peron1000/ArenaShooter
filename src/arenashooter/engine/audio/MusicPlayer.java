@@ -12,13 +12,12 @@ import static org.lwjgl.openal.AL10.alSourcePlay;
 import static org.lwjgl.openal.AL10.alSourcePause;
 import static org.lwjgl.openal.AL10.alSourceStop;
 import static org.lwjgl.openal.AL10.alGetSourcei;
-import static org.lwjgl.openal.AL10.alDeleteSources;
 
 /**
  * Object used to manage a sound with multiple sources. 
  * When playing, a new source is automatically chosen. 
  */
-public class MusicPlayer {
+public class MusicPlayer implements AudioPlayerI {
 	private Sound sound;
 	private int source;
 	private boolean looping = false;
@@ -36,11 +35,14 @@ public class MusicPlayer {
 		alSourcei( source, AL_BUFFER, sound.getBuffer() );
 		
 		setLooping(looping);
+		
+		Audio.registerPlayer(this);
 	}
 	
 	/**
 	 * Play this sound using a new source or by replacing the oldest one
 	 */
+	@Override
 	public void play() {
 		alSourcePlay(source);
 	}
@@ -48,6 +50,7 @@ public class MusicPlayer {
 	/**
 	 * Stop this sound
 	 */
+	@Override
 	public void stop() {
 		alSourceStop(source);
 	}
@@ -62,6 +65,7 @@ public class MusicPlayer {
 	/**
 	 * Is this sound playing
 	 */
+	@Override
 	public boolean isPlaying() {
 		return alGetSourcei(source, AL_SOURCE_STATE) == AL_PLAYING;
 	}
@@ -75,11 +79,7 @@ public class MusicPlayer {
 		alSourcei(source, AL_LOOPING,  looping ? AL_TRUE : AL_FALSE);
 	}
 	
-	/**
-	 * Remove the source from memory
-	 */
-	public void destroy() {
-		alDeleteSources(source);
-	}
-
+	@Override
+	public int[] getSources() { return new int[] {source}; }
+	
 }
