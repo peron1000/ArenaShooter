@@ -1,14 +1,12 @@
 package arenashooter.engine.graphics;
 
-import arenashooter.engine.FileUtils;
-
 import static org.lwjgl.opengl.GL11.*;
 
 public class Texture {
 	
 	private int id;
 	private String file;
-	private int width, height;
+	private int width, height, channels;
 	
 	public Texture( String path ) {
 		file = path;
@@ -41,7 +39,26 @@ public class Texture {
 		Image img = Image.loadImage(path);
 		
 		if( img == null ) {
-			System.err.println( "Render - Can't load texture: "+path );
+			System.err.println( "Render - Cannot load texture : "+path );
+			return;
+		}
+		
+		channels = img.channels;
+		
+		int pixelFormat;
+		
+		switch(channels) {
+//		case 1:
+//			pixelFormat = GL_RED;
+//			break;
+		case 3:
+			pixelFormat = GL_RGB;
+			break;
+		case 4:
+			pixelFormat = GL_RGBA;
+			break;
+		default:
+			System.err.println("Render - Unsupported channel count ("+channels+") for texture : "+path);
 			return;
 		}
 		
@@ -50,7 +67,7 @@ public class Texture {
 		
 		id = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img.buffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, pixelFormat, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, img.buffer);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		

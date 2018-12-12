@@ -19,33 +19,44 @@ import static org.lwjgl.stb.STBVorbis.*;
 public class Sound {
 	private int buffer;
 
-	private Sound(String path) {
-		buffer = alGenBuffers();
+	private Sound(String path, int buffer) {
+		this.buffer = buffer;
 		
-		try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
-			ShortBuffer pcm = loadVorbis(path, info);
-			
-			alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
-			
-			Audio.registerSound(path, this);
-		}
+		Audio.registerSound(path, this);
 	}
 
 	public static Sound loadSound(String path) {
 		Sound snd = Audio.getSound(path);
 
-		if( snd == null )
-			return new Sound(path);
+		if( snd == null ) {
+			try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
+				ShortBuffer pcm = loadVorbis(path, info);
+				
+				if( pcm == null ) {
+					System.err.println("Audio - Cannot load sound : "+path);
+					return null;
+				}
+				
+				int buffer = alGenBuffers();
+				
+				alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
+				
+				return new Sound(path, buffer);
+			}
+		}
 		
 		return snd;
 	}
 	
 	protected int getBuffer() { return buffer; }
 	
-	private ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
+	private static ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
 		ByteBuffer vorbis;
 		
 		vorbis = FileUtils.resToByteBuffer(resource);
+		
+		if( vorbis == null )
+			return null;
 		
 		IntBuffer error = BufferUtils.createIntBuffer(1);
 		long decoder = stb_vorbis_open_memory(vorbis, error, null);

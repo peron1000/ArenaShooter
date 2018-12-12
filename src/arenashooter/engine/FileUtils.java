@@ -71,8 +71,9 @@ public class FileUtils {
 			
 			in.close();
 		} catch (Exception e) {
-			System.err.println( "Can't load file : "+path );
+			System.err.println( "Cannot load file : "+path );
 			e.printStackTrace();
+			return null;
 		}
 		
 		byte[] array = out.toByteArray();

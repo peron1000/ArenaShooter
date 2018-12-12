@@ -30,6 +30,8 @@ public class MusicSource implements AudioSourceI {
 	public MusicSource(String path, boolean looping) {
 		sound = Sound.loadSound(path);
 		
+		if( sound == null ) return;
+		
 		source = alGenSources();
 		
 		alSourcei( source, AL_BUFFER, sound.getBuffer() );
@@ -44,6 +46,7 @@ public class MusicSource implements AudioSourceI {
 	 */
 	@Override
 	public void play() {
+		if( sound == null ) return;
 		alSourcePlay(source);
 	}
 	
@@ -52,6 +55,7 @@ public class MusicSource implements AudioSourceI {
 	 */
 	@Override
 	public void stop() {
+		if( sound == null ) return;
 		alSourceStop(source);
 	}
 	
@@ -59,6 +63,7 @@ public class MusicSource implements AudioSourceI {
 	 * Pause this sound
 	 */
 	public void pause() {
+		if( sound == null ) return;
 		alSourcePause(source);
 	}
 	
@@ -67,6 +72,7 @@ public class MusicSource implements AudioSourceI {
 	 */
 	@Override
 	public boolean isPlaying() {
+		if( sound == null ) return false;
 		return alGetSourcei(source, AL_SOURCE_STATE) == AL_PLAYING;
 	}
 	

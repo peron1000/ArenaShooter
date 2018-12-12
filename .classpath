@@ -23,7 +23,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-sources.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-stb-javadoc.jar!/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
 		</attributes>
 	</classpathentry>
@@ -35,7 +34,6 @@
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-natives-windows.jar"/>
-	<classpathentry kind="lib" path="lib/PNGDecoder.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-linux.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-sources.jar"/>

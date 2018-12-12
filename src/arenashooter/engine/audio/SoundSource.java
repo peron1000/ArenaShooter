@@ -27,6 +27,8 @@ public class SoundSource implements AudioSourceI {
 	public SoundSource(String path, int maxPlays) {
 		sound = Sound.loadSound(path);
 		
+		if( sound == null ) return;
+		
 		source = new int[Math.max(1, maxPlays)];
 		
 		for( int i=0; i<source.length; i++ ) {
@@ -43,6 +45,8 @@ public class SoundSource implements AudioSourceI {
 	 */
 	@Override
 	public void play() {
+		if( sound == null ) return;
+		
 		alSourcePlay(source[next]);
 		next++;
 		if(next >= source.length) next = 0;
@@ -53,6 +57,8 @@ public class SoundSource implements AudioSourceI {
 	 */
 	@Override
 	public void stop() {
+		if( sound == null ) return;
+		
 		for( int i=0; i<source.length; i++ )
 			alSourceStop(source[i]);
 	}
@@ -61,6 +67,8 @@ public class SoundSource implements AudioSourceI {
 	 * Pause all sources of this sound
 	 */
 	public void pause() {
+		if( sound == null ) return;
+		
 		for( int i=0; i<source.length; i++ )
 			alSourcePause(source[i]);
 	}
@@ -71,6 +79,8 @@ public class SoundSource implements AudioSourceI {
 	 */
 	@Override
 	public boolean isPlaying() {
+		if( sound == null ) return false;
+		
 		for( int i=0; i<source.length; i++ )
 			if( alGetSourcei(source[i], AL_SOURCE_STATE) == AL_PLAYING )
 				return true;

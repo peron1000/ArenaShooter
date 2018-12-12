@@ -1,63 +1,44 @@
 package arenashooter.engine.graphics;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
-import de.matthiasmann.twl.utils.PNGDecoder;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryStack;
+
+import arenashooter.engine.FileUtils;
 
 public class Image {
 
 	public final String file;
-	public final int width, height;
+	public final int width, height, channels;
 	public final ByteBuffer buffer;
 	
-	private Image(String path, int width, int height, ByteBuffer buffer) {
+	private Image(String path, int width, int height, int channels, ByteBuffer buffer) {
 		this.file = path;
 		this.width = width;
 		this.height = height;
+		this.channels = channels;
 		this.buffer = buffer;
 	}
 	
-	public static Image loadImage(String path) { //TODO: replace PNGDecoder with STBImage
+	public static Image loadImage(String path) {
 		Image res = null;
-		InputStream in = null;
-		ByteBuffer buf = null;
-		int width, height;
 		
-		try {
-			in = ClassLoader.getSystemResourceAsStream( path );
+		ByteBuffer file = FileUtils.resToByteBuffer(path);
+		
+		if( file == null )
+			return null;
+		
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			IntBuffer width = stack.mallocInt(1), height = stack.mallocInt(1), channels = stack.mallocInt(1);
 			
-			if( in == null ) {
-				throw new IOException();
-			}
+			ByteBuffer data = STBImage.stbi_load_from_memory(file, width, height, channels, 0);
 			
-			PNGDecoder decoder = new PNGDecoder(in);
-			
-			width = decoder.getWidth();
-			height = decoder.getHeight();
-
-			buf = ByteBuffer.allocateDirect(4*width*height);
-			decoder.decode(buf, width*4, PNGDecoder.Format.RGBA);
-			
-			buf.flip();
-			
-			res = new Image(path, width, height, buf);
-
-		} catch (Exception e) {
-			System.err.println( "Render - Can't load image : "+path );
-			e.printStackTrace();
-		}
-
-		if( in != null ) {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			res = new Image(path, width.get(0), height.get(0), channels.get(0), data);
 		}
 		
 		return res;
 	}
-
+	
 }

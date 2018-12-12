@@ -105,7 +105,7 @@ public class Audio {
 	 */
 	protected static Sound getSound(String file) {
 		SoundEntry entry = sounds.get(file);
-		if( entry != null )
+		if( entry != null && entry.sound.get() != null )
 			return entry.sound.get();
 		return null;
 	}
