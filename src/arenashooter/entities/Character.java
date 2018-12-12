@@ -42,7 +42,7 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		Texture chevre = new Texture("data/Chevre2.png");
+		Texture chevre = Texture.loadTexture("data/Chevre2.png");
 		chevre.setFilter(false);
 		Sprite body = ((Sprite) children.get("body_Sprite"));
 		((Sprite) children.get("body_Sprite")).tex = chevre;

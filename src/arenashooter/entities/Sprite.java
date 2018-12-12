@@ -14,7 +14,7 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Sprite extends Spatial {
-	private static final Texture defaultTex = new Texture("data/white_pixel.png");
+	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");
 	public Texture tex;
 	private static Shader shader;
 	private static Model model;
@@ -30,7 +30,7 @@ public class Sprite extends Spatial {
 	}
 	
 	public Sprite(String texture) {
-		this(new Texture(texture));
+		this(Texture.loadTexture(texture));
 	}
 	
 	public Sprite() {
