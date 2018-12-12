@@ -1,6 +1,9 @@
 package arenashooter.engine.math;
 
-public class Utils {
+public final class Utils {
+	//This class cannot be instantiated
+	private Utils() {}
+	
 	/**
 	 * Clamps an int in a range
 	 * @param a

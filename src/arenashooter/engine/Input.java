@@ -5,13 +5,16 @@ import static org.lwjgl.glfw.GLFW.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-public class Input {
+public final class Input {
 	private static FloatBuffer[] joyAxis = new FloatBuffer[16];
 	private static ByteBuffer[] joyButtons = new ByteBuffer[16];
 	private static long window;
 	
 	private static float[] axisMoveX = new float[17], axisMoveY = new float[17];
 	private static boolean[] actionJump = new boolean[17], actionAttack = new boolean[17];
+	
+	//This class cannot be instantiated
+	private Input() {}
 	
 	public enum Action {
 		JUMP, ATTACK;

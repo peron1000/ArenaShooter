@@ -6,7 +6,7 @@ import arenashooter.engine.math.Utils;
 import arenashooter.entities.Game;
 
 public class Main {
-	static int minFrametime = 8;
+	private static final int minFrametime = 8;
 	
 	public static void main(String[] args) {
 		Audio.init(false);

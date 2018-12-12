@@ -9,7 +9,9 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
 
-public class FileUtils {
+public final class FileUtils {
+	//This class cannot be instantiated
+	private FileUtils() {}
 	
 	/**
 	 * Read a resource file as a string

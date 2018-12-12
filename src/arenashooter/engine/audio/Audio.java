@@ -20,12 +20,15 @@ import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALUtil;
 
 
-public class Audio {
+public final class Audio {
 	private static long device, context;
 	
 	private static Map<String, SoundEntry> sounds = new HashMap<String, SoundEntry>();
 	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
 
+	//This class cannot be instantiated
+	private Audio() {}
+	
 	/**
 	 * Initialize the audio system. Don't forget to destroy it !
 	 * @param printInfo print informations (available devices, frequency ...)

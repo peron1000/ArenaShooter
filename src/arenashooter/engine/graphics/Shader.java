@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL20.*;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Vec2d;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
@@ -80,16 +79,6 @@ public class Shader {
 	public void setUniformV3(String name, Vec3f value) {
 		int location = glGetUniformLocation(program, name);
 		glUniform3fv(location, value.toArray());
-	}
-	
-	/**
-	 * Set a Vec2d uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
-	public void setUniformV2(String name, Vec2d value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform2fv(location, new float[] {(float)value.x, (float)value.y});
 	}
 	
 	/**

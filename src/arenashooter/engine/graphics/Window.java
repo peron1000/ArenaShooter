@@ -17,21 +17,19 @@ import arenashooter.engine.math.Mat4f;
  * Game window
  */
 
-public class Window {
+public final class Window {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
-	
-	private static boolean init = false;
 	
 	private static long window;
 	private static GLFWVidMode vidmode;
 	private static int width, height;
 	
+	private static float fov = 120;
+	
+	//This class cannot be instantiated
+	private Window() {}
+	
 	public static void init(int windowWidth, int windowHeight, String windowTtitle) {
-		if( init ) {
-			System.err.println("Render - Window already initialized !");
-			return;
-		}
-		
 		System.out.println("Render - Initializing");
 		
 		GLFWErrorCallback errorfun = GLFWErrorCallback.createPrint();
@@ -68,8 +66,6 @@ public class Window {
 			System.err.println("Render - Can't create window !");
 			System.exit(1);
 		}
-		
-		init = true;
 		
 		setIcon( new String[] {"data/icon_32.png", "data/icon_64.png", "data/icon_128.png"} );
 		
@@ -114,10 +110,6 @@ public class Window {
 	 * @return User tries to close the window
 	 */
 	public static boolean requestClose() {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return false;
-		}
 		return glfwWindowShouldClose(window);
 	}
 	
@@ -130,11 +122,6 @@ public class Window {
 	 * Begin a frame, this will update Input and prepare the window for rendering
 	 */
 	public static void beginFrame() {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return;
-		}
-		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glfwPollEvents();
@@ -147,11 +134,6 @@ public class Window {
 	 * End a frame, this will swap framebuffers
 	 */
 	public static void endFrame() {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return;
-		}
-		
 		glfwSwapBuffers(window);
 	}
 	
@@ -171,16 +153,9 @@ public class Window {
 	 * Destroy the fenetre
 	 */
 	public static void destroy() {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return;
-		}
-		
 		System.out.println("Render - Stopping");
 		
 		glfwDestroyWindow(window);
-		
-		init = false;
 	}
 	
 	/**
@@ -189,11 +164,6 @@ public class Window {
 	 * @param newHeight
 	 */
 	public static void resize(int newWidth, int newHeight) {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return;
-		}
-		
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
 		
@@ -205,13 +175,22 @@ public class Window {
 	}
 	
 	/**
+	 * Set the camera's field of view
+	 * @param verticalFOV new FOV
+	 */
+	public static void setFOV(float verticalFOV) {
+		fov = verticalFOV;
+		createProjectionMatrix();
+	}
+	
+	/**
 	 * Create the projection matrix based on window size
 	 */
 	private static void createProjectionMatrix() {
 //		float sizeY = 800;
 //		float sizeX = sizeY*((float)width/(float)height);
 //		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
-		proj = Mat4f.perspective(0.1f, 500, 120, (float)width/(float)height);
+		proj = Mat4f.perspective(0.1f, 500, fov, (float)width/(float)height);
 	}
 	
 	/**
@@ -219,11 +198,6 @@ public class Window {
 	 * @param title new title
 	 */
 	public static void setTitle(String title) {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return;
-		}
-		
 		glfwSetWindowTitle(window, title);
 	}
 	
@@ -232,11 +206,6 @@ public class Window {
 	 * @param enable new vSync state
 	 */
 	public static void setVsync(boolean enable) {
-		if( !init ) {
-			System.err.println("Render - No window !");
-			return;
-		}
-		
 		glfwSwapInterval( enable ? 1 : 0 );
 	}
 	
