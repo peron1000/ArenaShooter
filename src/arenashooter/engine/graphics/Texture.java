@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Texture {
 	
-	private static Texture default_tex = loadTexture( "data/default_texture.png" );;
+	private static final Texture default_tex = loadTexture( "data/default_texture.png" );;
 	
 	private final int id;
 	private final String file;
@@ -17,6 +17,11 @@ public class Texture {
 		this.height = height;
 	}
 	
+	/**
+	 * Load a texture from a file
+	 * @param path image file
+	 * @return texture object (with filtering enabled) or the default texture if an error occurred
+	 */
 	public static Texture loadTexture( String path ) {
 		Image img = Image.loadImage(path);
 		
@@ -80,6 +85,10 @@ public class Texture {
 	 */
 	public int getHeight() { return height; }
 	
+	/**
+	 * Set filtering on this texture (nearest or linear)
+	 * @param val enable linear filtering
+	 */
 	public void setFilter(boolean val) {
 		glBindTexture(GL_TEXTURE_2D, id);
 		if(val) {

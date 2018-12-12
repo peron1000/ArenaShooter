@@ -8,7 +8,7 @@ import org.lwjgl.system.MemoryStack;
 
 import arenashooter.engine.FileUtils;
 
-public class Image {
+class Image {
 
 	public final String file;
 	public final int width, height, channels;
@@ -22,6 +22,11 @@ public class Image {
 		this.buffer = buffer;
 	}
 	
+	/**
+	 * Load an image from a file
+	 * @param path file
+	 * @return Image object containing the loaded image or null if an error occurred
+	 */
 	public static Image loadImage(String path) {
 		Image res = null;
 		

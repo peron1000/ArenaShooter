@@ -6,14 +6,12 @@ import arenashooter.engine.math.Utils;
 import arenashooter.entities.Game;
 
 public class Main {
-	static Window window;
-	
 	static int minFrametime = 8;
 	
 	public static void main(String[] args) {
 		Audio.init(false);
-		window = new Window(1280, 720, "Super Blep");
-		window.setVsync(true);
+		Window.init(1280, 720, "Super Blep");
+		Window.setVsync(true);
 		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;
@@ -21,25 +19,25 @@ public class Main {
 		int fpsFrames = 0;
 		long fpsTime = lastFrame;
 		
-		while( !window.requestClose() ) {
+		while( !Window.requestClose() ) {
 			currentFrame = System.currentTimeMillis();
 			
 			//Limit delta to avoid errors
 			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .5);
 			
-			window.beginFrame();
+			Window.beginFrame();
 			
 			//TODO: Use this properly
 			Game.game.update(delta);
 			Game.game.draw();
 			
-			window.endFrame();
+			Window.endFrame();
 			
 			//FPS counter
 			fpsFrames++;
 			if(fpsFrames >= 10 && (currentFrame-fpsTime)>=250 ) {
 				double time = ((double)(currentFrame-fpsTime))/fpsFrames;
-				window.setTitle( "Super Blep - " + (int)(1/(time/1000)) + "fps" );
+				Window.setTitle( "Super Blep - " + (int)(1/(time/1000)) + "fps" );
 				fpsTime = currentFrame;
 				fpsFrames = 0;
 			}
@@ -54,7 +52,7 @@ public class Main {
 			lastFrame = currentFrame;
 		}
 		
-		window.destroy();
+		Window.destroy();
 		Audio.destroy();
 	}
 

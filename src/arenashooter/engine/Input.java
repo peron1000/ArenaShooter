@@ -81,7 +81,7 @@ public class Input {
 		Input.window = window;
 	}
 	
-	private static void printController(int id) {
+	static void printController(int id) {
 		if(joyAxis[id] == null) return;
 		String res = "Controller "+id+" axis :";
 		for( int i=0; i<joyAxis[id].capacity(); i++ )

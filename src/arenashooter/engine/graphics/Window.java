@@ -20,11 +20,18 @@ import arenashooter.engine.math.Mat4f;
 public class Window {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
 	
-	private long window;
-	private GLFWVidMode vidmode;
-	private int width, height;
+	private static boolean init = false;
 	
-	public Window(int width, int height, String title) {
+	private static long window;
+	private static GLFWVidMode vidmode;
+	private static int width, height;
+	
+	public static void init(int windowWidth, int windowHeight, String windowTtitle) {
+		if( init ) {
+			System.err.println("Render - Window already initialized !");
+			return;
+		}
+		
 		System.out.println("Render - Initializing");
 		
 		GLFWErrorCallback errorfun = GLFWErrorCallback.createPrint();
@@ -38,8 +45,8 @@ public class Window {
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
 		//On s'assure que la fenetre respecte les tailles minimales et maximales
-		this.width = Math.max(WIDTH_MIN, Math.min(width, vidmode.width()));
-		this.height = Math.max(HEIGHT_MIN, Math.min(height, vidmode.height()));
+		width = Math.max(WIDTH_MIN, Math.min(windowWidth, vidmode.width()));
+		height = Math.max(HEIGHT_MIN, Math.min(windowHeight, vidmode.height()));
 
 		glfwDefaultWindowHints();
 		
@@ -55,17 +62,19 @@ public class Window {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		
-		window = glfwCreateWindow(this.width, this.height, title, NULL, NULL);
+		window = glfwCreateWindow(width, height, windowTtitle, NULL, NULL);
 
 		if (window == NULL) {
 			System.err.println("Render - Can't create window !");
 			System.exit(1);
 		}
 		
+		init = true;
+		
 		setIcon( new String[] {"data/icon_32.png", "data/icon_64.png", "data/icon_128.png"} );
 		
 		//Center window
-		glfwSetWindowPos(window, (vidmode.width()-this.width)/2, (vidmode.height()-this.height)/2 );
+		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
 		
 		//Definir le contexte de la fenetre
 		glfwMakeContextCurrent(window);
@@ -104,19 +113,28 @@ public class Window {
 	/**
 	 * @return User tries to close the window
 	 */
-	public boolean requestClose() {
+	public static boolean requestClose() {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return false;
+		}
 		return glfwWindowShouldClose(window);
 	}
 	
 	//TODO: Temp variables
-	Model quad;
-	Shader shaderSky;
+	static Model quad;
+	static Shader shaderSky;
 	public static Mat4f proj;
 	
 	/**
 	 * Begin a frame, this will update Input and prepare the window for rendering
 	 */
-	public void beginFrame() {
+	public static void beginFrame() {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return;
+		}
+		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		glfwPollEvents();
@@ -128,11 +146,16 @@ public class Window {
 	/**
 	 * End a frame, this will swap framebuffers
 	 */
-	public void endFrame() {
+	public static void endFrame() {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return;
+		}
+		
 		glfwSwapBuffers(window);
 	}
 	
-	void drawSky() { //TODO: Remove this temp function
+	private static void drawSky() { //TODO: Remove this temp function
 		shaderSky.bind();
 		
 		quad.bindToShader(shaderSky);
@@ -147,10 +170,17 @@ public class Window {
 	/**
 	 * Destroy the fenetre
 	 */
-	public void destroy() {
+	public static void destroy() {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return;
+		}
+		
 		System.out.println("Render - Stopping");
 		
 		glfwDestroyWindow(window);
+		
+		init = false;
 	}
 	
 	/**
@@ -158,7 +188,12 @@ public class Window {
 	 * @param newWidth
 	 * @param newHeight
 	 */
-	public void resize(int newWidth, int newHeight) {
+	public static void resize(int newWidth, int newHeight) {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return;
+		}
+		
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
 		
@@ -172,7 +207,7 @@ public class Window {
 	/**
 	 * Create the projection matrix based on window size
 	 */
-	private void createProjectionMatrix() {
+	private static void createProjectionMatrix() {
 //		float sizeY = 800;
 //		float sizeX = sizeY*((float)width/(float)height);
 //		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
@@ -183,7 +218,12 @@ public class Window {
 	 * Set the window title
 	 * @param title new title
 	 */
-	public void setTitle(String title) {
+	public static void setTitle(String title) {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return;
+		}
+		
 		glfwSetWindowTitle(window, title);
 	}
 	
@@ -191,11 +231,16 @@ public class Window {
 	 * Enable or disable vertical synchronization
 	 * @param enable new vSync state
 	 */
-	public void setVsync(boolean enable) {
+	public static void setVsync(boolean enable) {
+		if( !init ) {
+			System.err.println("Render - No window !");
+			return;
+		}
+		
 		glfwSwapInterval( enable ? 1 : 0 );
 	}
 	
-	private void setIcon(String[] paths) {
+	private static void setIcon(String[] paths) {
 		Image image[] = new Image[paths.length];
 		
 		for( int i=0; i<paths.length; i++ )
