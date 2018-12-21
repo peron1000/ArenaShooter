@@ -58,8 +58,8 @@ public class Quat {
 	 * @return rotated vector
 	 */
 	public Vec3f rotate( Vec3f source ) { //TODO: Test
-		float[][] matrix = Mat4f.mul(Mat4f.translation(source), Mat4f.rotation(this)).val;
-		return new Vec3f( matrix[3][0] , matrix[3][1], matrix[3][1] );
+		float[][] matrix = Mat4f.mul(Mat4f.rotation(this), Mat4f.translation(source)).val;
+		return new Vec3f( matrix[3][0] , matrix[3][1], matrix[3][2] );
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class Quat {
 	 * @return
 	 */
 	public Vec3f forward() { //TODO: Test
-		return rotate( new Vec3f(1, 0, 0) );
+		return rotate( new Vec3f(0, 0, 1) );
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class Quat {
 	 * @return
 	 */
 	public Vec3f up() { //TODO: Test
-		return rotate( new Vec3f(0, -1, 0) );
+		return rotate( new Vec3f(0, 1, 0) );
 	}
 	
 	/**

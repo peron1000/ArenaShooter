@@ -20,7 +20,7 @@ public class Game {
 		camera.attachToParent(map, "camera");
 		player = new Character();
 		player.attachToParent(map, "Player 1");
-		Plateform plat = new Plateform(new Vec2f(500, 20));
+		Plateform plat = new Plateform(new Vec2f(2500, 20));
 		plat.position = new Vec2f(0, 510);
 		plat.attachToParent(map, "Platform 1");
 		Plateform plat2 = new Plateform(new Vec2f(300, 300));
@@ -35,6 +35,9 @@ public class Game {
 		
 		Particles p = new Particles(new Vec2f(0, -1000));
 		p.attachToParent(map, "particles");
+		
+		SoundEffect testSound = new SoundEffect( new Vec2f(0, 0), "data/sound/jump.ogg" );
+		testSound.attachToParent(map, "testSound");
 		
 		Music music = new Music("data/music/Juhani Junkala [Retro Game Music Pack] Level 1.ogg", true);
 		music.attachToParent(map, "music");
@@ -59,8 +62,10 @@ public class Game {
 		else
 			Audio.setListener( new Vec3f(), Quat.fromAngle(0) );
 		
-		//TODO: remove temp particle system movement
+		//TODO: remove temp particle system and sound movement
 		((Spatial)map.children.get("particles")).position.x = (float) (300*Math.sin(.003*System.currentTimeMillis()));
+		((Spatial)map.children.get("testSound")).position = ((Spatial)map.children.get("particles")).position;
+		((SoundEffect)map.children.get("testSound")).play();
 		
 		map.step(d);
 	}
