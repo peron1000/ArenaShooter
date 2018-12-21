@@ -37,6 +37,7 @@ public class Game {
 		p.attachToParent(map, "particles");
 		
 		SoundEffect testSound = new SoundEffect( new Vec2f(0, 0), "data/sound/jump.ogg" );
+		testSound.setVolume(.45f);
 		testSound.attachToParent(map, "testSound");
 		
 		Music music = new Music("data/music/Juhani Junkala [Retro Game Music Pack] Level 1.ogg", true);

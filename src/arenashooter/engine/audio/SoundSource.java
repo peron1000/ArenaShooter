@@ -5,6 +5,7 @@ import static org.lwjgl.openal.AL10.AL_TRUE;
 import static org.lwjgl.openal.AL10.AL_FALSE;
 import static org.lwjgl.openal.AL10.AL_PLAYING;
 import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.AL_GAIN;
 import static org.lwjgl.openal.AL10.AL_PITCH;
 import static org.lwjgl.openal.AL10.AL_POSITION;
 import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
@@ -60,7 +61,7 @@ public class SoundSource implements AudioSourceI {
 			if( spatialized ) {
 				alSourcei( source[i], AL_SOURCE_RELATIVE, AL_FALSE );
 				alSourcef( source[i], AL11.AL_REFERENCE_DISTANCE, 10 );
-				alSourcef( source[i], AL11.AL_ROLLOFF_FACTOR, .005f );
+				alSourcef( source[i], AL11.AL_ROLLOFF_FACTOR, .0055f );
 			} else {
 				alSourcei( source[i], AL_SOURCE_RELATIVE, AL_TRUE );
 				alSourcef( source[i], AL11.AL_REFERENCE_DISTANCE, 0 );
@@ -116,6 +117,12 @@ public class SoundSource implements AudioSourceI {
 			if( alGetSourcei(source[i], AL_SOURCE_STATE) == AL_PLAYING )
 				return true;
 		return false;
+	}
+	
+	@Override
+	public void setVolume(float volume) {
+		for( int i=0; i<source.length; i++ )
+			alSourcef( source[i], AL_GAIN, volume);
 	}
 	
 	@Override

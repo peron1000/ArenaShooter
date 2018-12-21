@@ -6,12 +6,14 @@ import static org.lwjgl.openal.AL10.AL_BUFFER;
 import static org.lwjgl.openal.AL10.AL_LOOPING;
 import static org.lwjgl.openal.AL10.AL_TRUE;
 import static org.lwjgl.openal.AL10.AL_FALSE;
+import static org.lwjgl.openal.AL10.AL_GAIN;
 import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
 import static org.lwjgl.openal.AL10.alSourcePlay;
 import static org.lwjgl.openal.AL10.alSourcePause;
 import static org.lwjgl.openal.AL10.alSourceStop;
+import static org.lwjgl.openal.AL10.alSourcef;
 import static org.lwjgl.openal.AL10.alGetSourcei;
 
 /**
@@ -78,6 +80,15 @@ public class MusicSource implements AudioSourceI {
 	public boolean isPlaying() {
 		if( sound == null ) return false;
 		return alGetSourcei(source, AL_SOURCE_STATE) == AL_PLAYING;
+	}
+	
+	/**
+	 * Set volume multiplier for the source
+	 * @param volume new volume multiplier
+	 */
+	@Override
+	public void setVolume(float volume) {
+		alSourcef( source, AL_GAIN, volume);
 	}
 	
 	public boolean isLooping() { return looping; }

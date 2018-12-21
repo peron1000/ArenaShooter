@@ -18,6 +18,12 @@ public interface AudioSourceI {
 	public boolean isPlaying();
 	
 	/**
+	 * Set volume multiplier for all the sources
+	 * @param volume new volume multiplier
+	 */
+	public void setVolume(float volume);
+	
+	/**
 	 * @return an array of all the openAL sources used by this
 	 */
 	int[] getSources();
