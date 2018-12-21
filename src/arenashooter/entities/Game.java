@@ -1,7 +1,10 @@
 package arenashooter.entities;
 
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 
 public class Game {
 	public static Game game = new Game();
@@ -50,6 +53,11 @@ public class Game {
 		camera.position.x = Utils.lerpF(camera.position.x, player.position.x, (float)(d*8));
 		float targetY = Utils.clampF(camera.position.y, player.position.y-50, player.position.y+50);
 		camera.position.y = Utils.lerpF(camera.position.y, targetY, (float)(d*7));
+		
+		if( camera != null )
+			Audio.setListener(camera.position, camera.rotation);
+		else
+			Audio.setListener( new Vec3f(), Quat.fromAngle(0) );
 		
 		//TODO: remove temp particle system movement
 		((Spatial)map.children.get("particles")).position.x = (float) (300*Math.sin(.003*System.currentTimeMillis()));

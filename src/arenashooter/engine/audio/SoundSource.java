@@ -1,14 +1,27 @@
 package arenashooter.engine.audio;
 
 import static org.lwjgl.openal.AL10.AL_SOURCE_STATE;
+import static org.lwjgl.openal.AL10.AL_TRUE;
+import static org.lwjgl.openal.AL10.AL_FALSE;
 import static org.lwjgl.openal.AL10.AL_PLAYING;
 import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.AL_PITCH;
+import static org.lwjgl.openal.AL10.AL_POSITION;
+import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
+
+import org.lwjgl.openal.AL11;
+
+import static org.lwjgl.openal.AL10.alSourcef;
+import static org.lwjgl.openal.AL10.alSource3f;
 import static org.lwjgl.openal.AL10.alSourcePlay;
 import static org.lwjgl.openal.AL10.alSourcePause;
 import static org.lwjgl.openal.AL10.alSourceStop;
 import static org.lwjgl.openal.AL10.alGetSourcei;
+
+import arenashooter.engine.math.Utils;
+import arenashooter.engine.math.Vec3f;
 
 /**
  * Object used to manage a sound with multiple sources. 
@@ -18,23 +31,41 @@ public class SoundSource implements AudioSourceI {
 	private Sound sound;
 	private int[] source;
 	private int next = 0;
+	private float pitchMin, pitchMax;
+	private boolean spatialized = false;
 	
 	/**
 	 * 
 	 * @param path path to the sound file (vorbis)
 	 * @param maxPlays maximum simultaneous plays ( must be >0 )
 	 */
-	public SoundSource(String path, int maxPlays) {
+	public SoundSource(String path, int maxPlays, float pitchMin, float pitchMax, boolean spatialized) {
 		sound = Sound.loadSound(path);
 		
 		if( sound == null ) return;
+		
+		this.pitchMin = pitchMin;
+		this.pitchMax = pitchMax;
+		this.spatialized = spatialized;
 		
 		source = new int[Math.max(1, maxPlays)];
 		
 		for( int i=0; i<source.length; i++ ) {
 			source[i] = alGenSources();
 		
+			//Link the source to the buffer
 			alSourcei( source[i], AL_BUFFER, sound.getBuffer() );
+			
+			//Spatialization
+			if( spatialized ) {
+				alSourcei( source[i], AL_SOURCE_RELATIVE, AL_FALSE );
+				alSourcef( source[i], AL11.AL_REFERENCE_DISTANCE, 10 );
+				alSourcef( source[i], AL11.AL_ROLLOFF_FACTOR, .005f );
+			} else {
+				alSourcei( source[i], AL_SOURCE_RELATIVE, AL_TRUE );
+				alSourcef( source[i], AL11.AL_REFERENCE_DISTANCE, 0 );
+				alSourcef( source[i], AL11.AL_ROLLOFF_FACTOR, 0 );
+			}
 		}
 		
 		Audio.registerPlayer(this);
@@ -46,7 +77,7 @@ public class SoundSource implements AudioSourceI {
 	@Override
 	public void play() {
 		if( sound == null ) return;
-		
+		alSourcef( source[next], AL_PITCH, Utils.lerpF(pitchMin, pitchMax, (float)Math.random()));
 		alSourcePlay(source[next]);
 		next++;
 		if(next >= source.length) next = 0;
@@ -89,5 +120,11 @@ public class SoundSource implements AudioSourceI {
 	
 	@Override
 	public int[] getSources() { return source.clone(); }
+	
+	public void setPosition( Vec3f pos ) {
+		if( spatialized )
+			for( int i=0; i<source.length; i++ )
+				alSource3f( source[i], AL_POSITION, pos.x, pos.y, pos.z );
+	}
 
 }

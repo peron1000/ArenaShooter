@@ -6,6 +6,7 @@ import static org.lwjgl.openal.AL10.AL_BUFFER;
 import static org.lwjgl.openal.AL10.AL_LOOPING;
 import static org.lwjgl.openal.AL10.AL_TRUE;
 import static org.lwjgl.openal.AL10.AL_FALSE;
+import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
 import static org.lwjgl.openal.AL10.alSourcePlay;
@@ -35,6 +36,9 @@ public class MusicSource implements AudioSourceI {
 		source = alGenSources();
 		
 		alSourcei( source, AL_BUFFER, sound.getBuffer() );
+		
+		//Stick this sound to the listener to prevent spatialization
+		alSourcei( source, AL_SOURCE_RELATIVE, AL_TRUE );
 		
 		setLooping(looping);
 		

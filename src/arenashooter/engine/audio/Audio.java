@@ -2,22 +2,32 @@ package arenashooter.engine.audio;
 
 import static org.lwjgl.openal.AL10.alDeleteBuffers;
 import static org.lwjgl.openal.AL10.alDeleteSources;
+import static org.lwjgl.openal.AL10.alListener3f;
+import static org.lwjgl.openal.AL10.alListenerfv;
+import static org.lwjgl.openal.AL10.AL_POSITION;
+import static org.lwjgl.openal.AL10.AL_ORIENTATION;
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.EXTThreadLocalContext.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALUtil;
+
+import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Vec3f;
 
 
 public final class Audio {
@@ -52,6 +62,8 @@ public final class Audio {
 		alcSetThreadContext(context);
 		AL.createCapabilities(deviceCapabilities);
 		
+		AL11.alDistanceModel( AL11.AL_INVERSE_DISTANCE );
+		
 		if( printInfo ) printInitInfo( deviceCapabilities );
 	}
 	
@@ -64,6 +76,24 @@ public final class Audio {
 		alcMakeContextCurrent(NULL);
 		alcDestroyContext(context);
 		alcCloseDevice(device);
+	}
+	
+	public static void setListener(Vec3f loc, Quat rot) {
+		alListener3f( AL_POSITION, loc.x, loc.y, loc.z );
+		
+		Vec3f forward = rot.forward();
+		Vec3f up = rot.up();
+		
+		FloatBuffer listenerRot = BufferUtils.createFloatBuffer(6);
+		listenerRot.put(forward.x);
+		listenerRot.put(forward.y);
+		listenerRot.put(forward.z);
+		listenerRot.put(up.x);
+		listenerRot.put(up.y);
+		listenerRot.put(up.z);
+		listenerRot.flip();
+		
+		alListenerfv( AL_ORIENTATION, listenerRot );
 	}
 	
 	private static void printInitInfo(ALCCapabilities deviceCapabilities) {

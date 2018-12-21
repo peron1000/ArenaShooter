@@ -30,7 +30,7 @@ public class Quat {
 	 * @param angle
 	 * @return
 	 */
-	public static Quat fromAngle( float angle ) { //TODO: Test this
+	public static Quat fromAngle( float angle ) { //TODO: Test
 		Quat res = new Quat();
 		
 		float angleSin = (float)Math.sin(angle/2);
@@ -50,6 +50,32 @@ public class Quat {
 		res.z = z*angleSin;
 		
 		return res;
+	}
+	
+	/**
+	 * Rotate a vector by this quaternion
+	 * @param source vector to rotate
+	 * @return rotated vector
+	 */
+	public Vec3f rotate( Vec3f source ) { //TODO: Test
+		float[][] matrix = Mat4f.mul(Mat4f.translation(source), Mat4f.rotation(this)).val;
+		return new Vec3f( matrix[3][0] , matrix[3][1], matrix[3][1] );
+	}
+	
+	/**
+	 * Get a unit vector pointing in the direction of this quaternion
+	 * @return
+	 */
+	public Vec3f forward() { //TODO: Test
+		return rotate( new Vec3f(1, 0, 0) );
+	}
+	
+	/**
+	 * Get a unit vector pointing upwards of this quaternion
+	 * @return
+	 */
+	public Vec3f up() { //TODO: Test
+		return rotate( new Vec3f(0, -1, 0) );
 	}
 	
 	/**
