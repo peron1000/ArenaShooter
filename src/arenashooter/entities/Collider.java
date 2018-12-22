@@ -10,8 +10,8 @@ public class Collider extends Spatial {
 	Vec2f extent;
 
 	public Collider(Vec2f position, Vec2f extent) {
-		super();
-		this.position = position;
+		super(position);
+//		this.position = position;
 		this.extent = extent;
 	}
 

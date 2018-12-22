@@ -23,13 +23,16 @@ public class Character extends Spatial {
 		health = healthMax;
 		
 		rotation = 0;
+		
 		collider = new Collider(this.position, new Vec2f(50, 110));
-		Sprite body = new Sprite("data/UnMoineHD.png");
+		collider.attachToParent(this, "coll_Body");
+		
+		Sprite body = new Sprite(position, "data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
 		
 		SoundEffect testSound = new SoundEffect( this.position, "data/sound/jump.ogg" );
-		testSound.attachToParent(this, "sndJump");
+		testSound.attachToParent(this, "snd_Jump");
 	}
 
 	public void jump(int saut) {
@@ -37,7 +40,7 @@ public class Character extends Spatial {
 		isOnGround = false;
 		vel.y = -saut;
 		
-		((SoundEffect)children.get("sndJump")).play();
+		((SoundEffect)children.get("snd_Jump")).play();
 		// TODO: collider
 	}
 
@@ -110,10 +113,9 @@ public class Character extends Spatial {
 			((Sprite) children.get("body_Sprite")).flipX = true;
 
 		position.add(Vec2f.multiply(vel, (float) d));
-		((Sprite) children.get("body_Sprite")).position.x = position.x;
-		((Sprite) children.get("body_Sprite")).position.y = position.y;
-
-		((Spatial) children.get("sndJump")).position = position;
+		((Spatial) children.get("body_Sprite")).position.set(position);
+		((Spatial) children.get("snd_Jump")).position.set(position);
+		((Spatial) children.get("coll_Body")).position.set(position);
 		super.step(d);
 	}
 	

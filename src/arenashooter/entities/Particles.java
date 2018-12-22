@@ -8,7 +8,7 @@ public class Particles extends Spatial {
 	private ParticleSystem system;
 	
 	public Particles(Vec2f position) {
-		this.position.set(position);
+		super(position);
 		system = new ParticleSystem( new Vec3f(position.x, position.y, 0) );
 	}
 	

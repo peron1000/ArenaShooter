@@ -23,18 +23,19 @@ public class Sprite extends Spatial {
 	
 	public boolean flipX = false, flipY = false;
 	
-	public Sprite(Texture texture) {
+	public Sprite(Vec2f position, Texture texture) {
+		super(position);
 		if(shader == null) shader = new Shader("data/shaders/sprite_simple");
 		if(model == null) model = Model.loadQuad();
 		this.tex = texture;
 	}
 	
-	public Sprite(String texture) {
-		this(Texture.loadTexture(texture));
+	public Sprite(Vec2f position, String texture) {
+		this(position, Texture.loadTexture(texture));
 	}
 	
-	public Sprite() {
-		this(defaultTex);
+	public Sprite(Vec2f position) {
+		this(position, defaultTex);
 	}
 	
 	@Override
