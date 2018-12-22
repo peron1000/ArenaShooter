@@ -2,7 +2,6 @@ package arenashooter.entities;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.math.Quat;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
@@ -10,16 +9,18 @@ public class Game {
 	public static Game game;
 	
 	private Map map;
-	private Character player;
+	private Character[] players = new Character[2];
 	public Camera camera;
 	
 	private Game() {
 		map = new Map();
 		
-		player = new Character(new Vec2f(300, 0));
-		player.attachToParent(map, "Player 1");
+		players[0] = new Character(new Vec2f(300, 0));
+		players[0].attachToParent(map, "Player 1");
+		players[1] = new Character(new Vec2f(-300, 0));
+		players[1].attachToParent(map, "Player 2");
 		
-		camera = new Camera( new Vec3f(player.position.x, player.position.y, 450) );
+		camera = new Camera( new Vec3f(0, 0, 450) );
 		camera.attachToParent(map, "camera");
 		
 		Plateform plat = new Plateform(new Vec2f(0, 510), new Vec2f(5000, 20));
@@ -55,13 +56,10 @@ public class Game {
 	}
 	
 	public void update(double d) {
-		camera.position.x = Utils.lerpF( camera.position.x, player.position.x, Math.min(1, (float)(d*8)) );
-		float targetY = Utils.clampF(camera.position.y, player.position.y-50, player.position.y+50);
-		camera.position.y = Utils.lerpF( camera.position.y, targetY, Math.min(1, (float)(d*7)) );
-		
-		if( camera != null )
+		if( camera != null ) {
+			camera.center(players, d);
 			Audio.setListener(camera.position, camera.rotation);
-		else
+		} else
 			Audio.setListener( new Vec3f(), Quat.fromAngle(0) );
 		
 		//TODO: remove temp particle system and sound movement

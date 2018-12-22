@@ -23,6 +23,7 @@ public final class Window {
 	private static long window;
 	private static GLFWVidMode vidmode;
 	private static int width, height;
+	private static float ratio;
 	
 	private static float fov = 120;
 	
@@ -45,7 +46,8 @@ public final class Window {
 		//On s'assure que la fenetre respecte les tailles minimales et maximales
 		width = Math.max(WIDTH_MIN, Math.min(windowWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(windowHeight, vidmode.height()));
-
+		ratio = (float)width/(float)height;
+		
 		glfwDefaultWindowHints();
 		
 		//Interdire le redimensionnement manuel
@@ -167,11 +169,20 @@ public final class Window {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
 		
+		ratio = (float)width/(float)height;
+		
 		glfwSetWindowSize(window, width, height);
 		glViewport(0, 0, width, height);
 
 		//Recreate projection matrix
 		createProjectionMatrix();
+	}
+	
+	/**
+	 * Get screen aspect ratio (width/height)
+	 */
+	public static float getRatio() {
+		return ratio;
 	}
 	
 	/**
@@ -188,9 +199,9 @@ public final class Window {
 	 */
 	private static void createProjectionMatrix() {
 //		float sizeY = 800;
-//		float sizeX = sizeY*((float)width/(float)height);
+//		float sizeX = sizeY*ratio;
 //		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
-		proj = Mat4f.perspective(0.1f, 500, fov, (float)width/(float)height);
+		proj = Mat4f.perspective(0.1f, 1000, fov, ratio);
 	}
 	
 	/**
