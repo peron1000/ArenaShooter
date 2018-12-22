@@ -10,6 +10,7 @@ public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(200, 200);
+	private float zoomMin = 200, zoomMax = 975;
 	
 	public Camera(Vec3f position) {
 		super(position);
@@ -53,9 +54,9 @@ public class Camera extends Spatial3 {
 		
 		float newZ;
 		if( boundsW/boundsH > Window.getRatio() ) { //TODO: Test with different window sizes and aspects
-			newZ = Utils.clampF(200+350/((800*Window.getRatio())/boundsW), 200, 1000);
+			newZ = zoomMin+Utils.clampF(350/((800*Window.getRatio())/boundsW), 0, zoomMax-zoomMin);
 		} else {
-			newZ = Utils.clampF(200+350/(800/boundsH), 200, 1000);
+			newZ = zoomMin+Utils.clampF(350/(800/boundsH), 0, zoomMax-zoomMin);
 		}
 		
 		//Slow zoom-in
