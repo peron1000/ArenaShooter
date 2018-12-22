@@ -12,6 +12,9 @@ public class Camera extends Spatial3 {
 	private Vec2f margin = new Vec2f(200, 200);
 	private float zoomMin = 200, zoomMax = 975;
 	
+	private float shakeIntensity = 0;
+	private double time = 0;
+	
 	public Camera(Vec3f position) {
 		super(position);
 		this.targetLoc = position.clone();
@@ -19,12 +22,28 @@ public class Camera extends Spatial3 {
 	
 	@Override
 	public void step(double d) {
+		//Camera shake
+		float shakeX = (float) (Math.sin(148*time)*shakeIntensity);
+		float shakeY = (float) (Math.cos(136*time)*shakeIntensity);
+		float shakeZ = (float) (Math.sin(155*time+.1)*shakeIntensity);
+		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 6*(float)d ));
+		time += d;
+		
 		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 8*(float)d) );
 		position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 8*(float)d) );
 		position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 10*(float)d) );
-		viewMatrix = Mat4f.viewMatrix(position, rotation);
+		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x+shakeX, position.y+shakeY, position.z+shakeZ), rotation);
 		
 		super.step(d);
+	}
+	
+	/**
+	 * Set camera shake intensity. </br>
+	 * Ignored if new value < current value.
+	 * @param intensity new shake intensity value
+	 */
+	public void setCameraShake( float intensity ) {
+		shakeIntensity = Math.max( shakeIntensity, intensity );
 	}
 	
 	/**
