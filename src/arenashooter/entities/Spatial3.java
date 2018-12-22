@@ -10,4 +10,16 @@ public class Spatial3 extends Entity {
 	public Spatial3(Vec3f position) {
 		this.position = position.clone();
 	}
+	
+	/**
+	 * Update children, transmit position to every Spatial3 child.
+	 */
+	@Override
+	public void step(double d) {
+		for (Entity e : children.values()) {
+			if( e instanceof Spatial3 )
+				((Spatial3)e).position.set(position);
+			e.step(d);
+		}
+	}
 }

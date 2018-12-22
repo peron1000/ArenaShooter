@@ -51,6 +51,9 @@ public class Entity {
 		this.parent = parent;
 	}
 
+	/**
+	 * Update children.
+	 */
 	public void step(double d) {
 		for (Entity e : children.values())
 			e.step(d);

@@ -113,9 +113,7 @@ public class Character extends Spatial {
 			((Sprite) children.get("body_Sprite")).flipX = true;
 
 		position.add(Vec2f.multiply(vel, (float) d));
-		((Spatial) children.get("body_Sprite")).position.set(position);
-		((Spatial) children.get("snd_Jump")).position.set(position);
-		((Spatial) children.get("coll_Body")).position.set(position);
+		
 		super.step(d);
 	}
 	

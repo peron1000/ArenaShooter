@@ -23,6 +23,16 @@ public class Vec3f {
 		this.y = y;
 		this.z = z;
 	}
+	
+	/**
+	 * This becomes Other
+	 * @param other vector to copy
+	 */
+	public void set(Vec3f other) {
+		x = other.x;
+		y = other.y;
+		z = other.z;
+	}
 
 	/**
 	 * Add two vectors together.
