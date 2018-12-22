@@ -67,7 +67,7 @@ public class Game {
 		//TODO: remove temp particle system and sound movement
 		((Spatial)map.children.get("particles")).position.x = (float) (300*Math.sin(.003*System.currentTimeMillis()));
 		((Spatial)map.children.get("testSound")).position = ((Spatial)map.children.get("particles")).position;
-		((SoundEffect)map.children.get("testSound")).play();
+//		((SoundEffect)map.children.get("testSound")).play();
 		
 		map.step(d);
 	}
