@@ -16,19 +16,19 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 
-	public Character() {
+	public Character(Vec2f position) {
+		super(position);
+		
 		healthMax = 100;
 		health = healthMax;
 		
-		position = new Vec2f(300, 0);
 		rotation = 0;
-		vel.y = -3;
-		collider = new Collider(position, new Vec2f(50, 110));
+		collider = new Collider(this.position, new Vec2f(50, 110));
 		Sprite body = new Sprite("data/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
 		
-		SoundEffect testSound = new SoundEffect( position, "data/sound/jump.ogg" );
+		SoundEffect testSound = new SoundEffect( this.position, "data/sound/jump.ogg" );
 		testSound.attachToParent(this, "sndJump");
 	}
 

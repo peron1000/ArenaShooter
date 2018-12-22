@@ -13,6 +13,9 @@ public class Main {
 		Window.init(1280, 720, "Super Blep");
 		Window.setVsync(true);
 		
+		//Initialize game
+		Game.newGame();
+		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;
 		

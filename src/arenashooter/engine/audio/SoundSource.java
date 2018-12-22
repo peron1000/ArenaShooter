@@ -22,6 +22,7 @@ import static org.lwjgl.openal.AL10.alSourceStop;
 import static org.lwjgl.openal.AL10.alGetSourcei;
 
 import arenashooter.engine.math.Utils;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
 /**
@@ -128,10 +129,27 @@ public class SoundSource implements AudioSourceI {
 	@Override
 	public int[] getSources() { return source.clone(); }
 	
+	/**
+	 * Changes the position of all the sources. 
+	 * Only works for spatialized sounds.
+	 * @param pos new position
+	 */
 	public void setPosition( Vec3f pos ) {
 		if( spatialized )
 			for( int i=0; i<source.length; i++ )
 				alSource3f( source[i], AL_POSITION, pos.x, pos.y, pos.z );
+	}
+	
+	/**
+	 * Changes the position of all the sources. 
+	 * Z is set to 0. 
+	 * Only works for spatialized sounds.
+	 * @param pos new position
+	 */
+	public void setPosition( Vec2f pos ) {
+		if( spatialized )
+			for( int i=0; i<source.length; i++ )
+				alSource3f( source[i], AL_POSITION, pos.x, pos.y, 0 );
 	}
 
 }
