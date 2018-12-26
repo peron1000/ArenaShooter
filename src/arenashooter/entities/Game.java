@@ -13,27 +13,13 @@ public class Game {
 	public Camera camera;
 	
 	private Game() {
-		map = new Map();
+		map = new Map(2);
 		
-		players[0] = new Character(new Vec2f(300, 0));
-		players[0].attachToParent(map, "Player 1");
-		players[1] = new Character(new Vec2f(-300, 0));
-		players[1].attachToParent(map, "Player 2");
+		players[0] = map.players.get(0);
+		players[1] = map.players.get(1);
 		
 		camera = new Camera( new Vec3f(0, 0, 450) );
 		camera.attachToParent(map, "camera");
-		
-		Plateform plat = new Plateform(new Vec2f(0, 510), new Vec2f(5000, 20));
-		plat.attachToParent(map, "Platform 1");
-		
-		Plateform plat2 = new Plateform(new Vec2f(-800, 220), new Vec2f(300, 300));
-		plat2.attachToParent(map, "Platform 2");
-		
-		Plateform plat3 = new Plateform(new Vec2f(800, 220), new Vec2f(300, 300));
-		plat3.attachToParent(map, "Platform 3");
-		
-		Plateform plat4 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
-		plat4.attachToParent(map, "Platform 4");
 		
 		Particles p = new Particles(new Vec2f(0, -1000));
 		p.attachToParent(map, "particles");

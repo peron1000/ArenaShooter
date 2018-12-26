@@ -10,6 +10,7 @@ import arenashooter.engine.math.Vec2f;
 
 public class Character extends Spatial {
 	private float health, healthMax;
+	private Vec2f spawn;
 	
 	Vec2f vel = new Vec2f();
 	Collider collider;
@@ -21,6 +22,7 @@ public class Character extends Spatial {
 		
 		healthMax = 100;
 		health = healthMax;
+		spawn = position;
 		
 		rotation = 0;
 		
@@ -120,4 +122,8 @@ public class Character extends Spatial {
 	public float getHealth() { return health; }
 	public float getHealthMax() { return healthMax; }
 	public boolean isDead() { return health <= 0; }
+
+	public Vec2f getSpawn() {
+		return spawn;
+	}
 }
