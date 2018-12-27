@@ -5,12 +5,13 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec4f;
 
 public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(200, 200);
-	private float zoomMin = 200, zoomMax = 975;
+	private float zoomMin = 250, zoomMax = 975;
 	
 	private float shakeIntensity = 0;
 	private double time = 0;
@@ -49,9 +50,10 @@ public class Camera extends Spatial3 {
 	/**
 	 * Move the camera target to fit all the targets in the view
 	 * @param targets
+	 * @param bounds world camera bounds (min x, min y, max x, max y), null if none
 	 * @param d delta time
 	 */
-	public void center( Spatial[] targets, double d ) {
+	public void center( Spatial[] targets, Vec4f bounds, double d ) {
 		if(targets.length == 0 ) return;
 		
 		Vec2f boundsX = new Vec2f(targets[0].position.x, targets[0].position.x);
@@ -64,9 +66,16 @@ public class Camera extends Spatial3 {
 			boundsY.x = Math.min(boundsY.x, targets[i].position.y);
 			boundsY.y = Math.max(boundsY.y, targets[i].position.y);
 		}
+		
+		if(bounds != null) { //TODO: Fix this
+			boundsX.x = Math.max(boundsX.x, bounds.x);
+			boundsX.y = Math.min(boundsX.y, bounds.z);
+			boundsY.x = Math.max(boundsY.x, bounds.y);
+			boundsY.y = Math.min(boundsY.y, bounds.w);
+		}
 
-		float boundsW = boundsX.y - boundsX.x + margin.x;
-		float boundsH = boundsY.y - boundsY.x + margin.y;
+		float boundsW = Math.max(0, boundsX.y - boundsX.x) + margin.x;
+		float boundsH = Math.max(0, boundsY.y - boundsY.x) + margin.y;
 		
 		targetLoc.x = Utils.lerpF(boundsX.x, boundsX.y, .5f);
 		targetLoc.y = Utils.lerpF(boundsY.x, boundsY.y, .5f);

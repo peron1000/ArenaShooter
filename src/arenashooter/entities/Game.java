@@ -1,7 +1,6 @@
 package arenashooter.entities;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import arenashooter.engine.Device;
 import arenashooter.engine.audio.Audio;
@@ -71,7 +70,7 @@ public class Game {
 	
 	public void update(double d) {
 		if( camera != null ) {
-			camera.center(players, d);
+			camera.center(players, map.cameraBounds, d);
 			Audio.setListener(camera.position, camera.rotation);
 		} else
 			Audio.setListener( new Vec3f(), Quat.fromAngle(0) );

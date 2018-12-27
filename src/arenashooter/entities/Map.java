@@ -3,15 +3,23 @@ package arenashooter.entities;
 import java.util.ArrayList;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 
 public class Map extends Entity {
 	
 	ArrayList<Vec2f> spawn;
 	
+	/**
+	 * world bounds (min x, min y, max x, max y)
+	 */
+	public Vec4f cameraBounds;
+	
 	public Map(int nbPlayer) {
 		spawn = new ArrayList<>(nbPlayer);
 		creationPlateforme();
 		creationSpawn(nbPlayer);
+		
+		cameraBounds = new Vec4f(-3000, -1000, 3000, 1000);
 	}
 
 	private void creationSpawn(int nbPlayer) {
