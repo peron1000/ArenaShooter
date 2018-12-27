@@ -81,7 +81,7 @@ public final class Audio {
 	public static void setListener(Vec3f loc, Quat rot) {
 		alListener3f( AL_POSITION, loc.x, loc.y, loc.z );
 		
-		Vec3f forward = rot.forward();
+		Vec3f forward = Vec3f.multiply(rot.forward(), -1 );
 		Vec3f up = rot.up();
 		
 		FloatBuffer listenerRot = BufferUtils.createFloatBuffer(6);
