@@ -74,12 +74,6 @@ public class Character extends Spatial {
 
 	@Override
 	public void step(double d) {
-		if( isDead() ) {
-			movementInput = 0;
-		} else {
-			movementInput = Input.getAxis(Device.CONTROLLER01, Axis.MOVE_X); //TODO: Move this to Controller
-			if( movementInput == 0 ) movementInput = Input.getAxis(Device.KEYBOARD, Axis.MOVE_X);
-		}
 		
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
 		vel.y += 9.807 * 800 * d;
@@ -101,14 +95,6 @@ public class Character extends Spatial {
 			}
 		}
 		
-		//TODO: Move these to Controller
-		if( !isDead() ) {
-			if (Input.actionPressed(Device.CONTROLLER01, Action.JUMP) || Input.actionPressed(Device.KEYBOARD, Action.JUMP))
-				jump(3000);
-			if (Input.actionPressed(Device.CONTROLLER01, Action.ATTACK) || Input.actionPressed(Device.KEYBOARD, Action.ATTACK))
-				attack();
-		}
-
 		if (movementInput > 0)
 			((Sprite) children.get("body_Sprite")).flipX = false;
 		else if (movementInput < 0)

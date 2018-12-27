@@ -6,18 +6,18 @@ import arenashooter.engine.math.Vec2f;
 
 public class Map extends Entity {
 	
-	ArrayList<Character> players;
+	ArrayList<Vec2f> spawn;
 	
 	public Map(int nbPlayer) {
-		players = new ArrayList<>(nbPlayer);
-		
-		players.add(0, new Character(new Vec2f(300, 0)));
-		players.add(1, new Character(new Vec2f(-300, 0)));
-		
-		players.get(0).attachToParent(this, "Player 1");
-		players.get(1).attachToParent(this, "Player 2");
-		
+		spawn = new ArrayList<>(nbPlayer);
 		creationPlateforme();
+		creationSpawn(nbPlayer);
+	}
+
+	private void creationSpawn(int nbPlayer) {
+		for (int i = 0; i < nbPlayer; i++) {
+			spawn.add(i, new Vec2f(i*200-300, 0));
+		}
 	}
 
 	private void creationPlateforme() {
