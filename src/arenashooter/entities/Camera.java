@@ -53,7 +53,7 @@ public class Camera extends Spatial3 {
 	 * @param bounds world camera bounds (min x, min y, max x, max y), null if none
 	 * @param d delta time
 	 */
-	public void center( Spatial[] targets, Vec4f bounds, double d ) {
+	public void center( Spatial[] targets, Vec4f bounds, double d ) { //TODO: Improve bounds support
 		if(targets.length == 0 ) return;
 		
 		Vec2f boundsX = new Vec2f(targets[0].position.x, targets[0].position.x);
@@ -67,11 +67,11 @@ public class Camera extends Spatial3 {
 			boundsY.y = Math.max(boundsY.y, targets[i].position.y);
 		}
 		
-		if(bounds != null) { //TODO: Fix this
-			boundsX.x = Math.max(boundsX.x, bounds.x);
-			boundsX.y = Math.min(boundsX.y, bounds.z);
-			boundsY.x = Math.max(boundsY.x, bounds.y);
-			boundsY.y = Math.min(boundsY.y, bounds.w);
+		if(bounds != null) {
+			boundsX.x = Utils.clampF(boundsX.x, bounds.x, bounds.z);
+			boundsX.y = Utils.clampF(boundsX.y, bounds.x, bounds.z);
+			boundsY.x = Utils.clampF(boundsY.x, bounds.y, bounds.w);
+			boundsY.y = Utils.clampF(boundsY.y, bounds.y, bounds.w);
 		}
 
 		float boundsW = Math.max(0, boundsX.y - boundsX.x) + margin.x;

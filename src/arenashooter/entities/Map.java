@@ -19,7 +19,7 @@ public class Map extends Entity {
 		creationPlateforme();
 		creationSpawn(nbPlayer);
 		
-		cameraBounds = new Vec4f(-3000, -1000, 3000, 1000);
+		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
 	}
 
 	private void creationSpawn(int nbPlayer) {
