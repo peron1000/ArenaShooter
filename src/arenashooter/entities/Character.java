@@ -1,16 +1,13 @@
 package arenashooter.entities;
 
-import arenashooter.engine.Device;
-import arenashooter.engine.Input;
-import arenashooter.engine.Input.Action;
-import arenashooter.engine.Input.Axis;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
 public class Character extends Spatial {
+	private static final float defaultDammage = 5;
 	private float health, healthMax;
-	private Vec2f spawn;
+	private final Vec2f spawn;
 	
 	Vec2f vel = new Vec2f();
 	Collider collider;
@@ -55,6 +52,17 @@ public class Character extends Spatial {
 		collider.extent.y = body.size.y / 2;
 		collider.extent.x = (body.size.x / 2) - 20;
 		// TODO: attac
+		for (Entity entity : Game.game.getMap().children.values()) {
+			if(entity instanceof Character && entity != this) {
+				Character c = (Character) entity;
+				float xDiff = Math.abs(position.x - c.position.x);
+				float yDiff = Math.abs(position.y - c.position.y);
+				if(xDiff < 300 && yDiff < 300) {
+					c.takeDamage(defaultDammage);
+					c.position.add(new Vec2f(0, -30));
+				}
+			}
+		}
 	}
 	
 	public float takeDamage( float damage ) {
@@ -70,6 +78,8 @@ public class Character extends Spatial {
 	private void death() {
 		health = 0;
 		//TODO: Effects
+		health = healthMax;
+		position = new Vec2f(spawn.x, spawn.y);
 	}
 
 	@Override
@@ -101,6 +111,10 @@ public class Character extends Spatial {
 			((Sprite) children.get("body_Sprite")).flipX = true;
 
 		position.add(Vec2f.multiply(vel, (float) d));
+		
+		if(Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
+			death();
+		}
 		
 		super.step(d);
 	}
