@@ -5,7 +5,7 @@ package arenashooter.engine.math;
  */
 public class Vec4f {
 	
-	public float w, x, y, z;
+	public float x, y, z, w;
 	
 	/**
 	 * Creates a (0, 0, 0, 0) vector
@@ -13,17 +13,17 @@ public class Vec4f {
 	public Vec4f() {}
 	
 	/**
-	 * Creates a (w, x, y, z) vector
-	 * @param w
+	 * Creates a (x, y, z, w) vector
 	 * @param x
 	 * @param y
 	 * @param z
+	 * @param w
 	 */
-	public Vec4f(float w, float x, float y, float z) {
-		this.w = w;
+	public Vec4f(float x, float y, float z, float w) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.w = w;
 	}
 
 	/**
@@ -32,10 +32,10 @@ public class Vec4f {
 	 * @param v
 	 */
 	public void add(Vec4f v) {
-		w += v.w;
 		x += v.x;
 		y += v.y;
 		z += v.z;
+		w += v.w;
 	}
 	
 	/**
@@ -44,46 +44,46 @@ public class Vec4f {
 	 * @param a
 	 */
 	public void multiply( float a ) {
-		w *= a;
 		x *= a;
 		y *= a;
 		z *= a;
+		w *= a;
 	}
 	
 	/**
 	 * @return vector length
 	 */
 	public double length() {
-		return Math.sqrt( (w*w)+(x*x)+(y*y)+(z*z) );
+		return Math.sqrt( (x*x)+(y*y)+(z*z)+(w*w) );
 	}
 	
 	/**
 	 * Normalizes a vector (sets its length to 1)
 	 * @param v
-	 * @return normalized vector, or (0,0, 0) if length is 0
+	 * @return normalized vector, or (0, 0, 0, 0) if length is 0
 	 */
 	public static Vec4f normalize( Vec4f v ) {
 		double len = v.length();
 		
 		if( len == 0 ) return new Vec4f();
 		
-		return new Vec4f( (float)(v.w/len), (float)(v.x/len), (float)(v.y/len), (float)(v.z/len) );
+		return new Vec4f( (float)(v.x/len), (float)(v.y/len), (float)(v.z/len), (float)(v.w/len) );
 	}
 	
 	public static Vec4f lerp( Vec4f a, Vec4f b, float f ) {
-		return new Vec4f( Utils.lerpF(a.w, b.w, f),
-						  Utils.lerpF(a.x, b.x, f),
+		return new Vec4f( Utils.lerpF(a.x, b.x, f),
 						  Utils.lerpF(a.y, b.y, f),
-						  Utils.lerpF(a.z, b.z, f));
+						  Utils.lerpF(a.z, b.z, f),
+						  Utils.lerpF(a.w, b.w, f));
 	}
 	
 	public Vec4f clone() {
-		return new Vec4f(w, x, y, z);
+		return new Vec4f(x, y, z, w);
 	}
 	
-	public float[] toArray() { return new float[] {w, x, y, z}; }
+	public float[] toArray() { return new float[] {x, y, z, w}; }
 	
-	public String toString() { return "( "+w+", "+x+", "+y+", "+z+" )"; }
+	public String toString() { return "( "+x+", "+y+", "+z+", "+w+" )"; }
 	
 	//Static functions
 	
@@ -94,7 +94,7 @@ public class Vec4f {
 	 * @return a+b
 	 */
 	public static Vec4f add(Vec4f a, Vec4f b) {
-		return new Vec4f(a.w+b.w, a.x+b.x, a.y+b.y, a.z+b.z);
+		return new Vec4f(a.x+b.x, a.y+b.y, a.z+b.z, a.w+b.w);
 	}
 	
 	/**
@@ -104,6 +104,6 @@ public class Vec4f {
 	 * @return v*a
 	 */
 	public static Vec4f multiply( Vec4f v, float a ) {
-		return new Vec4f( v.w*a, v.x*a, v.y*a, v.z*a );
+		return new Vec4f( v.x*a, v.y*a, v.z*a, v.w*a );
 	}
 }

@@ -12,6 +12,8 @@ public class Character extends Spatial {
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
+	private boolean jumping = false;
+	private int jumpForce = 0;
 	public float movementInput = 0;
 
 	public Character(Vec2f position) {
@@ -35,12 +37,8 @@ public class Character extends Spatial {
 	}
 
 	public void jump(int saut) {
-		if( !isOnGround ) return;
-		isOnGround = false;
-		vel.y = -saut;
-		
-		((SoundEffect)children.get("snd_Jump")).play();
-		// TODO: collider
+		jumping = true;
+		jumpForce = saut;
 	}
 
 	public void attack() {
@@ -105,12 +103,18 @@ public class Character extends Spatial {
 			}
 		}
 		
+		if(jumping && isOnGround) { //TODO: Bouger ca apres position.add(vel) ou avant le check de collision
+			vel.y = -jumpForce;
+			((SoundEffect)children.get("snd_Jump")).play();
+		}
+		jumping = false;
+		
+		position.add(Vec2f.multiply(vel, (float) d));
+		
 		if (movementInput > 0)
 			((Sprite) children.get("body_Sprite")).flipX = false;
 		else if (movementInput < 0)
 			((Sprite) children.get("body_Sprite")).flipX = true;
-
-		position.add(Vec2f.multiply(vel, (float) d));
 		
 		if(Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
 			death();

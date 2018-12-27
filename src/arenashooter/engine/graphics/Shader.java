@@ -108,7 +108,7 @@ public class Shader {
 	 */
 	public void setUniformV4(String name, Vec4f value) {
 		int location = glGetUniformLocation(program, name);
-		glUniform4fv(location, new float[] {(float)value.w, (float)value.x, (float)value.y, (float)value.z});
+		glUniform4fv(location, new float[] {value.x, value.y, value.z, value.w});
 	}
 	
 	/**
