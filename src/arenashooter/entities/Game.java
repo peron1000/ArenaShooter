@@ -70,7 +70,8 @@ public class Game {
 	
 	public void update(double d) {
 		if( camera != null ) {
-			camera.center(players, map.cameraBounds, d);
+			camera.center(players, null, d);
+//			camera.center(players, map.cameraBounds, d); //TODO: Fix camera bounds and uncomment this
 			Audio.setListener(camera.position, camera.rotation);
 		} else
 			Audio.setListener( new Vec3f(), Quat.fromAngle(0) );
