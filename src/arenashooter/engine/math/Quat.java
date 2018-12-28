@@ -58,24 +58,76 @@ public class Quat {
 	 * @return rotated vector
 	 */
 	public Vec3f rotate( Vec3f source ) { //TODO: Test
-		float[][] matrix = Mat4f.mul(Mat4f.rotation(this), Mat4f.translation(source)).val;
-		return new Vec3f( matrix[3][0] , matrix[3][1], matrix[3][2] );
+		float[][] r = Mat4f.rotation(this).val;
+		
+		float x = r[0][0]*source.x + r[1][0]*source.y + r[2][0]*source.z;
+		float y = r[0][1]*source.x + r[1][1]*source.y + r[2][1]*source.z;
+		float z = r[0][2]*source.x + r[1][2]*source.y + r[2][2]*source.z;
+		
+		return new Vec3f(x, y, z);
 	}
 	
 	/**
 	 * Get a unit vector pointing in the direction of this quaternion
-	 * @return
+	 * @return (0, 0, 1) rotated by this quaternion
 	 */
 	public Vec3f forward() { //TODO: Test
-		return rotate( new Vec3f(0, 0, 1) );
+		double ww = w * w;
+        double xx = x * x;
+        double yy = y * y;
+        double zz = z * z;
+        double xz = x * z;
+        double yw = y * w;
+        double yz = y * z;
+        double xw = x * w;
+		
+		float x = (float) (yw + xz + xz + yw);
+		float y = (float) (yz + yz - xw - xw);
+		float z = (float) (zz - yy - xx + ww);
+		
+		return new Vec3f(x, y, z);
 	}
 	
 	/**
 	 * Get a unit vector pointing upwards of this quaternion
-	 * @return
+	 * @return (0, 1, 0) rotated by this quaternion
 	 */
 	public Vec3f up() { //TODO: Test
-		return rotate( new Vec3f(0, 1, 0) );
+		double ww = w * w;
+        double xx = x * x;
+        double yy = y * y;
+        double zz = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double yz = y * z;
+        double xw = x * w;
+        
+        float x = (float) (-zw + xy - zw + xy);
+        float y = (float) (yy - zz + ww - xx);
+        float z = (float) (yz + yz + xw + xw);
+		
+		return new Vec3f(x, y, z);
+	}
+	
+	/**
+	 * Get a unit vector pointing to the right of this quaternion
+	 * @return (1, 0, 0) rotated by this quaternion
+	 */
+	public Vec3f right() { //TODO: Test
+		double ww = w * w;
+        double xx = x * x;
+        double yy = y * y;
+        double zz = z * z;
+        double zw = z * w;
+        double xy = x * y;
+        double xz = x * z;
+        double yw = y * w;
+		
+		float x = (float) (ww + xx - zz - yy);
+        float y = (float) (xy + zw + zw + xy);
+        float z = (float) (xz - yw + xz - yw);
+		
+		return new Vec3f(x, y, z);
 	}
 	
 	/**
