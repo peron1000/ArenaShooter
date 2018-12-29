@@ -1,13 +1,19 @@
 package arenashooter.engine.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
-import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 public class Model {
 	//Floats per vertex: x, y, z + u, v
@@ -17,7 +23,7 @@ public class Model {
 	
 	private int vaoID, vboID, indexVBO, indicesCount;
 	
-	public Model( float[] data, byte[] indices ) {
+	public Model( float[] data, int[] indices ) {
 		loadModel( data, indices );
 	}
 	
@@ -26,16 +32,16 @@ public class Model {
 	 * @param data vertices data (position + uv)
 	 * @param indices vertices indices ()
 	 */
-	private void loadModel( float[] data, byte[] indices ) {
-		MemoryStack stack = MemoryStack.stackPush();
-		FloatBuffer dataBuffer = stack.mallocFloat(data.length);
+	private void loadModel( float[] data, int[] indices ) {
+		//Memory allocation
+		FloatBuffer dataBuffer = MemoryUtil.memAllocFloat(data.length);
 		dataBuffer.put(data);
 		dataBuffer.flip();
 
-		indicesCount = indices.length;
-		ByteBuffer indicesBuffer = stack.malloc(indicesCount);
+		IntBuffer indicesBuffer = MemoryUtil.memAllocInt(indices.length);
 		indicesBuffer.put(indices);
 		indicesBuffer.flip();
+		indicesCount = indices.length;
 
 		//Create vao
 		vaoID = glGenVertexArrays();
@@ -54,9 +60,10 @@ public class Model {
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexVBO );
 		glBufferData( GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-		
+
 		//Free memory
-		stack.pop();
+		MemoryUtil.memFree(dataBuffer);
+		MemoryUtil.memFree(indicesBuffer);
 	}
 	
 	/**
@@ -73,7 +80,7 @@ public class Model {
 				-.5f,  .5f, 0f,   0f, 1f  //3
 		};
 		
-		byte[] indices = {
+		int[] indices = {
 				0, 1, 2, //Top triangle
 				2, 3, 0  //Bot triangle
 		};
@@ -120,7 +127,7 @@ public class Model {
 	 * Draw this model. Make sure bind() was called before.
 	 */
 	public void draw() {
-		glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_BYTE, 0);
+		glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
 	}
 	
 	public static void unbind() {

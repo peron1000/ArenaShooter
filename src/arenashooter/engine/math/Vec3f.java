@@ -97,6 +97,16 @@ public class Vec3f {
 	}
 	
 	/**
+	 * Subtract two vectors
+	 * @param a
+	 * @param b
+	 * @return a-b
+	 */
+	public static Vec3f subtract(Vec3f a, Vec3f b) {
+		return new Vec3f( a.x-b.x, a.y-b.y, a.z-b.z );
+	}
+	
+	/**
 	 * Multiplies a vector by a float
 	 * @param v the vector
 	 * @param a the float
@@ -104,5 +114,21 @@ public class Vec3f {
 	 */
 	public static Vec3f multiply( Vec3f v, float a ) {
 		return new Vec3f( v.x*a, v.y*a, v.z*a );
+	}
+	
+	/**
+	 * Cross product of two vectors
+	 * @param a
+	 * @param b
+	 * @return a x b
+	 */
+	public static Vec3f cross( Vec3f a, Vec3f b ) {
+		Vec3f res = new Vec3f();
+		
+		res.x = a.y*b.z - a.z*b.y;
+		res.y = a.z*b.x - a.x*b.z;
+		res.z = a.x*b.y - a.y*b.x;
+		
+		return res;
 	}
 }
