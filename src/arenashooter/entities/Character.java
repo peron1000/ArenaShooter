@@ -12,8 +12,6 @@ public class Character extends Spatial {
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
-	private boolean jumping = false;
-	private int jumpForce = 0;
 	public float movementInput = 0;
 
 	public Character(Vec2f position) {
@@ -37,8 +35,9 @@ public class Character extends Spatial {
 	}
 
 	public void jump(int saut) {
-		jumping = true;
-		jumpForce = saut;
+		if(!isOnGround) return;
+		vel.y = -saut;
+		((SoundEffect)children.get("snd_Jump")).play();
 	}
 
 	public void attack() {
@@ -95,22 +94,16 @@ public class Character extends Spatial {
 						Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
 						vel.x = vel.x * impact.getVelMod().x;
 						vel.y = vel.y * impact.getVelMod().y;
-						if (collider.getYBottom() >= c.getYTop() && collider.getYBottom() < c.getYBottom()
+						if (collider.getYBottom()+(vel.y*d) >= c.getYTop() && collider.getYBottom()+(vel.y*d) < c.getYBottom()
 								&& Collider.isX1IncluedInX2(collider, c))
 							isOnGround = true;
 					}
 				}
 			}
 		}
-		
-		if(jumping && isOnGround) { //TODO: Bouger ca apres position.add(vel) ou avant le check de collision
-			vel.y = -jumpForce;
-			((SoundEffect)children.get("snd_Jump")).play();
-		}
-		jumping = false;
-		
+
 		position.add(Vec2f.multiply(vel, (float) d));
-		
+
 		if (movementInput > 0)
 			((Sprite) children.get("body_Sprite")).flipX = false;
 		else if (movementInput < 0)
