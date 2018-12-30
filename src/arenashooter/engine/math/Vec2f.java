@@ -80,7 +80,7 @@ public class Vec2f {
 	}
 	
 	public float angle() {
-		return (float) Math.atan2(y, x);
+		return (float) Math.atan2(-y, x);
 	}
 	
 	public Vec2f clone() {

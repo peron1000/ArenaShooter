@@ -8,9 +8,7 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Sprite extends Spatial {
@@ -45,13 +43,11 @@ public class Sprite extends Spatial {
 		shader.bind();
 		
 		//Create matrices
-		Vec3f pos = new Vec3f( position.x, position.y, 0 );
-		Quat rot = Quat.fromAngle(rotation);
-		Vec3f scale = new Vec3f( flipX ? -size.x : size.x, flipY ? -size.y : size.y, 1 );
-		Mat4f modelM = Mat4f.transform(pos, rot, scale);
+		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
+		Mat4f modelM = Mat4f.transform(position, rotation, scale);
 		shader.setUniformM4("model", modelM);
 		shader.setUniformM4("view", Game.game.camera.viewMatrix);
-		shader.setUniformM4("projection", Window.proj); //TODO: Get projection matrix properly
+		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);
 		

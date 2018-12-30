@@ -71,22 +71,56 @@ public class Mat4f {
         double yz = q.y * q.z;
         double xw = q.x * q.w;
 		
-		//First line
+		//First column
         res.val[0][0] = (float) (ww + xx - zz - yy);
         res.val[0][1] = (float) (xy + zw + zw + xy);
         res.val[0][2] = (float) (xz - yw + xz - yw);
 		
-		//Second line
+		//Second column
         res.val[1][0] = (float) (-zw + xy - zw + xy);
         res.val[1][1] = (float) (yy - zz + ww - xx);
         res.val[1][2] = (float) (yz + yz + xw + xw);
 
-		//Third line
+		//Third column
         res.val[2][0] = (float) (yw + xz + xz + yw);
         res.val[2][1] = (float) (yz + yz - xw - xw);
         res.val[2][2] = (float) (zz - yy - xx + ww);
 		
+        //Fourth column
 		res.val[3][3] = 1;
+		
+		return res;
+	}
+	
+	/**
+	 * Create a rotation matrix
+	 * @param angle
+	 * @return
+	 */
+	public static Mat4f rotation(float angle) {
+		Mat4f res = new Mat4f();
+		
+		float w = (float)Math.cos(-angle/2);
+		float z = (float)Math.sin(-angle/2);
+		
+		double ww = w * w;
+        double zz = z * z;
+        double zw = z * w;
+		
+		//First column
+        res.val[0][0] = (float) (ww - zz);
+        res.val[0][1] = (float) (zw + zw);
+		
+		//Second column
+        res.val[1][0] = (float) (-zw - zw);
+        res.val[1][1] = (float) (-zz + ww);
+
+		//Third column
+        res.val[2][2] = (float) (zz + ww);
+		
+        //Fourth column
+		res.val[3][3] = 1;
+		
 		return res;
 	}
 	
@@ -101,6 +135,20 @@ public class Mat4f {
 		res.val[3][0] = v.x;
 		res.val[3][1] = v.y;
 		res.val[3][2] = v.z;
+		
+		return res;
+	}
+	
+	/**
+	 * Create a translation matrix
+	 * @param v
+	 * @return
+	 */
+	public static Mat4f translation(Vec2f v) {
+		Mat4f res = identity();
+		
+		res.val[3][0] = v.x;
+		res.val[3][1] = v.y;
 		
 		return res;
 	}
@@ -121,9 +169,65 @@ public class Mat4f {
 		return res;
 	}
 	
+	/**
+	 * Create a scaling matrix
+	 * @param v
+	 * @return
+	 */
+	public static Mat4f scale(Vec2f v) {
+		Mat4f res = new Mat4f();
+		
+		res.val[0][0] = v.x;
+		res.val[1][1] = v.y;
+		res.val[2][2] = 1;
+		res.val[3][3] = 1;
+		
+		return res;
+	}
+	
+	/**
+	 * Create a transform matrix for a 3D object
+	 * @param loc
+	 * @param rot
+	 * @param scale
+	 * @return
+	 */
 	public static Mat4f transform( Vec3f loc, Quat rot, Vec3f scale ) {
 		Mat4f res = new Mat4f();
 		res = mul(mul(translation(loc), rotation(rot)), scale(scale));
+		return res;
+	}
+	
+	/**
+	 * Create a transform matrix for a 2D object
+	 * @param loc
+	 * @param rot
+	 * @param scale
+	 * @return
+	 */
+	public static Mat4f transform( Vec2f loc, float rot, Vec2f scale ) {
+		float w = (float)Math.cos(-rot/2);
+		float z = (float)Math.sin(-rot/2);
+		
+		float ww = w * w;
+        float zz = z * z;
+        float zw2 = 2*(z * w);
+        
+        Mat4f res = new Mat4f();
+        
+        //First column
+        res.val[0][0] = (ww - zz)*scale.x;
+        res.val[0][1] = zw2*scale.x;
+		//Second column
+        res.val[1][0] = -zw2*scale.y;
+        res.val[1][1] = (-zz + ww)*scale.y;
+		//Third column
+        res.val[2][2] = (zz + ww);
+        //Fourth column
+        res.val[3][0] = loc.x;
+        res.val[3][1] = loc.y;
+        res.val[3][3] = 1;
+        
 		return res;
 	}
 	

@@ -33,14 +33,13 @@ public class Quat {
 	public static Quat fromAngle( float angle ) { //TODO: Test
 		Quat res = new Quat();
 		
-		float angleSin = (float)Math.sin(angle/2);
-		res.w = (float)Math.cos(angle/2);
-		res.z = 1*angleSin;
+		res.w = (float)Math.cos(-angle/2);
+		res.z = (float)Math.sin(-angle/2);
 		
 		return res;
 	}
 	
-	public static Quat fromAxis( float x, float y, float z, float angle ) {
+	public static Quat fromAxis( float x, float y, float z, float angle ) { //TODO: Test
 		Quat res = new Quat();
 
 		float angleSin = (float)Math.sin(angle/2);
