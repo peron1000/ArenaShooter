@@ -2,7 +2,9 @@ package arenashooter.entities;
 
 import java.util.ArrayList;
 
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Map extends Entity {
@@ -19,6 +21,9 @@ public class Map extends Entity {
 		creationPlateforme();
 		creationSpawn(nbPlayer);
 
+		Mesh testMesh = new Mesh(new Vec3f(0, -1000, -2000), Quat.fromAngle((float)Math.PI), new Vec3f(2000), "data/meshes/Suzanne.obj");
+		testMesh.attachToParent(this, "aaMesh_Suzanne");
+		
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
 	}
 
@@ -29,20 +34,7 @@ public class Map extends Entity {
 	}
 
 	private void creationPlateforme() {
-		/*
-		 * Plateform plat = new Plateform(new Vec2f(0, 510), new Vec2f(5000, 20));
-		 * plat.attachToParent(this, "Platform 1");
-		 * 
-		 * Plateform plat2 = new Plateform(new Vec2f(-800, 220), new Vec2f(300, 300));
-		 * plat2.attachToParent(this, "Platform 2");
-		 * 
-		 * Plateform plat3 = new Plateform(new Vec2f(800, 220), new Vec2f(300, 300));
-		 * plat3.attachToParent(this, "Platform 3");
-		 * 
-		 * Plateform plat4 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
-		 * plat4.attachToParent(this, "Platform 4");
-		 */
-		// map 1 parfaitement penser
+		// map 1 parfaitement pensee
 
 		Plateform plat = new Plateform(new Vec2f(0, 510), new Vec2f(1500, 100));
 		plat.attachToParent(this, "Platform 1");

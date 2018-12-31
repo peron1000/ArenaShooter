@@ -147,4 +147,15 @@ public class Shader {
 		glUseProgram(0);
 //		boundShader = 0;
 	}
+	
+	//
+	//Memory Management
+	//
+	
+	/**
+	 * Remove unused shaders from memory
+	 */
+	public static void cleanShaders() {
+		//TODO
+	}
 }

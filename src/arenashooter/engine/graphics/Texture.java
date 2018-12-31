@@ -2,9 +2,15 @@ package arenashooter.engine.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Texture {
+	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
-	private static final Texture default_tex = loadTexture( "data/default_texture.png" );;
+	private static final Texture default_tex = loadTexture( "data/default_texture.png" );
 	
 	private final int id;
 	private final String file;
@@ -23,6 +29,11 @@ public class Texture {
 	 * @return texture object (with filtering enabled) or the default texture if an error occurred
 	 */
 	public static Texture loadTexture( String path ) {
+		//Check if the texture has already been loaded
+		TextureEntry entry = textures.get(path);
+		if( entry != null )
+			return entry.texture.get();
+		
 		Image img = Image.loadImage(path);
 		
 		if( img == null ) {
@@ -60,7 +71,11 @@ public class Texture {
 		
 		unbind();		
 		
-		return new Texture(path, id, width, height);
+		Texture tex = new Texture(path, id, width, height);
+		
+		textures.put(path, new TextureEntry(tex));
+		
+		return tex;
 	}
 	
 	public void bind() {
@@ -97,6 +112,46 @@ public class Texture {
 		} else {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		}
+	}
+	
+	//
+	//Memory management
+	//
+	
+	/**
+	 * Remove unused textures from memory
+	 */
+	public static void cleanTextures() { //TODO: Test
+		System.out.println("Render - Cleaning memory...");
+		
+		ArrayList<String> toRemove = new ArrayList<String>(0);
+		
+		Texture.unbind();
+		
+		for ( TextureEntry entry : textures.values() ) {
+		    if( entry.texture.get() == null ) { //Texture has been garbage collected
+		    	toRemove.add(entry.file);
+		    	
+		    	glDeleteTextures(entry.id);
+		    }
+		}
+		
+		for( String s : toRemove )
+			textures.remove(s);
+		
+		System.out.println("Render - Cleaned up "+toRemove.size()+" textures.");
+	}
+	
+	private static class TextureEntry {
+		int id;
+		String file;
+		WeakReference<Texture> texture;
+		
+		TextureEntry(Texture texture) {
+			this.id = texture.id;
+			this.file = texture.getPath();
+			this.texture = new WeakReference<Texture>(texture);
 		}
 	}
 }

@@ -13,6 +13,16 @@ public class Vec3f {
 	public Vec3f() {}
 	
 	/**
+	 * Creates a (a, a, a) vector
+	 * @param a
+	 */
+	public Vec3f(float a) {
+		x=a;
+		y=a;
+		z=a;
+	}
+	
+	/**
 	 * Creates a (x, y, z) vector
 	 * @param x
 	 * @param y

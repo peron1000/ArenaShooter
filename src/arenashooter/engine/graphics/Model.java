@@ -10,14 +10,20 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
+import java.lang.ref.WeakReference;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.system.MemoryUtil;
 
 public class Model {
-	//Floats per vertex: x, y, z + u, v
-	private static final int floatsPerVertex = 3 + 2;
+	private static Map<String, ModelEntry> models = new HashMap<String, ModelEntry>();
+	
+	//Floats per vertex: x, y, z + u, v + nx, ny, nz
+	private static final int floatsPerVertex = 3 + 2 + 3;
 	//Float size in bytes
 	private static final int floatByteSize = (Float.SIZE / Byte.SIZE);
 	
@@ -25,6 +31,10 @@ public class Model {
 	
 	public Model( float[] data, int[] indices ) {
 		loadModel( data, indices );
+	}
+	
+	public static Model[] loadModel(String path) {
+		return ModelObjLoader.loadObj(path);
 	}
 	
 	/**
@@ -71,13 +81,13 @@ public class Model {
 	 * @return the quad model
 	 */
 	public static Model loadQuad() {
-		//Vertices positions and texture coordinates
-		//		x,    y,    z,    u,  v
+		//Vertices positions, texture coordinates and normals
+		//		x,    y,    z,    u,  v,    nx, ny, nz
 		float[] data = {
-				-.5f, -.5f, 0f,   0f, 0f, //0
-				 .5f, -.5f, 0f,   1f, 0f, //1
-				 .5f,  .5f, 0f,   1f, 1f, //2
-				-.5f,  .5f, 0f,   0f, 1f  //3
+				-.5f, -.5f, 0f,   0f, 0f,   0f, 0f, 1f, //0
+				 .5f, -.5f, 0f,   1f, 0f,   0f, 0f, 1f, //1
+				 .5f,  .5f, 0f,   1f, 1f,   0f, 0f, 1f, //2
+				-.5f,  .5f, 0f,   0f, 1f,   0f, 0f, 1f  //3
 		};
 		
 		int[] indices = {
@@ -106,6 +116,11 @@ public class Model {
 		int uvAttLoc = shader.getAttribLocation("uv");
 		glEnableVertexAttribArray(uvAttLoc);
 		glVertexAttribPointer(uvAttLoc, 2, GL_FLOAT, false, floatsPerVertex*floatByteSize, 3*floatByteSize);
+		
+		//Normals
+		int normAttLoc = shader.getAttribLocation("normal");
+		glEnableVertexAttribArray(normAttLoc);
+		glVertexAttribPointer(normAttLoc, 3, GL_FLOAT, false, floatsPerVertex*floatByteSize, (3+2)*floatByteSize);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
@@ -134,19 +149,55 @@ public class Model {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 		glBindVertexArray(0);
 	}
 	
+
+	//
+	//Memory management
+	//
+	
 	/**
-	 * Remove this model from memory
+	 * Remove unused models from memory
 	 */
-	public void destroy() { //TODO: Test this
-		//destroy vao
-		glBindVertexArray(0);
-		glDeleteVertexArrays(vaoID);
+//	public static void cleanModels() { //TODO: Support multiple models per file
+//		System.out.println("Render - Cleaning memory...");
+//		
+//		ArrayList<String> toRemove = new ArrayList<String>(0);
+//		
+//		Model.unbind();
+//		
+//		for ( ModelEntry entry : ModelEntry.values() ) {
+//		    if( entry.model.get() == null ) { //Model has been garbage collected
+//		    	toRemove.add(entry.file);
+//
+//		    	//destroy vao
+//				glDeleteVertexArrays(entry.vao);
+//				
+//				//destroy vbos
+//				glDeleteBuffers(entry.vbo);
+//				glDeleteBuffers(entry.indexVBO);
+//		    }
+//		}
+//		
+//		for( String s : toRemove )
+//			models.remove(s);
+//		
+//		System.out.println("Render - Cleaned up "+toRemove.size()+" models.");
+//	}
+	
+	private static class ModelEntry {
+		int vao, vbo, indexVBO;
+		String file;
+		WeakReference<Model> model;
 		
-		//destroy vbo
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glDeleteBuffers(vboID);
+		ModelEntry(Model model) {
+			this.vao = model.vaoID;
+			this.vbo = model.vboID;
+			this.indexVBO = model.indexVBO;
+//			this.file = model.
+			this.model = new WeakReference<Model>(model);
+		}
 	}
 }

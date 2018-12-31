@@ -25,7 +25,8 @@ public final class Window {
 	private static int width, height;
 	private static float ratio;
 	
-	private static float fov = 120;
+	private static float fov = 90;
+	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
 	
 	//This class cannot be instantiated
 	private Window() {}
@@ -201,7 +202,7 @@ public final class Window {
 //		float sizeY = 800;
 //		float sizeX = sizeY*ratio;
 //		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
-		proj = Mat4f.perspective(0.1f, 1000, fov, ratio);
+		proj = Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio);
 	}
 	
 	/**
