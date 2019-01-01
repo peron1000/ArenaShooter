@@ -32,7 +32,7 @@ public class Map extends Entity {
 			spawn.add(i, new Vec2f(i * 200 - 300, 0));
 		}
 	}
-
+	
 	private void creationPlateforme() {
 		// map 1 parfaitement pensee
 

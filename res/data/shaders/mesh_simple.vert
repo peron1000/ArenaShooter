@@ -31,6 +31,6 @@ void main() {
     
     ambient = vec3(0.063, 0.078, 0.078);
     
-    directionalLightDir = normalize( (view * vec4(0.45, 0.8, -0.3, 0.0)).xyz );
+    directionalLightDir = normalize( (view * vec4(0.45, -0.8, -0.3, 0.0)).xyz );
     directionalLightColor = vec3(0.929, 0.906, 0.753);
 }

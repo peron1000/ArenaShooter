@@ -53,7 +53,7 @@ final class ModelObjLoader {
 					texCoords.add(new Vec2f(Float.valueOf(lineParts[1]), 1-Float.valueOf(lineParts[2])));
 					break;
 				case "vn": //Normal
-					normals.add(new Vec3f(Float.valueOf(lineParts[1]), Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
+					normals.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
 					break;
 				case "f":
 					//Load the first vertex of the face

@@ -30,4 +30,5 @@ void main() {
 	
     //FragmentColor = textureSample*baseColorMod;
     FragmentColor = vec4( (ambient+textureSample.rgb)*directionalLightColor*lightAmount, 1.0 );
+    //FragmentColor = vec4( (normalCamSpace+1.0)/2.0, 1.0 ); //Normal viewer
 }
