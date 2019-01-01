@@ -23,6 +23,8 @@ public class Map extends Entity {
 
 		Mesh testMesh = new Mesh(new Vec3f(0, -1000, -2000), new Quat(), new Vec3f(2000), "data/meshes/Suzanne.obj");
 		testMesh.attachToParent(this, "aaMesh_Suzanne");
+		Mesh arrows = new Mesh(new Vec3f(-500, 500, 200), new Quat(), new Vec3f(200), "data/meshes/arrows.obj");
+		arrows.attachToParent(this, "Mesh Arrows");
 		
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
 	}
