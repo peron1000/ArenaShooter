@@ -47,10 +47,10 @@ final class ModelObjLoader {
 					}
 					break;
 				case "v": //Vertex
-					vertices.add(new Vec3f(Float.valueOf(lineParts[1]), Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
+					vertices.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
 					break;
-				case "vt": //Texture coordinates
-					texCoords.add(new Vec2f(Float.valueOf(lineParts[1]), Float.valueOf(lineParts[2])));
+				case "vt": //Texture coordinates (flipped because openGL)
+					texCoords.add(new Vec2f(Float.valueOf(lineParts[1]), 1-Float.valueOf(lineParts[2])));
 					break;
 				case "vn": //Normal
 					normals.add(new Vec3f(Float.valueOf(lineParts[1]), Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));

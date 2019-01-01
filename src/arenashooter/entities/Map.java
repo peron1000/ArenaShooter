@@ -21,7 +21,7 @@ public class Map extends Entity {
 		creationPlateforme();
 		creationSpawn(nbPlayer);
 
-		Mesh testMesh = new Mesh(new Vec3f(0, -1000, -2000), Quat.fromAngle((float)Math.PI), new Vec3f(2000), "data/meshes/Suzanne.obj");
+		Mesh testMesh = new Mesh(new Vec3f(0, -1000, -2000), new Quat(), new Vec3f(2000), "data/meshes/Suzanne.obj");
 		testMesh.attachToParent(this, "aaMesh_Suzanne");
 		
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);

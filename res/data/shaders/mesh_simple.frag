@@ -3,7 +3,14 @@
 //In
 in vec2 texCoord;
 in vec3 normalCamSpace;
-in vec3 lightDirection;
+in vec3 ambient;
+in vec3 directionalLightDir;
+in vec3 directionalLightColor;
+in struct Light {
+  vec3 position;
+  float radius;
+  vec3 color;
+} light;
 
 //Uniforms
 uniform sampler2D baseColor;
@@ -17,10 +24,10 @@ void main() {
     
     if(textureSample.a <= 0) discard;
 
-	float lightAmount = (dot(normalCamSpace, lightDirection)+1.0)/2.0;
+	float lightAmount = (dot(normalCamSpace, directionalLightDir)+1.0)/2.0;
 	
-	lightAmount = mix( 0.25, 1.3, lightAmount );
+	lightAmount = mix( 0.2, 1.5, lightAmount );
 	
     //FragmentColor = textureSample*baseColorMod;
-    FragmentColor = vec4( vec3(0.929, 0.906, 0.753)*lightAmount, 1.0 );
+    FragmentColor = vec4( (ambient+textureSample.rgb)*directionalLightColor*lightAmount, 1.0 );
 }
