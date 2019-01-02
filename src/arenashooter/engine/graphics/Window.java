@@ -4,6 +4,25 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL30.GL_COLOR_ATTACHMENT0;
+import static org.lwjgl.opengl.GL30.GL_DEPTH24_STENCIL8;
+import static org.lwjgl.opengl.GL30.GL_DEPTH_ATTACHMENT;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_COMPLETE;
+import static org.lwjgl.opengl.GL30.GL_RENDERBUFFER;
+import static org.lwjgl.opengl.GL30.glBindFramebuffer;
+import static org.lwjgl.opengl.GL30.glBindRenderbuffer;
+import static org.lwjgl.opengl.GL30.glCheckFramebufferStatus;
+import static org.lwjgl.opengl.GL30.glDeleteFramebuffers;
+import static org.lwjgl.opengl.GL30.glDeleteRenderbuffers;
+import static org.lwjgl.opengl.GL30.glFramebufferRenderbuffer;
+import static org.lwjgl.opengl.GL30.glFramebufferTexture2D;
+import static org.lwjgl.opengl.GL30.glGenFramebuffers;
+import static org.lwjgl.opengl.GL30.glGenRenderbuffers;
+import static org.lwjgl.opengl.GL30.glRenderbufferStorage;
 
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWImage;
@@ -25,8 +44,19 @@ public final class Window {
 	private static int width, height;
 	private static float ratio;
 	
+	//Projection
+	public static Mat4f proj;
 	private static float fov = 90;
 	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
+	
+	//Post processing
+	static Shader postProcess;
+	private static Model quad;
+
+	//Framebuffers
+	private static int renderTarget, colorRenderBuffer, depthRenderBuffer, fbo;
+	//Internal rendering resolution
+	private static int resX, resY;
 	
 	//This class cannot be instantiated
 	private Window() {}
@@ -44,11 +74,6 @@ public final class Window {
 		
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
-		//On s'assure que la fenetre respecte les tailles minimales et maximales
-		width = Math.max(WIDTH_MIN, Math.min(windowWidth, vidmode.width()));
-		height = Math.max(HEIGHT_MIN, Math.min(windowHeight, vidmode.height()));
-		ratio = (float)width/(float)height;
-		
 		glfwDefaultWindowHints();
 		
 		//Interdire le redimensionnement manuel
@@ -63,7 +88,7 @@ public final class Window {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		
-		window = glfwCreateWindow(width, height, windowTtitle, NULL, NULL);
+		window = glfwCreateWindow(WIDTH_MIN, HEIGHT_MIN, windowTtitle, NULL, NULL);
 
 		if (window == NULL) {
 			System.err.println("Render - Can't create window !");
@@ -72,14 +97,17 @@ public final class Window {
 		
 		setIcon( new String[] {"data/icon_32.png", "data/icon_64.png", "data/icon_128.png"} );
 		
-		//Center window
-		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
-		
 		//Definir le contexte de la fenetre
 		glfwMakeContextCurrent(window);
 		
 		//Lier la fenetre a OpenGL
 		GL.createCapabilities();
+		
+		//Set window size, create projection matrix, create framebuffers etc
+		resize(windowWidth, windowHeight);
+		
+		//Center window
+		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
 		
 		//Enable textures
 		glEnable(GL_TEXTURE_2D);
@@ -100,13 +128,18 @@ public final class Window {
 		
 		//Link keyboard input to the window
 		Input.setWindow(window);
+		
+		//Load default quad
+		quad = Model.loadQuad();
+		
+		//Load post-processing shader
+		postProcess = new Shader("data/shaders/post_process/pp_default");
 
 		//Create projection matrix
 		createProjectionMatrix();
 		
 		//TODO: Temp test stuff
 		shaderSky = new Shader("data/shaders/test_sky");
-		quad = Model.loadQuad();
 	}
 	
 	/**
@@ -117,26 +150,48 @@ public final class Window {
 	}
 	
 	//TODO: Temp variables
-	static Model quad;
 	static Shader shaderSky;
-	public static Mat4f proj;
 	
 	/**
 	 * Begin a frame, this will update Input and prepare the window for rendering
 	 */
 	public static void beginFrame() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		glfwPollEvents();
 		Input.update();
 		
+		//Bind framebuffer object
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		glViewport(0, 0, resX, resY);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		drawSky(); //TODO: Remove this
+		
+		glEnable(GL_DEPTH_TEST);
 	}
 	
 	/**
 	 * End a frame, this will swap framebuffers
 	 */
 	public static void endFrame() {
+		//Bind default framebuffer
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0, 0, width, height);
+		
+		glDisable(GL_DEPTH_TEST);
+
+		//Render full-screen quad for post processing
+		postProcess.bind();
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, renderTarget);
+		postProcess.setUniformI("sceneColor", 0);
+		
+		quad.bindToShader(postProcess);
+		quad.bind();
+		quad.draw();
+		Model.unbind();
+		Shader.unbind();
+		Texture.unbind();
+
 		glfwSwapBuffers(window);
 	}
 	
@@ -169,12 +224,18 @@ public final class Window {
 	public static void resize(int newWidth, int newHeight) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
+		resX = width;
+		resY = height;
 		
 		ratio = (float)width/(float)height;
 		
 		glfwSetWindowSize(window, width, height);
-		glViewport(0, 0, width, height);
+		glViewport(0, 0, resX, resY);
 
+		//Update framebuffers
+		destroyFramebuffer();
+		createFramebuffer();
+		
 		//Recreate projection matrix
 		createProjectionMatrix();
 	}
@@ -203,6 +264,59 @@ public final class Window {
 //		float sizeX = sizeY*ratio;
 //		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
 		proj = Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio);
+	}
+	
+	private static void createFramebuffer() {
+		//Create framebuffer
+		fbo = glGenFramebuffers();
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+		
+		//Color
+		colorRenderBuffer = glGenRenderbuffers();
+		glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, resX, resY);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBuffer);
+
+		//Depth
+		depthRenderBuffer = glGenRenderbuffers();
+		glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, resX, resY);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+		
+		//Create texture
+		glActiveTexture(GL_TEXTURE0);
+		renderTarget = glGenTextures();
+		glBindTexture(GL_TEXTURE_2D, renderTarget);
+		
+		//Create empty image
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, resX, resY, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+		
+		//Filtering
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		
+		//Set wraping to clamp
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		
+		//Attach texture to framebuffer
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTarget, 0);
+		glDrawBuffer(GL_COLOR_ATTACHMENT0);
+		
+		int fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+		if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+			System.err.println("Could not create FBO: " + fboStatus);
+		
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+	
+	private static void destroyFramebuffer() {
+		glDeleteRenderbuffers(depthRenderBuffer);
+		glDeleteRenderbuffers(colorRenderBuffer);
+		glDeleteFramebuffers(fbo);
+		glDeleteTextures(renderTarget);
 	}
 	
 	/**
