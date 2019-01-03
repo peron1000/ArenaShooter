@@ -15,7 +15,7 @@ public class Mesh extends Spatial3 {
 
 	private Model[] models;
 	private Shader[] shaders;
-	private Texture[] textures;
+	public Texture[] textures;
 	
 	public Vec3f scale;
 	

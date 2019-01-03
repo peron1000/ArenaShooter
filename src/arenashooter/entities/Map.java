@@ -2,6 +2,7 @@ package arenashooter.entities;
 
 import java.util.ArrayList;
 
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -40,6 +41,15 @@ public class Map extends Entity {
 
 		Plateform plat = new Plateform(new Vec2f(0, 510), new Vec2f(1500, 100));
 		plat.attachToParent(this, "Platform 1");
+		
+		Mesh plat1Mesh = new Mesh(new Vec3f(0, 410, 0), new Quat(), new Vec3f(5), "data/meshes/catwalk/catwalk_200.obj");
+		plat1Mesh.textures[0] = Texture.loadTexture("data/meshes/catwalk/catwalk_top.png");
+		plat1Mesh.textures[0].setFilter(false);
+		plat1Mesh.attachToParent(this, "Platform Mesh 1.1");
+		plat1Mesh = new Mesh(new Vec3f(1000, 410, 0), new Quat(), new Vec3f(5), "data/meshes/catwalk/catwalk_200.obj");
+		plat1Mesh.textures[0] = Texture.loadTexture("data/meshes/catwalk/catwalk_top.png");
+		plat1Mesh.textures[0].setFilter(false);
+		plat1Mesh.attachToParent(this, "Platform Mesh 1.2");
 
 		Plateform plat2 = new Plateform(new Vec2f(-800, 210), new Vec2f(300, 300));
 		plat2.attachToParent(this, "Platform 2");
