@@ -26,12 +26,13 @@ public class Character extends Spatial {
 		collider = new Collider(this.position, new Vec2f(50, 110));
 		collider.attachToParent(this, "coll_Body");
 		
-		Sprite body = new Sprite(position, "data/UnMoineHD.png");
+		Sprite body = new Sprite(position, "data/sprites/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.attachToParent(this, "body_Sprite");
 		
-		SoundEffect testSound = new SoundEffect( this.position, "data/sound/jump.ogg" );
-		testSound.attachToParent(this, "snd_Jump");
+		SoundEffect jumpSound = new SoundEffect( this.position, "data/sound/jump.ogg" );
+		jumpSound.setVolume(.7f);
+		jumpSound.attachToParent(this, "snd_Jump");
 	}
 
 	public void jump(int saut) {
@@ -41,13 +42,13 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		Texture chevre = Texture.loadTexture("data/Chevre2.png");
+		Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
 		chevre.setFilter(false);
 		Sprite body = ((Sprite) children.get("body_Sprite"));
 		((Sprite) children.get("body_Sprite")).tex = chevre;
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-		collider.extent.y = body.size.y / 2;
-		collider.extent.x = (body.size.x / 2) - 20;
+		collider.extent.x = 25;
+		collider.extent.y = 60;
 		// TODO: attac
 		for (Entity entity : Game.game.getMap().children.values()) {
 			if(entity instanceof Character && entity != this) {
