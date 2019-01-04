@@ -13,6 +13,9 @@ public class Character extends Spatial {
 	Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
+	
+	//TODO: Temp sprite selector
+	private static boolean chevre_chat = false;
 
 	public Character(Vec2f position) {
 		super(position);
@@ -23,12 +26,17 @@ public class Character extends Spatial {
 		
 		rotation = 0;
 		
-		collider = new Collider(this.position, new Vec2f(50, 110));
+		collider = new Collider(this.position, new Vec2f(25, 70));
 		collider.attachToParent(this, "coll_Body");
 		
 		Sprite body = new Sprite(position, "data/sprites/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-		body.attachToParent(this, "body_Sprite");
+//		body.attachToParent(this, "body_Sprite");
+		
+		String spriteFolder = chevre_chat ? "chevre_01" : "chat_01";
+		chevre_chat = !chevre_chat;
+		CharacterSprite skeleton = new CharacterSprite(this.position, "data/sprites/characters/"+spriteFolder);
+		skeleton.attachToParent(this, "skeleton");
 		
 		SoundEffect jumpSound = new SoundEffect( this.position, "data/sound/jump.ogg" );
 		jumpSound.setVolume(.7f);
@@ -42,13 +50,15 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
-		chevre.setFilter(false);
 		Sprite body = ((Sprite) children.get("body_Sprite"));
-		((Sprite) children.get("body_Sprite")).tex = chevre;
-		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-		collider.extent.x = 25;
-		collider.extent.y = 60;
+		if(body != null) {
+			Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
+			chevre.setFilter(false);
+			body.tex = chevre;
+			body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
+			collider.extent.x = 25;
+			collider.extent.y = 60;
+		}
 		// TODO: attac
 		for (Entity entity : Game.game.getMap().children.values()) {
 			if(entity instanceof Character && entity != this) {
@@ -78,6 +88,7 @@ public class Character extends Spatial {
 		//TODO: Effects
 		health = healthMax;
 		position = new Vec2f(spawn.x, spawn.y);
+		vel = new Vec2f();
 	}
 
 	@Override
@@ -105,10 +116,23 @@ public class Character extends Spatial {
 
 		position.add(Vec2f.multiply(vel, (float) d));
 
-		if (movementInput > 0)
-			((Sprite) children.get("body_Sprite")).flipX = false;
-		else if (movementInput < 0)
-			((Sprite) children.get("body_Sprite")).flipX = true;
+		if(((Sprite) children.get("body_Sprite")) != null) {
+			if (movementInput > 0)
+				((Sprite) children.get("body_Sprite")).flipX = false;
+			else if (movementInput < 0)
+				((Sprite) children.get("body_Sprite")).flipX = true;
+		}
+		
+		//Animation
+		CharacterSprite skeleton = ((CharacterSprite)children.get("skeleton"));
+		if(skeleton != null) {
+			skeleton.onGround = isOnGround;
+			skeleton.moveSpeed = vel.x;
+			if(movementInput > 0)
+				skeleton.lookRight = true;
+			else if(movementInput < 0)
+				skeleton.lookRight = false;
+		}
 		
 		if(Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
 			death();
