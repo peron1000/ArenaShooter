@@ -145,6 +145,10 @@ public class Model {
 		glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
 	}
 	
+	public void draw(boolean wireframe) {
+		glDrawElements(wireframe ? GL_LINE_LOOP : GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
+	}
+	
 	public static void unbind() {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glDisableVertexAttribArray(0);
