@@ -8,6 +8,8 @@ import arenashooter.entities.Game;
 public class Main {
 	private static final int minFrametime = 8;
 	
+	public static boolean drawCollisions = true;
+	
 	public static void main(String[] args) {
 		Audio.init(false);
 		Window.init(1280, 720, "Super Blep");

@@ -13,7 +13,6 @@ import static org.lwjgl.opengl.GL30.*;
 import java.lang.ref.WeakReference;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -143,6 +142,14 @@ public class Model {
 	 */
 	public void draw() {
 		glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
+	}
+	
+	/**
+	 * Draw this model. Make sure bind() was called before.
+	 * @param wireframe draw this model as wireframe
+	 */
+	public void draw(boolean wireframe) {
+		glDrawElements(wireframe ? GL_LINE_LOOP : GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
 	}
 	
 	public static void unbind() {

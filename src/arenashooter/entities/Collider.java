@@ -1,5 +1,10 @@
 package arenashooter.entities;
 
+import arenashooter.Main;
+import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.Shader;
+import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 
 /**
@@ -110,5 +115,29 @@ public class Collider extends Spatial {
 	 */
 	public static boolean isX1IncluedInX2(Collider c1, Collider c2) {
 		return c1.getXLeft() < c2.getXRight() && c1.getXRight() > c2.getXLeft();
+	}
+	
+	private static final Model quad = Model.loadQuad();
+	private static final Shader shader = new Shader("data/shaders/debug_color");
+	@Override
+	public void draw() {
+		if(Main.drawCollisions) {
+			shader.bind();
+			
+			//Create matrices
+			Mat4f modelM = Mat4f.transform(position, rotation, new Vec2f(extent.x*2, extent.y*2));
+			shader.setUniformM4("model", modelM);
+			shader.setUniformM4("view", Game.game.camera.viewMatrix);
+			shader.setUniformM4("projection", Window.proj);
+			
+			shader.setUniformV4("color", new float[]{1,0,0,1});
+			
+			quad.bindToShader(shader);
+
+			quad.bind();
+			quad.draw(true);
+		}
+		
+		super.draw();
 	}
 }
