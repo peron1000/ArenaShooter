@@ -26,7 +26,7 @@ public class Character extends Spatial {
 		
 		rotation = 0;
 		
-		collider = new Collider(this.position, new Vec2f(25, 70));
+		collider = new Collider(this.position, new Vec2f(25, 60));
 		collider.attachToParent(this, "coll_Body");
 		
 		Sprite body = new Sprite(position, "data/sprites/UnMoineHD.png");
