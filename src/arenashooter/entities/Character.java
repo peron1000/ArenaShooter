@@ -5,7 +5,7 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
 public class Character extends Spatial {
-	private static final float defaultDammage = 5;
+	private static final float defaultDamage = 5;
 	private float health, healthMax;
 	private final Vec2f spawn;
 
@@ -85,10 +85,11 @@ public class Character extends Spatial {
 						float xDiff = Math.abs(position.x - c.position.x);
 						float yDiff = Math.abs(position.y - c.position.y);
 						if (xDiff < 300 && yDiff < 300) {
-							c.takeDamage(defaultDammage);
+							c.takeDamage(defaultDamage);
 							c.position.add(new Vec2f(0, -30));
 						}
 					}
+
 				}
 			}
 		}
