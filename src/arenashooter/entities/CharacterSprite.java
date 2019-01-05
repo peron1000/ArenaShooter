@@ -66,11 +66,11 @@ public class CharacterSprite extends Spatial {
 		footCos = Utils.lerpF( 1, footCos, Math.min(Math.abs(moveSpeed)/500, 1) );
 		
 		if(moveSpeed > 0) {
-			footL.position.add(new Vec2f(-20+footCos*4, 44+footSin*10));
-			footR.position.add(new Vec2f( 20-footSin*4, 44+footCos*10));
+			footL.position.add(new Vec2f(-20+footCos*4, 42+footSin*10));
+			footR.position.add(new Vec2f( 20-footSin*4, 42+footCos*10));
 		} else {
-			footL.position.add(new Vec2f( 20-footCos*4, 44+footSin*10));
-			footR.position.add(new Vec2f(-20+footSin*4, 44+footCos*10));
+			footL.position.add(new Vec2f( 20-footCos*4, 42+footSin*10));
+			footR.position.add(new Vec2f(-20+footSin*4, 42+footCos*10));
 		}
 		
 		//Body
