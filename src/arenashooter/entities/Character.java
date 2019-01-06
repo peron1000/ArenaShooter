@@ -1,6 +1,5 @@
 package arenashooter.entities;
 
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
@@ -33,10 +32,6 @@ public class Character extends Spatial {
 
 		attack.attachToParent(this, "attack timer");
 
-		Sprite body = new Sprite(position, "data/sprites/UnMoineHD.png");
-		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-		// body.attachToParent(this, "body_Sprite");
-
 		String spriteFolder = chevre_chat ? "chevre_01" : "chat_01";
 		chevre_chat = !chevre_chat;
 		CharacterSprite skeleton = new CharacterSprite(this.position, "data/sprites/characters/" + spriteFolder);
@@ -57,16 +52,7 @@ public class Character extends Spatial {
 	public void attack() {
 		if (attack.isOver()) {
 			attack.restart();
-			Sprite body = ((Sprite) children.get("body_Sprite"));
-			// if (body != null) {
-			// Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
-			// chevre.setFilter(false);
-			// body.tex = chevre;
-			// body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-			// collider.extent.x = 25;
-			// collider.extent.y = 60;
-			// }
-			// TODO: attac
+			//TODO: attac
 			for (Entity entity : Game.game.getMap().children.values()) {
 				if (entity instanceof Character && entity != this) {
 					Character c = (Character) entity;
@@ -94,7 +80,7 @@ public class Character extends Spatial {
 		}
 	}
 
-	public float takeDamage(float damage, boolean droite) {// degats orientés
+	public float takeDamage(float damage, boolean droite) {// degats orientes
 		float res = Math.min(damage, health);
 		if (droite)
 			vel.add(new Vec2f(500 * ((float) Math.log10(damage)), -800 * ((float) Math.log10(damage))));
@@ -143,15 +129,7 @@ public class Character extends Spatial {
 
 		position.add(Vec2f.multiply(vel, (float) d));
 
-		if (((Sprite) children.get("body_Sprite")) != null) {
-			if (movementInput > 0) {
-				((Sprite) children.get("body_Sprite")).flipX = false;
-			} else if (movementInput < 0) {
-				((Sprite) children.get("body_Sprite")).flipX = true;
-			}
-		}
-
-		// Animation
+		//Animation
 		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
 		if (skeleton != null) {
 			skeleton.onGround = isOnGround;
