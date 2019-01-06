@@ -98,34 +98,34 @@ public class Map extends Entity {
 		Plateform plat14 = new Plateform(new Vec2f(-1900, 1200), new Vec2f(150, 20));
 		plat14.attachToParent(this, "Platform 14");
 
-		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-300, 0));
-		bul1.attachToParent(this, "bul1");
-
-		Bullet bul2 = new Bullet(new Vec2f(500, 70), new Vec2f(-400, 100));
-		bul2.attachToParent(this, "bul2");
-
-		Bullet bul3 = new Bullet(new Vec2f(1000, 150), new Vec2f(-1200, 200));
-		bul3.attachToParent(this, "bul3");
-
-		Bullet bul4 = new Bullet(new Vec2f(500, 50), new Vec2f(-500, 170));
-		bul4.attachToParent(this, "bul4");
-
-		Bullet bul5 = new Bullet(new Vec2f(500, 20), new Vec2f(-200, 300));
-		bul5.attachToParent(this, "bul5");
-
-		Bullet bul6 = new Bullet(new Vec2f(400, 50), new Vec2f(-200, 100));
-		bul6.attachToParent(this, "bul6");
-
-		Bullet bul7 = new Bullet(new Vec2f(500, 100), new Vec2f(-200, 50));
-		bul7.attachToParent(this, "bul7");
-
-		Bullet bul8 = new Bullet(new Vec2f(500, 100), new Vec2f(-170, 30));
-		bul8.attachToParent(this, "bul8");
-
-		Bullet bul9 = new Bullet(new Vec2f(500, 100), new Vec2f(-50, 15));
-		bul9.attachToParent(this, "bul9");
-
-		Bullet bul0 = new Bullet(new Vec2f(750, 0), new Vec2f(-200, 50));
-		bul0.attachToParent(this, "bul0");
+//		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-300, 0));
+//		bul1.attachToParent(this, "bul1");
+//
+//		Bullet bul2 = new Bullet(new Vec2f(500, 70), new Vec2f(-400, 100));
+//		bul2.attachToParent(this, "bul2");
+//
+//		Bullet bul3 = new Bullet(new Vec2f(1000, 150), new Vec2f(-1200, 200));
+//		bul3.attachToParent(this, "bul3");
+//
+//		Bullet bul4 = new Bullet(new Vec2f(500, 50), new Vec2f(-500, 170));
+//		bul4.attachToParent(this, "bul4");
+//
+//		Bullet bul5 = new Bullet(new Vec2f(500, 20), new Vec2f(-200, 300));
+//		bul5.attachToParent(this, "bul5");
+//
+//		Bullet bul6 = new Bullet(new Vec2f(400, 50), new Vec2f(-200, 100));
+//		bul6.attachToParent(this, "bul6");
+//
+//		Bullet bul7 = new Bullet(new Vec2f(500, 100), new Vec2f(-200, 50));
+//		bul7.attachToParent(this, "bul7");
+//
+//		Bullet bul8 = new Bullet(new Vec2f(500, 100), new Vec2f(-170, 30));
+//		bul8.attachToParent(this, "bul8");
+//
+//		Bullet bul9 = new Bullet(new Vec2f(500, 100), new Vec2f(-50, 15));
+//		bul9.attachToParent(this, "bul9");
+//
+//		Bullet bul0 = new Bullet(new Vec2f(750, 0), new Vec2f(-200, 50));
+//		bul0.attachToParent(this, "bul0");
 	}
 }

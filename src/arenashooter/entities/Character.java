@@ -85,7 +85,7 @@ public class Character extends Spatial {
 						float xDiff = Math.abs(position.x - c.position.x);
 						float yDiff = Math.abs(position.y - c.position.y);
 						if (xDiff < 300 && yDiff < 300) {
-							c.takeDamage(defaultDamage);
+							c.takeDamage(defaultDamage, ((CharacterSprite) children.get("skeleton")).lookRight);// movementInput>0);
 						}
 					}
 
@@ -94,10 +94,12 @@ public class Character extends Spatial {
 		}
 	}
 
-	public float takeDamage(float damage) {
+	public float takeDamage(float damage, boolean droite) {// degats orientés
 		float res = Math.min(damage, health);
-
-		vel.add(new Vec2f(0, -1000 * ((float) Math.log10(damage))));
+		if (droite)
+			vel.add(new Vec2f(500 * ((float) Math.log10(damage)), -800 * ((float) Math.log10(damage))));
+		else
+			vel.add(new Vec2f(-500 * ((float) Math.log10(damage)), -800 * ((float) Math.log10(damage))));
 
 		health = Math.max(0, health - damage);
 
