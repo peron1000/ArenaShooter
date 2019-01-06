@@ -27,6 +27,13 @@ public class Map extends Entity {
 		Mesh arrows = new Mesh(new Vec3f(-500, 500, 200), new Quat(), new Vec3f(200), "data/meshes/arrows.obj");
 		arrows.attachToParent(this, "Mesh Arrows");
 		
+		//Rigid body
+		RigidBody rb = new RigidBody(new Vec2f(1150, -500), new Vec2f(100, 100), 20);
+		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		rbSprite.size = new Vec2f(200, 200);
+		rb.attachToParent(this, "Rigid Body test");
+		rbSprite.attachToParent(rb, "Sprite");
+		
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
 	}
 
