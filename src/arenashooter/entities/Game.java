@@ -17,7 +17,7 @@ public class Game {
 	private Character[] players = new Character[nbPlayers];
 	public Camera camera;
 
-	public ArrayList<Entity> aDestroy = new ArrayList<Entity>();
+	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
 
 	private Game() {
 		map = new Map(nbPlayers);
@@ -90,11 +90,10 @@ public class Game {
 		}
 		map.step(d);
 
-		for (Entity en : aDestroy) {
+		//Destroy entities
+		for(Entity en : toDestroy)
 			en.detach();
-
-		}
-
+		toDestroy.clear();
 	}
 
 	public void draw() {

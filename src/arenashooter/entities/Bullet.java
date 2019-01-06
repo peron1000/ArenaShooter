@@ -31,7 +31,7 @@ public class Bullet extends Projectile {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
 							((SoundEffect) children.get("snd_touche")).play();
-							Game.game.aDestroy.add(this);
+							destroy();
 						}
 					}
 				}
@@ -43,7 +43,7 @@ public class Bullet extends Projectile {
 						if (c.isColliding(collider)) {
 							((SoundEffect) children.get("snd_touche")).play();
 							((Character) bump).takeDamage(damage, vel.x > 0);
-							Game.game.aDestroy.add(this);
+							destroy();
 						}
 					}
 				}

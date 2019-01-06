@@ -50,6 +50,10 @@ public class Entity {
 	public void setParent(Entity parent) {
 		this.parent = parent;
 	}
+	
+	public void destroy() {
+		Game.game.toDestroy.add(this);
+	}
 
 	/**
 	 * Update children.
