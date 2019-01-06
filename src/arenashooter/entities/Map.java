@@ -26,14 +26,14 @@ public class Map extends Entity {
 		testMesh.attachToParent(this, "aaMesh_Suzanne");
 		Mesh arrows = new Mesh(new Vec3f(-500, 500, 200), new Quat(), new Vec3f(200), "data/meshes/arrows.obj");
 		arrows.attachToParent(this, "Mesh Arrows");
-		
-		//Rigid body
+
+		// Rigid body
 		RigidBody rb = new RigidBody(new Vec2f(1150, -500), new Vec2f(100, 100), 20);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(200, 200);
 		rb.attachToParent(this, "Rigid Body test");
 		rbSprite.attachToParent(rb, "Sprite");
-		
+
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
 	}
 
@@ -42,14 +42,15 @@ public class Map extends Entity {
 			spawn.add(i, new Vec2f(i * 200 - 300, 0));
 		}
 	}
-	
+
 	private void creationPlateforme() {
 		// map 1 parfaitement pensee
 
 		Plateform plat = new Plateform(new Vec2f(0, 510), new Vec2f(1500, 100));
 		plat.attachToParent(this, "Platform 1");
-		
-		Mesh plat1Mesh = new Mesh(new Vec3f(0, 410, 0), new Quat(), new Vec3f(5), "data/meshes/catwalk/catwalk_200.obj");
+
+		Mesh plat1Mesh = new Mesh(new Vec3f(0, 410, 0), new Quat(), new Vec3f(5),
+				"data/meshes/catwalk/catwalk_200.obj");
 		plat1Mesh.textures[0] = Texture.loadTexture("data/meshes/catwalk/catwalk_top.png");
 		plat1Mesh.textures[0].setFilter(false);
 		plat1Mesh.attachToParent(this, "Platform Mesh 1.1");
@@ -88,7 +89,7 @@ public class Map extends Entity {
 		Plateform plat11 = new Plateform(new Vec2f(-2700, -2700), new Vec2f(2000, 2000));
 		plat11.attachToParent(this, "Platform 11");
 
-		Plateform plat12 = new Plateform(new Vec2f(0, 2222), new Vec2f(5000, 10));// 7000
+		Plateform plat12 = new Plateform(new Vec2f(0, 2222), new Vec2f(5000, 10));// 7000 //C'est quoi ce commentare ?
 		plat12.attachToParent(this, "Platform 12");
 
 		Plateform plat13 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
@@ -96,11 +97,35 @@ public class Map extends Entity {
 
 		Plateform plat14 = new Plateform(new Vec2f(-1900, 1200), new Vec2f(150, 20));
 		plat14.attachToParent(this, "Platform 14");
-		
-		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-300,0));
+
+		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-300, 0));
 		bul1.attachToParent(this, "bul1");
-		
-		Bullet bul2 = new Bullet(new Vec2f(500, 100), new Vec2f(-200,300));
+
+		Bullet bul2 = new Bullet(new Vec2f(500, 70), new Vec2f(-400, 100));
 		bul2.attachToParent(this, "bul2");
+
+		Bullet bul3 = new Bullet(new Vec2f(1000, 150), new Vec2f(-1200, 200));
+		bul3.attachToParent(this, "bul3");
+
+		Bullet bul4 = new Bullet(new Vec2f(500, 50), new Vec2f(-500, 170));
+		bul4.attachToParent(this, "bul4");
+
+		Bullet bul5 = new Bullet(new Vec2f(500, 20), new Vec2f(-200, 300));
+		bul5.attachToParent(this, "bul5");
+
+		Bullet bul6 = new Bullet(new Vec2f(400, 50), new Vec2f(-200, 100));
+		bul6.attachToParent(this, "bul6");
+
+		Bullet bul7 = new Bullet(new Vec2f(500, 100), new Vec2f(-200, 50));
+		bul7.attachToParent(this, "bul7");
+
+		Bullet bul8 = new Bullet(new Vec2f(500, 100), new Vec2f(-170, 30));
+		bul8.attachToParent(this, "bul8");
+
+		Bullet bul9 = new Bullet(new Vec2f(500, 100), new Vec2f(-50, 15));
+		bul9.attachToParent(this, "bul9");
+
+		Bullet bul0 = new Bullet(new Vec2f(750, 0), new Vec2f(-200, 50));
+		bul0.attachToParent(this, "bul0");
 	}
 }
