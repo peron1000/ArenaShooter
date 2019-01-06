@@ -12,6 +12,8 @@ public class CharacterSprite extends Spatial {
 	public float moveSpeed = 0;
 	public boolean onGround = false;
 	public boolean lookRight = true;
+	public boolean attack = false;
+	private Vec2f handRLoc = new Vec2f();
 	
 	private double time = Math.random()*Math.PI, movementTime = 0;
 	
@@ -80,6 +82,15 @@ public class CharacterSprite extends Spatial {
 		//Head
 		float headH = Utils.lerpF(0, (float)Math.cos(movementTime*.03d), Math.min(Math.abs(moveSpeed)/300, 1));
 		head.position.add(new Vec2f( 0, -17+headH*1.8f ));
+		
+		//Hands
+		if(attack) {
+			handRLoc.x = 150;
+			attack = false;
+		}
+		
+		handRLoc.x = Utils.lerpF(handRLoc.x, 0, (float)(d*8));
+		handR.position.add(lookRight ? handRLoc : Vec2f.multiply(handRLoc, -1));
 	}
 
 }

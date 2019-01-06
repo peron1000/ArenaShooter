@@ -40,6 +40,14 @@ public class Character extends Spatial {
 		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg");
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
+		
+		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/punch_01.ogg");
+		punchHitSound.setVolume(.7f);
+		punchHitSound.attachToParent(this, "snd_Punch_Hit");
+		
+		SoundEffect punchSound = new SoundEffect(this.position, "data/sound/woosh_01.ogg");
+		punchSound.setVolume(.7f);
+		punchSound.attachToParent(this, "snd_Punch");
 	}
 
 	public void jump(int saut) {
@@ -52,13 +60,19 @@ public class Character extends Spatial {
 	public void attack() {
 		if (attack.isOver()) {
 			attack.restart();
+			
+			CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
+			if (skeleton != null) {
+				skeleton.attack = true;
+			}
+			((SoundEffect) children.get("snd_Punch")).play();
+			
 			//TODO: attac
 			for (Entity entity : Game.game.getMap().children.values()) {
 				if (entity instanceof Character && entity != this) {
 					Character c = (Character) entity;
 
 					boolean isInFrontOfMe = false;
-					CharacterSprite skeleton = (CharacterSprite) children.get("skeleton");
 					if (skeleton != null) {
 						boolean lookRight = ((CharacterSprite) children.get("skeleton")).lookRight;
 						if ((lookRight && collider.getXRight() < c.collider.getXRight())
@@ -70,8 +84,9 @@ public class Character extends Spatial {
 					if (isInFrontOfMe) {
 						float xDiff = Math.abs(position.x - c.position.x);
 						float yDiff = Math.abs(position.y - c.position.y);
-						if (xDiff < 300 && yDiff < 300) {
+						if (xDiff < 175 && yDiff < 175) {
 							c.takeDamage(defaultDamage, ((CharacterSprite) children.get("skeleton")).lookRight);// movementInput>0);
+							((SoundEffect) children.get("snd_Punch_Hit")).play();
 						}
 					}
 
