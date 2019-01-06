@@ -31,7 +31,7 @@ public class Bullet extends Projectile {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
 							((SoundEffect) children.get("snd_touche")).play();
-							detach();
+//							detach();
 						}
 					}
 				}
