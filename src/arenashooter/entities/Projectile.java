@@ -10,6 +10,10 @@ public class Projectile extends Spatial{
 	Collider collider;
 	float damage;//Un projectile n'a pas forcément de damage.
 
+	public Projectile() {
+		super();
+	}
+	
 	public Projectile(Vec2f position) {
 		super(position);
 	}

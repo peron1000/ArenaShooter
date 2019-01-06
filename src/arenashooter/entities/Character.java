@@ -58,14 +58,14 @@ public class Character extends Spatial {
 		if (attack.isOver()) {
 			attack.restart();
 			Sprite body = ((Sprite) children.get("body_Sprite"));
-			if (body != null) {
-				Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
-				chevre.setFilter(false);
-				body.tex = chevre;
-				body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-				collider.extent.x = 25;
-				collider.extent.y = 60;
-			}
+//			if (body != null) {
+//				Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
+//				chevre.setFilter(false);
+//				body.tex = chevre;
+//				body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
+//				collider.extent.x = 25;
+//				collider.extent.y = 60;
+//			}
 			// TODO: attac
 			for (Entity entity : Game.game.getMap().children.values()) {
 				if (entity instanceof Character && entity != this) {
