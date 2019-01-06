@@ -65,6 +65,10 @@ public class CharacterSprite extends Spatial {
 		this.lookRight = lookRight;
 	}
 	
+	private void land() {
+		
+	}
+	
 	@Override
 	public void step(double d) {
 		super.step(d);
@@ -76,6 +80,8 @@ public class CharacterSprite extends Spatial {
 			isOnGround = parentChar.isOnGround;
 			moveSpeed = parentChar.vel.x;
 		}
+		
+		if(isOnGround && !wasOnGround) land();
 		
 		time += d;
 		movementTime += d*Math.abs(moveSpeed);
