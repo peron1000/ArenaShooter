@@ -12,6 +12,7 @@ public class Character extends Spatial {
 	Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
+	private boolean lookRight = true;
 
 	private Timer attack = new Timer(0.5);
 
@@ -44,10 +45,6 @@ public class Character extends Spatial {
 		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/punch_01.ogg");
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
-		
-		SoundEffect punchSound = new SoundEffect(this.position, "data/sound/woosh_01.ogg");
-		punchSound.setVolume(.7f);
-		punchSound.attachToParent(this, "snd_Punch");
 	}
 
 	public void jump(int saut) {
@@ -62,10 +59,7 @@ public class Character extends Spatial {
 			attack.restart();
 			
 			CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
-			if (skeleton != null) {
-				skeleton.attack = true;
-			}
-			((SoundEffect) children.get("snd_Punch")).play();
+			if (skeleton != null) skeleton.punch();
 			
 			//TODO: attac
 			for (Entity entity : Game.game.getMap().children.values()) {
@@ -74,7 +68,6 @@ public class Character extends Spatial {
 
 					boolean isInFrontOfMe = false;
 					if (skeleton != null) {
-						boolean lookRight = ((CharacterSprite) children.get("skeleton")).lookRight;
 						if ((lookRight && collider.getXRight() < c.collider.getXRight())
 								|| (!lookRight && collider.getXLeft() > c.collider.getXLeft())) {
 							isInFrontOfMe = true;
@@ -85,7 +78,7 @@ public class Character extends Spatial {
 						float xDiff = Math.abs(position.x - c.position.x);
 						float yDiff = Math.abs(position.y - c.position.y);
 						if (xDiff < 175 && yDiff < 175) {
-							c.takeDamage(defaultDamage, ((CharacterSprite) children.get("skeleton")).lookRight);// movementInput>0);
+							c.takeDamage(defaultDamage, lookRight);
 							((SoundEffect) children.get("snd_Punch_Hit")).play();
 						}
 					}
@@ -145,14 +138,13 @@ public class Character extends Spatial {
 		position.add(Vec2f.multiply(vel, (float) d));
 
 		//Animation
+		if( movementInput > 0 )
+			lookRight = true;
+		else if( movementInput < 0 )
+			lookRight = false;
 		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
 		if (skeleton != null) {
-			skeleton.onGround = isOnGround;
-			skeleton.moveSpeed = vel.x;
-			if (movementInput > 0)
-				skeleton.lookRight = true;
-			else if (movementInput < 0)
-				skeleton.lookRight = false;
+			skeleton.setLookRight(lookRight);
 		}
 
 		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {

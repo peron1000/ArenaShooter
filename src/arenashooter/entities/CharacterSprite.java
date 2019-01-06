@@ -8,11 +8,10 @@ public class CharacterSprite extends Spatial {
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
 	
-	public float lookAngle = 0;
-	public float moveSpeed = 0;
-	public boolean onGround = false;
-	public boolean lookRight = true;
-	public boolean attack = false;
+	private float lookAngle = 0;
+	private float moveSpeed = 0;
+	private boolean wasOnGround = false, isOnGround = false;
+	private boolean lookRight = true;
 	private Vec2f handRLoc = new Vec2f();
 	
 	private Timer stepTimer = new Timer(.25); //TODO: Improve step detection
@@ -51,11 +50,32 @@ public class CharacterSprite extends Spatial {
 		SoundEffect sndStep = new SoundEffect(this.position, "data/sound/step_01.ogg");
 		sndStep.setVolume(.03f);
 		sndStep.attachToParent(this, "snd Step");
+		
+		SoundEffect punchSound = new SoundEffect(this.position, "data/sound/woosh_01.ogg");
+		punchSound.setVolume(.7f);
+		punchSound.attachToParent(this, "snd_Punch");
+	}
+	
+	public void punch() {
+		handRLoc.x = 150;
+		((SoundEffect) children.get("snd_Punch")).play();
+	}
+	
+	public void setLookRight(boolean lookRight) {
+		this.lookRight = lookRight;
 	}
 	
 	@Override
 	public void step(double d) {
 		super.step(d);
+		
+		wasOnGround = isOnGround;
+		
+		Character parentChar = (Character)getParent();
+		if(parentChar != null) {
+			isOnGround = parentChar.isOnGround;
+			moveSpeed = parentChar.vel.x;
+		}
 		
 		time += d;
 		movementTime += d*Math.abs(moveSpeed);
@@ -75,7 +95,7 @@ public class CharacterSprite extends Spatial {
 		footCos = Utils.lerpF( 1, footCos, Math.min(Math.abs(moveSpeed)/500, 1) );
 		
 		stepTimer.step(d*Math.abs(moveSpeed)/500);
-		if( onGround && stepTimer.isOver() ) {
+		if( isOnGround && stepTimer.isOver() ) {
 			((SoundEffect) children.get("snd Step")).play();
 			stepTimer.restart();
 		}
@@ -97,11 +117,6 @@ public class CharacterSprite extends Spatial {
 		head.position.add(new Vec2f( 0, -17+headH*2.5f ));
 		
 		//Hands
-		if(attack) {
-			handRLoc.x = 150;
-			attack = false;
-		}
-		
 		handRLoc.x = Utils.lerpF(handRLoc.x, 0, (float)(d*8));
 		handR.position.add(lookRight ? handRLoc : Vec2f.multiply(handRLoc, -1));
 	}
