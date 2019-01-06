@@ -6,6 +6,7 @@ public class Projectile extends Spatial{
 	
 	//TODO Link projectiles to Character.
 
+	boolean disp = false;
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	float damage;//Un projectile n'a pas forcément de damage.

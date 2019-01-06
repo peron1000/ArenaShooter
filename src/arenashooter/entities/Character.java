@@ -35,7 +35,7 @@ public class Character extends Spatial {
 
 		Sprite body = new Sprite(position, "data/sprites/UnMoineHD.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-//		body.attachToParent(this, "body_Sprite");
+		// body.attachToParent(this, "body_Sprite");
 
 		String spriteFolder = chevre_chat ? "chevre_01" : "chat_01";
 		chevre_chat = !chevre_chat;
@@ -58,14 +58,14 @@ public class Character extends Spatial {
 		if (attack.isOver()) {
 			attack.restart();
 			Sprite body = ((Sprite) children.get("body_Sprite"));
-//			if (body != null) {
-//				Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
-//				chevre.setFilter(false);
-//				body.tex = chevre;
-//				body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-//				collider.extent.x = 25;
-//				collider.extent.y = 60;
-//			}
+			// if (body != null) {
+			// Texture chevre = Texture.loadTexture("data/sprites/Chevre2.png");
+			// chevre.setFilter(false);
+			// body.tex = chevre;
+			// body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
+			// collider.extent.x = 25;
+			// collider.extent.y = 60;
+			// }
 			// TODO: attac
 			for (Entity entity : Game.game.getMap().children.values()) {
 				if (entity instanceof Character && entity != this) {
@@ -73,20 +73,19 @@ public class Character extends Spatial {
 
 					boolean isInFrontOfMe = false;
 					CharacterSprite skeleton = (CharacterSprite) children.get("skeleton");
-					if(skeleton != null) {
+					if (skeleton != null) {
 						boolean lookRight = ((CharacterSprite) children.get("skeleton")).lookRight;
 						if ((lookRight && collider.getXRight() < c.collider.getXRight())
 								|| (!lookRight && collider.getXLeft() > c.collider.getXLeft())) {
 							isInFrontOfMe = true;
 						}
 					}
-					
+
 					if (isInFrontOfMe) {
 						float xDiff = Math.abs(position.x - c.position.x);
 						float yDiff = Math.abs(position.y - c.position.y);
 						if (xDiff < 300 && yDiff < 300) {
 							c.takeDamage(defaultDamage);
-							c.position.add(new Vec2f(0, -30));
 						}
 					}
 
@@ -97,6 +96,8 @@ public class Character extends Spatial {
 
 	public float takeDamage(float damage) {
 		float res = Math.min(damage, health);
+
+		vel.add(new Vec2f(0, -1000 * ((float) Math.log10(damage))));
 
 		health = Math.max(0, health - damage);
 

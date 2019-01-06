@@ -97,8 +97,10 @@ public class Map extends Entity {
 		Plateform plat14 = new Plateform(new Vec2f(-1900, 1200), new Vec2f(150, 20));
 		plat14.attachToParent(this, "Platform 14");
 		
-		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-100,0));
+		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-300,0));
 		bul1.attachToParent(this, "bul1");
-
+		
+		Bullet bul2 = new Bullet(new Vec2f(500, 100), new Vec2f(-200,300));
+		bul2.attachToParent(this, "bul2");
 	}
 }
