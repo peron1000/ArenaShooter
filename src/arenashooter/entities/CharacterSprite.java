@@ -15,6 +15,8 @@ public class CharacterSprite extends Spatial {
 	public boolean attack = false;
 	private Vec2f handRLoc = new Vec2f();
 	
+	private Timer stepTimer = new Timer(.25); //TODO: Improve step detection
+	
 	private double time = Math.random()*Math.PI, movementTime = 0;
 	
 	public CharacterSprite(Vec2f position, String folder) {
@@ -45,6 +47,10 @@ public class CharacterSprite extends Spatial {
 		handR.size = new Vec2f(handR.tex.getWidth() * 3, handR.tex.getHeight() * 3);
 		handR.tex.setFilter(false);
 		handR.attachToParent(this, "handR");
+		
+		SoundEffect sndStep = new SoundEffect(this.position, "data/sound/step_01.ogg");
+		sndStep.setVolume(.03f);
+		sndStep.attachToParent(this, "snd Step");
 	}
 	
 	@Override
@@ -64,8 +70,15 @@ public class CharacterSprite extends Spatial {
 		//Feet
 		float footSin = (float)Math.sin(movementTime*.02d);
 		float footCos = (float)Math.cos(movementTime*.02d);
+		
 		footSin = Utils.lerpF( 1, footSin, Math.min(Math.abs(moveSpeed)/500, 1) );
 		footCos = Utils.lerpF( 1, footCos, Math.min(Math.abs(moveSpeed)/500, 1) );
+		
+		stepTimer.step(d*Math.abs(moveSpeed)/500);
+		if( onGround && stepTimer.isOver() ) {
+			((SoundEffect) children.get("snd Step")).play();
+			stepTimer.restart();
+		}
 		
 		if(moveSpeed > 0) {
 			footL.position.add(new Vec2f(-20+footCos*4, 42+footSin*10));
@@ -81,7 +94,7 @@ public class CharacterSprite extends Spatial {
 		
 		//Head
 		float headH = Utils.lerpF(0, (float)Math.cos(movementTime*.03d), Math.min(Math.abs(moveSpeed)/300, 1));
-		head.position.add(new Vec2f( 0, -17+headH*1.8f ));
+		head.position.add(new Vec2f( 0, -17+headH*2.5f ));
 		
 		//Hands
 		if(attack) {
