@@ -25,17 +25,17 @@ public class Bullet extends Projectile {
 
 	public void step(double d) {
 		for (Entity bump : getParent().children.values()) {
-			if (bump instanceof Plateform) {
-				for (Entity coll : ((Plateform) bump).children.values()) {
-					if (coll instanceof Collider) {
-						Collider c = (Collider) coll;
-						if (c.isColliding(collider)) {
-							((SoundEffect) children.get("snd_touche")).play();
+//			if (bump instanceof Plateform) {
+//				for (Entity coll : ((Plateform) bump).children.values()) {
+//					if (coll instanceof Collider) {
+//						Collider c = (Collider) coll;
+//						if (c.isColliding(collider)) {
+//							((SoundEffect) children.get("snd_touche")).play();
 //							detach();
-						}
-					}
-				}
-			}
+//						}
+//					}
+//				}
+//			}
 			if (bump instanceof Character) {
 				for (Entity coll : ((Character) bump).children.values()) {
 					if (coll instanceof Collider) {
