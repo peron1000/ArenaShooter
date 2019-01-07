@@ -10,12 +10,16 @@ import arenashooter.engine.math.Vec4f;
 
 public class Map extends Entity {
 
-	ArrayList<Vec2f> spawn;
+	public ArrayList<Vec2f> spawn;
 
 	/**
 	 * world bounds (min x, min y, max x, max y)
 	 */
 	public Vec4f cameraBounds;
+	
+	public Map() {
+		
+	}
 
 	public Map(int nbPlayer) {
 		spawn = new ArrayList<>(nbPlayer);
@@ -127,5 +131,9 @@ public class Map extends Entity {
 //
 //		Bullet bul0 = new Bullet(new Vec2f(750, 0), new Vec2f(-200, 50));
 //		bul0.attachToParent(this, "bul0");
+	}
+	
+	public void addPlateform(Vec2f position , Vec2f extent , String nom) {
+		children.put(nom, new Plateform(position, extent));
 	}
 }
