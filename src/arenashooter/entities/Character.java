@@ -14,7 +14,7 @@ public class Character extends Spatial {
 	public float movementInput = 0;
 	private boolean lookRight = true;
 
-	private Timer attack = new Timer(0.5);
+	private Timer attack = new Timer(0.3);
 
 	// TODO: Temp sprite selector
 	private static boolean chevre_chat = false;
