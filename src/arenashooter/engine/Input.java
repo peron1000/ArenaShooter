@@ -11,13 +11,13 @@ public final class Input {
 	private static long window;
 	
 	private static float[] axisMoveX = new float[17], axisMoveY = new float[17];
-	private static boolean[] actionJump = new boolean[17], actionAttack = new boolean[17];
+	private static boolean[] actionJump = new boolean[17], actionAttack = new boolean[17], actionItem = new boolean[17];
 	
 	//This class cannot be instantiated
 	private Input() {}
 	
 	public enum Action {
-		JUMP, ATTACK;
+		JUMP, ATTACK, ITEM;
 	}
 	
 	public enum Axis {
@@ -36,6 +36,7 @@ public final class Input {
 		switch( action ) {
 			case JUMP: return actionJump[device.id];
 			case ATTACK: return actionAttack[device.id];
+			case ITEM: return actionItem[device.id];
 			default: return false;
 		}
 	}
@@ -58,6 +59,7 @@ public final class Input {
 
 				actionJump[i] = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
 				actionAttack[i] = glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS;
+				actionItem[i] = glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS;
 				
 			} else { //Controller
 				
