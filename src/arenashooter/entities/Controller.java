@@ -34,6 +34,8 @@ public class Controller {
 				character.jump(3000);
 			if (Input.actionPressed(device, Action.ATTACK))
 				character.attack();
+			if(Input.actionPressed(device, Action.ITEM));
+				character.getItem();
 		}
 	}
 }
