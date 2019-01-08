@@ -58,4 +58,15 @@ public final class Utils {
 	public static float lerpF( float a, float b, float f ) {
 		return a + (b-a)*f;
 	}
+	
+	/**
+	 * Linear interpolation between a and b
+	 * @param a
+	 * @param b
+	 * @param f
+	 * @return
+	 */
+	public static float lerpF( float a, float b, double f ) {
+		return (float)(a + (b-a)*f);
+	}
 }

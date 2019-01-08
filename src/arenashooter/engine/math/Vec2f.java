@@ -23,6 +23,16 @@ public class Vec2f {
 	}
 	
 	/**
+	 * Creates a (x, y) vector
+	 * @param x
+	 * @param y
+	 */
+	public Vec2f(double x, double y) {
+		this.x = (float)x;
+		this.y = (float)y;
+	}
+	
+	/**
 	 * This becomes Other
 	 * @param other vector to copy
 	 */

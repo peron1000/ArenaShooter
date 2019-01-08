@@ -96,11 +96,11 @@ public class CharacterSprite extends Spatial {
 		handR.flipX = !lookRight;
 		
 		//Feet
-		float footSin = (float)Math.sin(movementTime*.02d);
-		float footCos = (float)Math.cos(movementTime*.02d);
+		double footSin = Math.sin(movementTime*.02);
+		double footCos = Math.cos(movementTime*.02);
 		
-		footSin = Utils.lerpF( 1, footSin, Math.min(Math.abs(moveSpeed)/500, 1) );
-		footCos = Utils.lerpF( 1, footCos, Math.min(Math.abs(moveSpeed)/500, 1) );
+		footSin = Utils.lerpD( 1, footSin, Math.min(Math.abs(moveSpeed)/500, 1) );
+		footCos = Utils.lerpD( 1, footCos, Math.min(Math.abs(moveSpeed)/500, 1) );
 		
 		stepTimer.step(d*Math.abs(moveSpeed)/500);
 		if( isOnGround && stepTimer.isOver() ) {
@@ -117,15 +117,15 @@ public class CharacterSprite extends Spatial {
 		}
 		
 		//Body
-		float bodyH = Utils.lerpF(0, (float)Math.sin(movementTime*.01d), Math.min(Math.abs(moveSpeed)/300, 1));
+		double bodyH = Utils.lerpD(0, Math.sin(movementTime*.01d), Math.min(Math.abs(moveSpeed)/300, 1));
 		body.position.add(new Vec2f( 0, -17+bodyH*1.9f ));
 		
 		//Head
-		float headH = Utils.lerpF(0, (float)Math.cos(movementTime*.03d), Math.min(Math.abs(moveSpeed)/300, 1));
+		double headH = Utils.lerpD(0, Math.cos(movementTime*.03d), Math.min(Math.abs(moveSpeed)/300, 1));
 		head.position.add(new Vec2f( 0, -17+headH*2.5f ));
 		
 		//Hands
-		handRLoc.x = Utils.lerpF(handRLoc.x, 0, (float)(d*8));
+		handRLoc.x = Utils.lerpF(handRLoc.x, 0, d*8);
 		handR.position.add(lookRight ? handRLoc : Vec2f.multiply(handRLoc, -1));
 	}
 
