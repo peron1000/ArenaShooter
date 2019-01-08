@@ -1,6 +1,7 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Entity;
 
 public class Spatial extends Entity {
 	public Vec2f position;

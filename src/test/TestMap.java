@@ -12,7 +12,7 @@ import arenashooter.engine.MapXMLTranslator;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
-import arenashooter.entities.Plateform;
+import arenashooter.entities.spatials.Plateform;
 
 public class TestMap {
 	

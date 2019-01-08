@@ -1,18 +1,21 @@
 package arenashooter.entities;
 
-import arenashooter.Main;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.Impact;
+import arenashooter.entities.spatials.Spatial;
+import arenashooter.game.Game;
+import arenashooter.game.Main;
 
 /**
  * extends {@link Spatial}</br>
  * Part of the entity which can colliding with an other entity with a <code>Collider</code>
  */
 public class Collider extends Spatial {
-	Vec2f extent;
+	public Vec2f extent;
 
 	public Collider(Vec2f position, Vec2f extent) {
 		super(position);
@@ -24,7 +27,7 @@ public class Collider extends Spatial {
 	 * @param other
 	 * @return <i>true</i> if <code>this</code> and <code>other</code> are colliding
 	 */
-	boolean isColliding(Collider other) {
+	public boolean isColliding(Collider other) {
 		return Math.abs(position.x - other.position.x) < extent.x + other.extent.x
 				&& Math.abs(position.y - other.position.y) < extent.y + other.extent.y;
 	}

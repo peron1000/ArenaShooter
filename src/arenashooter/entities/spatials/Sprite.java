@@ -1,4 +1,4 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -10,6 +10,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.Game;
 
 public class Sprite extends Spatial {
 	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");

@@ -4,6 +4,7 @@ import arenashooter.engine.Device;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
+import arenashooter.entities.spatials.Character;
 
 public class Controller {
 
@@ -34,8 +35,10 @@ public class Controller {
 				character.jump(3000);
 			if (Input.actionPressed(device, Action.ATTACK))
 				character.attack();
-			if(Input.actionPressed(device, Action.ITEM));
+			if (Input.actionPressed(device, Action.GET_ITEM))
 				character.getItem();
+			if(Input.actionPressed(device, Action.DROP_ITEM))
+				character.dropItem();
 		}
 	}
 }

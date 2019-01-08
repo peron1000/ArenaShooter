@@ -10,6 +10,8 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.spatials.Spatial3;
+import arenashooter.game.Game;
 
 public class Mesh extends Spatial3 {
 

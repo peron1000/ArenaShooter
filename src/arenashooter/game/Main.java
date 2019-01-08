@@ -1,9 +1,8 @@
-package arenashooter;
+package arenashooter.game;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
-import arenashooter.entities.Game;
 
 public class Main {
 	private static final int minFrametime = 8;

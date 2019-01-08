@@ -13,7 +13,7 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.entities.Game;
+import arenashooter.game.Game;
 
 class EmitterBasic extends Emitter {
 	//Start angle

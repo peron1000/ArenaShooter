@@ -2,6 +2,7 @@ package arenashooter.entities;
 
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.spatials.Spatial;
 
 public class SoundEffect extends Spatial {
 	private SoundSource sound;

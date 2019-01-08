@@ -1,4 +1,4 @@
-package arenashooter.entities;
+package arenashooter.game;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,15 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Camera;
+import arenashooter.entities.Controller;
+import arenashooter.entities.Entity;
+import arenashooter.entities.Map;
+import arenashooter.entities.Music;
+import arenashooter.entities.SoundEffect;
+import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.Particles;
+import arenashooter.entities.spatials.Spatial;
 
 public class Game {
 	public static Game game;

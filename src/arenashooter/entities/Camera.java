@@ -6,6 +6,8 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.entities.spatials.Spatial;
+import arenashooter.entities.spatials.Spatial3;
 
 public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();

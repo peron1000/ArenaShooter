@@ -1,6 +1,7 @@
-package arenashooter.entities;
+package arenashooter.engine.physic;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Collider;
 
 public class Impact {
 

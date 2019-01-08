@@ -1,6 +1,9 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Collider;
+import arenashooter.entities.Entity;
+import arenashooter.entities.SoundEffect;
 
 public class Bullet extends Projectile {
 

@@ -1,7 +1,14 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.Impact;
+import arenashooter.entities.Collider;
+import arenashooter.entities.Entity;
+import arenashooter.entities.SoundEffect;
+import arenashooter.entities.Timer;
+import arenashooter.entities.items.Item;
+import arenashooter.game.Game;
 
 public class Character extends Spatial {
 	private static final float defaultDamage = 5;
@@ -93,7 +100,26 @@ public class Character extends Spatial {
 	}
 	
 	public void getItem() {
-		
+		for (Entity entity : Game.game.getMap().children.values()) {
+			if (entity instanceof Item) {
+				Item c = (Item) entity;
+				float xDiff = Math.abs(position.x - c.position.x);
+				float yDiff = Math.abs(position.y - c.position.y);
+				if(xDiff < 175 && yDiff < 175) {
+					c.attachToParent(this, "itemtest");
+				}
+			}
+		}
+	}
+	
+	public void dropItem() {
+		for (Entity entity : this.children.values()) {
+			if(entity instanceof Item) {
+				System.out.println(entity.toString());
+				Item c = (Item) entity;
+				c.attachToParent(Game.game.getMap(),"lol");
+			}
+		}
 	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes

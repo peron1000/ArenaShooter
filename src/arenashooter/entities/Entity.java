@@ -2,6 +2,8 @@ package arenashooter.entities;
 
 import java.util.HashMap;
 
+import arenashooter.game.Game;
+
 public class Entity {
 
 	private Entity parent;

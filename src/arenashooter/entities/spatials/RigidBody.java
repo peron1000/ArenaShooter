@@ -1,6 +1,9 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.Impact;
+import arenashooter.entities.Collider;
+import arenashooter.entities.Entity;
 
 public class RigidBody extends Spatial {
 

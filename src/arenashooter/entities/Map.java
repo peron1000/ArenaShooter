@@ -7,6 +7,10 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.entities.items.Item;
+import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.RigidBody;
+import arenashooter.entities.spatials.Sprite;
 
 public class Map extends Entity {
 
@@ -93,14 +97,20 @@ public class Map extends Entity {
 		Plateform plat11 = new Plateform(new Vec2f(-2700, -2700), new Vec2f(2000, 2000));
 		plat11.attachToParent(this, "Platform 11");
 
-		Plateform plat12 = new Plateform(new Vec2f(0, 2222), new Vec2f(5000, 10));// 7000 //C'est quoi ce commentare ?
+		Plateform plat12 = new Plateform(new Vec2f(0, 2200), new Vec2f(5000, 10));// 7000 //C'est quoi ce commentare ?
 		plat12.attachToParent(this, "Platform 12");
-
-		Plateform plat13 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
-		plat13.attachToParent(this, "Platform 13");
-
-		Plateform plat14 = new Plateform(new Vec2f(-1900, 1200), new Vec2f(150, 20));
-		plat14.attachToParent(this, "Platform 14");
+		
+		Item item1 = new Item(new Vec2f(0, 2200));
+		item1.attachToParent(this, "item1");
+		
+		Item item2 = new Item(new Vec2f(300, 2200));
+		item2.attachToParent(this, "item2");
+//
+//		Plateform plat13 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
+//		plat13.attachToParent(this, "Platform 13");
+//
+//		Plateform plat14 = new Plateform(new Vec2f(-1900, 1200), new Vec2f(150, 20));
+//		plat14.attachToParent(this, "Platform 14");
 
 //		Bullet bul1 = new Bullet(new Vec2f(1000, 350), new Vec2f(-300, 0));
 //		bul1.attachToParent(this, "bul1");

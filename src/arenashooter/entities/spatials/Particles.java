@@ -1,4 +1,4 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.graphics.particles.ParticleSystem;
 import arenashooter.engine.math.Vec2f;

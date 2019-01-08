@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import arenashooter.entities.Entity;
-import arenashooter.entities.Game;
+import arenashooter.game.Game;
 
 public class TestGame {
 	private static Game game = Game.game;

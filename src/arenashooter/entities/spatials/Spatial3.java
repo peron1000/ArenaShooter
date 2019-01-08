@@ -1,7 +1,8 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Entity;
 
 public class Spatial3 extends Entity {
 	public Vec3f position;
