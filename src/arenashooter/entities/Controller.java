@@ -24,21 +24,18 @@ public class Controller {
 	}
 
 	public void step(double d) {
-		if (character.isDead()) {
-			character.movementInput = 0;
-		} else {
-			character.movementInput = Input.getAxis(device, Axis.MOVE_X);
-		}
-
 		if (!character.isDead()) {
+			character.movementInput = Input.getAxis(device, Axis.MOVE_X);
+			
 			if (Input.actionPressed(device, Action.JUMP))
 				character.jump(3000);
 			if (Input.actionPressed(device, Action.ATTACK))
 				character.attack();
-			if (Input.actionPressed(device, Action.GET_ITEM))
+			if (Input.actionJustPressed(device, Action.GET_ITEM))
 				character.getItem();
-			if(Input.actionPressed(device, Action.DROP_ITEM))
+			if(Input.actionJustPressed(device, Action.DROP_ITEM))
 				character.dropItem();
-		}
+		} else
+			character.movementInput = 0;
 	}
 }

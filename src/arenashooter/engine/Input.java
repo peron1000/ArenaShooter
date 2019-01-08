@@ -11,10 +11,26 @@ public final class Input {
 	private static long window;
 	
 	private static float[] axisMoveX = new float[17], axisMoveY = new float[17];
-	private static boolean[] actionJump = new boolean[17], actionAttack = new boolean[17], actionGetItem = new boolean[17], actionDropItem = new boolean[17];
+	private static ActionState[] actionJump = new ActionState[17], actionAttack = new ActionState[17], actionGetItem = new ActionState[17], actionDropItem = new ActionState[17];
 	
 	//This class cannot be instantiated
 	private Input() {}
+	
+	/**
+	 * Initialize input actions
+	 */
+	static {
+		for( int i=0; i<17; i++ ) {
+			actionJump[i] = ActionState.RELEASED;
+			actionAttack[i] = ActionState.RELEASED;
+			actionGetItem[i] = ActionState.RELEASED;
+			actionDropItem[i] = ActionState.RELEASED;
+		}
+	}
+	
+	public enum ActionState {
+		RELEASED, JUST_PRESSED, PRESSED, JUST_RELEASED;
+	}
 	
 	public enum Action {
 		JUMP, ATTACK, GET_ITEM, DROP_ITEM;
@@ -32,14 +48,41 @@ public final class Input {
 		}
 	}
 	
-	public static boolean actionPressed( Device device, Action action ) {
+	/**
+	 * 
+	 * @param device
+	 * @param action
+	 * @return the state of an action
+	 */
+	public static ActionState getActionState( Device device, Action action ) {
 		switch( action ) {
-			case JUMP: return actionJump[device.id];
-			case ATTACK: return actionAttack[device.id];
-			case GET_ITEM: return actionGetItem[device.id];
-			case DROP_ITEM: return actionDropItem[device.id];
-			default: return false;
+		case JUMP: return actionJump[device.id];
+		case ATTACK: return actionAttack[device.id];
+		case GET_ITEM: return actionGetItem[device.id];
+		case DROP_ITEM: return actionDropItem[device.id];
+		default: return ActionState.RELEASED;
 		}
+	}
+	
+	/**
+	 * 
+	 * @param device
+	 * @param action
+	 * @return is an action currently pressed on a device
+	 */
+	public static boolean actionPressed( Device device, Action action ) {
+		ActionState state = getActionState(device, action);
+		return state == ActionState.JUST_PRESSED || state == ActionState.PRESSED;
+	}
+	
+	/**
+	 * 
+	 * @param device
+	 * @param action
+	 * @return was an action just pressed on a device
+	 */
+	public static boolean actionJustPressed( Device device, Action action ) {
+		return getActionState(device, action) == ActionState.JUST_PRESSED;
 	}
 
 	public static void update() {
@@ -58,10 +101,10 @@ public final class Input {
 				if( glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS )
 					axisMoveY[i]+=1;
 
-				actionJump[i] = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
-				actionAttack[i] = glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS;
-				actionGetItem[i] = glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS;
-				actionDropItem[i] = glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS;
+				actionJump[i] = getActionState(actionJump[i], glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS);
+				actionAttack[i] = getActionState(actionAttack[i], glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS);
+				actionGetItem[i] = getActionState(actionGetItem[i], glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
+				actionDropItem[i] = getActionState(actionDropItem[i], glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS);
 				
 			} else { //Controller
 				
@@ -76,11 +119,26 @@ public final class Input {
 						axisMoveY[i] = joyAxis[i].get(1);
 				}
 
-				if(joyButtons[i] != null) actionJump[i] = joyButtons[i].get(0) == 1;
-				if(joyButtons[i] != null) actionAttack[i] = joyButtons[i].get(2) == 1;
+				if(joyButtons[i] != null) actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(0) == 1);
+				if(joyButtons[i] != null) actionAttack[i] = getActionState(actionAttack[i], joyButtons[i].get(2) == 1);
 				
 //				printController(i); //TODO: Remove this
 			}
+		}
+	}
+	
+	private static ActionState getActionState(ActionState current, boolean isPressed) {
+		switch(current) {
+		case RELEASED:
+			return isPressed ? ActionState.JUST_PRESSED : ActionState.RELEASED;
+		case JUST_PRESSED:
+			return isPressed ? ActionState.PRESSED : ActionState.JUST_RELEASED;
+		case PRESSED:
+			return isPressed ? ActionState.PRESSED : ActionState.JUST_RELEASED;
+		case JUST_RELEASED:
+			return isPressed ? ActionState.JUST_PRESSED : ActionState.RELEASED;
+		default:
+			return ActionState.RELEASED;
 		}
 	}
 	
@@ -88,6 +146,10 @@ public final class Input {
 		Input.window = window;
 	}
 	
+	/**
+	 * Use this to see the id of every buttons/axes
+	 * @param id
+	 */
 	static void printController(int id) {
 		if(joyAxis[id] == null) return;
 		String res = "Controller "+id+" axis :";
