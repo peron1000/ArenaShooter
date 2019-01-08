@@ -23,7 +23,7 @@ public class Vec2f {
 	}
 	
 	/**
-	 * Creates a (x, y) vector
+	 * Creates a (x, y) vector from doubles (values will be casted to float)
 	 * @param x
 	 * @param y
 	 */
@@ -89,8 +89,8 @@ public class Vec2f {
 		return new Vec2f( (float)(v.x/len), (float)(v.y/len) );
 	}
 	
-	public float angle() {
-		return (float) Math.atan2(-y, x);
+	public double angle() {
+		return Math.atan2(-y, x);
 	}
 	
 	public Vec2f clone() {

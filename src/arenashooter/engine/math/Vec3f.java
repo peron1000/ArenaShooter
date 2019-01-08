@@ -35,6 +35,18 @@ public class Vec3f {
 	}
 	
 	/**
+	 * Creates a (x, y, z) vector from doubles (values will be casted to float)
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Vec3f(double x, double y, double z) {
+		this.x = (float)x;
+		this.y = (float)y;
+		this.z = (float)z;
+	}
+	
+	/**
 	 * This becomes Other
 	 * @param other vector to copy
 	 */

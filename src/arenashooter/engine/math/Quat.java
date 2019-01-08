@@ -25,28 +25,28 @@ public class Quat {
 		return fromAxis( axis.x, axis.y, axis.z, angle );
 	}
 	
+	public static Quat fromAxis( float x, float y, float z, double angle ) { //TODO: Test
+		Quat res = new Quat();
+
+		double angleSin = Math.sin(angle/2);
+		res.w = (float)Math.cos(angle/2);
+		res.x = (float)(x*angleSin);
+		res.y = (float)(y*angleSin);
+		res.z = (float)(z*angleSin);
+		
+		return res;
+	}
+	
 	/**
 	 * Create a quaternion from a 2d rotation
 	 * @param angle
 	 * @return
 	 */
-	public static Quat fromAngle( float angle ) { //TODO: Test
+	public static Quat fromAngle( double angle ) { //TODO: Test
 		Quat res = new Quat();
 		
 		res.w = (float)Math.cos(-angle/2);
 		res.z = (float)Math.sin(-angle/2);
-		
-		return res;
-	}
-	
-	public static Quat fromAxis( float x, float y, float z, float angle ) { //TODO: Test
-		Quat res = new Quat();
-
-		float angleSin = (float)Math.sin(angle/2);
-		res.w = (float)Math.cos(angle/2);
-		res.x = x*angleSin;
-		res.y = y*angleSin;
-		res.z = z*angleSin;
 		
 		return res;
 	}
@@ -80,9 +80,9 @@ public class Quat {
         double yz = y * z;
         double xw = x * w;
 		
-		float x = (float) (yw + xz + xz + yw);
-		float y = (float) (yz + yz - xw - xw);
-		float z = (float) (zz - yy - xx + ww);
+        double x = yw + xz + xz + yw;
+        double y = yz + yz - xw - xw;
+        double z = zz - yy - xx + ww;
 		
 		return new Vec3f(x, y, z);
 	}
@@ -101,9 +101,9 @@ public class Quat {
         double yz = y * z;
         double xw = x * w;
         
-        float x = (float) (-zw + xy - zw + xy);
-        float y = (float) (yy - zz + ww - xx);
-        float z = (float) (yz + yz + xw + xw);
+        double x = -zw + xy - zw + xy;
+        double y =  yy - zz + ww - xx;
+        double z =  yz + yz + xw + xw;
 		
 		return new Vec3f(x, y, z);
 	}
@@ -122,9 +122,9 @@ public class Quat {
         double xz = x * z;
         double yw = y * w;
 		
-		float x = (float) (ww + xx - zz - yy);
-        float y = (float) (xy + zw + zw + xy);
-        float z = (float) (xz - yw + xz - yw);
+		double x = ww + xx - zz - yy;
+		double y = xy + zw + zw + xy;
+		double z = xz - yw + xz - yw;
 		
 		return new Vec3f(x, y, z);
 	}
@@ -166,10 +166,10 @@ public class Quat {
 	public static Quat mul(Quat q1, Quat q2) {
 		Quat res = new Quat();
 		
-		res.x = ( q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y );
-		res.y = ( q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x );
-		res.z = ( q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w );
-		res.w = ( q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z );
+		res.x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
+		res.y = q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x;
+		res.z = q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w;
+		res.w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
 		
 		return res;
 	}
