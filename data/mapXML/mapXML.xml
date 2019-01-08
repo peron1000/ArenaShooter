@@ -21,8 +21,8 @@
   		<vecteur x="300" y="300"/>
   	</plateform>
   	<plateform>
-  	<vecteur x="" y=""/>
-  	<vecteur x="" y=""/>
+  	<vecteur x="0" y="2200"/>
+  	<vecteur x="5000" y="10"/>
   	</plateform>
   </entity>
 </map>

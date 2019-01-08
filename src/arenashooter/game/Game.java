@@ -27,6 +27,14 @@ public class Game {
 	public Camera camera;
 
 	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
+	
+	private enum state{
+		Start,
+		GameOn,
+		Score;
+	}
+	public state State=state.Start;
+	
 
 	private Game() {
 		map = new Map(nbPlayers);
