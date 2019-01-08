@@ -116,7 +116,7 @@ public class Vec4f {
 	/**
 	 * Multiplies a vector by a double
 	 * @param v the vector
-	 * @param a the float
+	 * @param a the double
 	 * @return v*a (original vector is unchanged)
 	 */
 	public static Vec4f multiply( Vec4f v, double a ) {

@@ -120,7 +120,7 @@ public class Vec2f {
 	/**
 	 * Multiplies a vector by a double
 	 * @param v the vector
-	 * @param a the float
+	 * @param a the double
 	 * @return v*a (original vector is unchanged)
 	 */
 	public static Vec2f multiply( Vec2f v, double a ) {
