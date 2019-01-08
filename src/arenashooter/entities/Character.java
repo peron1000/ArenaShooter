@@ -91,6 +91,10 @@ public class Character extends Spatial {
 			}
 		}
 	}
+	
+	public void getItem() {
+		
+	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes
 		float res = Math.min(damage, health);
