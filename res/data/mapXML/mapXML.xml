@@ -3,22 +3,26 @@
 <map>
   <information>
     <spawn>
-      <position x="-300" y="0"/>
+      <vecteur x="-300" y="0"/>
     </spawn>
     <spawn>
-      <position x="300" y="0"/>
+      <vecteur x="300" y="0"/>
     </spawn>
     <gravity>9.807</gravity>
     <cameraBound w="1000" x="-5000" y="-1000" z="5000"/>
   </information>
   <entity>
   	<plateform>
-  		<position x="0" y="510"/>
-  		<position x="1500" y="100"/>
+  		<vecteur x="0" y="510"/>
+  		<vecteur x="1500" y="100"/>
   	</plateform>
   	<plateform>
-  		<position x="-800" y="210"/>
-  		<position x="300" y="300"/>
+  		<vecteur x="-800" y="210"/>
+  		<vecteur x="300" y="300"/>
+  	</plateform>
+  	<plateform>
+  	<vecteur x="" y=""/>
+  	<vecteur x="" y=""/>
   	</plateform>
   </entity>
 </map>
