@@ -25,6 +25,20 @@ public class Vec4f {
 		this.z = z;
 		this.w = w;
 	}
+	
+	/**
+	 * Creates a (x, y, z, w) vector from doubles (values will be casted to float)
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param w
+	 */
+	public Vec4f(double x, double y, double z, double w) {
+		this.x = (float)x;
+		this.y = (float)y;
+		this.z = (float)z;
+		this.w = (float)w;
+	}
 
 	/**
 	 * Add two vectors together.
@@ -67,10 +81,10 @@ public class Vec4f {
 		
 		if( len == 0 ) return new Vec4f();
 		
-		return new Vec4f( (float)(v.x/len), (float)(v.y/len), (float)(v.z/len), (float)(v.w/len) );
+		return new Vec4f( v.x/len, v.y/len, v.z/len, v.w/len );
 	}
 	
-	public static Vec4f lerp( Vec4f a, Vec4f b, float f ) {
+	public static Vec4f lerp( Vec4f a, Vec4f b, double f ) {
 		return new Vec4f( Utils.lerpF(a.x, b.x, f),
 						  Utils.lerpF(a.y, b.y, f),
 						  Utils.lerpF(a.z, b.z, f),
@@ -85,25 +99,27 @@ public class Vec4f {
 	
 	public String toString() { return "( "+x+", "+y+", "+z+", "+w+" )"; }
 	
+	//
 	//Static functions
+	//
 	
 	/**
 	 * Add two vectors together
 	 * @param a
 	 * @param b
-	 * @return a+b
+	 * @return a+b (original vectors are unchanged)
 	 */
 	public static Vec4f add(Vec4f a, Vec4f b) {
 		return new Vec4f(a.x+b.x, a.y+b.y, a.z+b.z, a.w+b.w);
 	}
 	
 	/**
-	 * Multiplies a vector by a float
+	 * Multiplies a vector by a double
 	 * @param v the vector
 	 * @param a the float
-	 * @return v*a
+	 * @return v*a (original vector is unchanged)
 	 */
-	public static Vec4f multiply( Vec4f v, float a ) {
+	public static Vec4f multiply( Vec4f v, double a ) {
 		return new Vec4f( v.x*a, v.y*a, v.z*a, v.w*a );
 	}
 }

@@ -86,7 +86,7 @@ public class Vec2f {
 		
 		if( len == 0 ) return new Vec2f();
 		
-		return new Vec2f( (float)(v.x/len), (float)(v.y/len) );
+		return new Vec2f( v.x/len, v.y/len );
 	}
 	
 	public double angle() {
@@ -99,29 +99,31 @@ public class Vec2f {
 	
 	public String toString() { return "( "+x+", "+y+" )"; }
 	
+	//
 	//Static functions
+	//
 	
-	public static Vec2f fromAngle(float angle) {
-		return new Vec2f( (float)Math.cos(angle), (float)Math.sin(angle) );
+	public static Vec2f fromAngle(double angle) {
+		return new Vec2f( Math.cos(angle), Math.sin(angle) );
 	}
 	
 	/**
 	 * Add two vectors together
 	 * @param a
 	 * @param b
-	 * @return a+b
+	 * @return a+b (original vector is unchanged)
 	 */
 	public static Vec2f add(Vec2f a, Vec2f b) {
 		return new Vec2f(a.x+b.x, a.y+b.y);
 	}
 	
 	/**
-	 * Multiplies a vector by a float
+	 * Multiplies a vector by a double
 	 * @param v the vector
 	 * @param a the float
-	 * @return v*a
+	 * @return v*a (original vector is unchanged)
 	 */
-	public static Vec2f multiply( Vec2f v, float a ) {
+	public static Vec2f multiply( Vec2f v, double a ) {
 		return new Vec2f( v.x*a, v.y*a );
 	}
 	
@@ -129,7 +131,7 @@ public class Vec2f {
 	 * Multiplies two vectors
 	 * @param a
 	 * @param b
-	 * @return ( a.x*b.x, a.y*b.y )
+	 * @return ( a.x*b.x, a.y*b.y ) (original vectors are unchanged)
 	 */
 	public static Vec2f multiply( Vec2f a, Vec2f b ) {
 		return new Vec2f( a.x*b.x, a.y*b.y );

@@ -95,7 +95,7 @@ public class Vec3f {
 		
 		if( len == 0 ) return new Vec3f();
 		
-		return new Vec3f( (float)(v.x/len), (float)(v.y/len), (float)(v.z/len) );
+		return new Vec3f( v.x/len, v.y/len, v.z/len );
 	}
 	
 	public Vec3f clone() {
@@ -106,13 +106,15 @@ public class Vec3f {
 	
 	public String toString() { return "( "+x+", "+y+", "+z+" )"; }
 	
+	//
 	//Static functions
+	//
 	
 	/**
 	 * Add two vectors together
 	 * @param a
 	 * @param b
-	 * @return a+b
+	 * @return a+b (original vectors are unchanged)
 	 */
 	public static Vec3f add(Vec3f a, Vec3f b) {
 		return new Vec3f(a.x+b.x, a.y+b.y, a.z+b.z);
@@ -122,19 +124,19 @@ public class Vec3f {
 	 * Subtract two vectors
 	 * @param a
 	 * @param b
-	 * @return a-b
+	 * @return a-b (original vectors are unchanged)
 	 */
 	public static Vec3f subtract(Vec3f a, Vec3f b) {
 		return new Vec3f( a.x-b.x, a.y-b.y, a.z-b.z );
 	}
 	
 	/**
-	 * Multiplies a vector by a float
+	 * Multiplies a vector by a double
 	 * @param v the vector
 	 * @param a the float
-	 * @return v*a
+	 * @return v*a (original vector is unchanged)
 	 */
-	public static Vec3f multiply( Vec3f v, float a ) {
+	public static Vec3f multiply( Vec3f v, double a ) {
 		return new Vec3f( v.x*a, v.y*a, v.z*a );
 	}
 	
@@ -142,7 +144,7 @@ public class Vec3f {
 	 * Cross product of two vectors
 	 * @param a
 	 * @param b
-	 * @return a x b
+	 * @return a x b (original vectors are unchanged)
 	 */
 	public static Vec3f cross( Vec3f a, Vec3f b ) {
 		Vec3f res = new Vec3f();
