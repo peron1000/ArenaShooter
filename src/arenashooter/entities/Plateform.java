@@ -4,17 +4,28 @@ import arenashooter.engine.math.Vec2f;
 
 public class Plateform extends Spatial {
 	
+	private Vec2f extend;
+	
 
 	public Plateform(Vec2f position, Vec2f extent) {
 		super(position);
 		Collider coll = new Collider(this.position, extent);
 		coll.extent = extent;
+		this.extend = extent;
 		coll.attachToParent(this, "collider");
 		
 		//TODO: passer sprite & rgb
 		Sprite spr = new Sprite(position);
 		spr.size = new Vec2f(extent.x*2, extent.y*2);
 		spr.attachToParent(this, "sprite");
+	}
+	
+	public float getExtendX() {
+		return extend.x;
+	}
+	
+	public float getExtendY() {
+		return extend.y;
 	}
 	
 	@Override

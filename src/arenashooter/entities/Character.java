@@ -14,7 +14,7 @@ public class Character extends Spatial {
 	public float movementInput = 0;
 	private boolean lookRight = true;
 
-	private Timer attack = new Timer(0.5);
+	private Timer attack = new Timer(0.3);
 
 	// TODO: Temp sprite selector
 	private static boolean chevre_chat = false;
@@ -42,7 +42,11 @@ public class Character extends Spatial {
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 		
-		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/punch_01.ogg");
+//		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/punch_01.ogg");
+//		punchHitSound.setVolume(.7f);
+//		punchHitSound.attachToParent(this, "snd_Punch_Hit");
+		
+		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/snd_Punch_Hit2.ogg");
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
@@ -68,8 +72,8 @@ public class Character extends Spatial {
 
 					boolean isInFrontOfMe = false;
 					if (skeleton != null) {
-						if ((lookRight && collider.getXRight() < c.collider.getXRight())
-								|| (!lookRight && collider.getXLeft() > c.collider.getXLeft())) {
+						if ((lookRight && collider.getXRight() < (c.collider.getXRight()+40))
+								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft()-40))) {
 							isInFrontOfMe = true;
 						}
 					}
