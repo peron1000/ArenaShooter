@@ -35,7 +35,7 @@ public final class Profiler {
 	public static void printTimes() {
 		System.out.println("Frame profiling:");
 
-		System.out.println("-Total: "+(float)((timeRender+timeSprites+timeParticles)*NANOTOMILLI)+"ms");
+		System.out.println("-Total: "+(float)((timeRender)*NANOTOMILLI)+"ms");
 		
 		System.out.println(" |-Render: "+(float)(timeRender*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Sprites:   "+(float)(timeSprites*NANOTOMILLI)+"ms");
