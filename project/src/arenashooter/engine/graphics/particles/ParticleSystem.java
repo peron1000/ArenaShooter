@@ -3,6 +3,7 @@ package arenashooter.engine.graphics.particles;
 import java.util.ArrayList;
 import java.util.List;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -27,7 +28,9 @@ public class ParticleSystem {
 	}
 	
 	public void draw() {
+		Profiler.startElem();
 		for(Emitter e : emitters)
 			e.draw();
+		Profiler.endParticle();
 	}
 }

@@ -1,5 +1,6 @@
 package arenashooter.game;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -29,6 +30,8 @@ public class Main {
 			//Limit delta to avoid errors
 			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .5);
 			
+			Profiler.beginFrame();
+			
 			Window.beginFrame();
 			
 			//TODO: Use this properly
@@ -36,6 +39,8 @@ public class Main {
 			Game.game.draw();
 			
 			Window.endFrame();
+			
+			Profiler.startElem();
 			
 			//FPS counter
 			fpsFrames++;
@@ -54,6 +59,9 @@ public class Main {
 					e.printStackTrace();
 				}
 			lastFrame = currentFrame;
+			
+			Profiler.endSleep();
+			Profiler.printTimes();
 		}
 		
 		Window.destroy();
