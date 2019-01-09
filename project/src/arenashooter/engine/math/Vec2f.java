@@ -118,6 +118,16 @@ public class Vec2f {
 	}
 	
 	/**
+	 * Subtract two vectors together
+	 * @param a
+	 * @param b
+	 * @return a-b (original vector is unchanged)
+	 */
+	public static Vec2f subtract(Vec2f a, Vec2f b) {
+		return new Vec2f(a.x-b.x, a.y-b.y);
+	}
+	
+	/**
 	 * Multiplies a vector by a double
 	 * @param v the vector
 	 * @param a the double
