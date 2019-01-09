@@ -1,6 +1,8 @@
 package arenashooter.engine.graphics;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,9 +17,11 @@ final class ModelObjLoader {
 	public static Model[] loadObj( String path ) { //TODO: Materials
 	ArrayList<Model> models = new ArrayList<Model>(1);
 	
-	InputStream in = ClassLoader.getSystemResourceAsStream(path);
+	InputStream in;
 	
-	if( in != null) {
+	try {
+		in = new FileInputStream(new File(path));
+		
 		InputStreamReader inReader = new InputStreamReader(in);
 		BufferedReader reader = new BufferedReader(inReader);
 		
@@ -33,88 +37,80 @@ final class ModelObjLoader {
 		//Read data
 		String line = "";
 		String[] lineParts;
-		try {
-			while( (line = reader.readLine()) != null ) {
-				lineParts = line.split(" ");
-				if( lineParts.length < 1 ) break;
-				switch(lineParts[0]) {
-				case "o": //Begin object
-					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
-						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-					
-						//Clear faces
-						faces.clear();
-					}
-					break;
-				case "v": //Vertex
-					vertices.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
-					break;
-				case "vt": //Texture coordinates (flipped because openGL)
-					texCoords.add(new Vec2f(Float.valueOf(lineParts[1]), 1-Float.valueOf(lineParts[2])));
-					break;
-				case "vn": //Normal
-					normals.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
-					break;
-				case "f":
-					//Load the first vertex of the face
-					int[] v1 = readPoint(lineParts[1]);
-					
-					if( !pointsID.containsKey(v1) ) {
-						pointsID.put(v1, points.size());
-						points.add(v1);
-					}
-					
-					//Triangulate the face
-					for( int i = 1; i < lineParts.length-2; i++ ) { 
-						int[] v2 = readPoint(lineParts[i+1]);
-						int[] v3 = readPoint(lineParts[i+2]);
-
-						if( !pointsID.containsKey(v2) ) {
-							pointsID.put(v2, points.size());
-							points.add(v2);
-						}
-						if( !pointsID.containsKey(v3) ) {
-							pointsID.put(v3, points.size());
-							points.add(v3);
-						}
-						
-						//Generate normals
-						if( v1[2] == 0 || v2[2] == 0 || v3[2] == 0 ) {
-							Vec3f normal = genNormal(vertices.get(v1[0]), vertices.get(v2[0]), vertices.get(v3[0]));
-							
-							generatedNormals.add(normal);
-							
-							if(v1[2] == 0)
-								v1[2] = -generatedNormals.size()+1;
-							if(v2[2] == 0)
-								v2[2] = -generatedNormals.size()+1;
-							if(v3[2] == 0)
-								v3[2] = -generatedNormals.size()+1;
-						}
-							
-						//Add triangle
-						faces.add( new int[] { pointsID.get(v1), pointsID.get(v2), pointsID.get(v3) } );
-					}
-					break;
-				default:
-					break;
-				}
-			}
-			
-			models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
-		try {
-			reader.close();
-			inReader.close();
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		while( (line = reader.readLine()) != null ) {
+			lineParts = line.split(" ");
+			if( lineParts.length < 1 ) break;
+			switch(lineParts[0]) {
+			case "o": //Begin object
+				if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
+					models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
+
+					//Clear faces
+					faces.clear();
+				}
+				break;
+			case "v": //Vertex
+				vertices.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
+				break;
+			case "vt": //Texture coordinates (flipped because openGL)
+				texCoords.add(new Vec2f(Float.valueOf(lineParts[1]), 1-Float.valueOf(lineParts[2])));
+				break;
+			case "vn": //Normal
+				normals.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
+				break;
+			case "f":
+				//Load the first vertex of the face
+				int[] v1 = readPoint(lineParts[1]);
+
+				if( !pointsID.containsKey(v1) ) {
+					pointsID.put(v1, points.size());
+					points.add(v1);
+				}
+
+				//Triangulate the face
+				for( int i = 1; i < lineParts.length-2; i++ ) { 
+					int[] v2 = readPoint(lineParts[i+1]);
+					int[] v3 = readPoint(lineParts[i+2]);
+
+					if( !pointsID.containsKey(v2) ) {
+						pointsID.put(v2, points.size());
+						points.add(v2);
+					}
+					if( !pointsID.containsKey(v3) ) {
+						pointsID.put(v3, points.size());
+						points.add(v3);
+					}
+
+					//Generate normals
+					if( v1[2] == 0 || v2[2] == 0 || v3[2] == 0 ) {
+						Vec3f normal = genNormal(vertices.get(v1[0]), vertices.get(v2[0]), vertices.get(v3[0]));
+
+						generatedNormals.add(normal);
+
+						if(v1[2] == 0)
+							v1[2] = -generatedNormals.size()+1;
+						if(v2[2] == 0)
+							v2[2] = -generatedNormals.size()+1;
+						if(v3[2] == 0)
+							v3[2] = -generatedNormals.size()+1;
+					}
+
+					//Add triangle
+					faces.add( new int[] { pointsID.get(v1), pointsID.get(v2), pointsID.get(v3) } );
+				}
+				break;
+			default:
+				break;
+			}
 		}
-	} else {
+
+		models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
+
+		reader.close();
+		inReader.close();
+		in.close();
+	} catch (Exception e) {
 		System.err.println("Can't find resource: "+path);
 	}
 	
