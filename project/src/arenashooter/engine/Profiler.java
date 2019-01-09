@@ -21,26 +21,34 @@ public final class Profiler {
 	private static long timeSprites;
 	private static long timeMeshes;
 	
+	//Physics
+	private static long timePhysics;
+	
 	/**
 	 * Reset all the timers
 	 */
 	public static void beginFrame() {
 		timeSleep = 0;
+		
 		timeRender = 0;
 		timeParticles = 0;
 		timeSprites = 0;
 		timeMeshes = 0;
+		
+		timePhysics = 0;
 	}
 	
 	public static void printTimes() {
 		System.out.println("Frame profiling:");
 
-		System.out.println("-Total: "+(float)((timeRender)*NANOTOMILLI)+"ms");
+		System.out.println("-Total: "+(float)((timeRender+timePhysics)*NANOTOMILLI)+"ms");
 		
 		System.out.println(" |-Render: "+(float)(timeRender*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Sprites:   "+(float)(timeSprites*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Meshes:    "+(float)(timeMeshes*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Particles: "+(float)(timeParticles*NANOTOMILLI)+"ms");
+		
+		System.out.println(" |-Physic: "+(float)(timePhysics*NANOTOMILLI)+"ms");
 		
 		System.out.println(" |-Sleep:  "+(float)(timeSleep*NANOTOMILLI)+"ms");
 	}
@@ -84,5 +92,12 @@ public final class Profiler {
 		long time = System.nanoTime()-currentTimer;
 		timeParticles += time;
 		timeRender += time;
+	}
+	
+	/**
+	 * Stop the timer and add its duration to the physics counter
+	 */
+	public static void endPhysics() {
+		timePhysics += System.nanoTime()-currentTimer;
 	}
 }
