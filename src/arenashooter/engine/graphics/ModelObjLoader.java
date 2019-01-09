@@ -3,7 +3,6 @@ package arenashooter.engine.graphics;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -111,7 +110,7 @@ final class ModelObjLoader {
 		inReader.close();
 		in.close();
 	} catch (Exception e) {
-		System.err.println("Can't find resource: "+path);
+		System.err.println("Can't load model: "+path);
 	}
 	
 	Model[] res = new Model[models.size()];
