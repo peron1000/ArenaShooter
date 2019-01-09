@@ -10,49 +10,39 @@ import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 
 public class Item extends Spatial {
-
+	
+	protected String tag = "Item";
+	
+	public String getTag() {
+		return tag;
+	}
+	
+	public enum ItemSprite{
+		minugun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor("");
+		public String sprite;
+		private ItemSprite(String sprite) {
+			this.sprite = sprite;
+		}
+	}
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
 
-	public Item(Vec2f position) {
+	public Item(Vec2f position, ItemSprite itemSprite) {
 		super(position);
-
-		Sprite core = new Sprite(position, "data/weapons/Minigun_1.png");
-		core.size = new Vec2f(core.tex.getWidth(), core.tex.getHeight());
-		core.attachToParent(this, "item_Sprite"); 
 		
-		collider = new Collider(position, new Vec2f(core.tex.getWidth(), core.tex.getHeight()));
+		Sprite sprite = new Sprite(position, itemSprite.sprite);
+		sprite.attachToParent(this, "item_Sprite");
+		sprite.size =  new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
+		
+		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");
-
 		
-
 	}
 
 	@Override
 	public void step(double d) {
-
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
-		vel.y += 9.807 * 800 * d;
-
-		isOnGround = false;
-		for (Entity plat : getParent().children.values()) {
-			if (plat instanceof Plateform) {
-				for (Entity coll : ((Plateform) plat).children.values()) {
-					if (coll instanceof Collider) {
-						Collider c = (Collider) coll;
-						Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
-						vel.x = vel.x * impact.getVelMod().x;
-						vel.y = vel.y * impact.getVelMod().y;
-						if (collider.getYBottom() + (vel.y * d) >= c.getYTop()
-								&& collider.getYBottom() + (vel.y * d) < c.getYBottom()
-								&& Collider.isX1IncluedInX2(collider, c))
-							isOnGround = true;
-					}
-				}
-			}
-		}
 		super.step(d);
 	}
 }

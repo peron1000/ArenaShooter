@@ -48,11 +48,11 @@ public class Character extends Spatial {
 		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg");
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
-		
+
 //		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/punch_01.ogg");
 //		punchHitSound.setVolume(.7f);
 //		punchHitSound.attachToParent(this, "snd_Punch_Hit");
-		
+
 		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/snd_Punch_Hit2.ogg");
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
@@ -68,19 +68,20 @@ public class Character extends Spatial {
 	public void attack() {
 		if (attack.isOver()) {
 			attack.restart();
-			
+
 			CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
-			if (skeleton != null) skeleton.punch();
-			
-			//TODO: attac
+			if (skeleton != null)
+				skeleton.punch();
+
+			// TODO: attac
 			for (Entity entity : Game.game.getMap().children.values()) {
 				if (entity instanceof Character && entity != this) {
 					Character c = (Character) entity;
 
 					boolean isInFrontOfMe = false;
 					if (skeleton != null) {
-						if ((lookRight && collider.getXRight() < (c.collider.getXRight()+40))
-								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft()-40))) {
+						if ((lookRight && collider.getXRight() < (c.collider.getXRight() + 40))
+								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft() - 40))) {
 							isInFrontOfMe = true;
 						}
 					}
@@ -98,26 +99,37 @@ public class Character extends Spatial {
 			}
 		}
 	}
-	
+
 	public void getItem() {
-		Item item = null;
-		for (Entity entity : Game.game.getMap().children.values()) {
-			if (entity instanceof Item) {
-				Item c = (Item) entity;
-				float xDiff = Math.abs(position.x - c.position.x);
-				float yDiff = Math.abs(position.y - c.position.y);
-				if(xDiff < 175 && yDiff < 175) {
-					item = c;
+		Item arme = null;
+		Item armure = null;
+		if (!children.containsKey("Arme")) {
+			for (String name : Game.game.getMap().children.keySet()) {
+				if (name.startsWith("Item_Arme")) {
+					Item item = (Item) Game.game.getMap().children.get(name);
+					float xDiff = Math.abs(position.x - item.position.x);
+					float yDiff = Math.abs(position.y - item.position.y);
+					if (xDiff < 175 && yDiff < 175)
+						arme = item;
+				}
+				if (name.startsWith("Item_Armure")) {
+					Item item = (Item) Game.game.getMap().children.get(name);
+					float xDiff = Math.abs(position.x - item.position.x);
+					float yDiff = Math.abs(position.y - item.position.y);
+					if (xDiff < 175 && yDiff < 175)
+						armure = item;
 				}
 			}
 		}
-		if(item != null)
-		item.attachToParent(this, "itemtest");
+		if(arme != null)
+			arme.attachToParent(this, "Arme");
+		if(armure != null)
+			armure.attachToParent(this, "Armure");
 	}
-	
+
 	public void dropItem() {
-		if(children.containsKey("itemtest")) {
-			this.children.get("itemtest").attachToParent(this.getParent(), "itemtest");
+		if (children.containsKey("Arme")) {
+			this.children.get("Arme").attachToParent(this.getParent(), "Arme");
 		}
 	}
 
@@ -170,10 +182,10 @@ public class Character extends Spatial {
 
 		position.add(Vec2f.multiply(vel, (float) d));
 
-		//Animation
-		if( movementInput > 0 )
+		// Animation
+		if (movementInput > 0)
 			lookRight = true;
-		else if( movementInput < 0 )
+		else if (movementInput < 0)
 			lookRight = false;
 		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
 		if (skeleton != null) {
