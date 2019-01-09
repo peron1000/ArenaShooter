@@ -100,8 +100,8 @@ public class Map extends Entity {
 		Plateform plat11 = new Plateform(new Vec2f(-2700, -2700), new Vec2f(2000, 2000));
 		plat11.attachToParent(this, "Platform 11");
 
-		Plateform plat12 = new Plateform(new Vec2f(0, 2200), new Vec2f(5000, 10));// 7000 //C'est quoi ce commentare ?
-		plat12.attachToParent(this, "Platform 12");
+//		Plateform plat12 = new Plateform(new Vec2f(0, 2200), new Vec2f(5000, 10));// 7000 //C'est quoi ce commentare ?
+//		plat12.attachToParent(this, "Platform 12");
 		
 		Vec2f p =new Vec2f(-300, 2200);
 		WeaponsC item11 = new WeaponsC(p, ItemSprite.minugun);
