@@ -18,7 +18,7 @@ public class Item extends Spatial {
 	}
 	
 	public enum ItemSprite{
-		minugun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor("");
+		minugun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor("data/armor/shield_of_Pop.png");
 		public String sprite;
 		private ItemSprite(String sprite) {
 			this.sprite = sprite;
