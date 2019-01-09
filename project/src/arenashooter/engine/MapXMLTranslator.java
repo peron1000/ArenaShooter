@@ -15,6 +15,11 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;
 
+/**
+ * @author Nathan
+ * XML reader to create Maps
+ *
+ */
 public class MapXMLTranslator {
 
 	// factory
@@ -29,13 +34,14 @@ public class MapXMLTranslator {
 	private MapXMLTranslator() {
 	}
 
-	public static Map getMap(String pathNomMap) {
+	public static Map getMap(String pathNameMap) {
+
+		// Initialization tools for XML reader
 		try {
 			builder = factory.newDocumentBuilder();
-			document = builder.parse(pathNomMap);
+			document = builder.parse(pathNameMap);
 
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		root = document.getDocumentElement();
@@ -45,10 +51,18 @@ public class MapXMLTranslator {
 		ArrayList<Vec2f> spawn = new ArrayList<>();
 		Vec4f cameraBounds = new Vec4f();
 		for (int i = 0; i < children.getLength(); i++) {
+
+			// Navigation into XML file
 			if (children.item(i).getNodeName() == "information") {
+
+				// Navigation into informations part
+
 				NodeList infos = children.item(i).getChildNodes();
 				for (int j = 0; j < infos.getLength(); j++) {
 					if (infos.item(j).getNodeName() == "spawn") {
+
+						// Navigation into Spawn part
+
 						NodeList spawns = infos.item(j).getChildNodes();
 						for (int k = 0; k < spawns.getLength(); k++) {
 							if (spawns.item(k).getNodeName() == "vecteur") {
@@ -60,6 +74,9 @@ public class MapXMLTranslator {
 						}
 					}
 					if (infos.item(j).getNodeName() == "cameraBound") {
+
+						// Navigation into CameraBound part
+
 						Element cameraBound = (Element) infos.item(j);
 						cameraBounds = new Vec4f(Float.parseFloat(cameraBound.getAttribute("x")),
 								Float.parseFloat(cameraBound.getAttribute("y")),
@@ -69,9 +86,15 @@ public class MapXMLTranslator {
 				}
 			}
 			if (children.item(i).getNodeName() == "entity") {
+
+				// Navigation into Entity part
+
 				NodeList entities = children.item(i).getChildNodes();
 				for (int j = 0; j < entities.getLength(); j++) {
 					if (entities.item(j).getNodeName() == "plateform") {
+
+						// Navigation into Platforms part
+
 						Vec2f position = new Vec2f();
 						Vec2f extent = new Vec2f();
 						NodeList vectors = entities.item(j).getChildNodes();
@@ -93,9 +116,12 @@ public class MapXMLTranslator {
 				}
 			}
 		}
+		
+		// Map creation
 		Map map = new Map(plateforms);
 		map.cameraBounds = cameraBounds;
 		map.spawn = spawn;
+		
 		return map;
 	}
 
