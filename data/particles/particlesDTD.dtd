@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT particleSystem (emitter+)>
+
+<!ELEMENT emitter (texture, vec4, vec4)>
+<!ATTLIST emitter oriented CDATA #REQUIRED>
+<!ATTLIST emitter duration CDATA #REQUIRED>
+<!ATTLIST emitter delay CDATA #REQUIRED>
+<!ATTLIST emitter rate CDATA #REQUIRED>
+<!ATTLIST emitter lifetimeMin CDATA #REQUIRED>
+<!ATTLIST emitter lifetimeMax CDATA #REQUIRED>
+<!ATTLIST emitter angleMin CDATA #REQUIRED>
+<!ATTLIST emitter angleMax CDATA #REQUIRED>
+<!ATTLIST emitter velocityMin CDATA #REQUIRED>
+<!ATTLIST emitter velocityMax CDATA #REQUIRED>
+
+<!ELEMENT vec4 x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
+
+<!ELEMENT texture src CDATA #REQUIRED filtered CDATA #REQUIRED>
