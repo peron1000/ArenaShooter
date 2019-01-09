@@ -13,16 +13,16 @@
   </information>
   <entity>
   	<plateform>
-  		<vecteur x="0" y="510"/>
-  		<vecteur x="1500" y="100"/>
+  		<vecteur x="0" y="510" use="position"/>
+  		<vecteur x="1500" y="100" use="extent"/>
   	</plateform>
   	<plateform>
-  		<vecteur x="-800" y="210"/>
-  		<vecteur x="300" y="300"/>
+  		<vecteur x="-800" y="210" use="position"/>
+  		<vecteur x="300" y="300" use="extent"/>
   	</plateform>
   	<plateform>
-  	<vecteur x="0" y="2200"/>
-  	<vecteur x="5000" y="10"/>
+  		<vecteur x="1500" y="-150"/>
+  		<vecteur x="300" y="25"/>
   	</plateform>
   </entity>
 </map>

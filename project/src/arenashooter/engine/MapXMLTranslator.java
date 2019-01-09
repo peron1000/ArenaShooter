@@ -1,20 +1,19 @@
 package arenashooter.engine;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Map;
+import arenashooter.entities.spatials.Plateform;
 
 public class MapXMLTranslator {
 
@@ -42,30 +41,61 @@ public class MapXMLTranslator {
 		root = document.getDocumentElement();
 		children = root.getChildNodes();
 
-		Map map = new Map();
-		map.spawn = new ArrayList<>();
+		ArrayList<Plateform> plateforms = new ArrayList<>();
+		ArrayList<Vec2f> spawn = new ArrayList<>();
+		Vec4f cameraBounds = new Vec4f();
 		for (int i = 0; i < children.getLength(); i++) {
 			if (children.item(i).getNodeName() == "information") {
 				NodeList infos = children.item(i).getChildNodes();
 				for (int j = 0; j < infos.getLength(); j++) {
-					if(infos.item(j).getNodeName() == "spawn") {
+					if (infos.item(j).getNodeName() == "spawn") {
 						NodeList spawns = infos.item(j).getChildNodes();
 						for (int k = 0; k < spawns.getLength(); k++) {
-							if(spawns.item(k).getNodeName() == "position") {
+							if (spawns.item(k).getNodeName() == "vecteur") {
 								Element position = (Element) spawns.item(k);
 								float x = Float.parseFloat(position.getAttribute("x"));
 								float y = Float.parseFloat(position.getAttribute("y"));
-								map.spawn.add(new Vec2f(x, y));
+								spawn.add(new Vec2f(x, y));
 							}
 						}
+					}
+					if (infos.item(j).getNodeName() == "cameraBound") {
+						Element cameraBound = (Element) infos.item(j);
+						cameraBounds = new Vec4f(Float.parseFloat(cameraBound.getAttribute("x")),
+								Float.parseFloat(cameraBound.getAttribute("y")),
+								Float.parseFloat(cameraBound.getAttribute("z")),
+								Float.parseFloat(cameraBound.getAttribute("w")));
 					}
 				}
 			}
 			if (children.item(i).getNodeName() == "entity") {
-				//TODO : platforms
+				NodeList entities = children.item(i).getChildNodes();
+				for (int j = 0; j < entities.getLength(); j++) {
+					if (entities.item(j).getNodeName() == "plateform") {
+						Vec2f position = new Vec2f();
+						Vec2f extent = new Vec2f();
+						NodeList vectors = entities.item(j).getChildNodes();
+						for (int k = 0; k < vectors.getLength(); k++) {
+							if (vectors.item(k).getNodeType() == Node.ELEMENT_NODE) {
+								Element vector = (Element) vectors.item(k);
+								if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+									position.x = Float.parseFloat(vector.getAttribute("x"));
+									position.y = Float.parseFloat(vector.getAttribute("y"));
+								}
+								if (vector.hasAttribute("use") && vector.getAttribute("use").equals("extent")) {
+									extent.x = Float.parseFloat(vector.getAttribute("x"));
+									extent.y = Float.parseFloat(vector.getAttribute("y"));
+								}
+							}
+						}
+						plateforms.add(new Plateform(position, extent));
+					}
+				}
 			}
 		}
-
+		Map map = new Map(plateforms);
+		map.cameraBounds = cameraBounds;
+		map.spawn = spawn;
 		return map;
 	}
 

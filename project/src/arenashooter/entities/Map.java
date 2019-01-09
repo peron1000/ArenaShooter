@@ -25,7 +25,7 @@ public class Map extends Entity {
 	 */
 	public Vec4f cameraBounds;
 	
-	public Map() {
+	public Map(ArrayList<Plateform> plateform) {
 		
 	}
 
