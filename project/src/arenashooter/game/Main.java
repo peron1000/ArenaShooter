@@ -34,11 +34,18 @@ public class Main {
 			
 			Window.beginFrame();
 			
-			//TODO: Use this properly
+			Profiler.startStep();
+			
 			Game.game.update(delta);
+			
+			Profiler.endStep();
+			Profiler.startRender();
+			
 			Game.game.draw();
 			
 			Window.endFrame();
+			
+			Profiler.endRender();
 			
 			Profiler.startElem();
 			

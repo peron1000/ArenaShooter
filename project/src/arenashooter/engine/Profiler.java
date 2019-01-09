@@ -14,12 +14,15 @@ public final class Profiler {
 	
 	//Main
 	private static long timeSleep;
+
+	private static long timeStep;
 	
 	//Rendering
 	private static long timeRender;
 	private static long timeParticles;
 	private static long timeSprites;
 	private static long timeMeshes;
+	private static long timePostProcess;
 	
 	//Physics
 	private static long timePhysics;
@@ -30,10 +33,13 @@ public final class Profiler {
 	public static void beginFrame() {
 		timeSleep = 0;
 		
+		timeStep = 0;
+		
 		timeRender = 0;
 		timeParticles = 0;
 		timeSprites = 0;
 		timeMeshes = 0;
+		timePostProcess = 0;
 		
 		timePhysics = 0;
 	}
@@ -41,16 +47,46 @@ public final class Profiler {
 	public static void printTimes() {
 		System.out.println("Frame profiling:");
 
-		System.out.println("-Total: "+(float)((timeRender+timePhysics)*NANOTOMILLI)+"ms");
+		System.out.println("-Frame: "+(float)((timeRender+timeStep)*NANOTOMILLI)+"ms");
 		
-		System.out.println(" |-Render: "+(float)(timeRender*NANOTOMILLI)+"ms");
-		System.out.println(" | |-Sprites:   "+(float)(timeSprites*NANOTOMILLI)+"ms");
-		System.out.println(" | |-Meshes:    "+(float)(timeMeshes*NANOTOMILLI)+"ms");
-		System.out.println(" | |-Particles: "+(float)(timeParticles*NANOTOMILLI)+"ms");
-		
-		System.out.println(" |-Physic: "+(float)(timePhysics*NANOTOMILLI)+"ms");
-		
-		System.out.println(" |-Sleep:  "+(float)(timeSleep*NANOTOMILLI)+"ms");
+		System.out.println(" |-Step:..."+(float)(timeStep*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Physic:......."+(float)(timePhysics*NANOTOMILLI)+"ms");
+		System.out.println(" |");
+		System.out.println(" |-Render:."+(float)(timeRender*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Sprites:......"+(float)(timeSprites*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Meshes:......."+(float)(timeMeshes*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Particles:...."+(float)(timeParticles*NANOTOMILLI)+"ms");
+		System.out.println(" | |-PostProcess:.."+(float)(timePostProcess*NANOTOMILLI)+"ms");
+		System.out.println(" |");
+		System.out.println(" |-Sleep:.."+(float)(timeSleep*NANOTOMILLI)+"ms");
+	}
+	
+	/**
+	 * Start the timer for step
+	 */
+	public static void startStep() {
+		timeStep = System.nanoTime();
+	}
+	
+	/**
+	 * End the timer for step
+	 */
+	public static void endStep() {
+		timeStep = System.nanoTime()-timeStep;
+	}
+	
+	/**
+	 * Start the timer for rendering
+	 */
+	public static void startRender() {
+		timeRender = System.nanoTime();
+	}
+	
+	/**
+	 * End the timer for rendering
+	 */
+	public static void endRender() {
+		timeRender = System.nanoTime()-timeRender;
 	}
 	
 	/**
@@ -71,27 +107,28 @@ public final class Profiler {
 	 * Stop the timer and add its duration to the sprite counter
 	 */
 	public static void endSprite() {
-		long time = System.nanoTime()-currentTimer;
-		timeSprites += time;
-		timeRender += time;
+		timeSprites += System.nanoTime()-currentTimer;
 	}
 	
 	/**
 	 * Stop the timer and add its duration to the mesh counter
 	 */
 	public static void endMesh() {
-		long time = System.nanoTime()-currentTimer;
-		timeMeshes += time;
-		timeRender += time;
+		timeMeshes += System.nanoTime()-currentTimer;
 	}
 	
 	/**
 	 * Stop the timer and add its duration to the particle counter
 	 */
 	public static void endParticle() {
-		long time = System.nanoTime()-currentTimer;
-		timeParticles += time;
-		timeRender += time;
+		timeParticles += System.nanoTime()-currentTimer;
+	}
+	
+	/**
+	 * Stop the timer and add its duration to the particle counter
+	 */
+	public static void endPostProcess() {
+		timePostProcess += System.nanoTime()-currentTimer;
 	}
 	
 	/**

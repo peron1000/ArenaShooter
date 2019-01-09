@@ -30,6 +30,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Input;
+import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Mat4f;
 
 /**
@@ -173,6 +174,8 @@ public final class Window {
 	 * End a frame, this will swap framebuffers
 	 */
 	public static void endFrame() {
+		Profiler.startElem();
+		
 		//Bind default framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, width, height);
@@ -193,6 +196,8 @@ public final class Window {
 		Texture.unbind();
 
 		glfwSwapBuffers(window);
+		
+		Profiler.endPostProcess();
 	}
 	
 	private static void drawSky() { //TODO: Remove this temp function
