@@ -21,8 +21,8 @@
   		<vecteur x="300" y="300" use="extent"/>
   	</plateform>
   	<plateform>
-  		<vecteur x="1500" y="-150"/>
-  		<vecteur x="300" y="25"/>
+  		<vecteur x="1500" y="-150" use="position"/>
+  		<vecteur x="300" y="25" use="extent"/>
   	</plateform>
   </entity>
 </map>
