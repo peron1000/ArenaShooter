@@ -29,13 +29,6 @@ public class Game {
 
 	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
 	
-	private enum state{
-		Start,
-		GameOn,
-		Score;
-	}
-	public state State=state.Start;
-	
 
 	private Game() {
 		map = MapXMLTranslator.getMap("data/mapXML/mapXML.xml");
