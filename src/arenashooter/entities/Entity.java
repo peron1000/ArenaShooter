@@ -24,7 +24,10 @@ public class Entity {
 			System.err.println("Trying to attach an entity to itself!");
 			return null;
 		}
-		
+		if(parent != null && this.parent.children.containsKey(name)){
+			parent.children.remove(name);
+			
+		}
 		//Remove previously attached entity with that name
 		Entity e = newParent.children.get(name);
 		if (e != null)

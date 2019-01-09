@@ -100,25 +100,24 @@ public class Character extends Spatial {
 	}
 	
 	public void getItem() {
+		Item item = null;
 		for (Entity entity : Game.game.getMap().children.values()) {
 			if (entity instanceof Item) {
 				Item c = (Item) entity;
 				float xDiff = Math.abs(position.x - c.position.x);
 				float yDiff = Math.abs(position.y - c.position.y);
 				if(xDiff < 175 && yDiff < 175) {
-					c.attachToParent(this, "itemtest");
+					item = c;
 				}
 			}
 		}
+		if(item != null)
+		item.attachToParent(this, "itemtest");
 	}
 	
 	public void dropItem() {
-		for (Entity entity : this.children.values()) {
-			if(entity instanceof Item) {
-				System.out.println(entity.toString());
-				Item c = (Item) entity;
-				c.attachToParent(Game.game.getMap(),"lol");
-			}
+		if(children.containsKey("itemtest")) {
+			this.children.get("itemtest").attachToParent(this.getParent(), "itemtest");
 		}
 	}
 
