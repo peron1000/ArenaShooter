@@ -3,6 +3,7 @@ package arenashooter.entities.spatials;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
@@ -41,6 +42,8 @@ public class Sprite extends Spatial {
 	public void draw() {
 		super.draw();
 		
+		Profiler.startElem();
+		
 		shader.bind();
 		
 		//Create matrices
@@ -62,5 +65,7 @@ public class Sprite extends Spatial {
 		
 		model.bind();
 		model.draw();
+		
+		Profiler.endSprite();
 	}
 }

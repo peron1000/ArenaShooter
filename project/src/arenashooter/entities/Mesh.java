@@ -3,6 +3,7 @@ package arenashooter.entities;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
@@ -52,6 +53,8 @@ public class Mesh extends Spatial3 {
 	
 	@Override
 	public void draw() {
+		Profiler.startElem();
+		
 		for( int i=0; i<models.length; i++ ) {
 			shaders[i].bind();
 			shaders[i].setUniformM4("model", Mat4f.transform(position, rotation, scale));
@@ -67,6 +70,8 @@ public class Mesh extends Spatial3 {
 			models[i].bind();
 			models[i].draw();
 		}
+		
+		Profiler.endMesh();
 		
 		super.draw();
 	}
