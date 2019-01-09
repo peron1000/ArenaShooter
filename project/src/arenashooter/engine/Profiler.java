@@ -8,14 +8,22 @@ public final class Profiler {
 	
 	private static long currentTimer;
 	
-	static long timeSleep;
+	//
+	//Timers
+	//
+	
+	//Main
+	private static long timeSleep;
 	
 	//Rendering
-	static long timeRender;
-	static long timeParticles;
-	static long timeSprites;
-	static long timeMeshes;
+	private static long timeRender;
+	private static long timeParticles;
+	private static long timeSprites;
+	private static long timeMeshes;
 	
+	/**
+	 * Reset all the timers
+	 */
 	public static void beginFrame() {
 		timeSleep = 0;
 		timeRender = 0;
@@ -26,36 +34,52 @@ public final class Profiler {
 	
 	public static void printTimes() {
 		System.out.println("Frame profiling:");
+
+		System.out.println("-Total: "+(float)((timeRender+timeSprites+timeParticles)*NANOTOMILLI)+"ms");
 		
-		System.out.println("  Render: "+(float)(timeRender*NANOTOMILLI)+"ms");
-		System.out.println("     Sprites:   "+(float)(timeSprites*NANOTOMILLI)+"ms");
-		System.out.println("     Meshes:    "+(float)(timeMeshes*NANOTOMILLI)+"ms");
-		System.out.println("     Particles: "+(float)(timeParticles*NANOTOMILLI)+"ms");
+		System.out.println(" |-Render: "+(float)(timeRender*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Sprites:   "+(float)(timeSprites*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Meshes:    "+(float)(timeMeshes*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Particles: "+(float)(timeParticles*NANOTOMILLI)+"ms");
 		
-		System.out.println("  Total:  "+(float)((timeRender+timeSprites+timeParticles)*NANOTOMILLI)+"ms");
-		System.out.println("  Sleep:  "+(float)(timeSleep*NANOTOMILLI)+"ms");
+		System.out.println(" |-Sleep:  "+(float)(timeSleep*NANOTOMILLI)+"ms");
 	}
 	
+	/**
+	 * Start the timer for an element
+	 */
 	public static void startElem() {
 		currentTimer = System.nanoTime();
 	}
 	
+	/**
+	 * Stop the timer and add its duration to the sleep counter
+	 */
 	public static void endSleep() {
 		timeSleep = System.nanoTime()-currentTimer;
 	}
 	
+	/**
+	 * Stop the timer and add its duration to the sprite counter
+	 */
 	public static void endSprite() {
 		long time = System.nanoTime()-currentTimer;
 		timeSprites += time;
 		timeRender += time;
 	}
 	
+	/**
+	 * Stop the timer and add its duration to the mesh counter
+	 */
 	public static void endMesh() {
 		long time = System.nanoTime()-currentTimer;
 		timeMeshes += time;
 		timeRender += time;
 	}
 	
+	/**
+	 * Stop the timer and add its duration to the particle counter
+	 */
 	public static void endParticle() {
 		long time = System.nanoTime()-currentTimer;
 		timeParticles += time;
