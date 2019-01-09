@@ -3,6 +3,7 @@ package arenashooter.game;
 import java.util.ArrayList;
 
 import arenashooter.engine.Device;
+import arenashooter.engine.MapXMLTranslator;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -37,7 +38,7 @@ public class Game {
 	
 
 	private Game() {
-		map = new Map(nbPlayers);
+		map = MapXMLTranslator.getMap("data/mapXML/mapXML.xml");
 
 		initControllers(nbPlayers);
 

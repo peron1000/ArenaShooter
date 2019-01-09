@@ -7,7 +7,6 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.entities.items.Item;
 import arenashooter.entities.items.Item.ItemSprite;
 import arenashooter.entities.items.ItemCounter;
 import arenashooter.entities.items.WeaponsC;
@@ -26,7 +25,11 @@ public class Map extends Entity {
 	public Vec4f cameraBounds;
 	
 	public Map(ArrayList<Plateform> plateform) {
-		
+		int i = 0;
+		for (Plateform p : plateform) {
+			i++;
+			p.attachToParent(this, "Plateforme"+i);
+		}
 	}
 
 	public Map(int nbPlayer) {
