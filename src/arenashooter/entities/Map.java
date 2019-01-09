@@ -9,6 +9,7 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.items.Item;
 import arenashooter.entities.items.Item.ItemSprite;
+import arenashooter.entities.items.ItemCounter;
 import arenashooter.entities.items.WeaponsC;
 import arenashooter.entities.items.WeaponsD;
 import arenashooter.entities.spatials.Plateform;
@@ -105,15 +106,15 @@ public class Map extends Entity {
 		
 		Vec2f p =new Vec2f(-300, 2200);
 		WeaponsC item11 = new WeaponsC(p, ItemSprite.minugun);
-		item11.attachToParent(this, "Item_Arme11");
+		item11.attachToParent(this, ItemCounter.weapon());
 		
 		Vec2f o =new Vec2f(300, 2200);
 		WeaponsC item111 = new WeaponsC(o,ItemSprite.assault);
-		item111.attachToParent(this, "Item_Arme111");
+		item111.attachToParent(this, ItemCounter.weapon());
 		
 		Vec2f t =new Vec2f(900, 2200);
 		WeaponsC item1111 = new WeaponsC(t,ItemSprite.armor);
-		item1111.attachToParent(this, "Item_Armure1111");
+		item1111.attachToParent(this, ItemCounter.armor());
 //
 //		Plateform plat13 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
 //		plat13.attachToParent(this, "Platform 13");

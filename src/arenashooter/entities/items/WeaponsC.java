@@ -8,5 +8,4 @@ public class WeaponsC extends Item{
 		super(position , itemSprite);
 		tag = "Arme";
 	}
-
 }

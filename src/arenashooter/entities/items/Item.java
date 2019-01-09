@@ -1,18 +1,16 @@
 package arenashooter.entities.items;
 
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Impact;
 import arenashooter.entities.Collider;
-import arenashooter.entities.Entity;
-import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 
-public class Item extends Spatial {
+public abstract class Item extends Spatial {
 	
 	protected String tag = "Item";
-	
+	public String getId() {
+		return "Item";
+	}
 	public String getTag() {
 		return tag;
 	}
