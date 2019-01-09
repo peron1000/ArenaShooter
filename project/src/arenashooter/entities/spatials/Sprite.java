@@ -42,7 +42,7 @@ public class Sprite extends Spatial {
 	public void draw() {
 		super.draw();
 		
-		Profiler.startElem();
+		Profiler.startTimer(Profiler.SPRITES);
 		
 		shader.bind();
 		
@@ -66,6 +66,6 @@ public class Sprite extends Spatial {
 		model.bind();
 		model.draw();
 		
-		Profiler.endSprite();
+		Profiler.endTimer(Profiler.SPRITES);
 	}
 }

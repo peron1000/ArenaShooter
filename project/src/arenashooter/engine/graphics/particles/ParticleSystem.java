@@ -28,9 +28,9 @@ public class ParticleSystem {
 	}
 	
 	public void draw() {
-		Profiler.startElem();
+		Profiler.startTimer(Profiler.PARTICLES);
 		for(Emitter e : emitters)
 			e.draw();
-		Profiler.endParticle();
+		Profiler.endTimer(Profiler.PARTICLES);
 	}
 }

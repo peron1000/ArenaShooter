@@ -34,20 +34,18 @@ public class Main {
 			
 			Window.beginFrame();
 			
-			Profiler.startStep();
+			Profiler.startTimer(Profiler.STEP);
 			
 			Game.game.update(delta);
 			
-			Profiler.endStep();
-			Profiler.startRender();
+			Profiler.endTimer(Profiler.STEP);
+			Profiler.startTimer(Profiler.RENDER);
 			
 			Game.game.draw();
 			
 			Window.endFrame();
 			
-			Profiler.endRender();
-			
-			Profiler.startElem();
+			Profiler.endTimer(Profiler.RENDER);
 			
 			//FPS counter
 			fpsFrames++;
@@ -58,6 +56,7 @@ public class Main {
 				fpsFrames = 0;
 			}
 			
+			Profiler.startTimer(Profiler.SLEEP);
 			//Limit framerate
 			if(currentFrame-lastFrame < minFrametime)
 				try {
@@ -67,7 +66,7 @@ public class Main {
 				}
 			lastFrame = currentFrame;
 			
-			Profiler.endSleep();
+			Profiler.endTimer(Profiler.SLEEP);
 			Profiler.printTimes();
 		}
 		

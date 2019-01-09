@@ -53,7 +53,7 @@ public class Mesh extends Spatial3 {
 	
 	@Override
 	public void draw() {
-		Profiler.startElem();
+		Profiler.startTimer(Profiler.MESHES);
 		
 		for( int i=0; i<models.length; i++ ) {
 			shaders[i].bind();
@@ -71,7 +71,7 @@ public class Mesh extends Spatial3 {
 			models[i].draw();
 		}
 		
-		Profiler.endMesh();
+		Profiler.endTimer(Profiler.MESHES);
 		
 		super.draw();
 	}

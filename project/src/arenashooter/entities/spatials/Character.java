@@ -160,7 +160,7 @@ public class Character extends Spatial {
 	@Override
 	public void step(double d) {
 
-		Profiler.startElem();
+		Profiler.startTimer(Profiler.PHYSIC);
 		
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
 		vel.y += 9.807 * 800 * d;
@@ -185,7 +185,7 @@ public class Character extends Spatial {
 
 		position.add(Vec2f.multiply(vel, (float) d));
 		
-		Profiler.endPhysics();
+		Profiler.endTimer(Profiler.PHYSIC);
 
 		// Animation
 		if (movementInput > 0)

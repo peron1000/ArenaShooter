@@ -174,7 +174,7 @@ public final class Window {
 	 * End a frame, this will swap framebuffers
 	 */
 	public static void endFrame() {
-		Profiler.startElem();
+		Profiler.startTimer(Profiler.POSTPROCESS);
 		
 		//Bind default framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -197,7 +197,7 @@ public final class Window {
 
 		glfwSwapBuffers(window);
 		
-		Profiler.endPostProcess();
+		Profiler.endTimer(Profiler.POSTPROCESS);
 	}
 	
 	private static void drawSky() { //TODO: Remove this temp function
