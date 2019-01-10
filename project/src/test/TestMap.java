@@ -25,7 +25,7 @@ public class TestMap {
 		for (Entity entity : entities) {
 			if(entity instanceof Plateform) {
 				Plateform p = (Plateform) entity;
-				if(p.position.x == 0 && p.position.y == 510 && p.getExtendX() == 1500 && p.getExtendY() == 100) {
+				if(p.position.x == 0 && p.position.y == 510 && p.getExtentX() == 1500 && p.getExtentY() == 100) {
 					find = true;
 				}
 			}
@@ -42,7 +42,7 @@ public class TestMap {
 		for (Entity entity : entities) {
 			if(entity instanceof Plateform) {
 				Plateform p = (Plateform) entity;
-				if(p.position.x == -800 && p.position.y == 210 && p.getExtendX() == 300 && p.getExtendY() == 300) {
+				if(p.position.x == -800 && p.position.y == 210 && p.getExtentX() == 300 && p.getExtentY() == 300) {
 					find = true;
 				}
 			}
