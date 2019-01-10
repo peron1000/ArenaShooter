@@ -3,23 +3,19 @@ package arenashooter.engine.physic.shapes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Shape;
 
-public class OrientedRect extends Shape {
+public class Rectangle extends Shape {
 	Vec2f extent;
 	
-	public OrientedRect(Vec2f extent) {
+	public Rectangle(Vec2f extent) {
 		this.extent = extent.clone();
 	}
 	
 	@Override
-	public boolean isColliding(AxisAlignedRect other) {
+	public boolean isColliding(Rectangle other) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	@Override
-	public boolean isColliding(OrientedRect other) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	@Override
 	public boolean isColliding(Disc other) {
 		// TODO Auto-generated method stub

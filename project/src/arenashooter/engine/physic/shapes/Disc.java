@@ -7,13 +7,7 @@ public class Disc extends Shape {
 	double radius;
 
 	@Override
-	public boolean isColliding(AxisAlignedRect other) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isColliding(OrientedRect other) {
+	public boolean isColliding(Rectangle other) {
 		// TODO Auto-generated method stub
 		return false;
 	}
