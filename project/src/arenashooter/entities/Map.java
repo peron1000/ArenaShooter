@@ -57,7 +57,7 @@ public class Map extends Entity {
 	
 	private void testPhysics() {
 		//Set gravity
-		Physic.globalForce = new Vec2f(0, 9.807 * 10);
+		Physic.globalForce = new Vec2f(0, 9.807 * 800);
 		
 		// Rigid body
 		Vec2f position = new Vec2f(-450, -500);
