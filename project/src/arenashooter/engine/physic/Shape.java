@@ -10,4 +10,6 @@ public abstract class Shape {
 	public abstract boolean isColliding(AxisAlignedRect other);
 	public abstract boolean isColliding(OrientedRect other);
 	public abstract boolean isColliding(Disc other);
+	
+	public abstract double getMomentOfInertia(double mass);
 }

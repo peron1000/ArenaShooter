@@ -24,4 +24,10 @@ public class Disc extends Shape {
 		double radiiSqr = (radius+other.radius)*(radius+other.radius);
 		return distSqr <= radiiSqr;
 	}
+
+	@Override
+	public double getMomentOfInertia(double mass) {
+		//From Wikipedia: 1/2 mr^2
+		return (mass*radius*radius)/2;
+	}
 }

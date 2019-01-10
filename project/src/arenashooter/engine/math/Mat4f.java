@@ -205,24 +205,24 @@ public class Mat4f {
 	 * @param scale
 	 * @return
 	 */
-	public static Mat4f transform( Vec2f loc, float rot, Vec2f scale ) {
-		float w = (float)Math.cos(-rot/2);
-		float z = (float)Math.sin(-rot/2);
+	public static Mat4f transform( Vec2f loc, double rot, Vec2f scale ) {
+		double w = (float)Math.cos(-rot/2);
+		double z = (float)Math.sin(-rot/2);
 		
-		float ww = w * w;
-        float zz = z * z;
-        float zw2 = 2*(z * w);
+		double ww = w * w;
+		double zz = z * z;
+		double zw2 = 2*(z * w);
         
         Mat4f res = new Mat4f();
         
         //First column
-        res.val[0][0] = (ww - zz)*scale.x;
-        res.val[0][1] = zw2*scale.x;
+        res.val[0][0] = (float)((ww - zz)*scale.x);
+        res.val[0][1] = (float)(zw2*scale.x);
 		//Second column
-        res.val[1][0] = -zw2*scale.y;
-        res.val[1][1] = (-zz + ww)*scale.y;
+        res.val[1][0] = (float)(-zw2*scale.y);
+        res.val[1][1] = (float)((-zz + ww)*scale.y);
 		//Third column
-        res.val[2][2] = (zz + ww);
+        res.val[2][2] = (float)(zz + ww);
         //Fourth column
         res.val[3][0] = loc.x;
         res.val[3][1] = loc.y;

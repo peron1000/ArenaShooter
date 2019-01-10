@@ -7,12 +7,14 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.OrientedRect;
 import arenashooter.entities.items.Item.ItemSprite;
 import arenashooter.entities.items.ItemCounter;
 import arenashooter.entities.items.WeaponsC;
 import arenashooter.entities.items.WeaponsD;
 import arenashooter.entities.spatials.Plateform;
-import arenashooter.entities.spatials.RigidBody;
+import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 
 public class Map extends Entity {
@@ -30,6 +32,7 @@ public class Map extends Entity {
 			i++;
 			p.attachToParent(this, "Plateforme"+i);
 		}
+		testPhysics();
 	}
 
 	public Map(int nbPlayer) {
@@ -42,13 +45,6 @@ public class Map extends Entity {
 		Mesh arrows = new Mesh(new Vec3f(-500, 500, 200), new Quat(), new Vec3f(200), "data/meshes/arrows.obj");
 		arrows.attachToParent(this, "Mesh Arrows");
 
-		// Rigid body
-		RigidBody rb = new RigidBody(new Vec2f(1150, -500), new Vec2f(100, 100), 20);
-		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
-		rbSprite.size = new Vec2f(200, 200);
-		rb.attachToParent(this, "Rigid Body test");
-		rbSprite.attachToParent(rb, "Sprite");
-
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
 	}
 
@@ -56,6 +52,17 @@ public class Map extends Entity {
 		for (int i = 0; i < nbPlayer; i++) {
 			spawn.add(i, new Vec2f(i * 200 - 300, 0));
 		}
+	}
+	
+	private void testPhysics() {
+		// Rigid body
+		Vec2f position = new Vec2f(-450, -500);
+		RigidBody body = new RigidBody(new OrientedRect(new Vec2f(100, 50)), position, 0.1, 10);
+		RigidBodyContainer rb = new RigidBodyContainer(position, body);
+		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		rbSprite.size = new Vec2f(200, 200);
+		rb.attachToParent(this, "Rigid Body test");
+		rbSprite.attachToParent(rb, "Sprite");
 	}
 
 	private void creationPlateforme() {

@@ -4,6 +4,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
+import arenashooter.engine.physic.Physic;
 
 public class Main {
 	private static final int minFrametime = 8;
@@ -35,16 +36,17 @@ public class Main {
 			Window.beginFrame();
 			
 			Profiler.startTimer(Profiler.STEP);
-			
 			Game.game.update(delta);
-			
 			Profiler.endTimer(Profiler.STEP);
-			Profiler.startTimer(Profiler.RENDER);
 			
+			Profiler.startTimer(Profiler.PHYSIC);
+			Physic.step(delta);
+			Profiler.endTimer(Profiler.PHYSIC);
+			
+			Profiler.startTimer(Profiler.RENDER);
 			Game.game.draw();
 			
 			Window.endFrame();
-			
 			Profiler.endTimer(Profiler.RENDER);
 			
 			//FPS counter

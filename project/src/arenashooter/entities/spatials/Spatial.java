@@ -5,7 +5,7 @@ import arenashooter.entities.Entity;
 
 public class Spatial extends Entity {
 	public Vec2f position;
-	public float rotation = 0;
+	public double rotation = 0;
 
 	public Spatial() {
 		position = new Vec2f();
