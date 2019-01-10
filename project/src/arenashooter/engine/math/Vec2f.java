@@ -13,6 +13,15 @@ public class Vec2f {
 	public Vec2f() {}
 	
 	/**
+	 * Creates a (a, a) vector
+	 * @param a
+	 */
+	public Vec2f(double a) {
+		x=(float)a;
+		y=(float)a;
+	}
+	
+	/**
 	 * Creates a (x, y) vector
 	 * @param x
 	 * @param y
@@ -145,5 +154,21 @@ public class Vec2f {
 	 */
 	public static Vec2f multiply( Vec2f a, Vec2f b ) {
 		return new Vec2f( a.x*b.x, a.y*b.y );
+	}
+	
+	/**
+	 * Dot product of two vectors
+	 * @param a
+	 * @param b
+	 * @return a.b (original vectors are unchanged)
+	 */
+	public static double dot(Vec2f a, Vec2f b) {
+		return a.x*b.x + a.y*b.y;
+	}
+	
+	public static Vec2f rotate(Vec2f v, double r) {
+		double cos = Math.cos(r);
+		double sin = Math.sin(r);
+		return new Vec2f( cos*v.x - sin*v.y, sin*v.x + cos*v.y );
 	}
 }

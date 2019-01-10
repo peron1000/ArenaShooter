@@ -1,7 +1,7 @@
 package arenashooter.engine.physic;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.shapes.Disc;
+import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
 
 public class AABB {
@@ -23,7 +23,7 @@ public class AABB {
 		return false;
 	}
 
-	public boolean isColliding(Disc other) {
+	public boolean isColliding(Disk other) {
 		// TODO Auto-generated method stub
 		return false;
 	}

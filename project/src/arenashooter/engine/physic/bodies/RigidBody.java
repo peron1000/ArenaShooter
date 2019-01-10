@@ -1,5 +1,6 @@
 package arenashooter.engine.physic.bodies;
 
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Body;
 import arenashooter.engine.physic.Physic;
@@ -18,6 +19,8 @@ public class RigidBody extends Body {
 	public double angularVel = 0;
 	private double momentOfInertia = 0;
 	
+	private static final double maxVel = 20000, maxAngularVel = 8*Math.PI;
+	
 	public RigidBody(Shape shape, Vec2f position, double rotation, double mass) {
 		super(shape, position, rotation);
 		this.mass = mass;
@@ -29,12 +32,15 @@ public class RigidBody extends Body {
 		//Apply global forces like gravity
 		applyForce(Physic.globalForce);
 		
+		//Linear movement
 		Vec2f accel = new Vec2f( forces.x/mass, forces.y/mass );
-		velocity.add( Vec2f.multiply(accel, d) );
+		velocity.x = (float)Utils.clampD( (accel.x*d)+velocity.x, -maxVel, maxVel );
+		velocity.y = (float)Utils.clampD( (accel.y*d)+velocity.y, -maxVel, maxVel );
 		position.add( Vec2f.multiply(velocity, d) );
 		
-		double angulerAccel = torque / momentOfInertia;
-		angularVel += angulerAccel*d;
+		//Angular movement
+		double angularAccel = torque / momentOfInertia;
+		angularVel = Utils.clampD( (angularAccel*d)+angularVel, -maxAngularVel, maxAngularVel );
 		rotation += angularVel*d;
 	}
 	

@@ -1,13 +1,13 @@
 package arenashooter.engine.physic;
 
-import arenashooter.engine.physic.shapes.Disc;
-import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.engine.math.Vec2f;
 
 public abstract class Shape {
-	protected Body body;
-	
-	public abstract boolean isColliding(Rectangle other);
-	public abstract boolean isColliding(Disc other);
+	public Body body;
 	
 	public abstract double getMomentOfInertia(double mass);
+	
+	public abstract Vec2f getAABBextent();
+	
+	public abstract Vec2f project(Vec2f axis);
 }
