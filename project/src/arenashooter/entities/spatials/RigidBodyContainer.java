@@ -15,7 +15,7 @@ public class RigidBodyContainer extends Spatial {
 	public RigidBodyContainer(Vec2f position, RigidBody body) {
 		super(position);
 		this.body = body;
-		Physic.registerBody(body);
+		Physic.registerRigidBody(body);
 	}
 	
 	@Override
