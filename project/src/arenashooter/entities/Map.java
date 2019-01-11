@@ -122,12 +122,10 @@ public class Map extends Entity {
 		WeaponsC item11 = new WeaponsC(p, ItemSprite.minugun);
 		item11.attachToParent(this, ItemCounter.weapon());
 		
-		Vec2f o =new Vec2f(300, 2200);
-		WeaponsC item111 = new WeaponsC(o,ItemSprite.assault);
+		WeaponsC item111 = new WeaponsC(new Vec2f(300, 2200),ItemSprite.assault);
 		item111.attachToParent(this, ItemCounter.weapon());
 		
-		Vec2f t =new Vec2f(900, 2200);
-		WeaponsC item1111 = new WeaponsC(t,ItemSprite.armor);
+		WeaponsC item1111 = new WeaponsC(new Vec2f(900, 2200),ItemSprite.armor);
 		item1111.attachToParent(this, ItemCounter.armor());
 //
 //		Plateform plat13 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
