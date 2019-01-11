@@ -214,8 +214,8 @@ public class Character extends Spatial {
 		// position.
 		for (Entity e : children.values()) {
 			if (e instanceof WeaponsC) {
-				((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x, d*10);
-				((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d*10);
+				((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x, d*70);
+				((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d*70);
 			} else if (e instanceof Spatial)
 				((Spatial) e).position.set(position);
 			e.step(d);

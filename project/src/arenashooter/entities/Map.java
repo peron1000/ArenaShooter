@@ -14,6 +14,7 @@ import arenashooter.engine.physic.shapes.Rectangle;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
+import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.ItemCounter;
 import arenashooter.entities.spatials.items.WeaponsC;
 import arenashooter.entities.spatials.items.WeaponsD;
@@ -173,7 +174,15 @@ public class Map extends Entity {
 //		bul0.attachToParent(this, "bul0");
 	}
 	
+	public static WeaponsC argl = new WeaponsC(new Vec2f(750, 300), Item.ItemSprite.assault);
+	//déso, ces lignes sont temporaires
+	public void addWeapons() {
+		argl.attachToParent(this, "weapon1");
+	}
+	//TODO à supprimer
+	
 	public void addPlateform(Vec2f position , Vec2f extent , String nom) {
 		children.put(nom, new Plateform(position, extent));
+		
 	}
 }

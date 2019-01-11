@@ -8,21 +8,30 @@ import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.Game;
 
 public class WeaponsC extends Item {
-	
-	private Timer fire = new Timer(0.1);
+
+	private Timer fire = new Timer(0.25);
 	Collider coll;
 
 	public WeaponsC(Vec2f position, ItemSprite itemSprite) {
 		super(position, itemSprite);
 		fire.attachToParent(this, "attack timer");
 		tag = "Arme";
-		coll = new Collider(position, new Vec2f(40,40));
+		coll = new Collider(position, new Vec2f(40, 40));
 	}
 
 	public void fire(boolean lookRight) { // Visée uniquement droite et gauche pour l'instant. TODO :
 		if (fire.isOver()) {
+			float pX;
+			float vX;
+			if (lookRight) {
+				pX = position.x + 70;
+				vX = 500;
+			} else {
+				pX = position.x - 70;
+				vX = -500;
+			}
 			fire.restart();
-			Bullet bul = new Bullet(new Vec2f((lookRight ? position.x+40 : position.x-40), position.y), new Vec2f((lookRight ? -500 : 500), 0));
+			Bullet bul = new Bullet(new Vec2f(pX, position.y), new Vec2f(vX, 0));
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
 		}
 	}
