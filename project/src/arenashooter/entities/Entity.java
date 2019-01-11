@@ -56,7 +56,7 @@ public class Entity {
 		return parent;
 	}
 
-	public HashMap<String, Entity> siblings() { //Retourne une HashMap vide si l'entité n'a pas de parent.
+	public HashMap<String, Entity> siblings() { //Retourne une HashMap vide si l'entité n'a pas de parent
 		if (parent != null)
 			return parent.children;
 		return new HashMap<String, Entity>();
