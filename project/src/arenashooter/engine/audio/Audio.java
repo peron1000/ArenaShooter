@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
@@ -201,6 +202,13 @@ public final class Audio {
 		SourceEntry(AudioSourceI player) {
 			this.sources = player.getSources();
 			this.sound = new WeakReference<AudioSourceI>(player);
+		}
+	}
+	
+	public static void printError() {
+		int error = AL10.alGetError();
+		if(error != AL10.AL_NO_ERROR) {
+			System.err.println( "Audio - Error: "+AL10.alGetString(error) );
 		}
 	}
 }

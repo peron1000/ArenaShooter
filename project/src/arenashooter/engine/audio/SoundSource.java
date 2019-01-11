@@ -12,6 +12,7 @@ import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
 
+import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 
 import static org.lwjgl.openal.AL10.alSourcef;
@@ -57,6 +58,8 @@ public class SoundSource implements AudioSourceI {
 		
 			//Link the source to the buffer
 			alSourcei( source[i], AL_BUFFER, sound.getBuffer() );
+			
+			Audio.printError();
 			
 			//Spatialization
 			if( spatialized ) {
