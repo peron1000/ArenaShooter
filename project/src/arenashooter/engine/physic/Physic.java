@@ -1,8 +1,8 @@
 package arenashooter.engine.physic;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
-import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.bodies.StaticBody;
@@ -20,11 +20,21 @@ public final class Physic {
 	private Physic() {}
 	
 	public static void step(double d) {
-		for(RigidBody b : rigidBodies) {
-			System.out.println("Hit:");
-			for(Body other : bodies) {
-				if(b != other) {
-					if(mayCollide(b.shape, other.shape)) System.out.println(other);
+		HashSet<BodiesCouple> couplesToTest = new HashSet<BodiesCouple>();
+		for(RigidBody b : rigidBodies)
+			for(Body other : bodies)
+				if(b != other && mayCollide(b.shape, other.shape))
+					couplesToTest.add(new BodiesCouple(b, other));
+		
+		for(BodiesCouple c : couplesToTest) {
+			if( isColliding(c.a.shape, c.b.shape) ) {
+				if(c.a instanceof RigidBody) {
+					((RigidBody)c.a).velocity = new Vec2f();
+					((RigidBody)c.a).angularVel = 0;
+				}
+				if(c.b instanceof RigidBody) {
+					((RigidBody)c.b).velocity = new Vec2f();
+					((RigidBody)c.b).angularVel = 0;
 				}
 			}
 		}
@@ -61,23 +71,23 @@ public final class Physic {
 	public static boolean isColliding(Shape a, Shape b) {
 		if(a instanceof Disk) //a is a Disk
 			if(b instanceof Rectangle) //b is a Rectangle
-				return( isCollidingDiskVsRect((Disk)a, (Rectangle)b) );
+				return( diskVsRect((Disk)a, (Rectangle)b) );
 			else //b is a Disk
-				return( isCollidingDiskVsDisk((Disk)a, (Disk)b) );
+				return( diskVsDisk((Disk)a, (Disk)b) );
 		else //a is a Rectangle
 			if(b instanceof Rectangle) //b is a Rectangle
-				return( isCollidingRectVsRect((Rectangle)b, (Rectangle)a) );
+				return( rectVsRect((Rectangle)b, (Rectangle)a) );
 			else //b is a Disk
-				return( isCollidingDiskVsRect((Disk)b, (Rectangle)a) );
+				return( diskVsRect((Disk)b, (Rectangle)a) );
 	}
 	
-	public static boolean isCollidingDiskVsDisk(Disk a, Disk b) {
+	public static boolean diskVsDisk(Disk a, Disk b) {
 		double distSqr = Vec2f.subtract(a.body.position, b.body.position).lengthSquared();
 		double radiiSqr = (a.radius+b.radius)*(a.radius+b.radius);
 		return distSqr <= radiiSqr;
 	}
 	
-	public static boolean isCollidingRectVsRect(Rectangle a, Rectangle b) {
+	public static boolean rectVsRect(Rectangle a, Rectangle b) {
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
 		Vec2f projA = a.project(normal);
 		Vec2f projB = b.project(normal);
@@ -98,7 +108,24 @@ public final class Physic {
 		return true;
 	}
 
-	public static boolean isCollidingDiskVsRect(Disk a, Rectangle b) {
-		return false;
+	public static boolean diskVsRect(Disk a, Rectangle b) { //TODO: Test
+		Vec2f normal = Vec2f.fromAngle(b.body.rotation);
+		Vec2f projA = a.project(normal);
+		Vec2f projB = b.project(normal);
+		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
+		normal = Vec2f.fromAngle(b.body.rotation+Math.PI);
+		projA = a.project(normal);
+		projB = b.project(normal);
+		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
+		
+		return true;
+	}
+	
+	private static class BodiesCouple {
+		Body a, b;
+		private BodiesCouple(Body a, Body b) {
+			this.a = a;
+			this.b = b;
+		}
 	}
 }

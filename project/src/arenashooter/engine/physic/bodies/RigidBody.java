@@ -37,11 +37,14 @@ public class RigidBody extends Body {
 		velocity.x = (float)Utils.clampD( (accel.x*d)+velocity.x, -maxVel, maxVel );
 		velocity.y = (float)Utils.clampD( (accel.y*d)+velocity.y, -maxVel, maxVel );
 		position.add( Vec2f.multiply(velocity, d) );
+		forces.x = 0;
+		forces.y = 0;
 		
 		//Angular movement
 		double angularAccel = torque / momentOfInertia;
 		angularVel = Utils.clampD( (angularAccel*d)+angularVel, -maxAngularVel, maxAngularVel );
 		rotation += angularVel*d;
+		torque = 0;
 	}
 	
 	/**
@@ -67,11 +70,19 @@ public class RigidBody extends Body {
 	}
 	
 	/**
+	 * Apply an impulse at center of mass
+	 * @param impulse
+	 */
+	public void applyImpulse(Vec2f impulse) {
+		velocity.add(impulse);
+	}
+	
+	/**
 	 * Apply an impulse on a point
 	 * @param position
-	 * @param force
+	 * @param impulse
 	 */
-	public void applyImpluse(Vec2f position, Vec2f impulse) {
+	public void applyImpulse(Vec2f position, Vec2f impulse) {
 		velocity.add(impulse);
 		
 		//Local force position
