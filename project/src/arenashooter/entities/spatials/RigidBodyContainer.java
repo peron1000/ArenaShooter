@@ -7,6 +7,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Entity;
+import arenashooter.game.Main;
 
 public class RigidBodyContainer extends Spatial {
 
@@ -32,6 +33,13 @@ public class RigidBodyContainer extends Spatial {
 		//TODO: Proper attachement system
 		for(Entity e : children.values())
 			if(e instanceof Spatial) ((Spatial)e).rotation = rotation;
+	}
+	
+	@Override
+	public void draw() {
+		if(Main.drawCollisions) body.shape.debugDraw();
+		
+		super.draw();
 	}
 	
 }
