@@ -50,9 +50,9 @@ public class Game {
 		testSound.setVolume(.45f);
 		testSound.attachToParent(map, "testSound");
 
-		Music music = new Music("data/music/Juhani Junkala [Retro Game Music Pack] Level 1.ogg", true);
-		music.attachToParent(map, "music");
-		// music.play();
+//		Music music = new Music("data/music/Juhani Junkala [Retro Game Music Pack] Level 1.ogg", true);
+//		music.attachToParent(map, "music");
+//		music.play();
 	}
 
 	private void initControllers(int nbPlayers) {
