@@ -2,6 +2,7 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -54,7 +56,7 @@ public class Enregistreur {
 	}
 
 	/**
-	 * Ouvre une fen�tre signalant une erreur
+	 * Ouvre une fenêtre signalant une erreur
 	 */
 	public static void erreur() {
 		Stage erreur = new Stage();
@@ -80,7 +82,7 @@ public class Enregistreur {
 	}
 
 	/**
-	 * Ouvre une fen�tre signalant une erreur 
+	 * Ouvre une fenêtre signalant une erreur 
 	 * @param message Explication de l'erreur
 	 */
 	public static void popupErreur(String message) {
@@ -150,7 +152,32 @@ public class Enregistreur {
 		root.appendChild(information);
 		remplissageInfomation(document , information);
 		
-		// TODO : remplissage entit�s
+		Element entite = document.createElement("entity");
+		root.appendChild(entite);
+		remplissageEntitees(document , entite);
+	}
+
+	private static void remplissageEntitees(Document document, Element entite) {
+		// TODO Auto-generated method stub
+		HashMap<Rectangle, Entite> entites = ListEntite.getHashMapEntites();
+		for (Entite entity : entites.values()) {
+			if(entity.getType() == Entite.Type.Plateforme) {
+				Element plateforme = document.createElement("plateform");
+				Element position = document.createElement("vecteur");
+				Element extent = document.createElement("vecteur");
+				
+				position.setAttribute("x", entity.xPosition+"");
+				position.setAttribute("y", entity.yPosition+"");
+				
+				extent.setAttribute("x", entity.xExtent+"");
+				extent.setAttribute("y", entity.yExtent+"");
+				
+				plateforme.appendChild(position);
+				plateforme.appendChild(extent);
+				
+				entite.appendChild(plateforme);
+			}
+		}
 	}
 
 	private static void remplissageInfomation(Document document, Element information) {

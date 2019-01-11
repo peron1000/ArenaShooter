@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 
@@ -16,7 +17,8 @@ public class Main extends Application {
 			affichage.make();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Editeur Map Super Blep");
+			primaryStage.setTitle("Super Blep Editor");
+			primaryStage.getIcons().add(new Image("file:icon.png"));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
