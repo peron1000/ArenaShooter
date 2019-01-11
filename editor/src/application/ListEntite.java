@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,13 +19,13 @@ public class ListEntite {
 	private static double scale = 5;
 	protected static Point2D dragAnchor;
 	private static Rectangle character = new Rectangle(50, 120, Color.RED);
-	static StackPane pane = new StackPane(character);
+	static Pane pane = new Pane(character);
 
 	private ListEntite() {
 	}
 
 	/**
-	 * Rectangle représentant la taille du collider d'un Character de SuperBlep
+	 * Rectangle reprÃ©sentant la taille du collider d'un Character de SuperBlep
 	 * 
 	 * @return Un rectangle
 	 */
@@ -33,7 +34,7 @@ public class ListEntite {
 	}
 
 	/**
-	 * Crée un rectangle bougeable avec la souris et une entite qui lui est associé
+	 * CrÃ©e un rectangle bougeable avec la souris et une entite qui lui est associÃ©
 	 * dans la map d'entite
 	 */
 	public static void newPlateforme() {
@@ -44,7 +45,7 @@ public class ListEntite {
 	}
 
 	/**
-	 * Crée un rectangle qui suit la souris lors d'un click and drag
+	 * CrÃ©e un rectangle qui suit la souris lors d'un click and drag
 	 * @param x longueur
 	 * @param y hauteur
 	 * @param c couleur
@@ -57,8 +58,8 @@ public class ListEntite {
 			@Override
 			public void handle(MouseEvent me) {
 				// Pour garder le point de depart en memoire
-				initX = rec.getTranslateX();
-				initY = rec.getTranslateY();
+				initX = rec.getX();
+				initY = rec.getY();
 				dragAnchor = new Point2D(me.getSceneX(), me.getSceneY());
 			}
 		});
@@ -73,14 +74,10 @@ public class ListEntite {
 				double newYPosition = initY + dragY;
 				
 				// restriction de fenetre
-				if (newXPosition <= pane.getWidth() - rec.getX()) {
-					rec.setTranslateX(newXPosition);
-				}
-				if (newYPosition <= pane.getHeight() - rec.getY()) {
-					rec.setTranslateY(newYPosition);
-				}
+					rec.setX(  Math.min(Math.max(0, newXPosition), pane.getWidth()-2) );
+					rec.setY(  Math.min(Math.max(0, newYPosition), pane.getHeight()-2) );
 				
-				// On change la position de l'entité liée
+				// On change la position de l'entitÃ© liÃ©e
 				Entite e = entites.get(rec);
 				e.xPosition += dragX / scale;
 				e.yPosition += dragY / scale;

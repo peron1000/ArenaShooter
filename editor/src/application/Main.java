@@ -11,7 +11,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,700,500);
+			Scene scene = new Scene(root,1280,720);
 			Affichage affichage = new Affichage(root);
 			affichage.make();
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
