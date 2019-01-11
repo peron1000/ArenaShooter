@@ -24,16 +24,20 @@ public class ListEntite {
 	}
 
 	/**
-	 * Rectangle représentant la taille du collider d'un Character de SuperBlep
+	 * Rectangle reprï¿½sentant la taille du collider d'un Character de SuperBlep
 	 * 
 	 * @return Un rectangle
 	 */
 	public static Rectangle getRecChar() {
 		return character;
 	}
+	
+	public static HashMap<Rectangle, Entite> getHashMapEntites(){
+		return entites;
+	}
 
 	/**
-	 * Crée un rectangle bougeable avec la souris et une entite qui lui est associé
+	 * Crï¿½e un rectangle bougeable avec la souris et une entite qui lui est associï¿½
 	 * dans la map d'entite
 	 */
 	public static void newPlateforme() {
@@ -44,7 +48,7 @@ public class ListEntite {
 	}
 
 	/**
-	 * Crée un rectangle qui suit la souris lors d'un click and drag
+	 * Crï¿½e un rectangle qui suit la souris lors d'un click and drag
 	 * @param x longueur
 	 * @param y hauteur
 	 * @param c couleur
@@ -80,7 +84,7 @@ public class ListEntite {
 					rec.setTranslateY(newYPosition);
 				}
 				
-				// On change la position de l'entité liée
+				// On change la position de l'entitï¿½ liï¿½e
 				Entite e = entites.get(rec);
 				e.xPosition += dragX / scale;
 				e.yPosition += dragY / scale;
