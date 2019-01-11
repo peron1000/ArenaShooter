@@ -1,6 +1,7 @@
-package arenashooter.entities.items;
+package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.spatials.items.Item.ItemSprite;
 
 public class Armor extends Item {
 

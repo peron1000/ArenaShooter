@@ -6,7 +6,7 @@ import arenashooter.game.Game;
 
 public class Entity {
 
-	private Entity parent;
+	protected Entity parent;
 	/**
 	 * Key to find this entity in its parent's children
 	 */
@@ -56,7 +56,7 @@ public class Entity {
 		return parent;
 	}
 
-	public HashMap<String, Entity> siblings() { //Retourne une HashMap vide si l'entité n'a pas de parent
+	public HashMap<String, Entity> siblings() { //Retourne une HashMap vide si l'entitï¿½ n'a pas de parent
 		if (parent != null)
 			return parent.children;
 		return new HashMap<String, Entity>();

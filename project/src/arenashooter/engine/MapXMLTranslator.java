@@ -15,6 +15,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.items.WeaponsC;
 
 /**
  * @author Nathan
@@ -49,6 +50,7 @@ public class MapXMLTranslator {
 		children = root.getChildNodes();
 
 		ArrayList<Plateform> plateforms = new ArrayList<>();
+		ArrayList<WeaponsC> weapons = new ArrayList<>();
 		ArrayList<Vec2f> spawn = new ArrayList<>();
 		Vec2f gravity = new Vec2f(0, 9.807);
 		Vec4f cameraBounds = new Vec4f();

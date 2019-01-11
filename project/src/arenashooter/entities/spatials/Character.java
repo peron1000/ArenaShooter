@@ -8,7 +8,8 @@ import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
-import arenashooter.entities.items.Item;
+import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.WeaponsC;
 import arenashooter.game.Game;
 
 public class Character extends Spatial {
@@ -50,9 +51,10 @@ public class Character extends Spatial {
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 
-//		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/punch_01.ogg");
-//		punchHitSound.setVolume(.7f);
-//		punchHitSound.attachToParent(this, "snd_Punch_Hit");
+		// SoundEffect punchHitSound = new SoundEffect(this.position,
+		// "data/sound/punch_01.ogg");
+		// punchHitSound.setVolume(.7f);
+		// punchHitSound.attachToParent(this, "snd_Punch_Hit");
 
 		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/snd_Punch_Hit2.ogg");
 		punchHitSound.setVolume(.7f);
@@ -122,9 +124,9 @@ public class Character extends Spatial {
 				}
 			}
 		}
-		if(arme != null)
+		if (arme != null)
 			arme.attachToParent(this, "Arme");
-		if(armure != null)
+		if (armure != null)
 			armure.attachToParent(this, "Armure");
 	}
 
@@ -161,7 +163,7 @@ public class Character extends Spatial {
 	public void step(double d) {
 
 		Profiler.startTimer(Profiler.PHYSIC);
-		
+
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
 		vel.y += 9.807 * 800 * d;
 
@@ -184,7 +186,7 @@ public class Character extends Spatial {
 		}
 
 		position.add(Vec2f.multiply(vel, (float) d));
-		
+
 		Profiler.endTimer(Profiler.PHYSIC);
 
 		// Animation
@@ -201,7 +203,17 @@ public class Character extends Spatial {
 			death();
 		}
 
-		super.step(d);
+		// Updates Children, but Lerp for the Weapon instead of just giving the
+		// position.
+		for (Entity e : children.values()) {
+			if (e instanceof WeaponsC) {
+				((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x, d);
+				((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d);
+			} else if (e instanceof Spatial)
+				((Spatial) e).position.set(position);
+			e.step(d);
+
+		}
 	}
 
 	public float getHealth() {

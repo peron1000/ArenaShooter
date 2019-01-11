@@ -1,4 +1,4 @@
-package arenashooter.entities.items;
+package arenashooter.entities.spatials.items;
 
 public class ItemCounter {
 	private static int number = 0;

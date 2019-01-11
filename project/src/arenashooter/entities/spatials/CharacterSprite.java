@@ -4,7 +4,7 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
-import arenashooter.entities.items.Item;
+import arenashooter.entities.spatials.items.Item;
 
 public class CharacterSprite extends Spatial {
 

@@ -11,13 +11,13 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
-import arenashooter.entities.items.Item.ItemSprite;
-import arenashooter.entities.items.ItemCounter;
-import arenashooter.entities.items.WeaponsC;
-import arenashooter.entities.items.WeaponsD;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
+import arenashooter.entities.spatials.items.ItemCounter;
+import arenashooter.entities.spatials.items.WeaponsC;
+import arenashooter.entities.spatials.items.WeaponsD;
+import arenashooter.entities.spatials.items.Item.ItemSprite;
 
 public class Map extends Entity {
 

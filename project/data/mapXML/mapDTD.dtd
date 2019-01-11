@@ -2,11 +2,13 @@
 <!ELEMENT map (information , entity*)>
 <!ELEMENT information (spawn+ , gravity , cameraBound)>
 <!ELEMENT entity (plateform)*>
+<!ELEMENT entity (weapon)*>
 <!ELEMENT spawn (vecteur)>
 <!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
 <!ATTLIST cameraBound x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
 <!ELEMENT plateform (vecteur , vecteur)>
+<!ELEMENT weapon (vecteur)>
 <!ELEMENT vecteur EMPTY>
 <!ATTLIST vecteur x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED use CDATA #IMPLIED >
 <!ELEMENT fichier (#PCDATA)>
