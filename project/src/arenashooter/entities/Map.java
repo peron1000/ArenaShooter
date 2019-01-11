@@ -69,7 +69,7 @@ public class Map extends Entity {
 		
 		//Rigid body 2
 		position = new Vec2f(-400, -675);
-		body = new RigidBody(new Disk(50), position, 0, 500);
+		body = new RigidBody(new Disk(50), position, 0, 100);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(100, 100);

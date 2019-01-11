@@ -81,7 +81,7 @@ public class MapXMLTranslator {
 							if (vector.item(k).getNodeName() == "vecteur") {
 								Element position = (Element) vector.item(k);
 								gravity.x = Float.parseFloat(position.getAttribute("x"));
-								gravity.x = Float.parseFloat(position.getAttribute("y"));
+								gravity.y = Float.parseFloat(position.getAttribute("y"));
 							}
 						}
 					}
