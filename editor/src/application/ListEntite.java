@@ -24,16 +24,28 @@ public class ListEntite {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Rectangle représentant la taille du collider d'un Character de SuperBlep
+=======
+	 * Rectangle repr�sentant la taille du collider d'un Character de SuperBlep
+>>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 	 * 
 	 * @return Un rectangle
 	 */
 	public static Rectangle getRecChar() {
 		return character;
 	}
+	
+	public static HashMap<Rectangle, Entite> getHashMapEntites(){
+		return entites;
+	}
 
 	/**
+<<<<<<< HEAD
 	 * Crée un rectangle bougeable avec la souris et une entite qui lui est associé
+=======
+	 * Cr�e un rectangle bougeable avec la souris et une entite qui lui est associ�
+>>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 	 * dans la map d'entite
 	 */
 	public static void newPlateforme() {
@@ -44,7 +56,11 @@ public class ListEntite {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Crée un rectangle qui suit la souris lors d'un click and drag
+=======
+	 * Cr�e un rectangle qui suit la souris lors d'un click and drag
+>>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 	 * @param x longueur
 	 * @param y hauteur
 	 * @param c couleur
