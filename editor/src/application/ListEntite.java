@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -67,17 +66,24 @@ public class ListEntite {
 
 			@Override
 			public void handle(MouseEvent me) {
-				// calcule position apres le drag
+				//Calcule position apres le drag
 				double dragX = me.getSceneX() - dragAnchor.getX();
 				double dragY = me.getSceneY() - dragAnchor.getY();
 				double newXPosition = initX + dragX;
 				double newYPosition = initY + dragY;
 				
-				// restriction de fenetre
-					rec.setX(  Math.min(Math.max(0, newXPosition), pane.getWidth()-2) );
-					rec.setY(  Math.min(Math.max(0, newYPosition), pane.getHeight()-2) );
+				//Restriction de fenetre
+				rec.setX(  Math.min(Math.max(0, newXPosition), pane.getWidth()-2) );
+				rec.setY(  Math.min(Math.max(0, newYPosition), pane.getHeight()-2) );
 				
-				// On change la position de l'entité liée
+				//Snap position to grid
+				int gridSnap = Affichage.gridSnap.getValue();
+				if(gridSnap > 0) {
+					rec.setX( Math.floor(rec.getX()/gridSnap)*gridSnap );
+					rec.setY( Math.floor(rec.getY()/gridSnap)*gridSnap );
+				}
+				
+				//On change la position de l'entité liée
 				Entite e = entites.get(rec);
 				e.xPosition += dragX / scale;
 				e.yPosition += dragY / scale;

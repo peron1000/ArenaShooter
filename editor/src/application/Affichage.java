@@ -1,16 +1,12 @@
 package application;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -20,13 +16,14 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Affichage {
 
 	private BorderPane root;
+	
+	public static GridSnap gridSnap;
 
 	public Affichage(BorderPane borderPane) {
 		root = borderPane;
@@ -83,7 +80,9 @@ public class Affichage {
 		
 		Vec2Input mapSize = new Vec2Input("World size", 1280, 720);
 		
-		VBox vBox = new VBox(10, label1 , label2 , label3, mapSize);
+		gridSnap = new GridSnap(10);
+		
+		VBox vBox = new VBox(10, label1 , label2 , label3, mapSize, gridSnap);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		root.setRight(vBox);
