@@ -6,6 +6,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Impact;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
+import arenashooter.entities.Map;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
@@ -69,7 +70,9 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		if (attack.isOver()) {
+		if (children.get("Item_Arme1") != null) {
+			((WeaponsC) children.get("Item_Arme1")).fire(lookRight);
+		} else if (attack.isOver()) {
 			attack.restart();
 
 			CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
@@ -101,33 +104,37 @@ public class Character extends Spatial {
 				}
 			}
 		}
+
 	}
 
 	public void getItem() {
 		Item arme = null;
 		Item armure = null;
-		if (!children.containsKey("Arme")) {
-			for (String name : Game.game.getMap().children.keySet()) {
-				if (name.startsWith("Item_Arme")) {
-					Item item = (Item) Game.game.getMap().children.get(name);
-					float xDiff = Math.abs(position.x - item.position.x);
-					float yDiff = Math.abs(position.y - item.position.y);
-					if (xDiff < 175 && yDiff < 175)
-						arme = item;
-				}
-				if (name.startsWith("Item_Armure")) {
-					Item item = (Item) Game.game.getMap().children.get(name);
-					float xDiff = Math.abs(position.x - item.position.x);
-					float yDiff = Math.abs(position.y - item.position.y);
-					if (xDiff < 175 && yDiff < 175)
-						armure = item;
-				}
-			}
-		}
-		if (arme != null)
-			arme.attachToParent(this, "Arme");
-		if (armure != null)
-			armure.attachToParent(this, "Armure");
+		
+		Map.argl.attachToParent(this, "Item_Arme1");
+		
+//		if (!children.containsKey("Arme")) {
+//			for (String name : Game.game.getMap().children.keySet()) {
+//				if (name.startsWith("Item_Arme")) {
+//					Item item = (Item) Game.game.getMap().children.get(name);
+//					float xDiff = Math.abs(position.x - item.position.x);
+//					float yDiff = Math.abs(position.y - item.position.y);
+//					if (xDiff < 175 && yDiff < 175)
+//						arme = item;
+//				}
+//				if (name.startsWith("Item_Armure")) {
+//					Item item = (Item) Game.game.getMap().children.get(name);
+//					float xDiff = Math.abs(position.x - item.position.x);
+//					float yDiff = Math.abs(position.y - item.position.y);
+//					if (xDiff < 175 && yDiff < 175)
+//						armure = item;
+//				}
+//			}
+//		}
+//		if (arme != null)
+//			arme.attachToParent(this, "Arme");
+//		if (armure != null)
+//			armure.attachToParent(this, "Armure");
 	}
 
 	public void dropItem() {
@@ -207,8 +214,8 @@ public class Character extends Spatial {
 		// position.
 		for (Entity e : children.values()) {
 			if (e instanceof WeaponsC) {
-				((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x, d);
-				((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d);
+				((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x, d*10);
+				((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d*10);
 			} else if (e instanceof Spatial)
 				((Spatial) e).position.set(position);
 			e.step(d);

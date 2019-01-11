@@ -15,6 +15,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.WeaponsC;
 
 /**
@@ -126,6 +127,25 @@ public class MapXMLTranslator {
 							}
 						}
 						plateforms.add(new Plateform(position, extent));
+					}
+					else if(entities.item(j).getNodeName() == "weapon") {
+						Vec2f position = new Vec2f();
+						Vec2f extent = new Vec2f();
+						NodeList vectors = entities.item(j).getChildNodes();
+						for (int k = 0; k < vectors.getLength(); k++) {
+							if (vectors.item(k).getNodeType() == Node.ELEMENT_NODE) {
+								Element vector = (Element) vectors.item(k);
+								if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+									position.x = Float.parseFloat(vector.getAttribute("x"));
+									position.y = Float.parseFloat(vector.getAttribute("y"));
+								}
+								if (vector.hasAttribute("use") && vector.getAttribute("use").equals("extent")) {
+									extent.x = Float.parseFloat(vector.getAttribute("x"));
+									extent.y = Float.parseFloat(vector.getAttribute("y"));
+								}
+							}
+						}
+						weapons.add(new WeaponsC(position, Item.ItemSprite.assault));
 					}
 				}
 			}

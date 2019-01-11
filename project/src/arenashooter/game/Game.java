@@ -23,7 +23,7 @@ public class Game {
 
 	private int nbPlayers = 2;
 	public ArrayList<Controller> controllers = new ArrayList<>(1);
-	private Map map;
+	public Map map;
 	private Character[] players = new Character[nbPlayers];
 	public Camera camera;
 
@@ -32,6 +32,7 @@ public class Game {
 
 	private Game() {
 		map = MapXMLTranslator.getMap("data/mapXML/mapXML.xml");
+		map.addWeapons();
 
 		initControllers(nbPlayers);
 
