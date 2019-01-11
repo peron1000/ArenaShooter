@@ -10,4 +10,6 @@ public abstract class Shape {
 	public abstract Vec2f getAABBextent();
 	
 	public abstract Vec2f project(Vec2f axis);
+	
+	public abstract void debugDraw();
 }

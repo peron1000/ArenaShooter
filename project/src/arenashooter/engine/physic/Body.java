@@ -6,7 +6,7 @@ public abstract class Body {
 	public Vec2f position;
 	public double rotation;
 	
-	protected Shape shape;
+	public Shape shape;
 	
 	public Body(Shape shape, Vec2f position, double rotation) {
 		this.shape = shape;

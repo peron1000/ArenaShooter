@@ -9,6 +9,7 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
 import arenashooter.entities.items.Item.ItemSprite;
 import arenashooter.entities.items.ItemCounter;
@@ -21,6 +22,7 @@ import arenashooter.entities.spatials.Sprite;
 public class Map extends Entity {
 
 	public ArrayList<Vec2f> spawn;
+	public Vec2f gravity;
 
 	/**
 	 * world bounds (min x, min y, max x, max y)
@@ -56,16 +58,22 @@ public class Map extends Entity {
 	}
 	
 	private void testPhysics() {
-		//Set gravity
-		Physic.globalForce = new Vec2f(0, 9.807 * 800);
-		
-		// Rigid body
+		//Rigid body 1
 		Vec2f position = new Vec2f(-450, -500);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
 		rbSprite.size = new Vec2f(200, 100);
 		rb.attachToParent(this, "Rigid Body test");
+		rbSprite.attachToParent(rb, "Sprite");
+		
+		//Rigid body 2
+		position = new Vec2f(-400, -675);
+		body = new RigidBody(new Disk(50), position, 0, 100);
+		rb = new RigidBodyContainer(position, body);
+		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		rbSprite.size = new Vec2f(100, 100);
+		rb.attachToParent(this, "Rigid Body test 2");
 		rbSprite.attachToParent(rb, "Sprite");
 	}
 

@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.Physic;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;
 
@@ -49,6 +50,7 @@ public class MapXMLTranslator {
 
 		ArrayList<Plateform> plateforms = new ArrayList<>();
 		ArrayList<Vec2f> spawn = new ArrayList<>();
+		Vec2f gravity = new Vec2f(0, 9.807);
 		Vec4f cameraBounds = new Vec4f();
 		for (int i = 0; i < children.getLength(); i++) {
 
@@ -70,6 +72,16 @@ public class MapXMLTranslator {
 								float x = Float.parseFloat(position.getAttribute("x"));
 								float y = Float.parseFloat(position.getAttribute("y"));
 								spawn.add(new Vec2f(x, y));
+							}
+						}
+					} else if (infos.item(j).getNodeName() == "gravity") {
+						// Navigation into Vector part
+						NodeList vector = infos.item(j).getChildNodes();
+						for (int k = 0; k < vector.getLength(); k++) {
+							if (vector.item(k).getNodeName() == "vecteur") {
+								Element position = (Element) vector.item(k);
+								gravity.x = Float.parseFloat(position.getAttribute("x"));
+								gravity.y = Float.parseFloat(position.getAttribute("y"));
 							}
 						}
 					}
@@ -121,6 +133,8 @@ public class MapXMLTranslator {
 		Map map = new Map(plateforms);
 		map.cameraBounds = cameraBounds;
 		map.spawn = spawn;
+		map.gravity = gravity;
+		Physic.globalForce = map.gravity; //TODO: Do this in a cleaner way
 		
 		return map;
 	}

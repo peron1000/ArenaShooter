@@ -29,10 +29,12 @@ public final class Physic {
 		for(BodiesCouple c : couplesToTest) {
 			if( isColliding(c.a.shape, c.b.shape) ) {
 				if(c.a instanceof RigidBody) {
+					c.a.position = Vec2f.subtract(c.a.position, Vec2f.multiply(((RigidBody)c.a).velocity, d));
 					((RigidBody)c.a).velocity = new Vec2f();
 					((RigidBody)c.a).angularVel = 0;
 				}
 				if(c.b instanceof RigidBody) {
+					c.b.position = Vec2f.subtract(c.b.position, Vec2f.multiply(((RigidBody)c.b).velocity, d));
 					((RigidBody)c.b).velocity = new Vec2f();
 					((RigidBody)c.b).angularVel = 0;
 				}
@@ -92,7 +94,7 @@ public final class Physic {
 		Vec2f projA = a.project(normal);
 		Vec2f projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
-		normal = Vec2f.fromAngle(a.body.rotation+Math.PI);
+		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
 		projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
@@ -100,7 +102,7 @@ public final class Physic {
 		projA = a.project(normal);
 		projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
-		normal = Vec2f.fromAngle(b.body.rotation+Math.PI);
+		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
 		projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
@@ -113,7 +115,7 @@ public final class Physic {
 		Vec2f projA = a.project(normal);
 		Vec2f projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
-		normal = Vec2f.fromAngle(b.body.rotation+Math.PI);
+		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
 		projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;

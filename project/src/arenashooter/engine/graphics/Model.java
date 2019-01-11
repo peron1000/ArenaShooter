@@ -97,6 +97,39 @@ public class Model {
 		return new Model( data, indices );
 	}
 	
+	public static Model loadDisk(int vertices) { //TODO: Finish and test this
+		float[] data = new float[(vertices+1)*floatsPerVertex];
+		//Center
+		data[0] = 0;   //x
+		data[1] = 0;   //y
+		data[2] = 0;   //z
+		data[3] = .5f; //u
+		data[4] = .5f; //v
+		data[5] = 0;   //nx
+		data[6] = 0;   //ny
+		data[7] = 1;   //nz
+		int nextV = 8;
+		int nextI = 0;
+		int[] indices = new int[vertices*3];
+		for(int i=0; i<vertices; i++) {
+			data[nextV]   = 0;   //x
+			data[nextV+1] = 0;   //y
+			data[nextV+2] = 0;   //z
+			data[nextV+3] = .5f; //u
+			data[nextV+4] = .5f; //v
+			data[nextV+5] = 0;   //nx
+			data[nextV+6] = 0;   //ny
+			data[nextV+7] = 1;   //nz
+			nextV+=8;
+			
+			indices[nextI] = 0;
+			indices[nextI+1] = i+1;
+			indices[nextI+2] = i+2;
+			nextI += 3;
+		}
+		return new Model(data, indices);
+	}
+	
 	/**
 	 * Send this model's data to a shader
 	 * @param shader
