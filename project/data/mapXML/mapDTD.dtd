@@ -3,7 +3,7 @@
 <!ELEMENT information (spawn+ , gravity , cameraBound)>
 <!ELEMENT entity (plateform)*>
 <!ELEMENT spawn (vecteur)>
-<!ELEMENT gravity (#PCDATA)>
+<!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
 <!ATTLIST cameraBound x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
 <!ELEMENT plateform (vecteur , vecteur)>

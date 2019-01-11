@@ -22,6 +22,7 @@ import arenashooter.entities.spatials.Sprite;
 public class Map extends Entity {
 
 	public ArrayList<Vec2f> spawn;
+	public Vec2f gravity;
 
 	/**
 	 * world bounds (min x, min y, max x, max y)
@@ -57,9 +58,6 @@ public class Map extends Entity {
 	}
 	
 	private void testPhysics() {
-		//Set gravity
-		Physic.globalForce = new Vec2f(0, 9.807 * 800);
-		
 		//Rigid body 1
 		Vec2f position = new Vec2f(-450, -500);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);

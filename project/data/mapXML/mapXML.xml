@@ -8,7 +8,9 @@
 		<spawn>
 			<vecteur x="300" y="0" />
 		</spawn>
-		<gravity>9.807</gravity>
+		<gravity>
+			<vecteur x="0" y="9.807" />
+		</gravity>
 		<cameraBound w="1000" x="-5000" y="-1000" z="5000" />
 	</information>
 	<entity>
