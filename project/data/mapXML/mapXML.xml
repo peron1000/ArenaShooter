@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
+<map>
+	<information>
+		<spawn>
+			<vecteur x="-300" y="0" />
+		</spawn>
+		<spawn>
+			<vecteur x="300" y="0" />
+		</spawn>
+		<gravity>
+			<vecteur x="0" y="9.807" />
+		</gravity>
+		<cameraBound w="1000" x="-5000" y="-1000" z="5000" />
+	</information>
+	<entity>
+		<plateform>
+			<vecteur x="0" y="510" use="position" />
+			<vecteur x="1500" y="100" use="extent" />
+		</plateform>
+		<plateform>
+			<vecteur x="-800" y="210" use="position" />
+			<vecteur x="300" y="300" use="extent" />
+		</plateform>
+		<plateform>
+			<vecteur x="1500" y="-150" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+		<plateform>
+			<vecteur x="-2000" y="-400" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+		<plateform>
+			<vecteur x="-1500" y="800" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="-2500" y="1100" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="1900" y="800" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="0" y="-500" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="-500" y="1700" use="position" />
+			<vecteur x="700" y="50" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="1300" y="1300" use="position" />
+			<vecteur x="300" y="25" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="-2700" y="-2700" use="position" />
+			<vecteur x="2000" y="2000" use="extent" />
+		</plateform>
+
+		<plateform>
+			<vecteur x="0" y="2200" use="position" />
+			<vecteur x="5000" y="10" use="extent" />
+		</plateform>
+
+	</entity>
+</map>

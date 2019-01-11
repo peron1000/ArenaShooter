@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-javadoc.jar!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-glfw.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-glfw-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-glfw-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-javadoc.jar!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-sources.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ArenaShooter/lib/lwjgl-release-3.2.0-custom"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-linux.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
