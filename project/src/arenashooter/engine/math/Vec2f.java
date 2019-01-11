@@ -171,4 +171,8 @@ public class Vec2f {
 		double sin = Math.sin(r);
 		return new Vec2f( cos*v.x - sin*v.y, sin*v.x + cos*v.y );
 	}
+	
+	public static Vec2f rotate90(Vec2f v) {
+		return new Vec2f( -v.y, v.x );
+	}
 }
