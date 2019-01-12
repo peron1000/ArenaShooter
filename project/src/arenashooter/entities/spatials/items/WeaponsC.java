@@ -39,8 +39,8 @@ public class WeaponsC extends Item {
 			double coeff = (2 * Math.random()) - 1;
 
 			Vec2f angle = Vec2f.rotate(new Vec2f(vX, 0), dispersion * coeff);
-			angle.x += ((Character) parent).vel.x/3;
-			angle.y += ((Character) parent).vel.y/3;
+			angle.x += ((Character) parent).vel.x/4;
+			angle.y += ((Character) parent).vel.y/4;
 
 			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle);
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
