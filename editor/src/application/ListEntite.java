@@ -1,10 +1,7 @@
 package application;
 
-import java.util.HashMap;
-
 import gamedata.entities.Entity;
 import gamedata.entities.Platform;
-import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -12,11 +9,8 @@ import math.Vec2;
 
 public class ListEntite {
 
-	private static HashMap<Rectangle, Entite> entites = new HashMap<>();
 	protected static double initX;
 	protected static double initY;
-	private static double scale = 5;
-	protected static Point2D dragAnchor;
 	private static Rectangle character = new Rectangle(50, 120, Color.RED);
 	static Pane pane = new Pane(character);
 
@@ -32,10 +26,6 @@ public class ListEntite {
 		return character;
 	}
 	
-	public static HashMap<Rectangle, Entite> getHashMapEntites(){
-		return entites;
-	}
-
 	/**
 	 * Create a platform and its movable rectangle in the scene view
 	 */
