@@ -100,7 +100,7 @@ public class MapXMLTranslator {
 					}
 				}
 			}
-			if (children.item(i).getNodeName() == "entity") {
+			if (children.item(i).getNodeName() == "entities") {
 
 				// Navigation into Entity part
 

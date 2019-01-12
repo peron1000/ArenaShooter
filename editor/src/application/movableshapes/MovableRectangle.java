@@ -1,5 +1,7 @@
-package application;
+package application.movableshapes;
 
+import application.Affichage;
+import application.ListEntite;
 import gamedata.entities.Spatial;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -50,8 +52,8 @@ public class MovableRectangle extends Rectangle {
 				double newYPosition = initY + dragY;
 				
 				//Restriction de fenetre
-				setX(  Math.min(Math.max(0, newXPosition), ListEntite.pane.getWidth()-2) );
-				setY(  Math.min(Math.max(0, newYPosition), ListEntite.pane.getHeight()-2) );
+				setX(  Math.min(Math.max(0, newXPosition), ListEntite.view.getWidth()-2) );
+				setY(  Math.min(Math.max(0, newYPosition), ListEntite.view.getHeight()-2) );
 				
 				//Snap position to grid
 				int gridSnap = Affichage.gridSnap.getValue();

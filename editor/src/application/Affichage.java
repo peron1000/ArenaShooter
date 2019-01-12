@@ -5,6 +5,7 @@ import gamedata.entities.Entity;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -43,9 +44,13 @@ public class Affichage {
 	 * @param e
 	 */
 	public static void selectEntity(Entity e) {
+		//Remove glow from previously selected object
+		Node previousVisual = ListEntite.visuals.get(selected);
+		if(previousVisual != null) 
+			previousVisual.setStyle("-fx-effect: none;");
+		
 		selected = e;
 		if(e == null) {
-			System.out.println("Selected scene root");
 			if(Main.map != null)
 				propertiesContainer.setContent(Main.map.propertiesTab);
 			else
@@ -53,11 +58,17 @@ public class Affichage {
 		} else {
 			sceneTree.setSelected(e);
 			propertiesContainer.setContent(e.properties);
-			System.out.println("Selected "+e.name);
 		}
 		
 		if((PropertiesTab)propertiesContainer.getContent() != null)
 			((PropertiesTab)propertiesContainer.getContent()).update();
+		
+		//Add glow around newly selected object and push it to front
+		Node visual = ListEntite.visuals.get(selected);
+		if(visual != null)  {
+			visual.setStyle("-fx-effect: dropshadow(two-pass-box, rgba(255,200,0,1), 4, 3, 0, 0);");
+			visual.toFront();
+		}
 	}
 
 	public void make() {
@@ -71,9 +82,9 @@ public class Affichage {
 		createRightMenu();
 
 		// Center
-		ListEntite.pane.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
+		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
-		scrollContainer.setContent(ListEntite.pane);
+		scrollContainer.setContent(ListEntite.view);
 		scrollContainer.setFitToHeight(true);
 		scrollContainer.setFitToWidth(true);
 		root.setCenter(scrollContainer);
@@ -91,7 +102,7 @@ public class Affichage {
 		menuFile.getItems().addAll(menuFileSave);
 
 		//Add entity
-		Menu menuAdd = new Menu("_Add entity");
+		Menu menuAdd = new Menu("_Add...");
 		MenuItem menuAddEntity = new MenuItem("_Entity");
 		menuAddEntity.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {

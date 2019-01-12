@@ -16,17 +16,19 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import gamedata.entities.Entity;
+import gamedata.entities.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import math.Vec2;
 
 public class Enregistreur {
 	/**
@@ -149,30 +151,32 @@ public class Enregistreur {
 		root.appendChild(information);
 		remplissageInfomation(document , information);
 		
-		Element entite = document.createElement("entity");
-		root.appendChild(entite);
-		remplissageEntitees(document , entite);
+		Element entities = document.createElement("entities");
+		root.appendChild(entities);
+		remplissageEntitees(document , entities);
 	}
 
-	private static void remplissageEntitees(Document document, Element entite) {
-		// TODO Auto-generated method stub
-		HashMap<Rectangle, Entite> entites = ListEntite.getHashMapEntites();
-		for (Entite entity : entites.values()) {
-			if(entity.getType() == Entite.Type.Plateforme) {
+	private static void remplissageEntitees(Document document, Element entities) {
+		HashMap<String, Entity> entites = Main.map.children;
+		for (Entity entity : entites.values()) {
+			if(entity instanceof Platform) {
 				Element plateforme = document.createElement("plateform");
+				plateforme.setAttribute("name", entity.name);
 				Element position = document.createElement("vecteur");
 				Element extent = document.createElement("vecteur");
 				
-				position.setAttribute("x", entity.xPosition+"");
-				position.setAttribute("y", entity.yPosition+"");
+				position.setAttribute("x", String.valueOf( ((Platform)entity).position.x ));
+				position.setAttribute("y", String.valueOf( ((Platform)entity).position.y ));
+				position.setAttribute("use", "position");
 				
-				extent.setAttribute("x", entity.xExtent+"");
-				extent.setAttribute("y", entity.yExtent+"");
+				extent.setAttribute("x", String.valueOf( ((Platform)entity).extent.x ));
+				extent.setAttribute("y", String.valueOf( ((Platform)entity).extent.y ));
+				extent.setAttribute("use", "extent");
 				
 				plateforme.appendChild(position);
 				plateforme.appendChild(extent);
 				
-				entite.appendChild(plateforme);
+				entities.appendChild(plateforme);
 			}
 		}
 	}
@@ -180,7 +184,7 @@ public class Enregistreur {
 	private static void remplissageInfomation(Document document, Element information) {
 		// Gravity
 		Element gravity = document.createElement("gravity");
-		remplissageVecteur(document, gravity, 0, Informations.gravity);
+		gravity.appendChild(remplissageVecteur(document, Main.map.gravity));
 		information.appendChild(gravity);
 		
 		// TODO : Camera Bound
@@ -189,10 +193,14 @@ public class Enregistreur {
 		
 	}
 	
-	private static void remplissageVecteur(Document document , Element e , double x , double y) {
+	private static Element remplissageVecteur(Document document, double x, double y) {
 		Element vecteur = document.createElement("vecteur");
-		vecteur.setAttribute("x", ""+x);
-		vecteur.setAttribute("y", ""+y);
-		e.appendChild(vecteur);
+		vecteur.setAttribute("x", String.valueOf(x));
+		vecteur.setAttribute("y", String.valueOf(y));
+		return vecteur;
+	}
+	
+	private static Element remplissageVecteur(Document document, Vec2 vec) {
+		return remplissageVecteur(document, vec.x, vec.y);
 	}
 }

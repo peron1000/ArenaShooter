@@ -13,7 +13,7 @@
 		</gravity>
 		<cameraBound w="1000" x="-5000" y="-1000" z="5000" />
 	</information>
-	<entity>
+	<entities>
 		<plateform>
 			<vecteur x="0" y="510" use="position" />
 			<vecteur x="1500" y="100" use="extent" />
@@ -70,5 +70,5 @@
 			<vecteur x="5000" y="10" use="extent" />
 		</plateform>
 
-	</entity>
+	</entities>
 </map>
