@@ -2,6 +2,7 @@ package gamedata.entities;
 
 import java.util.HashMap;
 
+import application.Affichage;
 import application.Main;
 import application.propertiestabs.EntityProperties;
 import application.propertiestabs.PropertiesTab;
@@ -53,6 +54,7 @@ public class Entity {
 			name = newName;
 			Main.map.children.put(newName, this);
 			treeItem.setValue(name);
+			Affichage.refreshSelectionTitle();
 			return name;
 		}
 
@@ -64,6 +66,7 @@ public class Entity {
 		name = newName;
 		parent.children.put(newName, this);
 		treeItem.setValue(name);
+		Affichage.refreshSelectionTitle();
 		return name;
 	}
 }

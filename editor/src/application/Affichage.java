@@ -8,11 +8,13 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -26,6 +28,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import math.Vec2;
 
 public final class Affichage {
@@ -33,6 +37,7 @@ public final class Affichage {
 	public static GridSnap gridSnap;
 	public static SceneTree sceneTree;
 	public static ScrollPane propertiesContainer;
+	private static Label selectedName;
 
 	public static BorderPane root = new BorderPane();;
 	
@@ -81,12 +86,22 @@ public final class Affichage {
 		if((PropertiesTab)propertiesContainer.getContent() != null)
 			((PropertiesTab)propertiesContainer.getContent()).update();
 		
+		//Upadte displayed name
+		refreshSelectionTitle();
+		
 		//Add glow around newly selected object and push it to front
 		Node visual = ListEntite.visuals.get(selected);
 		if(visual != null)  {
 			visual.setStyle("-fx-effect: dropshadow(two-pass-box, rgba(255,200,0,1), 4, 3, 0, 0);");
 			visual.toFront();
 		}
+	}
+	
+	public static void refreshSelectionTitle() {
+		if(selected == null)
+			selectedName.setText("World properties");
+		else
+			selectedName.setText(selected.name);
 	}
 
 	private static void createCenterView() {
@@ -170,13 +185,19 @@ public final class Affichage {
 	
 	private static void createRightMenu() {
 		sceneTree = new SceneTree();
+		
+		Separator separator = new Separator();
+		
+		selectedName = new Label("");
+		selectedName.setFont((Font.font("Arial", FontWeight.BOLD, 14)));
 
 		propertiesContainer = new ScrollPane();
 		propertiesContainer.setFitToWidth(true);
 		propertiesContainer.setHbarPolicy(ScrollBarPolicy.NEVER);
 		propertiesContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		propertiesContainer.setPadding(new Insets(5));
 
-		VBox vBox = new VBox(10, sceneTree, propertiesContainer);
+		VBox vBox = new VBox(10, sceneTree, separator, selectedName, propertiesContainer);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		
