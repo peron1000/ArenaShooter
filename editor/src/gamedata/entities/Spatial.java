@@ -13,7 +13,6 @@ public class Spatial extends Entity {
 	public Spatial(Vec2 position, double rotation) {
 		this.position = position.clone();
 		this.rotation = rotation;
-		type = EntityType.SPATIAL;
 	}
 	
 	@Override

@@ -12,7 +12,6 @@ public class Platform extends Spatial {
 	public Platform(Vec2 position, double rotation, Vec2 extent) {
 		super(position, rotation);
 		this.extent = extent.clone();
-		type = EntityType.PLATFORM;
 	}
 	
 	@Override

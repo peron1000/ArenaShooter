@@ -1,5 +1,6 @@
 package application;
 
+import gamedata.entities.Entity;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
@@ -26,9 +27,16 @@ public class Affichage {
 	private BorderPane root;
 	
 	public static GridSnap gridSnap;
+	
+	public static Entity selected = null;
 
 	public Affichage(BorderPane borderPane) {
 		root = borderPane;
+	}
+	
+	public static void selectEntity(Entity e) {
+		sceneTree.setSelected(e);
+		System.out.println("Selected "+e.name);
 	}
 
 	public void make() {

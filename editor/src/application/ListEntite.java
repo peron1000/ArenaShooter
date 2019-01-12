@@ -2,6 +2,7 @@ package application;
 
 import java.util.HashMap;
 
+import gamedata.entities.Entity;
 import gamedata.entities.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -43,15 +44,15 @@ public class ListEntite {
 	 * dans la map d'entite
 	 */
 	public static void newPlateforme() {
-		Rectangle nw = newRectangleSuitSouris(300, 20, Color.YELLOW);
-		pane.getChildren().add(nw);
-		Entite e = new Entite(Entite.Type.Plateforme, 0, 0, nw.getWidth() / 2, nw.getHeight() / 2);
-		entites.put(nw, e);
-		
 		Platform entity = new Platform(new Vec2(), 0, new Vec2());
 		entity.name = "Platform "+String.valueOf(System.currentTimeMillis());
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
+		
+		Rectangle nw = newRectangleSuitSouris(300, 20, Color.YELLOW, entity);
+		pane.getChildren().add(nw);
+		Entite e = new Entite(Entite.Type.Plateforme, 0, 0, nw.getWidth() / 2, nw.getHeight() / 2);
+		entites.put(nw, e);
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class ListEntite {
 	 * @param c couleur
 	 * @return Un rectangle
 	 */
-	private static Rectangle newRectangleSuitSouris(double x, double y, Paint c) {
+	private static Rectangle newRectangleSuitSouris(double x, double y, Paint c, Entity e) {
 		Rectangle rec = new Rectangle(x, y, c);
 		rec.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -71,6 +72,9 @@ public class ListEntite {
 				initX = rec.getX();
 				initY = rec.getY();
 				dragAnchor = new Point2D(me.getSceneX(), me.getSceneY());
+				
+				//Select clicked entity
+				Affichage.selectEntity(e);
 			}
 		});
 		rec.setOnMouseDragged(new EventHandler<MouseEvent>() {

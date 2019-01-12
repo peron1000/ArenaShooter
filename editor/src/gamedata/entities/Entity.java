@@ -13,12 +13,9 @@ public class Entity {
 	public Entity parent;
 	public TreeItem<String> treeItem;
 	
-	public EntityType type;
-	
 	public HashMap<String, Entity> children = new HashMap<String, Entity>();
 
 	public Entity() {
-		type = EntityType.ENTITY;
 	}
 	
 	public Node getIcon() {
