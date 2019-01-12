@@ -146,9 +146,9 @@ public class Character extends Spatial {
 	public float takeDamage(float damage, boolean droite) {// degats orientes
 		float res = Math.min(damage, health);
 		if (droite)
-			vel.add(new Vec2f(500 * ((float) Math.log10(damage)), -800 * ((float) Math.log10(damage))));
+			vel.add(new Vec2f(500 * ((float) Math.log10(damage)), -400 * ((float) Math.log10(damage))));
 		else
-			vel.add(new Vec2f(-500 * ((float) Math.log10(damage)), -800 * ((float) Math.log10(damage))));
+			vel.add(new Vec2f(-500 * ((float) Math.log10(damage)), -400 * ((float) Math.log10(damage))));
 
 		health = Math.max(0, health - damage);
 
