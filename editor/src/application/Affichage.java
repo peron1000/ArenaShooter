@@ -93,8 +93,9 @@ public final class Affichage {
 		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
 		scrollContainer.setContent(ListEntite.view);
-		scrollContainer.setFitToHeight(true);
-		scrollContainer.setFitToWidth(true);
+		scrollContainer.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		scrollContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		ListEntite.view.setPadding(new Insets(300));
 		root.setCenter(scrollContainer);
 		
 		//Context Menu
