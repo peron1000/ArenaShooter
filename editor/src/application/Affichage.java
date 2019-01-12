@@ -7,11 +7,13 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,19 +26,32 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import math.Vec2;
 
-public class Affichage {
+public final class Affichage {
 	//Right menu
 	public static GridSnap gridSnap;
 	public static SceneTree sceneTree;
 	public static ScrollPane propertiesContainer;
 
-	private static BorderPane root;
+	public static BorderPane root = new BorderPane();;
 	
 	public static Entity selected = null;
 
-	public Affichage(BorderPane borderPane) {
-		root = borderPane;
+	private Affichage() { }
+	
+	static {
+		//MenuBar
+		createMenuBar();		
+		
+		//Bottom
+		createBottomBar();
+		
+		// Right
+		createRightMenu();
+
+		// Center
+		createCenterView();
 	}
 	
 	/**
@@ -71,23 +86,38 @@ public class Affichage {
 		}
 	}
 
-	public void make() {
-		//MenuBar
-		createMenuBar();		
-		
-		//Bottom
-		createBottomBar();
-		
-		// Right
-		createRightMenu();
-
-		// Center
+	private static Vec2 contextMenuLoc = new Vec2();
+	private static void createCenterView() {
 		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
 		scrollContainer.setContent(ListEntite.view);
 		scrollContainer.setFitToHeight(true);
 		scrollContainer.setFitToWidth(true);
 		root.setCenter(scrollContainer);
+		
+		// Create ContextMenu
+		ContextMenu contextMenu = new ContextMenu();
+
+		MenuItem contextAddPlatform = new MenuItem("Add platform");
+		contextAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				ListEntite.newPlatform( contextMenuLoc );
+			}
+		});
+
+		// Add MenuItem to ContextMenu
+		contextMenu.getItems().addAll(contextAddPlatform);
+
+		// When user right-click on Circle
+		ListEntite.view.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+			@Override
+			public void handle(ContextMenuEvent event) {
+				contextMenuLoc.x = event.getSceneX();
+				contextMenuLoc.y = event.getSceneY();
+				contextMenu.show(ListEntite.view, event.getScreenX(), event.getScreenY());
+			}
+		});
 	}
 	
 	private static void createMenuBar() {
@@ -112,7 +142,7 @@ public class Affichage {
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
 		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				ListEntite.newPlateforme();
+				ListEntite.newPlatform();
 			}
 		});
 		menuAdd.getItems().addAll(menuAddEntity, menuAddPlatform);

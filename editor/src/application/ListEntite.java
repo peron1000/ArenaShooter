@@ -38,8 +38,8 @@ public class ListEntite {
 	/**
 	 * Create a platform and its movable rectangle in the scene view
 	 */
-	public static void newPlateforme() {
-		Platform entity = new Platform(new Vec2(), 0, new Vec2(150, 10));
+	public static void newPlatform(Vec2 loc) {
+		Platform entity = new Platform(loc, 0, new Vec2(150, 10));
 		entity.name = "Platform_"+String.valueOf(System.currentTimeMillis());
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
@@ -50,6 +50,10 @@ public class ListEntite {
 		Node visual = new MovableRectangle(entity, new Vec2(entity.extent.x*2, entity.extent.y*2), Color.YELLOW);
 		visuals.put(entity, visual);
 		view.getChildren().add(visual);
+	}
+	
+	public static void newPlatform() {
+		newPlatform(new Vec2());
 	}
 	
 	/**
