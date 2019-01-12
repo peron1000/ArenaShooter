@@ -1,11 +1,11 @@
 package application.propertiestabs;
 
 import application.ListEntite;
-import application.MovableRectangle;
 import application.NameField;
 import application.Vec2Input;
 import application.customevents.CustomEvent;
 import application.customevents.CustomEventHandler;
+import application.movableshapes.MovableRectangle;
 import gamedata.entities.Platform;
 import javafx.scene.Node;
 import math.Vec2;

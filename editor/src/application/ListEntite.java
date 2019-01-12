@@ -2,6 +2,7 @@ package application;
 
 import java.util.HashMap;
 
+import application.movableshapes.MovableRectangle;
 import gamedata.entities.Entity;
 import gamedata.entities.Platform;
 import javafx.scene.Node;
@@ -15,7 +16,7 @@ public class ListEntite {
 	protected static double initX;
 	protected static double initY;
 	private static Rectangle character = new Rectangle(50, 120, Color.RED);
-	static Pane pane = new Pane(character);
+	public static Pane view = new Pane(character);
 	static HashMap<Entity, Node> visuals = new HashMap<Entity, Node>();
 
 	private ListEntite() {
@@ -48,7 +49,7 @@ public class ListEntite {
 		//Create movable rectangle attached to the platform
 		Node visual = new MovableRectangle(entity, new Vec2(entity.extent.x*2, entity.extent.y*2), Color.YELLOW);
 		visuals.put(entity, visual);
-		pane.getChildren().add(visual);
+		view.getChildren().add(visual);
 	}
 	
 	/**

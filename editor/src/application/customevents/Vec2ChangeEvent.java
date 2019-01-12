@@ -2,7 +2,7 @@ package application.customevents;
 
 import javafx.event.EventType;
 
-public class EventVec2Change extends CustomEvent {
+public class Vec2ChangeEvent extends CustomEvent {
 
     /**
 	 * 
@@ -13,7 +13,7 @@ public class EventVec2Change extends CustomEvent {
 
     private final double newX, newY;
 
-    public EventVec2Change(double newX, double newY) {
+    public Vec2ChangeEvent(double newX, double newY) {
         super(CUSTOM_EVENT_TYPE_1);
         this.newX = newX;
         this.newY = newY;

@@ -82,9 +82,9 @@ public class Affichage {
 		createRightMenu();
 
 		// Center
-		ListEntite.pane.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
+		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
-		scrollContainer.setContent(ListEntite.pane);
+		scrollContainer.setContent(ListEntite.view);
 		scrollContainer.setFitToHeight(true);
 		scrollContainer.setFitToWidth(true);
 		root.setCenter(scrollContainer);

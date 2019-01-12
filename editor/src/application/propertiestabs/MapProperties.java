@@ -19,7 +19,7 @@ public class MapProperties extends PropertiesTab {
 		super();
 		this.map = map;
 		
-		Vec2Input mapGravity = new Vec2Input("Gravity", map.gravity.x, map.gravity.y);
+		Vec2Input mapGravity = new Vec2Input("Gravity", this.map.gravity.x, this.map.gravity.y);
 		mapGravity.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new CustomEventHandler() {
 
 			@Override
