@@ -12,8 +12,8 @@ import arenashooter.entities.spatials.Sprite;
 
 public class WeaponsC extends Item {
 
-	private double dispersion = 0.05;// la non-précision en radians.
-	private Timer fire = new Timer(0.2);
+	private double dispersion = 0.15;// la non-précision en radians.
+	private Timer fire = new Timer(0.05);
 	Collider coll;
 	private float recul = 4000;
 

@@ -110,30 +110,31 @@ public class Character extends Spatial {
 		Item arme = null;
 		Item armure = null;
 
-		Map.argl.attachToParent(this, "Item_Arme");
+		// Map.argl.attachToParent(this, "Item_Arme");
 
-		// if (!children.containsKey("Arme")) {
-		// for (String name : Game.game.getMap().children.keySet()) {
-		// if (name.startsWith("Item_Arme")) {
-		// Item item = (Item) Game.game.getMap().children.get(name);
-		// float xDiff = Math.abs(position.x - item.position.x);
-		// float yDiff = Math.abs(position.y - item.position.y);
-		// if (xDiff < 175 && yDiff < 175)
-		// arme = item;
-		// }
-		// if (name.startsWith("Item_Armure")) {
-		// Item item = (Item) Game.game.getMap().children.get(name);
-		// float xDiff = Math.abs(position.x - item.position.x);
-		// float yDiff = Math.abs(position.y - item.position.y);
-		// if (xDiff < 175 && yDiff < 175)
-		// armure = item;
-		// }
-		// }
-		// }
-		// if (arme != null)
-		// arme.attachToParent(this, "Arme");
-		// if (armure != null)
-		// armure.attachToParent(this, "Armure");
+		if (!children.containsKey("Item_Arme")) {
+			for (String name : Game.game.getMap().children.keySet()) {
+				if (name.startsWith("Item_Arme")) {
+					Item item = (Item) Game.game.getMap().children.get(name);
+					float xDiff = Math.abs(position.x - item.position.x);
+					float yDiff = Math.abs(position.y - item.position.y);
+					if (xDiff < 175 && yDiff < 175)
+						arme = item;
+				}
+				if (name.startsWith("Item_Armure")) {
+					Item item = (Item) Game.game.getMap().children.get(name);
+					float xDiff = Math.abs(position.x - item.position.x);
+					float yDiff = Math.abs(position.y - item.position.y);
+					if (xDiff < 175 && yDiff < 175)
+						armure = item;
+				}
+			}
+
+			if (arme != null)
+				arme.attachToParent(this, "Item_Arme");
+			if (armure != null)
+				armure.attachToParent(this, "Item_Armure");
+		}
 	}
 
 	public void dropItem() {
@@ -214,8 +215,9 @@ public class Character extends Spatial {
 		// position.
 		if (children.get("Item_Arme") instanceof WeaponsC) {
 			WeaponsC arme = (WeaponsC) children.get("Item_Arme");
-			boolean loin = arme.position.x > position.x + (lookRight ? 60 : 20) || arme.position.x < position.x - (lookRight ? 20 : 60)
-					|| arme.position.y > position.y - 40 || arme.position.y < position.y - 60;
+			boolean loin = arme.position.x > position.x + (lookRight ? 60 : 20)
+					|| arme.position.x < position.x - (lookRight ? 20 : 60) || arme.position.y > position.y - 40
+					|| arme.position.y < position.y - 60;
 			if (lookRight) {
 				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, d * (loin ? 60 : 40));
 				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));

@@ -121,6 +121,8 @@ public final class Input {
 
 				if(joyButtons[i] != null) actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(0) == 1);
 				if(joyButtons[i] != null) actionAttack[i] = getActionState(actionAttack[i], joyButtons[i].get(2) == 1);
+				if(joyButtons[i] != null) actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(1) == 1);
+				if(joyButtons[i] != null) actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(3) == 1);
 				
 //				printController(i); //TODO: Remove this
 			}
