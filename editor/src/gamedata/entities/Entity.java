@@ -20,6 +20,13 @@ public class Entity {
 	public PropertiesTab properties;
 
 	public Entity() {
+		
+	}
+	
+	/**
+	 * Create the properties tab for this entity
+	 */
+	public void createProperties() {
 		properties = new EntityProperties(this);
 	}
 	

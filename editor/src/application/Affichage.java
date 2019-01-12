@@ -115,7 +115,7 @@ public class Affichage {
 		
 		gridSnap = new GridSnap(10);
 		
-		VBox vBox = new VBox(10, sceneTree, label2, gridSnap, propertiesContainer);
+		VBox vBox = new VBox(10, label2, gridSnap, sceneTree, propertiesContainer);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		root.setRight(vBox);

@@ -46,6 +46,7 @@ public class ListEntite {
 	public static void newPlateforme() {
 		Platform entity = new Platform(new Vec2(), 0, new Vec2(150, 10));
 		entity.name = "Platform "+String.valueOf(System.currentTimeMillis());
+		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
 		Affichage.selectEntity(entity);
@@ -69,6 +70,8 @@ public class ListEntite {
 
 			@Override
 			public void handle(MouseEvent me) {
+				if(!me.isPrimaryButtonDown()) return; //Not left click
+				
 				// Pour garder le point de depart en memoire
 				initX = rec.getX();
 				initY = rec.getY();
@@ -82,6 +85,8 @@ public class ListEntite {
 
 			@Override
 			public void handle(MouseEvent me) {
+				if(!me.isPrimaryButtonDown()) return; //Not left click
+				
 				//Calcule position apres le drag
 				double dragX = me.getSceneX() - dragAnchor.getX();
 				double dragY = me.getSceneY() - dragAnchor.getY();
