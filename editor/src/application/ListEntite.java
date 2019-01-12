@@ -41,7 +41,7 @@ public class ListEntite {
 	 */
 	public static void newPlateforme() {
 		Platform entity = new Platform(new Vec2(), 0, new Vec2(150, 10));
-		entity.name = "Platform "+String.valueOf(System.currentTimeMillis());
+		entity.name = "Platform_"+String.valueOf(System.currentTimeMillis());
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
@@ -56,7 +56,7 @@ public class ListEntite {
 	 */
 	public static void newEntity() {
 		Entity entity = new Entity();
-		entity.name = "Entity "+String.valueOf(System.currentTimeMillis());
+		entity.name = "Entity_"+String.valueOf(System.currentTimeMillis());
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
