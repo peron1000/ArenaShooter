@@ -90,7 +90,7 @@ public final class Affichage {
 	}
 
 	private static void createCenterView() {
-		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
+		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.rgb(56, 56, 56), new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
 		scrollContainer.setContent(ListEntite.view);
 		scrollContainer.setHbarPolicy(ScrollBarPolicy.ALWAYS);
