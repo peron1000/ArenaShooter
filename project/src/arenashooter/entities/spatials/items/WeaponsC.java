@@ -9,8 +9,8 @@ import arenashooter.entities.spatials.Character;
 
 public class WeaponsC extends Item {
 	
-	private double dispersion = 0.5;//la non-précision.
-	private Timer fire = new Timer(0.25);
+	private double dispersion = 0.05;//la non-précision en radians.
+	private Timer fire = new Timer(0.15);
 	Collider coll;
 
 	public WeaponsC(Vec2f position, ItemSprite itemSprite) {
@@ -27,15 +27,17 @@ public class WeaponsC extends Item {
 			if (parent instanceof Character) {
 				if (lookRight) {
 					pX = position.x + 70;
-					vX = 1500+((Character)parent).vel.x;
+					vX = 2000+((Character)parent).vel.x;
 				} else {
 					pX = position.x - 70;
-					vX = -1500;
+					vX = -2000;
 				}
 			}
 			fire.restart();
 			
-			Vec2f angle = Vec2f.rotate(new Vec2f(vX, 0), dispersion);
+			double coeff = (2*Math.random())-1;
+			
+			Vec2f angle = Vec2f.rotate(new Vec2f(vX, 0), dispersion*coeff);
 			angle.x += ((Character)parent).vel.x;
 			angle.y += ((Character)parent).vel.y;
 			
