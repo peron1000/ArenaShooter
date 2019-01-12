@@ -40,8 +40,16 @@ public class RotationField extends HBox {
 	 * Set entity rotation
 	 * @param newVal degrees
 	 */
-	public void setValue(double newVal) {
+	public void setValueD(double newVal) {
 		field.setText(String.valueOf(newVal));
+	}
+	
+	/**
+	 * Set entity rotation
+	 * @param newVal radians
+	 */
+	public void setValueR(double newVal) {
+		setValueD(Math.toDegrees(newVal));
 	}
 	
 	/**

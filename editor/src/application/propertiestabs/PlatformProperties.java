@@ -74,6 +74,6 @@ public class PlatformProperties extends PropertiesTab {
 	@Override
 	public void update() {
 		nameInput.setText(p.name);
-		rotationInput.setValue(Math.toDegrees(p.rotation));
+		rotationInput.setValueR(p.rotation);
 	}
 }
