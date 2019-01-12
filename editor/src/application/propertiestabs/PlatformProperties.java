@@ -2,6 +2,7 @@ package application.propertiestabs;
 
 import application.ListEntite;
 import application.NameField;
+import application.RotationField;
 import application.Vec2Input;
 import application.customevents.CustomEvent;
 import application.customevents.CustomEventHandler;
@@ -14,8 +15,9 @@ public class PlatformProperties extends PropertiesTab {
 
 	Platform p;
 	
-	private Vec2Input sizeInput;
 	private NameField nameInput;
+	private Vec2Input sizeInput;
+	private RotationField rotationInput;
 	
 	public PlatformProperties(Platform p) {
 		this.p = p;
@@ -43,9 +45,11 @@ public class PlatformProperties extends PropertiesTab {
 			}
 		});
 		
+		rotationInput = new RotationField("Rotation", p);
 		
 		getChildren().add(nameInput);
 		getChildren().add(sizeInput);
+		getChildren().add(rotationInput);
 	}
 
 	/**
@@ -70,5 +74,6 @@ public class PlatformProperties extends PropertiesTab {
 	@Override
 	public void update() {
 		nameInput.setText(p.name);
+		rotationInput.setValue(Math.toDegrees(p.rotation));
 	}
 }
