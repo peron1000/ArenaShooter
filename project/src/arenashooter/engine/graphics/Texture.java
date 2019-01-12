@@ -31,7 +31,7 @@ public class Texture {
 	public static Texture loadTexture( String path ) {
 		//Check if the texture has already been loaded
 		TextureEntry entry = textures.get(path);
-		if( entry != null )
+		if( entry != null && entry.texture.get() != null )
 			return entry.texture.get();
 		
 		Image img = Image.loadImage(path);
@@ -69,7 +69,7 @@ public class Texture {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		
-		unbind();		
+		unbind();
 		
 		Texture tex = new Texture(path, id, width, height);
 		
