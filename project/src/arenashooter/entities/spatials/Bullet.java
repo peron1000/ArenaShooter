@@ -17,7 +17,7 @@ public class Bullet extends Projectile {
 		collider = new Collider(this.position, new Vec2f(16, 16));
 		collider.attachToParent(this, "collider");
 
-		Sprite bul = new Sprite(position, "data/sprites/Bouboule.png");
+		Sprite bul = new Sprite(position, "data/sprites/Boulette.png");
 		bul.size = new Vec2f(bul.tex.getWidth() * 3, bul.tex.getHeight() * 3);
 		bul.attachToParent(this, "bul_Sprite");
 

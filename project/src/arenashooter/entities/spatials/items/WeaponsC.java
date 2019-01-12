@@ -1,15 +1,16 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.Game;
+import arenashooter.entities.spatials.Character;
 
 public class WeaponsC extends Item {
-
-	private Timer fire = new Timer(0.25);
+	
+	private double dispersion = 0.05;//la non-précision en radians.
+	private Timer fire = new Timer(0.15);
 	Collider coll;
 
 	public WeaponsC(Vec2f position, ItemSprite itemSprite) {
@@ -21,24 +22,31 @@ public class WeaponsC extends Item {
 
 	public void fire(boolean lookRight) { // Visée uniquement droite et gauche pour l'instant. TODO :
 		if (fire.isOver()) {
-			float pX;
-			float vX;
-			if (lookRight) {
-				pX = position.x + 70;
-				vX = 500;
-			} else {
-				pX = position.x - 70;
-				vX = -500;
+			float pX = 0;
+			float vX = 0;
+			if (parent instanceof Character) {
+				if (lookRight) {
+					pX = position.x + 70;
+					vX = 2000+((Character)parent).vel.x;
+				} else {
+					pX = position.x - 70;
+					vX = -2000;
+				}
 			}
 			fire.restart();
-			Bullet bul = new Bullet(new Vec2f(pX, position.y), new Vec2f(vX, 0));
+			
+			double coeff = (2*Math.random())-1;
+			
+			Vec2f angle = Vec2f.rotate(new Vec2f(vX, 0), dispersion*coeff);
+			angle.x += ((Character)parent).vel.x;
+			angle.y += ((Character)parent).vel.y;
+			
+			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle);
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
 		}
 	}
 
 	public void step(double d) {
-		Profiler.startTimer(Profiler.PHYSIC);
-		Profiler.endTimer(Profiler.PHYSIC);
 		super.step(d);
 	}
 }
