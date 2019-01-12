@@ -177,7 +177,7 @@ public class Map extends Entity {
 	public static WeaponsC argl = new WeaponsC(new Vec2f(750, 300), Item.ItemSprite.assault);
 	//déso, ces lignes sont temporaires
 	public void addWeapons() {
-		argl.attachToParent(this, "weapon1");
+		argl.attachToParent(this, "Item_Arme");
 	}
 	//TODO à supprimer
 	
