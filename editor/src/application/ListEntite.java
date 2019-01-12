@@ -44,10 +44,11 @@ public class ListEntite {
 	 * dans la map d'entite
 	 */
 	public static void newPlateforme() {
-		Platform entity = new Platform(new Vec2(), 0, new Vec2());
+		Platform entity = new Platform(new Vec2(), 0, new Vec2(150, 10));
 		entity.name = "Platform "+String.valueOf(System.currentTimeMillis());
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
+		Affichage.selectEntity(entity);
 		
 		Rectangle nw = newRectangleSuitSouris(300, 20, Color.YELLOW, entity);
 		pane.getChildren().add(nw);

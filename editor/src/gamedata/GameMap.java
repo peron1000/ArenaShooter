@@ -2,6 +2,7 @@ package gamedata;
 
 import java.util.HashMap;
 
+import application.propertiestabs.MapProperties;
 import gamedata.entities.Entity;
 import math.Vec2;
 
@@ -11,8 +12,10 @@ public class GameMap {
 	
 	public HashMap<String, Entity> children = new HashMap<String, Entity>();
 	
+	public MapProperties propertiesTab;
+	
 	public GameMap() {
-		// TODO Auto-generated constructor stub
+		propertiesTab = new MapProperties(this);
 	}
 
 }

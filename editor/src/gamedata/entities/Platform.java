@@ -1,5 +1,6 @@
 package gamedata.entities;
 
+import application.propertiestabs.PlatformProperties;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,7 @@ public class Platform extends Spatial {
 	public Platform(Vec2 position, double rotation, Vec2 extent) {
 		super(position, rotation);
 		this.extent = extent.clone();
+		properties = new PlatformProperties(this);
 	}
 	
 	@Override

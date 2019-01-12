@@ -18,6 +18,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,1280,720);
 			Affichage affichage = new Affichage(root);
 			affichage.make();
+			Affichage.selectEntity(null);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Super Blep Editor");

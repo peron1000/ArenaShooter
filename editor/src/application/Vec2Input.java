@@ -28,12 +28,20 @@ public class Vec2Input extends VBox {
 	    getChildren().add(hBox);
 	}
 	
-	public double getX() {
+	public double getValX() {
 		return Double.valueOf(xField.getText());
 	}
 	
-	public double getY() {
+	public void setValX(double x) {
+		xField.setText(String.valueOf(x));
+	}
+	
+	public double getValY() {
 		return Double.valueOf(yField.getText());
+	}
+	
+	public void setValY(double y) {
+		yField.setText(String.valueOf(y));
 	}
 	
 	private TextField createDoubleEntry(double value) {
@@ -42,8 +50,7 @@ public class Vec2Input extends VBox {
 		
 		textField.textProperty().addListener(new ChangeListener<String>() {
 		    @Override
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-		        String newValue) {
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 		        if (!newValue.matches("([0-9]*)\\.([0-9]*)")) {
 		        	textField.setText(oldValue);
 		        }

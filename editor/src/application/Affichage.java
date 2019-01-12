@@ -1,5 +1,6 @@
 package application;
 
+import application.propertiestabs.PropertiesTab;
 import gamedata.entities.Entity;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +11,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -25,6 +27,7 @@ import javafx.scene.paint.Color;
 public class Affichage {
 	
 	public static SceneTree sceneTree;
+	public static ScrollPane propertiesContainer;
 
 	private BorderPane root;
 	
@@ -36,23 +39,52 @@ public class Affichage {
 		root = borderPane;
 	}
 	
+	/**
+	 * Change global selected entity
+	 * @param e
+	 */
 	public static void selectEntity(Entity e) {
-		sceneTree.setSelected(e);
-		System.out.println("Selected "+e.name);
+		selected = e;
+		if(e == null) {
+			System.out.println("Selected scene root");
+			if(Main.map != null)
+				propertiesContainer.setContent(Main.map.propertiesTab);
+			else
+				propertiesContainer.setContent(null);
+		} else {
+			sceneTree.setSelected(e);
+			propertiesContainer.setContent(e.properties);
+			System.out.println("Selected "+e.name);
+		}
+		
+		if((PropertiesTab)propertiesContainer.getContent() != null)
+			((PropertiesTab)propertiesContainer.getContent()).update();
 	}
 
 	public void make() {
-		// MenuBar
-		Menu menuFile = new Menu("File");
-		MenuItem menuFileSave = new MenuItem("Save");
+		//MenuBar
+		
+		//File
+		Menu menuFile = new Menu("_File");
+		MenuItem menuFileSave = new MenuItem("_Save");
 		menuFileSave.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				Enregistreur.enregistrer();;
+				Enregistreur.enregistrer();
 			}
 		});
 		menuFile.getItems().addAll(menuFileSave);
 		
-		MenuBar mb1 = new MenuBar(menuFile);
+		//Add entity
+		Menu menuAdd = new Menu("_Add entity");
+		MenuItem menuAddPlatform = new MenuItem("_Platform");
+		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				ListEntite.newPlateforme();
+			}
+		});
+		menuAdd.getItems().addAll(menuAddPlatform);
+		
+		MenuBar mb1 = new MenuBar(menuFile, menuAdd);
 		root.setTop(mb1);
 
 		// Center
@@ -63,18 +95,13 @@ public class Affichage {
 		scrollContainer.setFitToWidth(true);
 		root.setCenter(scrollContainer);
 		
-
 		// Right
 		sceneTree = new SceneTree();
 		
-		Label label1 = nouveauLabel("Plateforme");
-		label1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				ListEntite.newPlateforme();
-			}
-		});
+		propertiesContainer = new ScrollPane();
+		propertiesContainer.setFitToWidth(true);
+		propertiesContainer.setHbarPolicy(ScrollBarPolicy.NEVER);
+		propertiesContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		
 		Label label2 = nouveauLabel("Zoom out");
 		label2.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -86,11 +113,9 @@ public class Affichage {
 			}
 		});
 		
-		Vec2Input mapSize = new Vec2Input("World size", 1280, 720);
-		
 		gridSnap = new GridSnap(10);
 		
-		VBox vBox = new VBox(10, sceneTree, label1, label2, mapSize, gridSnap);
+		VBox vBox = new VBox(10, sceneTree, label2, gridSnap, propertiesContainer);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		root.setRight(vBox);

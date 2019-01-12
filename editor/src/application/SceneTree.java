@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import gamedata.entities.Entity;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -53,11 +52,13 @@ public class SceneTree extends TreeView<String> {
 	private void handleMouseClicked(MouseEvent event) {
 		Node node = event.getPickResult().getIntersectedNode();
 		// Accept clicks only on node cells, and not on empty spaces of the TreeView
-		if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
+		if (node instanceof Text || (node instanceof TreeCell && ((TreeCell<?>) node).getText() != null)) {
 			if( getSelectionModel().getSelectedItem() != getRoot() ) {
 				Entity entity = entities.get(getSelectionModel().getSelectedItem());
 				if(entity != null )
 					Affichage.selectEntity(entity);
+			} else {
+				Affichage.selectEntity(null);
 			}
 		}
 	}
