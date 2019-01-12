@@ -19,6 +19,8 @@ public class MovableRectangle extends Rectangle {
 	public MovableRectangle(Spatial e, Vec2 size, Paint color) {
 		super(size.x, size.y, color);
 		entity = e;
+		setX( entity.position.x-size.x/2 );
+		setY( entity.position.y-size.y/2 );
 		
 		setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -59,11 +61,20 @@ public class MovableRectangle extends Rectangle {
 				}
 				
 				//On change la position de l'entité liée
-				entity.position = new Vec2(getX(), getY());
+				entity.position = new Vec2(getX()+getWidth()/2, getY()+getHeight()/2);
 			}
 		});
 	}
 
+	/*
+	 * Resize this rectangle and move it to entity position
+	 */
+	public void resize(Vec2 newSize) {
+		setWidth(newSize.x);
+		setHeight(newSize.y);
 
+		setX( entity.position.x-newSize.x/2 );
+		setY( entity.position.y-newSize.y/2 );
+	}
 
 }

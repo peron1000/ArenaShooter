@@ -51,68 +51,7 @@ public class ListEntite {
 		Affichage.sceneTree.addEntity(entity);
 		Affichage.selectEntity(entity);
 		
+		//Create movable rectangle attached to the platform
 		pane.getChildren().add(new MovableRectangle(entity, new Vec2(entity.extent.x*2, entity.extent.y*2), Color.YELLOW));
-		
-//		Rectangle nw = newRectangleSuitSouris(300, 20, Color.YELLOW, entity);
-//		pane.getChildren().add(nw);
-//		Entite e = new Entite(Entite.Type.Plateforme, 0, 0, nw.getWidth() / 2, nw.getHeight() / 2);
-//		entites.put(nw, e);
-	}
-
-	/**
-	 * Crée un rectangle qui suit la souris lors d'un click and drag
-	 * @param x longueur
-	 * @param y hauteur
-	 * @param c couleur
-	 * @return Un rectangle
-	 */
-	private static Rectangle newRectangleSuitSouris(double x, double y, Paint c, Spatial e) {
-		Rectangle rec = new Rectangle(x, y, c);
-		rec.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent me) {
-				if(!me.isPrimaryButtonDown()) return; //Not left click
-				
-				// Pour garder le point de depart en memoire
-				initX = rec.getX();
-				initY = rec.getY();
-				dragAnchor = new Point2D(me.getSceneX(), me.getSceneY());
-				
-				//Select clicked entity
-				Affichage.selectEntity(e);
-			}
-		});
-		rec.setOnMouseDragged(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent me) {
-				if(!me.isPrimaryButtonDown()) return; //Not left click
-				
-				//Calcule position apres le drag
-				double dragX = me.getSceneX() - dragAnchor.getX();
-				double dragY = me.getSceneY() - dragAnchor.getY();
-				double newXPosition = initX + dragX;
-				double newYPosition = initY + dragY;
-				
-				//Restriction de fenetre
-				rec.setX(  Math.min(Math.max(0, newXPosition), pane.getWidth()-2) );
-				rec.setY(  Math.min(Math.max(0, newYPosition), pane.getHeight()-2) );
-				
-				//Snap position to grid
-				int gridSnap = Affichage.gridSnap.getValue();
-				if(gridSnap > 0) {
-					rec.setX( Math.floor(rec.getX()/gridSnap)*gridSnap );
-					rec.setY( Math.floor(rec.getY()/gridSnap)*gridSnap );
-				}
-				
-				//On change la position de l'entité liée
-				e.position = new Vec2(rec.getX(), rec.getY());
-				Entite e = entites.get(rec);
-				e.xPosition += dragX / scale;
-				e.yPosition += dragY / scale;
-			}
-		});
-		return rec;
 	}
 }
