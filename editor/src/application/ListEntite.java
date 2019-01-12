@@ -30,6 +30,10 @@ public class ListEntite {
 		return character;
 	}
 	
+	public static Node getVisual(Entity e) {
+		return visuals.get(e);
+	}
+	
 	/**
 	 * Create a platform and its movable rectangle in the scene view
 	 */

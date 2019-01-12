@@ -51,7 +51,6 @@ public class Affichage {
 		
 		selected = e;
 		if(e == null) {
-			System.out.println("Selected scene root");
 			if(Main.map != null)
 				propertiesContainer.setContent(Main.map.propertiesTab);
 			else
@@ -59,7 +58,6 @@ public class Affichage {
 		} else {
 			sceneTree.setSelected(e);
 			propertiesContainer.setContent(e.properties);
-			System.out.println("Selected "+e.name);
 		}
 		
 		if((PropertiesTab)propertiesContainer.getContent() != null)

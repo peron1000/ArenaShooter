@@ -28,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import math.Vec2;
 
 public class Enregistreur {
 	/**
@@ -170,7 +171,7 @@ public class Enregistreur {
 				
 				extent.setAttribute("x", String.valueOf( ((Platform)entity).extent.x ));
 				extent.setAttribute("y", String.valueOf( ((Platform)entity).extent.y ));
-				position.setAttribute("use", "extent");
+				extent.setAttribute("use", "extent");
 				
 				plateforme.appendChild(position);
 				plateforme.appendChild(extent);
@@ -183,7 +184,7 @@ public class Enregistreur {
 	private static void remplissageInfomation(Document document, Element information) {
 		// Gravity
 		Element gravity = document.createElement("gravity");
-		remplissageVecteur(document, gravity, 0, Informations.gravity);
+		gravity.appendChild(remplissageVecteur(document, Main.map.gravity));
 		information.appendChild(gravity);
 		
 		// TODO : Camera Bound
@@ -192,10 +193,14 @@ public class Enregistreur {
 		
 	}
 	
-	private static void remplissageVecteur(Document document , Element e , double x , double y) {
+	private static Element remplissageVecteur(Document document, double x, double y) {
 		Element vecteur = document.createElement("vecteur");
-		vecteur.setAttribute("x", ""+x);
-		vecteur.setAttribute("y", ""+y);
-		e.appendChild(vecteur);
+		vecteur.setAttribute("x", String.valueOf(x));
+		vecteur.setAttribute("y", String.valueOf(y));
+		return vecteur;
+	}
+	
+	private static Element remplissageVecteur(Document document, Vec2 vec) {
+		return remplissageVecteur(document, vec.x, vec.y);
 	}
 }

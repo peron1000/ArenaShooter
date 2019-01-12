@@ -1,5 +1,6 @@
 package application;
 
+import application.customevents.EventVec2Change;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
@@ -54,6 +55,7 @@ public class Vec2Input extends VBox {
 		    	if(!newValue.matches("^[0-9]*\\.?[0-9]*$") || newValue.length()==0) {
 		        	textField.setText(oldValue);
 		        }
+		    	fireEvent(new EventVec2Change(getValX(), getValY()));
 		    }
 		});
 		
