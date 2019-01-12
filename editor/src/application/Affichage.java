@@ -20,6 +20,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Affichage {
+	
+	public static SceneTree sceneTree;
 
 	private BorderPane root;
 	
@@ -39,17 +41,14 @@ public class Affichage {
 		ListEntite.pane.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
 		scrollContainer.setContent(ListEntite.pane);
-//		scrollContainer.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		scrollContainer.setFitToHeight(true);
 		scrollContainer.setFitToWidth(true);
 		root.setCenter(scrollContainer);
-//		StackPane center = ListEntite.pane;
-//		center.setBackground(new Background(new BackgroundFill(Color.DARKGREY, new CornerRadii(0), new Insets(0))));
-//		center.setAlignment(Pos.CENTER);
-//		root.setCenter(center);
 		
 
 		// Right
+		sceneTree = new SceneTree();
+		
 		Label label1 = nouveauLabel("Plateforme");
 		label1.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -82,7 +81,7 @@ public class Affichage {
 		
 		gridSnap = new GridSnap(10);
 		
-		VBox vBox = new VBox(10, label1 , label2 , label3, mapSize, gridSnap);
+		VBox vBox = new VBox(10, sceneTree, label1 , label2 , label3, mapSize, gridSnap);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		root.setRight(vBox);
@@ -90,8 +89,8 @@ public class Affichage {
 	}
 	
 	/**
-	 * Cr�e un Label un minumum stylis�
-	 * @param name (ce qui sera �crit sur le Label)
+	 * Crée un Label un minumum stylisé
+	 * @param name (ce qui sera écrit sur le Label)
 	 * @return Un nouveau Label
 	 */
 	private Label nouveauLabel(String name) {
