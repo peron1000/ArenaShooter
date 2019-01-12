@@ -34,10 +34,10 @@ public class WeaponsC extends Item {
 			float vX = 0;
 			if (parent instanceof Character) {
 				if (lookRight) {
-					pX = position.x + 70;
+					pX = position.x + 50;
 					vX = 2000;
 				} else {
-					pX = position.x - 70;
+					pX = position.x - 50;
 					vX = -2000;
 				}
 			}

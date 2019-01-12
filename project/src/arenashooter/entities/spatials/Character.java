@@ -214,13 +214,13 @@ public class Character extends Spatial {
 		// position.
 		if (children.get("Item_Arme") instanceof WeaponsC) {
 			WeaponsC arme = (WeaponsC) children.get("Item_Arme");
-			boolean loin = arme.position.x > position.x + 50 || arme.position.x < position.x - 50
-					|| arme.position.y > position.y - 50 || arme.position.y < position.y - 50;
+			boolean loin = arme.position.x > position.x + (lookRight ? 60 : 20) || arme.position.x < position.x - (lookRight ? 20 : 60)
+					|| arme.position.y > position.y - 40 || arme.position.y < position.y - 60;
 			if (lookRight) {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 30, d * (loin ? 60 : 40));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, d * (loin ? 60 : 40));
 				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));
 			} else {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 30, d * (loin ? 60 : 40));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40, d * (loin ? 60 : 40));
 				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));
 			}
 		}
