@@ -37,6 +37,9 @@ public final class Affichage {
 	public static BorderPane root = new BorderPane();;
 	
 	public static Entity selected = null;
+	
+	//Used for context-menu entity spawning
+	private static Vec2 contextMenuLoc = new Vec2();
 
 	private Affichage() { }
 	
@@ -86,7 +89,6 @@ public final class Affichage {
 		}
 	}
 
-	private static Vec2 contextMenuLoc = new Vec2();
 	private static void createCenterView() {
 		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
@@ -112,8 +114,8 @@ public final class Affichage {
 		ListEntite.view.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent event) {
-				contextMenuLoc.x = event.getSceneX();
-				contextMenuLoc.y = event.getSceneY();
+				contextMenuLoc.x = event.getX();
+				contextMenuLoc.y = event.getY();
 				contextMenu.show(ListEntite.view, event.getScreenX(), event.getScreenY());
 			}
 		});
