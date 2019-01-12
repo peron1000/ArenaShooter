@@ -95,9 +95,10 @@ public final class Affichage {
 		scrollContainer.setFitToWidth(true);
 		root.setCenter(scrollContainer);
 		
-		// Create ContextMenu
+		//Context Menu
 		ContextMenu contextMenu = new ContextMenu();
 
+		//Add platform
 		MenuItem contextAddPlatform = new MenuItem("Add platform");
 		contextAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -106,10 +107,8 @@ public final class Affichage {
 			}
 		});
 
-		// Add MenuItem to ContextMenu
 		contextMenu.getItems().addAll(contextAddPlatform);
 
-		// When user right-click on Circle
 		ListEntite.view.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
 			public void handle(ContextMenuEvent event) {
