@@ -9,6 +9,9 @@ import arenashooter.entities.spatials.Character;
 public abstract class Item extends Spatial {
 
 	protected String tag = "Item";
+	Vec2f vel = new Vec2f();
+	Collider collider;
+	boolean isOnGround = true;
 
 	public String getId() {
 		return "Item";
@@ -36,10 +39,6 @@ public abstract class Item extends Spatial {
 		}
 	}
 
-	Vec2f vel = new Vec2f();
-	Collider collider;
-	boolean isOnGround = true;
-	public float movementInput = 0;
 
 	public Item(Vec2f position, ItemSprite itemSprite) {
 		super(position);
