@@ -70,8 +70,8 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		if (children.get("Item_Arme1") != null) {
-			((WeaponsC) children.get("Item_Arme1")).fire(lookRight);
+		if (children.get("Item_Arme") != null) {
+			((WeaponsC) children.get("Item_Arme")).fire(lookRight);
 		} else if (attack.isOver()) {
 			attack.restart();
 
@@ -110,7 +110,7 @@ public class Character extends Spatial {
 		Item arme = null;
 		Item armure = null;
 
-		Map.argl.attachToParent(this, "Item_Arme1");
+		Map.argl.attachToParent(this, "Item_Arme");
 
 		// if (!children.containsKey("Arme")) {
 		// for (String name : Game.game.getMap().children.keySet()) {
@@ -137,8 +137,8 @@ public class Character extends Spatial {
 	}
 
 	public void dropItem() {
-		if (children.containsKey("Arme")) {
-			this.children.get("Arme").attachToParent(this.getParent(), "Arme");
+		if (children.containsKey("Item_Arme")) {
+			this.children.get("Item_Arme").attachToParent(this.getParent(), "Item_Arme");
 		}
 	}
 
@@ -171,7 +171,8 @@ public class Character extends Spatial {
 		Profiler.startTimer(Profiler.PHYSIC);
 
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
-		vel.y += 9.807 * 800 * d;
+		if (!isOnGround)
+			vel.y += 9.807 * 800 * d;
 
 		isOnGround = false;
 		for (Entity plat : getParent().children.values()) {
@@ -205,26 +206,30 @@ public class Character extends Spatial {
 			skeleton.setLookRight(lookRight);
 		}
 
-		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
+		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 5000) {
 			death();
 		}
 
 		// Updates Children, but Lerp for the Weapon instead of just giving the
 		// position.
+		if (children.get("Item_Arme") instanceof WeaponsC) {
+			WeaponsC arme = (WeaponsC) children.get("Item_Arme");
+			boolean loin = arme.position.x > position.x + 50 || arme.position.x < position.x - 50
+					|| arme.position.y > position.y - 50 || arme.position.y < position.y - 50;
+			if (lookRight) {
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 30, d * (loin ? 60 : 40));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));
+			} else {
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 30, d * (loin ? 60 : 40));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));
+			}
+		}
 		for (Entity e : children.values()) {
-			if (e instanceof WeaponsC) {
-				if (lookRight) {
-					((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x+30, d * 50);
-					((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d * 50);
-				} else {
-					((Spatial) e).position.x = (float) Utils.lerpD(((Spatial) e).position.x, position.x-30, d * 50);
-					((Spatial) e).position.y = (float) Utils.lerpD(((Spatial) e).position.y, position.y, d * 50);
-				}
-			} else if (e instanceof Spatial)
+			if (e instanceof Spatial && !(e instanceof WeaponsC))
 				((Spatial) e).position.set(position);
 			e.step(d);
-
 		}
+
 	}
 
 	public float getHealth() {

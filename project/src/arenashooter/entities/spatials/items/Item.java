@@ -1,10 +1,13 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
+import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.Plateform;
 
 public abstract class Item extends Spatial {
 
@@ -39,7 +42,6 @@ public abstract class Item extends Spatial {
 		}
 	}
 
-
 	public Item(Vec2f position, ItemSprite itemSprite) {
 		super(position);
 
@@ -54,6 +56,36 @@ public abstract class Item extends Spatial {
 
 	@Override
 	public void step(double d) {
+		if (!isEquipped()) {
+			Profiler.startTimer(Profiler.PHYSIC);// Inclu dans la physique
+
+			isOnGround = false;
+			for (Entity plat : getParent().children.values()) {
+				if (plat instanceof Plateform) {
+					for (Entity coll : ((Plateform) plat).children.values()) {
+						if (coll instanceof Collider) {
+							// Collider c = (Collider) coll;
+							// Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
+							// vel.x = vel.x * impact.getVelMod().x;
+							// vel.y = vel.y * impact.getVelMod().y;
+							// if (collider.getYBottom() + (vel.y * d) >= c.getYTop()
+							// && collider.getYBottom() + (vel.y * d) < c.getYBottom()
+							// && Collider.isX1IncluedInX2(collider, c))
+							isOnGround = true;
+						}
+					}
+				}
+			}
+			if (!isOnGround)
+				vel.y += 9.807 * 800 * d;
+			else
+				vel.y = 0;
+
+			Profiler.endTimer(Profiler.PHYSIC);
+		}
+
+		position.add(Vec2f.multiply(vel, (float) d));
+
 		super.step(d);
 	}
 }
