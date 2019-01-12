@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -21,17 +22,17 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Affichage {
-	
+	//Right menu
+	public static GridSnap gridSnap;
 	public static SceneTree sceneTree;
 	public static ScrollPane propertiesContainer;
 
 	private BorderPane root;
-	
-	public static GridSnap gridSnap;
 	
 	public static Entity selected = null;
 
@@ -86,6 +87,20 @@ public class Affichage {
 		
 		MenuBar mb1 = new MenuBar(menuFile, menuAdd);
 		root.setTop(mb1);
+		
+		//Bottom
+		gridSnap = new GridSnap(10);
+		Button zoomOut = new Button("Zoom out");
+		zoomOut.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO : faire bouger les entites
+				Enregistreur.erreur();
+			}
+		});
+		HBox bottomBar = new HBox(10, gridSnap, zoomOut);
+		root.setBottom(bottomBar);
 
 		// Center
 		ListEntite.pane.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
@@ -103,19 +118,7 @@ public class Affichage {
 		propertiesContainer.setHbarPolicy(ScrollBarPolicy.NEVER);
 		propertiesContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		
-		Label label2 = nouveauLabel("Zoom out");
-		label2.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				// TODO : faire bouger les entites
-				Enregistreur.erreur();
-			}
-		});
-		
-		gridSnap = new GridSnap(10);
-		
-		VBox vBox = new VBox(10, label2, gridSnap, sceneTree, propertiesContainer);
+		VBox vBox = new VBox(10, sceneTree, propertiesContainer);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		root.setRight(vBox);

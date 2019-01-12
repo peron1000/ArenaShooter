@@ -2,8 +2,8 @@ package application;
 
 import java.util.HashMap;
 
-import gamedata.entities.Entity;
 import gamedata.entities.Platform;
+import gamedata.entities.Spatial;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
@@ -51,10 +51,12 @@ public class ListEntite {
 		Affichage.sceneTree.addEntity(entity);
 		Affichage.selectEntity(entity);
 		
-		Rectangle nw = newRectangleSuitSouris(300, 20, Color.YELLOW, entity);
-		pane.getChildren().add(nw);
-		Entite e = new Entite(Entite.Type.Plateforme, 0, 0, nw.getWidth() / 2, nw.getHeight() / 2);
-		entites.put(nw, e);
+		pane.getChildren().add(new MovableRectangle(entity, new Vec2(entity.extent.x*2, entity.extent.y*2), Color.YELLOW));
+		
+//		Rectangle nw = newRectangleSuitSouris(300, 20, Color.YELLOW, entity);
+//		pane.getChildren().add(nw);
+//		Entite e = new Entite(Entite.Type.Plateforme, 0, 0, nw.getWidth() / 2, nw.getHeight() / 2);
+//		entites.put(nw, e);
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class ListEntite {
 	 * @param c couleur
 	 * @return Un rectangle
 	 */
-	private static Rectangle newRectangleSuitSouris(double x, double y, Paint c, Entity e) {
+	private static Rectangle newRectangleSuitSouris(double x, double y, Paint c, Spatial e) {
 		Rectangle rec = new Rectangle(x, y, c);
 		rec.setOnMousePressed(new EventHandler<MouseEvent>() {
 
@@ -105,6 +107,7 @@ public class ListEntite {
 				}
 				
 				//On change la position de l'entité liée
+				e.position = new Vec2(rec.getX(), rec.getY());
 				Entite e = entites.get(rec);
 				e.xPosition += dragX / scale;
 				e.yPosition += dragY / scale;
