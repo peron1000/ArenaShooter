@@ -5,9 +5,7 @@ import gamedata.entities.Entity;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -81,40 +79,6 @@ public class Affichage {
 		root.setCenter(scrollContainer);
 	}
 	
-	/**
-	 * Crée un Label un minumum stylisé
-	 * @param name (ce qui sera écrit sur le Label)
-	 * @return Un nouveau Label
-	 */
-	private Label nouveauLabel(String name) {
-		Label label = new Label(name);
-		label.setPadding(new Insets(2, 5, 2, 5));
-		label.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(3),
-				new BorderWidths(1), new Insets(10))));
-		label.setOnMouseEntered(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				label.setCursor(Cursor.HAND);
-			}
-		});
-		label.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				label.setOpacity(0.5);
-			}
-		});
-		label.setOnMouseReleased(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				label.setOpacity(1);
-			}
-		});
-		return label;
-	}
-	
 	private static void createMenuBar() {
 		//File
 		Menu menuFile = new Menu("_File");
@@ -128,13 +92,19 @@ public class Affichage {
 
 		//Add entity
 		Menu menuAdd = new Menu("_Add entity");
+		MenuItem menuAddEntity = new MenuItem("_Entity");
+		menuAddEntity.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				ListEntite.newEntity();
+			}
+		});
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
 		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				ListEntite.newPlateforme();
 			}
 		});
-		menuAdd.getItems().addAll(menuAddPlatform);
+		menuAdd.getItems().addAll(menuAddEntity, menuAddPlatform);
 
 		MenuBar mb1 = new MenuBar(menuFile, menuAdd);
 		root.setTop(mb1);
@@ -147,7 +117,7 @@ public class Affichage {
 
 			@Override
 			public void handle(MouseEvent event) {
-				// TODO : faire bouger les entites
+				//TODO: zoom out
 				Enregistreur.erreur();
 			}
 		});
@@ -166,6 +136,7 @@ public class Affichage {
 		VBox vBox = new VBox(10, sceneTree, propertiesContainer);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
+		
 		root.setRight(vBox);
 	}
 }

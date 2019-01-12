@@ -2,14 +2,11 @@ package application;
 
 import java.util.HashMap;
 
+import gamedata.entities.Entity;
 import gamedata.entities.Platform;
-import gamedata.entities.Spatial;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import math.Vec2;
 
@@ -40,8 +37,7 @@ public class ListEntite {
 	}
 
 	/**
-	 * Crée un rectangle bougeable avec la souris et une entite qui lui est associé
-	 * dans la map d'entite
+	 * Create a platform and its movable rectangle in the scene view
 	 */
 	public static void newPlateforme() {
 		Platform entity = new Platform(new Vec2(), 0, new Vec2(150, 10));
@@ -53,5 +49,17 @@ public class ListEntite {
 		
 		//Create movable rectangle attached to the platform
 		pane.getChildren().add(new MovableRectangle(entity, new Vec2(entity.extent.x*2, entity.extent.y*2), Color.YELLOW));
+	}
+	
+	/**
+	 * Create an entity
+	 */
+	public static void newEntity() {
+		Entity entity = new Entity();
+		entity.name = "Entity "+String.valueOf(System.currentTimeMillis());
+		entity.createProperties();
+		Main.map.children.put(entity.name, entity);
+		Affichage.sceneTree.addEntity(entity);
+		Affichage.selectEntity(entity);
 	}
 }

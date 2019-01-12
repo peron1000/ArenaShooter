@@ -2,6 +2,7 @@ package application;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -14,6 +15,9 @@ public class GridSnap extends HBox {
 	
 	public GridSnap(int value) {
 		super();
+		
+		setAlignment(Pos.CENTER_LEFT);
+		
 		title = new Text("Grid snap: ");
 	    title.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 	    
