@@ -2,6 +2,7 @@ package gamedata.entities;
 
 import java.util.HashMap;
 
+import application.Main;
 import application.propertiestabs.EntityProperties;
 import application.propertiestabs.PropertiesTab;
 import javafx.scene.Node;
@@ -43,16 +44,21 @@ public class Entity {
 		if(newName.isEmpty())
 			return name;
 		
-		if(parent == null) { //No parent, allow rename
+		if(parent == null) { //No parent, check map
+			if(Main.map.children.get(newName) != null) //Name already in use
+				return name;
+				
+			//Name available, rename
+			Main.map.children.remove(name);
 			name = newName;
+			Main.map.children.put(newName, this);
 			treeItem.setValue(name);
 			return name;
 		}
 
-		if(parent.children.get(newName) != null) { //Name already used
+		if(parent.children.get(newName) != null) //Name already used
 			return name;
-		}
-
+		
 		//Name available, rename
 		parent.children.remove(name);
 		name = newName;
