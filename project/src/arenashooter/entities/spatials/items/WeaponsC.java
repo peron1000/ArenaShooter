@@ -15,7 +15,7 @@ public class WeaponsC extends Item {
 	private double dispersion = 0.15;// la non-précision en radians.
 	private Timer fire = new Timer(0.05);
 	Collider coll;
-	private float recul = 4000;
+	private float recul = 0.4f;
 
 	public WeaponsC(Vec2f position, ItemSprite itemSprite) {
 		super(position, itemSprite);
@@ -52,8 +52,10 @@ public class WeaponsC extends Item {
 			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle);
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
 
-			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul));
+			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul*10000));
 			((SoundEffect) children.get("snd_Bang")).play();
+			
+			((Sprite)children.get("item_Sprite")).rotation += ((Math.random()*2)-1)*recul;
 		}
 	}
 
