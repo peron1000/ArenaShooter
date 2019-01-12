@@ -41,14 +41,11 @@ public class Enregistreur {
 		if(file != null) {
 			remplissageFichier(file);
 		} else {
-			popupErreur("Enregistrement annul�");
+			popupErreur("Enregistrement annulé");
+			return;
 		}
 		try {
-			if (file != null) {
-				file.createNewFile();
-			} else {
-				popupErreur("Enregistrement annul�");
-			}
+			file.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 			erreur();

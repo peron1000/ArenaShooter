@@ -1,12 +1,14 @@
 package application;
 
 import gamedata.entities.Entity;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -41,8 +43,16 @@ public class Affichage {
 
 	public void make() {
 		// MenuBar
-		Menu fill = new Menu("Fichier");
-		MenuBar mb1 = new MenuBar(fill);
+		Menu menuFile = new Menu("File");
+		MenuItem menuFileSave = new MenuItem("Save");
+		menuFileSave.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				Enregistreur.enregistrer();;
+			}
+		});
+		menuFile.getItems().addAll(menuFileSave);
+		
+		MenuBar mb1 = new MenuBar(menuFile);
 		root.setTop(mb1);
 
 		// Center
@@ -76,20 +86,11 @@ public class Affichage {
 			}
 		});
 		
-		Label label3 = nouveauLabel("Enregistrer");
-		label3.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				Enregistreur.enregistrer();
-			}
-		});
-		
 		Vec2Input mapSize = new Vec2Input("World size", 1280, 720);
 		
 		gridSnap = new GridSnap(10);
 		
-		VBox vBox = new VBox(10, sceneTree, label1 , label2 , label3, mapSize, gridSnap);
+		VBox vBox = new VBox(10, sceneTree, label1, label2, mapSize, gridSnap);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
 		root.setRight(vBox);
