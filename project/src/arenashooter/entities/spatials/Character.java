@@ -18,7 +18,7 @@ public class Character extends Spatial {
 	private float health, healthMax;
 	private final Vec2f spawn;
 
-	Vec2f vel = new Vec2f();
+	public Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
