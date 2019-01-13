@@ -16,7 +16,7 @@ import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.ItemCounter;
-import arenashooter.entities.spatials.items.WeaponsC;
+import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.WeaponsD;
 import arenashooter.entities.spatials.items.Item.ItemSprite;
 
@@ -128,13 +128,13 @@ public class Map extends Entity {
 		plat12.attachToParent(this, "Platform 12");
 		
 		Vec2f p =new Vec2f(-300, 2200);
-		WeaponsC item11 = new WeaponsC(p, ItemSprite.minugun);
+		Gun item11 = new Gun(p, ItemSprite.minugun);
 		item11.attachToParent(this, ItemCounter.weapon());
 		
-		WeaponsC item111 = new WeaponsC(new Vec2f(300, 2200),ItemSprite.assault);
+		Gun item111 = new Gun(new Vec2f(300, 2200),ItemSprite.assault);
 		item111.attachToParent(this, ItemCounter.weapon());
 		
-		WeaponsC item1111 = new WeaponsC(new Vec2f(900, 2200),ItemSprite.armor);
+		Gun item1111 = new Gun(new Vec2f(900, 2200),ItemSprite.armor);
 		item1111.attachToParent(this, ItemCounter.armor());
 //
 //		Plateform plat13 = new Plateform(new Vec2f(0, -450), new Vec2f(500, 20));
@@ -174,7 +174,7 @@ public class Map extends Entity {
 //		bul0.attachToParent(this, "bul0");
 	}
 	
-	public static WeaponsC argl = new WeaponsC(new Vec2f(750, 300), Item.ItemSprite.assault);
+	public static Gun argl = new Gun(new Vec2f(750, 300), Item.ItemSprite.assault);
 	//déso, ces lignes sont temporaires
 	public void addWeapons() {
 		argl.attachToParent(this, "Item_Arme");

@@ -78,8 +78,6 @@ public abstract class Item extends Spatial {
 			}
 			if (!isOnGround)
 				vel.y += 9.807 * 800 * d;
-			else
-				vel.y = 0;
 
 			Profiler.endTimer(Profiler.PHYSIC);
 		}

@@ -10,14 +10,14 @@ import arenashooter.game.Game;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Sprite;
 
-public class WeaponsC extends Item {
+public class Gun extends Item {
 
 	private double dispersion = 0.15;// la non-précision en radians.
 	private Timer fire = new Timer(0.05);
 	Collider coll;
 	private float recul = 0.4f;
 
-	public WeaponsC(Vec2f position, ItemSprite itemSprite) {
+	public Gun(Vec2f position, ItemSprite itemSprite) {
 		super(position, itemSprite);
 		fire.attachToParent(this, "attack timer");
 		tag = "Arme";
@@ -52,22 +52,25 @@ public class WeaponsC extends Item {
 			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle);
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
 
-			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul*10000));
+			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul * 10000));
 			((SoundEffect) children.get("snd_Bang")).play();
-			
-			((Sprite)children.get("item_Sprite")).rotation += ((Math.random()*2)-1)*recul;
+
+			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
 		}
 	}
 
 	public void step(double d) {
 		if (isEquipped()) {
-			if (children.get("item_Sprite") instanceof Sprite)
+			if (children.get("item_Sprite") instanceof Sprite) {
+				Sprite image = ((Sprite) children.get("item_Sprite"));
 				if (((Character) parent).lookRight)
-					((Sprite) children.get("item_Sprite")).flipX = false;
+					image.flipX = false;
 				else
-					((Sprite) children.get("item_Sprite")).flipX = true;
-			vel.x = (float) Utils.lerpD(vel.x, 0, d * 50);
-			vel.y = (float) Utils.lerpD(vel.y, 0, d * 50);
+					image.flipX = true;
+				vel.x = (float) Utils.lerpD(vel.x, 0, d * 50);
+				vel.y = (float) Utils.lerpD(vel.y, 0, d * 50);
+				image.rotation = Utils.lerpD(image.rotation, 0, d * ((Math.abs(rotation)>1) ? 30 : 10));
+			}
 		}
 
 		super.step(d);

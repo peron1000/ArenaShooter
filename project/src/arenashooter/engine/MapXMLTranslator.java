@@ -16,7 +16,7 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.WeaponsC;
+import arenashooter.entities.spatials.items.Gun;
 
 /**
  * @author Nathan
@@ -51,7 +51,7 @@ public class MapXMLTranslator {
 		children = root.getChildNodes();
 
 		ArrayList<Plateform> plateforms = new ArrayList<>();
-		ArrayList<WeaponsC> weapons = new ArrayList<>();
+		ArrayList<Gun> weapons = new ArrayList<>();
 		ArrayList<Vec2f> spawn = new ArrayList<>();
 		Vec2f gravity = new Vec2f(0, 9.807);
 		Vec4f cameraBounds = new Vec4f();
@@ -145,7 +145,7 @@ public class MapXMLTranslator {
 								}
 							}
 						}
-						weapons.add(new WeaponsC(position, Item.ItemSprite.assault));
+						weapons.add(new Gun(position, Item.ItemSprite.assault));
 					}
 				}
 			}

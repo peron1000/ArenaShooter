@@ -6,11 +6,10 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Impact;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
-import arenashooter.entities.Map;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.WeaponsC;
+import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.Game;
 
 public class Character extends Spatial {
@@ -71,7 +70,7 @@ public class Character extends Spatial {
 
 	public void attack() {
 		if (children.get("Item_Arme") != null) {
-			((WeaponsC) children.get("Item_Arme")).fire(lookRight);
+			((Gun) children.get("Item_Arme")).fire(lookRight);
 		} else if (attack.isOver()) {
 			attack.restart();
 
@@ -213,25 +212,24 @@ public class Character extends Spatial {
 
 		// Updates Children, but Lerp for the Weapon instead of just giving the
 		// position.
-		if (children.get("Item_Arme") instanceof WeaponsC) {
-			WeaponsC arme = (WeaponsC) children.get("Item_Arme");
-			boolean loin = arme.position.x > position.x + (lookRight ? 60 : 20)
-					|| arme.position.x < position.x - (lookRight ? 20 : 60) || arme.position.y > position.y - 40
-					|| arme.position.y < position.y - 60;
+		if (children.get("Item_Arme") instanceof Gun) {
+			Gun arme = (Gun) children.get("Item_Arme");
+			boolean loin = arme.position.x > position.x + (lookRight ? 70 : -10)
+					|| arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y > position.y + 40
+					|| arme.position.y < position.y - 20;
 			if (lookRight) {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, d * (loin ? 60 : 40));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, d * (loin ? 60 : 20));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 20));
 			} else {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40, d * (loin ? 60 : 40));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 40));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40, d * (loin ? 60 : 20));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 20));
 			}
 		}
 		for (Entity e : children.values()) {
-			if (e instanceof Spatial && !(e instanceof WeaponsC))
+			if (e instanceof Spatial && !(e instanceof Gun))
 				((Spatial) e).position.set(position);
 			e.step(d);
 		}
-
 	}
 
 	public float getHealth() {
