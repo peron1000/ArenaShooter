@@ -6,7 +6,7 @@ public class WeaponsD extends Item {
 
 	private static int idNumber;
 
-	public WeaponsD(Vec2f position, ItemSprite itemSprite) {
+	public WeaponsD(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		tag = "Arme";
 	}

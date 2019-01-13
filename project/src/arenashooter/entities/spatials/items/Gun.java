@@ -13,20 +13,36 @@ import arenashooter.entities.spatials.Sprite;
 public class Gun extends Item {
 
 	private double dispersion = 0.15;// la non-précision en radians.
-	private Timer fire = new Timer(0.05);
+	private Timer fire = new Timer(0.15);
 	Collider coll;
 	private float recul = 0.4f;
 
-	public Gun(Vec2f position, ItemSprite itemSprite) {
+	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
-		fire.attachToParent(this, "attack timer");
 		tag = "Arme";
 		coll = new Collider(position, new Vec2f(40, 40));
+		if (itemSprite == SpritePath.assault) {
+			recul = 0.5f;
+			dispersion = 0.05;// la non-précision en radians.
+			fire = new Timer(0.15);
+			fire.attachToParent(this, "attack timer");
 
-		SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg");
-		bangSound.setVolume(3f);
-		bangSound.attachToParent(this, "snd_Bang");
-		
+			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg");
+			bangSound.setVolume(3f);
+			bangSound.attachToParent(this, "snd_Bang");
+
+		} else if (itemSprite == SpritePath.minigun) {
+			recul = 0.25f;
+			dispersion = 0.15;// la non-précision en radians.
+			fire = new Timer(0.05);
+			fire.attachToParent(this, "attack timer");
+
+			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg");
+			bangSound.setVolume(3f);
+			bangSound.attachToParent(this, "snd_Bang");
+
+		}
+
 		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg");
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
@@ -73,7 +89,7 @@ public class Gun extends Item {
 					image.flipX = true;
 				vel.x = (float) Utils.lerpD(vel.x, 0, d * 50);
 				vel.y = (float) Utils.lerpD(vel.y, 0, d * 50);
-				image.rotation = Utils.lerpD(image.rotation, 0, d * ((Math.abs(rotation)>1) ? 30 : 10));
+				image.rotation = Utils.lerpD(image.rotation, 0, d * ((Math.abs(rotation) > 1) ? 30 : 10));
 			}
 		}
 

@@ -32,20 +32,20 @@ public abstract class Item extends Spatial {
 
 	}
 
-	public enum ItemSprite {
-		minugun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor(
+	public enum SpritePath {
+		minigun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor(
 				"data/armor/shield_of_Pop.png");
-		public String sprite;
+		public String path;
 
-		private ItemSprite(String sprite) {
-			this.sprite = sprite;
+		private SpritePath(String path) {
+			this.path = path;
 		}
 	}
 
-	public Item(Vec2f position, ItemSprite itemSprite) {
+	public Item(Vec2f position, SpritePath itemSprite) {
 		super(position);
 
-		Sprite sprite = new Sprite(position, itemSprite.sprite);
+		Sprite sprite = new Sprite(position, itemSprite.path);
 		sprite.attachToParent(this, "item_Sprite");
 		sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
 

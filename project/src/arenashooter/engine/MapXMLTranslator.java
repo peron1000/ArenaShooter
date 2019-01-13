@@ -145,7 +145,6 @@ public class MapXMLTranslator {
 								}
 							}
 						}
-						weapons.add(new Gun(position, Item.ItemSprite.assault));
 					}
 				}
 			}
