@@ -12,7 +12,6 @@ import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
 
-import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 
 import static org.lwjgl.openal.AL10.alSourcef;
@@ -31,7 +30,7 @@ import arenashooter.engine.math.Vec3f;
  * When playing, a new source is automatically chosen. 
  */
 public class SoundSource implements AudioSourceI {
-	private Sound sound;
+	private SoundBuffer sound;
 	private int[] source;
 	private int next = 0;
 	private float pitchMin, pitchMax;
@@ -43,7 +42,7 @@ public class SoundSource implements AudioSourceI {
 	 * @param maxPlays maximum simultaneous plays ( must be >0 )
 	 */
 	public SoundSource(String path, int maxPlays, float pitchMin, float pitchMax, boolean spatialized) {
-		sound = Sound.loadSound(path);
+		sound = SoundBuffer.loadSound(path);
 		
 		if( sound == null ) return;
 		
@@ -55,11 +54,11 @@ public class SoundSource implements AudioSourceI {
 		
 		for( int i=0; i<source.length; i++ ) {
 			source[i] = alGenSources();
-		
+
+			Audio.printError("Audio - Error creating source for "+path);
+			
 			//Link the source to the buffer
 			alSourcei( source[i], AL_BUFFER, sound.getBuffer() );
-			
-			Audio.printError();
 			
 			//Spatialization
 			if( spatialized ) {

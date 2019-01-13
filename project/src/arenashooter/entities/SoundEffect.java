@@ -7,9 +7,9 @@ import arenashooter.entities.spatials.Spatial;
 public class SoundEffect extends Spatial {
 	private SoundSource sound;
 
-	public SoundEffect( Vec2f position, String path ) {
+	public SoundEffect( Vec2f position, String path, int maxPlays ) {
 		super(position);
-		sound = new SoundSource(path, 4, .8f, 1.2f, true);
+		sound = new SoundSource(path, maxPlays, .8f, 1.2f, true);
 		sound.setPosition( this.position );
 	}
 	

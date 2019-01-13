@@ -15,6 +15,7 @@ import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Gun;
+import arenashooter.entities.spatials.items.Item.SpritePath;
 
 public class Map extends Entity {
 
@@ -32,6 +33,11 @@ public class Map extends Entity {
 			i++;
 			p.attachToParent(this, "Plateforme" + i);
 		}
+		
+		//Create sky
+		Sky sky = new Sky( new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118) );
+		sky.attachToParent(this, "Sky");
+		
 		testPhysics();
 	}
 

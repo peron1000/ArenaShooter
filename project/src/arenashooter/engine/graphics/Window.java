@@ -51,7 +51,7 @@ public final class Window {
 	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
 	
 	//Post processing
-	static Shader postProcess;
+	public static PostProcess postProcess;
 	private static Model quad;
 
 	//Framebuffers
@@ -124,23 +124,20 @@ public final class Window {
 		//Set the clear color to black
 		glClearColor(0, 0, 0, 0);
 		
-		//Show the window
-		glfwShowWindow(window);
-		
 		//Link keyboard input to the window
 		Input.setWindow(window);
 		
 		//Load default quad
 		quad = Model.loadQuad();
 		
-		//Load post-processing shader
-		postProcess = new Shader("data/shaders/post_process/pp_default");
+		//Load post-processing
+		postProcess = new PostProcess("data/shaders/post_process/pp_default");
 
 		//Create projection matrix
 		createProjectionMatrix();
-		
-		//TODO: Temp test stuff
-		shaderSky = new Shader("data/shaders/test_sky");
+
+		//Show the window
+		glfwShowWindow(window);
 	}
 	
 	/**
@@ -149,9 +146,6 @@ public final class Window {
 	public static boolean requestClose() {
 		return glfwWindowShouldClose(window);
 	}
-	
-	//TODO: Temp variables
-	static Shader shaderSky;
 	
 	/**
 	 * Begin a frame, this will update Input and prepare the window for rendering
@@ -164,8 +158,6 @@ public final class Window {
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 		glViewport(0, 0, resX, resY);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		drawSky(); //TODO: Remove this
 		
 		glEnable(GL_DEPTH_TEST);
 	}
@@ -183,12 +175,12 @@ public final class Window {
 		glDisable(GL_DEPTH_TEST);
 
 		//Render full-screen quad for post processing
-		postProcess.bind();
+		postProcess.getShader().bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, renderTarget);
-		postProcess.setUniformI("sceneColor", 0);
+		postProcess.getShader().setUniformI("sceneColor", 0);
 		
-		quad.bindToShader(postProcess);
+		quad.bindToShader(postProcess.getShader());
 		quad.bind();
 		quad.draw();
 		Model.unbind();
@@ -198,18 +190,6 @@ public final class Window {
 		glfwSwapBuffers(window);
 		
 		Profiler.endTimer(Profiler.POSTPROCESS);
-	}
-	
-	private static void drawSky() { //TODO: Remove this temp function
-		shaderSky.bind();
-		
-		quad.bindToShader(shaderSky);
-		
-		quad.bind();
-		quad.draw();
-		
-		Model.unbind();
-		Shader.unbind();
 	}
 	
 	/**

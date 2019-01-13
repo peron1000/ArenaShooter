@@ -13,7 +13,6 @@ import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Music;
-import arenashooter.entities.SoundEffect;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.Spatial;
@@ -45,10 +44,6 @@ public class Game {
 
 		Particles p = new Particles(new Vec2f(0, -1000));
 		p.attachToParent(map, "particles");
-
-		SoundEffect testSound = new SoundEffect(new Vec2f(0, 0), "data/sound/jump.ogg");
-		testSound.setVolume(.45f);
-		testSound.attachToParent(map, "testSound");
 
 //		Music music = new Music("data/music/Juhani Junkala [Retro Game Music Pack] Level 1.ogg", true);
 //		music.attachToParent(map, "music");
@@ -91,11 +86,8 @@ public class Game {
 		} else
 			Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 
-		// TODO: remove temp particle system and sound movement
-		((Spatial) map.children.get("particles")).position.x = (float) (300
-				* Math.sin(.003 * System.currentTimeMillis()));
-		((Spatial) map.children.get("testSound")).position = ((Spatial) map.children.get("particles")).position;
-		// ((SoundEffect)map.children.get("testSound")).play();
+		// TODO: remove temp particle system
+		((Spatial) map.children.get("particles")).position.x = (float) (300 * Math.sin(.003 * System.currentTimeMillis()));
 
 		for (Controller controller : controllers) {
 			controller.step(d);

@@ -21,7 +21,7 @@ public class Bullet extends Projectile {
 		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
 		bul.attachToParent(this, "bul_Sprite");
 
-		SoundEffect touche = new SoundEffect(this.position, "data/sound/Ptou.ogg");
+		SoundEffect touche = new SoundEffect(this.position, "data/sound/Ptou.ogg", 1);
 		touche.setVolume(.7f);
 		touche.attachToParent(this, "snd_touche");
 	}

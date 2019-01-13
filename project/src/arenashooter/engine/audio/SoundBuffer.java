@@ -16,17 +16,15 @@ import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.stb.STBVorbis.*;
 
-public class Sound {
+public class SoundBuffer {
 	private int buffer;
 
-	private Sound(String path, int buffer) {
+	private SoundBuffer(int buffer) {
 		this.buffer = buffer;
-		
-		Audio.registerSound(path, this);
 	}
 
-	public static Sound loadSound(String path) {
-		Sound snd = Audio.getSound(path);
+	public static SoundBuffer loadSound(String path) {
+		SoundBuffer snd = Audio.getSound(path);
 
 		if( snd == null ) {
 			try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
@@ -41,7 +39,10 @@ public class Sound {
 				
 				alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
 				
-				return new Sound(path, buffer);
+				SoundBuffer res = new SoundBuffer(buffer);
+				Audio.registerSound(path, res);
+				return res;
+				
 			}
 		}
 		

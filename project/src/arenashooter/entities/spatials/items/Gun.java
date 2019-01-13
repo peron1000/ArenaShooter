@@ -26,21 +26,20 @@ public class Gun extends Item {
 			dispersion = 0.05;// la non-précision en radians.
 			fire = new Timer(0.15);
 			fire.attachToParent(this, "attack timer");
-
+			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg");
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
-
+			
 		} else if (itemSprite == SpritePath.minigun) {
 			recul = 0.25f;
 			dispersion = 0.15;// la non-précision en radians.
 			fire = new Timer(0.05);
 			fire.attachToParent(this, "attack timer");
-
+			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg");
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
-
 		}
 
 		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg");
