@@ -51,8 +51,9 @@ public final class Window {
 	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
 	
 	//Post processing
-	static Shader postProcess;
+	static Shader postProcessShader;
 	private static Model quad;
+	public static PostProcess postProcess = new PostProcess();
 
 	//Framebuffers
 	private static int renderTarget, colorRenderBuffer, depthRenderBuffer, fbo;
@@ -134,7 +135,7 @@ public final class Window {
 		quad = Model.loadQuad();
 		
 		//Load post-processing shader
-		postProcess = new Shader("data/shaders/post_process/pp_default");
+		postProcessShader = new Shader("data/shaders/post_process/pp_default");
 
 		//Create projection matrix
 		createProjectionMatrix();
@@ -183,12 +184,12 @@ public final class Window {
 		glDisable(GL_DEPTH_TEST);
 
 		//Render full-screen quad for post processing
-		postProcess.bind();
+		postProcessShader.bind();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, renderTarget);
-		postProcess.setUniformI("sceneColor", 0);
+		postProcessShader.setUniformI("sceneColor", 0);
 		
-		quad.bindToShader(postProcess);
+		quad.bindToShader(postProcessShader);
 		quad.bind();
 		quad.draw();
 		Model.unbind();
