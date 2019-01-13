@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -32,7 +33,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.transform.Scale;
 import math.Vec2;
 
 public final class Affichage {
@@ -51,6 +51,7 @@ public final class Affichage {
 	
 	//Center view
 	private static ScrollPane scrollContainer;
+	private static Group zoomGroup;
 	private static double scrollInitialH, scrollInitialV;
 	private static Point2D dragAnchor;
 	private static double zoom = 1;
@@ -74,6 +75,13 @@ public final class Affichage {
 	public static double getZoom() { return zoom; }
 	
 	public static void setZoom(double newZoom) {
+		zoom = Math.max(.2, Math.min(newZoom, 3));
+		
+		ListEntite.view.setScaleX(zoom);
+		ListEntite.view.setScaleY(zoom);
+	}
+	
+	public static void setZoom(double newZoom, Point2D pivot) { //TODO: Zoom towards pivot
 		zoom = Math.max(.2, Math.min(newZoom, 3));
 		
 		ListEntite.view.setScaleX(zoom);
@@ -125,10 +133,14 @@ public final class Affichage {
 	private static void createCenterView() {
 		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.rgb(56, 56, 56), new CornerRadii(0), new Insets(0))));
 		scrollContainer = new ScrollPane();
-		scrollContainer.setContent(ListEntite.view);
 		scrollContainer.setHbarPolicy(ScrollBarPolicy.ALWAYS);
 		scrollContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		ListEntite.view.setPadding(new Insets(300));
+		
+		zoomGroup = new Group(ListEntite.view);
+		Group contentGroup = new Group(zoomGroup);
+		scrollContainer.setContent(contentGroup);
+		
 		root.setCenter(scrollContainer);
 
 		//Middle-mouse drag
@@ -144,16 +156,15 @@ public final class Affichage {
 			}
 		});
 		ListEntite.view.setOnMouseDragged(new EventHandler<MouseEvent>() {
-
 			@Override
-			public void handle(MouseEvent me) {//TODO: Fix movement scaling
+			public void handle(MouseEvent me) {
 				if(!me.isMiddleButtonDown()) return; //Not middle click
 				
 				//Calcule position apres le drag
 				double dragX = me.getSceneX() - dragAnchor.getX();
 				double dragY = me.getSceneY() - dragAnchor.getY();
-				scrollContainer.setHvalue( scrollInitialH - 1.75*dragX/ListEntite.view.getWidth() );
-				scrollContainer.setVvalue( scrollInitialV - 1.75*dragY/ListEntite.view.getHeight() );
+				scrollContainer.setHvalue( scrollInitialH - (2*dragX/ListEntite.view.getWidth())/zoom );
+				scrollContainer.setVvalue( scrollInitialV - (2*dragY/ListEntite.view.getHeight())/zoom );
 			}
 		});
 		
@@ -162,7 +173,7 @@ public final class Affichage {
 			public void handle(ScrollEvent event) {
 				if(event.isControlDown()) { //Only zoom if control is pressed
 					event.consume(); //Consume event to prevent scrolling
-					setZoom(zoom + event.getDeltaY()/1000);
+					setZoom(zoom + event.getDeltaY()/1000, new Point2D(event.getX(), event.getY()));
 				}
 			}
 		});

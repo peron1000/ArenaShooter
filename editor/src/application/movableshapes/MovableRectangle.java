@@ -46,8 +46,8 @@ public class MovableRectangle extends Rectangle {
 				if(!me.isPrimaryButtonDown()) return; //Not left click
 				
 				//Calcule position apres le drag
-				double dragX = me.getSceneX() - dragAnchor.getX();
-				double dragY = me.getSceneY() - dragAnchor.getY();
+				double dragX = (me.getSceneX() - dragAnchor.getX())/Affichage.getZoom();
+				double dragY = (me.getSceneY() - dragAnchor.getY())/Affichage.getZoom();
 				double newXPosition = initX + dragX;
 				double newYPosition = initY + dragY;
 				
