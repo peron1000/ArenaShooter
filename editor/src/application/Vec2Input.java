@@ -30,7 +30,7 @@ public class Vec2Input extends VBox {
 	}
 	
 	public double getValX() {
-		return Double.valueOf(xField.getText());
+		return strToDouble(xField.getText());
 	}
 	
 	public void setValX(double x) {
@@ -38,11 +38,20 @@ public class Vec2Input extends VBox {
 	}
 	
 	public double getValY() {
-		return Double.valueOf(yField.getText());
+		return strToDouble(yField.getText());
 	}
 	
 	public void setValY(double y) {
 		yField.setText(String.valueOf(y));
+	}
+	
+	private double strToDouble(String str) {
+		try {
+			double res = Double.parseDouble(str);
+			return res;
+		} catch(Exception e) {
+			return 0;
+		}
 	}
 	
 	private TextField createDoubleEntry(double value) {
@@ -52,11 +61,22 @@ public class Vec2Input extends VBox {
 		textField.textProperty().addListener(new ChangeListener<String>() {
 		    @Override
 		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-		    	if(!newValue.matches("^[0-9]*\\.?[0-9]*$") || newValue.length()==0) {
+		    	if(!newValue.matches("^[0-9]*\\.?[0-9]*$")) {
 		        	textField.setText(oldValue);
 		        }
 		    	fireEvent(new Vec2ChangeEvent(getValX(), getValY()));
 		    }
+		});
+		
+		//Set textField to it's real value on focus loss
+		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+			{
+				if (!newPropertyValue) { //Focus lost
+					textField.setText(String.valueOf(strToDouble(textField.getText())));
+				}
+			}
 		});
 		
 		return textField;

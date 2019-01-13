@@ -57,7 +57,16 @@ public class RotationField extends HBox {
 	 * @return degrees
 	 */
 	public double getValue() {
-		return Double.valueOf(field.getText());
+		return strToDouble(field.getText());
+	}
+	
+	private double strToDouble(String str) {
+		try {
+			double res = Double.parseDouble(str);
+			return res;
+		} catch(Exception e) {
+			return 0;
+		}
 	}
 	
 	private TextField createNameEntry(Entity e) {
@@ -70,11 +79,23 @@ public class RotationField extends HBox {
 		    	if(!newValue.matches("^\\-?[0-9]*\\.?[0-9]*$") || newValue.length()==0) {
 		        	textField.setText(oldValue);
 		        } else {
-		        	entity.rotation = Math.toRadians(Double.valueOf(newValue));
+		        	double rotD = strToDouble(newValue);
+		        	entity.rotation = Math.toRadians(rotD);
 		        	Node visual = ListEntite.getVisual(e);
-		        	if( (MovableRectangle)visual != null ) ((MovableRectangle)visual).rotateProperty().set( -Math.toDegrees(entity.rotation) );
+		        	if( (MovableRectangle)visual != null ) ((MovableRectangle)visual).rotateProperty().set( -rotD );
 		        }
 		    }
+		});
+		
+		//Set textField to it's real value on focus loss
+		textField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+			{
+				if (!newPropertyValue) { //Focus lost
+					textField.setText(String.valueOf(strToDouble(textField.getText())));
+				}
+			}
 		});
 		
 		return textField;
