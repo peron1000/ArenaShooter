@@ -39,7 +39,16 @@ public class ListEntite {
 	 * Create a platform and its movable rectangle in the scene view
 	 */
 	public static void newPlatform(Vec2 loc) {
-		Platform entity = new Platform(loc, 0, new Vec2(150, 10));
+		Vec2 extent = new Vec2(150, 10);
+		
+		//Snap position to grid
+		int gridSnap = Affichage.gridSnap.getValue();
+		if(gridSnap > 0) {
+			loc.x = extent.x+( Math.floor((loc.x-extent.x)/gridSnap)*gridSnap );
+			loc.y = extent.y+( Math.floor((loc.y-extent.y)/gridSnap)*gridSnap );
+		}
+		
+		Platform entity = new Platform(loc, 0, extent);
 		entity.name = "Platform_"+String.valueOf(System.currentTimeMillis());
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
@@ -47,7 +56,7 @@ public class ListEntite {
 		Affichage.selectEntity(entity);
 		
 		//Create movable rectangle attached to the platform
-		Node visual = new MovableRectangle(entity, new Vec2(entity.extent.x*2, entity.extent.y*2), Color.YELLOW);
+		Node visual = new MovableRectangle(entity, new Vec2(extent.x*2, extent.y*2), Color.YELLOW);
 		visuals.put(entity, visual);
 		view.getChildren().add(visual);
 	}
