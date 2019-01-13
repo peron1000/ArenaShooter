@@ -27,7 +27,7 @@ public class Gun extends Item {
 			fire = new Timer(0.15);
 			fire.attachToParent(this, "attack timer");
 			
-			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg");
+			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
 			
@@ -37,12 +37,12 @@ public class Gun extends Item {
 			fire = new Timer(0.05);
 			fire.attachToParent(this, "attack timer");
 			
-			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg");
+			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
 		}
 
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg");
+		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
 	}
