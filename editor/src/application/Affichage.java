@@ -18,6 +18,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Separator;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -40,12 +41,16 @@ public final class Affichage {
 	public static ScrollPane propertiesContainer;
 	private static Label selectedName;
 
-	public static BorderPane root = new BorderPane();;
+	public static BorderPane root = new BorderPane();
 	
 	public static Entity selected = null;
 	
 	//Used for context-menu entity spawning
 	private static Vec2 contextMenuLoc = new Vec2();
+	
+	private static double scrollInitialH, scrollInitialV;
+	private static Point2D dragAnchor;
+	private static double zoom = 1;
 
 	private Affichage() { }
 	
@@ -61,6 +66,14 @@ public final class Affichage {
 
 		// Center
 		createCenterView();
+	}
+	
+	public static double getZoom() { return zoom; }
+	
+	public static void setZoom(double newZoom) {
+		zoom = Math.max(.2, Math.min(newZoom, 3));
+		ListEntite.view.setScaleX(zoom);
+		ListEntite.view.setScaleY(zoom);
 	}
 	
 	/**
@@ -105,8 +118,6 @@ public final class Affichage {
 			selectedName.setText(selected.name);
 	}
 
-	private static double scrollInitialH, scrollInitialV;
-	private static Point2D dragAnchor;
 	private static void createCenterView() {
 		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.rgb(56, 56, 56), new CornerRadii(0), new Insets(0))));
 		ScrollPane scrollContainer = new ScrollPane();
@@ -115,17 +126,17 @@ public final class Affichage {
 		scrollContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		ListEntite.view.setPadding(new Insets(300));
 		root.setCenter(scrollContainer);
-		
+
 		//Middle-mouse drag
 		ListEntite.view.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent me) {
-				if(!me.isMiddleButtonDown()) return; //Not middle click
-				
-				//Pour garder le point de depart en memoire
-				scrollInitialH = scrollContainer.getHvalue();
-				scrollInitialV = scrollContainer.getVvalue();
-				dragAnchor = new Point2D(me.getSceneX(), me.getSceneY());
+				if(me.isMiddleButtonDown()) { //Middle click
+					//Pour garder le point de depart en memoire
+					scrollInitialH = scrollContainer.getHvalue();
+					scrollInitialV = scrollContainer.getVvalue();
+					dragAnchor = new Point2D(me.getSceneX(), me.getSceneY());
+				}
 			}
 		});
 		ListEntite.view.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -139,6 +150,14 @@ public final class Affichage {
 				double dragY = me.getSceneY() - dragAnchor.getY();
 				scrollContainer.setHvalue( scrollInitialH - 1.75*dragX/ListEntite.view.getWidth() );
 				scrollContainer.setVvalue( scrollInitialV - 1.75*dragY/ListEntite.view.getHeight() );
+			}
+		});
+		
+		ListEntite.view.setOnScroll(new EventHandler<ScrollEvent>() {
+			@Override
+			public void handle(ScrollEvent event) {
+				if(event.isControlDown()) //Only zoom if control is pressed
+					setZoom(zoom + event.getDeltaY()/1000);
 			}
 		});
 		
