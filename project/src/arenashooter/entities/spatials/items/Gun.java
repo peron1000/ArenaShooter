@@ -23,11 +23,11 @@ public class Gun extends Item {
 		tag = "Arme";
 		coll = new Collider(position, new Vec2f(40, 40));
 
-		SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg");
+		SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 		bangSound.setVolume(3f);
 		bangSound.attachToParent(this, "snd_Bang");
 		
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg");
+		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
 	}

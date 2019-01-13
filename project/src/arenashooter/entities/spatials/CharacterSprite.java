@@ -58,11 +58,11 @@ public class CharacterSprite extends Spatial {
 			handR.attachToParent(this, "handR");
 		}
 
-		SoundEffect sndStep = new SoundEffect(this.position, "data/sound/step_01.ogg");
-		sndStep.setVolume(.03f);
+		SoundEffect sndStep = new SoundEffect(this.position, "data/sound/step_01.ogg", 1);
+		sndStep.setVolume(.05f);
 		sndStep.attachToParent(this, "snd Step");
 
-		SoundEffect punchSound = new SoundEffect(this.position, "data/sound/woosh_01.ogg");
+		SoundEffect punchSound = new SoundEffect(this.position, "data/sound/woosh_01.ogg", 2);
 		punchSound.setVolume(.7f);
 		punchSound.attachToParent(this, "snd_Punch");
 	}

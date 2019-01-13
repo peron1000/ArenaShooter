@@ -47,7 +47,7 @@ public class Character extends Spatial {
 		CharacterSprite skeleton = new CharacterSprite(this.position, "data/sprites/characters/" + spriteFolder);
 		skeleton.attachToParent(this, "skeleton");
 
-		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg");
+		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg", 2);
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 
@@ -56,7 +56,7 @@ public class Character extends Spatial {
 		// punchHitSound.setVolume(.7f);
 		// punchHitSound.attachToParent(this, "snd_Punch_Hit");
 
-		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/snd_Punch_Hit2.ogg");
+		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/snd_Punch_Hit2.ogg", 2);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
