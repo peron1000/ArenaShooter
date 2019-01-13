@@ -32,6 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Scale;
 import math.Vec2;
 
 public final class Affichage {
@@ -48,6 +49,8 @@ public final class Affichage {
 	//Used for context-menu entity spawning
 	private static Vec2 contextMenuLoc = new Vec2();
 	
+	//Center view
+	private static ScrollPane scrollContainer;
 	private static double scrollInitialH, scrollInitialV;
 	private static Point2D dragAnchor;
 	private static double zoom = 1;
@@ -72,6 +75,7 @@ public final class Affichage {
 	
 	public static void setZoom(double newZoom) {
 		zoom = Math.max(.2, Math.min(newZoom, 3));
+		
 		ListEntite.view.setScaleX(zoom);
 		ListEntite.view.setScaleY(zoom);
 	}
@@ -120,7 +124,7 @@ public final class Affichage {
 
 	private static void createCenterView() {
 		ListEntite.view.setBackground(new Background(new BackgroundFill(Color.rgb(56, 56, 56), new CornerRadii(0), new Insets(0))));
-		ScrollPane scrollContainer = new ScrollPane();
+		scrollContainer = new ScrollPane();
 		scrollContainer.setContent(ListEntite.view);
 		scrollContainer.setHbarPolicy(ScrollBarPolicy.ALWAYS);
 		scrollContainer.setVbarPolicy(ScrollBarPolicy.ALWAYS);
@@ -156,8 +160,10 @@ public final class Affichage {
 		ListEntite.view.setOnScroll(new EventHandler<ScrollEvent>() {
 			@Override
 			public void handle(ScrollEvent event) {
-				if(event.isControlDown()) //Only zoom if control is pressed
+				if(event.isControlDown()) { //Only zoom if control is pressed
+					event.consume(); //Consume event to prevent scrolling
 					setZoom(zoom + event.getDeltaY()/1000);
+				}
 			}
 		});
 		
@@ -218,13 +224,11 @@ public final class Affichage {
 	
 	private static void createBottomBar() {
 		gridSnap = new GridSnap(10);
-		Button zoomOut = new Button("Zoom out");
+		Button zoomOut = new Button("Reset zoom");
 		zoomOut.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
-				//TODO: zoom out
-				Enregistreur.erreur();
+				setZoom(1);
 			}
 		});
 		HBox bottomBar = new HBox(10, gridSnap, zoomOut);
