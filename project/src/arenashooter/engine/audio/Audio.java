@@ -34,7 +34,7 @@ import arenashooter.engine.math.Vec3f;
 public final class Audio {
 	private static long device, context;
 	
-	private static Map<String, SoundEntry> sounds = new HashMap<String, SoundEntry>();
+	private static Map<String, BufferEntry> sounds = new HashMap<String, BufferEntry>();
 	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
 
 	//This class cannot be instantiated
@@ -122,9 +122,29 @@ public final class Audio {
 		System.out.println( "Audio - Stereo sources : "+alcGetInteger(device, ALC_STEREO_SOURCES) );
 	}
 	
-	protected static void registerSound(String file, Sound sound) {
-		SoundEntry newEntry = new SoundEntry(file, sound);
-		if(sounds.get(file)!=null) System.err.println("Audio - Sound already registered !");
+	/**
+	 * Print OpenAL error message. This will also clean memory if an out of memory error is encountered
+	 * @param additionnalMsg additionnal error message to print, leave null if none
+	 * @return openAL error code
+	 */
+	public static int printError(String additionnalMsg) {
+		int error = AL10.alGetError();
+		if(error != AL10.AL_NO_ERROR) {
+			if(additionnalMsg != null) System.err.println(additionnalMsg);
+			System.err.println( "Audio - Error: "+AL10.alGetString(error) );
+		}
+		
+		if(error == AL10.AL_OUT_OF_MEMORY) {
+			cleanPlayers();
+			cleanBuffers();
+		}
+		
+		return error;
+	}
+	
+	protected static void registerSound(String file, SoundBuffer sound) {
+		BufferEntry newEntry = new BufferEntry(file, sound);
+		if(sounds.get(file) != null && sounds.get(file).sound.get() != null) System.err.println("Audio - Sound already registered !");
 		sounds.put(file, newEntry);
 	}
 	
@@ -137,8 +157,8 @@ public final class Audio {
 	 * @param file
 	 * @return the Sound, null if not loaded
 	 */
-	protected static Sound getSound(String file) {
-		SoundEntry entry = sounds.get(file);
+	protected static SoundBuffer getSound(String file) {
+		BufferEntry entry = sounds.get(file);
 		if( entry != null && entry.sound.get() != null )
 			return entry.sound.get();
 		return null;
@@ -170,7 +190,7 @@ public final class Audio {
 		System.out.println("Audio - Cleaning memory...");
 		
 		ArrayList<String> toRemove = new ArrayList<String>(0);
-		for ( SoundEntry entry : sounds.values() ) {
+		for ( BufferEntry entry : sounds.values() ) {
 		    if( entry.sound.get() == null ) {
 		    	toRemove.add(entry.file);
 				alDeleteBuffers(entry.buffer);
@@ -183,15 +203,15 @@ public final class Audio {
 		System.out.println("Audio - Cleaned up "+toRemove.size()+" buffers.");
 	}
 	
-	private static class SoundEntry {
+	private static class BufferEntry {
 		int buffer;
 		String file;
-		WeakReference<Sound> sound;
+		WeakReference<SoundBuffer> sound;
 		
-		SoundEntry(String file, Sound sound) {
+		BufferEntry(String file, SoundBuffer sound) {
 			buffer = sound.getBuffer();
 			this.file = file;
-			this.sound = new WeakReference<Sound>(sound);
+			this.sound = new WeakReference<SoundBuffer>(sound);
 		}
 	}
 	
@@ -202,13 +222,6 @@ public final class Audio {
 		SourceEntry(AudioSourceI player) {
 			this.sources = player.getSources();
 			this.sound = new WeakReference<AudioSourceI>(player);
-		}
-	}
-	
-	public static void printError() {
-		int error = AL10.alGetError();
-		if(error != AL10.AL_NO_ERROR) {
-			System.err.println( "Audio - Error: "+AL10.alGetString(error) );
 		}
 	}
 }

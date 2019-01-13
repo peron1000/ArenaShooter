@@ -21,7 +21,7 @@ import static org.lwjgl.openal.AL10.alGetSourcei;
  * When playing, a new source is automatically chosen. 
  */
 public class MusicSource implements AudioSourceI {
-	private Sound sound;
+	private SoundBuffer sound;
 	private int source;
 	private boolean looping = false;
 	
@@ -31,11 +31,13 @@ public class MusicSource implements AudioSourceI {
 	 * @param maxPlays maximum simultaneous plays ( must be >0 )
 	 */
 	public MusicSource(String path, boolean looping) {
-		sound = Sound.loadSound(path);
+		sound = SoundBuffer.loadSound(path);
 		
 		if( sound == null ) return;
 		
 		source = alGenSources();
+		
+		Audio.printError("Audio - Error creating source for "+path);
 		
 		alSourcei( source, AL_BUFFER, sound.getBuffer() );
 		
