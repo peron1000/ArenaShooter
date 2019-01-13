@@ -1,7 +1,6 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.spatials.items.Item.SpritePath;
 
 public class Equipement extends Item {
 

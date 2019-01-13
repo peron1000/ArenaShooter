@@ -1,14 +1,8 @@
 package arenashooter.entities;
 
-import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Shader;
-import arenashooter.engine.graphics.Window;
-import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Impact;
 import arenashooter.entities.spatials.Spatial;
-import arenashooter.game.Game;
-import arenashooter.game.Main;
 
 /**
  * extends {@link Spatial}</br>

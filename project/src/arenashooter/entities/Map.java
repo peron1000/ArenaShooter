@@ -15,7 +15,6 @@ import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Gun;
-import arenashooter.entities.spatials.items.Item.SpritePath;
 
 public class Map extends Entity {
 
