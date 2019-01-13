@@ -7,7 +7,6 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
@@ -17,7 +16,6 @@ import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.ItemCounter;
 import arenashooter.entities.spatials.items.Gun;
-import arenashooter.entities.spatials.items.WeaponsD;
 import arenashooter.entities.spatials.items.Item.ItemSprite;
 
 public class Map extends Entity {
@@ -36,6 +34,11 @@ public class Map extends Entity {
 			i++;
 			p.attachToParent(this, "Plateforme"+i);
 		}
+		
+		//Create sky
+		Sky sky = new Sky( new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118) );
+		sky.attachToParent(this, "Sky");
+		
 		testPhysics();
 	}
 

@@ -4,11 +4,12 @@ package arenashooter.engine.graphics;
  * Post processing settings
  */
 public class PostProcess {
-	
+	private Shader shader;
 	private float vignetteIntensity = 1.4f;
 	private float chromaAbbIntensity = 0;
 
-	public PostProcess() {
+	public PostProcess(String shader) {
+		this.shader = new Shader(shader);
 	}
 	
 	public void setVignetteIntensity(float value) {
@@ -16,8 +17,8 @@ public class PostProcess {
 		
 		if(vignetteIntensity != value) {
 			vignetteIntensity = value;
-			Window.postProcessShader.bind();
-			Window.postProcessShader.setUniformF("vignetteIntensity", vignetteIntensity);
+			shader.bind();
+			shader.setUniformF("vignetteIntensity", vignetteIntensity);
 		}
 	}
 	
@@ -26,9 +27,11 @@ public class PostProcess {
 		
 		if(chromaAbbIntensity != value) {
 			chromaAbbIntensity = value;
-			Window.postProcessShader.bind();
-			Window.postProcessShader.setUniformF("chromaAbbIntensity", chromaAbbIntensity);
+			shader.bind();
+			shader.setUniformF("chromaAbbIntensity", chromaAbbIntensity);
 		}
 	}
+	
+	Shader getShader() { return shader; }
 
 }
