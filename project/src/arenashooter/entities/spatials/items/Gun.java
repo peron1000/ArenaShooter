@@ -24,8 +24,12 @@ public class Gun extends Item {
 		coll = new Collider(position, new Vec2f(40, 40));
 
 		SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg");
-		bangSound.setVolume(5f);
+		bangSound.setVolume(3f);
 		bangSound.attachToParent(this, "snd_Bang");
+		
+		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg");
+		pickup.setVolume(0.5f);
+		pickup.attachToParent(this, "snd_Pickup");
 	}
 
 	public void fire(boolean lookRight) { // Visée uniquement droite et gauche pour l'instant. TODO :

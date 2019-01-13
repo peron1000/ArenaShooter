@@ -129,8 +129,10 @@ public class Character extends Spatial {
 				}
 			}
 
-			if (arme != null)
+			if (arme != null) {
 				arme.attachToParent(this, "Item_Arme");
+				((SoundEffect) arme.children.get("snd_Pickup")).play();
+			}
 			if (armure != null)
 				armure.attachToParent(this, "Item_Armure");
 		}
