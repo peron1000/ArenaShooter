@@ -80,19 +80,19 @@ public class Gun extends Item {
 
 	public void step(double d) {
 		if (isEquipped()) {
-			if (children.get("item_Sprite") instanceof Sprite) {
-				Sprite image = ((Sprite) children.get("item_Sprite"));
+			Sprite image = ((Sprite) children.get("item_Sprite"));
+			if(image != null) {
 				if (((Character) parent).lookRight)
 					image.flipX = false;
 				else
 					image.flipX = true;
-				vel.x = (float) Utils.lerpD(vel.x, 0, d * 50);
-				vel.y = (float) Utils.lerpD(vel.y, 0, d * 50);
-				image.rotation = Utils.lerpD(image.rotation, 0, d * ((Math.abs(rotation) > 1) ? 30 : 10));
+				vel.x = Utils.lerpF(vel.x, 0, Utils.clampD(d * 50, 0, 1));
+				vel.y = Utils.lerpF(vel.y, 0, Utils.clampD(d * 50, 0, 1));
+				double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
+				image.rotation = Utils.lerpD(image.rotation, 0, Utils.clampD(lerpVal, 0, 1));
 			}
 		}
-
+		
 		super.step(d);
-
 	}
 }
