@@ -13,7 +13,7 @@ public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(200, 200);
-	private float zoomMin = 300, zoomMax = 3000;//zoomMin : 500 -> 300
+	private float zoomMin = 300, zoomMax = 3000;
 	
 	private float shakeIntensity = 0;
 	private double time = 0;
@@ -91,7 +91,7 @@ public class Camera extends Spatial3 {
 		
 		//Slow zoom-in
 		if( newZ < targetLoc.z )
-			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(2, d) );//1 -> 2
+			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(1, 1.5*d) );
 		else
 			targetLoc.z = newZ;
 	}
