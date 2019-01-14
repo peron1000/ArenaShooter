@@ -13,7 +13,7 @@ public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(200, 200);
-	private float zoomMin = 500, zoomMax = 3000;
+	private float zoomMin = 300, zoomMax = 3000;//zoomMin : 500 -> 300
 	
 	private float shakeIntensity = 0;
 	private double time = 0;
@@ -32,9 +32,9 @@ public class Camera extends Spatial3 {
 		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 6*d ));
 		time += d;
 		
-		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 8*d) );
-		position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 8*d) );
-		position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 10*d) );
+		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(2, 8*d) );//Math.min(1, 8*d) -> Math.min(2, 8*d)
+		position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(2, 8*d) );//1 -> 2
+		position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(2, 10*d) );// 1 -> 2
 		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x+shakeX, position.y+shakeY, position.z+shakeZ), rotation);
 		
 		super.step(d);
@@ -91,7 +91,7 @@ public class Camera extends Spatial3 {
 		
 		//Slow zoom-in
 		if( newZ < targetLoc.z )
-			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(1, d) );
+			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(2, d) );//1 -> 2
 		else
 			targetLoc.z = newZ;
 	}
