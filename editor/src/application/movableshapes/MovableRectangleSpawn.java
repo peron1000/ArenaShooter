@@ -6,7 +6,6 @@ import application.Main;
 import application.Vec2Input;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -26,7 +25,6 @@ public class MovableRectangleSpawn extends Rectangle {
 		setY(position.y-getHeight()/2);
 		setOnMousePressed(new EventHandler<MouseEvent>() {
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(MouseEvent me) {
 				if(!me.isPrimaryButtonDown()) return; //Not left click
@@ -40,7 +38,7 @@ public class MovableRectangleSpawn extends Rectangle {
 				Affichage.selectEntity(null);
 				
 				Main.map.propertiesTab.spawns.setExpanded(true);
-				((ListView<Vec2Input>)Main.map.propertiesTab.spawns.getContent()).getSelectionModel().select(input);
+				Main.map.propertiesTab.spawnsList.getSelectionModel().select(input);
 			}
 		});
 		setOnMouseDragged(new EventHandler<MouseEvent>() {

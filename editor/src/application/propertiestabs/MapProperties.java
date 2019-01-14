@@ -18,6 +18,7 @@ public class MapProperties extends PropertiesTab {
 	public ColorPicker skyBot, skyTop;
 	
 	public TitledPane spawns;
+	public ListView<Vec2Input> spawnsList;
 	
 	public MapProperties(GameMap map) {
 		super();
@@ -42,8 +43,8 @@ public class MapProperties extends PropertiesTab {
 		skyBotContainer.getChildren().add(new Label("Sky bottom color"));
 		skyBotContainer.getChildren().add(skyBot);
 		
-		ListView<Vec2Input> spawnVectors = new ListView<>();
-		spawns = new TitledPane("Spawns", spawnVectors);
+		spawnsList = new ListView<>();
+		spawns = new TitledPane("Spawns", spawnsList);
 		spawns.setExpanded(false);
 		
 		getChildren().addAll(mapGravity, skyTopContainer, skyBotContainer, spawns);

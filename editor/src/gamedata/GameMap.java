@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import application.ListEntite;
+import application.Main;
 import application.Vec2Input;
 import application.customevents.CustomEvent;
 import application.customevents.CustomEventHandler;
 import application.movableshapes.MovableRectangleSpawn;
 import application.propertiestabs.MapProperties;
 import gamedata.entities.Entity;
-import javafx.scene.control.ListView;
 import math.Vec2;
 
 public class GameMap {
@@ -46,11 +46,7 @@ public class GameMap {
 			}
 		});
 		
-		@SuppressWarnings("unchecked")
-		ListView<Vec2Input> spawnsList = (ListView<Vec2Input>)propertiesTab.spawns.getContent();
-		if(spawnsList != null) {
-			spawnsList.getItems().add(input);
-		}
+		Main.map.propertiesTab.spawnsList.getItems().add(input);
 	}
 
 }
