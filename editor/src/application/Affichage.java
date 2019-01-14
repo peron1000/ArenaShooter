@@ -88,6 +88,18 @@ public final class Affichage {
 		ListEntite.view.setScaleY(zoom);
 	}
 	
+
+	/**
+	 * @return center of the view
+	 */
+	public static Vec2 getViewCenter() { //TODO: fix this
+		double x = scrollContainer.getHvalue()*ListEntite.view.getWidth();
+		double y = scrollContainer.getVvalue()*ListEntite.view.getHeight();
+		x -= scrollContainer.getWidth()/2;
+		y -= scrollContainer.getHeight()/2;
+		return new Vec2(x, y);
+	}
+	
 	/**
 	 * Change global selected entity
 	 * @param e
@@ -232,17 +244,16 @@ public final class Affichage {
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
 		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				ListEntite.newPlatform();
+				ListEntite.newPlatform(getViewCenter());
 			}
 		});
 		MenuItem menuAddSpawn = new MenuItem("_Spawn");
 		menuAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				// TODO : calculer x et y mieux
-				Vec2 spawn = new Vec2(0, 0);
-				Main.map.addSpawn(spawn);
+				Main.map.addSpawn(getViewCenter());
 			}
 		});
+		
 		menuAdd.getItems().addAll(menuAddEntity, menuAddPlatform , menuAddSpawn);
 
 		MenuBar mb1 = new MenuBar(menuFile, menuAdd);
