@@ -5,6 +5,7 @@ import application.ListEntite;
 import application.Vec2Input;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -35,6 +36,9 @@ public class MovableRectangleSpawn extends Rectangle {
 				
 				//Select clicked entity
 				Affichage.selectEntity(null);
+				
+				//TODO: Set focus on input
+				input.requestFocus();
 			}
 		});
 		setOnMouseDragged(new EventHandler<MouseEvent>() {

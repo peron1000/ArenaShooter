@@ -198,7 +198,7 @@ public class Enregistreur {
 		
 		// TODO : Camera Bound
 		
-		// TODO : Spawns
+		remplissageSpawns(document , information);
 		
 		Element sky = document.createElement("sky");
 		Element vecteurT = document.createElement("vecteur");
@@ -219,6 +219,14 @@ public class Enregistreur {
 		information.appendChild(sky);
 	}
 	
+	private static void remplissageSpawns(Document document, Element information) {
+		for (Vec2 spawn : Main.map.spawns) {
+			Element e = document.createElement("spawn");
+			e.appendChild(remplissageVecteur(document, spawn));
+			information.appendChild(e);
+		}
+	}
+
 	private static Element remplissageVecteur(Document document, double x, double y) {
 		Element vecteur = document.createElement("vecteur");
 		vecteur.setAttribute("x", String.valueOf(x));
