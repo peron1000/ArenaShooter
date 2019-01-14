@@ -123,20 +123,16 @@ public final class Audio {
 	}
 	
 	/**
-	 * Print OpenAL error message. This will also clean memory if an out of memory error is encountered
+	 * Print OpenAL error message
 	 * @param additionnalMsg additionnal error message to print, leave null if none
 	 * @return openAL error code
 	 */
 	public static int printError(String additionnalMsg) {
 		int error = AL10.alGetError();
+		
 		if(error != AL10.AL_NO_ERROR) {
 			if(additionnalMsg != null) System.err.println(additionnalMsg);
 			System.err.println( "Audio - Error: "+AL10.alGetString(error) );
-		}
-		
-		if(error == AL10.AL_OUT_OF_MEMORY) {
-			cleanPlayers();
-			cleanBuffers();
 		}
 		
 		return error;
@@ -172,9 +168,9 @@ public final class Audio {
 		
 		int sourcesRemoved = 0;
 		for( int i=sources.size()-1; i>=0; i-- ) {
-			if(  sources.get(i).sound.get() == null ) {
+			if( sources.get(i).sound.get() == null ) {
 				alDeleteSources( sources.get(i).sources);
-				
+				Audio.printError("Audio - Error deleting source(s)");
 				sources.remove(i);
 				sourcesRemoved++;
 			}
@@ -201,6 +197,14 @@ public final class Audio {
 			sounds.remove(s);
 		
 		System.out.println("Audio - Cleaned up "+toRemove.size()+" buffers.");
+	}
+	
+	/**
+	 * Clean memory (buffers and sources)
+	 */
+	public static void cleanAll() {
+		cleanBuffers();
+		cleanPlayers();
 	}
 	
 	private static class BufferEntry {
