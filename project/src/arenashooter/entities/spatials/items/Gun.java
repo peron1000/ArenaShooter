@@ -40,7 +40,7 @@ public class Gun extends Item {
 			fire = new Timer(0.05);
 			fire.attachToParent(this, "attack timer");
 			
-			damage = 0f;
+			damage = 0;
 			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);

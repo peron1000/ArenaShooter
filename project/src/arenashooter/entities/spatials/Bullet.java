@@ -7,11 +7,11 @@ import arenashooter.entities.SoundEffect;
 
 public class Bullet extends Projectile {
 
-	public Bullet(Vec2f position, Vec2f vel) {
+	public Bullet(Vec2f position, Vec2f vel, float damage) {
 		this.position = position.clone();
 		this.vel = vel.clone();
 
-		damage = 10;
+		this.damage = damage;
 		rotation = 0;
 
 		collider = new Collider(this.position, new Vec2f(16, 16));
