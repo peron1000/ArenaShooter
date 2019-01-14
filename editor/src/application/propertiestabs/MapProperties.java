@@ -7,6 +7,8 @@ import application.customevents.CustomEventHandler;
 import gamedata.GameMap;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 
 public class MapProperties extends PropertiesTab {
@@ -15,13 +17,14 @@ public class MapProperties extends PropertiesTab {
 	
 	public ColorPicker skyBot, skyTop;
 	
+	public TitledPane spawns;
+	
 	public MapProperties(GameMap map) {
 		super();
 		this.map = map;
 		
 		Vec2Input mapGravity = new Vec2Input("Gravity", this.map.gravity.x, this.map.gravity.y);
 		mapGravity.addEventHandler(CustomEvent.CUSTOM_EVENT_TYPE, new CustomEventHandler() {
-
 			@Override
 			public void onEventVec2Change(double newX, double newY) {
 				Main.map.gravity.x = newX;
@@ -39,9 +42,11 @@ public class MapProperties extends PropertiesTab {
 		skyBotContainer.getChildren().add(new Label("Sky bottom color"));
 		skyBotContainer.getChildren().add(skyBot);
 		
-		getChildren().add(mapGravity);
-		getChildren().add(skyTopContainer);
-		getChildren().add(skyBotContainer);
+		ListView<Vec2Input> spawnVectors = new ListView<>();
+		spawns = new TitledPane("Spawns", spawnVectors);
+		spawns.setExpanded(false);
+		
+		getChildren().addAll(mapGravity, skyTopContainer, skyBotContainer, spawns);
 	}
 
 	@Override

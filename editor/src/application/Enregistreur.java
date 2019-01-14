@@ -16,7 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import application.propertiestabs.MapProperties;
+import gamedata.GameMap;
 import gamedata.entities.Entity;
 import gamedata.entities.Platform;
 import javafx.event.ActionEvent;
@@ -24,7 +24,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -34,10 +33,15 @@ import javafx.stage.Stage;
 import math.Vec2;
 
 public class Enregistreur {
+	
 	/**
 	 * Ouvre une fenêtre d'enregistrement de fichier
 	 */
 	public static void enregistrer() {
+		if(Main.map.spawns.size()<GameMap.MIN_SPAWNS) {
+			popupErreur("Not enough spawns! ("+GameMap.MIN_SPAWNS+" minimum)");
+			return;
+		}
 		Stage stage = new Stage();
 		FileChooser f = new FileChooser();
 		f.setInitialFileName("blep");
@@ -48,7 +52,7 @@ public class Enregistreur {
 		if(file != null) {
 			remplissageFichier(file);
 		} else {
-			popupErreur("Enregistrement annulé");
+//			popupErreur("Enregistrement annulé");
 			return;
 		}
 		try {

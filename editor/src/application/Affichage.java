@@ -189,8 +189,16 @@ public final class Affichage {
 				ListEntite.newPlatform( contextMenuLoc );
 			}
 		});
+		//Add Spawn
+		MenuItem contextAddSpawn = new MenuItem("Add spawn");
+		contextAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Main.map.addSpawn(contextMenuLoc.clone());
+			}
+		});
 
-		contextMenu.getItems().addAll(contextAddPlatform);
+		contextMenu.getItems().addAll(contextAddPlatform, contextAddSpawn);
 
 		ListEntite.view.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
@@ -227,7 +235,15 @@ public final class Affichage {
 				ListEntite.newPlatform();
 			}
 		});
-		menuAdd.getItems().addAll(menuAddEntity, menuAddPlatform);
+		MenuItem menuAddSpawn = new MenuItem("_Spawn");
+		menuAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				// TODO : calculer x et y mieux
+				Vec2 spawn = new Vec2(0, 0);
+				Main.map.addSpawn(spawn);
+			}
+		});
+		menuAdd.getItems().addAll(menuAddEntity, menuAddPlatform , menuAddSpawn);
 
 		MenuBar mb1 = new MenuBar(menuFile, menuAdd);
 		root.setTop(mb1);
