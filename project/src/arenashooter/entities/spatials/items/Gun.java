@@ -16,6 +16,7 @@ public class Gun extends Item {
 	private Timer fire = new Timer(0.15);
 	Collider coll;
 	private float recul = 0.4f;
+	private float damage = 1;
 
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
@@ -27,6 +28,8 @@ public class Gun extends Item {
 			fire = new Timer(0.15);
 			fire.attachToParent(this, "attack timer");
 			
+			damage = 5;
+			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
@@ -36,6 +39,8 @@ public class Gun extends Item {
 			dispersion = 0.15;// la non-précision en radians.
 			fire = new Timer(0.05);
 			fire.attachToParent(this, "attack timer");
+			
+			damage = 0f;
 			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
@@ -54,10 +59,10 @@ public class Gun extends Item {
 			if (parent instanceof Character) {
 				if (lookRight) {
 					pX = position.x + 50;
-					vX = 2000;
+					vX = 3000;
 				} else {
 					pX = position.x - 50;
-					vX = -2000;
+					vX = -3000;
 				}
 			}
 			fire.restart();
@@ -68,10 +73,10 @@ public class Gun extends Item {
 			angle.x += ((Character) parent).vel.x / 4;
 			angle.y += ((Character) parent).vel.y / 4;
 
-			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle);
+			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle, damage);
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
 
-			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul * 10000));
+			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul * 5000));
 			((SoundEffect) children.get("snd_Bang")).play();
 
 			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
