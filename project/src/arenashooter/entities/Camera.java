@@ -32,9 +32,9 @@ public class Camera extends Spatial3 {
 		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 6*d ));
 		time += d;
 		
-		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(2, 8*d) );//Math.min(1, 8*d) -> Math.min(2, 8*d)
-		position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(2, 8*d) );//1 -> 2
-		position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(2, 10*d) );// 1 -> 2
+		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 8*d) );
+		position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 8*d) );
+		position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 10*d) );
 		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x+shakeX, position.y+shakeY, position.z+shakeZ), rotation);
 		
 		super.step(d);
