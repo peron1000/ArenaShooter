@@ -12,6 +12,7 @@ import static org.lwjgl.openal.AL10.AL_SOURCE_RELATIVE;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alSourcei;
 
+import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 
 import static org.lwjgl.openal.AL10.alSourcef;
@@ -55,7 +56,8 @@ public class SoundSource implements AudioSourceI {
 		for( int i=0; i<source.length; i++ ) {
 			source[i] = alGenSources();
 
-			Audio.printError("Audio - Error creating source for "+path);
+			if(Audio.printError("Audio - Error creating source for "+path) != AL10.AL_NO_ERROR)
+				Audio.cleanAll();
 			
 			//Link the source to the buffer
 			alSourcei( source[i], AL_BUFFER, sound.getBuffer() );
