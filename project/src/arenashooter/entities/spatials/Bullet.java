@@ -12,12 +12,12 @@ public class Bullet extends Projectile {
 		this.vel = vel.clone();
 
 		this.damage = damage;
-		rotation = 0;
+		rotation = vel.angle();
 
 		collider = new Collider(this.position, new Vec2f(16, 16));
 		collider.attachToParent(this, "collider");
 
-		Sprite bul = new Sprite(position, "data/sprites/Boulette.png");
+		Sprite bul = new Sprite(position, "data/sprites/Bullet.png");
 		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
 		bul.attachToParent(this, "bul_Sprite");
 
@@ -57,6 +57,7 @@ public class Bullet extends Projectile {
 
 		((Spatial) children.get("bul_Sprite")).position = position;
 		((Spatial) children.get("collider")).position = position;
+		((Spatial) children.get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);
 	}
