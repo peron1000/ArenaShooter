@@ -22,6 +22,7 @@ public class GridSnap extends HBox {
 	    title.setFont(Font.font("Arial", FontWeight.NORMAL, 14));
 	    
 	    textField = createIntEntry(0);
+	    textField.setPrefWidth(55);
 	    setValue(value);
 	    
 	    getChildren().add(title);
