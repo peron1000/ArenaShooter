@@ -27,7 +27,6 @@ public class Game {
 	public Camera camera;
 
 	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
-	
 
 	private Game() {
 		map = MapXMLTranslator.getMap("data/mapXML/mapXML.xml");
@@ -55,7 +54,7 @@ public class Game {
 		// init KeyBoard as Controller1
 		Controller c = new Controller(Device.KEYBOARD);
 		controllers.add(0, c);
-		Character character = new Character(map.spawn.get(0));
+		Character character = new Character(map.GetRandomRespawnch());
 		c.setCharacter(character);
 		character.attachToParent(map, "Player 1");
 
@@ -63,7 +62,8 @@ public class Game {
 		for (int i = 1; i < nbPlayers; i++) {
 			c = new Controller(Device.values()[i - 1]);
 			controllers.add(i, c);
-			character = new Character(map.spawn.get(i));
+			// character = new Character(map.spawn.get(i));
+			character = new Character(map.GetRandomRespawnch());
 			c.setCharacter(character);
 			character.attachToParent(map, "Player " + (i + 1));
 		}
@@ -87,15 +87,16 @@ public class Game {
 			Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 
 		// TODO: remove temp particle system
-		((Spatial) map.children.get("particles")).position.x = (float) (300 * Math.sin(.003 * System.currentTimeMillis()));
+		((Spatial) map.children.get("particles")).position.x = (float) (300
+				* Math.sin(.003 * System.currentTimeMillis()));
 
 		for (Controller controller : controllers) {
 			controller.step(d);
 		}
 		map.step(d);
 
-		//Destroy entities
-		for(Entity en : toDestroy)
+		// Destroy entities
+		for (Entity en : toDestroy)
 			en.detach();
 		toDestroy.clear();
 	}
