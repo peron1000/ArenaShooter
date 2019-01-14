@@ -145,11 +145,16 @@ public class Character extends Spatial {
 	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes
-		float res = Math.min(damage, health);
+		
+		float res = Math.min(damage, health);// ? Ajouter Commentaire
+		
+		float bumpX = (damage >= 1 ? 400 * (1 + ((float) Math.log10(damage))) : 400);
+		float bumpY = (damage >= 1 ? 250 * (1 + ((float) Math.log10(damage))) : 250);
+
 		if (droite)
-			vel.add(new Vec2f(500 * ((float) Math.log10(damage)), -400 * ((float) Math.log10(damage))));
+			vel.add(new Vec2f(bumpX, -bumpY));
 		else
-			vel.add(new Vec2f(-500 * ((float) Math.log10(damage)), -400 * ((float) Math.log10(damage))));
+			vel.add(new Vec2f(-bumpX, -bumpY));
 
 		health = Math.max(0, health - damage);
 
@@ -172,7 +177,7 @@ public class Character extends Spatial {
 
 		Profiler.startTimer(Profiler.PHYSIC);
 
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 2));
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 8));
 		if (!isOnGround)
 			vel.y += 9.807 * 800 * d;
 
