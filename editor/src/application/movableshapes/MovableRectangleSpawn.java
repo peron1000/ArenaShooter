@@ -22,8 +22,8 @@ public class MovableRectangleSpawn extends Rectangle {
 
 	public MovableRectangleSpawn(Vec2 position, Vec2Input input) {
 		super(50, 120, Color.GREENYELLOW);
-		setX(position.x);
-		setY(position.y);
+		setX(position.x-getWidth()/2);
+		setY(position.y-getHeight()/2);
 		setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@SuppressWarnings("unchecked")
@@ -67,10 +67,10 @@ public class MovableRectangleSpawn extends Rectangle {
 				}
 				
 				//On change la position de l'entité liée
-				position.x = getX();
-				position.y = getY();
-				input.setValX(getX());
-				input.setValY(getY());
+				position.x = getX()+getWidth()/2;
+				position.y = getY()+getHeight()/2;
+				input.setValX(position.x);
+				input.setValY(position.y);
 			}
 		});
 	}

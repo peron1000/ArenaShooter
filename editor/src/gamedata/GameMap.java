@@ -41,8 +41,8 @@ public class GameMap {
 			public void onEventVec2Change(double newX, double newY) {
 				spawn.x = newX;
 				spawn.y = newY;
-				visual.setX(newX);
-				visual.setY(newY);
+				visual.setX(newX-visual.getWidth()/2);
+				visual.setY(newY-visual.getHeight()/2);
 			}
 		});
 		

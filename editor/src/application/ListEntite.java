@@ -15,21 +15,10 @@ public class ListEntite {
 
 	protected static double initX;
 	protected static double initY;
-	private static Rectangle character = new Rectangle(50, 120, Color.RED);
-	public static Pane view = new Pane(character);
+	public static Pane view = new Pane();
 	static HashMap<Entity, Node> visuals = new HashMap<Entity, Node>();
 
-	private ListEntite() {
-	}
-
-	/**
-	 * Rectangle représentant la taille du collider d'un Character de SuperBlep
-	 * 
-	 * @return Un rectangle
-	 */
-	public static Rectangle getRecChar() {
-		return character;
-	}
+	private ListEntite() {}
 	
 	public static Node getVisual(Entity e) {
 		return visuals.get(e);
