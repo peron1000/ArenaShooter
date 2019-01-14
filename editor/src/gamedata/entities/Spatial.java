@@ -17,7 +17,7 @@ public class Spatial extends Entity {
 	
 	@Override
 	public Node getIcon() {
-		return new ImageView( new Image("file:icons/spatial.png"));
+		return new ImageView( new Image("file:editor_data/icons/spatial.png"));
 	}
 
 }

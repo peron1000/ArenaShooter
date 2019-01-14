@@ -33,7 +33,7 @@ public class Entity {
 	}
 	
 	public Node getIcon() {
-		return new ImageView( new Image("file:icons/entity.png"));
+		return new ImageView( new Image("file:editor_data/icons/entity.png"));
 	}
 	
 	/**

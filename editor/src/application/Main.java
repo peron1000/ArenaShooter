@@ -18,7 +18,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Super Blep Editor");
-			primaryStage.getIcons().add(new Image("file:icon.png"));
+			primaryStage.getIcons().add(new Image("file:editor_data/icon.png"));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

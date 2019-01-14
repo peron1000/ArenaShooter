@@ -22,7 +22,7 @@ public class Platform extends Spatial {
 	
 	@Override
 	public Node getIcon() {
-		return new ImageView( new Image("file:icons/platform.png"));
+		return new ImageView( new Image("file:editor_data/icons/platform.png"));
 	}
 
 }
