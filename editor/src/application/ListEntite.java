@@ -8,7 +8,6 @@ import gamedata.entities.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import math.Vec2;
 
 public class ListEntite {
