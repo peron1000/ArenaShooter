@@ -2,6 +2,7 @@ package application.movableshapes;
 
 import application.Affichage;
 import application.ListEntite;
+import application.Main;
 import application.Vec2Input;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -25,6 +26,7 @@ public class MovableRectangleSpawn extends Rectangle {
 		setY(position.y);
 		setOnMousePressed(new EventHandler<MouseEvent>() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(MouseEvent me) {
 				if(!me.isPrimaryButtonDown()) return; //Not left click
@@ -37,8 +39,8 @@ public class MovableRectangleSpawn extends Rectangle {
 				//Select clicked entity
 				Affichage.selectEntity(null);
 				
-				//TODO: Set focus on input
-				input.requestFocus();
+				Main.map.propertiesTab.spawns.setExpanded(true);
+				((ListView<Vec2Input>)Main.map.propertiesTab.spawns.getContent()).getSelectionModel().select(input);
 			}
 		});
 		setOnMouseDragged(new EventHandler<MouseEvent>() {
