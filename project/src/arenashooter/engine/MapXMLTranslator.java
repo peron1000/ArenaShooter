@@ -53,6 +53,7 @@ public class MapXMLTranslator {
 		ArrayList<Plateform> plateforms = new ArrayList<>();
 		ArrayList<Gun> weapons = new ArrayList<>();
 		ArrayList<Vec2f> spawn = new ArrayList<>();
+		ArrayList<Vec2f> spawnch = new ArrayList<>();
 		Vec2f gravity = new Vec2f(0, 9.807);
 		Vec4f cameraBounds = new Vec4f();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -154,6 +155,7 @@ public class MapXMLTranslator {
 		Map map = new Map(plateforms);
 		map.cameraBounds = cameraBounds;
 		map.spawn = spawn;
+		map.spawnch=spawnch;
 		map.gravity = gravity;
 		Physic.globalForce = map.gravity; //TODO: Do this in a cleaner way
 		
