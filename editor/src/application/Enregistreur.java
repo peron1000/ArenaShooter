@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import application.propertiestabs.MapProperties;
 import gamedata.entities.Entity;
 import gamedata.entities.Platform;
 import javafx.event.ActionEvent;
@@ -23,7 +24,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
@@ -37,6 +40,8 @@ public class Enregistreur {
 	public static void enregistrer() {
 		Stage stage = new Stage();
 		FileChooser f = new FileChooser();
+		f.setInitialFileName("blep");
+		f.setInitialDirectory(new File("icons"));
 		f.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML", "*.xml"),
 				new FileChooser.ExtensionFilter("All", "*.*"));
 		File file = f.showSaveDialog(stage);
@@ -191,6 +196,23 @@ public class Enregistreur {
 		
 		// TODO : Spawns
 		
+		Element sky = document.createElement("sky");
+		Element vecteurT = document.createElement("vecteur");
+		Color cTop = Main.map.propertiesTab.skyTop.getValue();
+		vecteurT.setAttribute("x", String.valueOf(cTop.getRed()));
+		vecteurT.setAttribute("y", String.valueOf(cTop.getGreen()));
+		vecteurT.setAttribute("z", String.valueOf(cTop.getBlue()));
+		sky.appendChild(vecteurT);
+		vecteurT.setAttribute("use", "top");
+		
+		Element vecteurB = document.createElement("vecteur");
+		Color cB = Main.map.propertiesTab.skyBot.getValue();
+		vecteurB.setAttribute("x", String.valueOf(cB.getRed()));
+		vecteurB.setAttribute("y", String.valueOf(cB.getGreen()));
+		vecteurB.setAttribute("z", String.valueOf(cB.getBlue()));
+		sky.appendChild(vecteurB);
+		vecteurB.setAttribute("use", "bottom");
+		information.appendChild(sky);
 	}
 	
 	private static Element remplissageVecteur(Document document, double x, double y) {

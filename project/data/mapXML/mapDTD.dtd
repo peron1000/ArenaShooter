@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT map (information , entities*)>
-<!ELEMENT information (spawn+ , gravity , cameraBound)>
+<!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
+<!ELEMENT sky (vecteur , vecteur)>
 <!ELEMENT entities (plateform*, weapon*)>
 <!ELEMENT spawn (vecteur)>
 <!ELEMENT gravity (vecteur)>
