@@ -10,7 +10,7 @@ public class SoundEffect extends Spatial {
 	public SoundEffect( Vec2f position, String path, int maxPlays ) {
 		super(position);
 		sound = new SoundSource(path, maxPlays, .8f, 1.2f, true);
-		sound.setPosition( this.position );
+		sound.setPositions( this.position );
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class SoundEffect extends Spatial {
 
 	@Override
 	public void step(double d) {
-		sound.setPosition( position );
+		sound.setPositions( position );
 
 		super.step(d);
 	}

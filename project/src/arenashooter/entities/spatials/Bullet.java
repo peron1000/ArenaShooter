@@ -1,11 +1,13 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
-import arenashooter.entities.SoundEffect;
 
 public class Bullet extends Projectile {
+	
+	static SoundSource sndImpact = new SoundSource("data/sound/Ptou.ogg", 10, .8f, 1.2f, true);
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
 		this.position = position.clone();
@@ -21,9 +23,7 @@ public class Bullet extends Projectile {
 		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
 		bul.attachToParent(this, "bul_Sprite");
 
-		SoundEffect touche = new SoundEffect(this.position, "data/sound/Ptou.ogg", 1);
-		touche.setVolume(.7f);
-		touche.attachToParent(this, "snd_touche");
+		sndImpact.setVolume(.7f);
 	}
 
 	public void step(double d) {
@@ -33,7 +33,7 @@ public class Bullet extends Projectile {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
-							((SoundEffect) children.get("snd_touche")).play();
+							sndImpact.play(position);
 							destroy();
 						}
 					}
@@ -44,7 +44,7 @@ public class Bullet extends Projectile {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
-							((SoundEffect) children.get("snd_touche")).play();
+							sndImpact.play(position);
 							((Character) bump).takeDamage(damage, vel.x > 0);
 							destroy();
 						}

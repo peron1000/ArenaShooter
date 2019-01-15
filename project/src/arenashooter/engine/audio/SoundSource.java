@@ -90,6 +90,19 @@ public class SoundSource implements AudioSourceI {
 	}
 	
 	/**
+	 * Play this sound using a new source or by replacing the oldest one
+	 * @param the world space location of the new source
+	 */
+	public void play(Vec2f pos) {
+		if( sound == null ) return;
+		alSourcef( source[next], AL_PITCH, Utils.lerpF(pitchMin, pitchMax, (float)Math.random()));
+		alSource3f( source[next], AL_POSITION, pos.x, pos.y, 0 );
+		alSourcePlay(source[next]);
+		next++;
+		if(next >= source.length) next = 0;
+	}
+	
+	/**
 	 * Stop all sources of this sound
 	 */
 	@Override
@@ -138,7 +151,7 @@ public class SoundSource implements AudioSourceI {
 	 * Only works for spatialized sounds.
 	 * @param pos new position
 	 */
-	public void setPosition( Vec3f pos ) {
+	public void setPositions( Vec3f pos ) {
 		if( spatialized )
 			for( int i=0; i<source.length; i++ )
 				alSource3f( source[i], AL_POSITION, pos.x, pos.y, pos.z );
@@ -150,10 +163,9 @@ public class SoundSource implements AudioSourceI {
 	 * Only works for spatialized sounds.
 	 * @param pos new position
 	 */
-	public void setPosition( Vec2f pos ) {
+	public void setPositions( Vec2f pos ) {
 		if( spatialized )
 			for( int i=0; i<source.length; i++ )
 				alSource3f( source[i], AL_POSITION, pos.x, pos.y, 0 );
 	}
-
 }
