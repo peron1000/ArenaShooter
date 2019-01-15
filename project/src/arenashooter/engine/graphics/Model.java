@@ -18,6 +18,8 @@ import java.util.Map;
 
 import org.lwjgl.system.MemoryUtil;
 
+import arenashooter.engine.math.Vec2f;
+
 public class Model {
 	private static Map<String, ModelEntry> models = new HashMap<String, ModelEntry>();
 	
@@ -97,7 +99,14 @@ public class Model {
 		return new Model( data, indices );
 	}
 	
-	public static Model loadDisk(int vertices) { //TODO: Finish and test this
+	/**
+	 * Create a simple disk centered at (0,0) with a diameter of 1 with corresponding texture coordinates
+	 * @param vertices number of vertices, increasing this will improve the shape
+	 * @return the disk model
+	 */
+	public static Model loadDisk(int vertices) {
+		if( vertices < 3 ) vertices = 3;
+		
 		float[] data = new float[(vertices+1)*floatsPerVertex];
 		//Center
 		data[0] = 0;   //x
@@ -108,24 +117,31 @@ public class Model {
 		data[5] = 0;   //nx
 		data[6] = 0;   //ny
 		data[7] = 1;   //nz
-		int nextV = 8;
-		int nextI = 0;
 		int[] indices = new int[vertices*3];
 		for(int i=0; i<vertices; i++) {
-			data[nextV]   = 0;   //x
-			data[nextV+1] = 0;   //y
-			data[nextV+2] = 0;   //z
-			data[nextV+3] = .5f; //u
-			data[nextV+4] = .5f; //v
-			data[nextV+5] = 0;   //nx
-			data[nextV+6] = 0;   //ny
-			data[nextV+7] = 1;   //nz
-			nextV+=8;
+			Vec2f v = Vec2f.fromAngle((2*Math.PI*i)/(double)vertices);
+			v.multiply(.5f);
 			
-			indices[nextI] = 0;
-			indices[nextI+1] = i+1;
-			indices[nextI+2] = i+2;
-			nextI += 3;
+			//Vertex ID (i+1 to skip 0 which is used as the center)
+			int vID = (i+1)*(3+2+3);
+			
+			//Vertices positions
+			data[vID]   = v.x; //x
+			data[vID+1] = v.y; //y
+			data[vID+2] = 0;   //z
+			//Texture coordinates
+			data[vID+3] = (float) (v.x+.5); //u
+			data[vID+4] = (float) (v.y+.5); //v
+			//Normal
+			data[vID+5] = 0;   //nx
+			data[vID+6] = 0;   //ny
+			data[vID+7] = 1;   //nz
+			
+			int fID = i*3;
+			
+			indices[fID]   = 0;
+			indices[fID+1] = i+1;
+			indices[fID+2] = ((i+1)%vertices)+1;
 		}
 		return new Model(data, indices);
 	}
