@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT map (information , entities*)>
+
+<!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
-<!ELEMENT sky (vecteur , vecteur)>
-<!ELEMENT entities (plateform*, weapon*)>
 <!ELEMENT spawn (vecteur)>
 <!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
 <!ATTLIST cameraBound x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
-<!ELEMENT plateform (vecteur , vecteur)>
-<!ELEMENT weapon (vecteur, vecteur)>
+<!ELEMENT sky (vecteur, vecteur)>
+
+<!-- Entities-->
+<!ELEMENT entities (entity*, plateform*, weapon*, mesh*)>
+<!ELEMENT entity (entities?)>
+<!ELEMENT plateform (vecteur , vecteur, entities?)>
+<!ELEMENT weapon (vecteur, vecteur, entities?)>
+<!ELEMENT mesh (vecteur, vecteur, entities?)>
+<!ATTLIST mesh src CDATA #REQUIRED>
+
+<!-- Misc -->
 <!ELEMENT vecteur EMPTY>
 <!ATTLIST vecteur x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED use CDATA #IMPLIED >
 <!ELEMENT fichier (#PCDATA)>
