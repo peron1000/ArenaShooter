@@ -12,6 +12,8 @@ public class PostProcess {
 		this.shader = new Shader(shader);
 	}
 	
+	public float getVignetteIntensity() { return vignetteIntensity; }
+	
 	public void setVignetteIntensity(float value) {
 		value = Math.max(value, 0);
 		
@@ -21,6 +23,8 @@ public class PostProcess {
 			shader.setUniformF("vignetteIntensity", vignetteIntensity);
 		}
 	}
+	
+	public float getChromaAbbIntensity() { return chromaAbbIntensity; }
 	
 	public void setChromaAbbIntensity(float value) {
 		value = Math.max(value, 0);
