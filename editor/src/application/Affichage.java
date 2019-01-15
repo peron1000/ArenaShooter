@@ -16,6 +16,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Separator;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
@@ -195,6 +197,7 @@ public final class Affichage {
 
 		//Add platform
 		MenuItem contextAddPlatform = new MenuItem("Add platform");
+		contextAddPlatform.setGraphic(new ImageView( new Image("file:editor_data/icons/platform.png")));
 		contextAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -236,12 +239,14 @@ public final class Affichage {
 		//Add entity
 		Menu menuAdd = new Menu("_Add...");
 		MenuItem menuAddEntity = new MenuItem("_Entity");
+		menuAddEntity.setGraphic(new ImageView( new Image("file:editor_data/icons/entity.png")));
 		menuAddEntity.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				ListEntite.newEntity();
 			}
 		});
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
+		menuAddPlatform.setGraphic(new ImageView( new Image("file:editor_data/icons/platform.png")));
 		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				ListEntite.newPlatform(getViewCenter());
@@ -290,6 +295,10 @@ public final class Affichage {
 		VBox vBox = new VBox(10, sceneTree, separator, selectedName, propertiesContainer);
 		vBox.setBorder(new Border(new BorderStroke(Color.AZURE, BorderStrokeStyle.SOLID, new CornerRadii(1),
 				new BorderWidths(1), new Insets(3))));
+		
+		//Set right menu's width
+		vBox.setFillWidth(true);
+		vBox.setPrefWidth(450);
 		
 		root.setRight(vBox);
 	}
