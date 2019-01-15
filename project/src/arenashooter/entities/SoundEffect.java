@@ -4,6 +4,10 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Spatial;
 
+/**
+ * Spatial entity containing a sound effect.
+ * The sound is always moved to this entity's location
+ */
 public class SoundEffect extends Spatial {
 	private SoundSource sound;
 

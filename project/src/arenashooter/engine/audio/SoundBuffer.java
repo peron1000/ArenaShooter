@@ -17,6 +17,9 @@ import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
 import static org.lwjgl.system.MemoryUtil.NULL;
 import static org.lwjgl.stb.STBVorbis.*;
 
+/**
+ * Container for OpenAL buffer
+ */
 public class SoundBuffer {
 	private int buffer;
 
@@ -24,6 +27,11 @@ public class SoundBuffer {
 		this.buffer = buffer;
 	}
 
+	/**
+	 * Load a sound file (ogg vorbis) into a buffer.
+	 * @param path sound file
+	 * @return buffer object (new or existing if already loaded)
+	 */
 	public static SoundBuffer loadSound(String path) {
 		SoundBuffer snd = Audio.getSound(path);
 

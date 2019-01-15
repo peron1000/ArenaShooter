@@ -90,7 +90,9 @@ public class SoundSource implements AudioSourceI {
 	}
 	
 	/**
-	 * Play this sound using a new source or by replacing the oldest one
+	 * Play this sound using a new source or by replacing the oldest one. 
+	 * Z is set to 0. 
+	 * Only works for spatialized sounds.
 	 * @param the world space location of the new source
 	 */
 	public void play(Vec2f pos) {

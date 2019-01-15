@@ -30,7 +30,9 @@ import org.lwjgl.openal.ALUtil;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 
-
+/**
+ * Audio manager
+ */
 public final class Audio {
 	private static long device, context;
 	
@@ -79,6 +81,11 @@ public final class Audio {
 		alcCloseDevice(device);
 	}
 	
+	/**
+	 * Set the listener ("ears") to a specific location/rotation
+	 * @param loc
+	 * @param rot
+	 */
 	public static void setListener(Vec3f loc, Quat rot) {
 		alListener3f( AL_POSITION, loc.x, loc.y, loc.z );
 		
