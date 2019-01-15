@@ -206,6 +206,7 @@ public final class Affichage {
 		});
 		//Add Spawn
 		MenuItem contextAddSpawn = new MenuItem("Add spawn");
+		contextAddSpawn.setGraphic(new ImageView( new Image("file:editor_data/icons/spawn.png")));
 		contextAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -253,6 +254,7 @@ public final class Affichage {
 			}
 		});
 		MenuItem menuAddSpawn = new MenuItem("_Spawn");
+		menuAddSpawn.setGraphic(new ImageView( new Image("file:editor_data/icons/spawn.png")));
 		menuAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				Main.map.addSpawn(getViewCenter());
