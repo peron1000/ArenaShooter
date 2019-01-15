@@ -1,7 +1,6 @@
 package arenashooter.entities;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.graphics.Texture;
@@ -24,18 +23,15 @@ public class Map extends Entity {
 	public Vec2f gravity;
 	
 	private int dernierspawn = -1;
-	public ArrayList<Vec2f> spawnch;
+	public ArrayList<Vec2f> spawnch = new ArrayList<>();
 	/**
 	 * world bounds (min x, min y, max x, max y)
 	 */
 	public Vec4f cameraBounds;
 
-	public Map(ArrayList<Plateform> plateform) {
-		int i = 0;
-		for (Plateform p : plateform) {
-			i++;
-			p.attachToParent(this, "Plateforme" + i);
-		}
+	public Map(ArrayList<Entity> entities) {
+		for (Entity e : entities)
+			e.attachToParent(this, e.genName());
 
 		// Create sky
 		Sky sky = new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118));

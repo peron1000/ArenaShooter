@@ -13,10 +13,9 @@ import org.w3c.dom.NodeList;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
+import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;
-import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.Gun;
 
 /**
  * @author Nathan
@@ -50,10 +49,8 @@ public class MapXMLTranslator {
 		root = document.getDocumentElement();
 		children = root.getChildNodes();
 
-		ArrayList<Plateform> plateforms = new ArrayList<>();
-		ArrayList<Gun> weapons = new ArrayList<>();
+		ArrayList<Entity> entities = new ArrayList<>();
 		ArrayList<Vec2f> spawn = new ArrayList<>();
-		ArrayList<Vec2f> spawnch = new ArrayList<>();
 		Vec2f gravity = new Vec2f(0, 9.807);
 		Vec4f cameraBounds = new Vec4f();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -105,15 +102,15 @@ public class MapXMLTranslator {
 
 				// Navigation into Entity part
 
-				NodeList entities = children.item(i).getChildNodes();
-				for (int j = 0; j < entities.getLength(); j++) {
-					if (entities.item(j).getNodeName() == "plateform") {
+				NodeList entitiesNodes = children.item(i).getChildNodes();
+				for (int j = 0; j < entitiesNodes.getLength(); j++) {
+					if (entitiesNodes.item(j).getNodeName() == "plateform") {
 
 						// Navigation into Platforms part
 
 						Vec2f position = new Vec2f();
 						Vec2f extent = new Vec2f();
-						NodeList vectors = entities.item(j).getChildNodes();
+						NodeList vectors = entitiesNodes.item(j).getChildNodes();
 						for (int k = 0; k < vectors.getLength(); k++) {
 							if (vectors.item(k).getNodeType() == Node.ELEMENT_NODE) {
 								Element vector = (Element) vectors.item(k);
@@ -127,12 +124,12 @@ public class MapXMLTranslator {
 								}
 							}
 						}
-						plateforms.add(new Plateform(position, extent));
+						entities.add(new Plateform(position, extent));
 					}
-					else if(entities.item(j).getNodeName() == "weapon") {
+					else if(entitiesNodes.item(j).getNodeName() == "weapon") {
 						Vec2f position = new Vec2f();
 						Vec2f extent = new Vec2f();
-						NodeList vectors = entities.item(j).getChildNodes();
+						NodeList vectors = entitiesNodes.item(j).getChildNodes();
 						for (int k = 0; k < vectors.getLength(); k++) {
 							if (vectors.item(k).getNodeType() == Node.ELEMENT_NODE) {
 								Element vector = (Element) vectors.item(k);
@@ -152,10 +149,9 @@ public class MapXMLTranslator {
 		}
 		
 		// Map creation
-		Map map = new Map(plateforms);
+		Map map = new Map(entities);
 		map.cameraBounds = cameraBounds;
 		map.spawn = spawn;
-		map.spawnch=spawnch;
 		map.gravity = gravity;
 		Physic.globalForce = map.gravity; //TODO: Do this in a cleaner way
 		
