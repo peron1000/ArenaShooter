@@ -10,6 +10,7 @@ public class Controller {
 
 	private Device device;
 	private Character character;
+	private boolean isJumping;
 
 	public Controller(Device device) {
 		this.device = device;
@@ -22,13 +23,20 @@ public class Controller {
 	public Character getCharacter() {
 		return character;
 	}
+	
+	public boolean isJumping() {
+		return isJumping;
+	}
 
 	public void step(double d) {
+		isJumping = false;
 		if (!character.isDead()) {
 			character.movementInput = Input.getAxis(device, Axis.MOVE_X);
 			
-			if (Input.actionPressed(device, Action.JUMP))
+			if (Input.actionPressed(device, Action.JUMP)) {
 				character.jump(3000);
+				isJumping = true;
+			}
 			if (Input.actionPressed(device, Action.ATTACK))
 				character.attack();
 			if (Input.actionJustPressed(device, Action.GET_ITEM))

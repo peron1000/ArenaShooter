@@ -1,6 +1,7 @@
 package arenashooter.entities;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Quat;
@@ -20,23 +21,22 @@ public class Map extends Entity {
 
 	public ArrayList<Vec2f> spawn;
 	public Vec2f gravity;
-
+	
+	private int dernierspawn = -1;
+	public ArrayList<Vec2f> spawnch = new ArrayList<>();
 	/**
 	 * world bounds (min x, min y, max x, max y)
 	 */
 	public Vec4f cameraBounds;
 
-	public Map(ArrayList<Plateform> plateform) {
-		int i = 0;
-		for (Plateform p : plateform) {
-			i++;
-			p.attachToParent(this, "Plateforme" + i);
-		}
-		
-		//Create sky
-		Sky sky = new Sky( new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118) );
+	public Map(ArrayList<Entity> entities) {
+		for (Entity e : entities)
+			e.attachToParent(this, e.genName());
+
+		// Create sky
+		Sky sky = new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118));
 		sky.attachToParent(this, "Sky");
-		
+
 		testPhysics();
 	}
 
@@ -59,6 +59,45 @@ public class Map extends Entity {
 		}
 	}
 
+	/**
+	 * @author SnPop GetRandomRespawn : rend un spawn aleatoire entre 0 inclus et
+	 *         taille de spawn exclus //utiliser pour donner un spawn aleatoire a
+	 *         chaque joueur different du dernier utilise
+	 * @return Vec2f
+	 */
+
+	public Vec2f GetRandomRespawn() {
+		int randomNum = ThreadLocalRandom.current().nextInt(0, spawn.size());
+		while (dernierspawn == randomNum) {
+			randomNum = ThreadLocalRandom.current().nextInt(0, spawn.size());
+		}
+		dernierspawn = randomNum;
+		return spawn.get(randomNum);
+	}
+
+
+	/**
+	 * @author Shervin
+	 * donne un vecteur/spawn qui n'est utilisé par aucun joueur (random)
+	 * //utiliser pour donner un spawn aleatoire different a
+	 *         chaque joueur 
+	 * @return Vec2f
+	 */
+	public Vec2f GetRandomRespawnch() {
+		int rand = ThreadLocalRandom.current().nextInt(spawn.size());
+		if (!spawnch.isEmpty()) {
+			while (spawnch.contains(spawn.get(rand))) {
+				rand = ThreadLocalRandom.current().nextInt(0, spawn.size());
+				spawn.get(rand);
+			}
+		}
+		if (!spawnch.contains(spawn.get(rand))) {
+			spawnch.add(spawn.get(rand));
+		}
+		return spawn.get(rand);
+	}
+
+	
 	private void testPhysics() {
 		// Rigid body 1
 		Vec2f position = new Vec2f(-450, -500);

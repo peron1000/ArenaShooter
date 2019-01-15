@@ -1,5 +1,8 @@
 package arenashooter.game;
 
+import java.util.ArrayList;
+
+import arenashooter.entities.Controller;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.Start;
@@ -7,27 +10,28 @@ import arenashooter.game.gameStates.Start;
 public class GameMaster {
 	public static final GameMaster gs = new GameMaster();
 	
-	/**
-	 * 0 -> loading <br/>
-	 * 1 -> Start <br/>
-	 */
-	public static final GameState[] allGameState = new GameState[2];
+	public ArrayList<Controller> controllers = new ArrayList<>();
 	
-	private GameState current = allGameState[0];
+	private GameState current = Loading.loading;
 	
 	private GameMaster() {
 		// Constructor untouchable
-		
-		allGameState[0] = Loading.loading;
-		allGameState[1] = Start.start;
+		Loading.loading.setNextState(Start.start , "mapName");
 	}
 	
 	public void setState(GameState gameState) {
-		current = gameState;
 		// TODO : to be completed
+		if(current == Start.start) {
+			controllers = Start.start.getActivatedControllers();
+		}
+		current = gameState;
 	}
 	
 	public void draw() {
 		current.draw();
+	}
+	
+	public void update(double delta) {
+		current.update(delta);
 	}
 }
