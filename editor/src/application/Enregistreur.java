@@ -168,30 +168,42 @@ public class Enregistreur {
 		
 		Element entities = document.createElement("entities");
 		root.appendChild(entities);
-		remplissageEntitees(document , entities);
+		remplissageEntitees(document, entities, Main.map.children);
 	}
 
-	private static void remplissageEntitees(Document document, Element entities) {
-		HashMap<String, Entity> entites = Main.map.children;
-		for (Entity entity : entites.values()) {
-			if(entity instanceof Platform) {
-				Element plateforme = document.createElement("plateform");
-				plateforme.setAttribute("name", entity.name);
+	private static void remplissageEntitees(Document document, Element parentElem, HashMap<String, Entity> entites) {
+		for (Entity e : entites.values()) {
+			Element elem = null;
+			if(e instanceof Platform) { //Platforms
+				elem = document.createElement("plateform");
+				elem.setAttribute("name", e.name);
 				Element position = document.createElement("vecteur");
 				Element extent = document.createElement("vecteur");
 				
-				position.setAttribute("x", String.valueOf( ((Platform)entity).position.x ));
-				position.setAttribute("y", String.valueOf( ((Platform)entity).position.y ));
+				position.setAttribute("x", String.valueOf( ((Platform)e).position.x ));
+				position.setAttribute("y", String.valueOf( ((Platform)e).position.y ));
 				position.setAttribute("use", "position");
 				
-				extent.setAttribute("x", String.valueOf( ((Platform)entity).extent.x ));
-				extent.setAttribute("y", String.valueOf( ((Platform)entity).extent.y ));
+				extent.setAttribute("x", String.valueOf( ((Platform)e).extent.x ));
+				extent.setAttribute("y", String.valueOf( ((Platform)e).extent.y ));
 				extent.setAttribute("use", "extent");
 				
-				plateforme.appendChild(position);
-				plateforme.appendChild(extent);
+				elem.appendChild(position);
+				elem.appendChild(extent);
 				
-				entities.appendChild(plateforme);
+				parentElem.appendChild(elem);
+			} else if(e instanceof Entity) { //Entities
+				elem = document.createElement("entity");
+				elem.setAttribute("name", e.name);
+				
+				parentElem.appendChild(elem);
+			}
+			
+			//Add children
+			if(elem != null && !e.children.isEmpty()) {
+				Element children = document.createElement("entities");
+				elem.appendChild(children);
+				remplissageEntitees(document, children, Main.map.children);
 			}
 		}
 	}
@@ -206,6 +218,7 @@ public class Enregistreur {
 		
 		remplissageSpawns(document , information);
 		
+		//Sky
 		Element sky = document.createElement("sky");
 		Element vecteurT = document.createElement("vecteur");
 		Color cTop = Main.map.propertiesTab.skyTop.getValue();
