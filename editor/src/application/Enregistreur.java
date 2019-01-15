@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -44,8 +45,8 @@ public class Enregistreur {
 		}
 		Stage stage = new Stage();
 		FileChooser f = new FileChooser();
-		f.setInitialFileName("blep");
-		f.setInitialDirectory(new File("icons"));
+		f.setInitialFileName("map.xml");
+		f.setInitialDirectory(new File("editor_data"));
 		f.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML", "*.xml"),
 				new FileChooser.ExtensionFilter("All", "*.*"));
 		File file = f.showSaveDialog(stage);
@@ -120,8 +121,8 @@ public class Enregistreur {
 
 		// factory
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		final TransformerFactory tranformerFactory = TransformerFactory.newInstance();
-		Transformer tranformer = null;
+		final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = null;
 
 		// document
 		DocumentBuilder builder = null;
@@ -138,7 +139,12 @@ public class Enregistreur {
 			popupErreur("builder null");
 		}
 		try {
-			tranformer = tranformerFactory.newTransformer();
+			transformer = transformerFactory.newTransformer();
+			//Set file encoding
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			//Enable indentation
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		} catch (Exception e) {
 			popupErreur("transformer erreur");
 		}
@@ -146,7 +152,7 @@ public class Enregistreur {
 		remplissageDocument(document);
 		// ecriture
 		try {
-			tranformer.transform(new DOMSource(document), new StreamResult(f));
+			transformer.transform(new DOMSource(document), new StreamResult(f));
 		} catch (TransformerException e) {
 			popupErreur("ecriture fichier fail");
 			e.printStackTrace();
