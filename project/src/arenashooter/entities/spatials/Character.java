@@ -225,11 +225,11 @@ public class Character extends Spatial {
 					|| arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y > position.y + 40
 					|| arme.position.y < position.y - 20;
 			if (lookRight) {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, d * (loin ? 60 : 20));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 20));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, Math.min(1, d * (loin ? 60 : 20)));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, Math.min(1, d * (loin ? 60 : 20)));
 			} else {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40, d * (loin ? 60 : 20));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, d * (loin ? 60 : 20));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40, Math.min(1 ,d * (loin ? 60 : 20)));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, Math.min(1, d * (loin ? 60 : 20)));
 			}
 		}
 		for (Entity e : children.values()) {
