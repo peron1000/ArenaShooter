@@ -30,7 +30,7 @@ public class Camera extends Spatial3 {
 		float shakeX = (float) (Math.sin(148*time)*shakeIntensity);
 		float shakeY = (float) (Math.cos(136*time)*shakeIntensity);
 		float shakeZ = (float) (Math.sin(155*time+.1)*shakeIntensity);
-		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 6*d ));
+		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 7*d ));
 		time += d;
 		
 		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 8*d) );

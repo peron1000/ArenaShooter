@@ -80,6 +80,9 @@ public class Gun extends Item {
 			((SoundEffect) children.get("snd_Bang")).play();
 
 			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
+			
+			//Add camera shake
+			Game.game.camera.setCameraShake(.8f);
 		}
 	}
 
