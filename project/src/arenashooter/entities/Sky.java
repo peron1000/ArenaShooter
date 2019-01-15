@@ -5,6 +5,10 @@ import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.math.Vec3f;
 
+/**
+ * World sky<br/>
+ * This entity will fill the background with a vertical linear gradient when drawn
+ */
 public class Sky extends Entity {
 	
 	private static Model quad = null;

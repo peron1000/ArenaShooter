@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Container for OpenGL texture
+ */
 public class Texture {
 	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
@@ -78,14 +81,23 @@ public class Texture {
 		return tex;
 	}
 	
+	/**
+	 * Bind this texture for rendering
+	 */
 	public void bind() {
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 	
+	/**
+	 * Unbind bound texture
+	 */
 	public static void unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
+	/**
+	 * @return path to image file
+	 */
 	public String getPath() {
 		return file;
 	}

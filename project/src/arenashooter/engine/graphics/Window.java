@@ -36,7 +36,6 @@ import arenashooter.engine.math.Mat4f;
 /**
  * Game window
  */
-
 public final class Window {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
 	
@@ -46,11 +45,13 @@ public final class Window {
 	private static float ratio;
 	
 	//Projection
+	/** Projection matrix */
 	public static Mat4f proj;
 	private static float fov = 90;
 	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
 	
 	//Post processing
+	/** Current post processing settings */
 	public static PostProcess postProcess;
 	private static Model quad;
 
@@ -62,6 +63,13 @@ public final class Window {
 	//This class cannot be instantiated
 	private Window() {}
 	
+	/**
+	 * Initialize OpenGL and create game window.<br/>
+	 * Make sure to call this before anything relying on OpenGL
+	 * @param windowWidth
+	 * @param windowHeight
+	 * @param windowTtitle
+	 */
 	public static void init(int windowWidth, int windowHeight, String windowTtitle) {
 		System.out.println("Render - Initializing");
 		

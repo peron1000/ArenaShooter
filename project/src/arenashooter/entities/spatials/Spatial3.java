@@ -5,7 +5,9 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
 
 public class Spatial3 extends Entity {
+	/** World space position */
 	public Vec3f position;
+	/** World space rotation */
 	public Quat rotation = Quat.fromAngle(0);
 	
 	public Spatial3(Vec3f position) {

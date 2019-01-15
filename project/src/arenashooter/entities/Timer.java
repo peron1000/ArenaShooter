@@ -2,7 +2,7 @@ package arenashooter.entities;
 
 /**
  * @author Nathan
- * Timer until an integer given
+ * Timer until a given integer<br/>
  * To change the border integer, you have to create a new Timer
  */
 public class Timer extends Entity {

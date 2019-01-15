@@ -10,6 +10,7 @@ import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Spatial3;
 
 public class Camera extends Spatial3 {
+	/** View matrix (updated at every step) */
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(200, 200);
@@ -41,7 +42,7 @@ public class Camera extends Spatial3 {
 	}
 	
 	/**
-	 * Set camera shake intensity. </br>
+	 * Set camera shake intensity.</br>
 	 * Ignored if new value < current value.
 	 * @param intensity new shake intensity value
 	 */
