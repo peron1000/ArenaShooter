@@ -60,9 +60,11 @@ public class Gun extends Item {
 				if (lookRight) {
 					pX = position.x + 50;
 					vX = 3000;
+					((Character) parent).vel.x -= 50;
 				} else {
 					pX = position.x - 50;
 					vX = -3000;
+					((Character) parent).vel.x += 50;
 				}
 			}
 			fire.restart();
