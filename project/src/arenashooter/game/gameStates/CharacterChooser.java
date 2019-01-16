@@ -10,10 +10,10 @@ public class CharacterChooser extends GameState {
 	
 	public static CharacterChooser characterChooser = new CharacterChooser();
 	
-	private HashMap<Controller, CharacterSprite> choice = new HashMap<>(GameMaster.gs.controllers.size());
+	private HashMap<Controller, CharacterSprite> choice = new HashMap<>(GameMaster.gm.controllers.size());
 	
 	private CharacterChooser() {
-		for (Controller controller : GameMaster.gs.controllers) {
+		for (Controller controller : GameMaster.gm.controllers) {
 			choice.put(controller, null);
 		}
 	}
