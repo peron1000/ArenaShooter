@@ -97,8 +97,8 @@ public final class Affichage {
 	public static Vec2 getViewCenter() { //TODO: fix this
 		double x = scrollContainer.getHvalue()*ListEntite.view.getWidth();
 		double y = scrollContainer.getVvalue()*ListEntite.view.getHeight();
-		x -= scrollContainer.getWidth()/2;
-		y -= scrollContainer.getHeight()/2;
+//		x -= scrollContainer.getWidth()/2;
+//		y -= scrollContainer.getHeight()/2;
 		return new Vec2(x, y);
 	}
 	
@@ -194,7 +194,16 @@ public final class Affichage {
 		
 		//Context Menu
 		ContextMenu contextMenu = new ContextMenu();
-
+		
+		//Add spatial
+		MenuItem contextAddSpatial = new MenuItem("Add spatial");
+		contextAddSpatial.setGraphic( makeIcon("file:editor_data/icons/spatial.png") );
+		contextAddSpatial.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				ListEntite.newSpatial( contextMenuLoc );
+			}
+		});
 		//Add platform
 		MenuItem contextAddPlatform = new MenuItem("Add platform");
 		contextAddPlatform.setGraphic( makeIcon("file:editor_data/icons/platform.png") );
@@ -214,7 +223,7 @@ public final class Affichage {
 			}
 		});
 
-		contextMenu.getItems().addAll(contextAddPlatform, contextAddSpawn);
+		contextMenu.getItems().addAll(contextAddSpatial, contextAddPlatform, contextAddSpawn);
 
 		ListEntite.view.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
 			@Override
@@ -237,13 +246,20 @@ public final class Affichage {
 		});
 		menuFile.getItems().addAll(menuFileSave);
 
-		//Add entity
+		//Add entities and spawns
 		Menu menuAdd = new Menu("_Add...");
 		MenuItem menuAddEntity = new MenuItem("_Entity");
 		menuAddEntity.setGraphic( makeIcon("file:editor_data/icons/entity.png") );
 		menuAddEntity.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				ListEntite.newEntity();
+			}
+		});
+		MenuItem menuAddSpatial = new MenuItem("_Spatial");
+		menuAddSpatial.setGraphic( makeIcon("file:editor_data/icons/spatial.png") );
+		menuAddSpatial.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				ListEntite.newSpatial(getViewCenter());
 			}
 		});
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
@@ -253,7 +269,7 @@ public final class Affichage {
 				ListEntite.newPlatform(getViewCenter());
 			}
 		});
-		MenuItem menuAddSpawn = new MenuItem("_Spawn");
+		MenuItem menuAddSpawn = new MenuItem("Spa_wn");
 		menuAddSpawn.setGraphic( makeIcon("file:editor_data/icons/spawn.png") );
 		menuAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
@@ -261,7 +277,7 @@ public final class Affichage {
 			}
 		});
 		
-		menuAdd.getItems().addAll(menuAddEntity, menuAddPlatform , menuAddSpawn);
+		menuAdd.getItems().addAll(menuAddEntity, menuAddSpatial, menuAddPlatform , menuAddSpawn);
 
 		MenuBar mb1 = new MenuBar(menuFile, menuAdd);
 		root.setTop(mb1);
