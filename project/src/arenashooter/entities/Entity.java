@@ -65,7 +65,7 @@ public class Entity {
 	}
 
 	public void destroy() {
-		Game.game.toDestroy.add(this);
+		Game.map.toDestroy.add(this);
 	}
 
 	/**

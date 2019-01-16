@@ -22,11 +22,9 @@ public class Game {
 
 	private int nbPlayers = 2;
 	public ArrayList<Controller> controllers = new ArrayList<>(1);
-	public Map map;
+	public static Map map;
 	private Character[] players = new Character[nbPlayers];
 	public Camera camera;
-
-	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
 
 	private Game() {
 		map = MapXMLTranslator.getMap("data/mapXML/mapXML.xml");
@@ -95,10 +93,6 @@ public class Game {
 		}
 		map.step(d);
 
-		// Destroy entities
-		for (Entity en : toDestroy)
-			en.detach();
-		toDestroy.clear();
 	}
 
 	public void draw() {
