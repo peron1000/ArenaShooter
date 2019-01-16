@@ -175,4 +175,8 @@ public class Vec2f {
 	public static Vec2f rotate90(Vec2f v) {
 		return new Vec2f( -v.y, v.x );
 	}
+	
+	public void print() {
+		System.out.println("x = "+x+" ; y = "+y);
+	}
 }

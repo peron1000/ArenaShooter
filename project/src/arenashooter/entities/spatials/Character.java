@@ -23,7 +23,7 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
-	public Vec2f aim = new Vec2f();
+	public Vec2f aimInput = new Vec2f();
 
 	private Timer attack = new Timer(0.3);
 
@@ -177,7 +177,7 @@ public class Character extends Spatial {
 
 		Profiler.startTimer(Profiler.PHYSIC);
 
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 8));
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 10));
 		if (!isOnGround)
 			vel.y += 9.807 * 800 * d;
 
@@ -235,6 +235,7 @@ public class Character extends Spatial {
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Gun))
 				((Spatial) e).position.set(position);
+			aimInput.print();
 			e.step(d);
 		}
 	}

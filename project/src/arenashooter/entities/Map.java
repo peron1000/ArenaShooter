@@ -225,7 +225,9 @@ public class Map extends Entity {
 
 	public void step(double d) {
 		super.step(d);
-		for (Entity e : toDestroy)//Détache toutes les entités référencées dans toDestroy
+		
+		//Detach all entities waiting to be destroyed
+		for (Entity e : toDestroy)
 			e.detach();
 		toDestroy.clear();
 	}

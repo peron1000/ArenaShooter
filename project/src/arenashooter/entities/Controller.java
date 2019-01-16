@@ -4,6 +4,7 @@ import arenashooter.engine.Device;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 
 public class Controller {
@@ -32,6 +33,7 @@ public class Controller {
 		isJumping = false;
 		if (!character.isDead()) {
 			character.movementInput = Input.getAxis(device, Axis.MOVE_X);
+			character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y));
 			
 			if (Input.actionPressed(device, Action.JUMP)) {
 				character.jump(3000);

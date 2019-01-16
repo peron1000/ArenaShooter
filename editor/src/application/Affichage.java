@@ -239,6 +239,7 @@ public final class Affichage {
 		//File
 		Menu menuFile = new Menu("_File");
 		MenuItem menuFileSave = new MenuItem("_Save");
+		menuFileSave.setGraphic( makeIcon("file:editor_data/icons/button_save.png") );
 		menuFileSave.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				Enregistreur.enregistrer();
