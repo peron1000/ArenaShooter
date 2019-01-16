@@ -88,7 +88,7 @@ public class Gun extends Item {
 		}
 	}
 	
-	/**	public void fire(boolean lookRight) { // Visée par vecteur en cours de construction TODO :
+	/**	public void fire(double angle) { // Visée par vecteur en cours de construction TODO :
 		if (fire.isOver()) {
 			float pX = 0;
 			float vX = 0;
@@ -97,7 +97,7 @@ public class Gun extends Item {
 					pX = position.x + 50;
 					vX = 3000;
 					Vec2f.
-					((Character) parent).vel.x -= 50;
+					((Character) parent).vel.add( -= 50;
 				} else {
 					pX = position.x - 50;
 					vX = -3000;
@@ -107,8 +107,8 @@ public class Gun extends Item {
 			fire.restart();
 
 			double coeff = (2 * Math.random()) - 1;
-
-			Vec2f angle = Vec2f.rotate(new Vec2f(vX, 0), dispersion * coeff);
+			angle +=  dispersion * coeff;
+			
 			angle.x += ((Character) parent).vel.x / 4;
 			angle.y += ((Character) parent).vel.y / 4;
 
