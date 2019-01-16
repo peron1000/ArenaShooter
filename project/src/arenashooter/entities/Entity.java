@@ -7,9 +7,7 @@ import arenashooter.game.Game;
 public class Entity {
 
 	protected Entity parent;
-	/**
-	 * Key to find this entity in its parent's children
-	 */
+	/** Key to find this entity in its parent's children */
 	private String name = "";
 	public HashMap<String, Entity> children = new HashMap<String, Entity>();
 
@@ -30,7 +28,7 @@ public class Entity {
 
 		// Detach this from current parent
 		if (parent != null)
-			parent.children.remove(name);
+			parent.children.remove(this.name);
 
 		// Remove previously attached entity with that name
 		Entity e = newParent.children.get(name);
