@@ -9,6 +9,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.Game;
 
@@ -69,8 +70,8 @@ public class Character extends Spatial {
 	}
 
 	public void attack() {
-		if (children.get("Item_Arme") != null) {
-			((Gun) children.get("Item_Arme")).fire(lookRight);
+		if (children.get("Item_Weapon") != null) {
+			((Gun) children.get("Item_Weapon")).fire(lookRight);
 		} else if (attack.isOver()) {
 			attack.restart();
 
@@ -109,19 +110,16 @@ public class Character extends Spatial {
 		Item arme = null;
 		Item armure = null;
 
-		// Map.argl.attachToParent(this, "Item_Arme");
-
-		if (!children.containsKey("Item_Arme")) {
-			for (String name : Game.game.getMap().children.keySet()) {
-				if (name.startsWith("Item_Arme")) {
-					Item item = (Item) Game.game.getMap().children.get(name);
-					float xDiff = Math.abs(position.x - item.position.x);
-					float yDiff = Math.abs(position.y - item.position.y);
+		if (!children.containsKey("Item_Weapon") || !children.containsKey("Item_Armor")) {
+			for(Entity e : Game.game.getMap().children.values()) {
+				if(e instanceof Gun) {
+					Item weapon = (Gun)e;
+					float xDiff = Math.abs(position.x - weapon.position.x);
+					float yDiff = Math.abs(position.y - weapon.position.y);
 					if (xDiff < 175 && yDiff < 175)
-						arme = item;
-				}
-				if (name.startsWith("Item_Armure")) {
-					Item item = (Item) Game.game.getMap().children.get(name);
+						arme = weapon;
+				} else if(e instanceof Equipement) {
+					Item item = (Equipement)e;
 					float xDiff = Math.abs(position.x - item.position.x);
 					float yDiff = Math.abs(position.y - item.position.y);
 					if (xDiff < 175 && yDiff < 175)
@@ -130,17 +128,18 @@ public class Character extends Spatial {
 			}
 
 			if (arme != null) {
-				arme.attachToParent(this, "Item_Arme");
+				arme.attachToParent(this, "Item_Weapon");
 				((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
 			if (armure != null)
-				armure.attachToParent(this, "Item_Armure");
+				armure.attachToParent(this, "Item_Armor");
 		}
 	}
 
 	public void dropItem() {
-		if (children.containsKey("Item_Arme")) {
-			this.children.get("Item_Arme").attachToParent(this.getParent(), "Item_Arme");
+		if (children.containsKey("Item_Weapon")) {
+			Entity arme = children.get("Item_Weapon");
+			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}
 
@@ -219,8 +218,8 @@ public class Character extends Spatial {
 
 		// Updates Children, but Lerp for the Weapon instead of just giving the
 		// position.
-		if (children.get("Item_Arme") instanceof Gun) {
-			Gun arme = (Gun) children.get("Item_Arme");
+		if (children.get("Item_Weapon") instanceof Gun) {
+			Gun arme = (Gun) children.get("Item_Weapon");
 			boolean loin = arme.position.x > position.x + (lookRight ? 70 : -10)
 					|| arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y > position.y + 40
 					|| arme.position.y < position.y - 20;
