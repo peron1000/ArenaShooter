@@ -127,7 +127,7 @@ public final class Input {
 				joyButtons[i] = glfwGetJoystickButtons(i);
 
 				if (joyAxis[i] != null) {
-					float deadzone = .2f;
+					float deadzone = .4f;
 					if (Math.abs(joyAxis[i].get(0)) >= deadzone)
 						axisMoveX[i] = joyAxis[i].get(0);
 					if (Math.abs(joyAxis[i].get(1)) >= deadzone)
