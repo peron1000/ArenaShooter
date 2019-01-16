@@ -27,7 +27,7 @@ public class Controller {
 	public void step(double d) {
 		if (!character.isDead()) {
 			character.movementInput = Input.getAxis(device, Axis.MOVE_X);
-			character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y));
+			character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y)).angle();
 			
 			if (Input.actionPressed(device, Action.JUMP)) {
 				character.jump(3000);

@@ -87,8 +87,48 @@ public class Gun extends Item {
 			Game.game.camera.setCameraShake(.8f);
 		}
 	}
+	
+	/**	public void fire(boolean lookRight) { // Visée par vecteur en cours de construction TODO :
+		if (fire.isOver()) {
+			float pX = 0;
+			float vX = 0;
+			if (parent instanceof Character) {
+				if (lookRight) {
+					pX = position.x + 50;
+					vX = 3000;
+					Vec2f.
+					((Character) parent).vel.x -= 50;
+				} else {
+					pX = position.x - 50;
+					vX = -3000;
+					((Character) parent).vel.x += 50;
+				}
+			}
+			fire.restart();
+
+			double coeff = (2 * Math.random()) - 1;
+
+			Vec2f angle = Vec2f.rotate(new Vec2f(vX, 0), dispersion * coeff);
+			angle.x += ((Character) parent).vel.x / 4;
+			angle.y += ((Character) parent).vel.y / 4;
+
+			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle, damage);
+			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
+
+			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul * 5000));
+			((SoundEffect) children.get("snd_Bang")).play();
+
+			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
+			
+			//Add camera shake
+			Game.game.camera.setCameraShake(.8f);
+		}
+	}**/
 
 	public void step(double d) {
+		if(parent!=null &&parent instanceof Character) {
+			rotation = ((Character)parent).aimInput;
+		}
 		if (isEquipped()) {
 			Sprite image = ((Sprite) children.get("item_Sprite"));
 			if(image != null) {

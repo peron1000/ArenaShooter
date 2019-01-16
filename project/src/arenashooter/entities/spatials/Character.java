@@ -23,7 +23,7 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
-	public Vec2f aimInput = new Vec2f();
+	public double  aimInput = 0;
 
 	private Timer attack = new Timer(0.3);
 
@@ -235,7 +235,7 @@ public class Character extends Spatial {
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Gun))
 				((Spatial) e).position.set(position);
-			aimInput.print();
+			System.out.println(aimInput);
 			e.step(d);
 		}
 	}
