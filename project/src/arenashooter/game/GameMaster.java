@@ -8,11 +8,11 @@ import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
-	public static final GameMaster gs = new GameMaster();
+	public static final GameMaster gm = new GameMaster();
 	
 	public ArrayList<Controller> controllers = new ArrayList<>();
 	
-	private GameState current = Loading.loading;
+	private static GameState current = Loading.loading;
 	
 	private GameMaster() {
 		// Constructor untouchable

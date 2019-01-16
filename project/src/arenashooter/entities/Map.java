@@ -18,11 +18,15 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Gun;
 
 public class Map extends Entity {
+
+	/** List of entities that have to be destroyed **/
+	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
+
 	/** Spawn points */
 	public ArrayList<Vec2f> spawn;
 	/** World gravity vector */
 	public Vec2f gravity;
-	
+
 	private int dernierspawn = -1;
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
 	/** World bounds (min x, min y, max x, max y) */
@@ -32,7 +36,7 @@ public class Map extends Entity {
 		for (Entity e : entities)
 			e.attachToParent(this, e.genName());
 
-		//Create sky
+		// Create sky
 		Sky sky = new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118));
 		sky.attachToParent(this, "Sky");
 
@@ -59,11 +63,10 @@ public class Map extends Entity {
 	}
 
 	/**
-	 * @author SnPop
-	 * GetRandomRespawn : rend un spawn aleatoire entre 0 inclus et 
-	 * taille de spawn exclus<br/>
-	 * Utiliser pour donner un spawn aleatoire a 
-	 * chaque joueur different du dernier utilise
+	 * @author SnPop GetRandomRespawn : rend un spawn aleatoire entre 0 inclus et
+	 *         taille de spawn exclus<br/>
+	 *         Utiliser pour donner un spawn aleatoire a chaque joueur different du
+	 *         dernier utilise
 	 * @return Vec2f
 	 */
 	public Vec2f GetRandomRespawn() {
@@ -75,11 +78,10 @@ public class Map extends Entity {
 		return spawn.get(randomNum);
 	}
 
-
 	/**
-	 * @author Shervin
-	 * Donne un vecteur/spawn qui n'est utilisé par aucun joueur (random)<br/>
-	 * Utiliser pour donner un spawn aleatoire different a chaque joueur 
+	 * @author Shervin Donne un vecteur/spawn qui n'est utilisé par aucun joueur
+	 *         (random)<br/>
+	 *         Utiliser pour donner un spawn aleatoire different a chaque joueur
 	 * @return Vec2f
 	 */
 	public Vec2f GetRandomRespawnch() {
@@ -219,5 +221,13 @@ public class Map extends Entity {
 	public void addPlateform(Vec2f position, Vec2f extent, String nom) {
 		children.put(nom, new Plateform(position, extent));
 
+	}
+
+	public void step(double d) {
+		for (Entity e : children.values())//J'ai recopié le step(d) de Entity parce qe le super(stepr()) est chiant.
+			e.step(d);
+		for (Entity e : toDestroy)//Détache toutes les entités référencées dans toDestroy
+			e.detach();
+		toDestroy.clear();
 	}
 }
