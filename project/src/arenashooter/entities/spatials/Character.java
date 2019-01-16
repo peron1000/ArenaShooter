@@ -23,6 +23,7 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
+	public Vec2f aim = new Vec2f();
 
 	private Timer attack = new Timer(0.3);
 

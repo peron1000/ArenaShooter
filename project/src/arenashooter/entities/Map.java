@@ -224,8 +224,7 @@ public class Map extends Entity {
 	}
 
 	public void step(double d) {
-		for (Entity e : children.values())//J'ai recopié le step(d) de Entity parce qe le super(stepr()) est chiant.
-			e.step(d);
+		super.step(d);
 		for (Entity e : toDestroy)//Détache toutes les entités référencées dans toDestroy
 			e.detach();
 		toDestroy.clear();
