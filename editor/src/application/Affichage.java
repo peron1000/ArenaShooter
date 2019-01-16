@@ -197,7 +197,7 @@ public final class Affichage {
 
 		//Add platform
 		MenuItem contextAddPlatform = new MenuItem("Add platform");
-		contextAddPlatform.setGraphic(new ImageView( new Image("file:editor_data/icons/platform.png")));
+		contextAddPlatform.setGraphic( makeIcon("file:editor_data/icons/platform.png") );
 		contextAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -206,7 +206,7 @@ public final class Affichage {
 		});
 		//Add Spawn
 		MenuItem contextAddSpawn = new MenuItem("Add spawn");
-		contextAddSpawn.setGraphic(new ImageView( new Image("file:editor_data/icons/spawn.png")));
+		contextAddSpawn.setGraphic( makeIcon("file:editor_data/icons/spawn.png") );
 		contextAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -240,21 +240,21 @@ public final class Affichage {
 		//Add entity
 		Menu menuAdd = new Menu("_Add...");
 		MenuItem menuAddEntity = new MenuItem("_Entity");
-		menuAddEntity.setGraphic(new ImageView( new Image("file:editor_data/icons/entity.png")));
+		menuAddEntity.setGraphic( makeIcon("file:editor_data/icons/entity.png") );
 		menuAddEntity.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				ListEntite.newEntity();
 			}
 		});
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
-		menuAddPlatform.setGraphic(new ImageView( new Image("file:editor_data/icons/platform.png")));
+		menuAddPlatform.setGraphic( makeIcon("file:editor_data/icons/platform.png") );
 		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				ListEntite.newPlatform(getViewCenter());
 			}
 		});
 		MenuItem menuAddSpawn = new MenuItem("_Spawn");
-		menuAddSpawn.setGraphic(new ImageView( new Image("file:editor_data/icons/spawn.png")));
+		menuAddSpawn.setGraphic( makeIcon("file:editor_data/icons/spawn.png") );
 		menuAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				Main.map.addSpawn(getViewCenter());
@@ -303,5 +303,16 @@ public final class Affichage {
 		vBox.setPrefWidth(450);
 		
 		root.setRight(vBox);
+	}
+	
+	/**
+	 * Create an icon with a shadow from a string
+	 * @param path
+	 * @return
+	 */
+	public static ImageView makeIcon(String path) {
+		ImageView icon = new ImageView( new Image(path) );
+		icon.setStyle("-fx-effect: dropshadow(two-pass-box, black, 5, 0, 0, 0);");
+		return icon;
 	}
 }

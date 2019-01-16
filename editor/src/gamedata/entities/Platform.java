@@ -1,9 +1,6 @@
 package gamedata.entities;
 
 import application.propertiestabs.PlatformProperties;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import math.Vec2;
 
 public class Platform extends Spatial {
@@ -21,8 +18,8 @@ public class Platform extends Spatial {
 	}
 	
 	@Override
-	public Node getIcon() {
-		return new ImageView( new Image("file:editor_data/icons/platform.png"));
+	public String getIcon() {
+		return "file:editor_data/icons/platform.png";
 	}
 
 }

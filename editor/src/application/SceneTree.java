@@ -39,7 +39,7 @@ public class SceneTree extends TreeView<String> {
 	 * @param e
 	 */
 	public void addEntity(Entity e) {
-		e.treeItem = new TreeItem<String>(e.name, e.getIcon());
+		e.treeItem = new TreeItem<String>( e.name, Affichage.makeIcon(e.getIcon()) );
 
 		if(e.parent == null) 
 			getRoot().getChildren().add(e.treeItem);
