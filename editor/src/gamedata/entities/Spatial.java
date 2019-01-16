@@ -1,8 +1,5 @@
 package gamedata.entities;
 
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import math.Vec2;
 
 public class Spatial extends Entity {
@@ -16,8 +13,8 @@ public class Spatial extends Entity {
 	}
 	
 	@Override
-	public Node getIcon() {
-		return new ImageView( new Image("file:editor_data/icons/spatial.png"));
+	public String getIcon() {
+		return "file:editor_data/icons/spatial.png";
 	}
 
 }

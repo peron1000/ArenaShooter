@@ -6,10 +6,7 @@ import application.Affichage;
 import application.Main;
 import application.propertiestabs.EntityProperties;
 import application.propertiestabs.PropertiesTab;
-import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Entity {
 	
@@ -32,8 +29,8 @@ public class Entity {
 		properties = new EntityProperties(this);
 	}
 	
-	public Node getIcon() {
-		return new ImageView( new Image("file:editor_data/icons/entity.png"));
+	public String getIcon() {
+		return "file:editor_data/icons/entity.png";
 	}
 	
 	/**
