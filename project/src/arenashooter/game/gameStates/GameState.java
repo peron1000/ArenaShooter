@@ -9,5 +9,7 @@ public abstract class GameState {
 	
 	protected Map map;
 	public abstract void update(double delta);
-	public abstract void draw();
+	public void draw() {
+		map.draw();
+	}
 }

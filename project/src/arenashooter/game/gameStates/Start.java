@@ -1,46 +1,37 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import arenashooter.engine.Device;
+import arenashooter.engine.Input;
+import arenashooter.engine.Input.Action;
 import arenashooter.entities.Controller;
+import arenashooter.game.GameMaster;
 
 public class Start extends GameState {
 	public static final Start start = new Start();
 
-	private HashMap<Controller, Boolean> controllers = new HashMap<>(17);
+	private ArrayList<Controller> controllers = new ArrayList<>();
 
 	private Start() {
-		for (Device device : Device.values()) {
-			controllers.put(new Controller(device), false);
-		}
+		controllers.add(new Controller(Device.KEYBOARD));
 	}
 
-	public ArrayList<Controller> getActivatedControllers() {
-		ArrayList<Controller> result = new ArrayList<>();
-		for (Controller controller : controllers.keySet()) {
-			if(controllers.get(controller)) {
-				result.add(controller);
-			}
-		}
-		return result;
+	public ArrayList<Controller> getControllers() {
+		return controllers;
 	}
 
 	@Override
 	public void update(double delta) {
-		// TODO Auto-generated method stub
-		for (Controller controller : controllers.keySet()) {
-			if (controller.isJumping()) {
-				controllers.put(controller, true);
+		for (Device device : Device.values()) {
+			if(Input.actionPressed(device, Action.JUMP)) {
+				controllers.add(new Controller(device));
 			}
+			// TODO : remove controller when B is pressed
 		}
-	}
-
-	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
-
+		if(Input.actionPressed(Device.KEYBOARD, Action.JUMP)) {
+			GameMaster.gm.requestNextState();
+		}
 	}
 
 }

@@ -3,8 +3,10 @@ package arenashooter.game;
 import java.util.ArrayList;
 
 import arenashooter.entities.Controller;
+import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Loading;
+import arenashooter.game.gameStates.MapChooser;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
@@ -16,15 +18,20 @@ public class GameMaster {
 	
 	private GameMaster() {
 		// Constructor untouchable
-		Loading.loading.setNextState(Start.start , "mapName");
+		Loading.loading.setNextState(Start.start , "mapName");// TODO : create the map
 	}
 	
-	public void setState(GameState gameState) {
-		// TODO : to be completed
+	public void requestNextState() {
 		if(current == Start.start) {
-			controllers = Start.start.getActivatedControllers();
+			// TODO : call Loading
+			current = CharacterChooser.characterChooser;
+		} else if (current == CharacterChooser.characterChooser) {
+			// TODO : call Loading
+			current = MapChooser.mapChooser;
+		} else if (current == MapChooser.mapChooser) {
+			current = Loading.loading;
+			Loading.loading.setNextState(MapChooser.mapChooser, MapChooser.mapChooser.getMapChoosen());
 		}
-		current = gameState;
 	}
 	
 	public void draw() {
@@ -32,6 +39,10 @@ public class GameMaster {
 	}
 	
 	public void update(double delta) {
-		current.update(delta);
+		if(current != Loading.loading) {
+			current.update(delta);
+		} else {
+			current = Loading.loading.getNextState();
+		}
 	}
 }
