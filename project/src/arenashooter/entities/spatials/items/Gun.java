@@ -25,7 +25,7 @@ public class Gun extends Item {
 		if (itemSprite == SpritePath.assault) {
 			recul = 0.5f;
 			dispersion = 0.05;// la non-précision en radians.
-			fire = new Timer(0.15);
+			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 			
 			damage = 5;

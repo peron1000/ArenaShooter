@@ -2,13 +2,13 @@ package arenashooter.game.gameStates;
 
 import arenashooter.game.GameMaster;
 
-public class MapChooser extends GameState{
+public class MapChooser extends GameState {
 	public final static MapChooser mapChooser = new MapChooser();
-	
-	private String mapChoosen;
-	
+
+	private String mapChosen;
+
 	public String getMapChoosen() {
-		return mapChoosen;
+		return mapChosen;
 	}
 
 	@Override
