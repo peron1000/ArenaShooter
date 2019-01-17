@@ -5,7 +5,10 @@ import static org.lwjgl.glfw.GLFW.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import arenashooter.engine.math.Vec2f;
+
 public final class Input {
+	private static Vec2f mousePos = new Vec2f();
 	private static FloatBuffer[] joyAxis = new FloatBuffer[16];
 	private static ByteBuffer[] joyButtons = new ByteBuffer[16];
 	private static long window;
@@ -105,7 +108,7 @@ public final class Input {
 			axisMoveX[i] = 0;
 			axisMoveY[i] = 0;
 
-			if (i == Device.KEYBOARD.id) { // Keyboard
+			if (i == Device.KEYBOARD.id) {//Mouse and Keyboard
 
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 					axisMoveX[i] -= 1;
