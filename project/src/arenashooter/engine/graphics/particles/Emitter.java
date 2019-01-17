@@ -11,15 +11,15 @@ abstract class Emitter {
 	protected final ParticleSystem owner;
 	
 	///Emitter parameters
-	//Total duration of emission, 0 for single burst, -1 for infinite
+	/** Total duration of emission, 0 for single burst, -1 for infinite */
 	final float duration;
-	//Delay before starting the emitter
+	/** Delay before starting the emitter */
 	float delay;
-	//Spawn rate, in particles per second or particle count for burst emitter
+	/** Spawn rate, in particles per second or particle count for burst emitter */
 	final float rate;
-	//Remaining number of particles to spawn
+	/** Remaining number of particles to spawn */
 	int remaining;
-	//Particles to spawn this frame;
+	/** Particles to spawn this frame */
 	double particlesToSpawn = 0;
 	//Visuals
 	Shader shader;
@@ -30,8 +30,16 @@ abstract class Emitter {
 	float lifetimeMin, lifetimeMax;
 	//Color
 	final Vec4f colorStart, colorEnd;
+	//Initial angle
+	final float angleMin, angleMax;
+	//Initial velocity
+	final float velocityMin, velocityMax;
 	
-	Emitter( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax, Vec4f colorStart, Vec4f colorEnd ) {
+	Emitter( ParticleSystem owner, Texture texture, float duration, float delay, float rate,
+			float lifetimeMin, float lifetimeMax, 
+			Vec4f colorStart, Vec4f colorEnd, 
+			float angleMin, float angleMax, 
+			float velocityMin, float velocityMax ) {
 		this.owner = owner;
 		tex = texture;
 		this.duration = duration;
@@ -51,6 +59,14 @@ abstract class Emitter {
 		//Colors
 		this.colorStart = colorStart;
 		this.colorEnd = colorEnd;
+		
+		//Angle
+		this.angleMin = angleMin;
+		this.angleMax = angleMax;
+		
+		//Initial velocity
+		this.velocityMin = velocityMin;
+		this.velocityMax = velocityMax;
 	}
 	
 	/**

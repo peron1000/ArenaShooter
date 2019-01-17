@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT particleSystem (emitter+)>
 
-<!ELEMENT emitter (texture, vec4, vec4)>
-<!ATTLIST emitter oriented CDATA #REQUIRED>
+<!-- vec4->startColor, vec4->endColor -->
+<!ELEMENT emitter ((basic|oriented), texture, vec4, vec4)>
 <!ATTLIST emitter duration CDATA #REQUIRED>
 <!ATTLIST emitter delay CDATA #REQUIRED>
 <!ATTLIST emitter rate CDATA #REQUIRED>
@@ -10,11 +10,21 @@
 <!ATTLIST emitter lifetimeMax CDATA #REQUIRED>
 <!ATTLIST emitter angleMin CDATA #REQUIRED>
 <!ATTLIST emitter angleMax CDATA #REQUIRED>
+<!-- Random initial velocity -->
 <!ATTLIST emitter velocityMin CDATA #REQUIRED>
 <!ATTLIST emitter velocityMax CDATA #REQUIRED>
 
+<!ELEMENT basic EMPTY>
+<!ATTLIST basic size CDATA #REQUIRED>
+
+<!-- vec2->scale -->
+<!ELEMENT oriented vec2>
+
+<!ELEMENT vec2 EMPTY>
+<!ATTLIST vec2 use CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED>
+
 <!ELEMENT vec4 EMPTY>
-<!ATTLIST vec4 x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
+<!ATTLIST vec4 use CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
 
 <!ELEMENT texture EMPTY>
 <!ATTLIST texture src CDATA #REQUIRED filtered CDATA #REQUIRED>

@@ -14,19 +14,26 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Game;
+import arenashooter.game.GameMaster;
 
 class EmitterSparks extends Emitter {
-	
-	//Gravity
-	Vec2f force;
-
 	ArrayList<Vec2f> positions;
 	ArrayList<Vec2f> velocities;
 	ArrayList<Float> lives;
 	ArrayList<Float> livesTotal;
 
-	protected EmitterSparks( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax, Vec4f colorStart, Vec4f colorEnd ) {
-		super(owner, texture, duration, delay, rate, lifetimeMin, lifetimeMax, colorStart, colorEnd );
+	protected EmitterSparks( ParticleSystem owner, Texture texture, float duration, float delay, float rate, 
+			float lifetimeMin, float lifetimeMax, 
+			Vec4f colorStart, Vec4f colorEnd, 
+			float angleMin, float angleMax, 
+			float velocityMin, float velocityMax  ) {
+		
+		super(owner, texture, duration, delay, rate, 
+				lifetimeMin, lifetimeMax, 
+				colorStart, colorEnd, 
+				angleMin, angleMax, 
+				velocityMin, velocityMax );
+		
 		shader = new Shader("data/shaders/particle_simple");
 		
 		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
@@ -34,14 +41,14 @@ class EmitterSparks extends Emitter {
 		velocities = new ArrayList<Vec2f>(capacity);
 		lives = new ArrayList<Float>(capacity);
 		livesTotal = new ArrayList<Float>(capacity);
-		
-		//TODO: temp force
-		force = new Vec2f(0, 9.807f*150);
 	}
 	
 	@Override
 	boolean update(double delta) {
 		super.update(delta);
+		
+		//Force = current map gravity
+		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, 50);
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
 			if( lives.get(i) > 0 ) {
