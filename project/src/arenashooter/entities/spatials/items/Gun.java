@@ -20,7 +20,6 @@ public class Gun extends Item {
 
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
-		tag = "Arme";
 		coll = new Collider(position, new Vec2f(40, 40));
 		if (itemSprite == SpritePath.assault) {
 			recul = 0.5f;

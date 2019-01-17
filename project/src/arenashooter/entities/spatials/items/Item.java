@@ -11,17 +11,12 @@ import arenashooter.entities.spatials.Plateform;
 
 public abstract class Item extends Spatial {
 
-	protected String tag = "Item";
 	Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
 
 	public String getId() {
 		return "Item";
-	}
-
-	public String getTag() {
-		return tag;
 	}
 
 	public boolean isEquipped() { // Plutôt que de demander à chaque fois le type du parent;

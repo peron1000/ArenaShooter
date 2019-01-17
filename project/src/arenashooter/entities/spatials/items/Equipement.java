@@ -8,7 +8,6 @@ public class Equipement extends Item {
 
 	public Equipement(Vec2f position, SpritePath itemSprite) {
 		super(position , itemSprite);
-		tag = "Armure";
 	}
 
 	@Override

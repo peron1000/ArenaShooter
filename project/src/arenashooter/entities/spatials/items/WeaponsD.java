@@ -8,7 +8,6 @@ public class WeaponsD extends Item {
 
 	public WeaponsD(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
-		tag = "Arme";
 	}
 
 	@Override
