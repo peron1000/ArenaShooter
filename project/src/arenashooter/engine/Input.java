@@ -3,12 +3,18 @@ package arenashooter.engine;
 import static org.lwjgl.glfw.GLFW.*;
 
 import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
 
 import arenashooter.engine.math.Vec2f;
 
 public final class Input {
 	private static Vec2f mousePos = new Vec2f();
+	private static DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);//Buffers to stock cursor coordinates;
+	private static DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
+
 	private static FloatBuffer[] joyAxis = new FloatBuffer[16];
 	private static ByteBuffer[] joyButtons = new ByteBuffer[16];
 	private static long window;
@@ -109,7 +115,13 @@ public final class Input {
 			axisMoveY[i] = 0;
 
 			if (i == Device.KEYBOARD.id) {//Mouse and Keyboard
-
+				
+				glfwGetCursorPos(window, xBuffer, yBuffer);
+				mousePos.x = (float) xBuffer.get(0);
+				mousePos.y = (float) yBuffer.get(0);
+				
+				System.out.println("mouseAngle : " + new Vec2f(mousePos.x, -mousePos.y).angle());
+				
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 					axisMoveX[i] -= 1;
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
