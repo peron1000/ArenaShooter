@@ -3,6 +3,7 @@ package arenashooter.entities;
 import java.util.HashMap;
 
 import arenashooter.game.Game;
+import arenashooter.game.GameMaster;
 
 public class Entity {
 
@@ -65,7 +66,7 @@ public class Entity {
 	}
 
 	public void destroy() {
-		Game.map.toDestroy.add(this);
+		GameMaster.gm.getMap().toDestroy.add(this);
 	}
 
 	/**

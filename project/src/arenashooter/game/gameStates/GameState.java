@@ -3,7 +3,7 @@ package arenashooter.game.gameStates;
 import arenashooter.entities.Map;
 
 public abstract class GameState {
-	protected GameState() {
+	public GameState() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -11,5 +11,11 @@ public abstract class GameState {
 	public abstract void update(double delta);
 	public void draw() {
 		map.draw();
+	}
+	public Map getMap() {
+		return map;
+	}
+	public void init() {
+		
 	}
 }

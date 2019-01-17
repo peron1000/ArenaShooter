@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
+<map>
+	<information>
+		<spawn>
+			<vecteur x="-300" y="0" />
+		</spawn>
+		<spawn>
+			<vecteur x="300" y="0" />
+		</spawn>
+		<spawn>
+			<vecteur x="-2000" y="-300" />
+		</spawn>
+		<spawn>
+			<vecteur x="2000" y="300" />
+		</spawn>
+
+		<gravity>
+			<vecteur x="0" y="9.807" />
+		</gravity>
+
+		<cameraBound w="1000" x="-5000" y="-1000" z="5000" />
+
+		<sky>
+			<vecteur x="0.996" y="0.9098" z="0.003922" use="bottom" />
+			<vecteur x="0.34901960784" y="0.13725490196" z="0.48235294118" use="top" />
+		</sky>
+
+	</information>
+
+	<entities>
+		
+	</entities>
+</map>

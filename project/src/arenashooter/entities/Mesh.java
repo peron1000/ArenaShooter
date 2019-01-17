@@ -58,7 +58,7 @@ public class Mesh extends Spatial3 {
 		for( int i=0; i<models.length; i++ ) {
 			shaders[i].bind();
 			shaders[i].setUniformM4("model", Mat4f.transform(position, rotation, scale));
-			shaders[i].setUniformM4("view", Game.game.camera.viewMatrix);
+			shaders[i].setUniformM4("view", Game.camera.viewMatrix);
 			shaders[i].setUniformM4("projection", Window.proj);
 			
 			models[i].bindToShader(shaders[i]);

@@ -7,6 +7,7 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Shape;
 import arenashooter.game.Game;
+import arenashooter.game.GameMaster;
 
 public class Disk extends Shape {
 	public double radius;
@@ -43,7 +44,7 @@ public class Disk extends Shape {
 		//Create matrices
 		Mat4f modelM = Mat4f.transform(body.position, body.rotation, new Vec2f( radius*2 ));
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Game.game.camera.viewMatrix);
+		shader.setUniformM4("view", Game.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj);
 		
 		shader.setUniformV4("color", new float[]{1,0,0,1});

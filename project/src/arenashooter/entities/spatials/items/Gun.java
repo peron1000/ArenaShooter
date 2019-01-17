@@ -7,6 +7,7 @@ import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.Game;
+import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Sprite;
 
@@ -75,7 +76,7 @@ public class Gun extends Item {
 			bulletSpeed.y += ((Character) parent).vel.y / 4;
 
 			Bullet bul = new Bullet(new Vec2f(pX, position.y), bulletSpeed, damage);
-			bul.attachToParent(Game.map, ("bullet" + bul.genName()));
+			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
 
 			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)), recul * 5000));
 			((SoundEffect) children.get("snd_Bang")).play();
@@ -83,7 +84,7 @@ public class Gun extends Item {
 			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
 			
 			//Add camera shake
-			Game.game.camera.setCameraShake(.8f);
+			Game.camera.setCameraShake(.8f);
 		}
 	}
 	

@@ -1,11 +1,14 @@
 package arenashooter.entities;
 
+import java.util.ArrayList;
+
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Spatial3;
 
@@ -52,22 +55,22 @@ public class Camera extends Spatial3 {
 	
 	/**
 	 * Move the camera target to fit all the targets in the view
-	 * @param targets
+	 * @param players
 	 * @param bounds world camera bounds (min x, min y, max x, max y), null if none
 	 * @param d delta time
 	 */
-	public void center( Spatial[] targets, Vec4f bounds, double d ) { //TODO: Improve bounds support
-		if(targets.length == 0 ) return;
+	public void center( ArrayList<Character> players, Vec4f bounds, double d ) { //TODO: Improve bounds support
+		if(players.size() == 0 ) return;
 		
-		Vec2f boundsX = new Vec2f(targets[0].position.x, targets[0].position.x);
-		Vec2f boundsY = new Vec2f(targets[0].position.y, targets[0].position.y);
+		Vec2f boundsX = new Vec2f(players.get(0).position.x, players.get(0).position.x);
+		Vec2f boundsY = new Vec2f(players.get(0).position.y, players.get(0).position.y);
 		
-		for( int i=1; i<targets.length; i++ ) {
-			boundsX.x = Math.min(boundsX.x, targets[i].position.x);
-			boundsX.y = Math.max(boundsX.y, targets[i].position.x);
+		for( int i=1; i<players.size(); i++ ) {
+			boundsX.x = Math.min(boundsX.x, players.get(i).position.x);
+			boundsX.y = Math.max(boundsX.y, players.get(i).position.x);
 
-			boundsY.x = Math.min(boundsY.x, targets[i].position.y);
-			boundsY.y = Math.max(boundsY.y, targets[i].position.y);
+			boundsY.x = Math.min(boundsY.x, players.get(i).position.y);
+			boundsY.y = Math.max(boundsY.y, players.get(i).position.y);
 		}
 		
 		if(bounds != null) {

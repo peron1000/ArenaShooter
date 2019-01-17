@@ -12,6 +12,7 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.Game;
+import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {
 	private static final float defaultDamage = 5;
@@ -80,7 +81,7 @@ public class Character extends Spatial {
 			if (skeleton != null)
 				skeleton.punch();
 
-			for (Entity entity : Game.game.getMap().children.values()) {
+			for (Entity entity :  GameMaster.gm.getEntities()) {
 				if (entity instanceof Character && entity != this) {
 					Character c = (Character) entity;
 
@@ -112,7 +113,7 @@ public class Character extends Spatial {
 		Item armure = null;
 
 		if (!children.containsKey("Item_Weapon") || !children.containsKey("Item_Armor")) {
-			for(Entity e : Game.game.getMap().children.values()) {
+			for(Entity e : GameMaster.gm.getEntities()) {
 				if(e instanceof Gun) {
 					Item weapon = (Gun)e;
 					float xDiff = Math.abs(position.x - weapon.position.x);

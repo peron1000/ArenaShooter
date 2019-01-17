@@ -3,17 +3,15 @@ package arenashooter.game.gameStates;
 import arenashooter.game.GameMaster;
 
 public class MapChooser extends GameState {
-	public final static MapChooser mapChooser = new MapChooser();
-
 	private String mapChosen;
 
 	public String getMapChoosen() {
-		return mapChosen;
+		return "data/mapXML/mapXML.xml";
 	}
 
 	@Override
 	public void update(double delta) {
-		// TODO Auto-generated method stub
+		// TODO : choose a map
 		GameMaster.gm.requestNextState();
 	}
 

@@ -7,6 +7,10 @@ public class Loading extends GameState {
 	
 	private GameState next;
 	
+	private Loading() {
+		// constructor untouchable
+	}
+	
 	public void setNextState(GameState next , String mapName) {
 		this.next = next;
 		next.map = MapXMLTranslator.getMap(mapName);

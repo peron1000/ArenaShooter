@@ -4,7 +4,6 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Physic;
 
 public class Main {
@@ -12,13 +11,12 @@ public class Main {
 	
 	public static boolean drawCollisions = true;
 	
+	private static GameMaster gameMaster = GameMaster.gm;
+	
 	public static void main(String[] args) {		
 		Audio.init(false);
 		Window.init(1280, 720, "Super Blep");
 		Window.setVsync(true);
-		
-		//Initialize game
-		Game.newGame();
 		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;
@@ -38,7 +36,7 @@ public class Main {
 			Window.beginFrame();
 			
 			Profiler.startTimer(Profiler.STEP);
-			Game.game.update(delta);
+			gameMaster.update(delta);
 			Profiler.endTimer(Profiler.STEP);
 			
 			Profiler.startTimer(Profiler.PHYSIC);
@@ -46,7 +44,7 @@ public class Main {
 			Profiler.endTimer(Profiler.PHYSIC);
 			
 			Profiler.startTimer(Profiler.RENDER);
-			Game.game.draw();
+			gameMaster.draw();
 			
 			Window.endFrame();
 			Profiler.endTimer(Profiler.RENDER);

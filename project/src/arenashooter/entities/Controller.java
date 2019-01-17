@@ -6,6 +6,7 @@ import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
+import arenashooter.game.GameMaster;
 
 public class Controller {
 
@@ -16,10 +17,11 @@ public class Controller {
 		this.device = device;
 	}
 
-	public void setCharacter(Character c) {
-		character = c;
+	public Character createNewCharacter(Vec2f spawn) {
+		character = GameMaster.gm.controllers.get(this).createNewCharacter(spawn);
+		return character;
 	}
-
+	
 	public Character getCharacter() {
 		return character;
 	}

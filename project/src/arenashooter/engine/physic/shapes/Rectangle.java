@@ -59,7 +59,7 @@ public class Rectangle extends Shape {
 		//Create matrices
 		Mat4f modelM = Mat4f.transform(body.position, body.rotation, Vec2f.multiply( extent, 2 ));
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Game.game.camera.viewMatrix);
+		shader.setUniformM4("view", Game.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj);
 		
 		shader.setUniformV4("color", new float[]{1,0,0,1});

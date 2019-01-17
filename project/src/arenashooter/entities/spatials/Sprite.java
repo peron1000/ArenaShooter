@@ -50,7 +50,7 @@ public class Sprite extends Spatial {
 		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
 		Mat4f modelM = Mat4f.transform(position, rotation, scale);
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Game.game.camera.viewMatrix);
+		shader.setUniformM4("view", Game.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);
