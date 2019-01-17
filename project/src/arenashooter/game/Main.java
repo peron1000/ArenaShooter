@@ -4,6 +4,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Physic;
 
 public class Main {
@@ -11,7 +12,7 @@ public class Main {
 	
 	public static boolean drawCollisions = true;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		Audio.init(false);
 		Window.init(1280, 720, "Super Blep");
 		Window.setVsync(true);
@@ -26,6 +27,7 @@ public class Main {
 		long fpsTime = lastFrame;
 		
 		while( !Window.requestClose() ) {
+			
 			currentFrame = System.currentTimeMillis();
 			
 			//Limit delta to avoid errors

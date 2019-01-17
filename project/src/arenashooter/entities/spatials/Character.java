@@ -235,7 +235,7 @@ public class Character extends Spatial {
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Gun))
 				((Spatial) e).position.set(position);
-			System.out.println(aimInput);
+//			System.out.println(aimInput);
 			e.step(d);
 		}
 	}
