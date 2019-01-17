@@ -10,29 +10,48 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Game;
 
 class EmitterBasic extends Emitter {
-	//Start angle
-	final float angleMin, angleMax;
-	//Gravity
-	Vec2f force;
-	
 	ArrayList<Vec2f> positions;
 	ArrayList<Vec2f> velocities;
 	ArrayList<Float> rotations;
 	ArrayList<Float> lives;
 	ArrayList<Float> livesTotal;
 	
-	protected EmitterBasic( ParticleSystem owner, Texture texture, float duration, float delay, float rate, float lifetimeMin, float lifetimeMax, float angleMin, float angleMax, Vec4f colorStart, Vec4f colorEnd  ) {
-		super(owner, texture, duration, delay, rate, lifetimeMin, lifetimeMax, colorStart, colorEnd );
-		shader = new Shader("data/shaders/particle_simple");
+	/**
+	 * Create a basic particle emitter
+	 * @param owner particle system owning this emitter
+	 * @param texture texture used for rendering
+	 * @param duration duration of the emitter, in seconds, 0 for single burst, -1 for infinite
+	 * @param delay delay before activating this emitter, in seconds
+	 * @param rate spawn rate in particles per second
+	 * @param lifetimeMin minimum lifetime of a particle
+	 * @param lifetimeMax maximum lifetime of a particle
+	 * @param colorStart particle color at spawn
+	 * @param colorEnd particle color at death
+	 * @param angleMin minimum spawn angle
+	 * @param angleMax maximum spawn angle
+	 * @param velocityMin minimum spawn velocity
+	 * @param velocityMax maximum spawn velocity
+	 */
+	protected EmitterBasic( ParticleSystem owner, Texture texture, float duration, float delay, float rate, 
+			float lifetimeMin, float lifetimeMax, 
+			Vec4f colorStart, Vec4f colorEnd, 
+			float angleMin, float angleMax, 
+			float velocityMin, float velocityMax  ) {
 		
-		this.angleMin = angleMin;
-		this.angleMax = angleMax;
+		super(owner, texture, duration, delay, rate, 
+				lifetimeMin, lifetimeMax, 
+				colorStart, colorEnd, 
+				angleMin, angleMax, 
+				velocityMin, velocityMax );
+		
+		shader = new Shader("data/shaders/particle_simple");
 		
 		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
 		positions = new ArrayList<Vec2f>(capacity);
@@ -40,14 +59,14 @@ class EmitterBasic extends Emitter {
 		lives = new ArrayList<Float>(capacity);
 		livesTotal = new ArrayList<Float>(capacity);
 		rotations = new ArrayList<Float>(capacity);
-		
-		//TODO: temp force
-		force = new Vec2f(0, 9.807f*50);
 	}
 
 	@Override
 	boolean update(double delta) {
 		super.update(delta);
+		
+		//Force = current map gravity
+		Vec2f force = Vec2f.multiply(Game.map.gravity, 50);
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
 			if( lives.get(i) > 0 ) {
@@ -71,11 +90,10 @@ class EmitterBasic extends Emitter {
 	void spawn(int count) {
 		for(int i=0; i<count; i++) {
 			positions.add(new Vec2f( owner.position.x, owner.position.y ));
-//			velocities.add(new Vec2f( 0,0 ));
-			
-			//TODO: temp random velocity
-			Vec2f vel = Vec2f.fromAngle( (float) (Math.random()*Math.PI*2) );
-			vel.multiply(200);
+
+			//Random velocity vector from angle and velocity
+			Vec2f vel = Vec2f.fromAngle( Utils.lerpF(angleMin, angleMax, Math.random()) );
+			vel.multiply( Utils.lerpF(velocityMin, velocityMax, Math.random()) );
 			velocities.add( vel );
 			
 			float life = (float) ((Math.random()*(lifetimeMax-lifetimeMin))+lifetimeMin);
@@ -92,7 +110,7 @@ class EmitterBasic extends Emitter {
 		
 		//Get matrices
 		shader.setUniformM4("view", Game.game.camera.viewMatrix);
-		shader.setUniformM4("projection", Window.proj); //TODO: Get projection matrix properly
+		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);
 		
