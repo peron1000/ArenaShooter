@@ -36,7 +36,7 @@ public enum Device {
 	CONTROLLER16(GLFW_JOYSTICK_16), 
 	KEYBOARD(16);
 
-	protected final int id;
+	public final int id;
 	
 	private Device( int id ) {
 		this.id = id;
