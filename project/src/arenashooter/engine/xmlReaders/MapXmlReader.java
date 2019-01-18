@@ -40,7 +40,8 @@ public class MapXmlReader extends XmlReader {
 		return map;
 	}
 
-	private static void readEntities(NodeList entitiesNodes) {
+	private static void readEntities(NodeList entity) {
+		NodeList entitiesNodes = ((Element) entity.item(0)).getChildNodes();
 		for (int i = 0; i < entitiesNodes.getLength(); i++) {
 			if (entitiesNodes.item(i).getNodeName() == "plateform") {
 
@@ -83,24 +84,25 @@ public class MapXmlReader extends XmlReader {
 		}
 	}
 
-	private static void readInformations(NodeList information) {
-		for (int i = 0; i < information.getLength(); i++) {
-			if (information.item(i).getNodeName() == "spawn") {
+	private static void readInformations(NodeList informations) {
+		NodeList information = ((Element) informations.item(0)).getChildNodes();
+		for (int j = 0; j < information.getLength(); j++) {
+			if (information.item(j).getNodeName() == "spawn") {
 
 				// Navigation into Spawn part
 
-				NodeList spawns = information.item(i).getChildNodes();
-				for (int j = 0; j < spawns.getLength(); j++) {
-					if (spawns.item(j).getNodeName() == "vecteur") {
-						Element position = (Element) spawns.item(j);
+				NodeList spawns = information.item(j).getChildNodes();
+				for (int k = 0; k < spawns.getLength(); k++) {
+					if (spawns.item(k).getNodeName() == "vecteur") {
+						Element position = (Element) spawns.item(k);
 						float x = Float.parseFloat(position.getAttribute("x"));
 						float y = Float.parseFloat(position.getAttribute("y"));
 						spawn.add(new Vec2f(x, y));
 					}
 				}
-			} else if (information.item(i).getNodeName() == "gravity") {
+			} else if (information.item(j).getNodeName() == "gravity") {
 				// Navigation into Vector part
-				NodeList vector = information.item(i).getChildNodes();
+				NodeList vector = information.item(j).getChildNodes();
 				for (int k = 0; k < vector.getLength(); k++) {
 					if (vector.item(k).getNodeName() == "vecteur") {
 						Element position = (Element) vector.item(k);
@@ -108,9 +110,9 @@ public class MapXmlReader extends XmlReader {
 						gravity.y = Float.parseFloat(position.getAttribute("y"));
 					}
 				}
-			} else if (information.item(i).getNodeName() == "cameraBound") {
+			} else if (information.item(j).getNodeName() == "cameraBound") {
 				// Navigation into CameraBound part
-				Element cameraBound = (Element) information.item(i);
+				Element cameraBound = (Element) information.item(j);
 				cameraBounds.x = Float.parseFloat(cameraBound.getAttribute("x"));
 				cameraBounds.y = Float.parseFloat(cameraBound.getAttribute("y"));
 				cameraBounds.z = Float.parseFloat(cameraBound.getAttribute("z"));

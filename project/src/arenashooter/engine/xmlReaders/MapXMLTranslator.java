@@ -36,7 +36,7 @@ public class MapXMLTranslator {
 	private MapXMLTranslator() {
 	}
 
-	public static Map getMap(String pathNameMap) {
+	private static Map getMap(String pathNameMap) {
 
 		// Initialization tools for XML reader
 		try {

@@ -25,6 +25,7 @@ public class Start extends GameState {
 		for (Device device : Device.values()) {
 			if(Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
 				controllers.put(device, new Controller(device));
+				System.out.println("add controller");
 			}
 			// TODO : remove controller when B is pressed
 		}

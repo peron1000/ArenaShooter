@@ -35,7 +35,7 @@ public class Map extends Entity {
 	public Map(ArrayList<Entity> entities) {
 		for (Entity e : entities)
 			e.attachToParent(this, e.genName());
-
+		
 		// Create sky
 		Sky sky = new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118));
 		sky.attachToParent(this, "Sky");

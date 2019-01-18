@@ -1,6 +1,6 @@
 package arenashooter.game.gameStates;
 
-import arenashooter.engine.MapXMLTranslator;
+import arenashooter.engine.xmlReaders.MapXmlReader;
 
 public class Loading extends GameState {
 	public static final Loading loading = new Loading();
@@ -12,8 +12,10 @@ public class Loading extends GameState {
 	}
 	
 	public void setNextState(GameState next , String mapName) {
+		long test = System.currentTimeMillis();
 		this.next = next;
-		next.map = MapXMLTranslator.getMap(mapName);
+		next.map = MapXmlReader.read(mapName);
+		System.out.println("Time to load map : "+(System.currentTimeMillis() - test));
 	}
 	
 	public GameState getNextState() {
