@@ -206,8 +206,8 @@ public class Mat4f {
 	 * @return
 	 */
 	public static Mat4f transform( Vec2f loc, double rot, Vec2f scale ) {
-		double w = (float)Math.cos(-rot/2);
-		double z = (float)Math.sin(-rot/2);
+		double w = Math.cos(rot/2);
+		double z = Math.sin(rot/2);
 		
 		double ww = w * w;
 		double zz = z * z;
