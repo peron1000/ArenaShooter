@@ -93,14 +93,11 @@ public class Gun extends Item {
 			
 			fire.restart();
 			
-			Vec2f bulletSpeed = new Vec2f();
+			Vec2f bulletSpeed = Vec2f.fromAngle(rotation);
 			double coeff = (2 * Math.random()) - 1;
-			bulletSpeed +=  dispersion * coeff;
-			
-			bulletSpeed.x += ((Character) parent).vel.x / 4;
-			bulletSpeed.y += ((Character) parent).vel.y / 4;
+			bulletSpeed = Vec2f.rotate(bulletSpeed, dispersion * coeff);
 
-			Bullet bul = new Bullet(new Vec2f(pX, position.y), angle, damage);
+			Bullet bul = new Bullet(, bulletSpeed, damage);
 			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
 
 			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul * 5000));
