@@ -30,7 +30,7 @@ public abstract class XmlReader {
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			System.out.println("Xml builder construction has failed");
+			System.err.println("Xml builder construction has failed");
 			e.printStackTrace();
 		}
 	}

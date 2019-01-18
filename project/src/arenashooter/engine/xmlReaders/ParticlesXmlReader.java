@@ -4,17 +4,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import arenashooter.engine.graphics.particles.EmitterTemplate;
+
 public class ParticlesXmlReader extends XmlReader {
 
 	private ParticlesXmlReader() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static void read(String path) {
+	public static EmitterTemplate[] read(String path) {
 		parse(path);
 		
 		readEmitters(document.getElementsByTagName("emitter"));
 		
+		return new EmitterTemplate[0];
 	}
 
 	private static void readEmitters(NodeList emitters) {

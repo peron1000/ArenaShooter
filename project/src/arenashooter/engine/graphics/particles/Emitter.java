@@ -35,16 +35,12 @@ abstract class Emitter {
 	//Initial velocity
 	final float velocityMin, velocityMax;
 	
-	Emitter( ParticleSystem owner, Texture texture, float duration, float delay, float rate,
-			float lifetimeMin, float lifetimeMax, 
-			Vec4f colorStart, Vec4f colorEnd, 
-			float angleMin, float angleMax, 
-			float velocityMin, float velocityMax ) {
+	Emitter( ParticleSystem owner, EmitterTemplate data ) {
 		this.owner = owner;
-		tex = texture;
-		this.duration = duration;
-		this.delay = delay;
-		this.rate = rate;
+		tex = data.tex;
+		duration = data.duration;
+		delay = data.delay;
+		rate = data.rate;
 		if( duration == 0 ) //Burst
 			remaining = (int) rate;
 		else if( duration < 0 ) //Infinite
@@ -53,20 +49,20 @@ abstract class Emitter {
 			remaining = (int) Math.max(1, rate*duration);
 		
 		//Lifetime
-		this.lifetimeMin = lifetimeMin;
-		this.lifetimeMax = lifetimeMax;
+		lifetimeMin = data.lifetimeMin;
+		lifetimeMax = data.lifetimeMax;
 		
 		//Colors
-		this.colorStart = colorStart;
-		this.colorEnd = colorEnd;
+		colorStart = data.colorStart;
+		colorEnd = data.colorEnd;
 		
 		//Angle
-		this.angleMin = angleMin;
-		this.angleMax = angleMax;
+		angleMin = data.angleMin;
+		angleMax = data.angleMax;
 		
 		//Initial velocity
-		this.velocityMin = velocityMin;
-		this.velocityMax = velocityMax;
+		velocityMin = data.velocityMin;
+		velocityMax = data.velocityMax;
 	}
 	
 	/**

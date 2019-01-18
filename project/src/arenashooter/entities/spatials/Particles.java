@@ -9,7 +9,8 @@ public class Particles extends Spatial {
 	
 	public Particles(Vec2f position) {
 		super(position);
-		system = new ParticleSystem( new Vec3f(position.x, position.y, 0) );
+		system = ParticleSystem.load("data/particles/test.xml");
+		system.position = new Vec3f(position.x, position.y, 0);
 	}
 	
 	@Override

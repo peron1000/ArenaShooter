@@ -18,7 +18,7 @@
 <!ATTLIST basic size CDATA #REQUIRED>
 
 <!-- vec2->scale -->
-<!ELEMENT oriented vec2>
+<!ELEMENT oriented (vec2)>
 
 <!ELEMENT vec2 EMPTY>
 <!ATTLIST vec2 use CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED>
