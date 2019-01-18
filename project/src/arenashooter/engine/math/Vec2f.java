@@ -127,7 +127,7 @@ public class Vec2f {
 	//
 
 	public static Vec2f fromAngle(double angle) {
-		return new Vec2f(Math.cos(angle), Math.sin(angle));
+		return new Vec2f(Math.cos(angle), -Math.sin(angle));
 	}
 
 	/**

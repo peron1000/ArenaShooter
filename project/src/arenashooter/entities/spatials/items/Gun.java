@@ -30,7 +30,7 @@ public class Gun extends Item {
 			recoil = 0.5f;
 			damage = 5f;
 			bulletSpeed = 2500;
-			cannonLength = 50.0;
+			cannonLength = 150.0;
 
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
@@ -39,11 +39,11 @@ public class Gun extends Item {
 		} else if (itemSprite == SpritePath.minigun) {
 			fire = new Timer(0.05);
 			fire.attachToParent(this, "attack timer");
-			
+
 			recoil = 0.25f;
 			damage = 0f;
 			bulletSpeed = 2000;
-			cannonLength = 75.0;
+			cannonLength = 275.0;
 
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
@@ -95,15 +95,17 @@ public class Gun extends Item {
 		if (fire.isOver()) {
 
 			fire.restart();
+			
+			Vec2f aim = Vec2f.fromAngle(rotation);
 
-			Vec2f bulSpeed = Vec2f.multiply(Vec2f.fromAngle(rotation), bulletSpeed);
+			Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
 			Vec2f bulletPos = position.clone();
-			bulletPos.add(Vec2f.multiply(Vec2f.fromAngle(rotation), cannonLength));
+			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
 
-			vel.add(Vec2f.multiply(Vec2f.rotate(Vec2f.fromAngle(rotation), Math.PI), recoil * 5000));
+			vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 			((SoundEffect) children.get("snd_Bang")).play();
 
 			rotation += ((Math.random()) - 0.5) * recoil;
@@ -114,11 +116,11 @@ public class Gun extends Item {
 	}
 
 	public void step(double d) {
-		if (parent != null && parent instanceof Character) {//
+		if (isEquipped()) {
+			
 			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
 			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
-		}
-		if (isEquipped()) {
+
 			Sprite image = ((Sprite) children.get("item_Sprite"));
 			if (image != null) {
 				if (((Character) parent).lookRight)

@@ -73,7 +73,7 @@ public class Character extends Spatial {
 
 	public void attack() {
 		if (children.get("Item_Weapon") != null) {
-			((Gun) children.get("Item_Weapon")).fire(lookRight);
+			((Gun) children.get("Item_Weapon")).fire();
 		} else if (attack.isOver()) {
 			attack.restart();
 
