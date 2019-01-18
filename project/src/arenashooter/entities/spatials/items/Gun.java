@@ -114,7 +114,7 @@ public class Gun extends Item {
 	}
 
 	public void step(double d) {
-		if (parent != null && parent instanceof Character) {
+		if (parent != null && parent instanceof Character) {//
 			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
 			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
 		}
