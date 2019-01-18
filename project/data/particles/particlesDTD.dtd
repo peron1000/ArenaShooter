@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT particleSystem (emitter+)>
 
-<!-- vec4->startColor, vec4->endColor -->
+<!-- vec4->colorStart, vec4->colorEnd -->
 <!ELEMENT emitter ((basic|oriented), texture, vec4, vec4)>
 <!ATTLIST emitter duration CDATA #REQUIRED>
 <!ATTLIST emitter delay CDATA #REQUIRED>

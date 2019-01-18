@@ -7,7 +7,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 
-class EmitterTemplateSparks extends EmitterTemplate {
+public class EmitterTemplateSparks extends EmitterTemplate {
 	ArrayList<Vec2f> positions;
 	ArrayList<Vec2f> velocities;
 	ArrayList<Float> lives;
@@ -29,7 +29,7 @@ class EmitterTemplateSparks extends EmitterTemplate {
 	 * @param velocityMin minimum spawn velocity
 	 * @param velocityMax maximum spawn velocity
 	 */
-	protected EmitterTemplateSparks( Texture texture, float duration, float delay, float rate, 
+	public EmitterTemplateSparks( Texture texture, float duration, float delay, float rate, 
 			float lifetimeMin, float lifetimeMax, 
 			Vec4f colorStart, Vec4f colorEnd, 
 			float angleMin, float angleMax, 

@@ -30,7 +30,7 @@ public class EmitterTemplateBasic extends EmitterTemplate {
 	 * @param velocityMin minimum spawn velocity
 	 * @param velocityMax maximum spawn velocity
 	 */
-	protected EmitterTemplateBasic( Texture texture, float duration, float delay, float rate, 
+	public EmitterTemplateBasic( Texture texture, float duration, float delay, float rate, 
 			float lifetimeMin, float lifetimeMax, 
 			Vec4f colorStart, Vec4f colorEnd, 
 			float angleMin, float angleMax, 
