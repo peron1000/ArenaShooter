@@ -23,7 +23,7 @@ public class Bullet extends Projectile {
 		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
 		bul.attachToParent(this, "bul_Sprite");
 
-		sndImpact.setVolume(.25f);
+		sndImpact.setVolume(.05f);
 	}
 
 	public void step(double d) {

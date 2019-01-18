@@ -12,36 +12,39 @@ import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Sprite;
 
 public class Gun extends Item {
-
-	private double dispersion = 0.15;// la non-précision en radians.
 	private Timer fire = new Timer(0.15);
 	Collider coll;
-	private float recul = 0.4f;
-	private float damage = 1;
+	private float recoil = 0.4f;// High
+	private float thrust = 250;//
+	private float damage = 1f;
+	public double cannonLength = 1.0;
+	public double bulletSpeed = 1.0;
 
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		coll = new Collider(position, new Vec2f(40, 40));
 		if (itemSprite == SpritePath.assault) {
-			recul = 0.5f;
-			dispersion = 0.05;// la non-précision en radians.
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
-			
-			damage = 5;
-			
+
+			recoil = 0.5f;
+			damage = 5f;
+			bulletSpeed = 2500;
+			cannonLength = 50.0;
+
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
-			
+
 		} else if (itemSprite == SpritePath.minigun) {
-			recul = 0.25f;
-			dispersion = 0.15;// la non-précision en radians.
 			fire = new Timer(0.05);
 			fire.attachToParent(this, "attack timer");
 			
-			damage = 0;
-			
+			recoil = 0.25f;
+			damage = 0f;
+			bulletSpeed = 2000;
+			cannonLength = 75.0;
+
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
@@ -71,63 +74,62 @@ public class Gun extends Item {
 
 			double coeff = (2 * Math.random()) - 1;
 
-			Vec2f bulletSpeed = Vec2f.rotate(new Vec2f(vX, 0), dispersion * coeff);
+			Vec2f bulletSpeed = Vec2f.rotate(new Vec2f(vX, 0), coeff);
 			bulletSpeed.x += ((Character) parent).vel.x / 4;
 			bulletSpeed.y += ((Character) parent).vel.y / 4;
 
 			Bullet bul = new Bullet(new Vec2f(pX, position.y), bulletSpeed, damage);
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
 
-			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)), recul * 5000));
+			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)), recoil * 5000));
 			((SoundEffect) children.get("snd_Bang")).play();
 
-			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
-			
-			//Add camera shake
+			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recoil;
+
+			// Add camera shake
 			Game.camera.setCameraShake(.8f);
 		}
 	}
-	
-	/**	public void fire() { // Visée par vecteur en cours de construction TODO :
+
+	public void fire() { // Visée par vecteur en cours de construction TODO : if
 		if (fire.isOver()) {
-			
+
 			fire.restart();
-			
-			Vec2f bulletSpeed = Vec2f.fromAngle(rotation);
-			double coeff = (2 * Math.random()) - 1;
-			bulletSpeed = Vec2f.rotate(bulletSpeed, dispersion * coeff);
 
-			Bullet bul = new Bullet(, bulletSpeed, damage);
-			bul.attachToParent(Game.game.map, ("bullet" + bul.genName()));
+			Vec2f bulSpeed = Vec2f.multiply(Vec2f.fromAngle(rotation), bulletSpeed);
+			Vec2f bulletPos = position.clone();
+			bulletPos.add(Vec2f.multiply(Vec2f.fromAngle(rotation), cannonLength));
 
-			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(angle, Math.PI)), recul * 5000));
+			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
+			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
+
+			vel.add(Vec2f.multiply(Vec2f.rotate(Vec2f.fromAngle(rotation), Math.PI), recoil * 5000));
 			((SoundEffect) children.get("snd_Bang")).play();
 
-			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recul;
-			
-			//Add camera shake
-			Game.game.camera.setCameraShake(.8f);
+			rotation += ((Math.random()) - 0.5) * recoil;
+
+			// Add camera shake
+			Game.camera.setCameraShake(.8f);
 		}
-	}**/
+	}
 
 	public void step(double d) {
-		if(parent!=null &&parent instanceof Character) {
-			rotation = ((Character)parent).aimInput;
+		if (parent != null && parent instanceof Character) {
+			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
+			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
 		}
 		if (isEquipped()) {
 			Sprite image = ((Sprite) children.get("item_Sprite"));
-			if(image != null) {
+			if (image != null) {
 				if (((Character) parent).lookRight)
 					image.flipX = false;
 				else
 					image.flipX = true;
 				vel.x = Utils.lerpF(vel.x, 0, Utils.clampD(d * 50, 0, 1));
 				vel.y = Utils.lerpF(vel.y, 0, Utils.clampD(d * 50, 0, 1));
-				double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
-				image.rotation = Utils.lerpD(image.rotation, 0, Utils.clampD(lerpVal, 0, 1));
 			}
 		}
-		
+
 		super.step(d);
 	}
 }
