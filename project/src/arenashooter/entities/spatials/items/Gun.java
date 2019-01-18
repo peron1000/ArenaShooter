@@ -15,7 +15,7 @@ public class Gun extends Item {
 	private Timer fire = new Timer(0.15);
 	Collider coll;
 	private float recoil = 0.4f;// High
-	private float thrust = 250;//
+	private float thrust = 0;//
 	private float damage = 1f;
 	public double cannonLength = 1.0;
 	public double bulletSpeed = 1.0;
@@ -93,9 +93,8 @@ public class Gun extends Item {
 
 	public void fire() { // Visée par vecteur en cours de construction TODO : if
 		if (fire.isOver()) {
-
 			fire.restart();
-			
+
 			Vec2f aim = Vec2f.fromAngle(rotation);
 
 			Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
@@ -103,9 +102,17 @@ public class Gun extends Item {
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
 
-			vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
+			if (isEquipped())
+				bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
+			else
+				GameMaster.gm.getMap().toCreate.add(bul);
+
+			if (isEquipped())
+				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
+			else
+				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+
 			((SoundEffect) children.get("snd_Bang")).play();
 
 			rotation += ((Math.random()) - 0.5) * recoil;
@@ -116,8 +123,9 @@ public class Gun extends Item {
 	}
 
 	public void step(double d) {
+		fire();
 		if (isEquipped()) {
-			
+
 			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
 			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
 

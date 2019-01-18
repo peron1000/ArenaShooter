@@ -21,6 +21,8 @@ public class Map extends Entity {
 
 	/** List of entities that have to be destroyed **/
 	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
+	/** List of entities that have to be created **/ //TODO : make it an array of couple to name them correctly
+	public ArrayList<Entity> toCreate = new ArrayList<Entity>();
 
 	/** Spawn points */
 	public ArrayList<Vec2f> spawn;
@@ -35,7 +37,7 @@ public class Map extends Entity {
 	public Map(ArrayList<Entity> entities) {
 		for (Entity e : entities)
 			e.attachToParent(this, e.genName());
-		
+
 		// Create sky
 		Sky sky = new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118));
 		sky.attachToParent(this, "Sky");
@@ -226,10 +228,14 @@ public class Map extends Entity {
 	@Override
 	public void step(double d) {
 		super.step(d);
-		
-		//Detach all entities waiting to be destroyed
+
+		// Detach all entities waiting to be destroyed
 		for (Entity e : toDestroy)
 			e.detach();
 		toDestroy.clear();
+		for (Entity e : toCreate)
+			e.attachToParent(this, genName());
+		toCreate.clear();
+
 	}
 }

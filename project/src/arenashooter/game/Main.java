@@ -4,6 +4,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Physic;
 
 public class Main {
@@ -13,7 +14,12 @@ public class Main {
 	
 	private static GameMaster gameMaster = GameMaster.gm;
 	
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
+		Vec2f.fromAngle(Math.PI*2).print();
+		Vec2f.fromAngle(Math.PI).print();
+		Vec2f.fromAngle(Math.PI/2).print();
+		Vec2f.fromAngle(0).print();
+		
 		Audio.init(false);
 		Window.init(1280, 720, "Super Blep");
 		Window.setVsync(true);
