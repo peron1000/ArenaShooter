@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import arenashooter.engine.MapXMLTranslator;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.xmlReaders.MapXMLTranslator;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Plateform;

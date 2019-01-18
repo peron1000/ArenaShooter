@@ -1,4 +1,4 @@
-package arenashooter.engine;
+package arenashooter.engine.xmlReaders;
 
 import java.util.ArrayList;
 

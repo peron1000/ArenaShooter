@@ -120,8 +120,6 @@ public final class Input {
 				mousePos.x = (float) xBuffer.get(0);
 				mousePos.y = (float) yBuffer.get(0);
 				
-				System.out.println("mouseAngle : " + new Vec2f(mousePos.x, -mousePos.y).angle());
-				
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 					axisMoveX[i] -= 1;
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
