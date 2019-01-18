@@ -22,7 +22,11 @@ public class ParticleSystem {
 				new Vec4f(1, 0, 1, 1), new Vec4f(.8f, 1.2f, 0, .75f), 
 				0, (float)(2*Math.PI), 
 				100, 200 ));
-//		emitters.add(new EmitterSparks(this, Texture.loadTexture("data/particle_glow.png"), 10, 2, 60, 2, 4, new Vec4f(1f, 1f, 8.15f, 1), new Vec4f(.12f, .07f, .18f, .5f)));
+		emitters.add(new EmitterSparks(this, Texture.loadTexture("data/particle_glow.png"), 20, 2, 60, 
+				2, 4, 
+				new Vec4f(1f, 1f, 8.15f, 1), new Vec4f(.12f, .07f, .18f, .5f), 
+				-.5f, .5f, 
+				700, 1200));
 	}
 	
 	public void update(double delta) {

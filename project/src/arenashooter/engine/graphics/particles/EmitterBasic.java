@@ -30,7 +30,7 @@ class EmitterBasic extends Emitter {
 	 * @param texture texture used for rendering
 	 * @param duration duration of the emitter, in seconds, 0 for single burst, -1 for infinite
 	 * @param delay delay before activating this emitter, in seconds
-	 * @param rate spawn rate in particles per second
+	 * @param rate spawn rate in particles per second or burst size if duration = 0
 	 * @param lifetimeMin minimum lifetime of a particle
 	 * @param lifetimeMax maximum lifetime of a particle
 	 * @param colorStart particle color at spawn
