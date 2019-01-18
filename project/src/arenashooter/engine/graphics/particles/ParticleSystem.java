@@ -17,7 +17,7 @@ public class ParticleSystem {
 		emitters = new ArrayList<Emitter>();
 		
 		//TODO: temp emitter
-		emitters.add(new EmitterBasic( this, Texture.loadTexture("data/test.png"), -1, 0, 200, 
+		emitters.add(new EmitterBasic( this, Texture.loadTexture("data/test.png"), 60, 0, 200, 
 				1, 5, 
 				new Vec4f(1, 0, 1, 1), new Vec4f(.8f, 1.2f, 0, .75f), 
 				0, (float)(2*Math.PI), 
