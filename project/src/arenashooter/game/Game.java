@@ -37,7 +37,7 @@ public class Game extends GameState {
 		
 		camera.attachToParent(map, "camera");
 
-		Particles p = new Particles(new Vec2f(0, -1000));
+		Particles p = new Particles(new Vec2f(0, -1000), "data/particles/test.xml");
 		p.attachToParent(map, "particles");
 	}
 

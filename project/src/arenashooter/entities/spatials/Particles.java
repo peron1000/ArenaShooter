@@ -7,9 +7,9 @@ import arenashooter.engine.math.Vec3f;
 public class Particles extends Spatial {
 	private ParticleSystem system;
 	
-	public Particles(Vec2f position) {
+	public Particles(Vec2f position, String path) {
 		super(position);
-		system = ParticleSystem.load("data/particles/test.xml");
+		system = ParticleSystem.load(path);
 		system.position = new Vec3f(position.x, position.y, 0);
 	}
 	
