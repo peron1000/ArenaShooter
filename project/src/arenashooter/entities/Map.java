@@ -233,6 +233,8 @@ public class Map extends Entity {
 		for (Entity e : toDestroy)
 			e.detach();
 		toDestroy.clear();
+		
+		//Attach new entities
 		for (Entity e : toCreate)
 			e.attachToParent(this, genName());
 		toCreate.clear();

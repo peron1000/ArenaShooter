@@ -21,6 +21,7 @@ public class Bullet extends Projectile {
 
 		Sprite bul = new Sprite(position, "data/sprites/Bullet.png");
 		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
+		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
 
 		sndImpact.setVolume(.05f);
