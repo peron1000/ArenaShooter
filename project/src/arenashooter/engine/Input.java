@@ -141,22 +141,18 @@ public final class Input {
 
 				if (joyAxis[i] != null) {
 					float deadzone = .3f;
-					
-					if (Math.abs(joyAxis[i].get(0)) >= deadzone)
+
+					if (Math.abs(joyAxis[i].get(0)) >= deadzone || Math.abs(joyAxis[i].get(1)) >= deadzone) {
 						axisMoveX[i] = joyAxis[i].get(0);
-					if (Math.abs(joyAxis[i].get(1)) >= deadzone)
 						axisMoveY[i] = joyAxis[i].get(1);
-					
-					
-					if (Math.abs(joyAxis[i].get(2)) >= deadzone) { //If AimInput is under deadzone, aim according to move direction.
+					}
+
+					if (Math.abs(joyAxis[i].get(2)) >= deadzone || Math.abs(joyAxis[i].get(3)) >= deadzone) {
+						// If AimInput<deadzone, aim=move direction.
 						axisAimX[i] = joyAxis[i].get(2);
-//						System.out.println("Aim x: "+axisAimX[i]);
-					} else if(axisMoveX[i] != 0)
-						axisAimX[i] = axisMoveX[i];
-					if (Math.abs(joyAxis[i].get(3)) >= deadzone) {
 						axisAimY[i] = joyAxis[i].get(3);
-//						System.out.println("Aim y: "+axisAimY[i]);
-					} else if(axisMoveY[i] != 0)
+					} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
+						axisAimX[i] = axisMoveX[i];
 						axisAimY[i] = axisMoveY[i];
 				}
 
@@ -169,6 +165,7 @@ public final class Input {
 			}
 		}
 
+	}
 	}
 
 	private static ActionState getActionState(ActionState current, boolean isPressed) {
