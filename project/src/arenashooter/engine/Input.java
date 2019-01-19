@@ -113,6 +113,8 @@ public final class Input {
 		for (int i = 0; i < 17; i++) {
 			axisMoveX[i] = 0;
 			axisMoveY[i] = 0;
+			axisAimX[i] = 0;
+			axisAimY[i] = 0;
 
 			if (i == Device.KEYBOARD.id) {// Mouse and Keyboard
 
