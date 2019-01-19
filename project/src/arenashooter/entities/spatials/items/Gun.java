@@ -27,6 +27,7 @@ public class Gun extends Item {
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 
+			thrust = 500;
 			recoil = 0.5f;
 			damage = 5f;
 			bulletSpeed = 3000;
@@ -37,9 +38,10 @@ public class Gun extends Item {
 			bangSound.attachToParent(this, "snd_Bang");
 
 		} else if (itemSprite == SpritePath.minigun) {
-			fire = new Timer(0.05);
+			fire = new Timer(0.03);
 			fire.attachToParent(this, "attack timer");
 
+			thrust = 500;
 			recoil = 0.25f;
 			damage = 0f;
 			bulletSpeed = 3000;
@@ -107,9 +109,10 @@ public class Gun extends Item {
 
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 
-			if (isEquipped())
+			if (isEquipped()) {
 				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
-			else
+				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+			} else
 				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 
 			((SoundEffect) children.get("snd_Bang")).play();
@@ -127,7 +130,7 @@ public class Gun extends Item {
 			Sprite image = ((Sprite) children.get("Item_Sprite"));
 			if (image != null) {
 				image.rotation = rotation;
-				if ( rotation < Math.PI / 2 && rotation > -Math.PI / 2 )
+				if (rotation < Math.PI / 2 && rotation > -Math.PI / 2)
 					image.flipY = false;
 				else
 					image.flipY = true;

@@ -215,7 +215,7 @@ public class Character extends Spatial {
 			skeleton.setLookRight(lookRight);
 		}
 
-		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 5000) {
+		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
 			death();
 		}
 
