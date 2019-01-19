@@ -55,7 +55,7 @@ public class Gun extends Item {
 		pickup.attachToParent(this, "snd_Pickup");
 	}
 
-	public void fire(boolean lookRight) { // Visée uniquement droite et gauche pour l'instant. TODO :
+	public void fire(boolean lookRight) {
 		if (fire.isOver()) {
 			float pX = 0;
 			float vX = 0;
@@ -91,7 +91,7 @@ public class Gun extends Item {
 		}
 	}
 
-	public void fire() { // Visée par vecteur en cours de construction TODO : if
+	public void fire() { // Visée par vecteur en cours de construction TODO :
 		if (fire.isOver()) {
 			fire.restart();
 
@@ -115,16 +115,15 @@ public class Gun extends Item {
 			rotation += ((Math.random()) - 0.5) * recoil;
 
 			// Add camera shake
-			Game.camera.setCameraShake(.8f);
+			Game.camera.setCameraShake(0.8f);
 		}
 	}
 
 	public void step(double d) {
-		fire();
 		if (isEquipped()) {
 
-			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
-			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
+//			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
+//			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
 
 			Sprite image = ((Sprite) children.get("item_Sprite"));
 			if (image != null) {

@@ -33,6 +33,7 @@ public class Controller {
 				character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X) + character.position.x,
 						Input.getAxis(device, Axis.AIM_Y) + character.position.y).angle();
 			} else {
+				
 				character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y))
 						.angle();
 			}

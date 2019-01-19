@@ -12,7 +12,7 @@ import arenashooter.engine.math.Vec2f;
 
 public final class Input {
 	private static Vec2f mousePos = new Vec2f();
-	private static DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);//Buffers to stock cursor coordinates;
+	private static DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);// Buffers to stock cursor coordinates;
 	private static DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
 
 	private static FloatBuffer[] joyAxis = new FloatBuffer[16];
@@ -113,13 +113,15 @@ public final class Input {
 		for (int i = 0; i < 17; i++) {
 			axisMoveX[i] = 0;
 			axisMoveY[i] = 0;
+			axisAimX[i] = 0;
+			axisAimY[i] = 0;
 
-			if (i == Device.KEYBOARD.id) {//Mouse and Keyboard
-				
+			if (i == Device.KEYBOARD.id) {// Mouse and Keyboard
+
 				glfwGetCursorPos(window, xBuffer, yBuffer);
 				mousePos.x = (float) xBuffer.get(0);
 				mousePos.y = (float) yBuffer.get(0);
-				
+
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 					axisMoveX[i] -= 1;
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
@@ -145,14 +147,19 @@ public final class Input {
 						axisMoveX[i] = joyAxis[i].get(0);
 					if (Math.abs(joyAxis[i].get(1)) >= deadzone)
 						axisMoveY[i] = joyAxis[i].get(1);
-					if (Math.abs(joyAxis[i].get(2)) >= deadzone)
+					if (Math.abs(joyAxis[i].get(2)) >= deadzone) {
 						axisAimX[i] = joyAxis[i].get(2);
-					else
+						System.out.println(joyAxis[i].get(2));
+
+					} else
 						axisAimX[i] = joyAxis[i].get(0);
-					if (Math.abs(joyAxis[i].get(1)) >= deadzone)// If AimInput is under deadzone, aim according to move
+
+					if (Math.abs(joyAxis[i].get(3)) >= deadzone)// If AimInput is under deadzone, aim according to move
 																// direction.
+					{
 						axisAimY[i] = joyAxis[i].get(3);
-					else
+						System.out.println(joyAxis[i].get(3));
+					} else
 						axisAimY[i] = joyAxis[i].get(1);
 				}
 
@@ -162,10 +169,9 @@ public final class Input {
 					actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(1) == 1);
 					actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(3) == 1);
 				}
-
-				// printController(i); //TODO: Remove this
 			}
 		}
+
 	}
 
 	private static ActionState getActionState(ActionState current, boolean isPressed) {

@@ -24,7 +24,7 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
-	public double  aimInput = 0;
+	public double aimInput = 0;
 
 	private Timer attack = new Timer(0.3);
 
@@ -81,7 +81,7 @@ public class Character extends Spatial {
 			if (skeleton != null)
 				skeleton.punch();
 
-			for (Entity entity :  GameMaster.gm.getEntities()) {
+			for (Entity entity : GameMaster.gm.getEntities()) {
 				if (entity instanceof Character && entity != this) {
 					Character c = (Character) entity;
 
@@ -113,15 +113,15 @@ public class Character extends Spatial {
 		Item armure = null;
 
 		if (!children.containsKey("Item_Weapon") || !children.containsKey("Item_Armor")) {
-			for(Entity e : GameMaster.gm.getEntities()) {
-				if(e instanceof Gun) {
-					Item weapon = (Gun)e;
+			for (Entity e : GameMaster.gm.getEntities()) {
+				if (e instanceof Gun) {
+					Item weapon = (Gun) e;
 					float xDiff = Math.abs(position.x - weapon.position.x);
 					float yDiff = Math.abs(position.y - weapon.position.y);
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
-				} else if(e instanceof Equipement) {
-					Item item = (Equipement)e;
+				} else if (e instanceof Equipement) {
+					Item item = (Equipement) e;
 					float xDiff = Math.abs(position.x - item.position.x);
 					float yDiff = Math.abs(position.y - item.position.y);
 					if (xDiff < 175 && yDiff < 175)
@@ -146,9 +146,9 @@ public class Character extends Spatial {
 	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes
-		
+
 		float res = Math.min(damage, health);// ? Ajouter Commentaire
-		
+
 		float bumpX = (damage >= 1 ? 400 * (1 + ((float) Math.log10(damage))) : 400);
 		float bumpY = (damage >= 1 ? 250 * (1 + ((float) Math.log10(damage))) : 250);
 
@@ -226,17 +226,24 @@ public class Character extends Spatial {
 					|| arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y > position.y + 40
 					|| arme.position.y < position.y - 20;
 			if (lookRight) {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40, Math.min(1, d * (loin ? 60 : 20)));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, Math.min(1, d * (loin ? 60 : 20)));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40,
+						Math.min(1, d * (loin ? 60 : 20)));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10,
+						Math.min(1, d * (loin ? 60 : 20)));
 			} else {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40, Math.min(1 ,d * (loin ? 60 : 20)));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10, Math.min(1, d * (loin ? 60 : 20)));
+				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40,
+						Math.min(1, d * (loin ? 60 : 20)));
+				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10,
+						Math.min(1, d * (loin ? 60 : 20)));
 			}
+
+			double lerpValGun = d * ((Math.abs(rotation) > Math.abs(aimInput)) ? 30 : 10);
+			arme.rotation = Utils.lerpD(arme.rotation, aimInput, Utils.clampD(lerpValGun, 0, 1));
 		}
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Gun))
 				((Spatial) e).position.set(position);
-//			System.out.println(aimInput);
+			// System.out.println(aimInput);
 			e.step(d);
 		}
 	}
