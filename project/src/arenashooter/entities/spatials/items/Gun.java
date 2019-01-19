@@ -29,8 +29,8 @@ public class Gun extends Item {
 
 			recoil = 0.5f;
 			damage = 5f;
-			bulletSpeed = 2500;
-			cannonLength = 150.0;
+			bulletSpeed = 3000;
+			cannonLength = 50.0;
 
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
@@ -42,8 +42,8 @@ public class Gun extends Item {
 
 			recoil = 0.25f;
 			damage = 0f;
-			bulletSpeed = 2000;
-			cannonLength = 275.0;
+			bulletSpeed = 3000;
+			cannonLength = 75.0;
 
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
@@ -54,44 +54,44 @@ public class Gun extends Item {
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
 	}
+//
+//	public void fire(boolean lookRight) {
+//		if (fire.isOver()) {
+//			float pX = 0;
+//			float vX = 0;
+//			if (parent instanceof Character) {
+//				if (lookRight) {
+//					pX = position.x + 50;
+//					vX = 5000;
+//					((Character) parent).vel.x -= 250;
+//				} else {
+//					pX = position.x - 50;
+//					vX = -3000;
+//					((Character) parent).vel.x += 250;
+//				}
+//			}
+//			fire.restart();
+//
+//			double coeff = (2 * Math.random()) - 1;
+//
+//			Vec2f bulletSpeed = Vec2f.rotate(new Vec2f(vX, 0), coeff);
+//			bulletSpeed.x += ((Character) parent).vel.x / 4;
+//			bulletSpeed.y += ((Character) parent).vel.y / 4;
+//
+//			Bullet bul = new Bullet(new Vec2f(pX, position.y), bulletSpeed, damage);
+//			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
+//
+//			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)), recoil * 5000));
+//			((SoundEffect) children.get("snd_Bang")).play();
+//
+//			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recoil;
+//
+//			// Add camera shake
+//			Game.camera.setCameraShake(.8f);
+//		}
+//	}
 
-	public void fire(boolean lookRight) {
-		if (fire.isOver()) {
-			float pX = 0;
-			float vX = 0;
-			if (parent instanceof Character) {
-				if (lookRight) {
-					pX = position.x + 50;
-					vX = 3000;
-					((Character) parent).vel.x -= 250;
-				} else {
-					pX = position.x - 50;
-					vX = -3000;
-					((Character) parent).vel.x += 250;
-				}
-			}
-			fire.restart();
-
-			double coeff = (2 * Math.random()) - 1;
-
-			Vec2f bulletSpeed = Vec2f.rotate(new Vec2f(vX, 0), coeff);
-			bulletSpeed.x += ((Character) parent).vel.x / 4;
-			bulletSpeed.y += ((Character) parent).vel.y / 4;
-
-			Bullet bul = new Bullet(new Vec2f(pX, position.y), bulletSpeed, damage);
-			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
-
-			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)), recoil * 5000));
-			((SoundEffect) children.get("snd_Bang")).play();
-
-			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recoil;
-
-			// Add camera shake
-			Game.camera.setCameraShake(.8f);
-		}
-	}
-
-	public void fire() { // Visée par vecteur en cours de construction TODO :
+	public void fire() { // Visée par vecteur
 		if (fire.isOver()) {
 			fire.restart();
 
@@ -121,9 +121,6 @@ public class Gun extends Item {
 
 	public void step(double d) {
 		if (isEquipped()) {
-
-//			double lerpVal = d * ((Math.abs(rotation) > 1) ? 30 : 10);
-//			rotation = Utils.lerpD(rotation, ((Character) parent).aimInput, Utils.clampD(lerpVal, 0, 1));
 
 			Sprite image = ((Sprite) children.get("item_Sprite"));
 			if (image != null) {
