@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import java.util.LinkedList;
+
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
@@ -19,10 +21,14 @@ public class Spatial3 extends Entity {
 	 */
 	@Override
 	public void step(double d) {
-		for (Entity e : children.values()) {
-			if( e instanceof Spatial3 )
-				((Spatial3)e).position.set(position);
-			e.step(d);
+		if(!children.isEmpty()) {
+			LinkedList<Entity> toUpdate = new LinkedList<>();
+			toUpdate.addAll(children.values());
+			for (Entity e : toUpdate) {
+				if (e instanceof Spatial3)
+					((Spatial3) e).position.set(position);
+				e.step(d);
+			}
 		}
 	}
 }
