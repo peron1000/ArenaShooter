@@ -149,18 +149,17 @@ public final class Input {
 						axisMoveY[i] = joyAxis[i].get(1);
 					if (Math.abs(joyAxis[i].get(2)) >= deadzone) {
 						axisAimX[i] = joyAxis[i].get(2);
-						System.out.println(joyAxis[i].get(2));
-
+//						System.out.println(joyAxis[i].get(2));
 					} else
-						axisAimX[i] = joyAxis[i].get(0);
+						axisAimX[i] = axisMoveX[i];
 
 					if (Math.abs(joyAxis[i].get(3)) >= deadzone)// If AimInput is under deadzone, aim according to move
 																// direction.
 					{
 						axisAimY[i] = joyAxis[i].get(3);
-						System.out.println(joyAxis[i].get(3));
+//						System.out.println(joyAxis[i].get(3));
 					} else
-						axisAimY[i] = joyAxis[i].get(1);
+						axisAimY[i] = axisMoveY[i];
 				}
 
 				if (joyButtons[i] != null) {
