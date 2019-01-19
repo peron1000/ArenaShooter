@@ -113,8 +113,6 @@ public final class Input {
 		for (int i = 0; i < 17; i++) {
 			axisMoveX[i] = 0;
 			axisMoveY[i] = 0;
-			axisAimX[i] = 0;
-			axisAimY[i] = 0;
 
 			if (i == Device.KEYBOARD.id) {// Mouse and Keyboard
 
@@ -142,25 +140,24 @@ public final class Input {
 				joyButtons[i] = glfwGetJoystickButtons(i);
 
 				if (joyAxis[i] != null) {
-					float deadzone = .4f;
+					float deadzone = .3f;
+					
 					if (Math.abs(joyAxis[i].get(0)) >= deadzone)
 						axisMoveX[i] = joyAxis[i].get(0);
 					if (Math.abs(joyAxis[i].get(1)) >= deadzone)
 						axisMoveY[i] = joyAxis[i].get(1);
-					if (Math.abs(joyAxis[i].get(2)) >= deadzone) {
+					
+					
+					if (Math.abs(joyAxis[i].get(2)) >= deadzone) { //If AimInput is under deadzone, aim according to move direction.
 						axisAimX[i] = joyAxis[i].get(2);
-						System.out.println(joyAxis[i].get(2));
-
-					} else
-						axisAimX[i] = joyAxis[i].get(0);
-
-					if (Math.abs(joyAxis[i].get(3)) >= deadzone)// If AimInput is under deadzone, aim according to move
-																// direction.
-					{
+						System.out.println("Aim x: "+axisAimX[i]);
+					} else if(axisMoveX[i] != 0)
+						axisAimX[i] = axisMoveX[i];
+					if (Math.abs(joyAxis[i].get(3)) >= deadzone) {
 						axisAimY[i] = joyAxis[i].get(3);
-						System.out.println(joyAxis[i].get(3));
-					} else
-						axisAimY[i] = joyAxis[i].get(1);
+						System.out.println("Aim y: "+axisAimY[i]);
+					} else if(axisMoveY[i] != 0)
+						axisAimY[i] = axisMoveY[i];
 				}
 
 				if (joyButtons[i] != null) {
