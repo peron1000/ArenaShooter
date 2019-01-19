@@ -24,6 +24,7 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
+	public boolean isAiming= false;
 	public double aimInput = 0;
 
 	private Timer attack = new Timer(0.3);
@@ -209,6 +210,8 @@ public class Character extends Spatial {
 			lookRight = true;
 		else if (movementInput < 0)
 			lookRight = false;
+		
+		
 		
 		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
 		if (skeleton != null) {

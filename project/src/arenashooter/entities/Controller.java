@@ -49,4 +49,8 @@ public class Controller {
 		} else
 			character.movementInput = 0;
 	}
+	
+	private boolean isAiming(){
+		return true;
+	}
 }
