@@ -218,6 +218,9 @@ public class Character extends Spatial {
 			else
 				lookRight = false;
 		}
+		if (!isAiming && !lookRight) {
+			aimInput = Math.PI;
+		}
 
 		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
 		if (skeleton != null) {
