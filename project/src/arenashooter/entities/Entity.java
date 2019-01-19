@@ -1,9 +1,7 @@
 package arenashooter.entities;
 
 import java.util.HashMap;
-
-import arenashooter.game.Game;
-import arenashooter.game.GameMaster;
+import java.util.LinkedList;
 
 public class Entity {
 
@@ -66,15 +64,20 @@ public class Entity {
 	}
 
 	public void destroy() {
-		GameMaster.gm.getMap().toDestroy.add(this);
+//		GameMaster.gm.getMap().toDestroy.add(this);
+		detach();
 	}
 
 	/**
 	 * Update children.
 	 */
 	public void step(double d) {
-		for (Entity e : children.values())
-			e.step(d);
+		if(!children.isEmpty()) {
+			LinkedList<Entity> toUpdate = new LinkedList<>();
+			toUpdate.addAll(children.values());
+			for (Entity e : toUpdate)
+				e.step(d);
+		}
 	}
 
 	public void draw() {

@@ -103,10 +103,7 @@ public class Gun extends Item {
 
 			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 
-			if (isEquipped())
-				bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
-			else
-				GameMaster.gm.getMap().toCreate.add(bul);
+			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 
 			if (isEquipped())
 				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));

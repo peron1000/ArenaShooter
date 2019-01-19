@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import java.util.LinkedList;
+
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
@@ -28,7 +30,10 @@ public class Bullet extends Projectile {
 	}
 
 	public void step(double d) {
-		for (Entity bump : getParent().children.values()) {
+		LinkedList<Entity> siblings = new LinkedList<>();
+		siblings.addAll(siblings().values());
+		boolean destroyed = false;
+		for (Entity bump : siblings) {
 			if (bump instanceof Plateform) {
 				for (Entity coll : ((Plateform) bump).children.values()) {
 					if (coll instanceof Collider) {
@@ -36,6 +41,8 @@ public class Bullet extends Projectile {
 						if (c.isColliding(collider)) {
 							sndImpact.play(position);
 							destroy();
+							destroyed = true;
+							break;
 						}
 					}
 				}
@@ -48,10 +55,14 @@ public class Bullet extends Projectile {
 							sndImpact.play(position);
 							((Character) bump).takeDamage(damage, vel.x > 0);
 							destroy();
+							destroyed = true;
+							break;
 						}
 					}
 				}
 			}
+			
+			if(destroyed) break;
 		}
 
 		position.add(Vec2f.multiply(vel, (float) d));

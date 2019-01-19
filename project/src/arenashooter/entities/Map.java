@@ -18,12 +18,6 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Gun;
 
 public class Map extends Entity {
-
-	/** List of entities that have to be destroyed **/
-	public ArrayList<Entity> toDestroy = new ArrayList<Entity>();
-	/** List of entities that have to be created **/ //TODO : make it an array of couple to name them correctly
-	public ArrayList<Entity> toCreate = new ArrayList<Entity>();
-
 	/** Spawn points */
 	public ArrayList<Vec2f> spawn;
 	/** World gravity vector */
@@ -222,22 +216,5 @@ public class Map extends Entity {
 
 	public void addPlateform(Vec2f position, Vec2f extent, String nom) {
 		children.put(nom, new Plateform(position, extent));
-
-	}
-
-	@Override
-	public void step(double d) {
-		super.step(d);
-
-		// Detach all entities waiting to be destroyed
-		for (Entity e : toDestroy)
-			e.detach();
-		toDestroy.clear();
-		
-		//Attach new entities
-		for (Entity e : toCreate)
-			e.attachToParent(this, genName());
-		toCreate.clear();
-
 	}
 }
