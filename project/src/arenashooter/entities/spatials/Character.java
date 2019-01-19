@@ -222,23 +222,17 @@ public class Character extends Spatial {
 		// position.
 		if (children.get("Item_Weapon") instanceof Gun) {
 			Gun arme = (Gun) children.get("Item_Weapon");
-			boolean loin = arme.position.x > position.x + (lookRight ? 70 : -10)
-					|| arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y > position.y + 40
-					|| arme.position.y < position.y - 20;
-			if (lookRight) {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x + 40,
-						Math.min(1, d * (loin ? 60 : 20)));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10,
-						Math.min(1, d * (loin ? 60 : 20)));
-			} else {
-				arme.position.x = (float) Utils.lerpD(arme.position.x, position.x - 40,
-						Math.min(1, d * (loin ? 60 : 20)));
-				arme.position.y = (float) Utils.lerpD(arme.position.y, position.y + 10,
-						Math.min(1, d * (loin ? 60 : 20)));
+//			boolean loin = arme.position.x > position.x + (lookRight ? 70 : -10)
+//					|| arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y > position.y + 40
+//					|| arme.position.y < position.y - 20;
+			if (!lookRight) {
+				aimInput = Math.PI;
 			}
 
-			double lerpValGun = d * ((Math.abs(rotation) > Math.abs(aimInput)) ? 30 : 10);
-			arme.rotation = Utils.lerpAngle(arme.rotation, aimInput, Utils.clampD(lerpValGun, 0, 1));
+			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(40,0), arme.rotation)), position);
+			arme.position.x = (float) Utils.lerpD((double)arme.position.x, weaponPosition.x, Math.min(1, d*30));
+			arme.position.y = (float) Utils.lerpD((double)arme.position.y, weaponPosition.y, Math.min(1, d*30));
+			arme.rotation = Utils.lerpAngle(arme.rotation, aimInput, Math.min(1, d*30/4));
 		}
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Gun))

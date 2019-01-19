@@ -54,42 +54,44 @@ public class Gun extends Item {
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
 	}
-//
-//	public void fire(boolean lookRight) {
-//		if (fire.isOver()) {
-//			float pX = 0;
-//			float vX = 0;
-//			if (parent instanceof Character) {
-//				if (lookRight) {
-//					pX = position.x + 50;
-//					vX = 5000;
-//					((Character) parent).vel.x -= 250;
-//				} else {
-//					pX = position.x - 50;
-//					vX = -3000;
-//					((Character) parent).vel.x += 250;
-//				}
-//			}
-//			fire.restart();
-//
-//			double coeff = (2 * Math.random()) - 1;
-//
-//			Vec2f bulletSpeed = Vec2f.rotate(new Vec2f(vX, 0), coeff);
-//			bulletSpeed.x += ((Character) parent).vel.x / 4;
-//			bulletSpeed.y += ((Character) parent).vel.y / 4;
-//
-//			Bullet bul = new Bullet(new Vec2f(pX, position.y), bulletSpeed, damage);
-//			bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
-//
-//			vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)), recoil * 5000));
-//			((SoundEffect) children.get("snd_Bang")).play();
-//
-//			((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) * recoil;
-//
-//			// Add camera shake
-//			Game.camera.setCameraShake(.8f);
-//		}
-//	}
+	//
+	// public void fire(boolean lookRight) {
+	// if (fire.isOver()) {
+	// float pX = 0;
+	// float vX = 0;
+	// if (parent instanceof Character) {
+	// if (lookRight) {
+	// pX = position.x + 50;
+	// vX = 5000;
+	// ((Character) parent).vel.x -= 250;
+	// } else {
+	// pX = position.x - 50;
+	// vX = -3000;
+	// ((Character) parent).vel.x += 250;
+	// }
+	// }
+	// fire.restart();
+	//
+	// double coeff = (2 * Math.random()) - 1;
+	//
+	// Vec2f bulletSpeed = Vec2f.rotate(new Vec2f(vX, 0), coeff);
+	// bulletSpeed.x += ((Character) parent).vel.x / 4;
+	// bulletSpeed.y += ((Character) parent).vel.y / 4;
+	//
+	// Bullet bul = new Bullet(new Vec2f(pX, position.y), bulletSpeed, damage);
+	// bul.attachToParent(GameMaster.gm.getMap(), ("bullet" + bul.genName()));
+	//
+	// vel.add(Vec2f.multiply(Vec2f.normalize(Vec2f.rotate(bulletSpeed, Math.PI)),
+	// recoil * 5000));
+	// ((SoundEffect) children.get("snd_Bang")).play();
+	//
+	// ((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) *
+	// recoil;
+	//
+	// // Add camera shake
+	// Game.camera.setCameraShake(.8f);
+	// }
+	// }
 
 	public void fire() { // Visée par vecteur
 		if (fire.isOver()) {
@@ -124,10 +126,12 @@ public class Gun extends Item {
 
 			Sprite image = ((Sprite) children.get("item_Sprite"));
 			if (image != null) {
-				if (((Character) parent).lookRight)
-					image.flipX = false;
+				image.rotation = rotation;
+				if (rotation < Math.PI / 2 && rotation >= -Math.PI / 2
+						|| rotation > 3 * Math.PI / 2 && rotation < Math.PI * 2)
+					image.flipY = false;
 				else
-					image.flipX = true;
+					image.flipY = true;
 				vel.x = Utils.lerpF(vel.x, 0, Utils.clampD(d * 50, 0, 1));
 				vel.y = Utils.lerpF(vel.y, 0, Utils.clampD(d * 50, 0, 1));
 			}
