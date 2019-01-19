@@ -238,12 +238,12 @@ public class Character extends Spatial {
 			}
 
 			double lerpValGun = d * ((Math.abs(rotation) > Math.abs(aimInput)) ? 30 : 10);
-			arme.rotation = Utils.lerpD(arme.rotation, aimInput, Utils.clampD(lerpValGun, 0, 1));
+			arme.rotation = Utils.lerpAngle(arme.rotation, aimInput, Utils.clampD(lerpValGun, 0, 1));
 		}
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Gun))
 				((Spatial) e).position.set(position);
-//			 System.out.println(aimInput);
+			// System.out.println(aimInput);
 			e.step(d);
 		}
 	}
