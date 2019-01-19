@@ -85,7 +85,7 @@ public class Gun extends Item {
 	// recoil * 5000));
 	// ((SoundEffect) children.get("snd_Bang")).play();
 	//
-	// ((Sprite) children.get("item_Sprite")).rotation += ((Math.random()) - 0.5) *
+	// ((Sprite) children.get("Item_Sprite")).rotation += ((Math.random()) - 0.5) *
 	// recoil;
 	//
 	// // Add camera shake
@@ -124,7 +124,7 @@ public class Gun extends Item {
 	public void step(double d) {
 		if (isEquipped()) {
 			rotation = Utils.normalizeAngle(rotation);
-			Sprite image = ((Sprite) children.get("item_Sprite"));
+			Sprite image = ((Sprite) children.get("Item_Sprite"));
 			if (image != null) {
 				image.rotation = rotation;
 				if ( rotation < Math.PI / 2 && rotation > -Math.PI / 2 )
