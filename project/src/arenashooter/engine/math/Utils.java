@@ -4,6 +4,8 @@ public final class Utils {
 	//This class cannot be instantiated
 	private Utils() {}
 	
+	public static final double PI2 = 2*Math.PI;
+	
 	/**
 	 * Clamps an int in a range
 	 * @param a
@@ -68,5 +70,34 @@ public final class Utils {
 	 */
 	public static float lerpF( float a, float b, double f ) {
 		return (float)(a + (b-a)*f);
+	}
+	
+	/**
+	 * Linear interpolation between two angles (in radians).<br/>
+	 * This will normalize the given angles
+	 * @param a
+	 * @param b
+	 * @param f
+	 * @return
+	 */
+	public static double lerpAngle( double a, double b, double f ) { //TODO: Test
+		if( Math.abs(a-b) >= Math.PI ) {
+			if(a>b)
+				a = normalizeAngle(a) - PI2;
+			else
+				b = normalizeAngle(b) - PI2;
+		}
+		
+		return lerpD(a, b, f);
+	}
+	
+	
+	/**
+	 * Normalize an angle (in radians) between -PI and +PI
+	 * @param a
+	 * @return
+	 */
+	public static double normalizeAngle(double a) { //TODO: Test
+		return ( (a+Math.PI)%PI2 ) - Math.PI;
 	}
 }
