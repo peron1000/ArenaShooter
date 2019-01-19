@@ -42,7 +42,7 @@ public class Gun extends Item {
 			fire.attachToParent(this, "attack timer");
 
 			thrust = 500;
-			recoil = 0.25f;
+			recoil = 0.60f;
 			damage = 0f;
 			bulletSpeed = 3000;
 			cannonLength = 75.0;

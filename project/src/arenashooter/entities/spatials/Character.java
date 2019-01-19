@@ -24,7 +24,7 @@ public class Character extends Spatial {
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
-	public boolean isAiming= false;
+	public boolean isAiming = false;
 	public double aimInput = 0;
 
 	private Timer attack = new Timer(0.3);
@@ -206,13 +206,19 @@ public class Character extends Spatial {
 		Profiler.endTimer(Profiler.PHYSIC);
 
 		// Animation
-		if (movementInput > 0)
-			lookRight = true;
-		else if (movementInput < 0)
-			lookRight = false;
-		
-		
-		
+		if (!isAiming) {
+			if (movementInput > 0)
+				lookRight = true;
+			else if (movementInput < 0)
+				lookRight = false;
+		} else {
+			aimInput = Utils.normalizeAngle(aimInput);
+			if (aimInput < Math.PI / 2 && aimInput > -Math.PI / 2)
+				lookRight = true;
+			else
+				lookRight = false;
+		}
+
 		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);

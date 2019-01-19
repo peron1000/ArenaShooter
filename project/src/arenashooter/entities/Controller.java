@@ -35,6 +35,7 @@ public class Controller {
 			} else {
 				character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y))
 						.angle();
+				character.isAiming = isAiming();
 			}
 
 			if (Input.actionPressed(device, Action.JUMP)) {
@@ -49,8 +50,8 @@ public class Controller {
 		} else
 			character.movementInput = 0;
 	}
-	
-	private boolean isAiming(){
-		return true;
+
+	private boolean isAiming() {
+		return Math.abs(Input.getAxis(device, Axis.AIM_X)) > 0.3f || Math.abs(Input.getAxis(device, Axis.AIM_Y)) > 0.3f;
 	}
 }
