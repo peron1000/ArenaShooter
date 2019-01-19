@@ -97,7 +97,7 @@ public final class Utils {
 	 * @param a
 	 * @return
 	 */
-	public static double normalizeAngle(double a) { //TODO: Test
-		return ( (a+Math.PI)%PI2 ) - Math.PI;
+	public static double normalizeAngle(double a) {
+		return a-PI2*Math.floor( (a + Math.PI)/PI2 );
 	}
 }

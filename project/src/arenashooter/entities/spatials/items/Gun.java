@@ -123,12 +123,11 @@ public class Gun extends Item {
 
 	public void step(double d) {
 		if (isEquipped()) {
-
+			rotation = Utils.normalizeAngle(rotation);
 			Sprite image = ((Sprite) children.get("item_Sprite"));
 			if (image != null) {
 				image.rotation = rotation;
-				if (rotation < Math.PI / 2 && rotation >= -Math.PI / 2
-						|| rotation > 3 * Math.PI / 2 && rotation < Math.PI * 2)
+				if ( rotation < Math.PI / 2 && rotation > -Math.PI / 2 )
 					image.flipY = false;
 				else
 					image.flipY = true;
