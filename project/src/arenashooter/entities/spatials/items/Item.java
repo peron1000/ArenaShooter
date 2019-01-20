@@ -14,6 +14,8 @@ public abstract class Item extends Spatial {
 	private Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
+	public double xPos = 0;
+	public double yPos = 0;
 
 	public String getId() {
 		return "Item";
@@ -27,7 +29,7 @@ public abstract class Item extends Spatial {
 
 	}
 
-	public enum SpritePath { //TODO: Remove this and load items from XML
+	public enum SpritePath { // TODO: Remove this and load items from XML
 		minigun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor(
 				"data/armor/shield_of_Pop.png");
 		public String path;
