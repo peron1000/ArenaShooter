@@ -12,7 +12,7 @@ public class Bullet extends Projectile {
 	static SoundSource sndImpact = new SoundSource("data/sound/Ptou.ogg", 10, .8f, 1.2f, true);
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
-		this.position = position.clone();
+		this.position = Vec2f.add(position.clone(), this.vel);
 		this.vel = vel.clone();
 
 		this.damage = damage;

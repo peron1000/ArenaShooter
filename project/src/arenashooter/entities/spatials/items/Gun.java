@@ -30,7 +30,7 @@ public class Gun extends Item {
 			thrust = 500;
 			recoil = 0.5f;
 			damage = 5f;
-			bulletSpeed = 3000;
+			bulletSpeed = 4000;
 			cannonLength = 50.0;
 
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
@@ -44,7 +44,7 @@ public class Gun extends Item {
 			thrust = 500;
 			recoil = 0.30f;
 			damage = 0f;
-			bulletSpeed = 3000;
+			bulletSpeed = 4000;
 			cannonLength = 75.0;
 
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
@@ -105,16 +105,15 @@ public class Gun extends Item {
 			Vec2f bulletPos = position.clone();
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
-			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-
-			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
-
 			if (isEquipped()) {
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 			} else
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 
+			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
+			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+			
 			((SoundEffect) children.get("snd_Bang")).play();
 
 			rotation += ((Math.random()) - 0.5) * recoil;
