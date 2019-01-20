@@ -41,7 +41,7 @@ public class LoadingFloor extends Spatial {
 	public void step(double d) {
 		timer+=d;
 
-		if(timer >= .3) {
+		if(timer >= .2) {
 			timer = 0;
 			
 			currentTex++;

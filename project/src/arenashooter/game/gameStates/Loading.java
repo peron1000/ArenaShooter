@@ -33,10 +33,10 @@ public class Loading extends GameState {
 		Window.camera = new Camera(new Vec3f(0, 0, 600));
 		entities.add(Window.camera);
 		
-		float startX = -(GameMaster.gm.controllers.size()*129f)/2f;
+		float startX = -(GameMaster.gm.controllers.size()*128f)/2f;
 		int i=0;
 		for(CharacterInfo c : GameMaster.gm.controllers.values()) {
-			float x = startX+(129f*i);
+			float x = startX+(128f*i);
 			
 			entities.add( new CharacterSprite(new Vec2f(x, -30), c) );
 			entities.add( new LoadingFloor(new Vec2f(x, 80)) );
@@ -73,7 +73,7 @@ public class Loading extends GameState {
 		
 		//Load next
 		time += delta;
-		if(time > 10) GameMaster.gm.requestNextState(); //Loading finished, go to next state
+		if(time > 2) GameMaster.gm.requestNextState(); //Loading finished, go to next state
 	}
 
 	@Override
