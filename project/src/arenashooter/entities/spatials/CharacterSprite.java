@@ -85,10 +85,9 @@ public class CharacterSprite extends Spatial {
 
 		wasOnGround = isOnGround;
 
-		Character parentChar = (Character) getParent();
-		if (parentChar != null) {
-			isOnGround = parentChar.isOnGround;
-			moveSpeed = parentChar.vel.x;
+		if (getParent() instanceof Character) {
+			isOnGround = ((Character)getParent()).isOnGround;
+			moveSpeed = ((Character)getParent()).vel.x;
 		}
 
 		if (isOnGround && !wasOnGround)

@@ -7,10 +7,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
+import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Plateform;
 
 public class MapXmlReader extends XmlReader {
@@ -41,6 +43,8 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private static void readEntities(NodeList entity) {
+		entities.add(new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118))); //TODO: Temp sky
+		
 		NodeList entitiesNodes = ((Element) entity.item(0)).getChildNodes();
 		for (int i = 0; i < entitiesNodes.getLength(); i++) {
 			if (entitiesNodes.item(i).getNodeName() == "plateform") {

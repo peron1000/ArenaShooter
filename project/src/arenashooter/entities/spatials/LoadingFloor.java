@@ -10,7 +10,6 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.game.Game;
 
 public class LoadingFloor extends Spatial {
 	private static final Texture[] tex;
@@ -41,7 +40,7 @@ public class LoadingFloor extends Spatial {
 	@Override
 	public void step(double d) {
 		timer+=d;
-		
+
 		if(timer >= .1) {
 			timer = 0;
 			
@@ -64,7 +63,7 @@ public class LoadingFloor extends Spatial {
 		//Create matrices
 		Mat4f modelM = Mat4f.transform(position, rotation, size);
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Game.camera.viewMatrix);
+		shader.setUniformM4("view", Window.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);

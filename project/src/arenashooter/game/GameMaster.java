@@ -33,12 +33,15 @@ public class GameMaster {
 				controllers.put(controller, new CharacterInfo());
 			}	
 			current = Loading.loading;
+			current.init();
 		} else if (current instanceof CharacterChooser) {
 			Loading.loading.setNextState(new MapChooser(),"data/mapXML/mapXML.xml");// TODO : create the map
 			current = Loading.loading;
+			current.init();
 		} else if (current instanceof MapChooser) {
 			MapChooser mapChooser = (MapChooser) current;
 			current = Loading.loading;
+			current.init();
 			Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());// TODO : create the map
 		} else if (current == Loading.loading) {
 			current = Loading.loading.getNextState();
@@ -63,11 +66,11 @@ public class GameMaster {
 	}
 	
 	public void update(double delta) {
-		if(current != Loading.loading) {
+//		if(current != Loading.loading) {
 			current.update(delta);
-		} else {
-			current = Loading.loading.getNextState();
-			current.init();
-		}
+//		} else {
+//			current = Loading.loading.getNextState();
+//			current.init();
+//		}
 	}
 }

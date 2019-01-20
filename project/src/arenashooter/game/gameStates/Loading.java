@@ -7,6 +7,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.MapXmlReader;
+import arenashooter.entities.Camera;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Sky;
@@ -19,11 +20,16 @@ public class Loading extends GameState {
 	public static final Loading loading = new Loading();
 	
 	private GameState next;
+//	private Camera camera = new Camera(new Vec3f(0, 0, 450));
 	
-	private Loading() {
-		ArrayList<Entity> entities = new ArrayList<>();
+	private Loading() { }
+	
+	public void init() {
+		Window.camera = new Camera(new Vec3f(0, 0, 450));
 		
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
+		
+		ArrayList<Entity> entities = new ArrayList<>();
 		
 		float startX = -(GameMaster.gm.controllers.size()*64f)/2f;
 		int i=0;
@@ -32,17 +38,15 @@ public class Loading extends GameState {
 			
 			entities.add( new CharacterSprite(new Vec2f(x, 0), c) );
 			entities.add( new LoadingFloor(new Vec2f(x, 0)) );
-			
 			i++;
 		}
 		
-		map = new Map(entities);
+//		entities.add(camera);
+//		entities.add(new Sky(new Vec3f(0), new Vec3f(0)));
 		
-		//Set sky to black
-		Sky sky = (Sky)map.children.get("Sky");
-		if( sky != null )
-			sky.setColors(new Vec3f(0), new Vec3f(0));
+		map = new Map(entities);
 	}
+	
 	
 	/**
 	 * Set loading target
@@ -59,10 +63,15 @@ public class Loading extends GameState {
 	public GameState getNextState() {
 		return next;
 	}
-	
+
+	double time = 0; //TODO: Remove fake load time
 	@Override
 	public void update(double delta) {
 		map.step(delta);
+		
+		//Load next
+		time += delta;
+		if(time > 1) GameMaster.gm.requestNextState(); //Loading finished, go to next state
 	}
 
 	@Override
