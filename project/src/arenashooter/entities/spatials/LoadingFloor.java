@@ -15,7 +15,7 @@ public class LoadingFloor extends Spatial {
 	private static final Texture[] tex;
 	private static final Shader shader;
 	private static final Model model;
-	static private final Vec2f size = new Vec2f(64, 128);
+	static private final Vec2f size = new Vec2f(128, 256);
 	
 	private int currentTex;
 	private double timer = 0;
@@ -41,7 +41,7 @@ public class LoadingFloor extends Spatial {
 	public void step(double d) {
 		timer+=d;
 
-		if(timer >= .1) {
+		if(timer >= .3) {
 			timer = 0;
 			
 			currentTex++;
