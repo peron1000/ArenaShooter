@@ -3,6 +3,8 @@ package arenashooter.game;
 import java.util.ArrayList;
 
 import arenashooter.engine.audio.Audio;
+import arenashooter.engine.graphics.PostProcess;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -27,6 +29,8 @@ public class Game extends GameState {
 	}
 	
 	public void init() {
+		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		
 		map.addWeapons();
 		
 		for (Controller controller : GameMaster.gm.controllers.keySet()) {
@@ -58,7 +62,6 @@ public class Game extends GameState {
 			controller.step(d);
 		}
 		map.step(d);
-
 	}
 
 	public void draw() {

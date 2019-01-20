@@ -20,9 +20,9 @@ public class CharacterSprite extends Spatial {
 
 	private double time = Math.random() * Math.PI, movementTime = 0;
 
-	public CharacterSprite(Vec2f position, String folder) {
+	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
-		this.folder = folder;
+		folder = charInfo.spriteFolder;
 
 		body = new Sprite(position, folder + "/body.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);

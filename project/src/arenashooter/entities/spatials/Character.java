@@ -11,7 +11,6 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
-import arenashooter.game.Game;
 import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {
@@ -29,12 +28,7 @@ public class Character extends Spatial {
 
 	private Timer attack = new Timer(0.3);
 
-	// TODO: Temp sprite selector
-	private static boolean chevre_chat = false;
-	private String[] skins = { "chat_01", "chevre_01", "moineau_01", "canard_01", "vache_01" };
-	private static int currentSkin = 0;
-
-	public Character(Vec2f position) {
+	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position);
 
 		healthMax = 100;
@@ -48,15 +42,7 @@ public class Character extends Spatial {
 
 		attack.attachToParent(this, "attack timer");
 
-		// String spriteFolder = chevre_chat ? "chevre_01" : "chat_01"; Ancienne
-		// sélection du personnage
-		// chevre_chat = !chevre_chat;
-
-		CharacterSprite skeleton = new CharacterSprite(this.position, "data/sprites/characters/" + skins[currentSkin]);
-		if (currentSkin >= 4)
-			currentSkin = 0;
-		else
-			currentSkin++;
+		CharacterSprite skeleton = new CharacterSprite(this.position, charInfo);
 		skeleton.attachToParent(this, "skeleton");
 
 		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg", 2);
