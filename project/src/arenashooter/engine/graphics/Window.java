@@ -32,6 +32,8 @@ import org.lwjgl.opengl.GL;
 import arenashooter.engine.Input;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Camera;
 
 /**
  * Game window
@@ -49,6 +51,9 @@ public final class Window {
 	public static Mat4f proj;
 	private static float fov = 90;
 	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
+	
+	//View
+	public static Camera camera = new Camera(new Vec3f(0, 0, 450));
 	
 	//Post processing
 	/** Current post processing settings */

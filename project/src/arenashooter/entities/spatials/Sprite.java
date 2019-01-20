@@ -11,7 +11,6 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.game.Game;
 
 public class Sprite extends Spatial {
 	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");
@@ -50,7 +49,7 @@ public class Sprite extends Spatial {
 		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
 		Mat4f modelM = Mat4f.transform(position, rotation, scale);
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Game.camera.viewMatrix);
+		shader.setUniformM4("view", Window.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);

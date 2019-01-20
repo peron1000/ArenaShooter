@@ -13,7 +13,6 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.game.Game;
 import arenashooter.game.GameMaster;
 
 class EmitterBasic extends Emitter {
@@ -89,7 +88,7 @@ class EmitterBasic extends Emitter {
 		shader.bind();
 		
 		//Get matrices
-		shader.setUniformM4("view", Game.camera.viewMatrix);
+		shader.setUniformM4("view", Window.camera.viewMatrix);
 		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);

@@ -1,12 +1,12 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
-import arenashooter.game.Game;
 import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Sprite;
@@ -120,7 +120,7 @@ public class Gun extends Item {
 			rotation += ((Math.random()) - 0.5) * recoil;
 
 			// Add camera shake
-			Game.camera.setCameraShake(2.8f);
+			Window.camera.setCameraShake(2.8f);
 		}
 	}
 
