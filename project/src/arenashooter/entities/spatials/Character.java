@@ -31,6 +31,8 @@ public class Character extends Spatial {
 
 	// TODO: Temp sprite selector
 	private static boolean chevre_chat = false;
+	private String[] skins = { "chat_01", "chevre_01", "moineau_01", "canard_01", "vache_01" };
+	private static int currentSkin = 0;
 
 	public Character(Vec2f position) {
 		super(position);
@@ -46,9 +48,15 @@ public class Character extends Spatial {
 
 		attack.attachToParent(this, "attack timer");
 
-		String spriteFolder = chevre_chat ? "chevre_01" : "chat_01";
-		chevre_chat = !chevre_chat;
-		CharacterSprite skeleton = new CharacterSprite(this.position, "data/sprites/characters/" + spriteFolder);
+		// String spriteFolder = chevre_chat ? "chevre_01" : "chat_01"; Ancienne
+		// sélection du personnage
+		// chevre_chat = !chevre_chat;
+
+		CharacterSprite skeleton = new CharacterSprite(this.position, "data/sprites/characters/" + skins[currentSkin]);
+		if (currentSkin >= 4)
+			currentSkin = 0;
+		else
+			currentSkin++;
 		skeleton.attachToParent(this, "skeleton");
 
 		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg", 2);

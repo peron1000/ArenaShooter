@@ -42,7 +42,7 @@ public class Gun extends Item {
 			fire.attachToParent(this, "attack timer");
 
 			thrust = 500;
-			recoil = 0.60f;
+			recoil = 0.30f;
 			damage = 0f;
 			bulletSpeed = 3000;
 			cannonLength = 75.0;
@@ -120,7 +120,7 @@ public class Gun extends Item {
 			rotation += ((Math.random()) - 0.5) * recoil;
 
 			// Add camera shake
-			Game.camera.setCameraShake(0.8f);
+			Game.camera.setCameraShake(2.8f);
 		}
 	}
 
