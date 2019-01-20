@@ -91,20 +91,24 @@ public final class Physic {
 	
 	public static boolean rectVsRect(Rectangle a, Rectangle b) {
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
-		Vec2f projA = a.project(normal);
+//		Vec2f projA = a.project(normal);
+		Vec2f projA = a.projectSelfX();
 		Vec2f projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.rotate90(normal);
-		projA = a.project(normal);
+//		projA = a.project(normal);
+		projA = a.projectSelfY();
 		projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.fromAngle(b.body.rotation);
 		projA = a.project(normal);
-		projB = b.project(normal);
+//		projB = b.project(normal);
+		projB = b.projectSelfX();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
-		projB = b.project(normal);
+//		projB = b.project(normal);
+		projB = b.projectSelfY();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		
 		return true;
@@ -113,11 +117,13 @@ public final class Physic {
 	public static boolean diskVsRect(Disk a, Rectangle b) { //TODO: Test
 		Vec2f normal = Vec2f.fromAngle(b.body.rotation);
 		Vec2f projA = a.project(normal);
-		Vec2f projB = b.project(normal);
+//		Vec2f projB = b.project(normal);
+		Vec2f projB = b.projectSelfX();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
-		projB = b.project(normal);
+//		projB = b.project(normal);
+		projB = b.projectSelfY();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		
 		return true;

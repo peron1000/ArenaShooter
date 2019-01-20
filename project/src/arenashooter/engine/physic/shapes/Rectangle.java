@@ -24,6 +24,14 @@ public class Rectangle extends Shape {
 	public Vec2f getAABBextent() {
 		return Vec2f.rotate(extent, body.rotation);
 	}
+	
+	public Vec2f projectSelfX() {
+		return new Vec2f( body.position.x-extent.x, body.position.x+extent.x );
+	}
+	
+	public Vec2f projectSelfY() {
+		return new Vec2f( body.position.y-extent.y, body.position.y+extent.y );
+	}
 
 	@Override
 	public Vec2f project(Vec2f axis) {
