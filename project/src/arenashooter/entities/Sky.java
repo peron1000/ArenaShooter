@@ -12,12 +12,12 @@ import arenashooter.engine.math.Vec3f;
 public class Sky extends Entity {
 	
 	private static Model quad = null;
-	private static Shader shader = null;
+	private Shader shader;
 	private Vec3f colorBot = new Vec3f(), colorTop = new Vec3f();
 
 	public Sky(Vec3f colorBot, Vec3f colorTop) {
 		if(quad == null) quad = Model.loadQuad();
-		if(shader == null) shader = new Shader("data/shaders/sky");
+		shader = new Shader("data/shaders/sky");
 		setColors(colorBot, colorTop);
 	}
 	

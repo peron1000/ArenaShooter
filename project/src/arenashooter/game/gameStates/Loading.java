@@ -42,7 +42,7 @@ public class Loading extends GameState {
 		}
 		
 //		entities.add(camera);
-//		entities.add(new Sky(new Vec3f(0), new Vec3f(0)));
+		entities.add(new Sky(new Vec3f(0), new Vec3f(0)));
 		
 		map = new Map(entities);
 	}
