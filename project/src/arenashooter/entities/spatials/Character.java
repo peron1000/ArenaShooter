@@ -150,6 +150,7 @@ public class Character extends Spatial {
 	public void dropItem() {
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
+			((Gun)arme).setVel(new Vec2f());
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}

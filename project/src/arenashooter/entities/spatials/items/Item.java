@@ -11,7 +11,7 @@ import arenashooter.entities.spatials.Plateform;
 
 public abstract class Item extends Spatial {
 
-	Vec2f vel = new Vec2f();
+	private Vec2f vel = new Vec2f();
 	Collider collider;
 	boolean isOnGround = true;
 
@@ -51,7 +51,15 @@ public abstract class Item extends Spatial {
 
 	@Override
 	public void step(double d) {
-		position.add(Vec2f.multiply(vel, (float) d));
+		position.add(Vec2f.multiply(getVel(), (float) d));
 		super.step(d);
+	}
+
+	public Vec2f getVel() {
+		return vel;
+	}
+
+	public void setVel(Vec2f vel) {
+		this.vel = vel;
 	}
 }

@@ -110,10 +110,10 @@ public class Gun extends Item {
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 
 			if (isEquipped()) {
-				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
+				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 			} else
-				vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 
 			((SoundEffect) children.get("snd_Bang")).play();
 
@@ -134,8 +134,8 @@ public class Gun extends Item {
 					image.flipY = false;
 				else
 					image.flipY = true;
-				vel.x = Utils.lerpF(vel.x, 0, Utils.clampD(d * 50, 0, 1));
-				vel.y = Utils.lerpF(vel.y, 0, Utils.clampD(d * 50, 0, 1));
+				getVel().x = Utils.lerpF(getVel().x, 0, Utils.clampD(d * 50, 0, 1));
+				getVel().y = Utils.lerpF(getVel().y, 0, Utils.clampD(d * 50, 0, 1));
 			}
 		}
 
