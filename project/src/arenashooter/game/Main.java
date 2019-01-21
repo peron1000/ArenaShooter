@@ -3,6 +3,7 @@ package arenashooter.game;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
@@ -13,15 +14,14 @@ public class Main {
 	
 	private static GameMaster gameMaster = GameMaster.gm;
 	
+	public static Font font = null;
+	
 	public static void main(String[] args) {
-		Vec2f.fromAngle(Math.PI*2).print();
-		Vec2f.fromAngle(Math.PI).print();
-		Vec2f.fromAngle(Math.PI/2).print();
-		Vec2f.fromAngle(0).print();
-		
 		Audio.init(false);
 		Window.init(1280, 720, "Super Blep");
 		Window.setVsync(true);
+		
+		font = Font.loadFont("data/fonts/ubuntu.fnt");
 		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;

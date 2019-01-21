@@ -12,10 +12,13 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
+import arenashooter.entities.spatials.Text;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.game.Main;
 import arenashooter.entities.spatials.items.Gun;
 
 public class Map extends Entity {
@@ -34,6 +37,8 @@ public class Map extends Entity {
 	public Map(ArrayList<Entity> entities) {
 		physic = new Physic(this);
 		 
+		entities.add(new Text(new Vec3f(0), new Vec3f(300), Main.font, "Absolutely incroyable!"));
+		
 		for (Entity e : entities)
 			e.attachToParent(this, e.genName());
 

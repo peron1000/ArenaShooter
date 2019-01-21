@@ -1,0 +1,19 @@
+#version 150
+
+//In
+in vec2 texCoord;
+
+//Uniforms
+uniform sampler2D distanceField;
+uniform vec4 baseColor = vec4(1.0, 1.0, 1.0, 1.0);
+
+//Out
+out vec4 FragmentColor;
+
+void main() {
+    vec4 textureSample = texture(distanceField, texCoord);
+    
+    if(textureSample.r <= .65f) discard;
+
+    FragmentColor = baseColor;
+}

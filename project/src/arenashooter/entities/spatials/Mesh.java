@@ -1,4 +1,4 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -11,7 +11,6 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.spatials.Spatial3;
 
 public class Mesh extends Spatial3 {
 
