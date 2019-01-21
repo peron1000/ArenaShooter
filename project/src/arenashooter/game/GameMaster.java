@@ -18,24 +18,25 @@ public class GameMaster {
 	
 	public HashMap<Controller, CharacterInfo> controllers = new HashMap<>(1);
 	
-	private static GameState current = new Start();
+	private static GameState current = new CharacterChooser();
+	
+	static {current.init();}
 	
 	private GameMaster() {
 		// Constructor untouchable
-		//Loading.loading.setNextState(new Start() , "data/mapXML/mapXML2.xml");// TODO : create the map
 	}
 	
 	public void requestNextState() {
 		if(current instanceof Start) {
-			Start start = (Start) current;
-			Loading.loading.setNextState(new Game(), "data/mapXML/mapXML.xml");// TODO : create the map
-			for (Controller controller : start.getControllers()) {
-				controllers.put(controller, new CharacterInfo());
-			}	
+			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
 		} else if (current instanceof CharacterChooser) {
-			Loading.loading.setNextState(new MapChooser(),"data/mapXML/mapXML.xml");// TODO : create the map
+			CharacterChooser c = (CharacterChooser) current;
+			for (Controller controller : c.getControllers()) {
+				controllers.put(controller, new CharacterInfo());
+			}
+			Loading.loading.setNextState(new Game(),"data/mapXML/mapXML.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
 		} else if (current instanceof MapChooser) {
