@@ -9,7 +9,6 @@ import org.w3c.dom.NodeList;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.physic.Physic;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Sky;
@@ -37,7 +36,6 @@ public class MapXmlReader extends XmlReader {
 		map.cameraBounds = cameraBounds;
 		map.spawn = spawn;
 		map.gravity = gravity;
-//		Physic.globalForce = map.gravity; //TODO: Do this in a cleaner way
 
 		return map;
 	}
