@@ -21,7 +21,7 @@ public class Rectangle extends Shape {
 	}
 	
 	@Override
-	public Vec2f getAABBextent() {
+	public Vec2f getAABBextent() { //TODO: Fix this
 		return Vec2f.rotate(extent, body.rotation);
 	}
 	
