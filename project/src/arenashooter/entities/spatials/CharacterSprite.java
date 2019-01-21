@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Map;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 
@@ -85,9 +86,12 @@ public class CharacterSprite extends Spatial {
 
 		wasOnGround = isOnGround;
 
-		if (getParent() instanceof Character) {
+		if( getParent() instanceof Character ) {
 			isOnGround = ((Character)getParent()).isOnGround;
 			moveSpeed = ((Character)getParent()).vel.x;
+		} else if( getParent() instanceof Map ) { //TODO: Temp stuff for loading screen anim
+			isOnGround = true;
+			moveSpeed = 1000;
 		}
 
 		if (isOnGround && !wasOnGround)
@@ -111,9 +115,11 @@ public class CharacterSprite extends Spatial {
 		footCos = Utils.lerpD(1, footCos, Math.min(Math.abs(moveSpeed) / 500, 1));
 
 		stepTimer.step(d * Math.abs(moveSpeed) / 500);
-		if (isOnGround && stepTimer.isOver()) {
-			((SoundEffect) children.get("snd Step")).play();
-			stepTimer.restart();
+		if( !(getParent() instanceof Map) ) { //TODO: Temp stuff for loading screen anim
+			if (isOnGround && stepTimer.isOver()) {
+				((SoundEffect) children.get("snd Step")).play();
+				stepTimer.restart();
+			}
 		}
 
 		if (moveSpeed > 0) {
