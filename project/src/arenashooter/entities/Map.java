@@ -8,6 +8,7 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
@@ -21,7 +22,9 @@ public class Map extends Entity {
 	/** Spawn points */
 	public ArrayList<Vec2f> spawn;
 	/** World gravity vector */
-	public Vec2f gravity;
+	public Vec2f gravity = new Vec2f(0);
+	
+	public Physic physic;
 
 	private int dernierspawn = -1;
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
@@ -29,17 +32,17 @@ public class Map extends Entity {
 	public Vec4f cameraBounds;
 
 	public Map(ArrayList<Entity> entities) {
+		physic = new Physic(this);
+		 
 		for (Entity e : entities)
 			e.attachToParent(this, e.genName());
-
-		// Create sky
-//		Sky sky = new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118));
-//		sky.attachToParent(this, "Sky");
 
 		testPhysics();
 	}
 
 	public Map(int nbPlayer) {
+		physic = new Physic(this);
+		
 		spawn = new ArrayList<>(nbPlayer);
 		creationPlateforme();
 		creationSpawn(nbPlayer);
@@ -50,6 +53,13 @@ public class Map extends Entity {
 		arrows.attachToParent(this, "Mesh Arrows");
 
 		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
+	}
+	
+	@Override
+	public void step(double d) {
+		super.step(d);
+		
+		physic.step(d);
 	}
 
 	private void creationSpawn(int nbPlayer) {

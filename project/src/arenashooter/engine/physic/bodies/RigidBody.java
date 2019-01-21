@@ -3,7 +3,6 @@ package arenashooter.engine.physic.bodies;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Body;
-import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.Shape;
 
 /**
@@ -28,9 +27,9 @@ public class RigidBody extends Body {
 			momentOfInertia = this.shape.getMomentOfInertia(this.mass);
 	}
 	
-	public void process(double d) {
+	public void process(double d, Vec2f globalForce) {
 		//Apply global forces like gravity
-		applyForce(Physic.globalForce);
+		applyForce(globalForce);
 		
 		//Linear movement
 		Vec2f accel = new Vec2f( forces.x/mass, forces.y/mass );

@@ -5,7 +5,6 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Physic;
 
 public class Main {
 	private static final int minFrametime = 8;
@@ -44,10 +43,6 @@ public class Main {
 			Profiler.startTimer(Profiler.STEP);
 			gameMaster.update(delta);
 			Profiler.endTimer(Profiler.STEP);
-			
-			Profiler.startTimer(Profiler.PHYSIC);
-			Physic.step(delta);
-			Profiler.endTimer(Profiler.PHYSIC);
 			
 			Profiler.startTimer(Profiler.RENDER);
 			gameMaster.draw();

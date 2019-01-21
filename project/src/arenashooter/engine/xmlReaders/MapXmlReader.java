@@ -37,7 +37,7 @@ public class MapXmlReader extends XmlReader {
 		map.cameraBounds = cameraBounds;
 		map.spawn = spawn;
 		map.gravity = gravity;
-		Physic.globalForce = map.gravity; //TODO: Do this in a cleaner way
+//		Physic.globalForce = map.gravity; //TODO: Do this in a cleaner way
 
 		return map;
 	}

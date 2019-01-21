@@ -3,23 +3,32 @@ package arenashooter.engine.physic;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.entities.Map;
 
-public final class Physic {
-	private static ArrayList<Body> bodies = new ArrayList<Body>();
-	private static ArrayList<StaticBody> staticBodies = new ArrayList<StaticBody>();
-	private static ArrayList<RigidBody> rigidBodies = new ArrayList<RigidBody>();
+public class Physic {
+	private ArrayList<Body> bodies = new ArrayList<Body>();
+	private ArrayList<StaticBody> staticBodies = new ArrayList<StaticBody>();
+	private ArrayList<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 	
-	public static Vec2f globalForce = new Vec2f();
+	/** Map represented by this simulation */
+	private Map map;
 	
-	//This class cannot be instantiated
-	private Physic() {}
+	private static Physic tempCurrentPhysic; //TODO: Remove this
 	
-	public static void step(double d) {
+	public Physic(Map map) {
+		this.map = map;
+		tempCurrentPhysic = this;
+	}
+	
+	public void step(double d) {
+		Profiler.startTimer(Profiler.PHYSIC);
+		
 		HashSet<BodiesCouple> couplesToTest = new HashSet<BodiesCouple>();
 		for(RigidBody b : rigidBodies)
 			for(Body other : bodies)
@@ -42,18 +51,22 @@ public final class Physic {
 		}
 		
 		for( RigidBody rigid : rigidBodies ) {
-			rigid.process(d);
+			rigid.process(d, map.gravity);
 		}
+		
+		Profiler.endTimer(Profiler.PHYSIC);
 	}
 	
 	public static void registerRigidBody(RigidBody body) {
-		bodies.add(body);
-		rigidBodies.add(body);
+		tempCurrentPhysic.bodies.add(body);
+		tempCurrentPhysic.rigidBodies.add(body);
 	}
 	
 	public static void registerStaticBody(StaticBody body) {
-		bodies.add(body);
-		staticBodies.add(body);
+		if(tempCurrentPhysic != null) {
+			tempCurrentPhysic.bodies.add(body);
+			tempCurrentPhysic.staticBodies.add(body);
+		}
 	}
 	
 	/**
@@ -62,7 +75,7 @@ public final class Physic {
 	 * @param b
 	 * @return
 	 */
-	public static boolean mayCollide(Shape a, Shape b) {
+	public boolean mayCollide(Shape a, Shape b) {
 		Vec2f extA = a.getAABBextent();
 		Vec2f extB = b.getAABBextent();
 		
@@ -70,7 +83,7 @@ public final class Physic {
 				(a.body.position.y + extA.y > b.body.position.y - extB.y && a.body.position.y - extA.y < b.body.position.y + extB.y);
 	}
 	
-	public static boolean isColliding(Shape a, Shape b) {
+	public boolean isColliding(Shape a, Shape b) {
 		if(a instanceof Disk) //a is a Disk
 			if(b instanceof Rectangle) //b is a Rectangle
 				return( diskVsRect((Disk)a, (Rectangle)b) );
@@ -83,13 +96,13 @@ public final class Physic {
 				return( diskVsRect((Disk)b, (Rectangle)a) );
 	}
 	
-	public static boolean diskVsDisk(Disk a, Disk b) {
+	public boolean diskVsDisk(Disk a, Disk b) {
 		double distSqr = Vec2f.subtract(a.body.position, b.body.position).lengthSquared();
 		double radiiSqr = (a.radius+b.radius)*(a.radius+b.radius);
 		return distSqr <= radiiSqr;
 	}
 	
-	public static boolean rectVsRect(Rectangle a, Rectangle b) {
+	public boolean rectVsRect(Rectangle a, Rectangle b) {
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
 //		Vec2f projA = a.project(normal);
 		Vec2f projA = a.projectSelfX();
@@ -114,7 +127,7 @@ public final class Physic {
 		return true;
 	}
 
-	public static boolean diskVsRect(Disk a, Rectangle b) { //TODO: Test
+	public boolean diskVsRect(Disk a, Rectangle b) { //TODO: Test
 		Vec2f normal = Vec2f.fromAngle(b.body.rotation);
 		Vec2f projA = a.project(normal);
 //		Vec2f projB = b.project(normal);
@@ -129,7 +142,7 @@ public final class Physic {
 		return true;
 	}
 	
-	private static class BodiesCouple {
+	private class BodiesCouple {
 		Body a, b;
 		private BodiesCouple(Body a, Body b) {
 			this.a = a;
