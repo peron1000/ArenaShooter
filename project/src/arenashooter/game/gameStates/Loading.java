@@ -56,24 +56,36 @@ public class Loading extends GameState {
 	 * @param mapName
 	 */
 	public void setNextState(GameState next , String mapName) {
-		long test = System.currentTimeMillis();
 		this.next = next;
-		next.map = MapXmlReader.read(mapName);
-		System.out.println("Time to load map : "+(System.currentTimeMillis() - test));
+		MapXmlReader.setMapToRead(mapName);
 	}
 	
 	public GameState getNextState() {
 		return next;
 	}
+	
+	private void createNewMap() {
+		Map m = new Map(MapXmlReader.getEntities());
+		m.spawn = MapXmlReader.getSpawn();
+		m.cameraBounds = MapXmlReader.getCameraBounds();
+		m.gravity = MapXmlReader.getGravity();
+		m.addWeapons();
+		next.map = m;
+	}
 
-	double time = 0; //TODO: Remove fake load time
 	@Override
 	public void update(double delta) {
 		map.step(delta);
 		
-		//Load next
-		time += delta;
-		if(time > 2) GameMaster.gm.requestNextState(); //Loading finished, go to next state
+		//Load next / TODO : to update
+		boolean entitiesLoaded = MapXmlReader.loadNextEntity();
+		boolean informationsloaded = MapXmlReader.loadNextInformation();
+		
+		if(entitiesLoaded && informationsloaded) {
+			createNewMap();
+			GameMaster.gm.requestNextState();
+		}
+		
 	}
 
 	@Override

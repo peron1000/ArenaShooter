@@ -7,6 +7,8 @@ import arenashooter.engine.Device;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.entities.Controller;
+import arenashooter.entities.spatials.CharacterInfo;
+import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.game.GameMaster;
 
 public class CharacterChooser extends GameState {
@@ -30,6 +32,14 @@ public class CharacterChooser extends GameState {
 				System.out.println("add controller");
 			}
 			// TODO : remove controller when B is pressed
+		}
+		for (String child : map.children.keySet()) {
+			if(map.children.get(child) instanceof CharacterSprite) {
+				map.children.remove(child);
+			}
+		}
+		for (int i = 0; i < GameMaster.gm.controllers.entrySet().size(); i++) {
+			
 		}
 		if(Input.actionPressed(Device.KEYBOARD, Action.JUMP)) {
 			GameMaster.gm.requestNextState();

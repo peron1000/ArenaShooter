@@ -67,11 +67,6 @@ public class GameMaster {
 	}
 	
 	public void update(double delta) {
-//		if(current != Loading.loading) {
-			current.update(delta);
-//		} else {
-//			current = Loading.loading.getNextState();
-//			current.init();
-//		}
+		current.update(delta);
 	}
 }
