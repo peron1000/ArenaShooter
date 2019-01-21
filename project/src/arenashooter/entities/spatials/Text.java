@@ -9,6 +9,7 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
@@ -18,6 +19,7 @@ public class Text extends Spatial3 {
 	private Shader shader;
 	private Font font;
 	
+	public float thickness = .25f;
 	public Vec4f color = new Vec4f(1, .5, 1, 1);
 	
 	public Vec3f scale;
@@ -30,7 +32,7 @@ public class Text extends Spatial3 {
 		this.shader = new Shader("data/shaders/text_distance_field");
 		this.model = font.genModel(text);
 	}
-
+	
 	@Override
 	public void draw() {
 		Profiler.startTimer(Profiler.MESHES);
@@ -41,6 +43,11 @@ public class Text extends Spatial3 {
 		shader.setUniformM4("projection", Window.proj);
 		
 		shader.setUniformV4("baseColor", color);
+		
+		//TODO: Remove this temp thickness animation
+		thickness = Utils.lerpF(.25f, .5f, (.5*Math.sin(System.currentTimeMillis()*.01))+.5);
+		
+		shader.setUniformF("thickness", thickness);
 
 		model.bindToShader(shader);
 
