@@ -209,14 +209,14 @@ public class Enregistreur {
 	}
 
 	private static void remplissageInfomation(Document document, Element information) {
+		remplissageSpawns(document , information);
+		
 		// Gravity
 		Element gravity = document.createElement("gravity");
 		gravity.appendChild(remplissageVecteur(document, Main.map.gravity));
 		information.appendChild(gravity);
 		
-		// TODO : Camera Bound
-		
-		remplissageSpawns(document , information);
+		// TODO : Camera Bound here
 		
 		//Sky
 		Element sky = document.createElement("sky");
