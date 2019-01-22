@@ -56,7 +56,8 @@ public class Gun extends Weapon {
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
 	}
-
+	
+	@Override
 	public void attack() { // Visée par vecteur
 		if (fire.isOver()) {
 			fire.restart();
