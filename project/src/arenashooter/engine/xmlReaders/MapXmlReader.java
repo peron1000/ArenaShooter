@@ -6,12 +6,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.Text;
 
 public class MapXmlReader extends XmlReader {
 
@@ -91,6 +93,29 @@ public class MapXmlReader extends XmlReader {
 				NodeList vectors = entity.getChildNodes();
 				getVectorsEntity(vectors, position, extent);
 				// TODO : add the weapon in entities
+			} else if (entity.getNodeName().equals("text")) {
+				Font font = Font.loadFont(entity.getAttribute("font"));
+				if( font != null ) {
+					Vec3f position = new Vec3f();
+					Vec3f size = new Vec3f(1);
+					String content = entity.getAttribute("content");
+					NodeList vectors = entity.getChildNodes();
+					for (int i = 0; i < vectors.getLength(); i++) {
+						if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
+							Element vector = (Element) vectors.item(i);
+							if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+								position.x = Float.parseFloat(vector.getAttribute("x"));
+								position.y = Float.parseFloat(vector.getAttribute("y"));
+								position.y = Float.parseFloat(vector.getAttribute("z"));
+							}
+							if (vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+								size.x = Float.parseFloat(vector.getAttribute("x"));
+								size.y = Float.parseFloat(vector.getAttribute("y"));
+							}
+						}
+					}
+					entities.add(new Text(position, size, font, content));
+				}
 			}
 		}
 		iteratorEntite++;

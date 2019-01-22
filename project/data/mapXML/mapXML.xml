@@ -86,7 +86,7 @@
 		</plateform>
 		
 		<text content="Mlep!" font="data/fonts/ubuntu.fnt">
-			<vecteur x="0" y="0" z="0" use="position" />
+			<vecteur x="0" y="0" z="-10" use="position" />
 			<vecteur x="300" y="300" use="scale" />
 		</text>
 
