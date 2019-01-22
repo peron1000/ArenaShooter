@@ -21,7 +21,7 @@ public class Character extends Spatial {
 	private final Vec2f spawn;
 
 	public Vec2f vel = new Vec2f();
-	Collider collider;
+	public Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
@@ -131,7 +131,7 @@ public class Character extends Spatial {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				//((SoundEffect) arme.children.get("snd_Pickup")).play();
+				((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
 			if (armure != null)
 				armure.attachToParent(this, "Item_Armor");
