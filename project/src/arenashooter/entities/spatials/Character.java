@@ -9,6 +9,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.Weapon;
 import arenashooter.entities.spatials.items.CloseWeapon;
 import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
@@ -69,10 +70,7 @@ public class Character extends Spatial {
 
 	public void attack() {
 		if (children.get("Item_Weapon") != null) {
-			((Gun) children.get("Item_Weapon")).fire();
-//		if (children.get("Item_Weapon") != null) {
-//			((CloseWeapon) children.get("Item_Weapon")).attackC();
-//		}
+			((Weapon) children.get("Item_Weapon")).attack();
 		} else if (attack.isOver()) {
 			attack.restart();
 

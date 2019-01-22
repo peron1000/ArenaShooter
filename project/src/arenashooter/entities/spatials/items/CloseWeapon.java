@@ -2,7 +2,7 @@ package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Vec2f;
 
-public class CloseWeapon extends Item {
+public class CloseWeapon extends Weapon {
 
 	private static int idNumber;
 
@@ -10,7 +10,8 @@ public class CloseWeapon extends Item {
 		super(position, itemSprite);
 	}
 	
-	public void attackC() {
+	@Override
+	public void attack() {
 		
 	}
 }

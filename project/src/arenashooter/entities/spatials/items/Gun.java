@@ -11,7 +11,7 @@ import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Sprite;
 
-public class Gun extends Item {
+public class Gun extends Weapon {
 	private Timer fire = new Timer(0.15);
 	Collider coll;
 	private float recoil = 0.4f;// High
@@ -95,7 +95,7 @@ public class Gun extends Item {
 	// }
 	// }
 
-	public void fire() { // Visée par vecteur
+	public void attack() { // Visée par vecteur
 		if (fire.isOver()) {
 			fire.restart();
 
