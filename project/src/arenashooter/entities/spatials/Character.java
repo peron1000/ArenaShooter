@@ -10,7 +10,7 @@ import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Weapon;
-import arenashooter.entities.spatials.items.CloseWeapon;
+import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
@@ -131,7 +131,7 @@ public class Character extends Spatial {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				//((SoundEffect) arme.children.get("snd_Pickup")).play();
+				((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
 			if (armure != null)
 				armure.attachToParent(this, "Item_Armor");

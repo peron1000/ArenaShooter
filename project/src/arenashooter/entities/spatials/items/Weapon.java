@@ -1,6 +1,8 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.spatials.Sprite;
 
 public class Weapon extends Item {
 
@@ -11,7 +13,6 @@ public class Weapon extends Item {
 
 	public void attack() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }
