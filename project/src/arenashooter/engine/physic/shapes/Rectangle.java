@@ -22,7 +22,10 @@ public class Rectangle extends Shape {
 	
 	@Override
 	public Vec2f getAABBextent() { //TODO: Fix this
-		return Vec2f.rotate(extent, body.rotation);
+		Vec2f extentRotX = Vec2f.rotate(extent, -body.rotation);
+		Vec2f extentRotY = Vec2f.rotate(extent, body.rotation);
+		return new Vec2f( extentRotX.x, extentRotY.y );
+//		return Vec2f.rotate(extent, body.rotation);
 	}
 	
 	public Vec2f projectSelfX() {
