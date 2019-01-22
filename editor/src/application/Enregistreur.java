@@ -213,10 +213,16 @@ public class Enregistreur {
 		
 		// Gravity
 		Element gravity = document.createElement("gravity");
-		gravity.appendChild(remplissageVecteur(document, Main.map.gravity));
+		gravity.appendChild(remplissageVec2(document, Main.map.gravity));
 		information.appendChild(gravity);
 		
-		// TODO : Camera Bound here
+		// TODO : Camera Bound
+		Element cameraBound = document.createElement("cameraBound");
+		cameraBound.setAttribute("x", String.valueOf(-5000));
+		cameraBound.setAttribute("y", String.valueOf(-1000));
+		cameraBound.setAttribute("z", String.valueOf( 5000));
+		cameraBound.setAttribute("w", String.valueOf( 1000));
+		information.appendChild(cameraBound);
 		
 		//Sky
 		Element sky = document.createElement("sky");
@@ -241,19 +247,36 @@ public class Enregistreur {
 	private static void remplissageSpawns(Document document, Element information) {
 		for (Vec2 spawn : Main.map.spawns) {
 			Element e = document.createElement("spawn");
-			e.appendChild(remplissageVecteur(document, spawn));
+			e.appendChild(remplissageVec2(document, spawn));
 			information.appendChild(e);
 		}
 	}
 
-	private static Element remplissageVecteur(Document document, double x, double y) {
+	private static Element remplissageVec2(Document document, double x, double y) {
 		Element vecteur = document.createElement("vecteur");
 		vecteur.setAttribute("x", String.valueOf(x));
 		vecteur.setAttribute("y", String.valueOf(y));
 		return vecteur;
 	}
 	
-	private static Element remplissageVecteur(Document document, Vec2 vec) {
-		return remplissageVecteur(document, vec.x, vec.y);
+	private static Element remplissageVec2(Document document, Vec2 vec) {
+		return remplissageVec2(document, vec.x, vec.y);
+	}
+	
+	private static Element remplissageVec3(Document document, double x, double y, double z) {
+		Element vecteur = document.createElement("vecteur");
+		vecteur.setAttribute("x", String.valueOf(x));
+		vecteur.setAttribute("y", String.valueOf(y));
+		vecteur.setAttribute("z", String.valueOf(z));
+		return vecteur;
+	}
+	
+	private static Element remplissageVec4(Document document, double x, double y, double z, double w) {
+		Element vecteur = document.createElement("vecteur");
+		vecteur.setAttribute("x", String.valueOf(x));
+		vecteur.setAttribute("y", String.valueOf(y));
+		vecteur.setAttribute("z", String.valueOf(z));
+		vecteur.setAttribute("w", String.valueOf(w));
+		return vecteur;
 	}
 }
