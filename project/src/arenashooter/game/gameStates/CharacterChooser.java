@@ -6,6 +6,8 @@ import java.util.HashMap;
 import arenashooter.engine.Device;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
+import arenashooter.engine.graphics.PostProcess;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Controller;
 import arenashooter.entities.spatials.CharacterInfo;
@@ -24,6 +26,8 @@ public class CharacterChooser extends GameState {
 	
 	@Override
 	public void init() {
+		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		
 		controllers.put(Device.KEYBOARD, new Controller(Device.KEYBOARD));
 		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), new CharacterInfo());
 		i += 150;
