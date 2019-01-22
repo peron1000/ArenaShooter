@@ -33,11 +33,11 @@ public class CharacterChooser extends GameState {
 			}
 			// TODO : remove controller when B is pressed
 		}
-		for (String child : map.children.keySet()) {
-			if(map.children.get(child) instanceof CharacterSprite) {
-				map.children.remove(child);
-			}
-		}
+//		for (String child : map.children.keySet()) {
+//			if(map.children.get(child) instanceof CharacterSprite) {
+//				map.children.remove(child);
+//			}
+//		}
 		for (int i = 0; i < GameMaster.gm.controllers.entrySet().size(); i++) {
 			
 		}
