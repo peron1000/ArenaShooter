@@ -14,14 +14,12 @@ import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Plateform;
 
 public class MapXmlReader extends XmlReader {
-	
-	public final static MapXmlReader mapReader = new MapXmlReader();
-	
+
 	// Entities variables
 	private int iteratorEntite = 0;
 	private ArrayList<Entity> entities = new ArrayList<>();
 	private NodeList entitiesNodeList;
-	
+
 	// Informations variables
 	private int iteratorInfo = 0;
 	private ArrayList<Vec2f> spawn = new ArrayList<>();
@@ -29,17 +27,27 @@ public class MapXmlReader extends XmlReader {
 	private Vec4f cameraBounds = new Vec4f();
 	private NodeList infoNodeList;
 
-	private MapXmlReader() {
-		// Untouchable constructor
+	public MapXmlReader(String path) {
+		parse(path);
+		resetCollections();
+
+		NodeList infoTag = document.getElementsByTagName("information");
+		infoNodeList = infoTag.item(0).getChildNodes();
+		iteratorInfo = 0;
+
+		NodeList entitieTag = document.getElementsByTagName("entities");
+		entitiesNodeList = entitieTag.item(0).getChildNodes();
+		iteratorEntite = 0;
 	}
 
 	/**
 	 * Change position and extent to match with the vectors given in the NodeList
+	 * 
 	 * @param vectors
 	 * @param position
 	 * @param extent
 	 */
-	private void getVectorsEntity(NodeList vectors , Vec2f position , Vec2f extent) {
+	private void getVectorsEntity(NodeList vectors, Vec2f position, Vec2f extent) {
 		for (int i = 0; i < vectors.getLength(); i++) {
 			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Element vector = (Element) vectors.item(i);
@@ -61,26 +69,15 @@ public class MapXmlReader extends XmlReader {
 		entities.clear();
 		spawn.clear();
 	}
-	
-	public void setMapToRead(String path) {
-		parse(path);
-		resetCollections();
-		
-		NodeList infoTag = document.getElementsByTagName("information");
-		infoNodeList = infoTag.item(0).getChildNodes();
-		iteratorInfo = 0;
-		
-		NodeList entitieTag = document.getElementsByTagName("entities");
-		entitiesNodeList = entitieTag.item(0).getChildNodes();
-		iteratorEntite = 0;
-	}
-	
+
 	/**
 	 * Load a new entity
+	 * 
 	 * @return <i>true</i> if all entities are already loaded
 	 */
 	public boolean loadNextEntity() {
-		if(iteratorEntite < entitiesNodeList.getLength() && entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
+		if (iteratorEntite < entitiesNodeList.getLength()
+				&& entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
 			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
 			if (entity.getNodeName() == "plateform") {
 				Vec2f position = new Vec2f();
@@ -88,26 +85,28 @@ public class MapXmlReader extends XmlReader {
 				NodeList vectors = entity.getChildNodes();
 				getVectorsEntity(vectors, position, extent);
 				entities.add(new Plateform(position, extent));
-			} else if(entity.getNodeName() == "weapon") {
+			} else if (entity.getNodeName() == "weapon") {
 				Vec2f position = new Vec2f();
 				Vec2f extent = new Vec2f();
 				NodeList vectors = entity.getChildNodes();
 				getVectorsEntity(vectors, position, extent);
 				// TODO : add the weapon in entities
 			}
-		} 
+		}
 		iteratorEntite++;
 		return !(iteratorEntite < entitiesNodeList.getLength());
 	}
-	
+
 	/**
 	 * Load a new information
+	 * 
 	 * @return <i>true</i> if all informations are already loaded
 	 */
 	public boolean loadNextInformation() {
-		if(iteratorInfo < infoNodeList.getLength() && infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
+		if (iteratorInfo < infoNodeList.getLength()
+				&& infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
 			Element info = (Element) infoNodeList.item(iteratorInfo);
-			
+
 			if (info.getNodeName() == "spawn") {
 
 				NodeList spawns = info.getChildNodes();
@@ -135,7 +134,7 @@ public class MapXmlReader extends XmlReader {
 				cameraBounds.y = Float.parseFloat(info.getAttribute("y"));
 				cameraBounds.z = Float.parseFloat(info.getAttribute("z"));
 				cameraBounds.w = Float.parseFloat(info.getAttribute("w"));
-			}  else if(info.getNodeName() == "sky") {
+			} else if (info.getNodeName() == "sky") {
 				Vec3f bottom = new Vec3f();
 				Vec3f top = new Vec3f();
 				NodeList vectors = info.getChildNodes();
@@ -156,7 +155,7 @@ public class MapXmlReader extends XmlReader {
 				}
 				entities.add(new Sky(bottom, top));
 			}
-			
+
 		}
 		iteratorInfo++;
 		return !(iteratorInfo < infoNodeList.getLength());
