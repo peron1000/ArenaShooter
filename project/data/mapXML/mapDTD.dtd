@@ -10,7 +10,7 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity*, plateform*, weapon*, mesh*, text*)>
+<!ELEMENT entities (entity|plateform|weapon|mesh|text)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT plateform (vecteur , vecteur, entities?)>
