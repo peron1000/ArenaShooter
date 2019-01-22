@@ -13,6 +13,7 @@ import arenashooter.entities.Map;
 import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
+import arenashooter.game.Game;
 import arenashooter.game.GameMaster;
 
 public class Loading extends GameState {
@@ -80,6 +81,7 @@ public class Loading extends GameState {
 		m.spawn = mapXmlReader.getSpawn();
 		m.cameraBounds = mapXmlReader.getCameraBounds();
 		m.gravity = mapXmlReader.getGravity();
+		if(next instanceof Game)
 		m.init();
 	}
 
