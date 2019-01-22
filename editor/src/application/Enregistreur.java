@@ -46,7 +46,7 @@ public class Enregistreur {
 		Stage stage = new Stage();
 		FileChooser f = new FileChooser();
 		f.setInitialFileName("map.xml");
-		f.setInitialDirectory(new File("editor_data"));
+		f.setInitialDirectory(new File("export"));
 		f.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML", "*.xml"),
 				new FileChooser.ExtensionFilter("All", "*.*"));
 		File file = f.showSaveDialog(stage);
