@@ -44,7 +44,7 @@ public abstract class Item extends Spatial {
 
 		Sprite sprite = new Sprite(position, itemSprite.path);
 		sprite.attachToParent(this, "Item_Sprite");
-		sprite.size = new Vec2f(sprite.tex.getWidth()/10, sprite.tex.getHeight()/10);
+		sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
 
 		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");
