@@ -3,8 +3,6 @@ package arenashooter.entities;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -12,13 +10,11 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
-import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.Text;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.CloseWeapon;
 import arenashooter.game.Main;
 import arenashooter.entities.spatials.items.Gun;
 
@@ -137,6 +133,7 @@ public class Map extends Entity {
 
 	// déso, ces lignes sont temporaires
 	public void init() {
+		physic = new Physic(this);
 
 		testPhysics();
 		Gun gun2 = new Gun(new Vec2f(300, 350), Item.SpritePath.assault);
@@ -154,5 +151,10 @@ public class Map extends Entity {
 		Entity e = new Text(new Vec3f(0), new Vec3f(300), Main.font, "Absolutely incroyable!");
 		e.attachToParent(this, e.genName());
 
+	}
+	// TODO à supprimer
+
+	public void addPlateform(Vec2f position, Vec2f extent, String nom) {
+		children.put(nom, new Plateform(position, extent));
 	}
 }

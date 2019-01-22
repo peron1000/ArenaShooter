@@ -10,7 +10,7 @@ import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Weapon;
-import arenashooter.entities.spatials.items.CloseWeapon;
+import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
@@ -21,7 +21,7 @@ public class Character extends Spatial {
 	private final Vec2f spawn;
 
 	public Vec2f vel = new Vec2f();
-	Collider collider;
+	public Collider collider;
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
@@ -131,7 +131,7 @@ public class Character extends Spatial {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				//((SoundEffect) arme.children.get("snd_Pickup")).play();
+				((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
 			if (armure != null)
 				armure.attachToParent(this, "Item_Armor");
@@ -141,7 +141,7 @@ public class Character extends Spatial {
 	public void dropItem() {
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
-			((Gun)arme).setVel(new Vec2f());
+			((Weapon)arme).setVel(new Vec2f());
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}
@@ -233,24 +233,18 @@ public class Character extends Spatial {
 
 		// Updates Children, but Lerp for the Weapon instead of just giving the
 		// position.
-		if (children.get("Item_Weapon") instanceof Gun) {
-			Gun arme = (Gun) children.get("Item_Weapon");
-			// boolean loin = arme.position.x > position.x + (lookRight ? 70 : -10)
-			// || arme.position.x < position.x - (lookRight ? -10 : 70) || arme.position.y >
-			// position.y + 40
-			// || arme.position.y < position.y - 20;
-			
+		if (children.get("Item_Weapon") instanceof Weapon) {
+			Weapon arme = (Weapon) children.get("Item_Weapon");
 //			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(40, 0), aimInput)), position);
 			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(50, 0), arme.rotation)), position);//rotation indépendante
 			arme.position.x = (float) Utils.lerpD((double) arme.position.x, weaponPosition.x, Math.min(1, d * 55));
-			arme.position.y = (float) Utils.lerpD((double) arme.position.y, weaponPosition.y+20, Math.min(1, d * 55));
+			arme.position.y = (float) Utils.lerpD((double) arme.position.y, weaponPosition.y, Math.min(1, d * 55));
 			arme.rotation = Utils.lerpAngle(arme.rotation, aimInput, Math.min(1, d * 10));//rotation indépendante
 //			arme.rotation = new Vec2f(arme.position.x-position.x, arme.position.y-position.y).angle();
 		}
 		for (Entity e : children.values()) {
-			if (e instanceof Spatial && !(e instanceof Gun))
+			if (e instanceof Spatial && !(e instanceof Weapon))
 				((Spatial) e).position.set(position);
-			// System.out.println(aimInput);
 			e.step(d);
 		}
 	}

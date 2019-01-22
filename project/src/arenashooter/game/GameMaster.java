@@ -18,9 +18,7 @@ public class GameMaster {
 	
 	public HashMap<Controller, CharacterInfo> controllers = new HashMap<>(1);
 	
-	private static GameState current = new CharacterChooser();
-	
-	static {current.init();}
+	private static GameState current = Loading.loading;
 	
 	private GameMaster() {
 		// Constructor untouchable

@@ -31,7 +31,7 @@ public abstract class Item extends Spatial {
 
 	public enum SpritePath { // TODO: Remove this and load items from XML
 		minigun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor(
-				"data/armor/shield_of_Pop.png"), sword("data/weapons/sword.png");
+				"data/armor/shield_of_Pop.png"), katana("data/weapons/kata.png");
 		public String path;
 
 		private SpritePath(String path) {

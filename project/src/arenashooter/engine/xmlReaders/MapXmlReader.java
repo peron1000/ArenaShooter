@@ -92,7 +92,7 @@ public class MapXmlReader extends XmlReader {
 				getVectorsEntity(vectors, position, extent);
 				// TODO : add the weapon in entities
 			}
-		}
+		} 
 		iteratorEntite++;
 		return !(iteratorEntite < entitiesNodeList.getLength());
 	}
@@ -132,6 +132,27 @@ public class MapXmlReader extends XmlReader {
 				cameraBounds.y = Float.parseFloat(info.getAttribute("y"));
 				cameraBounds.z = Float.parseFloat(info.getAttribute("z"));
 				cameraBounds.w = Float.parseFloat(info.getAttribute("w"));
+			}  else if(info.getNodeName() == "sky") {
+				Vec3f bottom = new Vec3f();
+				Vec3f top = new Vec3f();
+				NodeList vectors = info.getChildNodes();
+				for (int i = 0; i < vectors.getLength(); i++) {
+					if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
+						Element vector = (Element) vectors.item(i);
+						if (vector.hasAttribute("use") && vector.getAttribute("use").equals("bottom")) {
+							bottom.x = Float.parseFloat(vector.getAttribute("x"));
+							bottom.y = Float.parseFloat(vector.getAttribute("y"));
+							bottom.z = Float.parseFloat(vector.getAttribute("z"));
+						}
+						if (vector.hasAttribute("use") && vector.getAttribute("use").equals("top")) {
+							top.x = Float.parseFloat(vector.getAttribute("x"));
+							top.y = Float.parseFloat(vector.getAttribute("y"));
+							top.z = Float.parseFloat(vector.getAttribute("z"));
+						}
+						entities.add(new Sky(bottom, top));
+					}
+				}
+
 			}
 			
 		}

@@ -4,7 +4,7 @@ import arenashooter.entities.Map;
 
 public abstract class GameState {
 	public GameState() {
-		// TODO Auto-generated constructor stub
+		map = new Map();
 	}
 	
 	protected Map map;

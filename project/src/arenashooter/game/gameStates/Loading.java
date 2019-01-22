@@ -10,7 +10,6 @@ import arenashooter.engine.xmlReaders.MapXmlReader;
 import arenashooter.entities.Camera;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
-import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
@@ -18,6 +17,8 @@ import arenashooter.game.GameMaster;
 
 public class Loading extends GameState {
 	public static final Loading loading = new Loading();
+	
+	private static boolean first = true;
 	
 	private GameState next;
 //	private Camera camera = new Camera(new Vec3f(0, 0, 450));
@@ -42,11 +43,17 @@ public class Loading extends GameState {
 			entities.add( new LoadingFloor(new Vec2f(x, 80)) );
 			i++;
 		}
+		if(GameMaster.gm.controllers.size() == 0) {
+			float x = startX+(128f*i);
+			entities.add( new CharacterSprite(new Vec2f(x, -30), new CharacterInfo()) );
+			entities.add( new LoadingFloor(new Vec2f(x, 80)) );
+		}
 		
 //		entities.add(camera);
-		entities.add(new Sky(new Vec3f(0), new Vec3f(0)));
+//		entities.add(new Sky(new Vec3f(255), new Vec3f(126,255,255)));
 		
 		map = new Map(entities);
+		
 	}
 	
 	
@@ -69,12 +76,21 @@ public class Loading extends GameState {
 		m.spawn = MapXmlReader.getSpawn();
 		m.cameraBounds = MapXmlReader.getCameraBounds();
 		m.gravity = MapXmlReader.getGravity();
-		m.addWeapons();
+		m.init();
 		next.map = m;
+		Window.camera.attachToParent(m, "camera");
+		
 	}
 
 	@Override
 	public void update(double delta) {
+		if(first) {
+			init();
+			next = new CharacterChooser();
+			MapXmlReader.setMapToRead("data/mapXML/mapXML2.xml");
+			first = false;
+		}
+		
 		map.step(delta);
 		
 		//Load next / TODO : to update

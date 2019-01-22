@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+  <information>
+    <gravity>
+      <vecteur x="0.0" y="9.807"/>
+    </gravity>
+    <spawn>
+      <vecteur x="95.0" y="120.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="2155.0" y="570.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="835.0" y="940.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="1505.0" y="750.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="185.0" y="1000.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="2145.0" y="280.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="395.0" y="430.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="2155.0" y="1010.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="915.0" y="250.0"/>
+    </spawn>
+    <spawn>
+      <vecteur x="905.0" y="560.0"/>
+    </spawn>
+    <sky>
+      <vecteur use="top" x="0.0" y="0.0" z="0.0"/>
+      <vecteur use="bottom" x="0.20000000298023224" y="0.3019607961177826" z="0.7019608020782471"/>
+    </sky>
+  </information>
+  <entities>
+    <plateform name="Platform_1547897491953">
+      <vecteur use="position" x="100.0" y="1150.0"/>
+      <vecteur use="extent" x="100.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897311449">
+      <vecteur use="position" x="840.0" y="360.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897411781">
+      <vecteur use="position" x="1480.0" y="1340.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897485036">
+      <vecteur use="position" x="240.0" y="1130.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897566262">
+      <vecteur use="position" x="2200.0" y="1140.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897327883">
+      <vecteur use="position" x="840.0" y="110.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897363102">
+      <vecteur use="position" x="980.0" y="450.0"/>
+      <vecteur use="extent" x="10.0" y="350.0"/>
+    </plateform>
+    <plateform name="Platform_1547897298967">
+      <vecteur use="position" x="150.0" y="200.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897535442">
+      <vecteur use="position" x="2210.0" y="120.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897570532">
+      <vecteur use="position" x="2200.0" y="1410.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897509538">
+      <vecteur use="position" x="10.0" y="940.0"/>
+      <vecteur use="extent" x="10.0" y="750.0"/>
+    </plateform>
+    <plateform name="Platform_1547897440094">
+      <vecteur use="position" x="1490.0" y="920.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897338497">
+      <vecteur use="position" x="840.0" y="680.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897542622">
+      <vecteur use="position" x="2210.0" y="410.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897433832">
+      <vecteur use="position" x="840.0" y="1090.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897452206">
+      <vecteur use="position" x="980.0" y="1340.0"/>
+      <vecteur use="extent" x="10.0" y="250.0"/>
+    </plateform>
+    <plateform name="Platform_1547897545632">
+      <vecteur use="position" x="2200.0" y="710.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <entity name="Spatial_1547897621923"/>
+    <plateform name="Platform_1547897305864">
+      <vecteur use="position" x="460.0" y="510.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <entity name="Entity_1547897616554"/>
+    <plateform name="Platform_1547897478827">
+      <vecteur use="position" x="540.0" y="1110.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_1547897548920">
+      <vecteur use="position" x="2350.0" y="860.0"/>
+      <vecteur use="extent" x="10.0" y="750.0"/>
+    </plateform>
+  </entities>
+</map>
