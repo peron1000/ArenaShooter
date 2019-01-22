@@ -114,18 +114,12 @@ public class Character extends Spatial {
 		
 		if (!hasWeapon || !hasArmor) {
 			for (Entity e : GameMaster.gm.getEntities()) {
-				if (!hasWeapon && e instanceof Gun) {
-					Item weapon = (Gun) e;
+				if (!hasWeapon && e instanceof Weapon) {
+					Item weapon = (Weapon) e;
 					float xDiff = Math.abs(position.x - weapon.position.x);
 					float yDiff = Math.abs(position.y - weapon.position.y);
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
-				} else if (!hasWeapon && e instanceof CloseWeapon) {
-					Item weaponC = (CloseWeapon) e;
-					float xDiff = Math.abs(position.x - weaponC.position.x);
-					float yDiff = Math.abs(position.y - weaponC.position.y);
-					if (xDiff < 175 && yDiff < 175)
-						arme = weaponC;
 				} else if (!hasArmor && e instanceof Equipement) {
 					Item item = (Equipement) e;
 					float xDiff = Math.abs(position.x - item.position.x);
