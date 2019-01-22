@@ -9,6 +9,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.CloseWeapon;
 import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
@@ -69,6 +70,9 @@ public class Character extends Spatial {
 	public void attack() {
 		if (children.get("Item_Weapon") != null) {
 			((Gun) children.get("Item_Weapon")).fire();
+//		if (children.get("Item_Weapon") != null) {
+//			((CloseWeapon) children.get("Item_Weapon")).attackC();
+//		}
 		} else if (attack.isOver()) {
 			attack.restart();
 
@@ -118,6 +122,12 @@ public class Character extends Spatial {
 					float yDiff = Math.abs(position.y - weapon.position.y);
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
+				} else if (!hasWeapon && e instanceof CloseWeapon) {
+					Item weaponC = (CloseWeapon) e;
+					float xDiff = Math.abs(position.x - weaponC.position.x);
+					float yDiff = Math.abs(position.y - weaponC.position.y);
+					if (xDiff < 175 && yDiff < 175)
+						arme = weaponC;
 				} else if (!hasArmor && e instanceof Equipement) {
 					Item item = (Equipement) e;
 					float xDiff = Math.abs(position.x - item.position.x);
@@ -129,7 +139,7 @@ public class Character extends Spatial {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				((SoundEffect) arme.children.get("snd_Pickup")).play();
+				//((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
 			if (armure != null)
 				armure.attachToParent(this, "Item_Armor");

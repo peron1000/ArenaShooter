@@ -9,10 +9,4 @@ public class Equipement extends Item {
 	public Equipement(Vec2f position, SpritePath itemSprite) {
 		super(position , itemSprite);
 	}
-
-	@Override
-	public String getId() {
-		idNumber++;
-		return "Item_Arme"+idNumber;
-	}
 }

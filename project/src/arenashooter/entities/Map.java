@@ -18,6 +18,7 @@ import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.Text;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.CloseWeapon;
 import arenashooter.game.Main;
 import arenashooter.entities.spatials.items.Gun;
 
@@ -219,18 +220,18 @@ public class Map extends Entity {
 	}
 
 	public static Gun gun2 = new Gun(new Vec2f(300, 350), Item.SpritePath.assault);
-	public static Gun gun1 = new Gun(new Vec2f(750, 350), Item.SpritePath.minigun);
+	//public static CloseWeapon sword1 = new CloseWeapon(new Vec2f(750, 350), Item.SpritePath.sword);
 	public static Gun gun3 = new Gun(new Vec2f(-250, 1050), Item.SpritePath.minigun);
 	public static Gun gun4 = new Gun(new Vec2f(1000, 350), Item.SpritePath.minigun);
 	public static Gun gun5 = new Gun(new Vec2f(1000, 1050), Item.SpritePath.minigun);
 
 	// déso, ces lignes sont temporaires
 	public void addWeapons() {
-		gun1.attachToParent(this, "Item_Arme" + genName());
-		gun2.attachToParent(this, "Item_Arme" + genName());
-		gun3.attachToParent(this, "Item_Arme" + genName());
-		gun4.attachToParent(this, "Item_Arme" + genName());
-		gun5.attachToParent(this, "Item_Arme" + genName());
+		//sword1.attachToParent(this, "Item_Weapon"+genName());
+		gun2.attachToParent(this, "Item_Weapon"+genName());
+		gun3.attachToParent(this, "Item_Weapon"+genName());
+		gun4.attachToParent(this, "Item_Weapon"+genName());
+		gun5.attachToParent(this, "Item_Weapon"+genName());
 
 	}
 	// TODO à supprimer
