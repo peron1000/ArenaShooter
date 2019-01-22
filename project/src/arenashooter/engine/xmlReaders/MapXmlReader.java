@@ -65,7 +65,6 @@ public class MapXmlReader extends XmlReader {
 	public void setMapToRead(String path) {
 		parse(path);
 		resetCollections();
-		entities.add(new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118))); //TODO: Temp sky
 		
 		NodeList infoTag = document.getElementsByTagName("information");
 		infoNodeList = infoTag.item(0).getChildNodes();
@@ -153,10 +152,9 @@ public class MapXmlReader extends XmlReader {
 							top.y = Float.parseFloat(vector.getAttribute("y"));
 							top.z = Float.parseFloat(vector.getAttribute("z"));
 						}
-						entities.add(new Sky(bottom, top));
 					}
 				}
-
+				entities.add(new Sky(bottom, top));
 			}
 			
 		}
