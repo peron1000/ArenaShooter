@@ -21,7 +21,6 @@ public class Loading extends GameState {
 	private static boolean first = true;
 	
 	private GameState next;
-//	private Camera camera = new Camera(new Vec3f(0, 0, 450));
 	
 	private Loading() { }
 	
@@ -64,7 +63,7 @@ public class Loading extends GameState {
 	 */
 	public void setNextState(GameState next , String mapName) {
 		this.next = next;
-		MapXmlReader.setMapToRead(mapName);
+		MapXmlReader.mapReader.setMapToRead(mapName);
 	}
 	
 	public GameState getNextState() {
@@ -72,14 +71,12 @@ public class Loading extends GameState {
 	}
 	
 	private void createNewMap() {
-		Map m = new Map(MapXmlReader.getEntities());
-		m.spawn = MapXmlReader.getSpawn();
-		m.cameraBounds = MapXmlReader.getCameraBounds();
-		m.gravity = MapXmlReader.getGravity();
+		Map m = new Map(MapXmlReader.mapReader.getEntities());
+		m.spawn = MapXmlReader.mapReader.getSpawn();
+		m.cameraBounds = MapXmlReader.mapReader.getCameraBounds();
+		m.gravity = MapXmlReader.mapReader.getGravity();
 		m.init();
 		next.map = m;
-		Window.camera.attachToParent(m, "camera");
-		
 	}
 
 	@Override
@@ -87,15 +84,15 @@ public class Loading extends GameState {
 		if(first) {
 			init();
 			next = new CharacterChooser();
-			MapXmlReader.setMapToRead("data/mapXML/mapXML.xml");
+			MapXmlReader.mapReader.setMapToRead("data/mapXML/mapXML2.xml");
 			first = false;
 		}
 		
 		map.step(delta);
 		
 		//Load next / TODO : to update
-		boolean entitiesLoaded = MapXmlReader.loadNextEntity();
-		boolean informationsloaded = MapXmlReader.loadNextInformation();
+		boolean entitiesLoaded = MapXmlReader.mapReader.loadNextEntity();
+		boolean informationsloaded = MapXmlReader.mapReader.loadNextInformation();
 		
 		if(entitiesLoaded && informationsloaded) {
 			createNewMap();

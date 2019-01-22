@@ -15,17 +15,19 @@ import arenashooter.entities.spatials.Plateform;
 
 public class MapXmlReader extends XmlReader {
 	
+	public final static MapXmlReader mapReader = new MapXmlReader();
+	
 	// Entities variables
-	private static int iteratorEntite = 0;
-	private static ArrayList<Entity> entities = new ArrayList<>();
-	private static NodeList entitiesNodeList;
+	private int iteratorEntite = 0;
+	private ArrayList<Entity> entities = new ArrayList<>();
+	private NodeList entitiesNodeList;
 	
 	// Informations variables
-	private static int iteratorInfo = 0;
-	private static ArrayList<Vec2f> spawn = new ArrayList<>();
-	private static Vec2f gravity = new Vec2f();
-	private static Vec4f cameraBounds = new Vec4f();
-	private static NodeList infoNodeList;
+	private int iteratorInfo = 0;
+	private ArrayList<Vec2f> spawn = new ArrayList<>();
+	private Vec2f gravity = new Vec2f();
+	private Vec4f cameraBounds = new Vec4f();
+	private NodeList infoNodeList;
 
 	private MapXmlReader() {
 		// Untouchable constructor
@@ -37,7 +39,7 @@ public class MapXmlReader extends XmlReader {
 	 * @param position
 	 * @param extent
 	 */
-	private static void getVectorsEntity(NodeList vectors , Vec2f position , Vec2f extent) {
+	private void getVectorsEntity(NodeList vectors , Vec2f position , Vec2f extent) {
 		for (int i = 0; i < vectors.getLength(); i++) {
 			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Element vector = (Element) vectors.item(i);
@@ -53,12 +55,14 @@ public class MapXmlReader extends XmlReader {
 		}
 	}
 
-	private static void resetCollections() {
+	private void resetCollections() {
+		iteratorEntite = 0;
+		iteratorInfo = 0;
 		entities.clear();
 		spawn.clear();
 	}
 	
-	public static void setMapToRead(String path) {
+	public void setMapToRead(String path) {
 		parse(path);
 		resetCollections();
 		entities.add(new Sky(new Vec3f(.996, .9098, .003922), new Vec3f(.34901960784, .13725490196, .48235294118))); //TODO: Temp sky
@@ -76,7 +80,7 @@ public class MapXmlReader extends XmlReader {
 	 * Load a new entity
 	 * @return <i>true</i> if all entities are already loaded
 	 */
-	public static boolean loadNextEntity() {
+	public boolean loadNextEntity() {
 		if(iteratorEntite < entitiesNodeList.getLength() && entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
 			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
 			if (entity.getNodeName() == "plateform") {
@@ -101,7 +105,7 @@ public class MapXmlReader extends XmlReader {
 	 * Load a new information
 	 * @return <i>true</i> if all informations are already loaded
 	 */
-	public static boolean loadNextInformation() {
+	public boolean loadNextInformation() {
 		if(iteratorInfo < infoNodeList.getLength() && infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
 			Element info = (Element) infoNodeList.item(iteratorInfo);
 			
@@ -160,19 +164,19 @@ public class MapXmlReader extends XmlReader {
 		return !(iteratorInfo < infoNodeList.getLength());
 	}
 
-	public static ArrayList<Entity> getEntities() {
+	public ArrayList<Entity> getEntities() {
 		return entities;
 	}
 
-	public static ArrayList<Vec2f> getSpawn() {
+	public ArrayList<Vec2f> getSpawn() {
 		return spawn;
 	}
 
-	public static Vec2f getGravity() {
+	public Vec2f getGravity() {
 		return gravity;
 	}
 
-	public static Vec4f getCameraBounds() {
+	public Vec4f getCameraBounds() {
 		return cameraBounds;
 	}
 }

@@ -26,7 +26,7 @@ public class GameMaster {
 	
 	public void requestNextState() {
 		if(current instanceof Start) {
-			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML.xml");// TODO : create the map
+			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
 		} else if (current instanceof CharacterChooser) {
