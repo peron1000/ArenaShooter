@@ -84,6 +84,11 @@
 			<vecteur x="0" y="2200" use="position" />
 			<vecteur x="5000" y="10" use="extent" />
 		</plateform>
+		
+		<text content="Mlep!" font="data/fonts/ubuntu.fnt">
+			<vecteur x="0" y="0" z="0" use="position" />
+			<vecteur x="300" y="300" use="scale" />
+		</text>
 
 	</entities>
 </map>

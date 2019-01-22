@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
   <information>
-    <gravity>
-      <vecteur x="0.0" y="9.807"/>
-    </gravity>
     <spawn>
       <vecteur x="115.0" y="540.0"/>
     </spawn>
@@ -46,6 +44,10 @@
     <spawn>
       <vecteur x="705.0" y="1170.0"/>
     </spawn>
+    <gravity>
+      <vecteur x="0.0" y="9.807"/>
+    </gravity>
+    <cameraBound w="1000" x="-5000" y="-1000" z="5000" />
     <sky>
       <vecteur use="top" x="1.0" y="1.0" z="1.0"/>
       <vecteur use="bottom" x="1.0" y="1.0" z="1.0"/>

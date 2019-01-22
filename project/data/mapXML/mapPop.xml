@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
   <information>
-    <gravity>
-      <vecteur x="0.0" y="9.807"/>
-    </gravity>
     <spawn>
       <vecteur x="115.0" y="170.0"/>
     </spawn>
@@ -34,12 +32,21 @@
     <spawn>
       <vecteur x="695.0" y="680.0"/>
     </spawn>
+    
+    <gravity>
+      <vecteur x="0.0" y="9.807"/>
+    </gravity>
+    
+    <cameraBound w="1000" x="-5000" y="-1000" z="5000" />
+    
     <sky>
       <vecteur use="top" x="1.0" y="1.0" z="1.0"/>
       <vecteur use="bottom" x="1.0" y="1.0" z="1.0"/>
     </sky>
   </information>
   <entities>
+    <entity name="Spatial_1547896226624"/>
+    <entity name="Entity_1547896818358"/>
     <plateform name="Platform_1547896420356">
       <vecteur use="position" x="960.0" y="320.0"/>
       <vecteur use="extent" x="150.0" y="10.0"/>
@@ -92,7 +99,6 @@
       <vecteur use="position" x="75.0" y="240.0"/>
       <vecteur use="extent" x="75.0" y="10.0"/>
     </plateform>
-    <entity name="Spatial_1547896226624"/>
     <plateform name="Platform_1547896595411">
       <vecteur use="position" x="960.0" y="100.0"/>
       <vecteur use="extent" x="50.0" y="10.0"/>
@@ -101,7 +107,6 @@
       <vecteur use="position" x="150.0" y="580.0"/>
       <vecteur use="extent" x="150.0" y="10.0"/>
     </plateform>
-    <entity name="Entity_1547896818358"/>
     <plateform name="Platform_1547896229911">
       <vecteur use="position" x="75.0" y="400.0"/>
       <vecteur use="extent" x="75.0" y="10.0"/>

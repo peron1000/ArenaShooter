@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT map (information , entities*)>
+<!ELEMENT map (information , entities)>
 
 <!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
@@ -10,12 +10,20 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity*, plateform*, weapon*, mesh*)>
+<!ELEMENT entities (entity*, plateform*, weapon*, mesh*, text*)>
 <!ELEMENT entity (entities?)>
+<!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT plateform (vecteur , vecteur, entities?)>
+<!ATTLIST plateform name CDATA #IMPLIED>
 <!ELEMENT weapon (vecteur, vecteur, entities?)>
+<!ATTLIST weapon name CDATA #IMPLIED>
 <!ELEMENT mesh (vecteur, vecteur, entities?)>
+<!ATTLIST mesh name CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>
+<!ELEMENT text (vecteur, vecteur, entities?)>
+<!ATTLIST text name CDATA #IMPLIED>
+<!ATTLIST text content CDATA #REQUIRED>
+<!ATTLIST text font CDATA #REQUIRED>
 
 <!-- Misc -->
 <!ELEMENT vecteur EMPTY>
