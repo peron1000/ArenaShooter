@@ -87,7 +87,7 @@ public class Loading extends GameState {
 		if(first) {
 			init();
 			next = new CharacterChooser();
-			MapXmlReader.setMapToRead("data/mapXML/mapXML2.xml");
+			MapXmlReader.setMapToRead("data/mapXML/mapXML.xml");
 			first = false;
 		}
 		

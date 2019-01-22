@@ -6,6 +6,7 @@ import java.util.HashMap;
 import arenashooter.engine.Device;
 import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Controller;
 import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.entities.spatials.CharacterSprite;
@@ -15,6 +16,8 @@ public class CharacterChooser extends GameState {
 	
 	private HashMap<Device, Controller> controllers = new HashMap<>(1);
 	
+	private int i = -300;
+	
 	public Collection<Controller> getControllers() {
 		return controllers.values();
 	}
@@ -22,6 +25,9 @@ public class CharacterChooser extends GameState {
 	@Override
 	public void init() {
 		controllers.put(Device.KEYBOARD, new Controller(Device.KEYBOARD));
+		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), new CharacterInfo());
+		i += 150;
+		c.attachToParent(map, c.genName());
 	}
 	
 	@Override
@@ -29,14 +35,14 @@ public class CharacterChooser extends GameState {
 		for (Device device : Device.values()) {
 			if(Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
 				controllers.put(device, new Controller(device));
+				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), new CharacterInfo());
+				c.attachToParent(map, c.genName());
+				i += 150;
 				System.out.println("add controller");
 			}
 			// TODO : remove controller when B is pressed
 		}
 
-		for (int i = 0; i < GameMaster.gm.controllers.entrySet().size(); i++) {
-			
-		}
 		if(Input.actionPressed(Device.KEYBOARD, Action.JUMP)) {
 			GameMaster.gm.requestNextState();
 		}
