@@ -30,6 +30,9 @@ public class Bullet extends Projectile {
 	}
 
 	public void step(double d) {
+		if(Math.abs(position.x)>10000||Math.abs(position.y)>10000) {
+			detach();
+		}
 		LinkedList<Entity> siblings = new LinkedList<>();
 		siblings.addAll(siblings().values());
 		boolean destroyed = false;
