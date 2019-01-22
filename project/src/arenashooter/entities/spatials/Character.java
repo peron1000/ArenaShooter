@@ -131,7 +131,7 @@ public class Character extends Spatial {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				((SoundEffect) arme.children.get("snd_Pickup")).play();
+				//((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
 			if (armure != null)
 				armure.attachToParent(this, "Item_Armor");
@@ -141,7 +141,7 @@ public class Character extends Spatial {
 	public void dropItem() {
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
-			((Gun)arme).setVel(new Vec2f());
+			((Weapon)arme).setVel(new Vec2f());
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}

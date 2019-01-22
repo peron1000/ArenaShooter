@@ -220,14 +220,14 @@ public class Map extends Entity {
 	}
 
 	public static Gun gun2 = new Gun(new Vec2f(300, 350), Item.SpritePath.assault);
-	public static Melee sword1 = new Melee(new Vec2f(750, 350), Item.SpritePath.sword);
+	public static Melee katana1 = new Melee(new Vec2f(750, 350), Item.SpritePath.katana);
 	public static Gun gun3 = new Gun(new Vec2f(-250, 1050), Item.SpritePath.minigun);
 	public static Gun gun4 = new Gun(new Vec2f(1000, 350), Item.SpritePath.minigun);
 	public static Gun gun5 = new Gun(new Vec2f(1000, 1050), Item.SpritePath.minigun);
 
 	// déso, ces lignes sont temporaires
 	public void addWeapons() {
-		sword1.attachToParent(this, "Item_Weapon"+genName());
+		katana1.attachToParent(this, "Item_Weapon"+genName());
 		gun2.attachToParent(this, "Item_Weapon"+genName());
 		gun3.attachToParent(this, "Item_Weapon"+genName());
 		gun4.attachToParent(this, "Item_Weapon"+genName());
