@@ -24,8 +24,6 @@ public class Game extends GameState {
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		
-		map.init();
-		
 		for (Controller controller : GameMaster.gm.controllers.keySet()) {
 			Character character = controller.createNewCharacter(map.GetRandomRespawn());
 			players.add(character);
