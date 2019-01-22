@@ -26,6 +26,8 @@ public class Loading extends GameState {
 	
 	public void init() {
 		
+		map = new Map();
+		
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
 		
 		ArrayList<Entity> entities = new ArrayList<>();
@@ -48,11 +50,9 @@ public class Loading extends GameState {
 			entities.add( new LoadingFloor(new Vec2f(x, 80)) );
 		}
 		
-//		entities.add(camera);
-//		entities.add(new Sky(new Vec3f(255), new Vec3f(126,255,255)));
-		
-		map = new Map(entities);
-		
+		for (Entity entity : entities) {
+			entity.attachToParent(map, entity.genName());
+		}
 	}
 	
 	
@@ -71,12 +71,14 @@ public class Loading extends GameState {
 	}
 	
 	private void createNewMap() {
-		Map m = new Map(MapXmlReader.mapReader.getEntities());
+		Map m = next.map;
+		for (Entity entity : MapXmlReader.mapReader.getEntities()) {
+			entity.attachToParent(m, entity.genName());
+		}
 		m.spawn = MapXmlReader.mapReader.getSpawn();
 		m.cameraBounds = MapXmlReader.mapReader.getCameraBounds();
 		m.gravity = MapXmlReader.mapReader.getGravity();
 		m.init();
-		next.map = m;
 	}
 
 	@Override

@@ -35,17 +35,6 @@ public class Map extends Entity {
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
 
-	public Map(ArrayList<Entity> entities) {
-		physic = new Physic(this);
-
-		entities.add(new Text(new Vec3f(0), new Vec3f(300), Main.font, "Absolutely incroyable!"));
-
-		for (Entity e : entities)
-			e.attachToParent(this, e.genName());
-
-		testPhysics();
-	}
-
 //	public Map(int nbPlayer) {
 //		physic = new Physic(this);
 //		
@@ -133,8 +122,6 @@ public class Map extends Entity {
 
 	// déso, ces lignes sont temporaires
 	public void init() {
-		physic = new Physic(this);
-
 		testPhysics();
 		Gun gun2 = new Gun(new Vec2f(300, 350), Item.SpritePath.assault);
 		// public static CloseWeapon sword1 = new CloseWeapon(new Vec2f(750, 350),
@@ -151,10 +138,5 @@ public class Map extends Entity {
 		Entity e = new Text(new Vec3f(0), new Vec3f(300), Main.font, "Absolutely incroyable!");
 		e.attachToParent(this, e.genName());
 
-	}
-	// TODO à supprimer
-
-	public void addPlateform(Vec2f position, Vec2f extent, String nom) {
-		children.put(nom, new Plateform(position, extent));
 	}
 }
