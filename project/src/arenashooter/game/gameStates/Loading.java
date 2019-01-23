@@ -106,9 +106,4 @@ public class Loading extends GameState {
 		}
 		
 	}
-
-	@Override
-	public void draw() {
-		map.draw();
-	}
 }

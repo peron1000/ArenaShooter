@@ -10,9 +10,7 @@ import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Weapon;
-import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Equipement;
-import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {

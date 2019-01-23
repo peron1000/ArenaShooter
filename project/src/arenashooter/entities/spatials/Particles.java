@@ -27,6 +27,9 @@ public class Particles extends Spatial {
 	}
 
 	@Override
+	public boolean drawAsTransparent() { return true; } //TODO: Remove this
+	
+	@Override
 	public void draw() {
 		system.draw();
 		super.draw();

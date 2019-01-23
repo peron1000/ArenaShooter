@@ -61,7 +61,7 @@ public class GameMaster {
 	
 	public void draw() {
 		if(current.getMap() != null)
-		current.draw();
+			current.draw();
 	}
 	
 	public void update(double delta) {

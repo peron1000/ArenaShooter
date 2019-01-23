@@ -205,6 +205,18 @@ public final class Window {
 		Profiler.endTimer(Profiler.POSTPROCESS);
 	}
 	
+	public static void beginTransparency() {
+		Profiler.startTimer(Profiler.TRANSPARENCY);
+		glDepthMask(false);
+		glEnable(GL_BLEND);
+	}
+	
+	public static void endTransparency() {
+		glDepthMask(true);
+		glDisable(GL_BLEND);
+		Profiler.endTimer(Profiler.TRANSPARENCY);
+	}
+	
 	/**
 	 * Destroy the fenetre
 	 */

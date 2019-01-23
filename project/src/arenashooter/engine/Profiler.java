@@ -13,12 +13,12 @@ public final class Profiler {
 	//Step
 	public static final int STEP=0, PHYSIC=7;
 	//Rendering
-	public static final int RENDER=1, SPRITES=3, MESHES=4, PARTICLES=5, POSTPROCESS=6;
+	public static final int RENDER=1, SPRITES=3, MESHES=4, PARTICLES=5, POSTPROCESS=6, TRANSPARENCY=8;
 	
 	public static final int SLEEP=2;
 	
-	private static long[] times = new long[8];
-	private static long[] counters = new long[8];
+	private static long[] times = new long[9];
+	private static long[] counters = new long[9];
 	
 	/**
 	 * Reset all the timers
@@ -37,6 +37,7 @@ public final class Profiler {
 		System.out.println(" | |-Physic:......."+(float)(times[PHYSIC]*NANOTOMILLI)+"ms");
 		System.out.println(" |");
 		System.out.println(" |-Render:."+(float)(times[RENDER]*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Transparency:."+(float)(times[TRANSPARENCY]*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Sprites:......"+(float)(times[SPRITES]*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Meshes:......."+(float)(times[MESHES]*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Particles:...."+(float)(times[PARTICLES]*NANOTOMILLI)+"ms");

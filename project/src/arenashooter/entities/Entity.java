@@ -1,5 +1,6 @@
 package arenashooter.entities;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -80,15 +81,37 @@ public class Entity {
 		}
 	}
 	
+//	/**
+//	 * Attempts to enable or disable transparency for this entity
+//	 * @param value
+//	 */
+//	public void setTransparency(boolean value) {};
+	
 	/**
 	 * @return should this entity be drawn during transparency pass
 	 */
-	public boolean drawAsTransparent(){ return false; }
-
-	public void draw() {
+	public boolean drawAsTransparent() { return false; }
+	
+	/**
+	 * Draw this entity of opaque/masked or add it to the transparency collection<br/>
+	 * This will call this function of every children
+	 * @param transparent collection of transparent entities
+	 */
+	public void drawOpaque(Collection<Entity> transparent) {
+		if(drawAsTransparent())
+			transparent.add(this);
+		else
+			draw();
+		
 		for (Entity e : children.values())
-			e.draw();
+			e.drawOpaque(transparent);
 	}
+
+	/**
+	 * Draw this entity<br/>
+	 * This will be called during the opaque pass or the transparency pass if drawAsTransparent()
+	 */
+	public void draw() { }
 
 	public String genName() {
 		return String.valueOf(System.nanoTime());

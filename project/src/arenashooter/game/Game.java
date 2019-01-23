@@ -21,6 +21,7 @@ public class Game extends GameState {
 
 	public Game() { }
 	
+	@Override
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		
@@ -37,6 +38,7 @@ public class Game extends GameState {
 		p.attachToParent(map, "particles");
 	}
 
+	@Override
 	public void update(double d) {
 		if (Window.camera != null) {
 			Window.camera.center(players, null, d);
@@ -53,9 +55,5 @@ public class Game extends GameState {
 			controller.step(d);
 		}
 		map.step(d);
-	}
-
-	public void draw() {
-		map.draw();
 	}
 }
