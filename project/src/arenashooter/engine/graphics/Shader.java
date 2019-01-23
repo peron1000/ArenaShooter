@@ -9,6 +9,8 @@ import arenashooter.engine.math.Vec4f;
 
 public class Shader {
 	private int vertex, fragment, program;
+	/** Does this shader require transparency? */
+	public boolean transparent = false;
 //	private static int boundShader = 0;
 	
 	/**

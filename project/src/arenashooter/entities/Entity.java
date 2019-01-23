@@ -79,6 +79,11 @@ public class Entity {
 				e.step(d);
 		}
 	}
+	
+	/**
+	 * @return should this entity be drawn during transparency pass
+	 */
+	public boolean drawAsTransparent(){ return false; }
 
 	public void draw() {
 		for (Entity e : children.values())

@@ -38,6 +38,9 @@ public class Sprite extends Spatial {
 	}
 	
 	@Override
+	public boolean drawAsTransparent(){ return shader.transparent; }
+	
+	@Override
 	public void draw() {
 		super.draw();
 		
