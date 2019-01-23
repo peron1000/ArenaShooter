@@ -7,7 +7,7 @@ in vec2 screenCoord;
 uniform sampler2D sceneColor;
 
 //Out
-layout(location = 0) out vec4 FragmentColor;
+layout(location = 0) out vec3 FragmentColor;
 
 void main() {
 
@@ -16,8 +16,8 @@ void main() {
 	float average = (sample.r+sample.g+sample.b)/3;
 
 	if(average > 0.3)
-		FragmentColor = vec4(1.0);
+		FragmentColor = vec3(1.0);
 	else
-		FragmentColor = vec4(0.0, 0.0, 0.0, 1.0);
+		FragmentColor = vec3(0.0, 0.0, 0.0);
 	
 }

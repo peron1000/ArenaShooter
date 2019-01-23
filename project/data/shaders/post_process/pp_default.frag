@@ -10,7 +10,7 @@ uniform float chromaAbbIntensity = 0.0;
 uniform float vignetteIntensity = 1.4;
 
 //Out
-layout(location = 0) out vec4 FragmentColor;
+layout(location = 0) out vec3 FragmentColor;
 
 void main() {
 	//Distance to the center of the screen
@@ -27,6 +27,5 @@ void main() {
 	//Vignette
 	float vignette = 1.0-(distToCenter*distToCenter*distToCenter*distToCenter*vignetteIntensity);
 	
-	vec3 finalColor = vec3(red, green, blue)*vec3(vignette);
-	FragmentColor = vec4(finalColor, 1.0);
+	FragmentColor = vec3(red, green, blue)*vec3(vignette);
 }

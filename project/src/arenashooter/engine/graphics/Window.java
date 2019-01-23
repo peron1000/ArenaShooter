@@ -126,8 +126,7 @@ public final class Window {
 		//Enable textures
 		glEnable(GL_TEXTURE_2D);
 		
-		//Enable transparency
-		glEnable(GL_BLEND);
+		//Set transparency blend function
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		//Enable depth sorting
