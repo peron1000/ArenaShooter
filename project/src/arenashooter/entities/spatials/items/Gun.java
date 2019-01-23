@@ -1,15 +1,15 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
+import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.Sprite;
+import arenashooter.entities.spatials.Particles;
 
 public class Gun extends Weapon {
 	private Timer fire = new Timer(0.15);
@@ -55,6 +55,9 @@ public class Gun extends Weapon {
 		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
+		
+		Entity particleContainer = new Entity();
+		particleContainer.attachToParent(this, "particle_container");
 	}
 	
 	@Override
@@ -78,6 +81,13 @@ public class Gun extends Weapon {
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 			
 			((SoundEffect) children.get("snd_Bang")).play();
+			
+			Particles flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+			flash.attachToParent(children.get("particle_container"), "particles_flash");
+			
+			Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
+			shell.selfDestruct = true;
+			shell.attachToParent(this, shell.genName());
 
 			rotation += ((Math.random()) - 0.5) * recoil;
 

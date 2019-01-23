@@ -44,6 +44,10 @@ public class ParticleSystem {
 		}
 	}
 	
+	public boolean ended() {
+		return emitters.isEmpty();
+	}
+	
 	public void draw() {
 		Profiler.startTimer(Profiler.PARTICLES);
 		for(Emitter e : emitters)

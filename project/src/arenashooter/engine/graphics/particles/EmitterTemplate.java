@@ -16,6 +16,8 @@ public abstract class EmitterTemplate {
 	int remaining;
 	/** Particles to spawn this frame */
 	double particlesToSpawn = 0;
+	/** Gravity scale */
+	float gravityScale = 1;
 	//Visuals
 	Shader shader;
 	Texture tex;
@@ -34,7 +36,8 @@ public abstract class EmitterTemplate {
 			float lifetimeMin, float lifetimeMax, 
 			Vec4f colorStart, Vec4f colorEnd, 
 			float angleMin, float angleMax, 
-			float velocityMin, float velocityMax ) {
+			float velocityMin, float velocityMax,
+			float gravityScale) {
 		tex = texture;
 		this.duration = duration;
 		this.delay = delay;
@@ -61,5 +64,8 @@ public abstract class EmitterTemplate {
 		//Initial velocity
 		this.velocityMin = velocityMin;
 		this.velocityMax = velocityMax;
+		
+		//Gravity scale
+		this.gravityScale = gravityScale;
 	}
 }

@@ -16,6 +16,8 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.game.GameMaster;
 
 class EmitterSparks extends Emitter {
+	private final EmitterTemplateSparks data;
+	
 	ArrayList<Vec2f> positions;
 	ArrayList<Vec2f> velocities;
 	ArrayList<Float> lives;
@@ -28,6 +30,8 @@ class EmitterSparks extends Emitter {
 	 */
 	protected EmitterSparks( ParticleSystem owner, EmitterTemplateSparks data  ) {
 		super(owner, data);
+
+		this.data = data;
 		
 		shader = new Shader("data/shaders/particle_simple");
 		
@@ -43,7 +47,7 @@ class EmitterSparks extends Emitter {
 		super.update(delta);
 		
 		//Force = current map gravity
-		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, 50);
+		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, data.gravityScale);
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
 			if( lives.get(i) > 0 ) {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
+<particleSystem>
+	<emitter angleMin="-1.57" angleMax="0" delay="0" duration="0" lifetimeMin="1" lifetimeMax="1.5" rate="1" velocityMin="800" velocityMax="1500" gravityScale="500">
+	<basic sizeInitial="25" sizeEnd="25"></basic>
+	<texture filtered="false" src="data/particles/shell_01.png"/>
+	<vec4 x="1" w="1" z="1" y="1" use="colorStart"/>
+	<vec4 x="1" w="1" z="1" y="0" use="colorEnd"/>
+	</emitter>
+</particleSystem>

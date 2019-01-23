@@ -1,18 +1,11 @@
 package arenashooter.engine.graphics.particles;
 
-import java.util.ArrayList;
-
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 
-public class EmitterTemplateBasic extends EmitterTemplate {
-	ArrayList<Vec2f> positions;
-	ArrayList<Vec2f> velocities;
-	ArrayList<Float> rotations;
-	ArrayList<Float> lives;
-	ArrayList<Float> livesTotal;
+public class EmitterTemplateBasic extends EmitterTemplate {	
+	float sizeInitial, sizeEnd;
 	
 	/**
 	 * Create a basic particle emitter
@@ -34,21 +27,20 @@ public class EmitterTemplateBasic extends EmitterTemplate {
 			float lifetimeMin, float lifetimeMax, 
 			Vec4f colorStart, Vec4f colorEnd, 
 			float angleMin, float angleMax, 
-			float velocityMin, float velocityMax  ) {
+			float velocityMin, float velocityMax,
+			float sizeInitial, float sizeEnd, 
+			float gravityScale) {
 		
 		super(texture, duration, delay, rate, 
 				lifetimeMin, lifetimeMax, 
 				colorStart, colorEnd, 
 				angleMin, angleMax, 
-				velocityMin, velocityMax );
+				velocityMin, velocityMax, 
+				gravityScale);
+		
+		this.sizeInitial = sizeInitial;
+		this.sizeEnd = sizeEnd;
 		
 		shader = new Shader("data/shaders/particle_simple");
-		
-		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
-		positions = new ArrayList<Vec2f>(capacity);
-		velocities = new ArrayList<Vec2f>(capacity);
-		lives = new ArrayList<Float>(capacity);
-		livesTotal = new ArrayList<Float>(capacity);
-		rotations = new ArrayList<Float>(capacity);
 	}
 }

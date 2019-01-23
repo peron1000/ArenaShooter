@@ -51,21 +51,27 @@ public class ParticlesXmlReader extends XmlReader {
 				float angleMax = Float.valueOf(emitter.getAttribute("angleMax"));
 				float velocityMin = Float.valueOf(emitter.getAttribute("velocityMin"));
 				float velocityMax = Float.valueOf(emitter.getAttribute("velocityMax"));
+				float gravityScale = Float.valueOf(emitter.getAttribute("gravityScale"));
 
 				readEmitterChildren(emitter.getChildNodes());
 				
 				if(emitterType.getTagName().equals("basic")) {
+					float sizeInitial = Float.valueOf(emitterType.getAttribute("sizeInitial"));
+					float sizeEnd = Float.valueOf(emitterType.getAttribute("sizeEnd"));
 					currentEmitter = new EmitterTemplateBasic(texture, duration, delay, rate, 
 							lifetimeMin, lifetimeMax, 
 							colorStart, colorEnd, 
 							angleMin, angleMax, 
-							velocityMin, velocityMax  );
+							velocityMin, velocityMax,
+							sizeInitial, sizeEnd, 
+							gravityScale );
 				} else if(emitterType.getTagName().equals("sparks")) {
 					currentEmitter = new EmitterTemplateSparks(texture, duration, delay, rate, 
 							lifetimeMin, lifetimeMax, 
 							colorStart, colorEnd, 
 							angleMin, angleMax, 
-							velocityMin, velocityMax  );
+							velocityMin, velocityMax, 
+							gravityScale );
 				}
 				
 				if(currentEmitter != null)

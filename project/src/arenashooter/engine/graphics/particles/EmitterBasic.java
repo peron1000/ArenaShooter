@@ -16,6 +16,9 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.game.GameMaster;
 
 class EmitterBasic extends Emitter {
+	private final EmitterTemplateBasic data;
+	final float sizeInitial, sizeEnd;
+	
 	ArrayList<Vec2f> positions;
 	ArrayList<Vec2f> velocities;
 	ArrayList<Float> rotations;
@@ -30,7 +33,12 @@ class EmitterBasic extends Emitter {
 	protected EmitterBasic( ParticleSystem owner, EmitterTemplateBasic data  ) {
 		super(owner, data);
 		
+		this.data = data;
+		
 		shader = new Shader("data/shaders/particle_simple");
+		
+		this.sizeInitial = data.sizeInitial;
+		this.sizeEnd = data.sizeEnd;
 		
 		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
 		positions = new ArrayList<Vec2f>(capacity);
@@ -45,7 +53,7 @@ class EmitterBasic extends Emitter {
 		super.update(delta);
 		
 		//Force = current map gravity
-		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, 50);
+		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, data.gravityScale);
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
 			if( lives.get(i) > 0 ) {
@@ -103,9 +111,11 @@ class EmitterBasic extends Emitter {
 		for( int i=0; i<positions.size(); i++ ) {
 			float lifetime = lives.get(i)/livesTotal.get(i);
 			
+			float size = Utils.lerpF(sizeEnd, sizeInitial, lifetime);
+			
 			Vec3f pos = new Vec3f( positions.get(i).x, positions.get(i).y, owner.position.z );
 			Quat rot = Quat.fromAngle(rotations.get(i));
-			Vec3f scale = new Vec3f( 80*lifetime, 80*lifetime, 1 );
+			Vec3f scale = new Vec3f( size, size, 1 );
 			Mat4f modelM = Mat4f.transform(pos, rot, scale);
 			
 			shader.setUniformM4("model", modelM);

@@ -13,9 +13,11 @@
 <!-- Random initial velocity -->
 <!ATTLIST emitter velocityMin CDATA #REQUIRED>
 <!ATTLIST emitter velocityMax CDATA #REQUIRED>
+<!ATTLIST emitter gravityScale CDATA #REQUIRED>
 
 <!ELEMENT basic EMPTY>
-<!ATTLIST basic size CDATA #REQUIRED>
+<!ATTLIST basic sizeInitial CDATA #REQUIRED>
+<!ATTLIST basic sizeEnd CDATA #REQUIRED>
 
 <!-- vec2->scale -->
 <!ELEMENT oriented (vec2)>
