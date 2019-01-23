@@ -10,6 +10,7 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CharacterSprite;
+import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item.SpritePath;
 import arenashooter.game.GameMaster;
@@ -40,34 +41,19 @@ public class Melee extends Weapon {
 	public void attack() {
 		if (fire.isOver()) {
 			fire.restart();
-			CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
-			if (skeleton != null)
-				System.out.println("lol");
-
-			for (Entity entity : GameMaster.gm.getEntities()) {
-				if (entity instanceof Character && entity != this) {
-					Character c = (Character) entity;
-
-					boolean isInFrontOfMe = false;
-					if (skeleton != null) {
-						if ((lookRight && collider.getXRight() < (c.collider.getXRight() + 40))
-								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft() - 40))) {
-							isInFrontOfMe = true;
+			for (Entity path : GameMaster.gm.getEntities()) {
+				if (path instanceof Character) {
+					for (Entity coll : ((Character) path).children.values()) {
+						if (coll instanceof Collider) {
+							Collider c = (Collider) coll;
+							if (c.isColliding(collider)) {
+								((Character) path).takeDamage(damage, true);
+								break;
+							}
 						}
 					}
-
-					if (isInFrontOfMe) {
-						float xDiff = Math.abs(position.x - c.position.x);
-						float yDiff = Math.abs(position.y - c.position.y);
-						if (xDiff < 175 && yDiff < 175) {
-							c.takeDamage(5, lookRight);
-							((SoundEffect) children.get("snd_Punch_Hit")).play();
-						}
-					}
-
 				}
 			}
 		}
-
 	}
 }

@@ -12,6 +12,7 @@ import arenashooter.engine.physic.shapes.Rectangle;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Gun;
 
 public class Map extends Entity {
@@ -120,12 +121,11 @@ public class Map extends Entity {
 	public void init() {
 		testPhysics();
 		Gun gun2 = new Gun(new Vec2f(300, 350), Item.SpritePath.assault);
-		// public static CloseWeapon sword1 = new CloseWeapon(new Vec2f(750, 350),
-		// Item.SpritePath.sword);
+		Melee kata = new Melee(new Vec2f(750, 350), Item.SpritePath.katana);
 		Gun gun3 = new Gun(new Vec2f(-250, 1050), Item.SpritePath.minigun);
 		Gun gun4 = new Gun(new Vec2f(1000, 350), Item.SpritePath.minigun);
 		Gun gun5 = new Gun(new Vec2f(1000, 1050), Item.SpritePath.minigun);
-		// sword1.attachToParent(this, "Item_Weapon"+genName());
+		kata.attachToParent(this, "Item_Weapon"+genName());
 		gun2.attachToParent(this, "Item_Weapon" + genName());
 		gun3.attachToParent(this, "Item_Weapon" + genName());
 		gun4.attachToParent(this, "Item_Weapon" + genName());
