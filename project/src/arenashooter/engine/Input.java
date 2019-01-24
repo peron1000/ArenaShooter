@@ -2,6 +2,11 @@ package arenashooter.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -27,16 +32,38 @@ public final class Input {
 	// This class cannot be instantiated
 	private Input() {
 	}
-
+	
 	/**
-	 * Initialize input actions
+	 * Initialize Input<br/>
+	 * Do not call this before Window.init()
 	 */
-	static {
+	public static void init(long window) {
+		Input.window = window;
+		
+		//Initialize actions
 		for (int i = 0; i < 17; i++) {
 			actionJump[i] = ActionState.RELEASED;
 			actionAttack[i] = ActionState.RELEASED;
 			actionGetItem[i] = ActionState.RELEASED;
 			actionDropItem[i] = ActionState.RELEASED;
+		}
+		
+		//Load gamepad mappings
+		try {
+			InputStream in = new FileInputStream(new File("data/gamecontrollerdb.txt"));
+			InputStreamReader inReader = new InputStreamReader(in);
+			BufferedReader reader = new BufferedReader(inReader);
+			
+			String line = "";
+			while( (line = reader.readLine()) != null )
+					if(!glfwUpdateGamepadMappings(line))
+						System.err.println("Error reading gamepad mapping: "+line);
+		
+			reader.close();
+			inReader.close();
+			in.close();
+		} catch(Exception e) {
+			System.err.println("Can't load gamepad mappings!");
 		}
 	}
 
@@ -183,10 +210,6 @@ public final class Input {
 		default:
 			return ActionState.RELEASED;
 		}
-	}
-
-	public static void setWindow(long window) {
-		Input.window = window;
 	}
 
 	/**

@@ -164,7 +164,6 @@ public class Font {
 	}
 	
 	private static void readPageInfo(Font font, String[] line) {
-		System.out.println("Reading page info");
 		for( int i=1; i<line.length; i++ ) { //For each key-value pair
 			String[] parts = line[i].split("="); //Split key and value
 			

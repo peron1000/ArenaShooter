@@ -136,8 +136,8 @@ public final class Window {
 		//Set the clear color to black
 		glClearColor(0, 0, 0, 0);
 		
-		//Link keyboard input to the window
-		Input.setWindow(window);
+		//Initialize Input and link keyboard input to the window
+		Input.init(window);
 		
 		//Load default quad
 		quad = Model.loadQuad();
