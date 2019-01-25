@@ -6,7 +6,7 @@ public class CharacterInfo {
 	public String spriteFolder;
 	
 	private static final String[] skins = { "chat_01", "chevre_01", "moineau_01", "canard_01", "vache_01" };
-	private static int currentSkin = 0;
+	private static int currentSkin = (int)Math.floor(Math.random()*(skins.length-1));
 	
 	public CharacterInfo() {
 		//TODO: Remove automatic sprite chooser
