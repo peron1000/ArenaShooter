@@ -27,7 +27,8 @@ public final class Input {
 	private static float[] axisMoveX = new float[17], axisMoveY = new float[17], axisAimX = new float[17],
 			axisAimY = new float[17];
 	private static ActionState[] actionJump = new ActionState[17], actionAttack = new ActionState[17],
-			actionGetItem = new ActionState[17], actionDropItem = new ActionState[17];
+			actionGetItem = new ActionState[17], actionDropItem = new ActionState[17],
+			actionUiLeft = new ActionState[17], actionUiRight = new ActionState[17];
 
 	// This class cannot be instantiated
 	private Input() {
@@ -46,6 +47,8 @@ public final class Input {
 			actionAttack[i] = ActionState.RELEASED;
 			actionGetItem[i] = ActionState.RELEASED;
 			actionDropItem[i] = ActionState.RELEASED;
+			actionUiLeft[i] = ActionState.RELEASED;
+			actionUiRight[i] = ActionState.RELEASED;
 		}
 		
 		//Load gamepad mappings
@@ -72,7 +75,7 @@ public final class Input {
 	}
 
 	public enum Action {
-		JUMP, ATTACK, GET_ITEM, DROP_ITEM;
+		JUMP, ATTACK, GET_ITEM, DROP_ITEM, UI_LEFT, UI_RIGHT;
 	}
 
 	public enum Axis {
@@ -110,6 +113,10 @@ public final class Input {
 			return actionGetItem[device.id];
 		case DROP_ITEM:
 			return actionDropItem[device.id];
+		case UI_LEFT:
+			return actionUiLeft[device.id];
+		case UI_RIGHT:
+			return actionUiRight[device.id];
 		default:
 			return ActionState.RELEASED;
 		}
