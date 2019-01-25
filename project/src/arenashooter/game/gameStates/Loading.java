@@ -8,9 +8,9 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.MapXmlReader;
 import arenashooter.entities.Camera;
+import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
-import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
 import arenashooter.game.Game;
@@ -40,17 +40,15 @@ public class Loading extends GameState {
 		
 		float startX = -(GameMaster.gm.controllers.size()*128f)/2f;
 		int i=0;
-		for(CharacterInfo c : GameMaster.gm.controllers.values()) {
+		for(Controller c : GameMaster.gm.controllers) {
 			float x = startX+(128f*i);
 			
-			entities.add( new CharacterSprite(new Vec2f(x, -30), c) );
+			entities.add( new CharacterSprite(new Vec2f(x, -30), c.getCharInfo()) );
 			entities.add( new LoadingFloor(new Vec2f(x, 80)) );
 			i++;
 		}
-		if(GameMaster.gm.controllers.size() == 0) {
-			float x = startX+(128f*i);
-			entities.add( new CharacterSprite(new Vec2f(x, -30), new CharacterInfo()) );
-			entities.add( new LoadingFloor(new Vec2f(x, 80)) );
+		if(GameMaster.gm.controllers.size() == 0) { //No controllers, just place a floor
+			entities.add( new LoadingFloor(new Vec2f(0, 80)) );
 		}
 		
 		for (Entity entity : entities) {

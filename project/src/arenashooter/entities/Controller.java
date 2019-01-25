@@ -6,21 +6,29 @@ import arenashooter.engine.Input.Action;
 import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.game.GameMaster;
 
 public class Controller {
-
+	/** Input device used by this controller */
 	private Device device;
+	/** This controller's character information */
+	private CharacterInfo charInfo;
+	
+	/** Currently possessed character */
 	private Character character;
 
 	public Controller(Device device) {
 		this.device = device;
+		charInfo = new CharacterInfo();
 	}
 
 	public Character createNewCharacter(Vec2f spawn) {
-		character = GameMaster.gm.controllers.get(this).createNewCharacter(spawn);
+		character = charInfo.createNewCharacter(spawn);
 		return character;
 	}
+	
+	public CharacterInfo getCharInfo() { return charInfo; }
 
 	public Character getCharacter() {
 		return character;

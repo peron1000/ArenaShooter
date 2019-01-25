@@ -10,7 +10,6 @@ import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Controller;
-import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.game.GameMaster;
 
@@ -28,8 +27,9 @@ public class CharacterChooser extends GameState {
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		
-		controllers.put(Device.KEYBOARD, new Controller(Device.KEYBOARD));
-		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), new CharacterInfo());
+		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
+		controllers.put(Device.KEYBOARD, controllerKeyboard);
+		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.getCharInfo());
 		i += 150;
 		c.attachToParent(map, c.genName());
 	}
@@ -38,8 +38,9 @@ public class CharacterChooser extends GameState {
 	public void update(double delta) {
 		for (Device device : Device.values()) {
 			if(Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
-				controllers.put(device, new Controller(device));
-				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), new CharacterInfo());
+				Controller newController = new Controller(device);
+				controllers.put(device, newController);
+				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.getCharInfo());
 				c.attachToParent(map, c.genName());
 				i += 150;
 				System.out.println("add controller");

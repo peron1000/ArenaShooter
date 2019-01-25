@@ -1,12 +1,11 @@
 package arenashooter.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 
 import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
-import arenashooter.entities.spatials.CharacterInfo;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Loading;
@@ -16,7 +15,8 @@ import arenashooter.game.gameStates.Start;
 public class GameMaster {
 	public static final GameMaster gm = new GameMaster();
 	
-	public HashMap<Controller, CharacterInfo> controllers = new HashMap<>(1);
+//	public HashMap<Controller, CharacterInfo> controllers = new HashMap<>(1);
+	public ArrayList<Controller> controllers = new ArrayList<>();
 	
 	private static GameState current = Loading.loading;
 	
@@ -25,24 +25,24 @@ public class GameMaster {
 	}
 	
 	public void requestNextState() {
-		if(current instanceof Start) {
+		if(current instanceof Start) { //Start
 			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
-		} else if (current instanceof CharacterChooser) {
+		} else if (current instanceof CharacterChooser) { //Character chooser
 			CharacterChooser c = (CharacterChooser) current;
-			for (Controller controller : c.getControllers()) {
-				controllers.put(controller, new CharacterInfo());
-			}
+			for (Controller controller : c.getControllers())
+				controllers.add(controller);
+			
 			Loading.loading.setNextState(new Game(),"data/mapXML/mapXML.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
-		} else if (current instanceof MapChooser) {
+		} else if (current instanceof MapChooser) { //Map chooser
 			MapChooser mapChooser = (MapChooser) current;
 			current = Loading.loading;
 			current.init();
 			Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());// TODO : create the map
-		} else if (current == Loading.loading) {
+		} else if (current == Loading.loading) { //Loading
 			current = Loading.loading.getNextState();
 			current.init();
 		}

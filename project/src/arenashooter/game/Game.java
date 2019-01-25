@@ -25,7 +25,7 @@ public class Game extends GameState {
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		
-		for (Controller controller : GameMaster.gm.controllers.keySet()) {
+		for(Controller controller : GameMaster.gm.controllers) {
 			Character character = controller.createNewCharacter(map.GetRandomRespawn());
 			players.add(character);
 			character.attachToParent(map, character.genName());
@@ -48,12 +48,12 @@ public class Game extends GameState {
 			Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 
 		//TODO: remove temp particle system
-		((Spatial) map.children.get("particles")).position.x = (float) (300
-				* Math.sin(.003 * System.currentTimeMillis()));
+		((Spatial) map.children.get("particles")).position.x = (float) (300 * Math.sin(.003 * System.currentTimeMillis()));
 
-		for (Controller controller : GameMaster.gm.controllers.keySet()) {
+		//Update controllers
+		for(Controller controller : GameMaster.gm.controllers)
 			controller.step(d);
-		}
+			
 		map.step(d);
 	}
 }
