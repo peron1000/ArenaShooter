@@ -12,6 +12,7 @@ import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWGamepadState;
 
 import arenashooter.engine.math.Vec2f;
 
@@ -22,6 +23,8 @@ public final class Input {
 
 	private static FloatBuffer[] joyAxis = new FloatBuffer[16];
 	private static ByteBuffer[] joyButtons = new ByteBuffer[16];
+	private static GLFWGamepadState currentGamepad;
+	
 	private static long window;
 
 	private static float[] axisMoveX = new float[17], axisMoveY = new float[17], axisAimX = new float[17],
@@ -31,8 +34,7 @@ public final class Input {
 			actionUiLeft = new ActionState[17], actionUiRight = new ActionState[17];
 
 	// This class cannot be instantiated
-	private Input() {
-	}
+	private Input() { }
 	
 	/**
 	 * Initialize Input<br/>
@@ -50,6 +52,9 @@ public final class Input {
 			actionUiLeft[i] = ActionState.RELEASED;
 			actionUiRight[i] = ActionState.RELEASED;
 		}
+		
+		//Initialize gamepad
+		currentGamepad = GLFWGamepadState.create();
 		
 		//Load gamepad mappings
 		try {
@@ -173,10 +178,36 @@ public final class Input {
 				actionUiLeft[i] = getActionState(actionUiLeft[i], glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
 				actionUiRight[i] = getActionState(actionUiRight[i], glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS);
 
-//			} else if( glfwJoystickIsGamepad(i) ) { //Gamepad
-//				float deadzone = .3f;
-//				
-//				actionAttack[i] = 
+			} else if( glfwJoystickIsGamepad(i) ) { //Gamepad
+				
+				float deadzone = .3f;
+
+				if(glfwGetGamepadState(i, currentGamepad)) {
+
+					actionAttack[i] = getActionState(actionAttack[i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
+
+					if (Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X)) >= deadzone || Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y)) >= deadzone) {
+						axisMoveX[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
+						axisMoveY[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y);
+					}
+
+					if (Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X)) >= deadzone || Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y)) >= deadzone) {
+						// If AimInput<deadzone, aim=move direction.
+						axisAimX[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X);
+						axisAimY[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y);
+					} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
+						axisAimX[i] = axisMoveX[i];
+						axisAimY[i] = axisMoveY[i];
+					}
+
+					actionJump[i] = getActionState(actionJump[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
+					actionGetItem[i] = getActionState(actionGetItem[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
+					actionDropItem[i] = getActionState(actionDropItem[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
+
+					actionUiLeft[i] = getActionState(actionUiLeft[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
+					actionUiRight[i] = getActionState(actionUiRight[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);
+				}
+				
 			} else { //Non-gamepad joystick
 
 				joyAxis[i] = glfwGetJoystickAxes(i);
@@ -187,33 +218,32 @@ public final class Input {
 
 					actionAttack[i] = getActionState(actionAttack[i], joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
 
-					if (Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_X)) >= deadzone || Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_Y)) >= deadzone) {
-						axisMoveX[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_X);
-						axisMoveY[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_Y);
+					if (Math.abs(joyAxis[i].get(0)) >= deadzone || Math.abs(joyAxis[i].get(1)) >= deadzone) {
+						axisMoveX[i] = joyAxis[i].get(0);
+						axisMoveY[i] = joyAxis[i].get(1);
 					}
 
-					if (Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_X)) >= deadzone || Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_Y)) >= deadzone) {
+					if (Math.abs(joyAxis[i].get(2)) >= deadzone || Math.abs(joyAxis[i].get(3)) >= deadzone) {
 						// If AimInput<deadzone, aim=move direction.
-						axisAimX[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_X);
-						axisAimY[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_Y);
+						axisAimX[i] = joyAxis[i].get(2);
+						axisAimY[i] = joyAxis[i].get(3);
 					} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
 						axisAimX[i] = axisMoveX[i];
 						axisAimY[i] = axisMoveY[i];
-				}
+					}
 
-				if (joyButtons[i] != null) {
-					actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
-//					actionAttack[i] = getActionState(actionAttack[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_X) == GLFW_PRESS);
-					actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
-					actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
+					if (joyButtons[i] != null) {
+						actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(0) == GLFW_PRESS);
+						actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(1) == GLFW_PRESS);
+						actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(3) == GLFW_PRESS);
+
+					}
 					
-//					actionUiLeft[i] = getActionState(actionUiLeft[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
-//					actionUiRight[i] = getActionState(actionUiRight[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);
+					actionUiLeft[i] = getActionState(actionUiLeft[i], axisMoveX[i] < 0 );
+					actionUiRight[i] = getActionState(actionUiRight[i], axisMoveX[i] > 0);
 				}
 			}
 		}
-
-	}
 	}
 
 	private static ActionState getActionState(ActionState current, boolean isPressed) {
@@ -239,7 +269,7 @@ public final class Input {
 		} else if(  glfwJoystickIsGamepad(device.id) ) {
 			res = "Gamepad: "+glfwGetGamepadName(device.id);
 		} else {
-			res = "Joystick: "+glfwGetJoystickName(device.id);
+			res = "Joystick (not recognized as a gamepad!): "+glfwGetJoystickName(device.id);
 		}
 		
 		return res;
@@ -250,7 +280,7 @@ public final class Input {
 	 * 
 	 * @param id
 	 */
-	static void printController(int id) {
+	static void printJoystick(int id) {
 		if (joyAxis[id] == null)
 			return;
 		String res = "Controller " + id + " axis :";
