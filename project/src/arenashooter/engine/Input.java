@@ -169,8 +169,15 @@ public final class Input {
 				actionAttack[i] = getActionState(actionAttack[i], glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS);
 				actionGetItem[i] = getActionState(actionGetItem[i], glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
 				actionDropItem[i] = getActionState(actionDropItem[i], glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS);
+				
+				actionUiLeft[i] = getActionState(actionUiLeft[i], glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
+				actionUiRight[i] = getActionState(actionUiRight[i], glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS);
 
-			} else { // Controller
+//			} else if( glfwJoystickIsGamepad(i) ) { //Gamepad
+//				float deadzone = .3f;
+//				
+//				actionAttack[i] = 
+			} else { //Non-gamepad joystick
 
 				joyAxis[i] = glfwGetJoystickAxes(i);
 				joyButtons[i] = glfwGetJoystickButtons(i);
@@ -178,25 +185,30 @@ public final class Input {
 				if (joyAxis[i] != null) {
 					float deadzone = .3f;
 
-					if (Math.abs(joyAxis[i].get(0)) >= deadzone || Math.abs(joyAxis[i].get(1)) >= deadzone) {
-						axisMoveX[i] = joyAxis[i].get(0);
-						axisMoveY[i] = joyAxis[i].get(1);
+					actionAttack[i] = getActionState(actionAttack[i], joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
+
+					if (Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_X)) >= deadzone || Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_Y)) >= deadzone) {
+						axisMoveX[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_X);
+						axisMoveY[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_LEFT_Y);
 					}
 
-					if (Math.abs(joyAxis[i].get(2)) >= deadzone || Math.abs(joyAxis[i].get(3)) >= deadzone) {
+					if (Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_X)) >= deadzone || Math.abs(joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_Y)) >= deadzone) {
 						// If AimInput<deadzone, aim=move direction.
-						axisAimX[i] = joyAxis[i].get(2);
-						axisAimY[i] = joyAxis[i].get(3);
+						axisAimX[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_X);
+						axisAimY[i] = joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_Y);
 					} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
 						axisAimX[i] = axisMoveX[i];
 						axisAimY[i] = axisMoveY[i];
 				}
 
 				if (joyButtons[i] != null) {
-					actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(0) == 1);
-					actionAttack[i] = getActionState(actionAttack[i], joyButtons[i].get(2) == 1);
-					actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(1) == 1);
-					actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(3) == 1);
+					actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
+//					actionAttack[i] = getActionState(actionAttack[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_X) == GLFW_PRESS);
+					actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
+					actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
+					
+//					actionUiLeft[i] = getActionState(actionUiLeft[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
+//					actionUiRight[i] = getActionState(actionUiRight[i], joyButtons[i].get(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);
 				}
 			}
 		}
@@ -217,6 +229,20 @@ public final class Input {
 		default:
 			return ActionState.RELEASED;
 		}
+	}
+	
+	public static String getDeviceInfo(Device device) {
+		String res = "";
+		
+		if( device == Device.KEYBOARD ) {
+			res = "Keyboard / mouse";
+		} else if(  glfwJoystickIsGamepad(device.id) ) {
+			res = "Gamepad: "+glfwGetGamepadName(device.id);
+		} else {
+			res = "Joystick: "+glfwGetJoystickName(device.id);
+		}
+		
+		return res;
 	}
 
 	/**

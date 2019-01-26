@@ -7,7 +7,6 @@ import arenashooter.engine.Input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CharacterInfo;
-import arenashooter.game.GameMaster;
 
 public class Controller {
 	/** Input device used by this controller */
@@ -21,6 +20,8 @@ public class Controller {
 	public Controller(Device device) {
 		this.device = device;
 		charInfo = new CharacterInfo();
+		
+		System.out.println("Added controller for:\n "+Input.getDeviceInfo(device));
 	}
 
 	public Character createNewCharacter(Vec2f spawn) {

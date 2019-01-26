@@ -49,7 +49,6 @@ public class CharacterChooser extends GameState {
 				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.getCharInfo());
 				c.attachToParent(map, c.genName());
 				i += 150;
-				System.out.println("add controller");
 			}
 			// TODO : remove controller when B is pressed
 		}

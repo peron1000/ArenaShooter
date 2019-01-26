@@ -16,6 +16,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_13;
 import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_14;
 import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_15;
 import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_16;
+import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_LAST;
 
 public enum Device {
 	CONTROLLER01(GLFW_JOYSTICK_1), 
@@ -34,8 +35,9 @@ public enum Device {
 	CONTROLLER14(GLFW_JOYSTICK_14), 
 	CONTROLLER15(GLFW_JOYSTICK_15), 
 	CONTROLLER16(GLFW_JOYSTICK_16), 
-	KEYBOARD(16);
+	KEYBOARD(GLFW_JOYSTICK_LAST+1);
 
+	/** GLFW Joystick ID or GLFW_JOYSTICK_LAST+1 for keyboard */
 	public final int id;
 	
 	private Device( int id ) {
