@@ -207,7 +207,7 @@ public final class Input {
 					actionUiLeft[i] = getActionState(actionUiLeft[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
 					actionUiRight[i] = getActionState(actionUiRight[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);
 				}
-				
+
 			} else { //Non-gamepad joystick
 
 				joyAxis[i] = glfwGetJoystickAxes(i);
@@ -216,27 +216,28 @@ public final class Input {
 				if (joyAxis[i] != null) {
 					float deadzone = .3f;
 
-					actionAttack[i] = getActionState(actionAttack[i], joyAxis[i].get(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
+					if(  joyAxis[i].capacity()>=6 ) {
+						actionAttack[i] = getActionState(actionAttack[i], joyAxis[i].get(5) >= 0);
 
-					if (Math.abs(joyAxis[i].get(0)) >= deadzone || Math.abs(joyAxis[i].get(1)) >= deadzone) {
-						axisMoveX[i] = joyAxis[i].get(0);
-						axisMoveY[i] = joyAxis[i].get(1);
+						if (Math.abs(joyAxis[i].get(0)) >= deadzone || Math.abs(joyAxis[i].get(1)) >= deadzone) {
+							axisMoveX[i] = joyAxis[i].get(0);
+							axisMoveY[i] = joyAxis[i].get(1);
+						}
+
+						if (Math.abs(joyAxis[i].get(2)) >= deadzone || Math.abs(joyAxis[i].get(3)) >= deadzone) {
+							// If AimInput<deadzone, aim=move direction.
+							axisAimX[i] = joyAxis[i].get(2);
+							axisAimY[i] = joyAxis[i].get(3);
+						} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
+							axisAimX[i] = axisMoveX[i];
+							axisAimY[i] = axisMoveY[i];
+						}
 					}
 
-					if (Math.abs(joyAxis[i].get(2)) >= deadzone || Math.abs(joyAxis[i].get(3)) >= deadzone) {
-						// If AimInput<deadzone, aim=move direction.
-						axisAimX[i] = joyAxis[i].get(2);
-						axisAimY[i] = joyAxis[i].get(3);
-					} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
-						axisAimX[i] = axisMoveX[i];
-						axisAimY[i] = axisMoveY[i];
-					}
-
-					if (joyButtons[i] != null) {
+					if (joyButtons[i] != null && joyButtons[i].capacity()>=4) {
 						actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(0) == GLFW_PRESS);
 						actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(1) == GLFW_PRESS);
 						actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(3) == GLFW_PRESS);
-
 					}
 					
 					actionUiLeft[i] = getActionState(actionUiLeft[i], axisMoveX[i] < 0 );
@@ -262,7 +263,7 @@ public final class Input {
 	}
 	
 	public static String getDeviceInfo(Device device) {
-		String res = "";
+		String res = "Unavailable device";
 		
 		if( device == Device.KEYBOARD ) {
 			res = "Keyboard / mouse";
@@ -270,6 +271,11 @@ public final class Input {
 			res = "Gamepad: "+glfwGetGamepadName(device.id);
 		} else {
 			res = "Joystick (not recognized as a gamepad!): "+glfwGetJoystickName(device.id);
+			
+			joyAxis[device.id] = glfwGetJoystickAxes(device.id);
+			joyButtons[device.id] = glfwGetJoystickButtons(device.id);
+			
+			res += " ("+joyAxis[device.id].capacity()+" axes, "+joyButtons[device.id].capacity()+" buttons)";
 		}
 		
 		return res;
