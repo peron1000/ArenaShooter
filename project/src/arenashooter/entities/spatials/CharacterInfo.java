@@ -17,6 +17,14 @@ public class CharacterInfo {
 			currentSkin++;
 	}
 	
+	public void tempSpriteNext() { //TODO: Remove this
+		spriteFolder = "data/sprites/characters/" + skins[currentSkin];
+		if (currentSkin >= 4)
+			currentSkin = 0;
+		else
+			currentSkin++;
+	}
+	
 	public Character createNewCharacter(Vec2f spawn) {
 		return new Character(spawn, this);
 	}

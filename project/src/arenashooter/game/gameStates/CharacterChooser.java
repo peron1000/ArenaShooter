@@ -19,6 +19,7 @@ import arenashooter.game.Main;
 public class CharacterChooser extends GameState {
 	
 	private HashMap<Device, Controller> controllers = new HashMap<>(1);
+	private HashMap<Controller, CharacterSprite> sprites = new HashMap<>(1);
 	
 	private int i = -300;
 	
@@ -36,6 +37,7 @@ public class CharacterChooser extends GameState {
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
 		controllers.put(Device.KEYBOARD, controllerKeyboard);
 		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.getCharInfo());
+		sprites.put(controllerKeyboard, c);
 		i += 150;
 		c.attachToParent(map, c.genName());
 	}
@@ -47,10 +49,26 @@ public class CharacterChooser extends GameState {
 				Controller newController = new Controller(device);
 				controllers.put(device, newController);
 				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.getCharInfo());
+				sprites.put(newController, c);
 				c.attachToParent(map, c.genName());
 				i += 150;
 			}
 			// TODO : remove controller when B is pressed
+		}
+		
+		//Update controllers
+		for(Controller controller : controllers.values()) {
+			controller.step(delta);
+			
+			//Temp sprite changing
+			if( Input.actionJustPressed(controller.getDevice(), Input.Action.UI_RIGHT) ) {
+					controller.getCharInfo().tempSpriteNext();
+					Vec2f pos = sprites.get(controller).position;
+					sprites.get(controller).detach();
+					CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
+					sprites.put(controller, c);
+					c.attachToParent(map, c.genName());
+			}
 		}
 
 		if(Input.actionPressed(Device.KEYBOARD, Action.JUMP)) {
