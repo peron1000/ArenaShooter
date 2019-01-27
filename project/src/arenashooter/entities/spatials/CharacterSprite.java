@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
@@ -10,6 +11,8 @@ public class CharacterSprite extends Spatial {
 
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
+	
+	private static SoundSource sndStep, sndPunch;
 
 	private float lookAngle = 0;
 	private float moveSpeed = 0;
@@ -20,6 +23,13 @@ public class CharacterSprite extends Spatial {
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
 	private double time = Math.random() * Math.PI, movementTime = 0;
+	
+	static {
+		sndStep = new SoundSource("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
+		sndStep.setVolume(.2f);
+		sndPunch = new SoundSource("data/sound/woosh_01.ogg", 5, .8f, 1.2f, true);
+		sndPunch.setVolume(.7f);
+	}
 
 	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
@@ -57,19 +67,11 @@ public class CharacterSprite extends Spatial {
 			handR.tex.setFilter(false);
 			handR.attachToParent(this, "handR");
 		}
-
-		SoundEffect sndStep = new SoundEffect(this.position, "data/sound/step_01.ogg", 1);
-		sndStep.setVolume(.05f);
-		sndStep.attachToParent(this, "snd Step");
-
-		SoundEffect punchSound = new SoundEffect(this.position, "data/sound/woosh_01.ogg", 2);
-		punchSound.setVolume(.7f);
-		punchSound.attachToParent(this, "snd_Punch");
 	}
 
 	public void punch() {
 		handRLoc.x = 150;
-		((SoundEffect) children.get("snd_Punch")).play();
+		sndPunch.play(position);
 	}
 
 	public void setLookRight(boolean lookRight) {
@@ -117,7 +119,7 @@ public class CharacterSprite extends Spatial {
 		stepTimer.step(d * Math.abs(moveSpeed) / 500);
 		if( !(getParent() instanceof Map) ) { //TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
-				((SoundEffect) children.get("snd Step")).play();
+				sndStep.play(position);
 				stepTimer.restart();
 			}
 		}
