@@ -7,35 +7,33 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.graphics.fonts.Font;
+import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
-public class Text extends Spatial3 {
-	private String text;
-	private Model model;
+public class TextSpatial extends Spatial3 {
+	private Text text;
 	private Shader shader;
-	private Font font;
 	
 	public float thickness = .25f;
 	public Vec4f color = new Vec4f(1, .5, 1, 1);
 	
 	public Vec3f scale;
 
-	public Text(Vec3f position, Vec3f scale, Font font, String text) {
+	public TextSpatial(Vec3f position, Vec3f scale, Text text) {
 		super(position);
 		this.scale = scale.clone();
 		this.text = text;
-		this.font = font;
 		this.shader = new Shader("data/shaders/text_distance_field");
-		this.model = font.genModel(text);
 	}
 	
 	@Override
 	public void draw() {
 		Profiler.startTimer(Profiler.MESHES);
+		
+		Model model = text.getModel();
 		
 		shader.bind();
 		shader.setUniformM4("model", Mat4f.transform(position, rotation, scale));
@@ -52,7 +50,7 @@ public class Text extends Spatial3 {
 		model.bindToShader(shader);
 
 		glActiveTexture(GL_TEXTURE0);
-		font.tex.bind();
+		text.getFont().tex.bind();
 		shader.setUniformI("distanceField", 0);
 
 		model.bind();

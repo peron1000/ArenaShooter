@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import arenashooter.engine.graphics.fonts.Font;
+import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -15,7 +16,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
-import arenashooter.entities.spatials.Text;
+import arenashooter.entities.spatials.TextSpatial;
 
 public class MapXmlReader extends XmlReader {
 
@@ -115,7 +116,8 @@ public class MapXmlReader extends XmlReader {
 							}
 						}
 					}
-					entities.add(new Text(position, size, font, content));
+					Text text = new Text(font, Text.TextAlignH.CENTER, content); //TODO: Load text align from XML
+					entities.add(new TextSpatial(position, size, text));
 				}
 			} else if( entity.getNodeName().equals("mesh") ) {
 				Vec3f position = new Vec3f();

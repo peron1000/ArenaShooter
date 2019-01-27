@@ -8,11 +8,12 @@ import arenashooter.engine.Input;
 import arenashooter.engine.Input.Action;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Controller;
 import arenashooter.entities.spatials.CharacterSprite;
-import arenashooter.entities.spatials.Text;
+import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 
@@ -31,8 +32,9 @@ public class CharacterChooser extends GameState {
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		
-		Text text = new Text(new Vec3f(-450, -500, -10), new Vec3f(450), Main.font, "Choose your failleterre");
-		text.attachToParent(map, "Text_Select");
+		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
+		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
+		textEnt.attachToParent(map, "Text_Select");
 		
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
 		controllers.put(Device.KEYBOARD, controllerKeyboard);
