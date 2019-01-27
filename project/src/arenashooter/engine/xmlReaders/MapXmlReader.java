@@ -7,11 +7,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import arenashooter.engine.graphics.fonts.Font;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.Text;
 
@@ -103,12 +105,11 @@ public class MapXmlReader extends XmlReader {
 					for (int i = 0; i < vectors.getLength(); i++) {
 						if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
 							Element vector = (Element) vectors.item(i);
-							if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+							if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
 								position.x = Float.parseFloat(vector.getAttribute("x"));
 								position.y = Float.parseFloat(vector.getAttribute("y"));
 								position.y = Float.parseFloat(vector.getAttribute("z"));
-							}
-							if (vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+							} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
 								size.x = Float.parseFloat(vector.getAttribute("x"));
 								size.y = Float.parseFloat(vector.getAttribute("y"));
 							}
@@ -116,6 +117,35 @@ public class MapXmlReader extends XmlReader {
 					}
 					entities.add(new Text(position, size, font, content));
 				}
+			} else if( entity.getNodeName().equals("mesh") ) {
+				Vec3f position = new Vec3f();
+				Quat rot = Quat.fromAngle(0);
+				Vec3f scale = new Vec3f(1);
+				String src = entity.getAttribute("src");
+				
+				NodeList vectors = entity.getChildNodes();
+				for (int i = 0; i < vectors.getLength(); i++) {
+					if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
+						Element vector = (Element) vectors.item(i);
+						if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+							position.x = Float.parseFloat(vector.getAttribute("x"));
+							position.y = Float.parseFloat(vector.getAttribute("y"));
+							position.z = Float.parseFloat(vector.getAttribute("z"));
+						} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("rotation")) {
+							float w = Float.parseFloat(vector.getAttribute("w"));
+							float x = Float.parseFloat(vector.getAttribute("x"));
+							float y = Float.parseFloat(vector.getAttribute("y"));
+							float z = Float.parseFloat(vector.getAttribute("z"));
+							rot = new Quat(x, y, z, w);
+						} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+							scale.x = Float.parseFloat(vector.getAttribute("x"));
+							scale.y = Float.parseFloat(vector.getAttribute("y"));
+							scale.z = Float.parseFloat(vector.getAttribute("z"));
+						}
+					}
+				}
+				
+				entities.add(new Mesh(position, rot, scale, src));
 			}
 		}
 		iteratorEntite++;

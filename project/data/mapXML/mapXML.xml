@@ -89,6 +89,12 @@
 			<vecteur x="0" y="0" z="-10" use="position" />
 			<vecteur x="300" y="300" use="scale" />
 		</text>
+		
+		<mesh src="data/meshes/Suzanne.obj">
+			<vecteur use="position" x="0" y="0" z="-300"/>
+			<vecteur use="rotation" x="0" y="0" z="0" w="1"/>
+			<vecteur use="scale" x="200" y="200" z="200"/>
+		</mesh>
 
 	</entities>
 </map>
