@@ -211,6 +211,18 @@ public class Vec2f {
 		return new Vec2f( projected[0], projected[1] );
 	}
 
+	/**
+	 * Project a point in world to screen
+	 * @param world point to project
+	 * @return screen space projection
+	 */
+	public static Vec2f worldToScreen(Vec2f world) { //TODO: test
+		Mat4f model = Mat4f.translation(world);
+		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.camera.viewMatrix), model).val[3];
+				
+		return new Vec2f( projected[0], projected[1] );
+	}
+	
 	public void print() {
 		System.out.println("x = " + x + " ; y = " + y);
 	}

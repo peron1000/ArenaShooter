@@ -233,8 +233,8 @@ public final class Window {
 	public static void resize(int newWidth, int newHeight) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
-		resX = width;
-		resY = height;
+		resX = width/4;
+		resY = height/4;
 		
 		ratio = (float)width/(float)height;
 		
@@ -248,6 +248,10 @@ public final class Window {
 		//Recreate projection matrix
 		createProjectionMatrix();
 	}
+	
+	public static int getWidth() { return width; }
+
+	public static int getHeight() { return height; }
 	
 	/**
 	 * Get screen aspect ratio (width/height)

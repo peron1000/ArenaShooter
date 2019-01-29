@@ -17,7 +17,7 @@ import org.lwjgl.glfw.GLFWGamepadState;
 import arenashooter.engine.math.Vec2f;
 
 public final class Input {
-	private static Vec2f mousePos = new Vec2f();
+	public static Vec2f mousePos = new Vec2f();
 	private static DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);// Buffers to stock cursor coordinates;
 	private static DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
 
@@ -160,6 +160,8 @@ public final class Input {
 				glfwGetCursorPos(window, xBuffer, yBuffer);
 				mousePos.x = (float) xBuffer.get(0);
 				mousePos.y = (float) yBuffer.get(0);
+				axisAimX[i] = mousePos.x;
+				axisAimY[i] = mousePos.y;
 
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 					axisMoveX[i] -= 1;

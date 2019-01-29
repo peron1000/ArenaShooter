@@ -31,7 +31,7 @@ public class Character extends Spatial {
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position);
 
-		healthMax = 100;
+		healthMax = 40;
 		health = healthMax;
 		spawn = position;
 
@@ -233,12 +233,12 @@ public class Character extends Spatial {
 		// position.
 		if (children.get("Item_Weapon") instanceof Weapon) {
 			Weapon arme = (Weapon) children.get("Item_Weapon");
-//			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(40, 0), aimInput)), position);
-			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(50, 0), arme.rotation)), position);//rotation indépendante
+			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(40, 0), aimInput)), position);
+//			Vec2f weaponPosition = Vec2f.add((Vec2f.rotate(new Vec2f(50, 0), arme.rotation)), position);//rotation indépendante
 			arme.position.x = (float) Utils.lerpD((double) arme.position.x, weaponPosition.x, Math.min(1, d * 55));
 			arme.position.y = (float) Utils.lerpD((double) arme.position.y, weaponPosition.y, Math.min(1, d * 55));
-			arme.rotation = Utils.lerpAngle(arme.rotation, aimInput, Math.min(1, d * 10));//rotation indépendante
-//			arme.rotation = new Vec2f(arme.position.x-position.x, arme.position.y-position.y).angle();
+//			arme.rotation = Utils.lerpAngle(arme.rotation, aimInput, Math.min(1, d * 10));//rotation indépendante
+			arme.rotation = Utils.lerpAngle(arme.rotation, new Vec2f(arme.position.x-position.x, arme.position.y-position.y).angle(), Math.min(1, d * 10));
 		}
 		for (Entity e : children.values()) {
 			if (e instanceof Spatial && !(e instanceof Weapon))
