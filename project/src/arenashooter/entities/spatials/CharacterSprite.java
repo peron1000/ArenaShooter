@@ -124,11 +124,11 @@ public class CharacterSprite extends Spatial {
 		}
 
 		if (moveSpeed > 0) {
-			footL.position.add(new Vec2f(-20 + footCos * 4, 42 + footSin * 10));
-			footR.position.add(new Vec2f(20 - footSin * 4, 42 + footCos * 10));
+			footL.position.add(new Vec2f(-20 + footCos * 4, 37 + footSin * 10));
+			footR.position.add(new Vec2f( 20 - footSin * 4, 37 + footCos * 10));
 		} else {
-			footL.position.add(new Vec2f(20 - footCos * 4, 42 + footSin * 10));
-			footR.position.add(new Vec2f(-20 + footSin * 4, 42 + footCos * 10));
+			footL.position.add(new Vec2f( 20 - footCos * 4, 37 + footSin * 10));
+			footR.position.add(new Vec2f(-20 + footSin * 4, 37 + footCos * 10));
 		}
 
 		// Body
