@@ -1,18 +1,11 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.graphics.Window;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.CharacterSprite;
-import arenashooter.entities.spatials.Plateform;
-import arenashooter.entities.spatials.Sprite;
-import arenashooter.entities.spatials.items.Item.SpritePath;
 import arenashooter.game.GameMaster;
 
 public class Melee extends Weapon {
@@ -32,7 +25,7 @@ public class Melee extends Weapon {
 //			bangSound.setVolume(3f);
 //			bangSound.attachToParent(this, "snd_Bang");
 		}
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/swordraw.ogg", 1);
+		SoundEffect pickup = new SoundEffect(this.position, "data/sound/swordraw.ogg", 2);
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
 	}
