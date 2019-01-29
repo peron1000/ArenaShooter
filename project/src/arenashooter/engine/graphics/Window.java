@@ -233,8 +233,8 @@ public final class Window {
 	public static void resize(int newWidth, int newHeight) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
-		resX = width/4;
-		resY = height/4;
+		resX = width;
+		resY = height;
 		
 		ratio = (float)width/(float)height;
 		
