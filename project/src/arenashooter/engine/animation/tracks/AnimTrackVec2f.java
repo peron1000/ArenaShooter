@@ -5,7 +5,7 @@ import java.util.Map;
 import arenashooter.engine.math.Vec2f;
 
 /**
- * Vec2f animation track with inear interpolation
+ * Vec2f animation track with linear interpolation
  */
 public class AnimTrackVec2f extends AnimTrack<Vec2f> {
 
