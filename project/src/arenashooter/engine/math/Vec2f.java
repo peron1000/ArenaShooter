@@ -199,6 +199,11 @@ public class Vec2f {
 		return new Vec2f(-v.y, v.x);
 	}
 	
+	public static Vec2f lerp( Vec2f a, Vec2f b, double f ) {
+		return new Vec2f( Utils.lerpF(a.x, b.x, f),
+						  Utils.lerpF(a.y, b.y, f));
+	}
+	
 	/**
 	 * Project a point in world to screen
 	 * @param world point to project

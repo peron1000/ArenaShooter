@@ -155,4 +155,10 @@ public class Vec3f {
 		
 		return res;
 	}
+	
+	public static Vec3f lerp( Vec3f a, Vec3f b, double f ) {
+		return new Vec3f( Utils.lerpF(a.x, b.x, f),
+						  Utils.lerpF(a.y, b.y, f),
+						  Utils.lerpF(a.z, b.z, f));
+	}
 }
