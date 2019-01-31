@@ -47,7 +47,7 @@ public class CharacterChooser extends GameState {
 	@Override
 	public void update(double delta) {
 		for (Device device : Device.values()) {
-			if(Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
+			if(Input.actionPressed(device, Action.UI_OK) && !controllers.keySet().contains(device)) {
 				Controller newController = new Controller(device);
 				controllers.put(device, newController);
 				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.getCharInfo());
@@ -55,7 +55,7 @@ public class CharacterChooser extends GameState {
 				c.attachToParent(map, c.genName());
 				i += 150;
 			}
-			// TODO : remove controller when B is pressed
+			// TODO : remove controller when UI_BACK is pressed
 		}
 		
 		//Update controllers

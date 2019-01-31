@@ -25,33 +25,68 @@ public final class Input {
 	private static ByteBuffer[] joyButtons = new ByteBuffer[16];
 	private static GLFWGamepadState currentGamepad;
 	
+	/** Game window id, required for keyboard/mouse input */
 	private static long window;
 
-	private static float[] axisMoveX = new float[17], axisMoveY = new float[17], axisAimX = new float[17],
-			axisAimY = new float[17];
-	private static ActionState[] actionJump = new ActionState[17], actionAttack = new ActionState[17],
-			actionGetItem = new ActionState[17], actionDropItem = new ActionState[17],
-			actionUiLeft = new ActionState[17], actionUiRight = new ActionState[17];
+	//Valus for axes and actions for each input device
+	private static float[][] axes = new float[Axis.values().length][17];
+	private static ActionState[][] actions = new ActionState[Action.values().length][17];
+	
+	//Enums
+	/**
+	 * Represents the state of an action
+	 */
+	public enum ActionState {
+		/** The action is not pressed */
+		RELEASED,
+		/** The action has just been pressed */
+		JUST_PRESSED, 
+		/** The action is currently pressed */
+		PRESSED, 
+		/** The action has just been released */
+		JUST_RELEASED;
+	}
 
-	// This class cannot be instantiated
+	/**
+	 * Input actions
+	 */
+	public enum Action {
+		JUMP(0), ATTACK(1), GET_ITEM(2), DROP_ITEM(3), UI_LEFT(4), UI_RIGHT(5), UI_UP(6), UI_DOWN(7), UI_OK(8), UI_BACK(9);
+		
+		public final int id;
+		
+		private Action( int id ) {
+			this.id = id;
+		}
+	}
+
+	/**
+	 * Input axes
+	 */
+	public enum Axis {
+		MOVE_X(0), MOVE_Y(1), AIM_X(2), AIM_Y(3);
+		
+		public final int id;
+		
+		private Axis( int id ) {
+			this.id = id;
+		}
+	}
+	
+	//This class cannot be instantiated
 	private Input() { }
 	
 	/**
 	 * Initialize Input<br/>
-	 * Do not call this before Window.init()
+	 * This should be called by Window.init()
 	 */
 	public static void init(long window) {
 		Input.window = window;
 		
 		//Initialize actions
-		for (int i = 0; i < 17; i++) {
-			actionJump[i] = ActionState.RELEASED;
-			actionAttack[i] = ActionState.RELEASED;
-			actionGetItem[i] = ActionState.RELEASED;
-			actionDropItem[i] = ActionState.RELEASED;
-			actionUiLeft[i] = ActionState.RELEASED;
-			actionUiRight[i] = ActionState.RELEASED;
-		}
+		for(int i=0; i<actions.length; i++)
+			for(int j=0; j<actions[0].length; j++)
+				actions[i][j] = ActionState.RELEASED;
 		
 		//Initialize gamepad
 		currentGamepad = GLFWGamepadState.create();
@@ -75,31 +110,8 @@ public final class Input {
 		}
 	}
 
-	public enum ActionState {
-		RELEASED, JUST_PRESSED, PRESSED, JUST_RELEASED;
-	}
-
-	public enum Action {
-		JUMP, ATTACK, GET_ITEM, DROP_ITEM, UI_LEFT, UI_RIGHT;
-	}
-
-	public enum Axis {
-		MOVE_X, MOVE_Y, AIM_X, AIM_Y;
-	}
-
 	public static float getAxis(Device device, Axis axis) {
-		switch (axis) {
-		case MOVE_X:
-			return axisMoveX[device.id];
-		case MOVE_Y:
-			return axisMoveY[device.id];
-		case AIM_X:
-			return axisAimX[device.id];
-		case AIM_Y:
-			return axisAimY[device.id];
-		default:
-			return 0;
-		}
+		return axes[axis.id][device.id];
 	}
 
 	/**
@@ -109,22 +121,7 @@ public final class Input {
 	 * @return the state of an action
 	 */
 	public static ActionState getActionState(Device device, Action action) {
-		switch (action) {
-		case JUMP:
-			return actionJump[device.id];
-		case ATTACK:
-			return actionAttack[device.id];
-		case GET_ITEM:
-			return actionGetItem[device.id];
-		case DROP_ITEM:
-			return actionDropItem[device.id];
-		case UI_LEFT:
-			return actionUiLeft[device.id];
-		case UI_RIGHT:
-			return actionUiRight[device.id];
-		default:
-			return ActionState.RELEASED;
-		}
+		return actions[action.id][device.id];
 	}
 
 	/**
@@ -150,35 +147,40 @@ public final class Input {
 
 	public static void update() {
 		for (int i = 0; i < 17; i++) {
-			axisMoveX[i] = 0;
-			axisMoveY[i] = 0;
-			axisAimX[i] = 0;
-			axisAimY[i] = 0;
+			axes[Axis.MOVE_X.id][i] = 0;
+			axes[Axis.MOVE_Y.id][i] = 0;
+			axes[Axis.AIM_X.id][i] = 0;
+			axes[Axis.AIM_Y.id][i] = 0;
 
 			if (i == Device.KEYBOARD.id) {// Mouse and Keyboard
 
 				glfwGetCursorPos(window, xBuffer, yBuffer);
 				mousePos.x = (float) xBuffer.get(0);
 				mousePos.y = (float) yBuffer.get(0);
-				axisAimX[i] = mousePos.x;
-				axisAimY[i] = mousePos.y;
+				axes[Axis.AIM_X.id][i] = mousePos.x;
+				axes[Axis.AIM_Y.id][i] = mousePos.y;
 
 				if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-					axisMoveX[i] -= 1;
+					axes[Axis.MOVE_X.id][i] -= 1;
 				if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-					axisMoveX[i] += 1;
+					axes[Axis.MOVE_X.id][i] += 1;
 				if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-					axisMoveY[i] -= 1;
+					axes[Axis.MOVE_Y.id][i] -= 1;
 				if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-					axisMoveY[i] += 1;
+					axes[Axis.MOVE_Y.id][i] += 1;
 
-				actionJump[i] = getActionState(actionJump[i], glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS);
-				actionAttack[i] = getActionState(actionAttack[i], glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS || glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
-				actionGetItem[i] = getActionState(actionGetItem[i], glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
-				actionDropItem[i] = getActionState(actionDropItem[i], glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS);
+				actions[Action.JUMP.id][i] = getActionState(actions[Action.JUMP.id][i], glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS);
+				actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS || glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
+				actions[Action.GET_ITEM.id][i] = getActionState(actions[Action.GET_ITEM.id][i], glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
+				actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS);
 				
-				actionUiLeft[i] = getActionState(actionUiLeft[i], glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
-				actionUiRight[i] = getActionState(actionUiRight[i], glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS);
+				actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
+				actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS);
+				actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS);
+				actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS);
+				
+				actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS);
+				actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS);
 
 			} else if( glfwJoystickIsGamepad(i) ) { //Gamepad
 				
@@ -186,28 +188,33 @@ public final class Input {
 
 				if(glfwGetGamepadState(i, currentGamepad)) {
 
-					actionAttack[i] = getActionState(actionAttack[i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
+					actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
 
 					if (Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X)) >= deadzone || Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y)) >= deadzone) {
-						axisMoveX[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
-						axisMoveY[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y);
+						axes[Axis.MOVE_X.id][i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
+						axes[Axis.MOVE_Y.id][i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y);
 					}
 
 					if (Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X)) >= deadzone || Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y)) >= deadzone) {
 						// If AimInput<deadzone, aim=move direction.
-						axisAimX[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X);
-						axisAimY[i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y);
-					} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
-						axisAimX[i] = axisMoveX[i];
-						axisAimY[i] = axisMoveY[i];
+						axes[Axis.AIM_X.id][i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X);
+						axes[Axis.AIM_Y.id][i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y);
+					} else if (axes[Axis.MOVE_X.id][i] != 0 && axes[Axis.MOVE_Y.id][i] != 0) {
+						axes[Axis.AIM_X.id][i] = axes[Axis.MOVE_X.id][i];
+						axes[Axis.AIM_Y.id][i] = axes[Axis.MOVE_Y.id][i];
 					}
 
-					actionJump[i] = getActionState(actionJump[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
-					actionGetItem[i] = getActionState(actionGetItem[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
-					actionDropItem[i] = getActionState(actionDropItem[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
+					actions[Action.JUMP.id][i] = getActionState(actions[Action.JUMP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
+					actions[Action.GET_ITEM.id][i] = getActionState(actions[Action.GET_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
+					actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
 
-					actionUiLeft[i] = getActionState(actionUiLeft[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
-					actionUiRight[i] = getActionState(actionUiRight[i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);
+					actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
+					actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);
+					actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_UP) == GLFW_PRESS);
+					actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_DOWN) == GLFW_PRESS);
+
+					actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
+					actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
 				}
 
 			} else { //Non-gamepad joystick
@@ -219,31 +226,36 @@ public final class Input {
 					float deadzone = .3f;
 
 					if(  joyAxis[i].capacity()>=6 ) {
-						actionAttack[i] = getActionState(actionAttack[i], joyAxis[i].get(5) >= 0);
+						actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], joyAxis[i].get(5) >= 0);
 
 						if (Math.abs(joyAxis[i].get(0)) >= deadzone || Math.abs(joyAxis[i].get(1)) >= deadzone) {
-							axisMoveX[i] = joyAxis[i].get(0);
-							axisMoveY[i] = joyAxis[i].get(1);
+							axes[Axis.MOVE_X.id][i] = joyAxis[i].get(0);
+							axes[Axis.MOVE_Y.id][i] = joyAxis[i].get(1);
 						}
 
 						if (Math.abs(joyAxis[i].get(2)) >= deadzone || Math.abs(joyAxis[i].get(3)) >= deadzone) {
 							// If AimInput<deadzone, aim=move direction.
-							axisAimX[i] = joyAxis[i].get(2);
-							axisAimY[i] = joyAxis[i].get(3);
-						} else if (axisMoveX[i] != 0 && axisMoveY[i] != 0) {
-							axisAimX[i] = axisMoveX[i];
-							axisAimY[i] = axisMoveY[i];
+							axes[Axis.AIM_X.id][i] = joyAxis[i].get(2);
+							axes[Axis.AIM_Y.id][i] = joyAxis[i].get(3);
+						} else if (axes[Axis.MOVE_X.id][i] != 0 && axes[Axis.MOVE_Y.id][i] != 0) {
+							axes[Axis.AIM_X.id][i] = axes[Axis.MOVE_X.id][i];
+							axes[Axis.AIM_Y.id][i] = axes[Axis.MOVE_Y.id][i];
 						}
 					}
 
 					if (joyButtons[i] != null && joyButtons[i].capacity()>=4) {
-						actionJump[i] = getActionState(actionJump[i], joyButtons[i].get(0) == GLFW_PRESS);
-						actionGetItem[i] = getActionState(actionGetItem[i], joyButtons[i].get(1) == GLFW_PRESS);
-						actionDropItem[i] = getActionState(actionDropItem[i], joyButtons[i].get(3) == GLFW_PRESS);
+						actions[Action.JUMP.id][i] = getActionState(actions[Action.JUMP.id][i], joyButtons[i].get(0) == GLFW_PRESS);
+						actions[Action.GET_ITEM.id][i] = getActionState(actions[Action.GET_ITEM.id][i], joyButtons[i].get(1) == GLFW_PRESS);
+						actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], joyButtons[i].get(3) == GLFW_PRESS);
+
+						actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], joyButtons[i].get(0) == GLFW_PRESS);
+						actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], joyButtons[i].get(1) == GLFW_PRESS);
 					}
 					
-					actionUiLeft[i] = getActionState(actionUiLeft[i], axisMoveX[i] < 0 );
-					actionUiRight[i] = getActionState(actionUiRight[i], axisMoveX[i] > 0);
+					actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], axes[Axis.MOVE_X.id][i] < 0 );
+					actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], axes[Axis.MOVE_X.id][i] > 0);
+					actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], axes[Axis.MOVE_Y.id][i] > 0 );
+					actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], axes[Axis.MOVE_Y.id][i] < 0);
 				}
 			}
 		}
