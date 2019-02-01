@@ -1,6 +1,9 @@
 package arenashooter.engine.animation.tracks;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Abstract class for a keyframe animation track
@@ -13,11 +16,19 @@ public abstract class AnimTrack<T> {
 	public AnimTrack(Map<Float, T> keyframes) {
 		times = new float[keyframes.size()];
 		values = new Object[keyframes.size()];
-		int i=0;
-		for(Map.Entry<Float, T> entry : keyframes.entrySet()) {
-			times[i] = entry.getKey();
-			values[i] = entry.getValue();
-			i++;
+		
+		//Make sure keyframes times are sorted
+		ArrayList<Float> timesList = new ArrayList<>(keyframes.size());
+		timesList.addAll(keyframes.keySet());
+		timesList.sort( new Comparator<Float>() {
+			public int compare(Float f1, Float f2) {
+				return f1.compareTo(f2);
+			}
+		});
+
+		for(int i=0; i<timesList.size(); i++) {
+			times[i] = timesList.get(i);
+			values[i] = keyframes.get(times[i]);
 		}
 	}
 
