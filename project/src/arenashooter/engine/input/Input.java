@@ -1,4 +1,4 @@
-package arenashooter.engine;
+package arenashooter.engine.input;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -31,47 +31,6 @@ public final class Input {
 	//Valus for axes and actions for each input device
 	private static float[][] axes = new float[Axis.values().length][17];
 	private static ActionState[][] actions = new ActionState[Action.values().length][17];
-	
-	//Enums
-	/**
-	 * Represents the state of an action
-	 */
-	public enum ActionState {
-		/** The action is not pressed */
-		RELEASED,
-		/** The action has just been pressed */
-		JUST_PRESSED, 
-		/** The action is currently pressed */
-		PRESSED, 
-		/** The action has just been released */
-		JUST_RELEASED;
-	}
-
-	/**
-	 * Input actions
-	 */
-	public enum Action {
-		JUMP(0), ATTACK(1), GET_ITEM(2), DROP_ITEM(3), UI_LEFT(4), UI_RIGHT(5), UI_UP(6), UI_DOWN(7), UI_OK(8), UI_BACK(9);
-		
-		public final int id;
-		
-		private Action( int id ) {
-			this.id = id;
-		}
-	}
-
-	/**
-	 * Input axes
-	 */
-	public enum Axis {
-		MOVE_X(0), MOVE_Y(1), AIM_X(2), AIM_Y(3);
-		
-		public final int id;
-		
-		private Axis( int id ) {
-			this.id = id;
-		}
-	}
 	
 	//This class cannot be instantiated
 	private Input() { }

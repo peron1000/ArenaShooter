@@ -1,4 +1,4 @@
-package arenashooter.engine;
+package arenashooter.engine.input;
 
 import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_1;
 import static org.lwjgl.glfw.GLFW.GLFW_JOYSTICK_2;

@@ -1,10 +1,10 @@
 package arenashooter.entities;
 
-import arenashooter.engine.Device;
-import arenashooter.engine.Input;
-import arenashooter.engine.Input.Action;
-import arenashooter.engine.Input.Axis;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.input.Device;
+import arenashooter.engine.input.Input;
+import arenashooter.engine.input.Action;
+import arenashooter.engine.input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CharacterInfo;

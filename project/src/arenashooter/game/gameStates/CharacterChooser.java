@@ -3,12 +3,12 @@ package arenashooter.game.gameStates;
 import java.util.Collection;
 import java.util.HashMap;
 
-import arenashooter.engine.Device;
-import arenashooter.engine.Input;
-import arenashooter.engine.Input.Action;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
+import arenashooter.engine.input.Device;
+import arenashooter.engine.input.Input;
+import arenashooter.engine.input.Action;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Controller;
@@ -63,7 +63,7 @@ public class CharacterChooser extends GameState {
 			controller.step(delta);
 			
 			//Temp sprite changing
-			if( Input.actionJustPressed(controller.getDevice(), Input.Action.UI_RIGHT) ) {
+			if( Input.actionJustPressed(controller.getDevice(), Action.UI_RIGHT) ) {
 					controller.getCharInfo().tempSpriteNext();
 					Vec2f pos = sprites.get(controller).position;
 					sprites.get(controller).detach();

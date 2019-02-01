@@ -1,8 +1,8 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.Device;
-import arenashooter.engine.Input;
-import arenashooter.engine.Input.Action;
+import arenashooter.engine.input.Device;
+import arenashooter.engine.input.Input;
+import arenashooter.engine.input.Action;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
