@@ -1,7 +1,6 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
@@ -21,10 +20,6 @@ public class Gun extends Weapon {
 	public double cannonLength = 1.0;
 	public double bulletSpeed = 1.0;
 
-	/**
-	 * 
-	 */
-
 	private double waitcharge;
 	private boolean charge;
 	private double tpscharge;
@@ -43,7 +38,7 @@ public class Gun extends Weapon {
 			bulletSpeed = 4000;
 			cannonLength = 50.0;
 
-			tpscharge=0.2;
+			tpscharge=0;
 			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
@@ -58,7 +53,7 @@ public class Gun extends Weapon {
 			damage = 1f;
 			bulletSpeed = 4000;
 			cannonLength = 75.0;
-			tpscharge=1.55;
+			tpscharge=1;
 			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
@@ -74,23 +69,21 @@ public class Gun extends Weapon {
 	}
 
 	@Override
-	public void attackStart() { // Visée par vecteur
-
+	public void attackStart() {
 		charge = true;
 	}
 
 	@Override
-	public void attackStop() { // Visée par vecteur
+	public void attackStop() {
 		charge = false;
 	}
 
 	@Override
-	public void step(double id) {
-		if (charge) {
-			waitcharge = Math.min(waitcharge + id, tpscharge);
-		} else {
-			waitcharge = Utils.lerpD(waitcharge, 0, Math.max(0, id*2));
-		}
+	public void step(double d) {
+		if (charge)
+			waitcharge = Math.min(waitcharge + d, tpscharge);
+		else
+			waitcharge = Math.max(waitcharge - d, 0);
 		
 		if (charge && waitcharge >= tpscharge && fire.isOver()) {
 			fire.restart();
@@ -124,6 +117,7 @@ public class Gun extends Weapon {
 			// Add camera shake
 			Window.camera.setCameraShake(2.8f);
 		}
-		super.step(id);
+		
+		super.step(d);
 	}
 }

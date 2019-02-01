@@ -1,13 +1,10 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
-import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.Plateform;
 
 public abstract class Item extends Spatial {
 

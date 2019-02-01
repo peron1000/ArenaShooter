@@ -3,7 +3,6 @@ package arenashooter.engine.animation.tracks;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Abstract class for a keyframe animation track
