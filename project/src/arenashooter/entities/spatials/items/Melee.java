@@ -31,7 +31,7 @@ public class Melee extends Weapon {
 	}
 
 	@Override
-	public void attack() {
+	public void attackStart() {
 		if (fire.isOver()) {
 			fire.restart();
 			for (Entity path : GameMaster.gm.getEntities()) {

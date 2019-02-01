@@ -18,8 +18,12 @@ public class Weapon extends Item {
 		super(position, itemSprite);
 	}
 
-	public void attack() {
-
+	public void attackStart() {
+			
+	}
+	
+	public void attackStop() {
+		
 	}
 
 	public void step(double d) {

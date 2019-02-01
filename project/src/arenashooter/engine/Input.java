@@ -145,6 +145,16 @@ public final class Input {
 		return getActionState(device, action) == ActionState.JUST_PRESSED;
 	}
 
+	/**
+	 * 
+	 * @param device
+	 * @param action
+	 * @return was an action just released on a device
+	 */
+	public static boolean actionJustReleased(Device device, Action action) {
+		return getActionState(device, action) == ActionState.JUST_RELEASED;
+	}
+	
 	public static void update() {
 		for (int i = 0; i < 17; i++) {
 			axes[Axis.MOVE_X.id][i] = 0;

@@ -20,6 +20,15 @@ public class Gun extends Weapon {
 	public double cannonLength = 1.0;
 	public double bulletSpeed = 1.0;
 
+	/**
+	 * 
+	 */
+
+	private double waitcharge;
+	private boolean charge;
+	private double tpscharge;
+	
+	
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		coll = new Collider(position, new Vec2f(40, 40));
@@ -29,10 +38,12 @@ public class Gun extends Weapon {
 
 			thrust = 500;
 			recoil = 0.5f;
-			damage = 5f;
+			damage = 25f;
 			bulletSpeed = 4000;
 			cannonLength = 50.0;
 
+			tpscharge=0.2;
+			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
@@ -43,10 +54,11 @@ public class Gun extends Weapon {
 
 			thrust = 500;
 			recoil = 0.30f;
-			damage = 0f;
+			damage = 1f;
 			bulletSpeed = 4000;
 			cannonLength = 75.0;
-
+			tpscharge=1.55;
+			
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
@@ -55,14 +67,35 @@ public class Gun extends Weapon {
 		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
 		pickup.setVolume(0.5f);
 		pickup.attachToParent(this, "snd_Pickup");
-		
+
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
 	}
-	
+
 	@Override
-	public void attack() { // Visée par vecteur
-		if (fire.isOver()) {
+	public void attackStart() { // Visée par vecteur
+
+		charge = true;
+	}
+
+	@Override
+	public void attackStop() { // Visée par vecteur
+		charge = false;
+	}
+
+	@Override
+	public void step(double id) {
+		if (charge) {
+			waitcharge += id;
+		} else {
+			if (waitcharge > 0) {
+				waitcharge -= id;
+			}
+			else {
+				waitcharge=0;
+			}
+		}
+		if (charge && waitcharge >= tpscharge && fire.isOver()) {
 			fire.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
@@ -79,12 +112,12 @@ public class Gun extends Weapon {
 
 			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
-			
+
 			((SoundEffect) children.get("snd_Bang")).play();
-			
+
 			Particles flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 			flash.attachToParent(children.get("particle_container"), "particles_flash");
-			
+
 			Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 			shell.selfDestruct = true;
 			shell.attachToParent(this, shell.genName());
@@ -94,5 +127,6 @@ public class Gun extends Weapon {
 			// Add camera shake
 			Window.camera.setCameraShake(2.8f);
 		}
+		super.step(id);
 	}
 }

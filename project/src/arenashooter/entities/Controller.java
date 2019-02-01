@@ -44,11 +44,12 @@ public class Controller {
 				character.movementInput = Input.getAxis(device, Axis.MOVE_X);
 				if (device == Device.KEYBOARD) {
 					Vec2f charPos = Vec2f.worldToScreen(character.position);
-					Vec2f mouseCentered = Vec2f.add(Input.mousePos, new Vec2f(-Window.getWidth()/2, -Window.getHeight()/2));
-					
-					System.out.println("Char: "+charPos);
-					System.out.println("Mouse:"+mouseCentered);
-					//TODO: Fix this
+					Vec2f mouseCentered = Vec2f.add(Input.mousePos,
+							new Vec2f(-Window.getWidth() / 2, -Window.getHeight() / 2));
+
+					System.out.println("Char: " + charPos);
+					System.out.println("Mouse:" + mouseCentered);
+					// TODO: Fix this
 					character.aimInput = Vec2f.subtract(mouseCentered, charPos).angle();
 					character.isAiming = true;
 				} else {
@@ -59,8 +60,13 @@ public class Controller {
 
 				if (Input.actionPressed(device, Action.JUMP))
 					character.jump(3000);
-				if (Input.actionPressed(device, Action.ATTACK))
-					character.attack();
+
+				if (Input.actionJustPressed(device, Action.ATTACK))
+					character.attackStart();
+				else if (Input.actionJustReleased(device, Action.ATTACK))
+					character.attackStop();
+
+				
 				if (Input.actionJustPressed(device, Action.GET_ITEM))
 					character.getItem();
 				if (Input.actionJustPressed(device, Action.DROP_ITEM))

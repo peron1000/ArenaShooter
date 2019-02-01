@@ -66,9 +66,9 @@ public class Character extends Spatial {
 		((SoundEffect) children.get("snd_Jump")).play();
 	}
 
-	public void attack() {
+	public void attackStart() {
 		if (children.get("Item_Weapon") != null) {
-			((Weapon) children.get("Item_Weapon")).attack();
+			((Weapon) children.get("Item_Weapon")).attackStart();
 		} else if (attack.isOver()) {
 			attack.restart();
 
@@ -99,6 +99,13 @@ public class Character extends Spatial {
 
 				}
 			}
+		}
+
+	}
+	
+	public void attackStop() {
+		if (children.get("Item_Weapon") != null) {
+			((Weapon) children.get("Item_Weapon")).attackStop();
 		}
 
 	}
