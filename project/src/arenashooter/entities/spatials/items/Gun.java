@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
@@ -86,15 +87,11 @@ public class Gun extends Weapon {
 	@Override
 	public void step(double id) {
 		if (charge) {
-			waitcharge += id;
+			waitcharge = Math.min(waitcharge + id, tpscharge);
 		} else {
-			if (waitcharge > 0) {
-				waitcharge -= id;
-			}
-			else {
-				waitcharge=0;
-			}
+			waitcharge = Utils.lerpD(waitcharge, 0, Math.max(0, id*2));
 		}
+		
 		if (charge && waitcharge >= tpscharge && fire.isOver()) {
 			fire.restart();
 
