@@ -13,22 +13,30 @@ public class Shader {
 	public boolean transparent = false;
 //	private static int boundShader = 0;
 	
+	private Shader(int vertex, int fragment, int program) {
+		this.vertex = vertex;
+		this.fragment = fragment;
+		this.program = program;
+	}
+	
 	/**
 	 * Create a shader from vertex and fragment shader files sharing the same path and name.
 	 * Appends ".vert" and ".frag" to get the complete file paths
 	 * @param path resource path to the files, excluding file extensions
+	 * @return 
 	 */
-	public Shader(String path) {
-		this(path+".vert", path+".frag");
+	public static Shader loadShader(String path) {
+		return loadShader(path+".vert", path+".frag");
 	}
 	
 	/**
 	 * Create a shader from vertex and fragment shader files
 	 * @param vertexPath resource path to the vertex shader
 	 * @param fragmentPath resource path to the fragment shader
+	 * @return 
 	 */
-	public Shader(String vertexPath, String fragmentPath) {
-		vertex = glCreateShader(GL_VERTEX_SHADER);
+	public static Shader loadShader(String vertexPath, String fragmentPath) {
+		int vertex = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertex, FileUtils.resToString(vertexPath));
 		glCompileShader(vertex);
 		if( glGetShaderi(vertex, GL_COMPILE_STATUS) != GL_TRUE ) {
@@ -36,7 +44,7 @@ public class Shader {
 			System.err.println( glGetShaderInfoLog(vertex) );
 		}
 		
-		fragment = glCreateShader(GL_FRAGMENT_SHADER);
+		int fragment = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragment, FileUtils.resToString(fragmentPath));
 		glCompileShader(fragment);
 		if( glGetShaderi(fragment, GL_COMPILE_STATUS) != GL_TRUE ) {
@@ -44,7 +52,7 @@ public class Shader {
 			System.err.println( glGetShaderInfoLog(fragment) );
 		}
 		
-		program = glCreateProgram();
+		int program = glCreateProgram();
 		glAttachShader(program, vertex);
 		glAttachShader(program, fragment);
 		
@@ -58,7 +66,8 @@ public class Shader {
 			System.err.println( "Can't validate shaders: "+vertexPath+", "+fragmentPath );
 			System.err.println( glGetProgramInfoLog(program) );
 		}
-
+		
+		return new Shader(vertex, fragment, program);
 	}
 	
 	public int getAttribLocation(String name) { return glGetAttribLocation(program, name); }

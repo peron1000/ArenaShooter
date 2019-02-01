@@ -17,7 +17,7 @@ public class Sky extends Entity {
 
 	public Sky(Vec3f colorBot, Vec3f colorTop) {
 		if(quad == null) quad = Model.loadQuad();
-		shader = new Shader("data/shaders/sky");
+		shader = Shader.loadShader("data/shaders/sky");
 		setColors(colorBot, colorTop);
 	}
 	

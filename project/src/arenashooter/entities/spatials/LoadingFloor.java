@@ -21,7 +21,7 @@ public class LoadingFloor extends Spatial {
 	private double timer = 0;
 	
 	static {
-		shader = new Shader("data/shaders/sprite_simple");
+		shader = Shader.loadShader("data/shaders/sprite_simple");
 		model = Model.loadQuad();
 		tex = new Texture[] {
 				Texture.loadTexture("data/sprites/loading_floor/floor_01.png"),

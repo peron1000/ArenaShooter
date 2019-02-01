@@ -41,6 +41,6 @@ public class EmitterTemplateBasic extends EmitterTemplate {
 		this.sizeInitial = sizeInitial;
 		this.sizeEnd = sizeEnd;
 		
-		shader = new Shader("data/shaders/particle_simple");
+		shader = Shader.loadShader("data/shaders/particle_simple");
 	}
 }

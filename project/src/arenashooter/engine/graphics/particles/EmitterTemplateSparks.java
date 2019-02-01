@@ -35,6 +35,6 @@ public class EmitterTemplateSparks extends EmitterTemplate {
 				velocityMin, velocityMax,
 				gravityScale);
 		
-		shader = new Shader("data/shaders/particle_simple");
+		shader = Shader.loadShader("data/shaders/particle_simple");
 	}
 }

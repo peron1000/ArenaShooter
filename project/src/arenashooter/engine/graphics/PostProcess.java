@@ -9,7 +9,7 @@ public class PostProcess {
 	private float chromaAbbIntensity = 0;
 
 	public PostProcess(String shader) {
-		this.shader = new Shader(shader);
+		this.shader = Shader.loadShader(shader);
 	}
 	
 	public float getVignetteIntensity() { return vignetteIntensity; }

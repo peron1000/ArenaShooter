@@ -24,7 +24,7 @@ public class Sprite extends Spatial {
 	
 	public Sprite(Vec2f position, Texture texture) {
 		super(position);
-		if(shader == null) shader = new Shader("data/shaders/sprite_simple");
+		if(shader == null) shader = Shader.loadShader("data/shaders/sprite_simple");
 		if(model == null) model = Model.loadQuad();
 		this.tex = texture;
 	}

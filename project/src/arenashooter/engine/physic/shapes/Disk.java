@@ -32,7 +32,7 @@ public class Disk extends Shape {
 	}
 	
 	private static final Model disk = Model.loadDisk(16);
-	private static final Shader shader = new Shader("data/shaders/debug_color");
+	private static final Shader shader = Shader.loadShader("data/shaders/debug_color");
 	@Override
 	public void debugDraw() {
 		if(body == null) return;

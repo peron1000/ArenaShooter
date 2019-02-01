@@ -37,7 +37,7 @@ public class Mesh extends Spatial3 {
 		models = Model.loadModel(modelPath);
 
 		//TODO: Load materials from model file
-		Shader shaderBase = new Shader("data/shaders/mesh_simple");
+		Shader shaderBase = Shader.loadShader("data/shaders/mesh_simple");
 		Texture textureBase = Texture.loadTexture("data/default_texture.png");
 		
 		shaders = new Shader[models.length];

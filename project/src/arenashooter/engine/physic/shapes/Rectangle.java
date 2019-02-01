@@ -59,7 +59,7 @@ public class Rectangle extends Shape {
 	}
 
 	private static final Model quad = Model.loadQuad();
-	private static final Shader shader = new Shader("data/shaders/debug_color");
+	private static final Shader shader = Shader.loadShader("data/shaders/debug_color");
 	@Override
 	public void debugDraw() {
 		if(body == null) return;

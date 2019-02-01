@@ -26,7 +26,7 @@ public class TextSpatial extends Spatial3 {
 		super(position);
 		this.scale = scale.clone();
 		this.text = text;
-		this.shader = new Shader("data/shaders/text_distance_field");
+		this.shader = Shader.loadShader("data/shaders/text_distance_field");
 	}
 	
 	@Override
