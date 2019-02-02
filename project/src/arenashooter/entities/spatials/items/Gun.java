@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
@@ -20,11 +21,11 @@ public class Gun extends Weapon {
 	public double cannonLength = 1.0;
 	public double bulletSpeed = 1.0;
 
-	private double waitcharge;
-	private boolean charge;
-	private double tpscharge;
-	
-	
+	private double waitCharge;//Temps a attendre pour charger
+	private boolean charge;//La gachette est enclenchee
+	private double tpscharge;//Temps depuis lequel la gachette est enclenchee
+	private double inertia;//Temps pour que l'arme commence a se decharger
+
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		coll = new Collider(position, new Vec2f(40, 40));
@@ -38,8 +39,9 @@ public class Gun extends Weapon {
 			bulletSpeed = 4000;
 			cannonLength = 50.0;
 
-			tpscharge=0;
-			
+			tpscharge = 0;
+			inertia = 0;
+
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
@@ -53,8 +55,8 @@ public class Gun extends Weapon {
 			damage = 1f;
 			bulletSpeed = 4000;
 			cannonLength = 75.0;
-			tpscharge=1;
-			
+			tpscharge = 0.8;
+
 			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
 			bangSound.setVolume(3f);
 			bangSound.attachToParent(this, "snd_Bang");
@@ -80,25 +82,35 @@ public class Gun extends Weapon {
 
 	@Override
 	public void step(double d) {
+
+		if (isEquipped()) {//
+			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
+
+			localOffSet.x = (float) Utils.lerpD((double) localOffSet.x, targetOffSet.x, Math.min(1, d * 55));
+			localOffSet.y = (float) Utils.lerpD((double) localOffSet.y, targetOffSet.y, Math.min(1, d * 55));
+			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
+		}
+
 		if (charge)
-			waitcharge = Math.min(waitcharge + d, tpscharge);
+			waitCharge = Math.min(waitCharge + d, tpscharge);
 		else
-			waitcharge = Math.max(waitcharge - d, 0);
-		
-		if (charge && waitcharge >= tpscharge && fire.isOver()) {
+			waitCharge = Math.max(waitCharge - d, 0);
+
+		if (charge && waitCharge >= tpscharge && fire.isOver()) {
 			fire.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
 
 			Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
-			Vec2f bulletPos = position.clone();
+			Vec2f bulletPos = pos();
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			if (isEquipped()) {
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
-			} else
-				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+			} else {
+				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust/10));
+			}
 
 			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
@@ -117,7 +129,7 @@ public class Gun extends Weapon {
 			// Add camera shake
 			Window.camera.setCameraShake(2.8f);
 		}
-		
+
 		super.step(d);
 	}
 }
