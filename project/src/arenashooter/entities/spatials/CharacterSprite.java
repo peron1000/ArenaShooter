@@ -3,7 +3,6 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Weapon;
@@ -144,18 +143,26 @@ public class CharacterSprite extends Spatial {
 		head.localPosition.y = (float) (-17 + headH * 2.5);
 
 		// Hands
-		Entity weapE = siblings().get("weapon");
-		if(weapE instanceof Weapon) {//Place hands on weapon
-			Weapon weap = (Weapon)weapE;
-			if(weap.handPosL != null)
-				handL.localPosition.set(Vec2f.add(weap.localPosition, weap.handPosL));
-			else
-				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*9));
+		if(parent instanceof Character) {
+			Weapon weap = ((Character)parent).getWeapon();
 			
-			if(weap.handPosR != null)
-				handR.localPosition.set(Vec2f.add(weap.localPosition, weap.handPosR));
-			else
+			if(weap != null && weap.handPosL != null) {
+				handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(weap.handPosL, weap.rotation)));
+				handL.rotation = weap.rotation;
+			} else {
+				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*9));
+				handL.localPosition.y = Utils.lerpF(handL.localPosition.y, 0, Math.min(1, d*9));
+				handL.rotation = 0;
+			}
+			
+			if(weap != null && weap.handPosR != null) {
+				handR.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(weap.handPosR, weap.rotation)));
+				handR.rotation = weap.rotation;
+			} else {
 				handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*9));
+				handR.localPosition.y = Utils.lerpF(handR.localPosition.y, 0, Math.min(1, d*9));
+				handR.rotation = 0;
+			}
 			
 		} else {
 			//Lerp to 0 for punch anim
