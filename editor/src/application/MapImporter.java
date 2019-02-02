@@ -25,7 +25,9 @@ public final class MapImporter {
 	}
 
 	private static void readFile(File f) {
-		//TODO: Clean current map and load new one
+		Main.clear();
+		
+		//TODO: Load new map
 		Main.popup("Error", "Unimplemented feature, sorry");
 	}
 }

@@ -69,4 +69,21 @@ public class Main extends Application {
 		popup.setScene(scene);
 		popup.show();
 	}
+	
+	/**
+	 * Create a new map
+	 */
+	public static void clear() {
+		Affichage.selectEntity(null);
+		
+		Affichage.sceneTree.getRoot().getChildren().clear();
+		
+		ListEntite.view.getChildren().clear();
+		
+		ListEntite.visuals.clear();
+		
+		map = new GameMap();
+		
+		Affichage.selectEntity(null);
+	}
 }
