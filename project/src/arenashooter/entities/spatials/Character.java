@@ -37,24 +37,24 @@ public class Character extends Spatial {
 
 		rotation = 0;
 
-		collider = new Collider(this.position, new Vec2f(25, 60));
+		collider = new Collider(this.pos(), new Vec2f(25, 60));
 		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
 
-		CharacterSprite skeleton = new CharacterSprite(this.position, charInfo);
+		CharacterSprite skeleton = new CharacterSprite(this.pos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
 
-		SoundEffect jumpSound = new SoundEffect(this.position, "data/sound/jump.ogg", 2);
+		SoundEffect jumpSound = new SoundEffect(this.pos(), "data/sound/jump.ogg", 2);
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 
-		// SoundEffect punchHitSound = new SoundEffect(this.position,
+		// SoundEffect punchHitSound = new SoundEffect(this.pos(),
 		// "data/sound/punch_01.ogg");
 		// punchHitSound.setVolume(.7f);
 		// punchHitSound.attachToParent(this, "snd_Punch_Hit");
 
-		SoundEffect punchHitSound = new SoundEffect(this.position, "data/sound/snd_Punch_Hit2.ogg", 2);
+		SoundEffect punchHitSound = new SoundEffect(this.pos(), "data/sound/snd_Punch_Hit2.ogg", 2);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
@@ -89,8 +89,8 @@ public class Character extends Spatial {
 					}
 
 					if (isInFrontOfMe) {
-						float xDiff = Math.abs(position.x - c.position.x);
-						float yDiff = Math.abs(position.y - c.position.y);
+						float xDiff = Math.abs(pos().x - c.pos().x);
+						float yDiff = Math.abs(pos().y - c.pos().y);
 						if (xDiff < 175 && yDiff < 175) {
 							c.takeDamage(defaultDamage, lookRight);
 							((SoundEffect) children.get("snd_Punch_Hit")).play();
@@ -121,14 +121,14 @@ public class Character extends Spatial {
 			for (Entity e : GameMaster.gm.getEntities()) {
 				if (!hasWeapon && e instanceof Weapon) {
 					Item weapon = (Weapon) e;
-					float xDiff = Math.abs(position.x - weapon.position.x);
-					float yDiff = Math.abs(position.y - weapon.position.y);
+					float xDiff = Math.abs(pos().x - weapon.pos().x);
+					float yDiff = Math.abs(pos().y - weapon.pos().y);
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
 				} else if (!hasArmor && e instanceof Equipement) {
 					Item item = (Equipement) e;
-					float xDiff = Math.abs(position.x - item.position.x);
-					float yDiff = Math.abs(position.y - item.position.y);
+					float xDiff = Math.abs(pos().x - item.pos().x);
+					float yDiff = Math.abs(pos().y - item.pos().y);
 					if (xDiff < 175 && yDiff < 175)
 						armure = item;
 				}
@@ -232,7 +232,7 @@ public class Character extends Spatial {
 			skeleton.setLookRight(lookRight);
 		}
 
-		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
+		if (Math.abs(pos().x) > 10000 || Math.abs(pos().y) > 10000) {
 			death();
 		}
 
