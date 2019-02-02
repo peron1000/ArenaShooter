@@ -82,6 +82,10 @@ public class Gun extends Weapon {
 			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun.ogg", 2, 0.9f, 1.1f);
 			bangSound3.setVolume(3f);
 			bangSound3.attachToParent(this, "snd_Bang");
+			
+			handPosL = new Vec2f(8, 20);
+			
+			handPosR = new Vec2f(-15, 20);
 			break;
 		default:
 			break;
