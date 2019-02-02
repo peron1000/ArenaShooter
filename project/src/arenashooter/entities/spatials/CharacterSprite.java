@@ -11,7 +11,7 @@ public class CharacterSprite extends Spatial {
 
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
-	
+
 	private static SoundSource sndStep, sndPunch;
 
 	private float lookAngle = 0;
@@ -22,7 +22,7 @@ public class CharacterSprite extends Spatial {
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
 	private double time = Math.random() * Math.PI, movementTime = 0;
-	
+
 	static {
 		sndStep = new SoundSource("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
 		sndStep.setVolume(.2f);
@@ -42,8 +42,8 @@ public class CharacterSprite extends Spatial {
 		head.size = new Vec2f(head.tex.getWidth() * 3, head.tex.getHeight() * 3);
 		head.tex.setFilter(false);
 		head.attachToParent(this, "aaa_head");
-		
-		//Feet
+
+		// Feet
 		footL = new Sprite(position, folder + "/foot.png");
 		footL.size = new Vec2f(footL.tex.getWidth() * 3, footL.tex.getHeight() * 3);
 		footL.tex.setFilter(false);
@@ -52,8 +52,8 @@ public class CharacterSprite extends Spatial {
 		footR.size = new Vec2f(footR.tex.getWidth() * 3, footR.tex.getHeight() * 3);
 		footR.tex.setFilter(false);
 		footR.attachToParent(this, "footR");
-		
-		//Hands
+
+		// Hands
 		handL = new Sprite(position, folder + "/hand.png");
 		handL.size = new Vec2f(handL.tex.getWidth() * 3, handL.tex.getHeight() * 3);
 		handL.tex.setFilter(false);
@@ -83,11 +83,11 @@ public class CharacterSprite extends Spatial {
 
 		wasOnGround = isOnGround;
 
-		if( getParent() instanceof Character ) {
-//			lookAngle = ((Character)getParent()). //TODO: get aiming direction
-			isOnGround = ((Character)getParent()).isOnGround;
-			moveSpeed = ((Character)getParent()).vel.x;
-		} else if( getParent() instanceof Map ) { //TODO: Temp stuff for loading screen anim
+		if (getParent() instanceof Character) {
+			// lookAngle = ((Character)getParent()). //TODO: get aiming direction
+			isOnGround = ((Character) getParent()).isOnGround;
+			moveSpeed = ((Character) getParent()).vel.x;
+		} else if (getParent() instanceof Map) { // TODO: Temp stuff for loading screen anim
 			isOnGround = true;
 			moveSpeed = 1000;
 		}
@@ -113,7 +113,7 @@ public class CharacterSprite extends Spatial {
 		footCos = Utils.lerpD(1, footCos, Math.min(Math.abs(moveSpeed) / 500, 1));
 
 		stepTimer.step(d * Math.abs(moveSpeed) / 500);
-		if( !(getParent() instanceof Map) ) { //TODO: Temp stuff for loading screen anim
+		if (!(getParent() instanceof Map)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
 				sndStep.play(position);
 				stepTimer.restart();
@@ -123,13 +123,13 @@ public class CharacterSprite extends Spatial {
 		if (moveSpeed > 0) {
 			footL.localPosition.x = (float) (-20 + footCos * 4);
 			footL.localPosition.y = (float) (37 + footSin * 10);
-			
+
 			footR.localPosition.x = (float) (20 - footSin * 4);
 			footR.localPosition.y = (float) (37 + footCos * 10);
 		} else {
 			footL.localPosition.x = (float) (20 - footCos * 4);
 			footL.localPosition.y = (float) (37 + footSin * 10);
-			
+
 			footR.localPosition.x = (float) (-20 + footSin * 4);
 			footR.localPosition.y = (float) (37 + footCos * 10);
 		}
@@ -143,31 +143,31 @@ public class CharacterSprite extends Spatial {
 		head.localPosition.y = (float) (-17 + headH * 2.5);
 
 		// Hands
-		if(parent instanceof Character) {
-			Weapon weap = ((Character)parent).getWeapon();
-			
-			if(weap != null && weap.handPosL != null) {
+		if (parent instanceof Character) {
+			Weapon weap = ((Character) parent).getWeapon();
+
+			if (weap != null && weap.handPosL != null) {
 				handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(weap.handPosL, weap.rotation)));
 				handL.rotation = weap.rotation;
 			} else {
-				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*9));
-				handL.localPosition.y = Utils.lerpF(handL.localPosition.y, 0, Math.min(1, d*9));
+				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d * 9));
+				handL.localPosition.y = Utils.lerpF(handL.localPosition.y, 0, Math.min(1, d * 9));
 				handL.rotation = 0;
 			}
-			
-			if(weap != null && weap.handPosR != null) {
+
+			if (weap != null && weap.handPosR != null) {
 				handR.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(weap.handPosR, weap.rotation)));
 				handR.rotation = weap.rotation;
 			} else {
-				handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*9));
-				handR.localPosition.y = Utils.lerpF(handR.localPosition.y, 0, Math.min(1, d*9));
+				handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d * 9));
+				handR.localPosition.y = Utils.lerpF(handR.localPosition.y, 0, Math.min(1, d * 9));
 				handR.rotation = 0;
 			}
-			
+
 		} else {
-			//Lerp to 0 for punch anim
-			handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*8));
-			handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*8));
+			// Lerp to 0 for punch anim
+			handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d * 8));
+			handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d * 8));
 		}
 	}
 
