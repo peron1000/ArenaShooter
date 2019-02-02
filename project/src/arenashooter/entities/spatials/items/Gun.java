@@ -21,16 +21,17 @@ public class Gun extends Weapon {
 	public double cannonLength = 1.0;
 	public double bulletSpeed = 1.0;
 
-	private double waitCharge;//Temps a attendre pour charger
-	private boolean charge;//La gachette est enclenchee
-	private double tpscharge;//Temps depuis lequel la gachette est enclenchee
-	
-	private double inertia;//TODO : Temps pour que l'arme commence a se decharger
+	private double waitCharge;// Temps a attendre pour charger
+	private boolean charge;// La gachette est enclenchee
+	private double tpscharge;// Temps depuis lequel la gachette est enclenchee
+
+	private double chargeInertia;// TODO : Temps pour que l'arme commence a se decharger
 
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		coll = new Collider(position, new Vec2f(40, 40));
-		if (itemSprite == SpritePath.assault) {
+		switch (itemSprite) {
+		case assault:
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 
@@ -38,16 +39,16 @@ public class Gun extends Weapon {
 			recoil = 0.5f;
 			damage = 25f;
 			bulletSpeed = 4000;
-			cannonLength = 50.0;
+			cannonLength = 30.0;
 
 			tpscharge = 0;
-			inertia = 0;
+			chargeInertia = 0;
 
-			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
-			bangSound.setVolume(3f);
-			bangSound.attachToParent(this, "snd_Bang");
-
-		} else if (itemSprite == SpritePath.minigun) {
+			SoundEffect bangSound1 = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2);
+			bangSound1.setVolume(3f);
+			bangSound1.attachToParent(this, "snd_Bang");
+			break;
+		case minigun:
 			fire = new Timer(0.03);
 			fire.attachToParent(this, "attack timer");
 
@@ -55,12 +56,33 @@ public class Gun extends Weapon {
 			recoil = 0.30f;
 			damage = 1f;
 			bulletSpeed = 4000;
-			cannonLength = 75.0;
+			cannonLength = 65.0;
 			tpscharge = 0.8;
+			chargeInertia = 0.2;
 
-			SoundEffect bangSound = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
-			bangSound.setVolume(3f);
-			bangSound.attachToParent(this, "snd_Bang");
+			SoundEffect bangSound2 = new SoundEffect(this.position, "data/sound/Bang2.ogg", 2);
+			bangSound2.setVolume(3f);
+			bangSound2.attachToParent(this, "snd_Bang");
+			break;
+		case iongun :
+			fire = new Timer(0.10);
+			fire.attachToParent(this, "attack timer");
+
+			thrust = 200;
+			recoil = 0.02f;
+			damage = 8f;
+			bulletSpeed = 4000;
+			cannonLength = 30.0;
+
+			tpscharge = 0.3;
+			chargeInertia = 0;
+
+			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun.ogg", 2);
+			bangSound3.setVolume(3f);
+			bangSound3.attachToParent(this, "snd_Bang");
+			break;
+		default:
+			break;
 		}
 
 		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
@@ -85,7 +107,7 @@ public class Gun extends Weapon {
 	public void step(double d) {
 
 		if (isEquipped()) {//
-			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
+			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 15), rotation);
 
 			localOffSet.x = (float) Utils.lerpD((double) localOffSet.x, targetOffSet.x, Math.min(1, d * 55));
 			localOffSet.y = (float) Utils.lerpD((double) localOffSet.y, targetOffSet.y, Math.min(1, d * 55));
@@ -105,7 +127,7 @@ public class Gun extends Weapon {
 			Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
 			Vec2f bulletPos = pos();
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
-			
+
 			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 
@@ -114,7 +136,7 @@ public class Gun extends Weapon {
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 			} else {
-				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust/10));
+				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
 			}
 
 			((SoundEffect) children.get("snd_Bang")).play();

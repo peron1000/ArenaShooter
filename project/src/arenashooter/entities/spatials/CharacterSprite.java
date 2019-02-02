@@ -10,7 +10,7 @@ public class CharacterSprite extends Spatial {
 
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
-	
+
 	private static SoundSource sndStep, sndPunch;
 
 	private float lookAngle = 0;
@@ -22,7 +22,7 @@ public class CharacterSprite extends Spatial {
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
 	private double time = Math.random() * Math.PI, movementTime = 0;
-	
+
 	static {
 		sndStep = new SoundSource("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
 		sndStep.setVolume(.2f);
@@ -34,19 +34,19 @@ public class CharacterSprite extends Spatial {
 		super(position);
 		folder = charInfo.spriteFolder;
 
-		body = new Sprite(position, folder + "/body.png");
+		body = new Sprite(pos(), folder + "/body.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
 		body.tex.setFilter(false);
 		body.attachToParent(this, "body");
-		head = new Sprite(position, folder + "/head.png");
+		head = new Sprite(pos(), folder + "/head.png");
 		head.size = new Vec2f(head.tex.getWidth() * 3, head.tex.getHeight() * 3);
 		head.tex.setFilter(false);
 		head.attachToParent(this, "aaa_head");
-		footL = new Sprite(position, folder + "/foot.png");
+		footL = new Sprite(pos(), folder + "/foot.png");
 		footL.size = new Vec2f(footL.tex.getWidth() * 3, footL.tex.getHeight() * 3);
 		footL.tex.setFilter(false);
 		footL.attachToParent(this, "footL");
-		footR = new Sprite(position, folder + "/foot.png");
+		footR = new Sprite(pos(), folder + "/foot.png");
 		footR.size = new Vec2f(footR.tex.getWidth() * 3, footR.tex.getHeight() * 3);
 		footR.tex.setFilter(false);
 		footR.attachToParent(this, "footR");
@@ -54,7 +54,7 @@ public class CharacterSprite extends Spatial {
 		if (siblings().get("weapon") != null)
 
 		{
-			// Les mains devront de placer au bons endroits sur l'arme.
+			// Les mains devront de placer au bons endroits sur l'arme BOUYASHAKA
 		} else {
 
 			handL = new Sprite(position, folder + "/hand.png");
@@ -70,7 +70,7 @@ public class CharacterSprite extends Spatial {
 
 	public void punch() {
 		handRLoc.x = 150;
-		sndPunch.play(position);
+		sndPunch.play(pos());
 	}
 
 	public void setLookRight(boolean lookRight) {
@@ -87,10 +87,10 @@ public class CharacterSprite extends Spatial {
 
 		wasOnGround = isOnGround;
 
-		if( getParent() instanceof Character ) {
-			isOnGround = ((Character)getParent()).isOnGround;
-			moveSpeed = ((Character)getParent()).vel.x;
-		} else if( getParent() instanceof Map ) { //TODO: Temp stuff for loading screen anim
+		if (getParent() instanceof Character) {
+			isOnGround = ((Character) getParent()).isOnGround;
+			moveSpeed = ((Character) getParent()).vel.x;
+		} else if (getParent() instanceof Map) { // TODO: Temp stuff for loading screen anim
 			isOnGround = true;
 			moveSpeed = 1000;
 		}
@@ -116,18 +116,18 @@ public class CharacterSprite extends Spatial {
 		footCos = Utils.lerpD(1, footCos, Math.min(Math.abs(moveSpeed) / 500, 1));
 
 		stepTimer.step(d * Math.abs(moveSpeed) / 500);
-		if( !(getParent() instanceof Map) ) { //TODO: Temp stuff for loading screen anim
+		if (!(getParent() instanceof Map)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
-				sndStep.play(position);
+				sndStep.play(pos());
 				stepTimer.restart();
 			}
 		}
 
 		if (moveSpeed > 0) {
 			footL.position.add(new Vec2f(-20 + footCos * 4, 37 + footSin * 10));
-			footR.position.add(new Vec2f( 20 - footSin * 4, 37 + footCos * 10));
+			footR.position.add(new Vec2f(20 - footSin * 4, 37 + footCos * 10));
 		} else {
-			footL.position.add(new Vec2f( 20 - footCos * 4, 37 + footSin * 10));
+			footL.position.add(new Vec2f(20 - footCos * 4, 37 + footSin * 10));
 			footR.position.add(new Vec2f(-20 + footSin * 4, 37 + footCos * 10));
 		}
 

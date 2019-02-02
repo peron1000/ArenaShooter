@@ -28,7 +28,7 @@ public abstract class Item extends Spatial {
 
 	public enum SpritePath { // TODO: Remove this and load items from XML
 		minigun("data/weapons/Minigun_1.png"), assault("data/weapons/Assaut_1.png"), armor(
-				"data/armor/shield_of_Pop.png"), katana("data/weapons/kata.png");
+				"data/armor/shield_of_Pop.png"), katana("data/weapons/kata.png"), iongun("data/weapons/RayGun1.png");
 		public String path;
 
 		private SpritePath(String path) {
@@ -41,7 +41,11 @@ public abstract class Item extends Spatial {
 
 		Sprite sprite = new Sprite(position, itemSprite.path);
 		sprite.attachToParent(this, "Item_Sprite");
-		sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
+		if (itemSprite == SpritePath.iongun) {
+			sprite.size = new Vec2f(sprite.tex.getWidth() * 2, sprite.tex.getHeight() * 2);
+//			sprite.
+		} else
+			sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
 
 		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");

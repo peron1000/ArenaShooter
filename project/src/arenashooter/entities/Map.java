@@ -125,6 +125,8 @@ public class Map extends Entity {
 		Gun gun3 = new Gun(new Vec2f(-250, 1050), Item.SpritePath.minigun);
 		Gun gun4 = new Gun(new Vec2f(1000, 350), Item.SpritePath.minigun);
 		Gun gun5 = new Gun(new Vec2f(1000, 1050), Item.SpritePath.minigun);
+		Gun gun6 = new Gun(new Vec2f(1000, 1450), Item.SpritePath.iongun);
+		gun6.attachToParent(this, "Item_Weapon"+genName());
 		kata.attachToParent(this, "Item_Weapon"+genName());
 		gun2.attachToParent(this, "Item_Weapon" + genName());
 		gun3.attachToParent(this, "Item_Weapon" + genName());
