@@ -242,10 +242,19 @@ public final class Affichage {
 		menuFileSave.setGraphic( makeIcon("file:editor_data/icons/button_save.png") );
 		menuFileSave.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				Enregistreur.enregistrer();
+				MapExporter.export();
 			}
 		});
 		menuFile.getItems().addAll(menuFileSave);
+		
+		MenuItem menuFileLoad = new MenuItem("_Open");
+		menuFileLoad.setGraphic( makeIcon("file:editor_data/icons/button_load.png") );
+		menuFileLoad.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				MapImporter.load();
+			}
+		});
+		menuFile.getItems().addAll(menuFileLoad);
 
 		//Add entities and spawns
 		Menu menuAdd = new Menu("_Add...");

@@ -33,12 +33,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import math.Vec2;
 
-public class Enregistreur {
+public final class MapExporter {
+	
+	private MapExporter() {}
 	
 	/**
 	 * Ouvre une fenêtre d'enregistrement de fichier
 	 */
-	public static void enregistrer() {
+	public static void export() {
 		if(Main.map.spawns.size()<GameMap.MIN_SPAWNS) {
 			popupErreur("Not enough spawns! ("+GameMap.MIN_SPAWNS+" minimum)");
 			return;
@@ -50,12 +52,13 @@ public class Enregistreur {
 		f.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML", "*.xml"),
 				new FileChooser.ExtensionFilter("All", "*.*"));
 		File file = f.showSaveDialog(stage);
+		
 		if(file != null) {
 			remplissageFichier(file);
-		} else {
-//			popupErreur("Enregistrement annulé");
+		} else { //Export cancelled
 			return;
 		}
+		
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
@@ -114,11 +117,9 @@ public class Enregistreur {
 			}
 		});
 		erreur.show();
-
 	}
 
 	private static void remplissageFichier(File f) {
-
 		// factory
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		final TransformerFactory transformerFactory = TransformerFactory.newInstance();
