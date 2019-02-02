@@ -34,7 +34,7 @@ public final class MapExporter {
 	 */
 	public static void export() {
 		if(Main.map.spawns.size()<GameMap.MIN_SPAWNS) {
-			Main.popup("Error", "Not enough spawns! ("+GameMap.MIN_SPAWNS+" minimum)");
+			Main.popupError("Error", "Not enough spawns! ("+GameMap.MIN_SPAWNS+" minimum)");
 			return;
 		}
 		Stage stage = new Stage();
@@ -55,7 +55,7 @@ public final class MapExporter {
 			file.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Main.popup("Error", "Something went wrong");
+			Main.popupError("Error", "Something went wrong");
 		}
 	}
 
@@ -70,14 +70,14 @@ public final class MapExporter {
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			Main.popup("Error", "XML builder error");
+			Main.popupError("Error", "XML builder error");
 			e.printStackTrace();
 		}
 		Document document = null;
 		if (builder != null) {
 			document = builder.newDocument();
 		} else {
-			Main.popup("Error", "XML builder error");
+			Main.popupError("Error", "XML builder error");
 		}
 		try {
 			transformer = transformerFactory.newTransformer();
@@ -87,7 +87,7 @@ public final class MapExporter {
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		} catch (Exception e) {
-			Main.popup("Error", "Transformer error");
+			Main.popupError("Error", "Transformer error");
 		}
 		
 		remplissageDocument(document);
@@ -95,7 +95,7 @@ public final class MapExporter {
 		try {
 			transformer.transform(new DOMSource(document), new StreamResult(f));
 		} catch (TransformerException e) {
-			Main.popup("Error", "Error writing file");
+			Main.popupError("Error", "Error writing file");
 			e.printStackTrace();
 		}
 	}

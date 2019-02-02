@@ -1,17 +1,15 @@
 package application;
 	
+import java.util.Optional;
+
 import gamedata.GameMap;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 
 public class Main extends Application {
@@ -37,36 +35,39 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	/**
-	 * Open a popup window with a button to close it
-	 * @param title popup window title
-	 * @param message popup content
-	 */
-	public static void popup(String title, String message) {
-		Stage popup = new Stage();
-		popup.setTitle(title);
-		popup.getIcons().add(new Image(icon));
-		
-		Button b = new Button("Ok");
-		b.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				popup.close();
-			}
-		});
-		
-		Text text = new Text(message);
+	public static void popupInfo(String title, String message) {
+		popup(title, message, AlertType.INFORMATION);
+	}
+	
+	public static void popupError(String title, String message) {
+		popup(title, message, AlertType.ERROR);
+	}
+	
+	private static void popup(String title, String message, AlertType type) {
+		Alert alert = new Alert(type);
+		// Get the Stage.
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		// Add a custom icon.
+		stage.getIcons().add(new Image(icon));
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
 
-		VBox root = new VBox(text, b);
-		root.setAlignment(Pos.CENTER);
-		root.setPadding(new Insets(20));
-		root.setSpacing(20);
-		
-		Scene scene = new Scene(root);
-		popup.setScene(scene);
+		alert.showAndWait();
+	}
+	
+	public static boolean popupConfirmation(String title, String message) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		// Get the Stage.
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		// Add a custom icon.
+		stage.getIcons().add(new Image(icon));
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
 
-		popup.setResizable(false);
-		popup.show();
+		Optional<ButtonType> result = alert.showAndWait();
+		return result.get() == ButtonType.OK;
 	}
 	
 	/**

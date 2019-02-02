@@ -50,17 +50,15 @@ public final class MapImporter {
 				new FileChooser.ExtensionFilter("All", "*.*"));
 		File file = f.showOpenDialog(stage);
 		
-		if(file != null) {
-			new MapImporter(file.getPath());
-		} else { //Import cancelled
-			return;
-		}
+		if(file != null)
+			if(Main.popupConfirmation("Warning", "Unsaved changes will be lost, proceed?"))
+				new MapImporter(file.getPath());
 	}
 
 	private MapImporter(String path) { 
 		Main.clear();
 		
-		Main.popup("Loading", "Loading "+path);
+		Main.popupInfo("Loading", "Loading "+path);
 		
 		try {
 			document = builder.parse(path);

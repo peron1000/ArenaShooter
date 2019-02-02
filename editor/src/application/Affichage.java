@@ -243,7 +243,8 @@ public final class Affichage {
 		menuFileNew.setGraphic( makeIcon("file:editor_data/icons/button_new.png") );
 		menuFileNew.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				Main.clear(); //TODO: Add confirmation
+				if(Main.popupConfirmation("Warning", "Unsaved changes will be lost, proceed?"))
+				    Main.clear();
 			}
 		});
 		menuFile.getItems().addAll(menuFileNew);
