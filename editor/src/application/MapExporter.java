@@ -14,7 +14,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
 import gamedata.GameMap;
@@ -86,6 +88,12 @@ public final class MapExporter {
 			//Enable indentation
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			
+			//Add DOCTYPE
+			DOMImplementation domImpl = document.getImplementation();
+			DocumentType docType = domImpl.createDocumentType("doctype", "", "mapDTD.dtd");
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, docType.getSystemId());
+			
 		} catch (Exception e) {
 			Main.popupError("Error", "Transformer error");
 		}
