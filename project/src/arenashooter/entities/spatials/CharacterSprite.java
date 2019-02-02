@@ -17,7 +17,6 @@ public class CharacterSprite extends Spatial {
 	private float moveSpeed = 0;
 	private boolean wasOnGround = false, isOnGround = false;
 	private boolean lookRight = true;
-	private Vec2f handRLoc = new Vec2f();
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
@@ -65,7 +64,7 @@ public class CharacterSprite extends Spatial {
 	}
 
 	public void punch() {
-		handRLoc.x = 150;
+		handR.localPosition.x = lookRight ? 150 : -150;
 		sndPunch.play(position);
 	}
 
@@ -84,6 +83,7 @@ public class CharacterSprite extends Spatial {
 		wasOnGround = isOnGround;
 
 		if( getParent() instanceof Character ) {
+//			lookAngle = ((Character)getParent()). //TODO: get aiming direction
 			isOnGround = ((Character)getParent()).isOnGround;
 			moveSpeed = ((Character)getParent()).vel.x;
 		} else if( getParent() instanceof Map ) { //TODO: Temp stuff for loading screen anim
@@ -120,27 +120,33 @@ public class CharacterSprite extends Spatial {
 		}
 
 		if (moveSpeed > 0) {
-			footL.position.add(new Vec2f(-20 + footCos * 4, 37 + footSin * 10));
-			footR.position.add(new Vec2f( 20 - footSin * 4, 37 + footCos * 10));
+			footL.localPosition.x = (float) (-20 + footCos * 4);
+			footL.localPosition.y = (float) (37 + footSin * 10);
+			
+			footR.localPosition.x = (float) (20 - footSin * 4);
+			footR.localPosition.y = (float) (37 + footCos * 10);
 		} else {
-			footL.position.add(new Vec2f( 20 - footCos * 4, 37 + footSin * 10));
-			footR.position.add(new Vec2f(-20 + footSin * 4, 37 + footCos * 10));
+			footL.localPosition.x = (float) (20 - footCos * 4);
+			footL.localPosition.y = (float) (37 + footSin * 10);
+			
+			footR.localPosition.x = (float) (-20 + footSin * 4);
+			footR.localPosition.y = (float) (37 + footCos * 10);
 		}
 
 		// Body
 		double bodyH = Utils.lerpD(0, Math.sin(movementTime * .01d), Math.min(Math.abs(moveSpeed) / 300, 1));
-		body.position.add(new Vec2f(0, -17 + bodyH * 1.9f));
+		body.localPosition.y = (float) (-17 + bodyH * 1.9);
 
 		// Head
 		double headH = Utils.lerpD(0, Math.cos(movementTime * .03d), Math.min(Math.abs(moveSpeed) / 300, 1));
-		head.position.add(new Vec2f(0, -17 + headH * 2.5f));
+		head.localPosition.y = (float) (-17 + headH * 2.5);
 
 		// Hands
 		if(siblings().get("weapon") != null) {
 			//Place hands on weapon
 		} else {
-			handRLoc.x = Utils.lerpF(handRLoc.x, 0, d * 8);
-			handR.position.add(lookRight ? handRLoc : Vec2f.multiply(handRLoc, -1));
+			//Lerp to 0 for punch anim
+			handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*8));
 		}
 	}
 
