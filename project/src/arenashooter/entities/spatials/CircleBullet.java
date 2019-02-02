@@ -15,6 +15,7 @@ public class CircleBullet extends Bullet {
 		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
+		bul.tex.setFilter(false);
 	}
 
 	@Override
