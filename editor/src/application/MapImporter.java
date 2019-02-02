@@ -29,7 +29,6 @@ public final class MapImporter {
 
 	// Informations variables
 	private int iteratorInfo = 0;
-	private Vec2 gravity = new Vec2();
 //	private Vec4f cameraBounds = new Vec4f();
 	private NodeList infoNodeList;
 
@@ -98,7 +97,10 @@ public final class MapImporter {
 				NodeList vectors = entity.getChildNodes();
 				getVectorsEntity(vectors, position, extent);
 				
-				ListEntite.newPlatform(position, extent);
+				if( entity.hasAttribute("name") )
+					ListEntite.newPlatform(position, extent, entity.getAttribute("name"));
+				else
+					ListEntite.newPlatform(position, extent);
 				
 			} else if (entity.getNodeName() == "weapon") {
 //				Vec2 position = new Vec2();
@@ -191,8 +193,8 @@ public final class MapImporter {
 				for (int i = 0; i < vector.getLength(); i++) {
 					if (vector.item(i).getNodeName() == "vecteur") {
 						Element position = (Element) vector.item(i);
-						gravity.x = Float.parseFloat(position.getAttribute("x"));
-						gravity.y = Float.parseFloat(position.getAttribute("y"));
+						Main.map.gravity.x = Float.parseFloat(position.getAttribute("x"));
+						Main.map.gravity.y = Float.parseFloat(position.getAttribute("y"));
 					}
 				}
 			} else if (info.getNodeName() == "cameraBound") {

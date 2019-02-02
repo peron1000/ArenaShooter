@@ -44,11 +44,11 @@ public class ListEntite {
 	}
 	
 	public static Platform newPlatform(Vec2 loc) {
-		return newPlatform( loc, new Vec2(150, 10), "Platform_"+String.valueOf(System.currentTimeMillis()) );
+		return newPlatform( loc, new Vec2(150, 10), "Platform_"+String.valueOf(System.nanoTime()) );
 	}
 	
 	public static Platform newPlatform(Vec2 loc, Vec2 extent) {
-		return newPlatform( loc, extent, "Platform_"+String.valueOf(System.currentTimeMillis()) );
+		return newPlatform( loc, extent, "Platform_"+String.valueOf(System.nanoTime()) );
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class ListEntite {
 		Vec2 extent = new Vec2(10, 10);
 		
 		Spatial entity = new Spatial(loc, 0);
-		entity.name = "Spatial_"+String.valueOf(System.currentTimeMillis());
+		entity.name = "Spatial_"+String.valueOf(System.nanoTime());
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
@@ -75,7 +75,7 @@ public class ListEntite {
 	 */
 	public static void newEntity() {
 		Entity entity = new Entity();
-		entity.name = "Entity_"+String.valueOf(System.currentTimeMillis());
+		entity.name = "Entity_"+String.valueOf(System.nanoTime());
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
