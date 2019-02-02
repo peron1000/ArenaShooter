@@ -17,6 +17,8 @@ import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.entities.spatials.items.Item.SpritePath;
+import arenashooter.entities.spatials.items.Weapon;
 
 public class MapXmlReader extends XmlReader {
 
@@ -52,7 +54,7 @@ public class MapXmlReader extends XmlReader {
 	 * @param position
 	 * @param extent
 	 */
-	private void getVectorsEntity(NodeList vectors, Vec2f position, Vec2f extent) {
+	private static void getVectorsEntity(NodeList vectors, Vec2f position, Vec2f extent) {
 		for (int i = 0; i < vectors.getLength(); i++) {
 			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Element vector = (Element) vectors.item(i);
@@ -84,71 +86,33 @@ public class MapXmlReader extends XmlReader {
 		if (iteratorEntite < entitiesNodeList.getLength()
 				&& entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
 			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
-			if (entity.getNodeName() == "plateform") {
-				Vec2f position = new Vec2f();
-				Vec2f extent = new Vec2f();
-				NodeList vectors = entity.getChildNodes();
-				getVectorsEntity(vectors, position, extent);
-				entities.add(new Plateform(position, extent));
-			} else if (entity.getNodeName() == "weapon") {
-				Vec2f position = new Vec2f();
-				Vec2f extent = new Vec2f();
-				NodeList vectors = entity.getChildNodes();
-				getVectorsEntity(vectors, position, extent);
-				// TODO : add the weapon in entities
-			} else if (entity.getNodeName().equals("text")) {
-				Font font = Font.loadFont(entity.getAttribute("font"));
-				if( font != null ) {
-					Vec3f position = new Vec3f();
-					Vec3f size = new Vec3f(1);
-					String content = entity.getAttribute("content");
-					NodeList vectors = entity.getChildNodes();
-					for (int i = 0; i < vectors.getLength(); i++) {
-						if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
-							Element vector = (Element) vectors.item(i);
-							if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
-								position.x = Float.parseFloat(vector.getAttribute("x"));
-								position.y = Float.parseFloat(vector.getAttribute("y"));
-								position.y = Float.parseFloat(vector.getAttribute("z"));
-							} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
-								size.x = Float.parseFloat(vector.getAttribute("x"));
-								size.y = Float.parseFloat(vector.getAttribute("y"));
-							}
-						}
-					}
-					Text text = new Text(font, Text.TextAlignH.CENTER, content); //TODO: Load text align from XML
-					entities.add(new TextSpatial(position, size, text));
-				}
-			} else if( entity.getNodeName().equals("mesh") ) {
-				Vec3f position = new Vec3f();
-				Quat rot = Quat.fromAngle(0);
-				Vec3f scale = new Vec3f(1);
-				String src = entity.getAttribute("src");
-				
-				NodeList vectors = entity.getChildNodes();
-				for (int i = 0; i < vectors.getLength(); i++) {
-					if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
-						Element vector = (Element) vectors.item(i);
-						if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
-							position.x = Float.parseFloat(vector.getAttribute("x"));
-							position.y = Float.parseFloat(vector.getAttribute("y"));
-							position.z = Float.parseFloat(vector.getAttribute("z"));
-						} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("rotation")) {
-							float w = Float.parseFloat(vector.getAttribute("w"));
-							float x = Float.parseFloat(vector.getAttribute("x"));
-							float y = Float.parseFloat(vector.getAttribute("y"));
-							float z = Float.parseFloat(vector.getAttribute("z"));
-							rot = new Quat(x, y, z, w);
-						} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
-							scale.x = Float.parseFloat(vector.getAttribute("x"));
-							scale.y = Float.parseFloat(vector.getAttribute("y"));
-							scale.z = Float.parseFloat(vector.getAttribute("z"));
-						}
-					}
-				}
-				
-				entities.add(new Mesh(position, rot, scale, src));
+			
+			Entity newEntity = null;
+			
+			switch(entity.getNodeName()) {
+			case "entity":
+				newEntity = new Entity();
+				break;
+			case "plateform":
+				newEntity = loadPlateform(entity);
+				break;
+			case "weapon":
+				newEntity = loadWeapon(entity);
+				break;
+			case "mesh":
+				newEntity = loadMesh(entity);
+				break;
+			case "text":
+				newEntity = loadText(entity);
+				break;
+			default:
+				break;
 			}
+			
+			if(newEntity != null)
+				entities.add(newEntity);
+			else
+				System.out.println(entity.getNodeName());
 		}
 		iteratorEntite++;
 		return !(iteratorEntite < entitiesNodeList.getLength());
@@ -232,5 +196,77 @@ public class MapXmlReader extends XmlReader {
 
 	public Vec4f getCameraBounds() {
 		return cameraBounds;
+	}
+	
+	private static Plateform loadPlateform(Element entity) {
+		Vec2f position = new Vec2f();
+		Vec2f extent = new Vec2f();
+		NodeList vectors = entity.getChildNodes();
+		getVectorsEntity(vectors, position, extent);
+		return new Plateform(position, extent);
+	}
+	
+	private static Weapon loadWeapon(Element entity) {
+		Vec2f position = new Vec2f();
+		NodeList weapVecs = entity.getChildNodes();
+		getVectorsEntity(weapVecs, position, new Vec2f());
+		return new Weapon(position, SpritePath.iongun); //TODO: Weapon import
+	}
+	
+	private static Mesh loadMesh(Element entity) {
+		Vec3f position = new Vec3f();
+		Quat rot = Quat.fromAngle(0);
+		Vec3f scale = new Vec3f(1);
+		String src = entity.getAttribute("src");
+		
+		NodeList vectors = entity.getChildNodes();
+		for (int i = 0; i < vectors.getLength(); i++) {
+			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Element vector = (Element) vectors.item(i);
+				if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+					position.x = Float.parseFloat(vector.getAttribute("x"));
+					position.y = Float.parseFloat(vector.getAttribute("y"));
+					position.z = Float.parseFloat(vector.getAttribute("z"));
+				} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("rotation")) {
+					float w = Float.parseFloat(vector.getAttribute("w"));
+					float x = Float.parseFloat(vector.getAttribute("x"));
+					float y = Float.parseFloat(vector.getAttribute("y"));
+					float z = Float.parseFloat(vector.getAttribute("z"));
+					rot = new Quat(x, y, z, w);
+				} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+					scale.x = Float.parseFloat(vector.getAttribute("x"));
+					scale.y = Float.parseFloat(vector.getAttribute("y"));
+					scale.z = Float.parseFloat(vector.getAttribute("z"));
+				}
+			}
+		}
+		
+		return new Mesh(position, rot, scale, src);
+	}
+	
+	private static TextSpatial loadText(Element entity) {
+		Font font = Font.loadFont(entity.getAttribute("font"));
+		if( font != null ) {
+			Vec3f position = new Vec3f();
+			Vec3f size = new Vec3f(1);
+			String content = entity.getAttribute("content");
+			NodeList vectors = entity.getChildNodes();
+			for (int i = 0; i < vectors.getLength(); i++) {
+				if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
+					Element vector = (Element) vectors.item(i);
+					if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+						position.x = Float.parseFloat(vector.getAttribute("x"));
+						position.y = Float.parseFloat(vector.getAttribute("y"));
+						position.y = Float.parseFloat(vector.getAttribute("z"));
+					} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+						size.x = Float.parseFloat(vector.getAttribute("x"));
+						size.y = Float.parseFloat(vector.getAttribute("y"));
+					}
+				}
+			}
+			Text text = new Text(font, Text.TextAlignH.CENTER, content); //TODO: Load text align from XML
+			return new TextSpatial(position, size, text);
+		}
+		return null;
 	}
 }
