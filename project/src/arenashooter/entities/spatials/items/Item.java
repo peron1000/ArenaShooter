@@ -44,13 +44,14 @@ public abstract class Item extends Spatial {
 		sprite.attachToParent(this, "Item_Sprite");
 		if (itemSprite == SpritePath.iongun) {
 			isIonGun = true;
-			sprite.size = new Vec2f(sprite.tex.getWidth() * 2, sprite.tex.getHeight() * 2);
+			sprite.size = new Vec2f(sprite.tex.getWidth() * 3, sprite.tex.getHeight() * 3);
 			sprite.useTransparency = true;
 		} else {
 			isIonGun = false;
 			sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
 		}
 
+		sprite.tex.setFilter(false);
 		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");
 	}
