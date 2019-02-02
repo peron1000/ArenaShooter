@@ -41,7 +41,7 @@ public class Gun extends Weapon {
 			recoil = 0.5f;
 			damage = 25f;
 			bulletSpeed = 4000;
-			cannonLength = 30.0;
+			cannonLength = 40.0;
 
 			tpscharge = 0;
 			chargeInertia = 0;
@@ -74,7 +74,7 @@ public class Gun extends Weapon {
 			recoil = 0.02f;
 			damage = 8f;
 			bulletSpeed = 1750;
-			cannonLength = 30.0;
+			cannonLength = 45.0;
 
 			tpscharge = 0.3;
 			chargeInertia = 0;
