@@ -23,7 +23,10 @@ public class Spatial extends Entity {
 		this.position = position.clone();
 		localOffSet = new Vec2f();
 	}
-	
+	/**
+	 * 
+	 * @return Vec2f wich is the World-Position of this.
+	 */
 	public Vec2f pos() {
 		return Vec2f.add(position, localOffSet);
 	}
