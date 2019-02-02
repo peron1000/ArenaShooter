@@ -44,12 +44,11 @@ public class Controller {
 				character.movementInput = Input.getAxis(device, Axis.MOVE_X);
 				if (device == Device.KEYBOARD) {
 					Vec2f charPos = Vec2f.worldToScreen(character.position);
+					charPos.y *= -1;
+					
 					Vec2f mouseCentered = Vec2f.add(Input.mousePos,
 							new Vec2f(-Window.getWidth() / 2, -Window.getHeight() / 2));
 
-					System.out.println("Char: " + charPos);
-					System.out.println("Mouse:" + mouseCentered);
-					// TODO: Fix this
 					character.aimInput = Vec2f.subtract(mouseCentered, charPos).angle();
 					character.isAiming = true;
 				} else {
