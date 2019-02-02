@@ -10,7 +10,9 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
+import arenashooter.entities.spatials.Sprite;
 
 public class Gun extends Weapon {
 	private Timer fire = new Timer(0.15);
@@ -64,20 +66,20 @@ public class Gun extends Weapon {
 			bangSound2.setVolume(3f);
 			bangSound2.attachToParent(this, "snd_Bang");
 			break;
-		case iongun :
+		case iongun:
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 
 			thrust = 200;
 			recoil = 0.02f;
 			damage = 8f;
-			bulletSpeed = 4000;
+			bulletSpeed = 1750;
 			cannonLength = 30.0;
 
 			tpscharge = 0.3;
 			chargeInertia = 0;
 
-			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun.ogg", 2);
+			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun.ogg", 2, 0.9f, 1.1f);
 			bangSound3.setVolume(3f);
 			bangSound3.attachToParent(this, "snd_Bang");
 			break;
@@ -106,11 +108,11 @@ public class Gun extends Weapon {
 	@Override
 	public void step(double d) {
 
-		if (isEquipped()) {//
-			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 15), rotation);
+		if (isEquipped()) {
+			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
 
 			localOffSet.x = (float) Utils.lerpD((double) localOffSet.x, targetOffSet.x, Math.min(1, d * 55));
-			localOffSet.y = (float) Utils.lerpD((double) localOffSet.y, targetOffSet.y, Math.min(1, d * 55));
+			localOffSet.y = (float) Utils.lerpD((double) localOffSet.y, targetOffSet.y + 15, Math.min(1, d * 55));
 			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
 		}
 
@@ -128,11 +130,21 @@ public class Gun extends Weapon {
 			Vec2f bulletPos = pos();
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
-			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+			if (isIonGun) {
+
+				CircleBullet bul = new CircleBullet(bulletPos, bulSpeed, damage);
+				if (isEquipped())
+					bul.shooter = ((Character) parent);
+				bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+
+			} else {
+				Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
+				bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+				if (isEquipped())
+					bul.shooter = ((Character) parent);
+			}
 
 			if (isEquipped()) {
-				bul.shooter = ((Character) parent);
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 			} else {
@@ -141,8 +153,13 @@ public class Gun extends Weapon {
 
 			((SoundEffect) children.get("snd_Bang")).play();
 
-			Particles flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-			flash.attachToParent(children.get("particle_container"), "particles_flash");
+			if (isIonGun) {
+				Particles flash = new Particles(bulletPos, "data/particles/flash_02.xml");
+				flash.attachToParent(children.get("particle_container"), "particles_flash");
+			} else {
+				Particles flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+				flash.attachToParent(children.get("particle_container"), "particles_flash");
+			}
 
 			Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 			shell.selfDestruct = true;

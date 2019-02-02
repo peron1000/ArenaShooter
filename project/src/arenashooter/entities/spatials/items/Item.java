@@ -13,6 +13,7 @@ public abstract class Item extends Spatial {
 	boolean isOnGround = true;
 	public double xPos = 0;
 	public double yPos = 0;
+	public boolean isIonGun;
 
 	public String getId() {
 		return "Item";
@@ -42,14 +43,16 @@ public abstract class Item extends Spatial {
 		Sprite sprite = new Sprite(position, itemSprite.path);
 		sprite.attachToParent(this, "Item_Sprite");
 		if (itemSprite == SpritePath.iongun) {
+			isIonGun = true;
 			sprite.size = new Vec2f(sprite.tex.getWidth() * 2, sprite.tex.getHeight() * 2);
 			sprite.useTransparency = true;
-		} else
+		} else {
+			isIonGun = false;
 			sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
+		}
 
 		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");
-
 	}
 
 	@Override
