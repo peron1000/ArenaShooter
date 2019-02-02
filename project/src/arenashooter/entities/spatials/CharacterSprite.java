@@ -149,7 +149,7 @@ public class CharacterSprite extends Spatial {
 				if(!lookRight) handPos.y *= -1;
 				handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos, weap.rotation)));
 				handL.rotation = weap.rotation;
-				handR.flipX = false;
+				handL.flipX = false;
 				handL.flipY = !lookRight;
 			} else {
 				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*9));
