@@ -16,6 +16,7 @@ import javafx.scene.text.TextAlignment;
 
 public class Main extends Application {
 	public static GameMap map = new GameMap();
+	public static final String icon = "file:editor_data/icon.png";
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -25,7 +26,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Super Blep Editor");
-			primaryStage.getIcons().add(new Image("file:editor_data/icon.png"));
+			primaryStage.getIcons().add(new Image(icon));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -44,7 +45,7 @@ public class Main extends Application {
 	public static void popup(String title, String message) {
 		Stage popup = new Stage();
 		popup.setTitle(title);
-		popup.getIcons().add(new Image("file:editor_data/icon.png"));
+		popup.getIcons().add(new Image(icon));
 		Button b = new Button("ok");
 		VBox root = new VBox(10);
 
