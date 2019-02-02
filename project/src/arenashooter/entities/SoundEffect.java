@@ -12,8 +12,12 @@ public class SoundEffect extends Spatial {
 	private SoundSource sound;
 
 	public SoundEffect( Vec2f position, String path, int maxPlays ) {
+		this(position, path, maxPlays, .8f, 1.2f);
+	}
+	
+	public SoundEffect( Vec2f position, String path, int maxPlays, float pichMin, float pitchMax ) {
 		super(position);
-		sound = new SoundSource(path, maxPlays, .8f, 1.2f, true);
+		sound = new SoundSource(path, maxPlays, pichMin, pitchMax, true);
 		sound.setPositions( this.position );
 	}
 	
