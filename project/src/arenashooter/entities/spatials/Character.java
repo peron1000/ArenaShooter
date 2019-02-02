@@ -67,8 +67,8 @@ public class Character extends Spatial {
 	}
 
 	public void attackStart() {
-		if (children.get("Item_Weapon") != null) {
-			((Weapon) children.get("Item_Weapon")).attackStart();
+		if (getWeapon() != null) {
+			getWeapon().attackStart();
 		} else if (attack.isOver()) {
 			attack.restart();
 
@@ -104,8 +104,8 @@ public class Character extends Spatial {
 	}
 	
 	public void attackStop() {
-		if (children.get("Item_Weapon") != null) {
-			((Weapon) children.get("Item_Weapon")).attackStop();
+		if (getWeapon() != null) {
+			getWeapon().attackStop();
 		}
 
 	}
@@ -114,7 +114,7 @@ public class Character extends Spatial {
 		Item arme = null;
 		Item armure = null;
 
-		boolean hasWeapon = children.containsKey("Item_Weapon");
+		boolean hasWeapon = getWeapon() != null;
 		boolean hasArmor = children.containsKey("Item_Armor");
 		
 		if (!hasWeapon || !hasArmor) {
@@ -146,9 +146,18 @@ public class Character extends Spatial {
 	public void dropItem() {
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
-			((Weapon)arme).setVel(new Vec2f());
+			
+			if( arme instanceof Weapon )
+				((Weapon)arme).setVel(new Vec2f());
+			
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
+	}
+	
+	public Weapon getWeapon() {
+		Entity e = children.get("Item_Weapon");
+		if(e instanceof Weapon) return (Weapon)e;
+		else return null;
 	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes

@@ -111,8 +111,8 @@ public class Gun extends Weapon {
 		if (isEquipped()) {
 			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
 
-			localOffSet.x = (float) Utils.lerpD((double) localOffSet.x, targetOffSet.x, Math.min(1, d * 55));
-			localOffSet.y = (float) Utils.lerpD((double) localOffSet.y, targetOffSet.y + 15, Math.min(1, d * 55));
+			localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
+			localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
 			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
 		}
 
