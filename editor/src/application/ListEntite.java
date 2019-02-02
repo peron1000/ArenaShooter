@@ -73,13 +73,17 @@ public class ListEntite {
 	/**
 	 * Create an entity
 	 */
-	public static void newEntity() {
+	public static void newEntity(String name) {
 		Entity entity = new Entity();
-		entity.name = "Entity_"+String.valueOf(System.nanoTime());
+		entity.name = name;
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
 		Affichage.selectEntity(entity);
+	}
+	
+	public static void newEntity() {
+		newEntity( "Entity_"+String.valueOf(System.nanoTime()) );
 	}
 	
 	/**
