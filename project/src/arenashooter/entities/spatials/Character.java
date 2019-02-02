@@ -144,6 +144,7 @@ public class Character extends Spatial {
 	}
 
 	public void dropItem() {
+		attackStop();
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
 			
