@@ -5,6 +5,9 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Sprite;
 
 public class Weapon extends Item {
+	
+	public Vec2f handPosL = null;
+	public Vec2f handPosR = null;	
 
 	public Weapon(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);

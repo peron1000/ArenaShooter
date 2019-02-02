@@ -3,8 +3,10 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
+import arenashooter.entities.spatials.items.Weapon;
 
 public class CharacterSprite extends Spatial {
 
@@ -142,10 +144,22 @@ public class CharacterSprite extends Spatial {
 		head.localPosition.y = (float) (-17 + headH * 2.5);
 
 		// Hands
-		if(siblings().get("weapon") != null) {
-			//Place hands on weapon
+		Entity weapE = siblings().get("weapon");
+		if(weapE instanceof Weapon) {//Place hands on weapon
+			Weapon weap = (Weapon)weapE;
+			if(weap.handPosL != null)
+				handL.localPosition.set(Vec2f.add(weap.localPosition, weap.handPosL));
+			else
+				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*9));
+			
+			if(weap.handPosR != null)
+				handR.localPosition.set(Vec2f.add(weap.localPosition, weap.handPosR));
+			else
+				handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*9));
+			
 		} else {
 			//Lerp to 0 for punch anim
+			handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*8));
 			handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*8));
 		}
 	}
