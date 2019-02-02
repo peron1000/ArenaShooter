@@ -43,7 +43,7 @@ public abstract class Item extends Spatial {
 		sprite.attachToParent(this, "Item_Sprite");
 		if (itemSprite == SpritePath.iongun) {
 			sprite.size = new Vec2f(sprite.tex.getWidth() * 2, sprite.tex.getHeight() * 2);
-//			sprite.
+			sprite.useTransparency = true;
 		} else
 			sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
 

@@ -26,7 +26,7 @@ public class Bullet extends Projectile {
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
 
-		sndImpact.setVolume(.05f);
+		sndImpact.setVolume(.15f);
 	}
 
 	public void step(double d) {
