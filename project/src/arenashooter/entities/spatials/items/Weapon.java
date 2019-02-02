@@ -1,16 +1,8 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Collider;
-import arenashooter.entities.SoundEffect;
-import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.Bullet;
-import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Sprite;
-import arenashooter.entities.spatials.items.Item.SpritePath;
-import arenashooter.game.GameMaster;
 
 public class Weapon extends Item {
 
@@ -18,13 +10,9 @@ public class Weapon extends Item {
 		super(position, itemSprite);
 	}
 
-	public void attackStart() {
-			
-	}
+	public void attackStart() { }
 	
-	public void attackStop() {
-		
-	}
+	public void attackStop() { }
 
 	public void step(double d) {
 		if (isEquipped()) {

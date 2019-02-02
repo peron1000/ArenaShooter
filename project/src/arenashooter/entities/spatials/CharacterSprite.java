@@ -42,6 +42,8 @@ public class CharacterSprite extends Spatial {
 		head.size = new Vec2f(head.tex.getWidth() * 3, head.tex.getHeight() * 3);
 		head.tex.setFilter(false);
 		head.attachToParent(this, "aaa_head");
+		
+		//Feet
 		footL = new Sprite(position, folder + "/foot.png");
 		footL.size = new Vec2f(footL.tex.getWidth() * 3, footL.tex.getHeight() * 3);
 		footL.tex.setFilter(false);
@@ -50,22 +52,16 @@ public class CharacterSprite extends Spatial {
 		footR.size = new Vec2f(footR.tex.getWidth() * 3, footR.tex.getHeight() * 3);
 		footR.tex.setFilter(false);
 		footR.attachToParent(this, "footR");
-
-		if (siblings().get("weapon") != null)
-
-		{
-			// Les mains devront de placer au bons endroits sur l'arme.
-		} else {
-
-			handL = new Sprite(position, folder + "/hand.png");
-			handL.size = new Vec2f(handL.tex.getWidth() * 3, handL.tex.getHeight() * 3);
-			handL.tex.setFilter(false);
-			handL.attachToParent(this, "handL");
-			handR = new Sprite(position, folder + "/hand.png");
-			handR.size = new Vec2f(handR.tex.getWidth() * 3, handR.tex.getHeight() * 3);
-			handR.tex.setFilter(false);
-			handR.attachToParent(this, "handR");
-		}
+		
+		//Hands
+		handL = new Sprite(position, folder + "/hand.png");
+		handL.size = new Vec2f(handL.tex.getWidth() * 3, handL.tex.getHeight() * 3);
+		handL.tex.setFilter(false);
+		handL.attachToParent(this, "handL");
+		handR = new Sprite(position, folder + "/hand.png");
+		handR.size = new Vec2f(handR.tex.getWidth() * 3, handR.tex.getHeight() * 3);
+		handR.tex.setFilter(false);
+		handR.attachToParent(this, "handR");
 	}
 
 	public void punch() {
@@ -140,8 +136,12 @@ public class CharacterSprite extends Spatial {
 		head.position.add(new Vec2f(0, -17 + headH * 2.5f));
 
 		// Hands
-		handRLoc.x = Utils.lerpF(handRLoc.x, 0, d * 8);
-		handR.position.add(lookRight ? handRLoc : Vec2f.multiply(handRLoc, -1));
+		if(siblings().get("weapon") != null) {
+			//Place hands on weapon
+		} else {
+			handRLoc.x = Utils.lerpF(handRLoc.x, 0, d * 8);
+			handR.position.add(lookRight ? handRLoc : Vec2f.multiply(handRLoc, -1));
+		}
 	}
 
 }

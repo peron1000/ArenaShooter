@@ -9,23 +9,27 @@ public class Spatial extends Entity {
 	/** World space Parent position */
 	public Vec2f position;
 	/** Local space position */
-	public Vec2f localOffSet;
+	public Vec2f localPosition;
 	
 	/** World space rotation */
 	public double rotation = 0;
 
 	public Spatial() {
 		position = new Vec2f();
-		localOffSet = new Vec2f();
+		localPosition = new Vec2f();
 	}
 
 	public Spatial(Vec2f position) {
 		this.position = position.clone();
-		localOffSet = new Vec2f();
+		localPosition = new Vec2f();
 	}
 	
+	/**
+	 * Get this entity's world position
+	 * @return position+localPosition
+	 */
 	public Vec2f pos() {
-		return Vec2f.add(position, localOffSet);
+		return Vec2f.add(position, localPosition);
 	}
 
 	/**
