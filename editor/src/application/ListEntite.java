@@ -87,4 +87,18 @@ public class ListEntite {
 		Affichage.sceneTree.addEntity(entity);
 		Affichage.selectEntity(entity);
 	}
+	
+	/**
+	 * Destroy an entity
+	 * @param e
+	 */
+	public static void destroyEntity(Entity e) {
+		if(e.treeItem != null && e.treeItem.getParent() != null)
+			e.treeItem.getParent().getChildren().remove(e.treeItem);
+
+		view.getChildren().remove(visuals.get(e));
+		visuals.remove(e);
+
+		e.parent.children.remove(e.name);
+	}
 }

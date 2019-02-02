@@ -20,6 +20,9 @@ public class Sprite extends Spatial {
 	public Vec4f colorMod = new Vec4f(1,1,1,1);
 	public Vec2f size = new Vec2f(100, 100);
 	
+	/** Does this sprite require transparency */
+	public boolean useTransparency = false;
+	
 	public boolean flipX = false, flipY = false;
 	
 	public Sprite(Vec2f position, Texture texture) {
@@ -38,7 +41,7 @@ public class Sprite extends Spatial {
 	}
 	
 	@Override
-	public boolean drawAsTransparent(){ return shader.transparent; }
+	public boolean drawAsTransparent(){ return useTransparency; }
 	
 	@Override
 	public void draw() {

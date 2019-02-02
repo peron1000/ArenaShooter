@@ -20,15 +20,7 @@ import org.w3c.dom.Element;
 import gamedata.GameMap;
 import gamedata.entities.Entity;
 import gamedata.entities.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import math.Vec2;
@@ -42,7 +34,7 @@ public final class MapExporter {
 	 */
 	public static void export() {
 		if(Main.map.spawns.size()<GameMap.MIN_SPAWNS) {
-			popupErreur("Not enough spawns! ("+GameMap.MIN_SPAWNS+" minimum)");
+			Main.popup("Error", "Not enough spawns! ("+GameMap.MIN_SPAWNS+" minimum)");
 			return;
 		}
 		Stage stage = new Stage();
@@ -63,60 +55,8 @@ public final class MapExporter {
 			file.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
-			erreur();
+			Main.popup("Error", "Something went wrong");
 		}
-	}
-
-	/**
-	 * Ouvre une fenêtre signalant une erreur
-	 */
-	public static void erreur() {
-		Stage erreur = new Stage();
-		erreur.setWidth(200);
-		erreur.setHeight(150);
-		Button b = new Button("ok");
-		VBox root = new VBox(10);
-		Scene scene = new Scene(root);
-		erreur.setScene(scene);
-		Text text = new Text("Erreur");
-		text.setTextAlignment(TextAlignment.CENTER);
-		root.getChildren().addAll(text, b);
-		root.setAlignment(Pos.CENTER);
-		b.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				erreur.close();
-			}
-		});
-		erreur.show();
-
-	}
-
-	/**
-	 * Ouvre une fenêtre signalant une erreur 
-	 * @param message Explication de l'erreur
-	 */
-	public static void popupErreur(String message) {
-		Stage erreur = new Stage();
-		erreur.setWidth(200);
-		erreur.setHeight(150);
-		Button b = new Button("ok");
-		VBox root = new VBox(10);
-		Scene scene = new Scene(root);
-		erreur.setScene(scene);
-		Text text = new Text(message);
-		text.setTextAlignment(TextAlignment.CENTER);
-		root.getChildren().addAll(text, b);
-		root.setAlignment(Pos.CENTER);
-		b.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				erreur.close();
-			}
-		});
-		erreur.show();
 	}
 
 	private static void remplissageFichier(File f) {
@@ -130,14 +70,14 @@ public final class MapExporter {
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			popupErreur("XML builder erreur");
+			Main.popup("Error", "XML builder error");
 			e.printStackTrace();
 		}
 		Document document = null;
 		if (builder != null) {
 			document = builder.newDocument();
 		} else {
-			popupErreur("builder null");
+			Main.popup("Error", "XML builder error");
 		}
 		try {
 			transformer = transformerFactory.newTransformer();
@@ -147,7 +87,7 @@ public final class MapExporter {
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		} catch (Exception e) {
-			popupErreur("transformer erreur");
+			Main.popup("Error", "Transformer error");
 		}
 		
 		remplissageDocument(document);
@@ -155,7 +95,7 @@ public final class MapExporter {
 		try {
 			transformer.transform(new DOMSource(document), new StreamResult(f));
 		} catch (TransformerException e) {
-			popupErreur("ecriture fichier fail");
+			Main.popup("Error", "Error writing file");
 			e.printStackTrace();
 		}
 	}
