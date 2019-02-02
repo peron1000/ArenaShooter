@@ -28,7 +28,6 @@ public class Spatial extends Entity {
 	/**
 	 * Get this entity's world position
 	 * @return position+localPosition
->>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 	 */
 	public Vec2f pos() {
 		return Vec2f.add(position, localPosition);
