@@ -27,18 +27,9 @@ public class ListEntite {
 	/**
 	 * Create a platform and its movable rectangle in the scene view
 	 */
-	public static void newPlatform(Vec2 loc) {
-		Vec2 extent = new Vec2(150, 10);
-		
-		//Snap position to grid
-		int gridSnap = Affichage.gridSnap.getValue();
-		if(gridSnap > 0) {
-			loc.x = extent.x+( Math.floor((loc.x-extent.x)/gridSnap)*gridSnap );
-			loc.y = extent.y+( Math.floor((loc.y-extent.y)/gridSnap)*gridSnap );
-		}
-		
+	public static Platform newPlatform(Vec2 loc, Vec2 extent, String name) {
 		Platform entity = new Platform(loc, 0, extent);
-		entity.name = "Platform_"+String.valueOf(System.currentTimeMillis());
+		entity.name = name;
 		entity.createProperties();
 		Main.map.children.put(entity.name, entity);
 		Affichage.sceneTree.addEntity(entity);
@@ -48,6 +39,16 @@ public class ListEntite {
 		Node visual = new MovableRectangle(entity, new Vec2(extent.x*2, extent.y*2), Color.YELLOW);
 		visuals.put(entity, visual);
 		view.getChildren().add(visual);
+		
+		return entity;
+	}
+	
+	public static Platform newPlatform(Vec2 loc) {
+		return newPlatform( loc, new Vec2(150, 10), "Platform_"+String.valueOf(System.currentTimeMillis()) );
+	}
+	
+	public static Platform newPlatform(Vec2 loc, Vec2 extent) {
+		return newPlatform( loc, extent, "Platform_"+String.valueOf(System.currentTimeMillis()) );
 	}
 	
 	/**
@@ -55,13 +56,6 @@ public class ListEntite {
 	 */
 	public static void newSpatial(Vec2 loc) {
 		Vec2 extent = new Vec2(10, 10);
-		
-		//Snap position to grid
-		int gridSnap = Affichage.gridSnap.getValue();
-		if(gridSnap > 0) {
-			loc.x = extent.x+( Math.floor((loc.x-extent.x)/gridSnap)*gridSnap );
-			loc.y = extent.y+( Math.floor((loc.y-extent.y)/gridSnap)*gridSnap );
-		}
 		
 		Spatial entity = new Spatial(loc, 0);
 		entity.name = "Spatial_"+String.valueOf(System.currentTimeMillis());

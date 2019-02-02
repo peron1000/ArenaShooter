@@ -9,7 +9,7 @@ public class Vec2 {
 		y=0;
 	}
 	
-	public Vec2(double x,double y) {
+	public Vec2(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -25,7 +25,11 @@ public class Vec2 {
 	}
 	
 	public Vec2 clone() {
-		return new Vec2(this);
+		return new Vec2(x, y);
+	}
+
+	public String toString() {
+		return "( " + x + ", " + y + " )";
 	}
 
 }

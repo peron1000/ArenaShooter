@@ -4,6 +4,7 @@ import gamedata.GameMap;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -11,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 
 public class Main extends Application {
@@ -46,17 +46,8 @@ public class Main extends Application {
 		Stage popup = new Stage();
 		popup.setTitle(title);
 		popup.getIcons().add(new Image(icon));
-		Button b = new Button("ok");
-		VBox root = new VBox(10);
-
-		popup.setWidth(250);
-		popup.setHeight(150);
 		
-		Text text = new Text(message);
-		text.setTextAlignment(TextAlignment.CENTER);
-		root.getChildren().addAll(text, b);
-		root.setAlignment(Pos.CENTER);
-		
+		Button b = new Button("Ok");
 		b.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -64,9 +55,17 @@ public class Main extends Application {
 			}
 		});
 		
+		Text text = new Text(message);
 
+		VBox root = new VBox(text, b);
+		root.setAlignment(Pos.CENTER);
+		root.setPadding(new Insets(20));
+		root.setSpacing(20);
+		
 		Scene scene = new Scene(root);
 		popup.setScene(scene);
+
+		popup.setResizable(false);
 		popup.show();
 	}
 	

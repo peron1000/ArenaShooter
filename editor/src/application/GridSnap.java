@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import math.Vec2;
 
 public class GridSnap extends HBox {
 	Text title;
@@ -40,6 +41,16 @@ public class GridSnap extends HBox {
 	 * @return grid size
 	 */
 	public int getValue() { return Integer.valueOf(textField.getText()); }
+	
+	public Vec2 snap(Vec2 v) {
+		Vec2 res = v.clone();
+		int gridSnap = getValue();
+		if(gridSnap > 0) {
+			res.x = Math.floor( (res.x/gridSnap)*gridSnap );
+			res.y = Math.floor( (res.y/gridSnap)*gridSnap );
+		}
+		return res;
+	}
 	
 	private TextField createIntEntry(int value) {
 		TextField textField = new TextField();

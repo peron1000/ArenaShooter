@@ -201,7 +201,7 @@ public final class Affichage {
 		contextAddSpatial.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				ListEntite.newSpatial( contextMenuLoc );
+				ListEntite.newSpatial( gridSnap.snap(contextMenuLoc) );
 			}
 		});
 		//Add platform
@@ -210,7 +210,7 @@ public final class Affichage {
 		contextAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				ListEntite.newPlatform( contextMenuLoc );
+				ListEntite.newPlatform( gridSnap.snap(contextMenuLoc) );
 			}
 		});
 		//Add Spawn
@@ -219,7 +219,7 @@ public final class Affichage {
 		contextAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Main.map.addSpawn(contextMenuLoc.clone());
+				Main.map.addSpawn( gridSnap.snap(contextMenuLoc.clone()) );
 			}
 		});
 
@@ -269,21 +269,21 @@ public final class Affichage {
 		menuAddSpatial.setGraphic( makeIcon("file:editor_data/icons/spatial.png") );
 		menuAddSpatial.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				ListEntite.newSpatial(getViewCenter());
+				ListEntite.newSpatial( gridSnap.snap(getViewCenter()) );
 			}
 		});
 		MenuItem menuAddPlatform = new MenuItem("_Platform");
 		menuAddPlatform.setGraphic( makeIcon("file:editor_data/icons/platform.png") );
 		menuAddPlatform.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				ListEntite.newPlatform(getViewCenter());
+				ListEntite.newPlatform( gridSnap.snap(getViewCenter()) );
 			}
 		});
 		MenuItem menuAddSpawn = new MenuItem("Spa_wn");
 		menuAddSpawn.setGraphic( makeIcon("file:editor_data/icons/spawn.png") );
 		menuAddSpawn.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
-				Main.map.addSpawn(getViewCenter());
+				Main.map.addSpawn( gridSnap.snap(getViewCenter()) );
 			}
 		});
 		
