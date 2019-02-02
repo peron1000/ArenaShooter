@@ -24,7 +24,8 @@ public class Gun extends Weapon {
 	private double waitCharge;//Temps a attendre pour charger
 	private boolean charge;//La gachette est enclenchee
 	private double tpscharge;//Temps depuis lequel la gachette est enclenchee
-	private double inertia;//Temps pour que l'arme commence a se decharger
+	
+	private double inertia;//TODO : Temps pour que l'arme commence a se decharger
 
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
@@ -104,16 +105,17 @@ public class Gun extends Weapon {
 			Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
 			Vec2f bulletPos = pos();
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
+			
+			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
+			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 
 			if (isEquipped()) {
+				bul.shooter = ((Character) parent);
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 			} else {
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust/10));
 			}
-
-			Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-			bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 
 			((SoundEffect) children.get("snd_Bang")).play();
 

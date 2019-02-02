@@ -8,7 +8,7 @@ import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 
 public class Bullet extends Projectile {
-	
+
 	static SoundSource sndImpact = new SoundSource("data/sound/Ptou.ogg", 10, .8f, 1.2f, true);
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
@@ -30,7 +30,7 @@ public class Bullet extends Projectile {
 	}
 
 	public void step(double d) {
-		if(Math.abs(position.x)>10000||Math.abs(position.y)>10000) {
+		if (Math.abs(position.x) > 10000 || Math.abs(position.y) > 10000) {
 			detach();
 		}
 		LinkedList<Entity> siblings = new LinkedList<>();
@@ -50,7 +50,7 @@ public class Bullet extends Projectile {
 					}
 				}
 			}
-			if (bump instanceof Character) {
+			if (bump instanceof Character && !isShooter(((Character) bump))) {
 				for (Entity coll : ((Character) bump).children.values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
@@ -64,8 +64,9 @@ public class Bullet extends Projectile {
 					}
 				}
 			}
-			
-			if(destroyed) break;
+
+			if (destroyed)
+				break;
 		}
 
 		position.add(Vec2f.multiply(vel, (float) d));
