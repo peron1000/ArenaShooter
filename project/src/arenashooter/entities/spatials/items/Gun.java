@@ -23,9 +23,9 @@ public class Gun extends Weapon {
 	public double cannonLength = 1.0;
 	public double bulletSpeed = 1.0;
 
-	private double waitCharge;// Temps a attendre pour charger
+	private double waitCharge;// Temps depuis lequel la gachette est enclenchee
 	private boolean charge;// La gachette est enclenchee
-	private double tpscharge;// Temps depuis lequel la gachette est enclenchee
+	private double tpscharge;// Temps a attendre pour charger
 
 	private double chargeInertia;// TODO : Temps pour que l'arme commence a se decharger
 
