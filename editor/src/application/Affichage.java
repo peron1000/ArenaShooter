@@ -238,6 +238,16 @@ public final class Affichage {
 	private static void createMenuBar() {
 		//File
 		Menu menuFile = new Menu("_File");
+		
+		MenuItem menuFileNew = new MenuItem("_New");
+		menuFileNew.setGraphic( makeIcon("file:editor_data/icons/button_new.png") );
+		menuFileNew.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				Main.clear(); //TODO: Add confirmation
+			}
+		});
+		menuFile.getItems().addAll(menuFileNew);
+		
 		MenuItem menuFileSave = new MenuItem("_Save");
 		menuFileSave.setGraphic( makeIcon("file:editor_data/icons/button_save.png") );
 		menuFileSave.setOnAction(new EventHandler<ActionEvent>() {
