@@ -187,7 +187,8 @@ public final class Window {
 		glDisable(GL_DEPTH_TEST);
 
 		//Render full-screen quad for post processing
-		postProcess.getShader().bind();
+		postProcess.bind();
+		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, renderTarget);
 		postProcess.getShader().setUniformI("sceneColor", 0);

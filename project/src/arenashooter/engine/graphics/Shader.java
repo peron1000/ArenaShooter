@@ -2,12 +2,16 @@ package arenashooter.engine.graphics;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.HashMap;
+
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Shader {
+	private static HashMap<String, Shader> cache = new HashMap<>();
+	
 	private int vertex, fragment, program;
 	/** Does this shader require transparency? */
 	public boolean transparent = false;
@@ -20,13 +24,19 @@ public class Shader {
 	}
 	
 	/**
+	 * Tries to load a shader from cache or load a new one. 
 	 * Create a shader from vertex and fragment shader files sharing the same path and name.
 	 * Appends ".vert" and ".frag" to get the complete file paths
 	 * @param path resource path to the files, excluding file extensions
 	 * @return 
 	 */
 	public static Shader loadShader(String path) {
-		return loadShader(path+".vert", path+".frag");
+		Shader cached = cache.get(path);
+		if(cached != null) return cached;
+		
+		Shader shader = loadShader(path+".vert", path+".frag");
+		cache.put(path, shader);
+		return shader;
 	}
 	
 	/**
@@ -35,7 +45,7 @@ public class Shader {
 	 * @param fragmentPath resource path to the fragment shader
 	 * @return 
 	 */
-	public static Shader loadShader(String vertexPath, String fragmentPath) {
+	private static Shader loadShader(String vertexPath, String fragmentPath) {
 		int vertex = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertex, FileUtils.resToString(vertexPath));
 		glCompileShader(vertex);

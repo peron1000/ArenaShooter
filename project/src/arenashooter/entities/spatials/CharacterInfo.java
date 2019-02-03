@@ -12,6 +12,7 @@ public class CharacterInfo {
 	}
 	
 	public void classNext() {
+		skin = 0;
 		switch(charClass.name) {
 		case "Bird":
 			charClass = CharacterClass.agile;
@@ -26,6 +27,7 @@ public class CharacterInfo {
 	}
 	
 	public void classPrev() {
+		skin = 0;
 		switch(charClass.name) {
 		case "Bird":
 			charClass = CharacterClass.heavy;
