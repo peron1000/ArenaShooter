@@ -74,7 +74,7 @@ public class Gun extends Weapon {
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 			
-			sndCharge = new SoundEffect(this.position, "data/sound/IonCharge1.ogg", -1, 1, 1);
+			sndCharge = new SoundEffect(this.position, "data/sound/IonCharge3.ogg", -1, 1, 1);
 			sndCharge.attachToParent(this, "snd_charge");
 
 			thrust = 000;
@@ -83,10 +83,10 @@ public class Gun extends Weapon {
 			bulletSpeed = 2500;
 			cannonLength = 55.0;
 
-			tpscharge = 0.3;
+			tpscharge = 0.6;
 			chargeInertia = 0;
 
-			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun.ogg", 2, 0.9f, 1.1f);
+			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun2.ogg", 2, 0.9f, 1.1f);
 			bangSound3.setVolume(0.35f);
 			bangSound3.attachToParent(this, "snd_Bang");
 
@@ -136,10 +136,10 @@ public class Gun extends Weapon {
 		if(sndCharge != null) {
 			if(charge) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 1, d*15);
-				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*5.5);
+				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*2.5);
 			} else {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.04);
-				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*1);
+				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*2);
 			}
 			sndCharge.setVolume(sndChargeVol);
 			if(sndCharge.getSound() instanceof SoundSourceSingle)
