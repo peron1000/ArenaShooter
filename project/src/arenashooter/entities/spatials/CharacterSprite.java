@@ -32,7 +32,7 @@ public class CharacterSprite extends Spatial {
 
 	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
-		folder = charInfo.spriteFolder;
+		folder = "data/sprites/characters/"+charInfo.charClass.skins[charInfo.skin];
 
 		body = new Sprite(position, folder + "/body.png");
 		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);

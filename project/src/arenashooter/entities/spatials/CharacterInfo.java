@@ -1,28 +1,51 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.game.CharacterClass;
 
 public class CharacterInfo {
-	public String spriteFolder;
-	
-	private static final String[] skins = { "chat_01", "chevre_01", "moineau_01", "canard_01", "vache_01" };
-	private static int currentSkin = (int)Math.floor(Math.random()*(skins.length-1));
+	public CharacterClass charClass = CharacterClass.agile;
+	public int skin;
 	
 	public CharacterInfo() {
-		//TODO: Remove automatic sprite chooser
-		spriteFolder = "data/sprites/characters/" + skins[currentSkin];
-		if (currentSkin >= 4)
-			currentSkin = 0;
-		else
-			currentSkin++;
+
 	}
 	
-	public void tempSpriteNext() { //TODO: Remove this
-		spriteFolder = "data/sprites/characters/" + skins[currentSkin];
-		if (currentSkin >= 4)
-			currentSkin = 0;
-		else
-			currentSkin++;
+	public void classNext() {
+		switch(charClass.name) {
+		case "Bird":
+			charClass = CharacterClass.agile;
+			break;
+		case "Agile":
+			charClass = CharacterClass.heavy;
+			break;
+		default:
+			charClass = CharacterClass.bird;
+			break;
+		}
+	}
+	
+	public void classPrev() {
+		switch(charClass.name) {
+		case "Bird":
+			charClass = CharacterClass.heavy;
+			break;
+		case "Agile":
+			charClass = CharacterClass.bird;
+			break;
+		default:
+			charClass = CharacterClass.agile;
+			break;
+		}
+	}
+	
+	public void skinNext() {
+		skin = (skin+1)%charClass.skins.length;
+	}
+	
+	public void skinPrev() {
+		if(skin <= 0) skin = charClass.skins.length-1;
+		else skin -= 1;
 	}
 	
 	public Character createNewCharacter(Vec2f spawn) {
