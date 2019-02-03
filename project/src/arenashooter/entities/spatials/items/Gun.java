@@ -77,7 +77,7 @@ public class Gun extends Weapon {
 			sndCharge = new SoundEffect(this.position, "data/sound/IonCharge3.ogg", -1, 1, 1);
 			sndCharge.attachToParent(this, "snd_charge");
 
-			thrust = 20;
+			thrust = 100;
 			recoil = 0.4f;
 			damage = 8f;
 			bulletSpeed = 2500;
