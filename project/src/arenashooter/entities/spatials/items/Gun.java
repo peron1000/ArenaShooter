@@ -73,18 +73,18 @@ public class Gun extends Weapon {
 			thrust = 200;
 			recoil = 0.02f;
 			damage = 8f;
-			bulletSpeed = 1750;
-			cannonLength = 45.0;
+			bulletSpeed = 2500;
+			cannonLength = 55.0;
 
 			tpscharge = 0.3;
 			chargeInertia = 0;
 
 			SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun.ogg", 2, 0.9f, 1.1f);
-			bangSound3.setVolume(3f);
+			bangSound3.setVolume(0.35f);
 			bangSound3.attachToParent(this, "snd_Bang");
-			
+
 			handPosL = new Vec2f(8, 20);
-			
+
 			handPosR = new Vec2f(-15, 20);
 			break;
 		default:
@@ -136,11 +136,15 @@ public class Gun extends Weapon {
 
 			if (isIonGun) {
 
-				CircleBullet bul = new CircleBullet(bulletPos, bulSpeed, damage);
-				if (isEquipped())
-					bul.shooter = ((Character) parent);
-				bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+				CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
+				CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
 
+				if (isEquipped()) {
+					bull.shooter = ((Character) parent);
+					bull2.shooter = ((Character) parent);
+				}
+				bull.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull.genName()));
+				bull2.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull2.genName()));
 			} else {
 				Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 				bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
