@@ -2,14 +2,14 @@ package arenashooter.entities.spatials;
 
 import java.util.LinkedList;
 
-import arenashooter.engine.audio.SoundSource;
+import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 
 public class Bullet extends Projectile {
 
-	static SoundSource sndImpact = new SoundSource("data/sound/Ptou.ogg", 10, .8f, 1.2f, true);
+	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/Ptou.ogg", 10, .8f, 1.2f, true);
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
 		this.position = Vec2f.add(position.clone(), this.vel);

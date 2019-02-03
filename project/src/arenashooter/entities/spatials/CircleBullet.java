@@ -2,7 +2,7 @@ package arenashooter.entities.spatials;
 
 import java.util.LinkedList;
 
-import arenashooter.engine.audio.SoundSource;
+import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
@@ -14,7 +14,7 @@ public class CircleBullet extends Projectile {
 	
 	private double movementTime = 0;
 	
-	static SoundSource sndImpact = new SoundSource("data/sound/slap.ogg", 10, .8f, 1.2f, true);
+	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/slap.ogg", 10, .8f, 1.2f, true);
 
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
 		this.position = Vec2f.add(position.clone(), this.vel);

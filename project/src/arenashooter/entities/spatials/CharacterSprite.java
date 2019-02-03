@@ -1,6 +1,6 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.audio.SoundSource;
+import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
@@ -12,7 +12,7 @@ public class CharacterSprite extends Spatial {
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
 	
-	private static SoundSource sndStep, sndPunch;
+	private static SoundSourceMulti sndStep, sndPunch;
 
 	private float lookAngle = 0;
 	private float moveSpeed = 0;
@@ -24,9 +24,9 @@ public class CharacterSprite extends Spatial {
 	private double time = Math.random() * Math.PI, movementTime = 0;
 	
 	static {
-		sndStep = new SoundSource("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
+		sndStep = new SoundSourceMulti("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
 		sndStep.setVolume(.2f);
-		sndPunch = new SoundSource("data/sound/woosh_01.ogg", 5, .8f, 1.2f, true);
+		sndPunch = new SoundSourceMulti("data/sound/woosh_01.ogg", 5, .8f, 1.2f, true);
 		sndPunch.setVolume(.7f);
 	}
 

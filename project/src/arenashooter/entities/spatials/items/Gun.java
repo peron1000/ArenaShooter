@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -28,7 +29,10 @@ public class Gun extends Weapon {
 	private double tpscharge;// Temps a attendre pour charger
 
 	private double chargeInertia;// TODO : Temps pour que l'arme commence a se decharger
-
+	
+	private SoundEffect sndCharge = null;
+	private float sndChargeVol, sndChargePitch;
+	
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		coll = new Collider(position, new Vec2f(40, 40));
@@ -69,6 +73,9 @@ public class Gun extends Weapon {
 		case iongun:
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
+			
+			sndCharge = new SoundEffect(this.position, "data/sound/IonCharge1.ogg", -1, 1, 1);
+			sndCharge.attachToParent(this, "snd_charge");
 
 			thrust = 000;
 			recoil = 0.02f;
@@ -102,13 +109,14 @@ public class Gun extends Weapon {
 	@Override
 	public void attackStart() {
 		charge = true;
+		if(sndCharge != null) sndCharge.play();
 	}
 
 	@Override
 	public void attackStop() {
 		charge = false;
 	}
-
+	
 	@Override
 	public void step(double d) {
 
@@ -124,6 +132,19 @@ public class Gun extends Weapon {
 			waitCharge = Math.min(waitCharge + d, tpscharge);
 		else
 			waitCharge = Math.max(waitCharge - d, 0);
+		
+		if(sndCharge != null) {
+			if(charge) {
+				sndChargeVol = Utils.lerpF(sndChargeVol, 1, d*15);
+				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*5);
+			} else {
+				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.5);
+				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*4);
+			}
+			sndCharge.setVolume(sndChargeVol);
+			if(sndCharge.getSound() instanceof SoundSourceSingle)
+				((SoundSourceSingle)sndCharge.getSound()).setPitch(sndChargePitch);
+		}
 
 		if (charge && waitCharge >= tpscharge && fire.isOver()) {
 			fire.restart();

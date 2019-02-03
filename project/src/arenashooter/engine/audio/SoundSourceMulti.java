@@ -30,7 +30,7 @@ import arenashooter.engine.math.Vec3f;
  * Object used to manage a sound with multiple sources. 
  * When playing, a new source is automatically chosen. 
  */
-public class SoundSource implements AudioSourceI {
+public class SoundSourceMulti implements AudioSourceI {
 	private SoundBuffer sound;
 	private int[] source;
 	private int next = 0;
@@ -42,7 +42,7 @@ public class SoundSource implements AudioSourceI {
 	 * @param path path to the sound file (vorbis)
 	 * @param maxPlays maximum simultaneous plays ( must be >0 )
 	 */
-	public SoundSource(String path, int maxPlays, float pitchMin, float pitchMax, boolean spatialized) {
+	public SoundSourceMulti(String path, int maxPlays, float pitchMin, float pitchMax, boolean spatialized) {
 		sound = SoundBuffer.loadSound(path);
 		
 		if( sound == null ) return;
