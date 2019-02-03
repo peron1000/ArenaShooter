@@ -136,10 +136,10 @@ public class Gun extends Weapon {
 		if(sndCharge != null) {
 			if(charge) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 1, d*15);
-				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*5);
+				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*5.5);
 			} else {
-				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.5);
-				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*4);
+				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.04);
+				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*1);
 			}
 			sndCharge.setVolume(sndChargeVol);
 			if(sndCharge.getSound() instanceof SoundSourceSingle)
