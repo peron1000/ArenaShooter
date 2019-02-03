@@ -19,6 +19,7 @@ public class CircleBullet extends Projectile {
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
 		this.position = Vec2f.add(position.clone(), this.vel);
 		this.vel = vel.clone();
+		movementTime += (Math.random()-0.5)/2;
 
 		this.damage = damage;
 		this.sens = sens;
@@ -44,8 +45,8 @@ public class CircleBullet extends Projectile {
 		double sin = Math.sin(movementTime * 40);
 		double cos = Math.cos(movementTime * 40);
 		
-		collider.localPosition.x = (float) (-20 + cos * 4);
-		collider.localPosition.y = (float) (-20 + sin * 4);
+		collider.localPosition.x = (float) (cos * 4);
+		collider.localPosition.y = (float) (sin * 4);
 		
 		Sprite sprite = ((Sprite)children.get("bul_Sprite"));
 		sprite.localPosition.x = (float) (-20 + cos * 40);

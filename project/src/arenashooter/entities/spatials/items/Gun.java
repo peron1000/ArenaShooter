@@ -70,7 +70,7 @@ public class Gun extends Weapon {
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 
-			thrust = 200;
+			thrust = 000;
 			recoil = 0.02f;
 			damage = 8f;
 			bulletSpeed = 2500;
@@ -135,7 +135,10 @@ public class Gun extends Weapon {
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			if (isIonGun) {
-
+				
+				Particles flash = new Particles(bulletPos, "data/particles/flash_02.xml");
+				flash.attachToParent(children.get("particle_container"), "particles_flash");
+				
 				CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
 				CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
 
@@ -150,6 +153,8 @@ public class Gun extends Weapon {
 				bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
 				if (isEquipped())
 					bul.shooter = ((Character) parent);
+				Particles flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+				flash.attachToParent(children.get("particle_container"), "particles_flash");
 			}
 
 			if (isEquipped()) {
@@ -160,14 +165,6 @@ public class Gun extends Weapon {
 			}
 
 			((SoundEffect) children.get("snd_Bang")).play();
-
-			if (isIonGun) {
-				Particles flash = new Particles(bulletPos, "data/particles/flash_02.xml");
-				flash.attachToParent(children.get("particle_container"), "particles_flash");
-			} else {
-				Particles flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-				flash.attachToParent(children.get("particle_container"), "particles_flash");
-			}
 
 			Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 			shell.selfDestruct = true;
