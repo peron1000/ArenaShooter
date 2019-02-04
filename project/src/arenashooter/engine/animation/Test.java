@@ -2,6 +2,7 @@ package arenashooter.engine.animation;
 
 import java.util.HashMap;
 
+import arenashooter.engine.animation.tracks.AnimTrackDouble;
 import arenashooter.engine.animation.tracks.AnimTrackTexture;
 import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
@@ -10,7 +11,6 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -18,19 +18,26 @@ import arenashooter.entities.Camera;
 import arenashooter.entities.Map;
 import arenashooter.entities.Music;
 import arenashooter.entities.Sky;
-import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Main;
 
 public class Test extends Map{
 	double time = 0;
+	
+	Sky sky;
+	Vec3f skyTop, skyBot;
 
 	Sprite cat = new Sprite(new Vec2f(-360, 300));
 	Sprite fox = new Sprite(new Vec2f(360, 300));
 	TextSpatial pressStart;
 	
+	AnimTrackDouble sceneOpacityA;
+	
 	Sprite bg = new Sprite(new Vec2f(0, -950), "data/sprites/intro/bg.png");
+	Sprite logo;
+	AnimTrackDouble logoRotA;
+	AnimTrackVec2f logoSizeA;
 	
 	Sprite crowd_01, crowd_02, crowd_03, crowd_04;
 	AnimTrackTexture crowdA;
@@ -43,7 +50,9 @@ public class Test extends Map{
 	boolean punched = false;
 	
 	public Test() {
-		Sky sky = new Sky(new Vec3f(.9, .9, 1), new Vec3f(.8, .8, 1));
+		skyBot = new Vec3f(.9, .9, 1);
+		skyTop = new Vec3f(.8, .8, 1);
+		sky = new Sky(skyBot, skyTop);
 		sky.attachToParent(this, "sky");
 		
 		//Music
@@ -76,6 +85,28 @@ public class Test extends Map{
 		bg.size = new Vec2f(3000);
 		bg.tex.setFilter(false);
 		bg.attachToParent(this, "bg");
+		
+		//Fade out
+		HashMap<Float, Double> opacityMap = new HashMap<>();
+		opacityMap.put(9f, 1d);
+		opacityMap.put(10f, 0d);
+		sceneOpacityA = new AnimTrackDouble(opacityMap);
+		
+		//Logo
+		logo = new Sprite(new Vec2f(0, -2005), "data/sprites/intro/logo.png");
+		logo.tex.setFilter(false);
+		logo.attachToParent(this, "logo");
+		logo.useTransparency = true;
+		
+		HashMap<Float, Double> rotMap = new HashMap<>();
+		rotMap.put(10f, 0d);
+		rotMap.put(11f, -8*Math.PI);
+		logoRotA = new AnimTrackDouble(rotMap);
+		
+		HashMap<Float, Vec2f> vecMap = new HashMap<>();
+		vecMap.put(10f, new Vec2f(695));
+		vecMap.put(11f, new Vec2f(1200));
+		logoSizeA = new AnimTrackVec2f(vecMap);
 		
 		//Crowd
 		crowd_01 = new Sprite(new Vec2f(-650, 425));
@@ -117,7 +148,7 @@ public class Test extends Map{
 		crowdA = new AnimTrackTexture(texMap);
 		
 		//Cat
-		HashMap<Float, Vec2f> vecMap = new HashMap<>();
+		vecMap = new HashMap<>();
 		vecMap.put(4f, new Vec2f(0));
 		vecMap.put(6f, new Vec2f(-400, 400));
 		catA = new AnimTrackVec2f(vecMap);
@@ -172,7 +203,7 @@ public class Test extends Map{
 		
 		vecMap = new HashMap<>();
 		vecMap.put(3.8f, new Vec2f(0));
-		vecMap.put(4f, new Vec2f(-75, -25));
+		vecMap.put(4f, new Vec2f(-100, -25));
 		foxA = new AnimTrackVec2f(vecMap);
 		
 		vecMap = new HashMap<>();
@@ -195,11 +226,22 @@ public class Test extends Map{
 		crowd_03.tex = crowdA.valueAt((float)time);
 		crowd_04.tex = crowdA.valueAt((float)time);
 		
+		logo.rotation = logoRotA.valueAt((float)time);
+		logo.size.set(logoSizeA.valueAt((float)time));
+		
 		Window.camera.position = camA.valueAt((float)time);
 		pressStart.position.y = 325+Window.camera.position.y;
 		
+		//Fade
+		float opacity = sceneOpacityA.valueAt((float)time).floatValue();
+		bg.colorMod.w = opacity;
+		bg.colorMod.x = bg.colorMod.w;
+		bg.colorMod.y = bg.colorMod.w;
+		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
+		
 		if(!punched && time >= 4f) {
 			sndPunch.play();
+			Window.camera.setCameraShake(3f);
 			punched = true;
 		}
 		
