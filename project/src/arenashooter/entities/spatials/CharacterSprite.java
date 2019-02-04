@@ -18,6 +18,8 @@ public class CharacterSprite extends Spatial {
 	private float moveSpeed = 0;
 	private boolean wasOnGround = false, isOnGround = false;
 	private boolean lookRight = true;
+	
+	private boolean handLOnWeap = false, handROnWeap = false;
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
@@ -41,17 +43,20 @@ public class CharacterSprite extends Spatial {
 		head = new Sprite(position, folder + "/head.png");
 		head.size = new Vec2f(head.tex.getWidth() * 3, head.tex.getHeight() * 3);
 		head.tex.setFilter(false);
-		head.attachToParent(this, "aaa_head");
+		head.zIndex = 1;
+		head.attachToParent(this, "head");
 		
 		//Feet
 		footL = new Sprite(position, folder + "/foot.png");
 		footL.size = new Vec2f(footL.tex.getWidth() * 3, footL.tex.getHeight() * 3);
 		footL.tex.setFilter(false);
 		footL.attachToParent(this, "footL");
+		footL.zIndex = 1;
 		footR = new Sprite(position, folder + "/foot.png");
 		footR.size = new Vec2f(footR.tex.getWidth() * 3, footR.tex.getHeight() * 3);
 		footR.tex.setFilter(false);
 		footR.attachToParent(this, "footR");
+		footR.zIndex = -1;
 		
 		//Hands
 		handL = new Sprite(position, folder + "/hand.png");
@@ -124,12 +129,28 @@ public class CharacterSprite extends Spatial {
 			
 			footR.localPosition.x = (float) (20 - footSin * 4);
 			footR.localPosition.y = (float) (37 + footCos * 10);
+			
+			if(lookRight) {
+				footL.zIndex = 1;
+				footR.zIndex = -1;
+			} else  {
+				footL.zIndex = -1;
+				footR.zIndex = 1;
+			}
 		} else {
 			footL.localPosition.x = (float) (20 - footCos * 4);
 			footL.localPosition.y = (float) (37 + footSin * 10);
 			
 			footR.localPosition.x = (float) (-20 + footSin * 4);
 			footR.localPosition.y = (float) (37 + footCos * 10);
+			
+			if(lookRight) {
+				footL.zIndex = -1;
+				footR.zIndex = 1;
+			} else  {
+				footL.zIndex = 1;
+				footR.zIndex = -1;
+			}
 		}
 
 		// Body
@@ -145,13 +166,26 @@ public class CharacterSprite extends Spatial {
 			Weapon weap = ((Character)parent).getWeapon();
 			
 			if(weap != null && weap.handPosL != null) {
+				if(!handLOnWeap) {
+					handL.attachToParent(weap, "handL");
+					handL.zIndex = 1;
+					handLOnWeap = true;
+				}
+				
 				Vec2f handPos = weap.handPosL.clone();
 				if(!lookRight) handPos.y *= -1;
-				handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos, weap.rotation)));
+//				handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos, weap.rotation)));
+				handL.localPosition.set(Vec2f.rotate(handPos, weap.rotation));
 				handL.rotation = weap.rotation;
 				handL.flipX = false;
 				handL.flipY = !lookRight;
 			} else {
+				if(handLOnWeap) {
+					handL.attachToParent(this, "handL");
+					handL.zIndex = 0;
+					handLOnWeap = false;
+				}
+				
 				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d*9));
 				handL.localPosition.y = Utils.lerpF(handL.localPosition.y, 0, Math.min(1, d*9));
 				handL.rotation = 0;
@@ -160,13 +194,26 @@ public class CharacterSprite extends Spatial {
 			}
 			
 			if(weap != null && weap.handPosR != null) {
+				if(!handROnWeap) {
+					handR.attachToParent(weap, "handR");
+					handR.zIndex = 1;
+					handROnWeap = true;
+				}
+				
 				Vec2f handPos = weap.handPosR.clone();
 				if(!lookRight) handPos.y *= -1;
-				handR.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos, weap.rotation)));
+//				handR.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos, weap.rotation)));
+				handR.localPosition.set(Vec2f.rotate(handPos, weap.rotation));
 				handR.rotation = weap.rotation;
 				handR.flipX = false;
 				handR.flipY = !lookRight;
 			} else {
+				if(handROnWeap) {
+					handR.attachToParent(this, "handR");
+					handR.zIndex = 0;
+					handROnWeap = false;
+				}
+				
 				handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d*9));
 				handR.localPosition.y = Utils.lerpF(handR.localPosition.y, 0, Math.min(1, d*9));
 				handR.rotation = 0;

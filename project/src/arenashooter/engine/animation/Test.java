@@ -96,7 +96,7 @@ public class Test extends Map{
 		logo = new Sprite(new Vec2f(0, -2005), "data/sprites/intro/logo.png");
 		logo.tex.setFilter(false);
 		logo.attachToParent(this, "logo");
-		logo.useTransparency = true;
+		logo.zIndex = 1;
 		
 		HashMap<Float, Double> rotMap = new HashMap<>();
 		rotMap.put(10f, 0d);
@@ -123,12 +123,12 @@ public class Test extends Map{
 		crowd_02.attachToParent(this, "crowd_02");
 		crowd_03.attachToParent(this, "crowd_03");
 		crowd_04.attachToParent(this, "crowd_04");
-		crowd_01.useTransparency = true;
-		crowd_02.useTransparency = true;
-		crowd_03.useTransparency = true;
-		crowd_04.useTransparency = true;
-		cat.useTransparency = true;
-		fox.useTransparency = true;
+		crowd_01.zIndex = 1;
+		crowd_02.zIndex = 1;
+		crowd_03.zIndex = 1;
+		crowd_04.zIndex = 1;
+		cat.zIndex = 2;
+		fox.zIndex = 2;
 		
 		HashMap<Float, Texture> texMap = new HashMap<>();
 		Texture t = Texture.loadTexture("data/sprites/intro/crowd_01_01.png");

@@ -1,6 +1,8 @@
 package arenashooter.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -10,7 +12,18 @@ public class Entity {
 	/** Key to find this entity in its parent's children */
 	private String name = "";
 	public HashMap<String, Entity> children = new HashMap<String, Entity>();
+	
+	/** Drawing priority relative to parent */
+	public int zIndex = 0; //TODO: transparency
 
+	//Entity comparator based on zIndex
+	protected static Comparator<Entity> comparator = new Comparator<Entity>() {
+		@Override
+		public int compare(Entity o1, Entity o2) {
+			return o1.zIndex-o2.zIndex;
+		}
+	};
+	
 	/**
 	 * Attach this a child of another Entity
 	 * 
@@ -112,7 +125,11 @@ public class Entity {
 		else
 			draw();
 
-		for (Entity e : children.values())
+		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
+		toDraw.sort(comparator);
+		
+//		for (Entity e : children.values())
+		for (Entity e : toDraw)
 			e.drawOpaque(transparent);
 	}
 
