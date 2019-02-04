@@ -8,6 +8,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.GameState;
+import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.MapChooser;
 import arenashooter.game.gameStates.Start;
@@ -18,7 +19,7 @@ public class GameMaster {
 //	public HashMap<Controller, CharacterInfo> controllers = new HashMap<>(1);
 	public ArrayList<Controller> controllers = new ArrayList<>();
 	
-	private static GameState current = Loading.loading;
+	private static GameState current = new Start();
 	
 	private GameMaster() {
 		// Constructor untouchable
@@ -26,7 +27,8 @@ public class GameMaster {
 	
 	public void requestNextState() {
 		if(current instanceof Start) { //Start
-			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
+//			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
+			Loading.loading.setNextState(new Intro(), "data/mapXML/mapXML2.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
 		} else if (current instanceof CharacterChooser) { //Character chooser
@@ -45,6 +47,11 @@ public class GameMaster {
 		} else if (current == Loading.loading) { //Loading
 			current = Loading.loading.getNextState();
 			current.init();
+		} else if (current instanceof Intro) { //Intro movie
+			System.out.println("mlep");
+			current = Loading.loading;
+			current.init();
+			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
 		}
 	}
 	

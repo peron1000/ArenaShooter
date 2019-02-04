@@ -9,6 +9,10 @@ public class Music extends Entity {
 		music = new MusicSource(path, looping);
 	}
 	
+	public void setVolume(float volume) {
+		music.setVolume(volume);
+	}
+	
 	public void play() {
 		music.play();
 	}

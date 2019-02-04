@@ -85,12 +85,12 @@ public class Loading extends GameState {
 
 	@Override
 	public void update(double delta) {
-		if(first) {
-			init();
-			next = new CharacterChooser();
-			mapXmlReader = new MapXmlReader("data/mapXML/mapXML2.xml");
-			first = false;
-		}
+//		if(first) {
+//			init();
+//			next = new CharacterChooser();
+//			mapXmlReader = new MapXmlReader("data/mapXML/mapXML2.xml");
+//			first = false;
+//		}
 		
 		map.step(delta);
 		

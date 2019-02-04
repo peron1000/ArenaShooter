@@ -5,14 +5,13 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2f;
 
 public class Main {
 	private static final int minFrametime = 8;
 	
 	public static boolean drawCollisions = true;
 	
-	private static GameMaster gameMaster = GameMaster.gm;
+	private static GameMaster gameMaster;
 	
 	public static Font font = null;
 	
@@ -20,6 +19,8 @@ public class Main {
 		Audio.init(false);
 		Window.init(1280, 720, "Super Blep");
 		Window.setVsync(true);
+		
+		gameMaster = GameMaster.gm;
 		
 		font = Font.loadFont("data/fonts/ubuntu.fnt");
 		

@@ -18,6 +18,8 @@ public class Camera extends Spatial3 {
 	private Vec2f margin = new Vec2f(500, 500);
 	private float zoomMin = 300, zoomMax = 3000;
 	
+	public boolean interpolate = true;
+	
 	private float shakeIntensity = 0;
 	private double time = 0;
 	
@@ -35,9 +37,11 @@ public class Camera extends Spatial3 {
 		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 7*d ));
 		time += d;
 		
-		position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 15*d) );
-		position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 15*d) );
-		position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 20*d) );
+		if(interpolate) {
+			position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 15*d) );
+			position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 15*d) );
+			position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 20*d) );
+		}
 		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x+shakeX, position.y+shakeY, position.z+shakeZ), rotation);
 		
 		super.step(d);
