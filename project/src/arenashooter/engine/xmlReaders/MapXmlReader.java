@@ -8,6 +8,8 @@ import org.w3c.dom.NodeList;
 
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
+import arenashooter.engine.itemCollection.ItemCollection;
+import arenashooter.engine.itemCollection.ItemType;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -33,6 +35,12 @@ public class MapXmlReader extends XmlReader {
 	private Vec2f gravity = new Vec2f();
 	private Vec4f cameraBounds = new Vec4f();
 	private NodeList infoNodeList;
+	
+	// Items variables
+	private int iteratorItems = 0;
+	private ItemCollection itemCollection = new ItemCollection();
+	private NodeList itemNodeList;
+	
 
 	public MapXmlReader(String path) {
 		parse(path);
@@ -45,6 +53,10 @@ public class MapXmlReader extends XmlReader {
 		NodeList entitieTag = document.getElementsByTagName("entities");
 		entitiesNodeList = entitieTag.item(0).getChildNodes();
 		iteratorEntite = 0;
+		
+		NodeList itemTag = document.getElementsByTagName("item");
+		itemNodeList = itemTag.item(0).getChildNodes();
+		iteratorItems = 0;
 	}
 
 	/**
@@ -73,8 +85,10 @@ public class MapXmlReader extends XmlReader {
 	private void resetCollections() {
 		iteratorEntite = 0;
 		iteratorInfo = 0;
+		iteratorItems = 0;
 		entities.clear();
 		spawn.clear();
+		itemCollection = new ItemCollection();
 	}
 
 	/**
@@ -116,6 +130,31 @@ public class MapXmlReader extends XmlReader {
 		}
 		iteratorEntite++;
 		return !(iteratorEntite < entitiesNodeList.getLength());
+	}
+	
+	public boolean loadNextItem() {
+		if(iteratorItems < itemNodeList.getLength() && itemNodeList.item(iteratorItems).getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) itemNodeList.item(iteratorItems);
+			
+			switch (element.getNodeName()) {
+			case "weapon":
+				String type = element.getAttribute("type");
+				String proba = element.getAttribute("proba");
+				String spritePath = element.getAttribute("spritePath");
+				Element collider = (Element) element.getElementsByTagName("collider").item(0);
+				Element vecteur = (Element) collider.getElementsByTagName("vecteur").item(0);
+				float x = Float.parseFloat(vecteur.getAttribute("x"));
+				float y = Float.parseFloat(vecteur.getAttribute("y"));
+				ItemType it = new ItemType(spritePath, type, new Vec2f(x , y), Double.parseDouble(proba));
+				itemCollection.add(it);
+				break;
+
+			default:
+				break;
+			}
+		}
+		iteratorItems++;
+		return !(iteratorItems < itemNodeList.getLength());
 	}
 
 	/**
@@ -196,6 +235,10 @@ public class MapXmlReader extends XmlReader {
 
 	public Vec4f getCameraBounds() {
 		return cameraBounds;
+	}
+	
+	public ItemCollection getItemCollection() {
+		return itemCollection;
 	}
 	
 	private static Plateform loadPlateform(Element entity) {

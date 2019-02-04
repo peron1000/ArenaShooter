@@ -97,8 +97,9 @@ public class Loading extends GameState {
 		//Load next / TODO : to update
 		boolean entitiesLoaded = mapXmlReader.loadNextEntity();
 		boolean informationsloaded = mapXmlReader.loadNextInformation();
+		boolean itemsLoaded = mapXmlReader.loadNextItem();
 		
-		if(entitiesLoaded && informationsloaded) {
+		if(entitiesLoaded && informationsloaded && itemsLoaded) {
 			createNewMap();
 			GameMaster.gm.requestNextState();
 		}

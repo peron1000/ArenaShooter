@@ -3,6 +3,7 @@ package arenashooter.entities;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import arenashooter.engine.itemCollection.ItemCollection;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
@@ -24,6 +25,8 @@ public class Map extends Entity {
 	public Physic physic;
 
 	private int dernierspawn = -1;
+	
+	public ItemCollection itemCollection = new ItemCollection();
 
 	/**
 	 * Character spawns
@@ -31,21 +34,6 @@ public class Map extends Entity {
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
-
-//	public Map(int nbPlayer) {
-//		physic = new Physic(this);
-//		
-//		spawn = new ArrayList<>(nbPlayer);
-//		creationPlateforme();
-//		creationSpawn(nbPlayer);
-//
-//		Mesh testMesh = new Mesh(new Vec3f(0, -1000, -2000), new Quat(), new Vec3f(2000), "data/meshes/Suzanne.obj");
-//		testMesh.attachToParent(this, "aaMesh_Suzanne");
-//		Mesh arrows = new Mesh(new Vec3f(-500, 500, 200), new Quat(), new Vec3f(200), "data/meshes/arrows.obj");
-//		arrows.attachToParent(this, "Mesh Arrows");
-//
-//		cameraBounds = new Vec4f(-5000, -1000, 5000, 1000);
-//	}
 
 	public Map() {
 		physic = new Physic(this);
