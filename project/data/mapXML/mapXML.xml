@@ -9,7 +9,7 @@
 			<vecteur x="300" y="0" />
 		</spawn>
 		<spawn>
-			<vecteur x="-2000" y="-300" />
+			<vecteur x="-2000" y="-490" />
 		</spawn>
 		<spawn>
 			<vecteur x="2000" y="300" />
