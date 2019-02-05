@@ -33,6 +33,10 @@ public class Gun extends Weapon {
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
 	
+	public Gun(Vec2f position, double fireRate, double damage, double recoil, double thrust, SpritePath itemSprite) {
+		super(position, itemSprite);
+	}
+	
 	public Gun(Vec2f position, SpritePath itemSprite) {
 		super(position, itemSprite);
 		coll = new Collider(position, new Vec2f(40, 40));
