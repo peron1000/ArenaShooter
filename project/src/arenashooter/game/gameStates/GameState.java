@@ -1,5 +1,6 @@
 package arenashooter.game.gameStates;
 
+import arenashooter.engine.graphics.Window;
 import arenashooter.entities.Map;
 
 public abstract class GameState {
@@ -15,6 +16,7 @@ public abstract class GameState {
 	
 	public void draw() {
 		map.drawSelfAndChildren();
+		Window.endTransparency(); //Make sure to end transparency
 	}
 	
 	public Map getMap() {

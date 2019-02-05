@@ -19,6 +19,7 @@ public final class Profiler {
 	
 	private static long[] times = new long[9];
 	private static long[] counters = new long[9];
+	private static boolean[] running = new boolean[9];
 	
 	/**
 	 * Reset all the timers
@@ -51,7 +52,9 @@ public final class Profiler {
 	 * @param timer constant from this class
 	 */
 	public static void startTimer(int timer) {
-		counters[timer] = System.nanoTime();
+		if(!running[timer])
+			counters[timer] = System.nanoTime();
+		running[timer] = true;
 	}
 	
 	/**
@@ -59,6 +62,7 @@ public final class Profiler {
 	 * @param timer constant from this class
 	 */
 	public static void endTimer(int timer) {
-		times[timer] += System.nanoTime()-counters[timer];
+		if(running[timer])
+			times[timer] += System.nanoTime()-counters[timer];
 	}
 }
