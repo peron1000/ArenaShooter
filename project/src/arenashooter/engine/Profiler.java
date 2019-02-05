@@ -25,8 +25,10 @@ public final class Profiler {
 	 * Reset all the timers
 	 */
 	public static void beginFrame() {
-		for(int i=0; i<times.length; i++)
+		for(int i=0; i<times.length; i++) {
 			times[i] = 0;
+			running[i] = false;
+		}
 	}
 	
 	public static void printTimes() {
@@ -64,5 +66,6 @@ public final class Profiler {
 	public static void endTimer(int timer) {
 		if(running[timer])
 			times[timer] += System.nanoTime()-counters[timer];
+		running[timer] = false;
 	}
 }
