@@ -29,9 +29,22 @@
 <!ELEMENT fichier (#PCDATA)>
 
 <!-- Items allowed -->
-<!ELEMENT items (equipement* , weapon*)>
+<!ELEMENT items (equipement | weapon)*>
 <!ELEMENT equipement EMPTY>
 <!ELEMENT weapon (collider , entities?)>
-<!ATTLIST weapon name CDATA #IMPLIED spritePath CDATA #REQUIRED type CDATA #REQUIRED proba CDATA #REQUIRED>
+<!ATTLIST weapon name CDATA #IMPLIED
+				 damage CDATA #IMPLIED
+				 fireRate CDATA #IMPLIED
+				 thrust CDATA #IMPLIED
+				 recoil CDATA #IMPLIED
+				 tpsCharge CDATA #IMPLIED
+				 chargeInertia CDATA #IMPLIED
+				 spritePath CDATA #IMPLIED
+				 clickSoundPath CDATA #IMPLIED
+				 bangSoundPath CDATA #IMPLIED
+				 chargeSoundPath CDATA #IMPLIED
+				 
+				 type CDATA #REQUIRED
+				 proba CDATA #REQUIRED>
 <!ELEMENT collider (vecteur , entities?)>
 
