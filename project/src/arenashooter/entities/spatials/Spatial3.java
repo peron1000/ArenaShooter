@@ -18,6 +18,7 @@ public class Spatial3 extends Entity {
 	
 	@Override
 	public int getZIndex() {
+		//TODO: adding position.z should help with transparency sorting, needs testing
 		return ((int)position.z)+zIndex;
 	}
 	

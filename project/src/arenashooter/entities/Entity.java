@@ -1,7 +1,6 @@
 package arenashooter.entities;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -120,28 +119,48 @@ public class Entity {
 		return zIndex;
 	}
 
+//	/**
+//	 * Draw this entity if opaque/masked or add it to the transparency
+//	 * collection<br/>
+//	 * This will call this function of every children
+//	 * 
+//	 * @param transparent
+//	 *            collection of transparent entities
+//	 */
+//	public void drawOpaque(Collection<Entity> transparent) {
+//		if (drawAsTransparent())
+//			transparent.add(this);
+//		{Window.beginTransparency();
+//		draw();
+//		Window.endTransparency();}
+//		else
+//			draw();
+//
+//		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
+//		toDraw.sort(comparator);
+//		
+//		for (Entity e : toDraw)
+//			e.drawOpaque(transparent);
+//	}
+	
 	/**
-	 * Draw this entity of opaque/masked or add it to the transparency
+	 * Draw this entity
 	 * collection<br/>
 	 * This will call this function of every children
 	 * 
-	 * @param transparent
-	 *            collection of transparent entities
 	 */
-	public void drawOpaque(Collection<Entity> transparent) {
-		if (drawAsTransparent())
-//			transparent.add(this);
-		{Window.beginTransparency();
-		draw();
-		Window.endTransparency();}
+	public void drawSelfAndChildren() {
+		if(drawAsTransparent())
+			Window.beginTransparency();
 		else
-			draw();
-
+			Window.endTransparency();
+		draw();
+		
 		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
 		toDraw.sort(comparator);
 		
 		for (Entity e : toDraw)
-			e.drawOpaque(transparent);
+			e.drawSelfAndChildren();
 	}
 
 	/**

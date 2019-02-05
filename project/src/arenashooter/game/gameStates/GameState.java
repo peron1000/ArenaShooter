@@ -1,9 +1,5 @@
 package arenashooter.game.gameStates;
 
-import java.util.LinkedList;
-
-import arenashooter.engine.graphics.Window;
-import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 
 public abstract class GameState {
@@ -18,16 +14,7 @@ public abstract class GameState {
 	public abstract void update(double delta);
 	
 	public void draw() {
-		//Transparent entities
-//		LinkedList<Entity> transparent = new LinkedList<>();
-		//Opaque pass
-		map.drawOpaque(null);
-		
-		//Transparency pass
-//		Window.beginTransparency();
-//		for(Entity e : transparent)
-//			e.draw();
-//		Window.endTransparency();
+		map.drawSelfAndChildren();
 	}
 	
 	public Map getMap() {
