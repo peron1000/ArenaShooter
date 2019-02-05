@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import arenashooter.engine.graphics.Window;
+
 public class Entity {
 
 	protected Entity parent;
@@ -13,14 +15,14 @@ public class Entity {
 	private String name = "";
 	public HashMap<String, Entity> children = new HashMap<String, Entity>();
 	
-	/** Drawing priority relative to parent */
-	public int zIndex = 0; //TODO: transparency
+	/** Drawing priority relative to parent used in getZIndex() */
+	public int zIndex = 0;
 
 	//Entity comparator based on zIndex
 	protected static Comparator<Entity> comparator = new Comparator<Entity>() {
 		@Override
 		public int compare(Entity o1, Entity o2) {
-			return o1.zIndex-o2.zIndex;
+			return o1.getZIndex()-o2.getZIndex();
 		}
 	};
 	
@@ -110,6 +112,13 @@ public class Entity {
 	public boolean drawAsTransparent() {
 		return false;
 	}
+	
+	/**
+	 * @return final zIndex
+	 */
+	public int getZIndex() {
+		return zIndex;
+	}
 
 	/**
 	 * Draw this entity of opaque/masked or add it to the transparency
@@ -121,14 +130,16 @@ public class Entity {
 	 */
 	public void drawOpaque(Collection<Entity> transparent) {
 		if (drawAsTransparent())
-			transparent.add(this);
+//			transparent.add(this);
+		{Window.beginTransparency();
+		draw();
+		Window.endTransparency();}
 		else
 			draw();
 
 		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
 		toDraw.sort(comparator);
 		
-//		for (Entity e : children.values())
 		for (Entity e : toDraw)
 			e.drawOpaque(transparent);
 	}

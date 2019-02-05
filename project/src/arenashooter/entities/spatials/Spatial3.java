@@ -16,6 +16,11 @@ public class Spatial3 extends Entity {
 		this.position = position.clone();
 	}
 	
+	@Override
+	public int getZIndex() {
+		return ((int)position.z)+zIndex;
+	}
+	
 	/**
 	 * Update children, transmit position to every Spatial3 child.
 	 */

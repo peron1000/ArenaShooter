@@ -46,6 +46,8 @@ public final class Window {
 	private static int width, height;
 	private static float ratio;
 	
+	private static boolean transparency = false;
+	
 	//Projection
 	/** Projection matrix */
 	public static Mat4f proj;
@@ -207,14 +209,22 @@ public final class Window {
 	
 	public static void beginTransparency() {
 		Profiler.startTimer(Profiler.TRANSPARENCY);
+		if(transparency) return;
+		transparency = true;
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 	}
 	
 	public static void endTransparency() {
-		glDepthMask(true);
-		glDisable(GL_BLEND);
-		Profiler.endTimer(Profiler.TRANSPARENCY);
+		if(!transparency) {
+			Profiler.endTimer(Profiler.TRANSPARENCY);
+			return;
+		} else {
+			transparency = false;
+			glDepthMask(true);
+			glDisable(GL_BLEND);
+			Profiler.endTimer(Profiler.TRANSPARENCY);
+		}
 	}
 	
 	/**

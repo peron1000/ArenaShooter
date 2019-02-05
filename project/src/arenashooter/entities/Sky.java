@@ -19,6 +19,7 @@ public class Sky extends Entity {
 		if(quad == null) quad = Model.loadQuad();
 		shader = Shader.loadShader("data/shaders/sky");
 		setColors(colorBot, colorTop);
+		zIndex = -9999;
 	}
 	
 	public void setColors(Vec3f newColorBot, Vec3f newColorTop) {

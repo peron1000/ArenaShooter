@@ -19,15 +19,15 @@ public abstract class GameState {
 	
 	public void draw() {
 		//Transparent entities
-		LinkedList<Entity> transparent = new LinkedList<>();
+//		LinkedList<Entity> transparent = new LinkedList<>();
 		//Opaque pass
-		map.drawOpaque(transparent);
+		map.drawOpaque(null);
 		
 		//Transparency pass
-		Window.beginTransparency();
-		for(Entity e : transparent)
-			e.draw();
-		Window.endTransparency();
+//		Window.beginTransparency();
+//		for(Entity e : transparent)
+//			e.draw();
+//		Window.endTransparency();
 	}
 	
 	public Map getMap() {
