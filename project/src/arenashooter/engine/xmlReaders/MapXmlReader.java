@@ -55,7 +55,7 @@ public class MapXmlReader extends XmlReader {
 		iteratorEntite = 0;
 		
 		NodeList itemTag = document.getElementsByTagName("item");
-		itemNodeList = itemTag.item(0).getChildNodes();
+//		itemNodeList = itemTag.item(0).getChildNodes();
 		iteratorItems = 0;
 	}
 
