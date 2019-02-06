@@ -78,7 +78,7 @@ public class Gun extends Weapon {
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
 			
-			sndCharge = new SoundEffect(this.position, "data/sound/IonCharge3.ogg", -1, 1, 1);
+			sndCharge = new SoundEffect(this.position, "data/sound/IonChargeV2_3.ogg", -1, 1, 1);
 			sndCharge.attachToParent(this, "snd_charge");
 
 			thrust = 100;
@@ -140,10 +140,10 @@ public class Gun extends Weapon {
 		if(sndCharge != null) {
 			if(charge) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 1, d*15);
-				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*2.5);
+				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*4.5);
 			} else {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.04);
-				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*2);
+				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*2.5);
 			}
 			sndCharge.setVolume(sndChargeVol);
 			if(sndCharge.getSound() instanceof SoundSourceSingle)
