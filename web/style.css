@@ -4,6 +4,9 @@ body {
     font-family: "Arial Black", Gadget, sans-serif;
 }
 
+/*
+* Navigation bar
+*/
 nav {
     position: fixed;
     background-color: #f7e1f5;
@@ -19,32 +22,6 @@ ul {
     margin: 0;
     padding: 0;
 }
-
-#Auteur{
- overflow: auto;
-}
-
-div.gallery {
-  margin: 5px;
-  border: 1px solid #ccc;
-  float: left;
-  width: 180px;
-}
-
-div.gallery:hover {
-  border: 1px solid #777;
-}
-
-div.gallery img {
-  width: 100%;
-  height: auto;
-}
-
-div.desc {
-  padding: 15px;
-  text-align: center;
-}
-
 
 li {
     display: inline;
@@ -62,7 +39,46 @@ li a:hover {
     background-color: black;
     color:white;
 }
+/*
+* Navigation bar end
+*/
 
+
+section {
+    margin: 20px 75px;
+    padding: 10px 30px;
+    border-radius: 15px;
+    background-color: rgba(47, 11, 96, 0.95);
+    color: #cbccd6;
+}
+
+#Auteur{
+ overflow: auto;
+}
+
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  /*float: left;*/
+  width: 180px;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
 
 h1 {
     font-size: 3em;
@@ -77,15 +93,6 @@ h3 {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
-section {
-    margin: 20px 75px;
-    padding: 10px 30px;
-    border-radius: 15px;
-    background-color: rgba(47, 11, 96, 0.95);
-    color: #cbccd6;
-}
-
 
 video {
     width: 100%;
