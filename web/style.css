@@ -76,12 +76,11 @@ h1 {
   font-size: 3em;
   color: white;
   text-align: center;
-  image-rendering: crisp-edges;
 }
 
 h1 img {
   width: 30%;
-  height; auto:
+  height: auto:
 }
 /*
 * Title end
@@ -127,6 +126,7 @@ div.gallery:hover {
 div.gallery img {
   width: 100%;
   height: auto;
+  image-rendering: auto;
 }
 
 div.desc {
@@ -170,6 +170,10 @@ h3 {
   color: white;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+img {
+  image-rendering: auto;
 }
 
 video {
