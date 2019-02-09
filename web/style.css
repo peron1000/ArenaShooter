@@ -1,0 +1,180 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial Black", Gadget, sans-serif;
+}
+
+/*
+* Navigation bar
+*/
+nav {
+  position: fixed;
+  background-color: #f9ac54;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+ul.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li.navlink {
+  display: inline;
+  color: #351212;
+  font-size: 110%;
+  text-decoration: none;
+  display: inline-block;
+  width: 11%;
+  height: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.navlink:hover {
+  -webkit-box-shadow: inset 0px 0px 21px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: inset 0px 0px 21px 0px rgba(0,0,0,0.75);
+  box-shadow: inset 0px 0px 21px 0px rgba(0,0,0,0.75);
+  color: white;
+  animation-name: button_hover;
+  animation-duration: .25s;
+}
+
+@keyframes button_hover {
+  from {
+    color: #351212;
+    -webkit-box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,0.75);
+    box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,0.75);
+  }
+  to {
+    color: white;
+    -webkit-box-shadow: inset 0px 0px 21px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0px 0px 21px 0px rgba(0,0,0,0.75);
+    box-shadow: inset 0px 0px 21px 0px rgba(0,0,0,0.75);
+  }
+}
+/*
+* Navigation bar end
+*/
+
+/*
+* Title
+*/
+h1 {
+  font-size: 3em;
+  color: white;
+  text-align: center;
+}
+
+h1 img {
+  width: 30%;
+  height: auto:
+}
+/*
+* Title end
+*/
+
+a {
+  color: #D8FF9F;
+}
+
+a:visited {
+  color: #D8FF9F;
+}
+
+a:hovered {
+  color: #00CC1C;
+}
+
+section {
+  width: 70%;
+  margin: 20px auto 20px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  background-color: rgba(43, 24, 71, 0.85);
+  color: #cbccd6;
+}
+
+#Auteur{
+  overflow: auto;
+}
+
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  /*float: left;*/
+  width: 180px;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+  image-rendering: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+}
+
+/*
+* Backgrounds
+*/
+.parallax {
+    padding: 10px 0;
+    margin: 0;
+}
+
+.bg_01 {
+  background-image: url('res/bg_01.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; 
+  background-size: cover;
+  image-rendering: crisp-edges;
+}
+
+.bg_02 {
+  background-image: url('res/bg_02.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; 
+  background-size: cover;
+  image-rendering: crisp-edges;
+}
+/*
+* Backgrounds end
+*/
+
+h3 {
+  font-size: 2.5em;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+img {
+  image-rendering: auto;
+}
+
+video {
+  image-rendering: auto;
+  width: 100%;
+  height: auto;
+}
