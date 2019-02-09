@@ -168,12 +168,16 @@ h3 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+section.b{
+	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
+    font-size:20px;
+}
 ul.a{
 	list-style-type: circle;
 }
 h4{
 	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-    font-size: 20px;
+    font-size: 28px;
 	color:red;
 }
 
