@@ -172,6 +172,10 @@ section.b{
 	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
     font-size:20px;
 }
+a.lge{
+	color:red;
+	  text-align:right;
+}
 ul.a{
 	list-style-type: circle;
 }
