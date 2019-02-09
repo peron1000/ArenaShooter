@@ -17,29 +17,26 @@ nav {
   text-align: center;
 }
 
-ul {
+ul.navbar {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-li {
+li.navlink {
   display: inline;
-  margin: 0;
-  height: 100%;
-}
-
-.navlink {
   color: #351212;
   font-size: 110%;
   text-decoration: none;
   display: inline-block;
   width: 11%;
   height: 100%;
-}
-
-.navlink:visited {
-  color: #351212;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .navlink:hover {

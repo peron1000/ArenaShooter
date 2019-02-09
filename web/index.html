@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="style.css"> 
   <title>Super Blep : The futur of Arena Shooter e-Sport</title>
   <link rel="icon" type="image/png" href="favicon.png" />
+  <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 <div class="parallax bg_01">
@@ -12,17 +13,17 @@
 <h1><img style="image-rendering: crisp-edges;" src="res/logo.png" alt="Super Blep" /></h1>
 
 <nav>
-  <ul>
-    <li> <a class="navlink" href="#trailer">Trailer</a> </li>
-    <li> <a class="navlink" href="#auteur">Authors</a> </li>
-    <li> <a class="navlink" href="#download">Download</a> </li>
-    <li> <a class="navlink" href="#notes">Notes</a> </li>
-    <li> <a class="navlink" href="#money">DLC</a> </li>
-    <li> <a class="navlink" href="#funny">Funny Pix</a> </li>
-<!--	<li> <a class="navlink" href="#press">Press</a> </li> -->
- 	<li> <a class="navlink" href="#map">Editor</a> </li>
- <!--   <li> <a class="navlink" href="#thx">Thx</a> </li> -->
-	</ul>
+  <ul class="navbar">
+    <li class="navlink" onclick="scrollToId('trailer');" >Trailer</li>
+    <li class="navlink" onclick="scrollToId('auteur');" >Authors</li>
+    <li class="navlink" onclick="scrollToId('download');" >Download</li>
+    <li class="navlink" onclick="scrollToId('notes');" >Notes</li>
+    <li class="navlink" onclick="scrollToId('money');" >DLC</li>
+    <li class="navlink" onclick="scrollToId('funny');" >Funny Pix</li>
+<!--    <li> <a class="navlink" onclick="scrollToId('press');" >Press</li> -->
+ 	<li class="navlink" onclick="scrollToId('map');" >Editor</li>
+<!--    <li class="navlink" onclick="scrollToId('thx'); >Thx</li> -->
+  </ul>
 </nav>
 
 <section id="trailer">
@@ -43,38 +44,38 @@
 <div class="parallax bg_02">
 
 <section id="auteur">
-  <h3>Blep Master</h3>
+  <h3>Blep Masters</h3>
   <div class="gallery">
     <a target="_blank" href="res/chev_01.jpg">
-      <img src="res/chev_01.jpg" alt="GOAT" width="600" height="400">
+      <img src="res/chev_01.jpg" alt="GOAT">
       <div class="desc">CUSSON<br/>Marin</div>
     </a>
   </div>
   
   <div class="gallery">
     <a target="_blank" href="res/cat_01.jpg">
-      <img src="res/cat_01.jpg" alt="CAT" width="600" height="400">
+      <img src="res/cat_01.jpg" alt="CAT">
       <div class="desc">LOISEL<br/>Argan</div>
     </a>
   </div>
 
   <div class="gallery">
     <a target="_blank" href="res/cat_02.jpg">
-      <img src="res/cat_02.jpg" alt="BG CAT" width="600" height="400">
+      <img src="res/cat_02.jpg" alt="BG CAT">
       <div class="desc">PEDARAN<br/>Shervin</div>
     </a>
   </div>
 
   <div class="gallery">
     <a target="_blank" href="res/cat_03.jpg">
-      <img src="res/cat_03.jpg" alt="cat" width="600" height="400">
+      <img src="res/cat_03.jpg" alt="cat">
       <div class="desc">PERON<br/>Thomas</div>
     </a>
   </div>
 
   <div class="gallery">
     <a target="_blank" href="res/cat_04.jpg">
-      <img src="res/cat_04.jpg" alt="cat" width="600" height="400">
+      <img src="res/cat_04.jpg" alt="cat">
       <div class="desc">RIO<br/>Nathan</div>
     </a>
   </div>
@@ -85,7 +86,7 @@
   <h3>Download the game</h3>
   <a target="_blank" href="https://github.com/peron1000/arenashooter">INSTALL NOW IT'S FREE!!!!</a>
   <br/>
-  <img width="100" src="res/cat_01.jpg" alt="Illustration of a blep."/>
+  <img src="res/cat_01.jpg" alt="Illustration of a blep." width="100" />
 </section>
 
 <section id="notes">
