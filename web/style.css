@@ -15,6 +15,12 @@ nav {
   top: 0;
   width: 100%;
   text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 ul.navbar {
@@ -31,12 +37,6 @@ li.navlink {
   display: inline-block;
   width: 11%;
   height: 100%;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .navlink:hover {
@@ -167,6 +167,22 @@ h3 {
   color: white;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+section.b{
+	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
+    font-size:20px;
+}
+a.lge{
+	color:red;
+	  text-align:right;
+}
+ul.a{
+	list-style-type: circle;
+}
+h4{
+	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
+    font-size: 28px;
+	color:red;
 }
 
 img {
