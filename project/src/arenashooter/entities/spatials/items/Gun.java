@@ -51,20 +51,19 @@ public class Gun extends Weapon {
 		// chargeInertia = 0;
 
 		SoundEffect bang = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
-		bang.setVolume(0.15f);
+		bang.setVolume(0.25f);
 		bang.attachToParent(this, "snd_Bang");
 
 		SoundEffect pickup = new SoundEffect(this.position, "data/sound/" + pickupSound + ".ogg", 2, 0.95f, 1.05f);
-		pickup.setVolume(0.35f);
+		pickup.setVolume(0.30f);
 		pickup.attachToParent(this, "snd_Pickup");
 
-		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", 2, 0.9f, 1.1f);
+		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", -1, 1, 1);
 		charge.setVolume(0.35f);
-//		charge.attachToParent(this, "snd_Charge");
 		sndCharge = charge;
 
 		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 2, 0.85f, 1.15f);
-		noAmmo.setVolume(0.35f);
+		noAmmo.setVolume(0.25f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
 		
 		Entity particleContainer = new Entity();
@@ -211,7 +210,7 @@ public class Gun extends Weapon {
 		
 		if(sndCharge != null) {
 			if(charge) {
-				sndChargeVol = Utils.lerpF(sndChargeVol, 1, d*15);
+				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d*15);
 				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*4.5);
 			} else {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.04);
