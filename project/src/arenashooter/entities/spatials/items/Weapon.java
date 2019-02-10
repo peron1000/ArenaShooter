@@ -9,7 +9,7 @@ public class Weapon extends Item {
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;	
 
-	public Weapon(Vec2f position, SpritePath itemSprite) {
+	public Weapon(Vec2f position, String itemSprite) {
 		super(position, itemSprite);
 	}
 

@@ -108,14 +108,14 @@ public class Map extends Entity {
 	// déso, ces lignes sont temporaires
 	public void init() {
 		testPhysics();
-		Gun gun2 = new Gun(new Vec2f(300, 350), Item.SpritePath.assault);
-		Melee kata = new Melee(new Vec2f(750, 350), Item.SpritePath.katana);
-		Gun gun3 = new Gun(new Vec2f(-250, 1050), Item.SpritePath.minigun);
-		Gun gun4 = new Gun(new Vec2f(1000, 350), Item.SpritePath.minigun);
-		Gun gun5 = new Gun(new Vec2f(1000, 1050), Item.SpritePath.minigun);
-		Gun gun6 = new Gun(new Vec2f(1000, 1450), Item.SpritePath.iongun);
+		Gun gun2 = new Gun(new Vec2f(300, 350));
+//		Melee kata = new Melee(new Vec2f(750, 350));
+		Gun gun3 = new Gun(new Vec2f(-250, 1050));
+		Gun gun4 = new Gun(new Vec2f(1000, 350));
+		Gun gun5 = new Gun(new Vec2f(1000, 1050));
+		Gun gun6 = new Gun(new Vec2f(1000, 1450));
 		gun6.attachToParent(this, "Item_Weapon"+genName());
-		kata.attachToParent(this, "Item_Weapon"+genName());
+//		kata.attachToParent(this, "Item_Weapon"+genName());
 		gun2.attachToParent(this, "Item_Weapon" + genName());
 		gun3.attachToParent(this, "Item_Weapon" + genName());
 		gun4.attachToParent(this, "Item_Weapon" + genName());
