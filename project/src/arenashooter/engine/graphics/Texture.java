@@ -19,11 +19,15 @@ public class Texture {
 	private final String file;
 	private final int width, height;
 	
-	private Texture( String path, int id, int width, int height ) {
+	/** Does this texture use non-1bit transparency */
+	public final boolean transparency;
+	
+	private Texture( String path, int id, int width, int height, boolean transparency ) {
 		file = path;
 		this.id = id;
 		this.width = width;
 		this.height = height;
+		this.transparency = transparency;
 	}
 	
 	/**
@@ -74,7 +78,9 @@ public class Texture {
 		
 		unbind();
 		
-		Texture tex = new Texture(path, id, width, height);
+		boolean transparency = img.transparency;
+		if( pixelFormat != GL_RGBA ) transparency = false;
+		Texture tex = new Texture(path, id, width, height, transparency);
 		
 		textures.put(path, new TextureEntry(tex));
 		

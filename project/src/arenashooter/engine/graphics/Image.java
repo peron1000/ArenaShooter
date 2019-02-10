@@ -13,6 +13,7 @@ class Image {
 	public final String file;
 	public final int width, height, channels;
 	public final ByteBuffer buffer;
+	public final boolean transparency;
 	
 	private Image(String path, int width, int height, int channels, ByteBuffer buffer) {
 		this.file = path;
@@ -20,6 +21,9 @@ class Image {
 		this.height = height;
 		this.channels = channels;
 		this.buffer = buffer;
+		
+		String pathWithoutExt = path.substring(0, path.lastIndexOf('.'));
+		transparency = pathWithoutExt.endsWith("_tr");
 	}
 	
 	/**
