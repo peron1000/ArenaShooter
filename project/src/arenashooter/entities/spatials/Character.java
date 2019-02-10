@@ -10,7 +10,6 @@ import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Weapon;
-import arenashooter.entities.spatials.items.Equipement;
 import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {
@@ -125,21 +124,22 @@ public class Character extends Spatial {
 					float yDiff = Math.abs(pos().y - weapon.pos().y);
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
-				} else if (!hasArmor && e instanceof Equipement) {
-					Item item = (Equipement) e;
-					float xDiff = Math.abs(pos().x - item.pos().x);
-					float yDiff = Math.abs(pos().y - item.pos().y);
-					if (xDiff < 175 && yDiff < 175)
-						armure = item;
 				}
+//				else if (!hasArmor && e instanceof Equipement) {
+//					Item item = (Equipement) e;
+//					float xDiff = Math.abs(pos().x - item.pos().x);
+//					float yDiff = Math.abs(pos().y - item.pos().y);
+//					if (xDiff < 175 && yDiff < 175)
+//						armure = item;
+//				}
 			}
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
 				((SoundEffect) arme.children.get("snd_Pickup")).play();
 			}
-			if (armure != null)
-				armure.attachToParent(this, "Item_Armor");
+//			if (armure != null)
+//				armure.attachToParent(this, "Item_Armor");
 		}
 	}
 
