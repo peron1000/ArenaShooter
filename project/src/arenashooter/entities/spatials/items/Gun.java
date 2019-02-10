@@ -27,7 +27,7 @@ public class Gun extends Weapon {
 
 	private double waitCharge;// Temps depuis lequel la gachette est enclenchee
 	private boolean charge;// La gachette est enclenchee
-	private double tpscharge;// Temps a attendre pour charger
+	private double tpsCharge;// Temps a attendre pour charger
 
 	private double chargeInertia;// TODO : Temps pour que l'arme commence a se decharger
 
@@ -36,7 +36,7 @@ public class Gun extends Weapon {
 
 	public Gun(Vec2f position, String itemSprite, String bangSound, String pickupSound, String chargeSound,
 			String noAmmoSound, double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength,
-			double recoil, double thrust) {
+			double recoil, double thrust, double tpsCharge) {
 		super(position, itemSprite);
 		fire = new Timer(fireRate);
 		fire.attachToParent(this, "attack timer");
@@ -46,6 +46,9 @@ public class Gun extends Weapon {
 		this.cannonLength = cannonLength;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
+		
+		this.tpsCharge = tpsCharge;
+		// chargeInertia = 0;
 
 		SoundEffect bang = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
 		bang.setVolume(0.15f);
@@ -57,11 +60,15 @@ public class Gun extends Weapon {
 
 		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", 2, 0.9f, 1.1f);
 		charge.setVolume(0.35f);
-		charge.attachToParent(this, "snd_Charge");
+//		charge.attachToParent(this, "snd_Charge");
+		sndCharge = charge;
 
 		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 2, 0.85f, 1.15f);
 		noAmmo.setVolume(0.35f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
+		
+		Entity particleContainer = new Entity();
+		particleContainer.attachToParent(this, "particle_container");
 	}
 
 	public Gun(Vec2f position) {
@@ -75,7 +82,7 @@ public class Gun extends Weapon {
 		bulletSpeed = 4000;
 		cannonLength = 40.0;
 
-		tpscharge = 0;
+		tpsCharge = 0;
 		chargeInertia = 0;
 
 		SoundEffect bang = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2, 0.9f, 1.1f);
@@ -198,7 +205,7 @@ public class Gun extends Weapon {
 		}
 
 		if (charge)
-			waitCharge = Math.min(waitCharge + d, tpscharge);
+			waitCharge = Math.min(waitCharge + d, tpsCharge);
 		else
 			waitCharge = Math.max(waitCharge - d, 0);
 		
@@ -215,7 +222,7 @@ public class Gun extends Weapon {
 				((SoundSourceSingle)sndCharge.getSound()).setPitch(sndChargePitch);
 		}
 
-		if (charge && waitCharge >= tpscharge && fire.isOver()) {
+		if (charge && waitCharge >= tpsCharge && fire.isOver()) {
 			fire.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
