@@ -47,21 +47,21 @@ public class Gun extends Weapon {
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
 
-		SoundEffect bang = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.9f, 1.1f);
-		bang.setVolume(0.35f);
+		SoundEffect bang = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
+		bang.setVolume(0.15f);
 		bang.attachToParent(this, "snd_Bang");
 
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/" + pickupSound + ".ogg", 2, 0.9f, 1.1f);
+		SoundEffect pickup = new SoundEffect(this.position, "data/sound/" + pickupSound + ".ogg", 2, 0.95f, 1.05f);
 		pickup.setVolume(0.35f);
-		pickup.attachToParent(this, "snd_Bang");
+		pickup.attachToParent(this, "snd_Pickup");
 
 		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", 2, 0.9f, 1.1f);
 		charge.setVolume(0.35f);
-		charge.attachToParent(this, "snd_Bang");
+		charge.attachToParent(this, "snd_Charge");
 
-		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 2, 0.9f, 1.1f);
+		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 2, 0.85f, 1.15f);
 		noAmmo.setVolume(0.35f);
-		noAmmo.attachToParent(this, "snd_Bang");
+		noAmmo.attachToParent(this, "snd_NoAmmo");
 	}
 
 	public Gun(Vec2f position) {
