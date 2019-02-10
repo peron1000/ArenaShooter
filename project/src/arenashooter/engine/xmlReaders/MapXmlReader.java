@@ -19,6 +19,7 @@ import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Item.SpritePath;
 import arenashooter.entities.spatials.items.Weapon;
 
@@ -253,7 +254,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f();
 		NodeList weapVecs = entity.getChildNodes();
 		getVectorsEntity(weapVecs, position, new Vec2f());
-		return new Weapon(position, SpritePath.iongun); //TODO: Weapon import
+		return new Gun(position); //TODO: Weapon import
 	}
 	
 	private static Mesh loadMesh(Element entity) {
