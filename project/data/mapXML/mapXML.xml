@@ -99,10 +99,8 @@
 	</entities>
 	
 	<items>
-		<weapon type="Gun" proba="0.5" spritePath="data/weapons/Minigun_1.png">
-			<collider>
-				<vecteur x="40" y="40"/>
-			</collider>
+		<weapon type="Gun" proba="0.5">
+			<vecteur x="40" y="40"/>
 		</weapon>
 	</items>
 </map>

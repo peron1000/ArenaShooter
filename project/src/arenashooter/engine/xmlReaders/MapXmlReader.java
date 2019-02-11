@@ -9,7 +9,7 @@ import org.w3c.dom.NodeList;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.itemCollection.ItemCollection;
-import arenashooter.engine.itemCollection.ItemType;
+import arenashooter.engine.itemCollection.ItemConcept;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -19,9 +19,6 @@ import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.TextSpatial;
-import arenashooter.entities.spatials.items.Gun;
-import arenashooter.entities.spatials.items.Item.SpritePath;
-import arenashooter.entities.spatials.items.Weapon;
 
 public class MapXmlReader extends XmlReader {
 
@@ -36,27 +33,30 @@ public class MapXmlReader extends XmlReader {
 	private Vec2f gravity = new Vec2f();
 	private Vec4f cameraBounds = new Vec4f();
 	private NodeList infoNodeList;
-	
+
 	// Items variables
 	private int iteratorItems = 0;
-	private ItemCollection itemCollection = new ItemCollection();
+	private ItemCollection<ItemConcept> itemCollection = new ItemCollection<ItemConcept>();
 	private NodeList itemNodeList;
-	
 
 	public MapXmlReader(String path) {
 		parse(path);
 		resetCollections();
 
 		NodeList infoTag = document.getElementsByTagName("information");
-		infoNodeList = infoTag.item(0).getChildNodes();
+		if (infoTag.item(0) != null)
+			infoNodeList = infoTag.item(0).getChildNodes();
 		iteratorInfo = 0;
 
 		NodeList entitieTag = document.getElementsByTagName("entities");
-		entitiesNodeList = entitieTag.item(0).getChildNodes();
+		if (entitieTag.item(0) != null)
+			entitiesNodeList = entitieTag.item(0).getChildNodes();
 		iteratorEntite = 0;
-		
-		NodeList itemTag = document.getElementsByTagName("item");
-//		itemNodeList = itemTag.item(0).getChildNodes();
+
+		NodeList itemTag = document.getElementsByTagName("items");
+		if (itemTag.item(0) != null) {
+			itemNodeList = itemTag.item(0).getChildNodes();
+		}
 		iteratorItems = 0;
 	}
 
@@ -89,7 +89,7 @@ public class MapXmlReader extends XmlReader {
 		iteratorItems = 0;
 		entities.clear();
 		spawn.clear();
-		itemCollection = new ItemCollection();
+		itemCollection = new ItemCollection<ItemConcept>();
 	}
 
 	/**
@@ -101,18 +101,15 @@ public class MapXmlReader extends XmlReader {
 		if (iteratorEntite < entitiesNodeList.getLength()
 				&& entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
 			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
-			
+
 			Entity newEntity = null;
-			
-			switch(entity.getNodeName()) {
+
+			switch (entity.getNodeName()) {
 			case "entity":
 				newEntity = new Entity();
 				break;
 			case "plateform":
 				newEntity = loadPlateform(entity);
-				break;
-			case "weapon":
-				newEntity = loadWeapon(entity);
 				break;
 			case "mesh":
 				newEntity = loadMesh(entity);
@@ -123,8 +120,8 @@ public class MapXmlReader extends XmlReader {
 			default:
 				break;
 			}
-			
-			if(newEntity != null)
+
+			if (newEntity != null)
 				entities.add(newEntity);
 			else
 				System.out.println(entity.getNodeName());
@@ -132,27 +129,25 @@ public class MapXmlReader extends XmlReader {
 		iteratorEntite++;
 		return !(iteratorEntite < entitiesNodeList.getLength());
 	}
-	
+
 	public boolean loadNextItem() {
-		if(iteratorItems < itemNodeList.getLength() && itemNodeList.item(iteratorItems).getNodeType() == Node.ELEMENT_NODE) {
+		if(itemNodeList == null)return true;
+		if (iteratorItems < itemNodeList.getLength()
+				&& itemNodeList.item(iteratorItems).getNodeType() == Node.ELEMENT_NODE) {
 			Element element = (Element) itemNodeList.item(iteratorItems);
 			
+			ItemConcept ic = null;
+
 			switch (element.getNodeName()) {
 			case "weapon":
-				String type = element.getAttribute("type");
-				String proba = element.getAttribute("proba");
-				String spritePath = element.getAttribute("spritePath");
-				Element collider = (Element) element.getElementsByTagName("collider").item(0);
-				Element vecteur = (Element) collider.getElementsByTagName("vecteur").item(0);
-				float x = Float.parseFloat(vecteur.getAttribute("x"));
-				float y = Float.parseFloat(vecteur.getAttribute("y"));
-				ItemType it = new ItemType(spritePath, type, new Vec2f(x , y), Double.parseDouble(proba));
-				itemCollection.add(it);
+				ic = loadWeapon(element);
 				break;
+			case "equipement":
 
 			default:
 				break;
 			}
+			itemCollection.add(ic);
 		}
 		iteratorItems++;
 		return !(iteratorItems < itemNodeList.getLength());
@@ -237,11 +232,11 @@ public class MapXmlReader extends XmlReader {
 	public Vec4f getCameraBounds() {
 		return cameraBounds;
 	}
-	
-	public ItemCollection getItemCollection() {
+
+	public ItemCollection<ItemConcept> getItemCollection() {
 		return itemCollection;
 	}
-	
+
 	private static Plateform loadPlateform(Element entity) {
 		Vec2f position = new Vec2f();
 		Vec2f extent = new Vec2f();
@@ -249,48 +244,55 @@ public class MapXmlReader extends XmlReader {
 		getVectorsEntity(vectors, position, extent);
 		return new Plateform(position, extent);
 	}
-	
-	private static Weapon loadWeapon(Element entity) {
-		Vec2f position = new Vec2f();
-		NodeList weapVecs = entity.getChildNodes();
-		getVectorsEntity(weapVecs, position, new Vec2f());
-		return new Gun(position); //TODO: Weapon import
+
+	private static ItemConcept loadWeapon(Element entity) {
+		Vec2f colliderExtent = new Vec2f();
+		try {
+			Element vecteur = getSingleElement(entity, "vecteur");
+			colliderExtent.x = Float.parseFloat(vecteur.getAttribute("x"));
+			colliderExtent.y = Float.parseFloat(vecteur.getAttribute("y"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String type = entity.getAttribute("type");
+		String proba = entity.getAttribute("proba");
+		return new ItemConcept(type, colliderExtent, Double.parseDouble(proba));
 	}
-	
+
 	private static Mesh loadMesh(Element entity) {
 		Vec3f position = new Vec3f();
 		Quat rot = Quat.fromAngle(0);
 		Vec3f scale = new Vec3f(1);
 		String src = entity.getAttribute("src");
-		
+
 		NodeList vectors = entity.getChildNodes();
 		for (int i = 0; i < vectors.getLength(); i++) {
 			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
 				Element vector = (Element) vectors.item(i);
-				if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+				if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
 					position.x = Float.parseFloat(vector.getAttribute("x"));
 					position.y = Float.parseFloat(vector.getAttribute("y"));
 					position.z = Float.parseFloat(vector.getAttribute("z"));
-				} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("rotation")) {
+				} else if (vector.hasAttribute("use") && vector.getAttribute("use").equals("rotation")) {
 					float w = Float.parseFloat(vector.getAttribute("w"));
 					float x = Float.parseFloat(vector.getAttribute("x"));
 					float y = Float.parseFloat(vector.getAttribute("y"));
 					float z = Float.parseFloat(vector.getAttribute("z"));
 					rot = new Quat(x, y, z, w);
-				} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+				} else if (vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
 					scale.x = Float.parseFloat(vector.getAttribute("x"));
 					scale.y = Float.parseFloat(vector.getAttribute("y"));
 					scale.z = Float.parseFloat(vector.getAttribute("z"));
 				}
 			}
 		}
-		
+
 		return new Mesh(position, rot, scale, src);
 	}
-	
+
 	private static TextSpatial loadText(Element entity) {
 		Font font = Font.loadFont(entity.getAttribute("font"));
-		if( font != null ) {
+		if (font != null) {
 			Vec3f position = new Vec3f();
 			Vec3f size = new Vec3f(1);
 			String content = entity.getAttribute("content");
@@ -298,19 +300,27 @@ public class MapXmlReader extends XmlReader {
 			for (int i = 0; i < vectors.getLength(); i++) {
 				if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
 					Element vector = (Element) vectors.item(i);
-					if(vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
+					if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
 						position.x = Float.parseFloat(vector.getAttribute("x"));
 						position.y = Float.parseFloat(vector.getAttribute("y"));
 						position.y = Float.parseFloat(vector.getAttribute("z"));
-					} else if(vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
+					} else if (vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
 						size.x = Float.parseFloat(vector.getAttribute("x"));
 						size.y = Float.parseFloat(vector.getAttribute("y"));
 					}
 				}
 			}
-			Text text = new Text(font, Text.TextAlignH.CENTER, content); //TODO: Load text align from XML
+			Text text = new Text(font, Text.TextAlignH.CENTER, content); // TODO: Load text align from XML
 			return new TextSpatial(position, size, text);
 		}
 		return null;
+	}
+	
+	private static Element getSingleElement(Element parent , String elementName) throws Exception {
+		NodeList list = parent.getElementsByTagName(elementName);
+		if(list.getLength() == 1) {
+			return (Element) list.item(0);
+		}
+		throw new Exception("Not single element");
 	}
 }

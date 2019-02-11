@@ -31,7 +31,7 @@
 <!-- Items allowed -->
 <!ELEMENT items (equipement | weapon)*>
 <!ELEMENT equipement EMPTY>
-<!ELEMENT weapon (collider , entities?)>
+<!ELEMENT weapon (vecteur , entities?)>
 <!ATTLIST weapon name CDATA #IMPLIED
 				 damage CDATA #IMPLIED
 				 fireRate CDATA #IMPLIED
@@ -46,5 +46,4 @@
 				 
 				 type CDATA #REQUIRED
 				 proba CDATA #REQUIRED>
-<!ELEMENT collider (vecteur , entities?)>
 

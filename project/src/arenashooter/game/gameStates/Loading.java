@@ -19,8 +19,6 @@ import arenashooter.game.GameMaster;
 public class Loading extends GameState {
 	public static final Loading loading = new Loading();
 	
-	private static boolean first = true;
-	
 	private GameState next;
 	
 	private MapXmlReader mapXmlReader;
@@ -79,6 +77,7 @@ public class Loading extends GameState {
 		m.spawn = mapXmlReader.getSpawn();
 		m.cameraBounds = mapXmlReader.getCameraBounds();
 		m.gravity = mapXmlReader.getGravity();
+		m.itemCollection = mapXmlReader.getItemCollection();
 		if(next instanceof Game)
 		m.init();
 	}
@@ -97,10 +96,9 @@ public class Loading extends GameState {
 		//Load next / TODO : to update
 		boolean entitiesLoaded = mapXmlReader.loadNextEntity();
 		boolean informationsloaded = mapXmlReader.loadNextInformation();
-//		boolean itemsLoaded = mapXmlReader.loadNextItem();
+		boolean itemsLoaded = mapXmlReader.loadNextItem();
 		
-//		if(entitiesLoaded && informationsloaded && itemsLoaded) {
-		if(entitiesLoaded && informationsloaded) {
+		if(entitiesLoaded && informationsloaded && itemsLoaded) {
 			createNewMap();
 			GameMaster.gm.requestNextState();
 		}

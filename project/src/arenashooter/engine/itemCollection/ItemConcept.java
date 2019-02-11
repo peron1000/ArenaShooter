@@ -2,15 +2,13 @@ package arenashooter.engine.itemCollection;
 
 import arenashooter.engine.math.Vec2f;
 
-public class ItemType {
-	private String spritePath;
+public class ItemConcept {
+	public String spritePath;
 	private String type;
-	private Vec2f collider;
 	private double proba;
-	public ItemType(String spritePath , String type , Vec2f colliderExtent , double proba) {
-		this.collider = colliderExtent;
+	private Vec2f colliderExtent;
+	public ItemConcept(String type , Vec2f colliderExtent, double proba) {
 		this.proba = proba;
-		this.spritePath = spritePath;
 		this.type = type;
 	}
 	
@@ -20,5 +18,9 @@ public class ItemType {
 	
 	public String getType() {
 		return type;
+	}
+	
+	public Vec2f getColliderExtent () {
+		return colliderExtent;
 	}
 }
