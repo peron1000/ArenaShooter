@@ -83,6 +83,9 @@ public class MapXmlReader extends XmlReader {
 		}
 	}
 
+	/**
+	 * Initialization of all collections
+	 */
 	private void resetCollections() {
 		iteratorEntite = 0;
 		iteratorInfo = 0;
@@ -130,6 +133,11 @@ public class MapXmlReader extends XmlReader {
 		return !(iteratorEntite < entitiesNodeList.getLength());
 	}
 
+	/**
+	 * Load a new item
+	 * 
+	 * @return <i>true</i> if all items are already loaded
+	 */
 	public boolean loadNextItem() {
 		if(itemNodeList == null)return true;
 		if (iteratorItems < itemNodeList.getLength()
@@ -147,7 +155,11 @@ public class MapXmlReader extends XmlReader {
 			default:
 				break;
 			}
-			itemCollection.add(ic);
+			if(ic != null) {
+				itemCollection.add(ic);
+			} else {
+				System.err.println("Error in MapXmlReader on element read : "+element.getNodeName());
+			}
 		}
 		iteratorItems++;
 		return !(iteratorItems < itemNodeList.getLength());
@@ -162,35 +174,37 @@ public class MapXmlReader extends XmlReader {
 		if (iteratorInfo < infoNodeList.getLength()
 				&& infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
 			Element info = (Element) infoNodeList.item(iteratorInfo);
-
-			if (info.getNodeName() == "spawn") {
-
-				NodeList spawns = info.getChildNodes();
-				for (int i = 0; i < spawns.getLength(); i++) {
-					if (spawns.item(i).getNodeName() == "vecteur") {
-						Element position = (Element) spawns.item(i);
-						float x = Float.parseFloat(position.getAttribute("x"));
-						float y = Float.parseFloat(position.getAttribute("y"));
-						spawn.add(new Vec2f(x, y));
-					}
+			
+			Element vecteur = null;
+			
+			switch (info.getNodeName()) {
+			case "spawn":
+				try {
+					vecteur = getSingleElement(info, "vecteur");
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
-			} else if (info.getNodeName() == "gravity") {
-				// Navigation into Vector part
-				NodeList vector = info.getChildNodes();
-				for (int i = 0; i < vector.getLength(); i++) {
-					if (vector.item(i).getNodeName() == "vecteur") {
-						Element position = (Element) vector.item(i);
-						gravity.x = Float.parseFloat(position.getAttribute("x"));
-						gravity.y = Float.parseFloat(position.getAttribute("y"));
-					}
+				if(vecteur != null){
+					spawn.add(loadVecteurXY(vecteur));
 				}
-			} else if (info.getNodeName() == "cameraBound") {
-				// Navigation into CameraBound part
-				cameraBounds.x = Float.parseFloat(info.getAttribute("x"));
-				cameraBounds.y = Float.parseFloat(info.getAttribute("y"));
-				cameraBounds.z = Float.parseFloat(info.getAttribute("z"));
-				cameraBounds.w = Float.parseFloat(info.getAttribute("w"));
-			} else if (info.getNodeName() == "sky") {
+				break;
+			case "gravity":
+				try {
+					vecteur = getSingleElement(info, "vecteur");
+				} catch (Exception e) {
+					System.out.println("watch out ! gravity null !!!");
+					e.printStackTrace();
+				}
+				if(vecteur != null) {
+					gravity = loadVecteurXY(vecteur);
+				} else {
+					gravity = new Vec2f(0, 9.81);
+				}
+				break;
+			case "cameraBound":
+				cameraBounds = loadVecteurWXYZ(info);
+				break;
+			case "sky":
 				Vec3f bottom = new Vec3f();
 				Vec3f top = new Vec3f();
 				NodeList vectors = info.getChildNodes();
@@ -210,8 +224,10 @@ public class MapXmlReader extends XmlReader {
 					}
 				}
 				entities.add(new Sky(bottom, top));
+				break;
+			default:
+				break;
 			}
-
 		}
 		iteratorInfo++;
 		return !(iteratorInfo < infoNodeList.getLength());
@@ -321,6 +337,21 @@ public class MapXmlReader extends XmlReader {
 		if(list.getLength() == 1) {
 			return (Element) list.item(0);
 		}
-		throw new Exception("Not single element");
+		throw new Exception("Not single element (Nathan exception)");
+	}
+	
+
+	private static Vec2f loadVecteurXY(Element vecteur) {
+		float x = Float.parseFloat(vecteur.getAttribute("x"));
+		float y = Float.parseFloat(vecteur.getAttribute("y"));
+		return new Vec2f(x, y);
+	}
+	
+	private static Vec4f loadVecteurWXYZ(Element vecteur) {
+		float x = Float.parseFloat(vecteur.getAttribute("x"));
+		float y = Float.parseFloat(vecteur.getAttribute("y"));
+		float z = Float.parseFloat(vecteur.getAttribute("z"));
+		float w = Float.parseFloat(vecteur.getAttribute("w"));
+		return new Vec4f(x, y, z, w);
 	}
 }
