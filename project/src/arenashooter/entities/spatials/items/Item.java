@@ -37,15 +37,16 @@ public abstract class Item extends Spatial {
 		}
 	}
 
-	public Item(Vec2f position, String itemSprite) {
+	public Item(Vec2f position, String itemSprite, double size, boolean transparency) {
 		super(position);
 
 		Sprite sprite = new Sprite(position, itemSprite);
 		sprite.attachToParent(this, "Item_Sprite");		
 		isIonGun = false;
-		sprite.size = new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight());
+		sprite.size = new Vec2f(sprite.tex.getWidth()*size, sprite.tex.getHeight()*size);
 
 		sprite.tex.setFilter(false);
+		sprite.useTransparency = transparency;
 		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");
 	}

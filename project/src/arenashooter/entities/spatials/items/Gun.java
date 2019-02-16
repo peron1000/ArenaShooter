@@ -36,8 +36,8 @@ public class Gun extends Weapon {
 
 	public Gun(Vec2f position, String itemSprite, String bangSound, String pickupSound, String chargeSound,
 			String noAmmoSound, double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength,
-			double recoil, double thrust, double tpsCharge) {
-		super(position, itemSprite);
+			double recoil, double thrust, double tpsCharge, double size, boolean transparency) {
+		super(position, itemSprite, size, transparency);
 		fire = new Timer(fireRate);
 		fire.attachToParent(this, "attack timer");
 		this.bulletType = bulletType;
@@ -71,7 +71,7 @@ public class Gun extends Weapon {
 	}
 
 	public Gun(Vec2f position) {
-		super(position, "data/weapons/Assaut_1.png");
+		super(position, "data/weapons/Assaut_1.png", 1, false);
 		fire = new Timer(0.10);
 		fire.attachToParent(this, "attack timer");
 

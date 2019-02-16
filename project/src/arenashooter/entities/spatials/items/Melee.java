@@ -15,8 +15,8 @@ public class Melee extends Weapon {
 	Collider collider;
 	private float damage = 10f;
 
-	public Melee(Vec2f position, String itemSprite) {
-		super(position, itemSprite);
+	public Melee(Vec2f position, String itemSprite, double size, boolean transparency) {
+		super(position, itemSprite, size, transparency);
 		collider = new Collider(position, new Vec2f(40, 40));
 			fire = new Timer(0.10);
 			fire.attachToParent(this, "attack timer");
