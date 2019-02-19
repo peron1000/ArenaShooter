@@ -99,10 +99,10 @@
 	</entities>
 	
 	<items>
-		<weapon type="Gun" proba="0.5" size="1" transparency="false" bulletSpeed="2000" bulletType="1" spritePath="data/weapons/Minigun_1.png">
+		<weapon type="Gun" proba="0.5" size="1" bulletSpeed="2000" bulletType="1" spritePath="data/weapons/Minigun_1.png">
 			<vecteur x="40" y="40"/>
 		</weapon>
-		<weapon type="Gun" size="1.5" transparency="false" proba="0.25" chargeInertia="2102" damage="100">
+		<weapon type="Gun" size="1.5" proba="0.25" chargeInertia="2102" damage="100">
 			<vecteur x="40" y="40"/>
 		</weapon>
 	</items>

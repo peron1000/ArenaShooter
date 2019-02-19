@@ -276,9 +276,7 @@ public class MapXmlReader extends XmlReader {
 		String type = entity.getAttribute("type");
 		String proba = entity.getAttribute("proba");
 		String size = entity.getAttribute("size");
-		String transparency = entity.getAttribute("transparency");
-		ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size),
-				Boolean.parseBoolean(transparency));
+		ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size));
 
 		// ItemConcept implied
 		if (entity.hasAttribute("name")) {
