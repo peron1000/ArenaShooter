@@ -42,8 +42,15 @@
 				 spritePath CDATA #IMPLIED
 				 clickSoundPath CDATA #IMPLIED
 				 bangSoundPath CDATA #IMPLIED
+				 pickupSound CDATA #IMPLIED
 				 chargeSoundPath CDATA #IMPLIED
+				 noAmmoSound CDATA #IMPLIED
+				 bulletType CDATA #IMPLIED
+				 bulletSpeed CDATA #IMPLIED
+				 cannonLength CDATA #IMPLIED
 				 
 				 type CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 proba CDATA #REQUIRED
+				 size CDATA #REQUIRED
+				 transparency CDATA #REQUIRED>
 

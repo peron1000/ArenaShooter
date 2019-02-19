@@ -99,7 +99,7 @@
 	</entities>
 	
 	<items>
-		<weapon type="Gun" proba="0.5">
+		<weapon type="Gun" proba="0.5" size="1" transparency="false" bulletSpeed="2000" bulletType="1" spritePath="data/weapons/Minigun_1.png">
 			<vecteur x="40" y="40"/>
 		</weapon>
 	</items>

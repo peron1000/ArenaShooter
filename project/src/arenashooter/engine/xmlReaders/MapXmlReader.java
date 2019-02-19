@@ -139,11 +139,12 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all items are already loaded
 	 */
 	public boolean loadNextItem() {
-		if(itemNodeList == null)return true;
+		if (itemNodeList == null)
+			return true;
 		if (iteratorItems < itemNodeList.getLength()
 				&& itemNodeList.item(iteratorItems).getNodeType() == Node.ELEMENT_NODE) {
 			Element element = (Element) itemNodeList.item(iteratorItems);
-			
+
 			ItemConcept ic = null;
 
 			switch (element.getNodeName()) {
@@ -155,10 +156,10 @@ public class MapXmlReader extends XmlReader {
 			default:
 				break;
 			}
-			if(ic != null) {
+			if (ic != null) {
 				itemCollection.add(ic);
 			} else {
-				System.err.println("Error in MapXmlReader on element read : "+element.getNodeName());
+				System.err.println("Error in MapXmlReader on element read : " + element.getNodeName());
 			}
 		}
 		iteratorItems++;
@@ -174,9 +175,9 @@ public class MapXmlReader extends XmlReader {
 		if (iteratorInfo < infoNodeList.getLength()
 				&& infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
 			Element info = (Element) infoNodeList.item(iteratorInfo);
-			
+
 			Element vecteur = null;
-			
+
 			switch (info.getNodeName()) {
 			case "spawn":
 				try {
@@ -184,7 +185,7 @@ public class MapXmlReader extends XmlReader {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				if(vecteur != null){
+				if (vecteur != null) {
 					spawn.add(loadVecteurXY(vecteur));
 				}
 				break;
@@ -195,7 +196,7 @@ public class MapXmlReader extends XmlReader {
 					System.out.println("watch out ! gravity null !!!");
 					e.printStackTrace();
 				}
-				if(vecteur != null) {
+				if (vecteur != null) {
 					gravity = loadVecteurXY(vecteur);
 				} else {
 					gravity = new Vec2f(0, 9.81);
@@ -262,6 +263,8 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private static ItemConcept loadWeapon(Element entity) {
+
+		// ItemConcept required
 		Vec2f colliderExtent = new Vec2f();
 		try {
 			Element vecteur = getSingleElement(entity, "vecteur");
@@ -272,7 +275,56 @@ public class MapXmlReader extends XmlReader {
 		}
 		String type = entity.getAttribute("type");
 		String proba = entity.getAttribute("proba");
-		return new ItemConcept(type, colliderExtent, Double.parseDouble(proba));
+		String size = entity.getAttribute("size");
+		String transparency = entity.getAttribute("transparency");
+		ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size),
+				Boolean.parseBoolean(transparency));
+
+		// ItemConcept implied
+		if (entity.hasAttribute("name")) {
+			ic.name = entity.getAttribute("name");
+		}
+		if (entity.hasAttribute("damage")) {
+			ic.damage = Float.parseFloat(entity.getAttribute("damage"));
+		}
+		if (entity.hasAttribute("spritePath")) {
+			ic.spritePath = entity.getAttribute("spritePath");
+		}
+		if (entity.hasAttribute("bangSound")) {
+			ic.bangSound = entity.getAttribute("bangSound");
+		}
+		if (entity.hasAttribute("pickupSound")) {
+			ic.pickupSound = entity.getAttribute("pickupSound");
+		}
+		if (entity.hasAttribute("chargeSound")) {
+			ic.chargeSound = entity.getAttribute("chargeSound");
+		}
+		if (entity.hasAttribute("noAmmoSound")) {
+			ic.noAmmoSound = entity.getAttribute("noAmmoSound");
+		}
+		if (entity.hasAttribute("fireRate")) {
+			ic.fireRate = Double.parseDouble("fireRate");
+		}
+		if (entity.hasAttribute("cannonLength")) {
+			ic.cannonLength = Double.parseDouble("cannonLength");
+		}
+		if (entity.hasAttribute("recoil")) {
+			ic.recoil = Double.parseDouble("recoil");
+		}
+		if (entity.hasAttribute("thrust")) {
+			ic.thrust = Double.parseDouble("thrust");
+		}
+		if (entity.hasAttribute("tpsCharge")) {
+			ic.tpsCharge = Double.parseDouble("tpsCharge");
+		}
+		if (entity.hasAttribute("bulletSpeed")) {
+			ic.bulletSpeed = Float.parseFloat(entity.getAttribute("bulletSpeed"));
+		}
+		if (entity.hasAttribute("bulletType")) {
+			ic.bulletType = Integer.parseInt(entity.getAttribute("bulletType"));
+		}
+
+		return ic;
 	}
 
 	private static Mesh loadMesh(Element entity) {
@@ -331,22 +383,21 @@ public class MapXmlReader extends XmlReader {
 		}
 		return null;
 	}
-	
-	private static Element getSingleElement(Element parent , String elementName) throws Exception {
+
+	private static Element getSingleElement(Element parent, String elementName) throws Exception {
 		NodeList list = parent.getElementsByTagName(elementName);
-		if(list.getLength() == 1) {
+		if (list.getLength() == 1) {
 			return (Element) list.item(0);
 		}
 		throw new Exception("Not single element (Nathan exception)");
 	}
-	
 
 	private static Vec2f loadVecteurXY(Element vecteur) {
 		float x = Float.parseFloat(vecteur.getAttribute("x"));
 		float y = Float.parseFloat(vecteur.getAttribute("y"));
 		return new Vec2f(x, y);
 	}
-	
+
 	private static Vec4f loadVecteurWXYZ(Element vecteur) {
 		float x = Float.parseFloat(vecteur.getAttribute("x"));
 		float y = Float.parseFloat(vecteur.getAttribute("y"));

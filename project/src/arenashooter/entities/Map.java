@@ -26,7 +26,7 @@ public class Map extends Entity {
 	public Physic physic;
 
 	private int dernierspawn = -1;
-	
+
 	public ItemCollection<ItemConcept> itemCollection = new ItemCollection<ItemConcept>();
 
 	/**
@@ -35,7 +35,7 @@ public class Map extends Entity {
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
-	
+
 	Timer spawnWeapon = new Timer(10);
 
 	public Map() {
@@ -45,14 +45,20 @@ public class Map extends Entity {
 	@Override
 	public void step(double d) {
 		super.step(d);
-		if(spawnWeapon.isOver()) {
+		if (spawnWeapon.isOver()) {
 			spawnWeapon.restart();
 			ItemConcept ic = itemCollection.get();
 			switch (ic.getType()) {
 			case "Gun":
 				Character player = GameMaster.gm.controllers.get(0).getCharacter();
-				Gun gun = new Gun(player.position);
-				gun.attachToParent(this, "Gun");
+				Gun gun = new Gun(player.position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound,
+						ic.noAmmoSound, ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength,
+						ic.recoil, ic.thrust, ic.tpsCharge, ic.getSize(), ic.getTransparency());
+				if(ic.name == null) {
+					gun.attachToParent(this, gun.genName());
+				}else {
+					gun.attachToParent(this, ic.name);
+				}
 				break;
 
 			default:
@@ -138,6 +144,6 @@ public class Map extends Entity {
 		gun3.attachToParent(this, "Item_Weapon" + genName());
 		gun4.attachToParent(this, "Item_Weapon" + genName());
 		gun5.attachToParent(this, "Item_Weapon" + genName());
-		
+
 	}
 }
