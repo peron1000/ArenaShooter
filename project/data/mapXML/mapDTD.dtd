@@ -51,6 +51,5 @@
 				 
 				 type CDATA #REQUIRED
 				 proba CDATA #REQUIRED
-				 size CDATA #REQUIRED
-				 transparency CDATA #REQUIRED>
+				 size CDATA #REQUIRED>
 
