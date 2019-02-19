@@ -9,8 +9,8 @@ public class Weapon extends Item {
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;	
 
-	public Weapon(Vec2f position, String itemSprite, double size, boolean transparency) {
-		super(position, itemSprite, size, transparency);
+	public Weapon(Vec2f position, String itemSprite, double size) {
+		super(position, itemSprite, size);
 	}
 
 	public void attackStart() { }

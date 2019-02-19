@@ -59,7 +59,7 @@ public class Map extends Entity {
 			Vec2f position = newPositionWeapons();
 			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound,
 					ic.noAmmoSound, ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil,
-					ic.thrust, ic.tpsCharge, ic.getSize(), ic.getTransparency());
+					ic.thrust, ic.tpsCharge, ic.getSize());
 			if (ic.name == null) {
 				gun.attachToParent(this, gun.genName());
 			} else {
@@ -146,13 +146,13 @@ public class Map extends Entity {
 //		Gun gun2 = new Gun(new Vec2f(300, 350));
 ////		Melee kata = new Melee(new Vec2f(750, 350));
 //		Gun gun3 = new Gun(new Vec2f(-250, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
-//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
+//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
 //		Gun gun4 = new Gun(new Vec2f(1000, 350), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
-//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
+//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
 //		Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
-//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
+//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
 //		Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1.png", "BangIonGun2", "GunCock1",
-//				"IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3, true);
+//				"IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3);
 //		gun6.attachToParent(this, "Item_Weapon" + genName());
 ////		kata.attachToParent(this, "Item_Weapon"+genName());
 //		gun2.attachToParent(this, "Item_Weapon" + genName());
