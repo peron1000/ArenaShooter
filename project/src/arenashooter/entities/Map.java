@@ -47,25 +47,36 @@ public class Map extends Entity {
 		super.step(d);
 		if (spawnWeapon.isOver()) {
 			spawnWeapon.restart();
-			ItemConcept ic = itemCollection.get();
-			switch (ic.getType()) {
-			case "Gun":
-				Character player = GameMaster.gm.controllers.get(0).getCharacter();
-				Gun gun = new Gun(player.position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound,
-						ic.noAmmoSound, ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength,
-						ic.recoil, ic.thrust, ic.tpsCharge, ic.getSize(), ic.getTransparency());
-				if(ic.name == null) {
-					gun.attachToParent(this, gun.genName());
-				}else {
-					gun.attachToParent(this, ic.name);
-				}
-				break;
-
-			default:
-				break;
-			}
+			spawnWeapons();
 		}
 		physic.step(d);
+	}
+
+	private void spawnWeapons() {
+		ItemConcept ic = itemCollection.get();
+		switch (ic.getType()) {
+		case "Gun":
+			Vec2f position = newPositionWeapons();
+			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound,
+					ic.noAmmoSound, ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil,
+					ic.thrust, ic.tpsCharge, ic.getSize(), ic.getTransparency());
+			if (ic.name == null) {
+				gun.attachToParent(this, gun.genName());
+			} else {
+				gun.attachToParent(this, ic.name);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	private Vec2f newPositionWeapons() {
+		int size = spawn.size();
+		double random = Math.random();
+		random *= size;
+		return spawn.get((int) random);
 	}
 
 	/**
@@ -131,19 +142,23 @@ public class Map extends Entity {
 	public void init() {
 		testPhysics();
 		spawnWeapon.attachToParent(this, "test");
-		
-		Gun gun2 = new Gun(new Vec2f(300, 350));
-//		Melee kata = new Melee(new Vec2f(750, 350));
-		Gun gun3 = new Gun(new Vec2f(-250, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump", 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
-		Gun gun4 = new Gun(new Vec2f(1000, 350), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump", 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
-		Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump", 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
-		Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1.png", "BangIonGun2", "GunCock1", "IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3, true);
-		gun6.attachToParent(this, "Item_Weapon"+genName());
-//		kata.attachToParent(this, "Item_Weapon"+genName());
-		gun2.attachToParent(this, "Item_Weapon" + genName());
-		gun3.attachToParent(this, "Item_Weapon" + genName());
-		gun4.attachToParent(this, "Item_Weapon" + genName());
-		gun5.attachToParent(this, "Item_Weapon" + genName());
+
+//		Gun gun2 = new Gun(new Vec2f(300, 350));
+////		Melee kata = new Melee(new Vec2f(750, 350));
+//		Gun gun3 = new Gun(new Vec2f(-250, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
+//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
+//		Gun gun4 = new Gun(new Vec2f(1000, 350), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
+//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
+//		Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
+//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1, false);
+//		Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1.png", "BangIonGun2", "GunCock1",
+//				"IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3, true);
+//		gun6.attachToParent(this, "Item_Weapon" + genName());
+////		kata.attachToParent(this, "Item_Weapon"+genName());
+//		gun2.attachToParent(this, "Item_Weapon" + genName());
+//		gun3.attachToParent(this, "Item_Weapon" + genName());
+//		gun4.attachToParent(this, "Item_Weapon" + genName());
+//		gun5.attachToParent(this, "Item_Weapon" + genName());
 
 	}
 }
