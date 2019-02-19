@@ -151,7 +151,7 @@ public class Map extends Entity {
 //				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
 //		Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
 //				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-//		Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1.png", "BangIonGun2", "GunCock1",
+//		Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1_tr.png", "BangIonGun2", "GunCock1",
 //				"IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3);
 //		gun6.attachToParent(this, "Item_Weapon" + genName());
 ////		kata.attachToParent(this, "Item_Weapon"+genName());
