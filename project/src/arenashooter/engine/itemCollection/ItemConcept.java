@@ -24,12 +24,10 @@ public class ItemConcept {
 	private double proba;
 	private Vec2f colliderExtent;
 	private double size;
-	private boolean transparency;
-	public ItemConcept(String type, double proba , Vec2f colliderExtent, double size , boolean transparency) {
+	public ItemConcept(String type, double proba , Vec2f colliderExtent, double size) {
 		this.proba = proba;
 		this.type = type;
 		this.size = size;
-		this.transparency = transparency;
 	}
 	
 	public double getProba() {
@@ -46,9 +44,5 @@ public class ItemConcept {
 	
 	public double getSize() {
 		return size;
-	}
-	
-	public boolean getTransparency() {
-		return transparency;
 	}
 }
