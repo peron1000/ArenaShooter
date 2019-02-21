@@ -12,6 +12,8 @@ public class RigidBodyContainer extends Spatial {
 
 	private RigidBody body;
 
+	private boolean physicsDirty = false; //TODO: Remove this temp variable
+
 	public RigidBodyContainer(Vec2f position, RigidBody body) {
 		super(position);
 		this.body = body;
@@ -20,8 +22,7 @@ public class RigidBodyContainer extends Spatial {
 	@Override
 	public Entity attachToParent(Entity newParent, String name) {
 		Entity prev = super.attachToParent(newParent, name);
-		if(getMap() != null)
-			getMap().physic.registerRigidBody(body);
+		physicsDirty = true;
 		return prev;
 	}
 
@@ -34,6 +35,11 @@ public class RigidBodyContainer extends Spatial {
 	
 	@Override
 	public void step(double d) {
+		if(physicsDirty && getMap() != null) {
+			getMap().physic.registerRigidBody(body);
+			physicsDirty = false;
+		}
+		
 		position.set(body.position);
 		rotation = body.rotation;
 		
