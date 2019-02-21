@@ -19,11 +19,8 @@ public class Physic {
 	/** Map represented by this simulation */
 	private Map map;
 	
-	private static Physic tempCurrentPhysic; //TODO: Remove this
-	
 	public Physic(Map map) {
 		this.map = map;
-		tempCurrentPhysic = this;
 	}
 	
 	public void step(double d) {
@@ -57,16 +54,24 @@ public class Physic {
 		Profiler.endTimer(Profiler.PHYSIC);
 	}
 	
-	public static void registerRigidBody(RigidBody body) {
-		tempCurrentPhysic.bodies.add(body);
-		tempCurrentPhysic.rigidBodies.add(body);
+	public void registerRigidBody(RigidBody body) {
+		bodies.add(body);
+		rigidBodies.add(body);
 	}
 	
-	public static void registerStaticBody(StaticBody body) {
-		if(tempCurrentPhysic != null) {
-			tempCurrentPhysic.bodies.add(body);
-			tempCurrentPhysic.staticBodies.add(body);
-		}
+	public void registerStaticBody(StaticBody body) {
+		bodies.add(body);
+		staticBodies.add(body);
+	}
+	
+	public void unregisterRigidBody(RigidBody body) {
+		bodies.remove(body);
+		rigidBodies.remove(body);
+	}
+	
+	public void unregisterStaticBody(StaticBody body) {
+		bodies.remove(body);
+		staticBodies.remove(body);
 	}
 	
 	/**

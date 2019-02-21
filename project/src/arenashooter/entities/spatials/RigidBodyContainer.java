@@ -4,7 +4,6 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Entity;
 import arenashooter.game.Main;
@@ -16,7 +15,21 @@ public class RigidBodyContainer extends Spatial {
 	public RigidBodyContainer(Vec2f position, RigidBody body) {
 		super(position);
 		this.body = body;
-		Physic.registerRigidBody(body);
+	}
+	
+	@Override
+	public Entity attachToParent(Entity newParent, String name) {
+		Entity prev = super.attachToParent(newParent, name);
+		if(getMap() != null)
+			getMap().physic.registerRigidBody(body);
+		return prev;
+	}
+
+	@Override
+	public void detach() {
+		if(getMap() != null)
+			getMap().physic.unregisterRigidBody(body);
+		super.detach();
 	}
 	
 	@Override

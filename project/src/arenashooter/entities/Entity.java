@@ -98,6 +98,20 @@ public class Entity {
 				e.step(d);
 		}
 	}
+	
+	/**
+	 * @return Map containing this entity or self if this is the Map
+	 */
+	public Map getMap() { //TODO: Replace this with something cleaner
+		if(this instanceof Map) return (Map)this;
+		
+		Entity current = parent;
+		while( current != null && !(current instanceof Map) )
+			current = current.parent;
+		
+		if(current instanceof Map) return (Map)current;
+		else return null;
+	}
 
 	// /**
 	// * Attempts to enable or disable transparency for this entity
