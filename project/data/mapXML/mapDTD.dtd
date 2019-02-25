@@ -29,7 +29,7 @@
 <!ELEMENT fichier (#PCDATA)>
 
 <!-- Items allowed -->
-<!ELEMENT items (equipement | weapon)*>
+<!ELEMENT items (equipement | weapon | melee)*>
 <!ELEMENT equipement EMPTY>
 <!ELEMENT weapon (vecteur , entities?)>
 <!ATTLIST weapon name CDATA #IMPLIED
@@ -52,4 +52,15 @@
 				 type CDATA #REQUIRED
 				 proba CDATA #REQUIRED
 				 size CDATA #REQUIRED>
+<!ELEMENT melee (vecteur, enttities?)>
+<!ATTLIST melee name CDATA #IMPLIED
+				damage CDATA #IMPLIED
+				bangSound CDATA #IMPLIED
+				spritePath CDATA #IMPLIED
+				fireRate CDATA #IMPLIED
+				type CDATA #REQUIRED
+				 proba CDATA #REQUIRED
+				 size CDATA #REQUIRED
+				>
+				
 

@@ -15,6 +15,7 @@ import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
+import arenashooter.entities.spatials.items.Melee;
 import arenashooter.game.GameMaster;
 
 public class Map extends Entity {
@@ -57,16 +58,24 @@ public class Map extends Entity {
 		switch (ic.getType()) {
 		case "Gun":
 			Vec2f position = newPositionWeapons();
-			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound,
-					ic.noAmmoSound, ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil,
-					ic.thrust, ic.tpsCharge, ic.getSize());
+			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound, ic.noAmmoSound,
+					ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil, ic.thrust,
+					ic.tpsCharge, ic.getSize());
 			if (ic.name == null) {
 				gun.attachToParent(this, gun.genName());
 			} else {
 				gun.attachToParent(this, ic.name);
 			}
 			break;
-
+		case "Melee":
+			position = newPositionWeapons();
+			Melee melee = new Melee(position, ic.spritePath, ic.getSize(), ic.fireRate, ic.pickupSound);
+			if (ic.name == null) {
+				melee.attachToParent(this, melee.genName());
+			} else {
+				melee.attachToParent(this, ic.name);
+			}
+			break;
 		default:
 			break;
 		}

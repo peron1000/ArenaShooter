@@ -46,7 +46,7 @@ public class Gun extends Weapon {
 		this.cannonLength = cannonLength;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
-		
+
 		this.tpsCharge = tpsCharge;
 		// chargeInertia = 0;
 
@@ -65,7 +65,7 @@ public class Gun extends Weapon {
 		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 2, 0.85f, 1.15f);
 		noAmmo.setVolume(0.25f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
-		
+
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
 	}
@@ -97,9 +97,9 @@ public class Gun extends Weapon {
 		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/slap.ogg", 2, 0.9f, 1.1f);
 		noAmmo.setVolume(0.35f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
-		
-		 Entity particleContainer = new Entity();
-		 particleContainer.attachToParent(this, "particle_container");
+
+		Entity particleContainer = new Entity();
+		particleContainer.attachToParent(this, "particle_container");
 	}
 
 	// public Gun(Vec2f position, SpritePath itemSprite) {
@@ -207,18 +207,18 @@ public class Gun extends Weapon {
 			waitCharge = Math.min(waitCharge + d, tpsCharge);
 		else
 			waitCharge = Math.max(waitCharge - d, 0);
-		
-		if(sndCharge != null) {
-			if(charge) {
-				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d*15);
-				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d*4.5);
+
+		if (sndCharge != null) {
+			if (charge) {
+				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
+				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d * 4.5);
 			} else {
-				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d*.04);
-				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d*2.5);
+				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d * .04);
+				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d * 2.5);
 			}
 			sndCharge.setVolume(sndChargeVol);
-			if(sndCharge.getSound() instanceof SoundSourceSingle)
-				((SoundSourceSingle)sndCharge.getSound()).setPitch(sndChargePitch);
+			if (sndCharge.getSound() instanceof SoundSourceSingle)
+				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
 		}
 
 		if (charge && waitCharge >= tpsCharge && fire.isOver()) {
@@ -231,7 +231,7 @@ public class Gun extends Weapon {
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			Particles flash;
-			
+
 			switch (bulletType) {
 			case 0:
 				Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
@@ -241,11 +241,11 @@ public class Gun extends Weapon {
 				flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 				flash.attachToParent(children.get("particle_container"), "particles_flash");
 				break;
-				
+
 			case 1:
 				flash = new Particles(bulletPos, "data/particles/flash_02.xml");
 				flash.attachToParent(children.get("particle_container"), "particles_flash");
-				
+
 				CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
 				CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
 
@@ -256,19 +256,18 @@ public class Gun extends Weapon {
 				bull.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull.genName()));
 				bull2.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull2.genName()));
 				break;
-				
+
 			default:
-				
+
 				Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 				bul1.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul1.genName()));
 				if (isEquipped())
 					bul1.shooter = ((Character) parent);
 				flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 				flash.attachToParent(children.get("particle_container"), "particles_flash");
-				
+
 				break;
 			}
-				
 
 			if (isEquipped()) {
 				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
@@ -289,5 +288,6 @@ public class Gun extends Weapon {
 			Window.camera.setCameraShake(2.8f);
 		}
 
-	super.step(d);
-}}
+		super.step(d);
+	}
+}

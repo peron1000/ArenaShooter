@@ -28,7 +28,7 @@ public class GameMaster {
 	public void requestNextState() {
 		if(current instanceof Start) { //Start
 //			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
-			Loading.loading.setNextState(new Intro(), "data/mapXML/mapXML2.xml");// TODO : create the map
+			Loading.loading.setNextState(new Intro(), "data/mapXML/empty.xml");// TODO : create the map
 			current = Loading.loading;
 			current.init();
 		} else if (current instanceof CharacterChooser) { //Character chooser
@@ -51,7 +51,7 @@ public class GameMaster {
 			System.out.println("mlep");
 			current = Loading.loading;
 			current.init();
-			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/mapXML2.xml");// TODO : create the map
+			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/empty.xml");// TODO : create the map
 		}
 	}
 	

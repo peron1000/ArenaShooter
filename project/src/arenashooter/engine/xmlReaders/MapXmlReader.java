@@ -152,7 +152,10 @@ public class MapXmlReader extends XmlReader {
 				ic = loadWeapon(element);
 				break;
 			case "equipement":
-
+				break;
+			case "melee":
+				ic = loadMelee(element);
+				break;
 			default:
 				break;
 			}
@@ -323,6 +326,41 @@ public class MapXmlReader extends XmlReader {
 		}
 
 		return ic;
+	}
+	
+	private static ItemConcept loadMelee(Element entity) {
+		// ItemConcept required
+				Vec2f colliderExtent = new Vec2f();
+				try {
+					Element vecteur = getSingleElement(entity, "vecteur");
+					colliderExtent.x = Float.parseFloat(vecteur.getAttribute("x"));
+					colliderExtent.y = Float.parseFloat(vecteur.getAttribute("y"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				String type = entity.getAttribute("type");
+				String proba = entity.getAttribute("proba");
+				String size = entity.getAttribute("size");
+				ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size));
+		
+				// ItemConcept implied
+				if (entity.hasAttribute("name")) {
+					ic.name = entity.getAttribute("name");
+				}
+				if (entity.hasAttribute("damage")) {
+					ic.damage = Float.parseFloat(entity.getAttribute("damage"));
+				}
+				if (entity.hasAttribute("bangSound")) {
+					ic.bangSound = entity.getAttribute("bangSound");
+				}
+				if (entity.hasAttribute("spritePath")) {
+					ic.spritePath = entity.getAttribute("spritePath");
+				}
+				if (entity.hasAttribute("fireRate")) {
+					ic.fireRate = Double.parseDouble(entity.getAttribute("fireRate"));
+				}
+				return ic;
+
 	}
 
 	private static Mesh loadMesh(Element entity) {
