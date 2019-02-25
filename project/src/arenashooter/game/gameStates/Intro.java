@@ -15,6 +15,7 @@ public class Intro extends GameState {
 	
 	@Override
 	public void init() {
+		
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		map = new Test();
 	}
