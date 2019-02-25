@@ -18,7 +18,7 @@ public class ItemCollection<T extends ItemConcept> {
 		list.add(it);
 	}
 	
-	public ItemConcept get() {
+	public ItemConcept get() throws Exception {
 		double random = Math.random() * probaTotal;
 		double counter = 0;
 		ItemConcept winner = null;
@@ -31,7 +31,7 @@ public class ItemCollection<T extends ItemConcept> {
 		if(winner != null) {
 			return winner;
 		} else {
-			return list.get(list.size() - 1);
+			throw new Exception("No items in this map");
 		}
 	}
 	
