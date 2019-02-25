@@ -47,13 +47,18 @@ public class Map extends Entity {
 	public void step(double d) {
 		super.step(d);
 		if (spawnWeapon.isOver()) {
-			spawnWeapon.restart();
-			spawnWeapons();
+			try {
+				spawnWeapon.restart();
+				spawnWeapons();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				spawnWeapon.breakTimer();
+			}
 		}
 		physic.step(d);
 	}
 
-	private void spawnWeapons() {
+	private void spawnWeapons() throws Exception {
 		ItemConcept ic = itemCollection.get();
 		switch (ic.getType()) {
 		case "Gun":

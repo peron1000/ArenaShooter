@@ -10,6 +10,7 @@ public class Timer extends Entity {
 	private final double max;
 	private double current = 0;
 	private boolean over = false;
+	private boolean inProcess = true;
 
 	public Timer(double timer) {
 		max = timer;
@@ -24,10 +25,19 @@ public class Timer extends Entity {
 		current = 0;
 	}
 	
+	public void breakTimer() {
+		over=false;
+		current = 0;
+		inProcess = false;
+	}
+	
 	@Override
 	public void step(double d) {
-		current += d;
-		if(current > max)over = true;
+		if(inProcess) {
+			current += d;
+			if(current > max)over = true;
+		}
+		
 		super.step(d);
 	}
 
