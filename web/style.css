@@ -137,8 +137,8 @@ div.desc {
 * Backgrounds
 */
 .parallax {
-    padding: 10px 0;
-    margin: 0;
+  padding: 10px 0;
+  margin: 0;
 }
 
 .bg_01 {
@@ -147,7 +147,11 @@ div.desc {
   background-attachment: fixed;
   background-position: center; 
   background-size: cover;
-  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;          /* Firefox        */
+  image-rendering: -o-crisp-edges;            /* Opera          */
+  image-rendering: -webkit-optimize-contrast; /* Safari         */
+  image-rendering: pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+           */
 }
 
 .bg_02 {
@@ -156,7 +160,11 @@ div.desc {
   background-attachment: fixed;
   background-position: center; 
   background-size: cover;
-  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;          /* Firefox        */
+  image-rendering: -o-crisp-edges;            /* Opera          */
+  image-rendering: -webkit-optimize-contrast; /* Safari         */
+  image-rendering: pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+           */
 }
 /*
 * Backgrounds end
@@ -168,25 +176,55 @@ h3 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-section.b{
-	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-    font-size:20px;
+
+h4 {
+  font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
+  font-size: 28px;
+  color: red;
 }
-a.lge{
-	color:red;
-	  text-align:right;
+
+#trailer {
+  font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
+  font-size:20px;
 }
-ul.a{
-	list-style-type: circle;
+
+footer {
+  position: fixed;
+  left: 0px;
+  bottom: 10px;
+  padding: 10px 10px 10px 15px;
+  color: red;
+  text-align: left;
+
+  background-color: rgba(30, 30, 30, 0.85);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
-h4{
-	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-    font-size: 28px;
-	color:red;
+
+.lang {
+  color: red;
+  text-align: left;
+}
+
+.lang:visited {
+  color: red;
+  text-align: left;
+}
+
+ul.features{
+  list-style-type: circle;
 }
 
 img {
   image-rendering: auto;
+}
+
+.pixelated {
+  image-rendering: -moz-crisp-edges;          /* Firefox        */
+  image-rendering: -o-crisp-edges;            /* Opera          */
+  image-rendering: -webkit-optimize-contrast; /* Safari         */
+  image-rendering: pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+           */
 }
 
 video {
