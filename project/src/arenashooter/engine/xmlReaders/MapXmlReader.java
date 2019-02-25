@@ -101,6 +101,7 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all entities are already loaded
 	 */
 	public boolean loadNextEntity() {
+		long time = System.currentTimeMillis();
 		if (iteratorEntite < entitiesNodeList.getLength()
 				&& entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
 			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
@@ -123,7 +124,10 @@ public class MapXmlReader extends XmlReader {
 			default:
 				break;
 			}
-
+			time = System.currentTimeMillis() - time;
+			if(time > 60) {
+				System.out.println("Time to load "+entity.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
+			}
 			if (newEntity != null)
 				entities.add(newEntity);
 			else
@@ -139,6 +143,7 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all items are already loaded
 	 */
 	public boolean loadNextItem() {
+		long time = System.currentTimeMillis();
 		if (itemNodeList == null)
 			return true;
 		if (iteratorItems < itemNodeList.getLength()
@@ -159,6 +164,10 @@ public class MapXmlReader extends XmlReader {
 			default:
 				break;
 			}
+			time = System.currentTimeMillis() - time;
+			if(time > 60) {
+				System.out.println("Time to load "+element.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
+			}
 			if (ic != null) {
 				itemCollection.add(ic);
 			} else {
@@ -175,6 +184,7 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all informations are already loaded
 	 */
 	public boolean loadNextInformation() {
+		long time = System.currentTimeMillis();
 		if (iteratorInfo < infoNodeList.getLength()
 				&& infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
 			Element info = (Element) infoNodeList.item(iteratorInfo);
@@ -231,6 +241,10 @@ public class MapXmlReader extends XmlReader {
 				break;
 			default:
 				break;
+			}
+			time = System.currentTimeMillis() - time;
+			if(time > 60) {
+				System.out.println("Time to load "+info.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
 			}
 		}
 		iteratorInfo++;
@@ -390,7 +404,6 @@ public class MapXmlReader extends XmlReader {
 				}
 			}
 		}
-
 		return new Mesh(position, rot, scale, src);
 	}
 

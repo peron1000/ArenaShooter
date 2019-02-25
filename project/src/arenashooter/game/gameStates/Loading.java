@@ -26,7 +26,7 @@ public class Loading extends GameState {
 
 	private boolean mapDone = false;
 
-	private Iterator<Entity> iterator;
+	private Iterator<Entity> iteratorEntities;
 
 	private Loading() {
 	}
@@ -76,13 +76,13 @@ public class Loading extends GameState {
 	}
 
 	private boolean createNewMap() {
-		iterator = mapXmlReader.getEntities().iterator();
+		iteratorEntities = mapXmlReader.getEntities().iterator();
 		long time = System.currentTimeMillis();
 		Map m = next.map;
-		while(iterator.hasNext()) {
-			Entity entity = iterator.next();
+		while (iteratorEntities.hasNext()) {
+			Entity entity = iteratorEntities.next();
 			entity.attachToParent(m, entity.genName());
-			if(System.currentTimeMillis() - time > 0) {
+			if (System.currentTimeMillis() - time > 0) {
 				return false;
 			}
 		}
@@ -97,27 +97,34 @@ public class Loading extends GameState {
 
 	@Override
 	public void update(double delta) {
-
+		long time = System.currentTimeMillis();
 		map.step(delta);
-		boolean done = loadNextMap();
+		boolean done = loadNextMap(time);
 		if (done) {
 			next.init();
 			GameMaster.gm.requestNextState();
 		}
+		time = System.currentTimeMillis() - time;
+		if(time > 60) {
+			System.out.println("Time to load "+next.getClass().getSimpleName()+" too long "+ time+"ms");
+		}
 	}
 
-	private boolean loadNextMap() {
-		long time = System.currentTimeMillis();
+	private boolean loadNextMap(long time) {
+		final long timeMax = 20;
 		if (!mapDone) {
 			boolean entitiesLoaded = mapXmlReader.loadNextEntity();
-			if (System.currentTimeMillis() - time > 40)
+			if (System.currentTimeMillis() - time > timeMax) {
 				return false;
+			}
 			boolean informationsloaded = mapXmlReader.loadNextInformation();
-			if (System.currentTimeMillis() - time > 40)
+			if (System.currentTimeMillis() - time > timeMax) {
 				return false;
+			}
 			boolean itemsLoaded = mapXmlReader.loadNextItem();
-			if (System.currentTimeMillis() - time > 40)
+			if (System.currentTimeMillis() - time > timeMax) {
 				return false;
+			}
 			if (entitiesLoaded && informationsloaded && itemsLoaded) {
 				mapDone = createNewMap();
 			}
