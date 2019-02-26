@@ -101,7 +101,7 @@ public class Character extends Spatial {
 		}
 
 	}
-	
+
 	public void attackStop() {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
@@ -111,11 +111,10 @@ public class Character extends Spatial {
 
 	public void getItem() {
 		Item arme = null;
-		Item armure = null;
 
 		boolean hasWeapon = getWeapon() != null;
 		boolean hasArmor = children.containsKey("Item_Armor");
-		
+
 		if (!hasWeapon || !hasArmor) {
 			for (Entity e : GameMaster.gm.getEntities()) {
 				if (!hasWeapon && e instanceof Weapon) {
@@ -125,21 +124,13 @@ public class Character extends Spatial {
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
 				}
-//				else if (!hasArmor && e instanceof Equipement) {
-//					Item item = (Equipement) e;
-//					float xDiff = Math.abs(pos().x - item.pos().x);
-//					float yDiff = Math.abs(pos().y - item.pos().y);
-//					if (xDiff < 175 && yDiff < 175)
-//						armure = item;
-//				}
 			}
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				((SoundEffect) arme.children.get("snd_Pickup")).play();
+				SoundEffect soundPickup = arme.pickup;
+				soundPickup.play();
 			}
-//			if (armure != null)
-//				armure.attachToParent(this, "Item_Armor");
 		}
 	}
 
@@ -147,18 +138,20 @@ public class Character extends Spatial {
 		attackStop();
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
-			
-			if( arme instanceof Weapon )
-				((Weapon)arme).setVel(new Vec2f());
-			
+
+			if (arme instanceof Weapon)
+				((Weapon) arme).setVel(new Vec2f());
+
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}
-	
+
 	public Weapon getWeapon() {
 		Entity e = children.get("Item_Weapon");
-		if(e instanceof Weapon) return (Weapon)e;
-		else return null;
+		if (e instanceof Weapon)
+			return (Weapon) e;
+		else
+			return null;
 	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes

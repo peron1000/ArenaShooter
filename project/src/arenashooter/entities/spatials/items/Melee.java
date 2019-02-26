@@ -20,23 +20,23 @@ public class Melee extends Weapon {
 	public Melee(Vec2f position, String itemSprite, double size, double fireRate, String soundpickup) {
 		super(position, itemSprite, size);
 		this.fireRate = new Timer(fireRate);
-		SoundEffect soundPickup = new SoundEffect(position, "data/sound/"+soundpickup+".ogg", 16);
+		SoundEffect soundPickup = new SoundEffect(position, "data/sound/" + soundpickup + ".ogg", 16);
 		soundPickup.attachToParent(this, "snd_Pickup");
 	}
 
 	@Override
 	public void attackStart() {
-		
+
 	}
 
 	@Override
 	public void attackStop() {
-		
+
 	}
 
 	@Override
 	public void step(double d) {
-		if(fireRate.isOver()) {
+		if (fireRate.isOver()) {
 			fireRate.restart();
 			position = Vec2f.rotate90(position);
 		}

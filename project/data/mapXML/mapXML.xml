@@ -105,7 +105,7 @@
 		<weapon type="Gun" size="1.5" proba="0.25" chargeInertia="2102" damage="100">
 			<vecteur x="40" y="40"/>
 		</weapon>
-		<melee size="1" type="Melee" proba="1" spritePath="data/weapons/kata.png" fireRate="2">
+		<melee size="1" type="Melee" proba="1" spritePath="data/weapons/Minigun_1.png" fireRate="2">
 			<vecteur x="40" y="40"/>
 		</melee>
 	</items>
