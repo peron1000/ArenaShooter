@@ -4,16 +4,13 @@ import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
-import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
-import arenashooter.entities.spatials.Sprite;
 
 public class Gun extends Weapon {
 	public float recoil = 0.4f;// High
@@ -277,6 +274,13 @@ public class Gun extends Weapon {
 			Window.camera.setCameraShake(2.8f);
 		}
 
+		getSprite().rotation = rotation;
+		
 		super.step(d);
+	}
+	
+	@Override
+	protected void setLocalPositionOfSprite() {
+		localPosition = Vec2f.rotate(new Vec2f(20,0), rotation);
 	}
 }

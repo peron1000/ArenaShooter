@@ -1,6 +1,5 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 import arenashooter.entities.SoundEffect;
@@ -38,7 +37,7 @@ public abstract class Item extends Spatial {
 	public void step(double d) {
 		// SpriteFlip
 		if (isEquipped()) {
-			setRotationOfSprite();
+			setSpriteFlip();
 			setLocalPositionOfSprite();
 			position.add(localPosition);
 		} else {
@@ -80,20 +79,21 @@ public abstract class Item extends Spatial {
 	/**
 	 * Set the rotation of the item Sprite
 	 */
-	protected void setRotationOfSprite() {
-		Character c = (Character) getParent();
-		getSprite().flipX = !c.lookRight;
+	protected void setSpriteFlip() {
+		if(getParent() instanceof Character)
+			getSprite().flipY = !((Character)getParent()).lookRight;
 	}
 
 	/**
 	 * Set the local Position of the item Sprite
 	 */
 	protected void setLocalPositionOfSprite() {
-		Character c = (Character) getParent();
-		if (c.lookRight) {
-			localPosition = new Vec2f(20, 0);
-		} else {
-			localPosition = new Vec2f(-20, 0);
+		if(getParent() instanceof Character) {
+			if (((Character)getParent()).lookRight) {
+				localPosition = new Vec2f(20, 0);
+			} else {
+				localPosition = new Vec2f(-20, 0);
+			}
 		}
 	}
 }

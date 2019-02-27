@@ -1,9 +1,7 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.Sprite;
 
 public abstract class Weapon extends Item {
 
