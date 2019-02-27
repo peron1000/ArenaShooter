@@ -17,8 +17,8 @@ public class Melee extends Weapon {
 	private float damage = 10f;
 	private boolean val = false;
 
-	public Melee(Vec2f position, String itemSprite, double size, double fireRate, String soundpickup) {
-		super(position, itemSprite, size);
+	public Melee(Vec2f position, String itemSprite, float damage, double fireRate, String soundpickup) {
+		super(position, itemSprite, damage);
 		this.fireRate = new Timer(fireRate);
 		SoundEffect soundPickup = new SoundEffect(position, "data/sound/" + soundpickup + ".ogg", 16);
 		soundPickup.attachToParent(this, "snd_Pickup");

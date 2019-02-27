@@ -16,16 +16,13 @@ import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.Sprite;
 
 public class Gun extends Weapon {
-	private Timer fire = new Timer(0.15);
-	Collider coll;
-	private float recoil = 0.4f;// High
-	private float thrust = 0;//
-	private float damage = 1f;
+	public float recoil = 0.4f;// High
+	public float thrust = 0;//
 	public double cannonLength = 1.0;
-	private int bulletType = 0;
+	public int bulletType = 0;
 	public double bulletSpeed = 1.0;
 
-	private double waitCharge;// Temps depuis lequel la gachette est enclenchee
+	public double waitCharge;// Temps depuis lequel la gachette est enclenchee
 	private boolean charge;// La gachette est enclenchee
 	private double tpsCharge;// Temps a attendre pour charger
 
@@ -34,15 +31,13 @@ public class Gun extends Weapon {
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
 
-	public Gun(Vec2f position, String itemSprite, String bangSound, String pickupSound, String chargeSound,
+	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound,
 			String noAmmoSound, double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength,
 			double recoil, double thrust, double tpsCharge, double size) {
-		super(position, itemSprite, size);
-		fire = new Timer(fireRate);
-		fire.attachToParent(this, "attack timer");
+		super(position, itemSprite , damage);
+		
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
-		this.damage = damage;
 		this.cannonLength = cannonLength;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
@@ -54,10 +49,6 @@ public class Gun extends Weapon {
 		bang.setVolume(0.25f);
 		bang.attachToParent(this, "snd_Bang");
 
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/" + pickupSound + ".ogg", 2, 0.95f, 1.05f);
-		pickup.setVolume(0.30f);
-		pickup.attachToParent(this, "snd_Pickup");
-
 		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", -1, 1, 1);
 		charge.setVolume(0.35f);
 		sndCharge = charge;
@@ -68,16 +59,14 @@ public class Gun extends Weapon {
 
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
+		
 	}
 
 	public Gun(Vec2f position) {
 		super(position, "data/weapons/Assaut_1.png", 1);
-		fire = new Timer(0.10);
-		fire.attachToParent(this, "attack timer");
 
 		thrust = 500;
 		recoil = 0.5f;
-		damage = 25f;
 		bulletSpeed = 4000;
 		cannonLength = 40.0;
 
@@ -221,8 +210,8 @@ public class Gun extends Weapon {
 				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
 		}
 
-		if (charge && waitCharge >= tpsCharge && fire.isOver()) {
-			fire.restart();
+		if (charge && waitCharge >= tpsCharge && attackSpeed.isOver()) {
+			attackSpeed.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
 

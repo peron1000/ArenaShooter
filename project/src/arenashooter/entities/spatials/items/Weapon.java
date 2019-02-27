@@ -9,12 +9,14 @@ public abstract class Weapon extends Item {
 
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
-	private float damage = 0f;
-	private Timer attackSpeed = new Timer(0.5);
+	protected float damage = 0f;
+	protected Timer attackSpeed = new Timer(0.05);
 	
 
-	public Weapon(Vec2f position, String itemSprite, double damage) {
+	public Weapon(Vec2f position, String itemSprite, float damage) {
 		super(position, itemSprite);
+		this.damage = damage;
+		attackSpeed.attachToParent(this, attackSpeed.genName());
 	}
 
 	public abstract void attackStart();
