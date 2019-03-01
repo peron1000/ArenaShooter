@@ -12,7 +12,7 @@ import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
 
-public class Gun extends Weapon {
+public class Gun extends Melee {
 	public float recoil = 0.4f;// High
 	public float thrust = 0;//
 	public double cannonLength = 1.0;
@@ -23,10 +23,12 @@ public class Gun extends Weapon {
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
 
+	private int nbAmmo = 15;
+
 	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound, String noAmmoSound,
 			double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
 			double thrust, double tpsCharge, double size) {
-		super(position, itemSprite, damage);
+		super(position, itemSprite, damage, fireRate,"GunCock1" );
 
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
@@ -54,7 +56,7 @@ public class Gun extends Weapon {
 	}
 
 	public Gun(Vec2f position) {
-		super(position, "data/weapons/Assaut_1.png", 1);
+		super(position, "data/weapons/Assaut_1.png", 1, 0.15 , "data/sound/GunCock1.ogg");
 
 		thrust = 500;
 		recoil = 0.5f;
@@ -159,8 +161,13 @@ public class Gun extends Weapon {
 
 	@Override
 	public void attackStart() {
-		timerAttack.setIncreasing(true);
-		timerAttack.setProcessing(true);
+		if (nbAmmo > 0) {
+			timerAttack.setIncreasing(true);
+			timerAttack.setProcessing(true);
+		} else {
+			timerAttack.setValue(0.05);
+			super.attackStart();
+		}
 	}
 
 	@Override
@@ -168,6 +175,9 @@ public class Gun extends Weapon {
 		timerAttack.setIncreasing(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see arenashooter.entities.spatials.items.Weapon#step(double)
+	 */
 	@Override
 	public void step(double d) {
 
@@ -204,61 +214,65 @@ public class Gun extends Weapon {
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			Particles flash;
+			
+			if (nbAmmo > 0) {
+				nbAmmo--;
+				
+				switch (bulletType) {
+				case 0:
+					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
+					bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+					if (isEquipped())
+						bul.shooter = ((Character) parent);
+					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+					flash.attachToParent(children.get("particle_container"), "particles_flash");
+					break;
 
-			switch (bulletType) {
-			case 0:
-				Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-				bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
-				if (isEquipped())
-					bul.shooter = ((Character) parent);
-				flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-				flash.attachToParent(children.get("particle_container"), "particles_flash");
-				break;
+				case 1:
+					flash = new Particles(bulletPos, "data/particles/flash_02.xml");
+					flash.attachToParent(children.get("particle_container"), "particles_flash");
 
-			case 1:
-				flash = new Particles(bulletPos, "data/particles/flash_02.xml");
-				flash.attachToParent(children.get("particle_container"), "particles_flash");
+					CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
+					CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
 
-				CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
-				CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
+					if (isEquipped()) {
+						bull.shooter = ((Character) parent);
+						bull2.shooter = ((Character) parent);
+					}
+					bull.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull.genName()));
+					bull2.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull2.genName()));
+					break;
 
-				if (isEquipped()) {
-					bull.shooter = ((Character) parent);
-					bull2.shooter = ((Character) parent);
+				default:
+
+					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
+					bul1.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul1.genName()));
+					if (isEquipped())
+						bul1.shooter = ((Character) parent);
+					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+					flash.attachToParent(children.get("particle_container"), "particles_flash");
+
+					break;
 				}
-				bull.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull.genName()));
-				bull2.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull2.genName()));
-				break;
+				if (isEquipped()) {
+					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
+					((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+				} else {
+					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
+				}
 
-			default:
+				((SoundEffect) children.get("snd_Bang")).play();
 
-				Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
-				bul1.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul1.genName()));
-				if (isEquipped())
-					bul1.shooter = ((Character) parent);
-				flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-				flash.attachToParent(children.get("particle_container"), "particles_flash");
+				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
+				shell.selfDestruct = true;
+				shell.attachToParent(this, shell.genName());
 
-				break;
+				rotation += ((Math.random()) - 0.5) * recoil;
+
+				// Add camera shake
+				Window.camera.setCameraShake(2.8f);
 			}
 
-			if (isEquipped()) {
-				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
-				((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
-			} else {
-				getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
-			}
-
-			((SoundEffect) children.get("snd_Bang")).play();
-
-			Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
-			shell.selfDestruct = true;
-			shell.attachToParent(this, shell.genName());
-
-			rotation += ((Math.random()) - 0.5) * recoil;
-
-			// Add camera shake
-			Window.camera.setCameraShake(2.8f);
 		}
 
 		getSprite().rotation = rotation;

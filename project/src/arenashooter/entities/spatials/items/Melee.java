@@ -14,7 +14,7 @@ import arenashooter.game.GameMaster;
 public class Melee extends Weapon {
 	private Timer fireRate = new Timer(0.15);
 	Collider collider;
-	private float damage = 10f;
+	protected float damage = 10f;
 	private boolean val = false;
 
 	public Melee(Vec2f position, String itemSprite, float damage, double fireRate, String soundpickup) {
@@ -26,6 +26,7 @@ public class Melee extends Weapon {
 
 	@Override
 	public void attackStart() {
+		
 	}
 
 	@Override

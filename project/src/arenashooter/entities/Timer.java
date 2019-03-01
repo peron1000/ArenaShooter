@@ -6,7 +6,7 @@ package arenashooter.entities;
  */
 public class Timer extends Entity {
 
-	private final double max;
+	private double max;
 	private double current = 0;
 	private boolean over = false;
 	private boolean inProcess = true;
@@ -53,6 +53,10 @@ public class Timer extends Entity {
 
 	public void setIncreasing(boolean increasing) {
 		this.increasing = increasing;
+	}
+	
+	public void setValue(double newValue) {
+		this.max = newValue;
 	}
 
 	@Override
