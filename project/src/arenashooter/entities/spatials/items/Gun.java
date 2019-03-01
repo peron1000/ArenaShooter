@@ -18,29 +18,21 @@ public class Gun extends Weapon {
 	public double cannonLength = 1.0;
 	public int bulletType = 0;
 	public double bulletSpeed = 1.0;
-
 	public double waitCharge;// Temps depuis lequel la gachette est enclenchee
-	private boolean charge;// La gachette est enclenchee
-	private double tpsCharge;// Temps a attendre pour charger
-
-	private double chargeInertia;// TODO : Temps pour que l'arme commence a se decharger
 
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
 
-	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound,
-			String noAmmoSound, double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength,
-			double recoil, double thrust, double tpsCharge, double size) {
-		super(position, itemSprite , damage);
-		
+	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound, String noAmmoSound,
+			double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
+			double thrust, double tpsCharge, double size) {
+		super(position, itemSprite, damage);
+
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
 		this.cannonLength = cannonLength;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
-
-		this.tpsCharge = tpsCharge;
-		// chargeInertia = 0;
 
 		SoundEffect bang = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
 		bang.setVolume(0.25f);
@@ -56,7 +48,9 @@ public class Gun extends Weapon {
 
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
-		
+
+		timerAttack.setProcessing(false);
+
 	}
 
 	public Gun(Vec2f position) {
@@ -66,9 +60,6 @@ public class Gun extends Weapon {
 		recoil = 0.5f;
 		bulletSpeed = 4000;
 		cannonLength = 40.0;
-
-		tpsCharge = 0;
-		chargeInertia = 0;
 
 		SoundEffect bang = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2, 0.9f, 1.1f);
 		bang.setVolume(0.35f);
@@ -168,18 +159,19 @@ public class Gun extends Weapon {
 
 	@Override
 	public void attackStart() {
-		charge = true;
-		if (sndCharge != null)
-			sndCharge.play();
+		timerAttack.setIncreasing(true);
+		timerAttack.setProcessing(true);
 	}
 
 	@Override
 	public void attackStop() {
-		charge = false;
+		timerAttack.setIncreasing(false);
 	}
 
 	@Override
 	public void step(double d) {
+
+		boolean charge = timerAttack.isOver();
 
 		if (isEquipped()) {
 			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
@@ -188,11 +180,6 @@ public class Gun extends Weapon {
 			localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
 			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
 		}
-
-		if (charge)
-			waitCharge = Math.min(waitCharge + d, tpsCharge);
-		else
-			waitCharge = Math.max(waitCharge - d, 0);
 
 		if (sndCharge != null) {
 			if (charge) {
@@ -207,8 +194,8 @@ public class Gun extends Weapon {
 				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
 		}
 
-		if (charge && waitCharge >= tpsCharge && attackSpeed.isOver()) {
-			attackSpeed.restart();
+		if (charge) {
+			timerAttack.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
 
@@ -275,12 +262,12 @@ public class Gun extends Weapon {
 		}
 
 		getSprite().rotation = rotation;
-		
+
 		super.step(d);
 	}
-	
+
 	@Override
 	protected void setLocalPositionOfSprite() {
-		localPosition = Vec2f.rotate(new Vec2f(20,0), rotation);
+		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
 	}
 }

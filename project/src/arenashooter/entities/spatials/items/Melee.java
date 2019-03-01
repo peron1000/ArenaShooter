@@ -26,12 +26,10 @@ public class Melee extends Weapon {
 
 	@Override
 	public void attackStart() {
-
 	}
 
 	@Override
 	public void attackStop() {
-
 	}
 
 	@Override
