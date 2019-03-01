@@ -35,6 +35,11 @@ public class MapChooser extends GameState {
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");
 
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(100, 500, 10), new Vec3f(450), text2);
+		textEnt2.attachToParent(map, "Text_Mapname");
+
+		
 	}
 
 	@Override
