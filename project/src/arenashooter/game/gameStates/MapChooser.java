@@ -63,7 +63,7 @@ public class MapChooser extends GameState {
 		
 		Shader shader = Shader.loadShader("data/shaders/sprite_simple");
 		for(int i=0; i<maps.size(); i++) {
-			double angle = i*(2*Math.PI)/maps.size();
+			double angle = i*Utils.PI2/maps.size();
 			Vec3f position = new Vec3f(ringRadius*Math.cos(angle), 0, ringRadius*Math.sin(angle)-ringRadius);
 			Mesh m = Mesh.quad(position, Quat.fromAngle(0), new Vec3f(1), shader, Texture.loadTexture("data/MAP_VIS/"+maps.get(i)+".png"));
 			m.attachToParent(getMap(), "Map_Thumbnail_"+maps.get(i));
@@ -97,12 +97,12 @@ public class MapChooser extends GameState {
 			GameMaster.gm.requestNextState();
 		}
 		
-		ringAngle = Utils.lerpAngle(ringAngle, Math.PI/2+(init*(2*Math.PI)/maps.size()), Math.min(1, 8d*delta));
+		ringAngle = Utils.lerpAngle(ringAngle, Math.PI/2+(init*Utils.PI2/maps.size()), Math.min(1, 8d*delta));
 		
 		for(int i=0; i<maps.size(); i++) {
 			Entity thumbnail = getMap().children.get("Map_Thumbnail_"+maps.get(i));
 			if(thumbnail instanceof Mesh) {
-				double angle = ringAngle-(i*(2*Math.PI)/maps.size());
+				double angle = ringAngle-(i*Utils.PI2/maps.size());
 				((Mesh)thumbnail).position = new Vec3f(ringRadius*Math.cos(angle), 0, ringRadius*Math.sin(angle)-ringRadius);
 				
 				if(i == init)

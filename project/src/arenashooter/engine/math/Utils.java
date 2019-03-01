@@ -4,7 +4,8 @@ public final class Utils {
 	//This class cannot be instantiated
 	private Utils() {}
 	
-	public static final double PI2 = 2*Math.PI;
+	/** 2*PI */
+	public static final double PI2 = 2d*Math.PI;
 	
 	/**
 	 * Clamps an int in a range
@@ -80,15 +81,18 @@ public final class Utils {
 	 * @param f
 	 * @return
 	 */
-	public static double lerpAngle( double a, double b, double f ) { //TODO: Test
-		if( Math.abs(a-b) >= Math.PI ) {
-			if(a>b)
-				a = normalizeAngle(a) - PI2;
-			else
-				b = normalizeAngle(b) - PI2;
-		}
-		
-		return lerpD(a, b, f);
+	public static double lerpAngle( double a, double b, double f ) { //TODO: Test when a and b are PI/2 radians apart!!!
+//		if( Math.abs(a-b) >= Math.PI ) {
+//			if(a>b)
+//				a = normalizeAngle(a) - PI2;
+//			else
+//				b = normalizeAngle(b) - PI2;
+//		}
+//		
+//		return lerpD(a, b, f);
+		double cos = (1-f)*Math.cos(a) + f*Math.cos(b);
+		double sin = (1-f)*Math.sin(a) + f*Math.sin(b);
+		return Math.atan2(sin, cos);
 	}
 	
 	
