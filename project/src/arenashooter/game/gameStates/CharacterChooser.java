@@ -94,7 +94,7 @@ public class CharacterChooser extends GameState {
 			}
 		}
 
-		if(Input.actionPressed(Device.KEYBOARD, Action.JUMP)) {
+		if(Input.actionPressed(Device.KEYBOARD, Action.UI_OK)) {
 			GameMaster.gm.requestNextState();
 		}
 		

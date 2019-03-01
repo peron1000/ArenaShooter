@@ -11,6 +11,7 @@ import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.MapChooser;
+import arenashooter.game.gameStates.MapChooser2;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
@@ -34,7 +35,8 @@ public class GameMaster {
 			for (Controller controller : c.getControllers())
 				controllers.add(controller);
 			
-			Loading.loading.setNextState(new Game(),"data/mapXML/mapXML.xml");// TODO : create the map
+			//Loading.loading.setNextState(new Game(),"data/mapXML/mapXML.xml");// TODO : create the map
+			Loading.loading.setNextState(new MapChooser(), "data/mapXML/empty.xml");
 			current = Loading.loading;
 			current.init();
 		} else if (current instanceof MapChooser) { //Map chooser

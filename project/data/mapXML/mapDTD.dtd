@@ -2,7 +2,7 @@
 <!ELEMENT map (information , entities , items?)>
 
 <!-- Map info -->
-<!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
+<!ELEMENT information (name, spawn+ , gravity , cameraBound , sky)>
 <!ELEMENT spawn (vecteur)>
 <!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
@@ -10,6 +10,7 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
+<!ATTLIST name name CDATA #IMPLIED>
 <!ELEMENT entities (entity|plateform|mesh|text)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
