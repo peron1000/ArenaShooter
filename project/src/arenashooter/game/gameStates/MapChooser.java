@@ -39,7 +39,10 @@ public class MapChooser extends GameState {
 		File[] folderContent = mapFolder.listFiles();
 		for(int i=0; i<folderContent.length; i++) {
 			String name = folderContent[i].getPath();
-			name = name.substring(name.lastIndexOf('/')+1);
+			int index = name.lastIndexOf('/');
+			if(index < 0)
+				index = name.lastIndexOf('\\'); //Special case for Windows
+			name = name.substring(index+1);
 			if( !name.endsWith(".dtd") ) {
 				name = name.substring(0, name.lastIndexOf('.'));
 				maps.add(name);
