@@ -4,15 +4,18 @@ import java.io.File;
 import java.util.ArrayList;
 
 import arenashooter.engine.graphics.PostProcess;
+import arenashooter.engine.graphics.Shader;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
-import arenashooter.entities.spatials.Sprite;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
@@ -24,6 +27,9 @@ public class MapChooser extends GameState {
 	private ArrayList<String> maps = new ArrayList<>();
 	private int init = 0;
 //	private int max = cho.length;
+	
+	private double ringAngle = 0;
+	private final double ringRadius = 2500;
 
 	public String getMapChoosen() {
 //		System.out.println(mapChosen);
@@ -55,12 +61,13 @@ public class MapChooser extends GameState {
 
 		selectMap(0);
 		
+		Shader shader = Shader.loadShader("data/shaders/sprite_simple");
 		for(int i=0; i<maps.size(); i++) {
-			Sprite sp = new Sprite(new Vec2f(500*i, 0), "data/MAP_VIS/"+maps.get(i)+".png");
-			sp.size = new Vec2f(300, 300);
-			sp.attachToParent(getMap(), "Map_Thumbnail_"+maps.get(i));
+			double angle = i*(2*Math.PI)/maps.size();
+			Vec3f position = new Vec3f(ringRadius*Math.cos(angle), 0, ringRadius*Math.sin(angle)-ringRadius);
+			Mesh m = Mesh.quad(position, Quat.fromAngle(0), new Vec3f(1), shader, Texture.loadTexture("data/MAP_VIS/"+maps.get(i)+".png"));
+			m.attachToParent(getMap(), "Map_Thumbnail_"+maps.get(i));
 		}
-
 		
 	}
 
@@ -90,14 +97,18 @@ public class MapChooser extends GameState {
 			GameMaster.gm.requestNextState();
 		}
 		
+		ringAngle = Utils.lerpAngle(ringAngle, Math.PI/2+(init*(2*Math.PI)/maps.size()), Math.min(1, 8d*delta));
+		
 		for(int i=0; i<maps.size(); i++) {
 			Entity thumbnail = getMap().children.get("Map_Thumbnail_"+maps.get(i));
-			if(thumbnail instanceof Sprite) {
-				((Sprite)thumbnail).position.set( Vec2f.lerp(((Sprite)thumbnail).position, new Vec2f((i-init)*500, 0), Math.min(1, 10d*delta)) );
+			if(thumbnail instanceof Mesh) {
+				double angle = ringAngle-(i*(2*Math.PI)/maps.size());
+				((Mesh)thumbnail).position = new Vec3f(ringRadius*Math.cos(angle), 0, ringRadius*Math.sin(angle)-ringRadius);
+				
 				if(i == init)
-					((Sprite)thumbnail).size.set( Vec2f.lerp(((Sprite)thumbnail).size, new Vec2f(700, 700), Math.min(1, 8d*delta)) );
+					((Mesh)thumbnail).scale.set( Vec3f.lerp(((Mesh)thumbnail).scale, new Vec3f(700), Math.min(1, 8d*delta)) );
 				else
-					((Sprite)thumbnail).size.set( Vec2f.lerp(((Sprite)thumbnail).size, new Vec2f(300, 300), Math.min(1, 12d*delta)) );
+					((Mesh)thumbnail).scale.set( Vec3f.lerp(((Mesh)thumbnail).scale, new Vec3f(300), Math.min(1, 12d*delta)) );
 			}
 		}
 
