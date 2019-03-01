@@ -1,5 +1,8 @@
 package arenashooter.game.gameStates;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
@@ -17,9 +20,10 @@ import arenashooter.game.Main;
 public class MapChooser extends GameState {
 
 	private String mapChosen = "mapXML";
-	private String[] cho = { "AAHH", "720TREE", "bat", "BUG", "empty", "mapclosecombat", "mapCloseSn","mapPOP","mapPop2","mapt1","MARZI","TENDEM","mapXML" };
+//	private String[] cho = { "AAHH", "720TREE", "bat", "BUG", "empty", "mapclosecombat", "mapCloseSn","mapPOP","mapPop2","mapt1","MARZI","TENDEM","mapXML" };
+	private ArrayList<String> maps = new ArrayList<>();
 	private int init = 0;
-	private int max = cho.length;
+//	private int max = cho.length;
 
 	public String getMapChoosen() {
 		System.out.println(mapChosen);
@@ -30,12 +34,24 @@ public class MapChooser extends GameState {
 	@Override
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		
+		File mapFolder = new File("data/mapXML");
+		File[] folderContent = mapFolder.listFiles();
+		for(int i=0; i<folderContent.length; i++) {
+			String name = folderContent[i].getPath();
+			name = name.substring(name.lastIndexOf('/')+1);
+			if( !name.endsWith(".dtd") ) {
+				name = name.substring(0, name.lastIndexOf('.'));
+				maps.add(name);
+			}
+		}
 
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your map");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");
 
-		selectMap(cho[init]);
+//		selectMap(cho[init]);
+		selectMap(maps.get(0));
 
 		
 	}
@@ -44,23 +60,27 @@ public class MapChooser extends GameState {
 	public void update(double delta) {
 		// Temp sprite changing
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
-			if (init < max - 1) {
+//			if (init < max - 1) {
+			if(init < maps.size()-1) {
 				init++;
 			}
 			else{
 				init=0;
 			}
 
-			selectMap(cho[init]);
+//			selectMap(cho[init]);
+			selectMap(maps.get(init));
 			//sp.draw();//
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
 			if (init > 0) {
 				init--;
 			}
 			else {
-				init=max-1;
+//				init=max-1;
+				init = maps.size()-1;
 			}
-			selectMap(cho[init]);
+//			selectMap(cho[init]);
+			selectMap(maps.get(init));
 		}
 
 		if (Input.actionPressed(Device.KEYBOARD, Action.UI_OK)) {
