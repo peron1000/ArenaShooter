@@ -11,12 +11,10 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
-import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Melee;
-import arenashooter.game.GameMaster;
 
 public class Map extends Entity {
 	/** Spawn points */
@@ -134,7 +132,7 @@ public class Map extends Entity {
 	 */
 	private void testPhysics() {
 		// Rigid body 1
-		Vec2f position = new Vec2f(-450, -500);
+		Vec2f position = new Vec2f(-500, -500);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
@@ -143,7 +141,7 @@ public class Map extends Entity {
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 2
-		position = new Vec2f(-400, -675);
+		position = new Vec2f(-700, -500);
 		body = new RigidBody(new Disk(50), position, 0, 100);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");

@@ -18,7 +18,7 @@ public class RigidBody extends Body {
 	public double angularVel = 0;
 	private double momentOfInertia = 0;
 	
-	private static final double maxVel = 20000, maxAngularVel = 8*Math.PI;
+	private static final double maxVel = 20000, maxAngularVel = 4*Math.PI;
 	
 	public RigidBody(Shape shape, Vec2f position, double rotation, double mass) {
 		super(shape, position, rotation);

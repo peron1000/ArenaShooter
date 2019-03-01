@@ -16,6 +16,8 @@ public class Physic {
 	private ArrayList<StaticBody> staticBodies = new ArrayList<StaticBody>();
 	private ArrayList<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 	
+	HashSet<BodiesCouple> couplesToTest = new HashSet<BodiesCouple>();
+	
 	/** Map represented by this simulation */
 	private Map map;
 	
@@ -26,7 +28,7 @@ public class Physic {
 	public void step(double d) {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
-		HashSet<BodiesCouple> couplesToTest = new HashSet<BodiesCouple>();
+		couplesToTest.clear();
 		for(RigidBody b : rigidBodies)
 			for(Body other : bodies)
 				if(b != other && mayCollide(b.shape, other.shape))
@@ -107,7 +109,7 @@ public class Physic {
 		return distSqr <= radiiSqr;
 	}
 	
-	public boolean rectVsRect(Rectangle a, Rectangle b) {
+	public boolean rectVsRect(Rectangle a, Rectangle b) { //TODO: Fix
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
 //		Vec2f projA = a.project(normal);
 		Vec2f projA = a.projectSelfX();
@@ -132,7 +134,7 @@ public class Physic {
 		return true;
 	}
 
-	public boolean diskVsRect(Disk a, Rectangle b) { //TODO: Test
+	public boolean diskVsRect(Disk a, Rectangle b) { //TODO: Fix
 		Vec2f normal = Vec2f.fromAngle(b.body.rotation);
 		Vec2f projA = a.project(normal);
 //		Vec2f projB = b.project(normal);
@@ -152,6 +154,11 @@ public class Physic {
 		private BodiesCouple(Body a, Body b) {
 			this.a = a;
 			this.b = b;
+		}
+		
+		@Override
+		public String toString() {
+			return a+" and "+b;
 		}
 	}
 }

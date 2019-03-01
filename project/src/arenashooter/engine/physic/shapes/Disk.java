@@ -30,7 +30,7 @@ public class Disk extends Shape {
 		double center = Vec2f.dot(axis, body.position);
 		return new Vec2f(center-radius, center+radius);
 	}
-	
+
 	private static final Model disk = Model.loadDisk(16);
 	private static final Shader shader = Shader.loadShader("data/shaders/debug_color");
 	@Override
