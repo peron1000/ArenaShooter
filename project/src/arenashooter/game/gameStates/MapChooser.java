@@ -26,7 +26,7 @@ public class MapChooser extends GameState {
 //	private int max = cho.length;
 
 	public String getMapChoosen() {
-		System.out.println(mapChosen);
+//		System.out.println(mapChosen);
 		return "data/mapXML/" + mapChosen + ".xml";
 	}
 
@@ -53,8 +53,13 @@ public class MapChooser extends GameState {
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");
 
-//		selectMap(cho[init]);
-		selectMap(maps.get(0));
+		selectMap(0);
+		
+		for(int i=0; i<maps.size(); i++) {
+			Sprite sp = new Sprite(new Vec2f(500*i, 0), "data/MAP_VIS/"+maps.get(i)+".png");
+			sp.size = new Vec2f(300, 300);
+			sp.attachToParent(getMap(), "Map_Thumbnail_"+maps.get(i));
+		}
 
 		
 	}
@@ -62,52 +67,45 @@ public class MapChooser extends GameState {
 	@Override
 	public void update(double delta) {
 		// Temp sprite changing
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
-//			if (init < max - 1) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
 			if(init < maps.size()-1) {
 				init++;
 			}
-			else{
+			else {
 				init=0;
 			}
 
-//			selectMap(cho[init]);
-			selectMap(maps.get(init));
-			//sp.draw();//
-		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
+			selectMap(init);
+		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)) {
 			if (init > 0) {
 				init--;
 			}
 			else {
-//				init=max-1;
 				init = maps.size()-1;
 			}
-//			selectMap(cho[init]);
-			selectMap(maps.get(init));
+			selectMap(init);
 		}
 
 		if (Input.actionPressed(Device.KEYBOARD, Action.UI_OK)) {
 			GameMaster.gm.requestNextState();
 		}
 		
-		Entity thumbnail = getMap().children.get("Map_Thumbnail");
-		if(thumbnail instanceof Sprite)
-			((Sprite)thumbnail).size.set( Vec2f.lerp(((Sprite)thumbnail).size, new Vec2f(700, 700), 8d*delta) );
+		for(int i=0; i<maps.size(); i++) {
+			Entity thumbnail = getMap().children.get("Map_Thumbnail_"+maps.get(i));
+			if(thumbnail instanceof Sprite) {
+				((Sprite)thumbnail).position.set( Vec2f.lerp(((Sprite)thumbnail).position, new Vec2f((i-init)*500, 0), Math.min(1, 10d*delta)) );
+				if(i == init)
+					((Sprite)thumbnail).size.set( Vec2f.lerp(((Sprite)thumbnail).size, new Vec2f(700, 700), Math.min(1, 8d*delta)) );
+				else
+					((Sprite)thumbnail).size.set( Vec2f.lerp(((Sprite)thumbnail).size, new Vec2f(300, 300), Math.min(1, 12d*delta)) );
+			}
+		}
 
 		map.step(delta);
 	}
 	
-	private void selectMap(String newMap) {
-		mapChosen = newMap;
-		getMapChoosen();
-		//String n = ;
-		Sprite sp = new Sprite(new Vec2f(0, 0), "data/MAP_VIS/"+mapChosen+".png");
-		sp.size = new Vec2f(500, 500);
-		
-		Entity oldSprite = getMap().children.get("Map_Thumbnail");
-		if(oldSprite != null) oldSprite.destroy();
-		
-		sp.attachToParent(getMap(), "Map_Thumbnail");
+	private void selectMap(int newMap) {
+		mapChosen = maps.get(newMap);
 		
 		//Regenerate map name
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
