@@ -18,7 +18,7 @@ public class TextSpatial extends Spatial3 {
 	private Shader shader;
 	
 	public float thickness = .25f;
-	public Vec4f color = new Vec4f(1, .5, 1, 1);
+	public Vec4f color = new Vec4f(1, 1, .5, 1);
 	
 	public Vec3f scale;
 
