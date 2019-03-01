@@ -1,7 +1,7 @@
 package arenashooter.engine.math;
 
 /**
- * Mutable 3 dimensionnal vector of floats
+ * Mutable 3 dimensional vector of floats
  */
 public class Vec3f {
 	

@@ -1,7 +1,7 @@
 package arenashooter.engine.math;
 
 /**
- * Mutable 3 dimensionnal vector of floats
+ * Mutable 4 dimensional vector of floats
  */
 public class Vec4f {
 	
