@@ -8,7 +8,7 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-
+import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
@@ -35,9 +35,7 @@ public class MapChooser extends GameState {
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");
 
-		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
-		TextSpatial textEnt2 = new TextSpatial(new Vec3f(100, 500, 10), new Vec3f(450), text2);
-		textEnt2.attachToParent(map, "Text_Mapname");
+		selectMap(cho[init]);
 
 		
 	}
@@ -52,11 +50,8 @@ public class MapChooser extends GameState {
 			else{
 				init=0;
 			}
-			mapChosen = cho[init];
-			getMapChoosen();
-			//String n = ;
-			Sprite sp = new Sprite(new Vec2f(0, 0), "data/MAP_VIS/TREE.png");
-			sp.attachToParent(getMap(), mapChosen);
+
+			selectMap(cho[init]);
 			//sp.draw();//
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
 			if (init > 0) {
@@ -65,14 +60,39 @@ public class MapChooser extends GameState {
 			else {
 				init=max-1;
 			}
-			mapChosen = cho[init];
-			getMapChoosen();
+			selectMap(cho[init]);
 		}
 
 		if (Input.actionPressed(Device.KEYBOARD, Action.UI_OK)) {
 			GameMaster.gm.requestNextState();
 		}
+		
+		Entity thumbnail = getMap().children.get("Map_Thumbnail");
+		if(thumbnail instanceof Sprite)
+			((Sprite)thumbnail).size.set( Vec2f.lerp(((Sprite)thumbnail).size, new Vec2f(700, 700), 8d*delta) );
 
 		map.step(delta);
+	}
+	
+	private void selectMap(String newMap) {
+		mapChosen = newMap;
+		getMapChoosen();
+		//String n = ;
+		Sprite sp = new Sprite(new Vec2f(0, 0), "data/MAP_VIS/"+mapChosen+".png");
+		sp.size = new Vec2f(500, 500);
+		
+		Entity oldSprite = getMap().children.get("Map_Thumbnail");
+		if(oldSprite != null) oldSprite.destroy();
+		
+		sp.attachToParent(getMap(), "Map_Thumbnail");
+		
+		//Regenerate map name
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, 450, -10), new Vec3f(450), text2);
+		
+		Entity oldText = getMap().children.get("Text_Mapname");
+		if(oldText != null) oldText.destroy();
+		
+		textEnt2.attachToParent(getMap(), "Text_Mapname");
 	}
 }
