@@ -3,7 +3,7 @@ package arenashooter.engine.physic;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
 
-public class Impact {
+public class ImpactOld {
 
 	public enum ImpactLocation {
 		Left, Right, Top, Bottom, NoImpact;
@@ -14,7 +14,7 @@ public class Impact {
 	private ImpactLocation impactLocation;
 	private Vec2f velMod;
 
-	public Impact(Collider c1, Collider c2, Vec2f vel) {
+	public ImpactOld(Collider c1, Collider c2, Vec2f vel) {
 		float x = xColliding(c1, c2, vel);
 		float y = yColliding(c1, c2, vel);
 		velMod = new Vec2f(x, y);

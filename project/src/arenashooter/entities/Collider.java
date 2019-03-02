@@ -1,7 +1,7 @@
 package arenashooter.entities;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Impact;
+import arenashooter.engine.physic.ImpactOld;
 import arenashooter.entities.spatials.Spatial;
 
 /**
@@ -26,8 +26,8 @@ public class Collider extends Spatial {
 				&& Math.abs(position.y - other.position.y) < extent.y + other.extent.y;
 	}
 
-	Impact colliding(Vec2f vel, Collider other) {
-		return new Impact(this, other, vel);
+	ImpactOld colliding(Vec2f vel, Collider other) {
+		return new ImpactOld(this, other, vel);
 	}
 
 	/**

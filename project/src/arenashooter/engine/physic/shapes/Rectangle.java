@@ -24,8 +24,8 @@ public class Rectangle extends Shape {
 	public Vec2f getAABBextent() {
 		Vec2f extentRotX = Vec2f.rotate(extent, -body.rotation);
 		Vec2f extentRotY = Vec2f.rotate(extent, body.rotation);
-		float x = 2+Math.max(Math.abs(extentRotX.x), Math.abs(extentRotY.x));
-		float y = 2+Math.max(Math.abs(extentRotX.y), Math.abs(extentRotY.y));
+		float x = 1+Math.max(Math.abs(extentRotX.x), Math.abs(extentRotY.x));
+		float y = 1+Math.max(Math.abs(extentRotX.y), Math.abs(extentRotY.y));
 		return new Vec2f( x, y );
 	}
 	

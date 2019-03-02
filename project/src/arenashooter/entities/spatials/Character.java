@@ -3,7 +3,7 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Impact;
+import arenashooter.engine.physic.ImpactOld;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
@@ -197,7 +197,7 @@ public class Character extends Spatial {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
-						Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
+						ImpactOld impact = new ImpactOld(collider, c, Vec2f.multiply(vel, (float) d));
 						vel.x = vel.x * impact.getVelMod().x;
 						vel.y = vel.y * impact.getVelMod().y;
 						if (collider.getYBottom() + (vel.y * d) >= c.getYTop()

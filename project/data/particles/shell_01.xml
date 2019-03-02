@@ -5,6 +5,6 @@
 	<basic sizeInitial="25" sizeEnd="25"></basic>
 	<texture filtered="false" src="data/particles/shell_01.png"/>
 	<vec4 x="1" w="1" z="1" y="1" use="colorStart"/>
-	<vec4 x="1" w="1" z="1" y="0" use="colorEnd"/>
+	<vec4 x="1" w="0" z="1" y="1" use="colorEnd"/>
 	</emitter>
 </particleSystem>
