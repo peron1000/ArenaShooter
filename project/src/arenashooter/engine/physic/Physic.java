@@ -109,7 +109,7 @@ public class Physic {
 		return distSqr <= radiiSqr;
 	}
 	
-	public boolean rectVsRect(Rectangle a, Rectangle b) { //TODO: Fix
+	public boolean rectVsRect(Rectangle a, Rectangle b) { //TODO: Fixed?
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
 		Vec2f projA = a.project(normal);
 //		Vec2f projA = a.projectSelfX();
