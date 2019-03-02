@@ -35,7 +35,7 @@ public class Main {
 			currentFrame = System.currentTimeMillis();
 			
 			//Limit delta to avoid errors
-			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .5);
+			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .17);
 			
 			Profiler.beginFrame();
 			
