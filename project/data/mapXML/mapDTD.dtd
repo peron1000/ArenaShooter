@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT map (information , entities , items?)>
+<!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
-<!ELEMENT information (name, spawn+ , gravity , cameraBound , sky)>
+<!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
 <!ELEMENT spawn (vecteur)>
 <!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
@@ -10,7 +11,6 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ATTLIST name name CDATA #IMPLIED>
 <!ELEMENT entities (entity|plateform|mesh|text)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
@@ -53,7 +53,7 @@
 				 type CDATA #REQUIRED
 				 proba CDATA #REQUIRED
 				 size CDATA #REQUIRED>
-<!ELEMENT melee (vecteur, enttities?)>
+<!ELEMENT melee (vecteur, entities?)>
 <!ATTLIST melee name CDATA #IMPLIED
 				damage CDATA #IMPLIED
 				bangSound CDATA #IMPLIED

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
+<map name="A">
   <information>
-  <name name="A"></name>
     <spawn>
       <vecteur x="1945.0" y="1140.0"/>
     </spawn>
