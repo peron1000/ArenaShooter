@@ -1,4 +1,4 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import java.util.ArrayList;
 
@@ -8,8 +8,6 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.Spatial3;
 
 public class Camera extends Spatial3 {
 	/** View matrix (updated at every step) */
@@ -37,7 +35,7 @@ public class Camera extends Spatial3 {
 		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 7*d ));
 		time += d;
 		
-		if(interpolate) {
+		if(interpolate) { //TODO: Change this to work with attachment
 			position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 15*d) );
 			position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 15*d) );
 			position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 20*d) );

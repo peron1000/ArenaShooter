@@ -8,8 +8,8 @@ import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Camera;
 import arenashooter.entities.Controller;
+import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.gameStates.GameState;
 

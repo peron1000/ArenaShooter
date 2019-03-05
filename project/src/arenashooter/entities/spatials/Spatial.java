@@ -24,7 +24,6 @@ public class Spatial extends Entity {
 		localPosition = new Vec2f();
 	}
 
-	
 	/**
 	 * Get this entity's world position
 	 * @return position+localPosition
