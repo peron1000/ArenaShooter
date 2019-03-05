@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: lighter;
 }
 
 /*
@@ -174,20 +175,16 @@ div.desc {
 
 h3 {
   font-size: 2.5em;
+  font-weight: lighter;
   color: white;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 h4 {
-  font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-  font-size: 28px;
-  color: red;
-}
-
-#trailer {
-  font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-  font-size:20px;
+  font-size: 1.5em;
+  font-weight: lighter;
+  color: white;
 }
 
 ul.features{
