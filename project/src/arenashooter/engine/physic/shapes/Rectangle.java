@@ -21,11 +21,12 @@ public class Rectangle extends Shape {
 	}
 	
 	@Override
-	public Vec2f getAABBextent() { //TODO: Fix this
+	public Vec2f getAABBextent() {
 		Vec2f extentRotX = Vec2f.rotate(extent, -body.rotation);
 		Vec2f extentRotY = Vec2f.rotate(extent, body.rotation);
-		return new Vec2f( extentRotX.x, extentRotY.y );
-//		return Vec2f.rotate(extent, body.rotation);
+		float x = 1+Math.max(Math.abs(extentRotX.x), Math.abs(extentRotY.x));
+		float y = 1+Math.max(Math.abs(extentRotX.y), Math.abs(extentRotY.y));
+		return new Vec2f( x, y );
 	}
 	
 	public Vec2f projectSelfX() {
@@ -77,6 +78,14 @@ public class Rectangle extends Shape {
 		quad.bindToShader(shader);
 
 		quad.bind();
+		quad.draw(true);
+		
+		//AABB
+		modelM = Mat4f.transform(body.position, 0, Vec2f.multiply( getAABBextent(), 2 ));
+		shader.setUniformM4("model", modelM);
+		
+		shader.setUniformV4("color", new float[]{0,.6f,0,1});
+		
 		quad.draw(true);
 	}
 }

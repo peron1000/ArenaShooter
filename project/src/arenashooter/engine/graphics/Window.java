@@ -33,7 +33,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Camera;
+import arenashooter.entities.spatials.Camera;
 
 /**
  * Game window

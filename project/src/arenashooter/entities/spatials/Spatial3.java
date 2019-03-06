@@ -9,6 +9,9 @@ import arenashooter.entities.Entity;
 public class Spatial3 extends Entity {
 	/** World space position */
 	public Vec3f position;
+	/** Local space position */
+	public Vec3f localPosition = new Vec3f();
+	
 	/** World space rotation */
 	public Quat rotation = Quat.fromAngle(0);
 	
@@ -19,7 +22,15 @@ public class Spatial3 extends Entity {
 	@Override
 	public int getZIndex() {
 		//TODO: adding position.z should help with transparency sorting, needs testing
-		return ((int)position.z)+zIndex;
+		return ((int)pos().z)+zIndex;
+	}
+	
+	/**
+	 * Get this entity's world position
+	 * @return position+localPosition
+	 */
+	public Vec3f pos() {
+		return Vec3f.add(position, localPosition);
 	}
 	
 	/**
@@ -32,7 +43,7 @@ public class Spatial3 extends Entity {
 			toUpdate.addAll(children.values());
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial3)
-					((Spatial3) e).position.set(position);
+					((Spatial3) e).position.set(pos());
 				e.step(d);
 			}
 		}

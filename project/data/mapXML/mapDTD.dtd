@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT map (information , entities , items?)>
+<!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
@@ -29,7 +30,7 @@
 <!ELEMENT fichier (#PCDATA)>
 
 <!-- Items allowed -->
-<!ELEMENT items (equipement | weapon)*>
+<!ELEMENT items (equipement | weapon | melee)*>
 <!ELEMENT equipement EMPTY>
 <!ELEMENT weapon (vecteur , entities?)>
 <!ATTLIST weapon name CDATA #IMPLIED
@@ -52,4 +53,15 @@
 				 type CDATA #REQUIRED
 				 proba CDATA #REQUIRED
 				 size CDATA #REQUIRED>
+<!ELEMENT melee (vecteur, entities?)>
+<!ATTLIST melee name CDATA #IMPLIED
+				damage CDATA #IMPLIED
+				bangSound CDATA #IMPLIED
+				spritePath CDATA #IMPLIED
+				fireRate CDATA #IMPLIED
+				type CDATA #REQUIRED
+				 proba CDATA #REQUIRED
+				 size CDATA #REQUIRED
+				>
+				
 

@@ -1,7 +1,7 @@
 package arenashooter.entities;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Impact;
+import arenashooter.engine.physic.ImpactOld;
 import arenashooter.entities.spatials.Spatial;
 
 /**
@@ -13,7 +13,6 @@ public class Collider extends Spatial {
 
 	public Collider(Vec2f position, Vec2f extent) {
 		super(position);
-//		this.position = position;
 		this.extent = extent;
 	}
 
@@ -22,40 +21,40 @@ public class Collider extends Spatial {
 	 * @return <i>true</i> if <code>this</code> and <code>other</code> are colliding
 	 */
 	public boolean isColliding(Collider other) {
-		return Math.abs(position.x - other.position.x) < extent.x + other.extent.x
-				&& Math.abs(position.y - other.position.y) < extent.y + other.extent.y;
+		return Math.abs(pos().x - other.pos().x) < extent.x + other.extent.x
+				&& Math.abs(pos().y - other.pos().y) < extent.y + other.extent.y;
 	}
 
-	Impact colliding(Vec2f vel, Collider other) {
-		return new Impact(this, other, vel);
+	private ImpactOld colliding(Vec2f vel, Collider other) {
+		return new ImpactOld(this, other, vel);
 	}
 
 	/**
 	 * @return The point on top and left corner
 	 */
-	public Vec2f getTopLeftVec() {
-		return new Vec2f(position.x - extent.x, position.y - extent.y);
+	private Vec2f getTopLeftVec() {
+		return new Vec2f(pos().x - extent.x, pos().y - extent.y);
 	}
 
 	/**
 	 * @return The point on top and right corner
 	 */
-	public Vec2f getTopRightVec() {
-		return new Vec2f(position.x + extent.x, position.y - extent.y);
+	private Vec2f getTopRightVec() {
+		return new Vec2f(pos().x + extent.x, pos().y - extent.y);
 	}
 
 	/**
 	 * @return The point on bottom and left corner
 	 */
-	public Vec2f getBottomLeftVec() {
-		return new Vec2f(position.x - extent.x, position.y + extent.y);
+	private Vec2f getBottomLeftVec() {
+		return new Vec2f(pos().x - extent.x, pos().y + extent.y);
 	}
 
 	/**
 	 * @return The point on bottom and right corner
 	 */
-	public Vec2f getBottomRightVec() {
-		return new Vec2f(position.x + extent.x, position.y + extent.y);
+	private Vec2f getBottomRightVec() {
+		return new Vec2f(pos().x + extent.x, pos().y + extent.y);
 	}
 
 	/**
@@ -63,7 +62,7 @@ public class Collider extends Spatial {
 	 *         on X axe
 	 */
 	public float getXLeft() {
-		return position.x - extent.x;
+		return pos().x - extent.x;
 	}
 
 	/**
@@ -71,7 +70,7 @@ public class Collider extends Spatial {
 	 *         on X axe
 	 */
 	public float getXRight() {
-		return position.x + extent.x;
+		return pos().x + extent.x;
 	}
 
 	/**
@@ -79,7 +78,7 @@ public class Collider extends Spatial {
 	 *         Y axe
 	 */
 	public float getYTop() {
-		return position.y - extent.y;
+		return pos().y - extent.y;
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class Collider extends Spatial {
 	 *         on Y axe
 	 */
 	public float getYBottom() {
-		return position.y + extent.y;
+		return pos().y + extent.y;
 	}
 
 	/**

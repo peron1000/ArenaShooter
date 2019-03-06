@@ -11,11 +11,10 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
-import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
-import arenashooter.game.GameMaster;
+import arenashooter.entities.spatials.items.Melee;
 
 public class Map extends Entity {
 	/** Spawn points */
@@ -46,27 +45,40 @@ public class Map extends Entity {
 	public void step(double d) {
 		super.step(d);
 		if (spawnWeapon.isOver()) {
-			spawnWeapon.restart();
-			spawnWeapons();
+			try {
+				spawnWeapon.restart();
+				spawnWeapons();
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+				spawnWeapon.breakTimer();
+			}
 		}
 		physic.step(d);
 	}
 
-	private void spawnWeapons() {
+	private void spawnWeapons() throws Exception {
 		ItemConcept ic = itemCollection.get();
 		switch (ic.getType()) {
 		case "Gun":
 			Vec2f position = newPositionWeapons();
-			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.pickupSound, ic.chargeSound,
-					ic.noAmmoSound, ic.fireRate, ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil,
-					ic.thrust, ic.tpsCharge, ic.getSize());
+			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.chargeSound, ic.noAmmoSound, ic.fireRate,
+					ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil, ic.thrust, ic.tpsCharge,
+					ic.getSize());
 			if (ic.name == null) {
 				gun.attachToParent(this, gun.genName());
 			} else {
 				gun.attachToParent(this, ic.name);
 			}
 			break;
-
+		case "Melee":
+			position = newPositionWeapons();
+			Melee melee = new Melee(position, ic.spritePath, ic.damage, ic.fireRate, ic.pickupSound);
+			if (ic.name == null) {
+				melee.attachToParent(this, melee.genName());
+			} else {
+				melee.attachToParent(this, ic.name);
+			}
+			break;
 		default:
 			break;
 		}
@@ -120,7 +132,7 @@ public class Map extends Entity {
 	 */
 	private void testPhysics() {
 		// Rigid body 1
-		Vec2f position = new Vec2f(-450, -500);
+		Vec2f position = new Vec2f(-500, -500);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
@@ -129,7 +141,7 @@ public class Map extends Entity {
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 2
-		position = new Vec2f(-400, -675);
+		position = new Vec2f(-700, -500);
 		body = new RigidBody(new Disk(50), position, 0, 100);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");

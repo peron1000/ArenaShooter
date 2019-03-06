@@ -10,7 +10,7 @@ public class Projectile extends Spatial {
 	boolean disp = false;
 	Vec2f vel = new Vec2f();
 	Collider collider;
-	float damage;// Un projectile n'a pas forc�ment de damage.
+	float damage; //Un projectile n'a pas forcément de damage.
 
 	public Projectile() {
 		super();

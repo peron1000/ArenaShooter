@@ -101,6 +101,7 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all entities are already loaded
 	 */
 	public boolean loadNextEntity() {
+		long time = System.currentTimeMillis();
 		if (iteratorEntite < entitiesNodeList.getLength()
 				&& entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
 			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
@@ -123,7 +124,10 @@ public class MapXmlReader extends XmlReader {
 			default:
 				break;
 			}
-
+			time = System.currentTimeMillis() - time;
+			if(time > 60) {
+				System.out.println("Time to load "+entity.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
+			}
 			if (newEntity != null)
 				entities.add(newEntity);
 			else
@@ -139,6 +143,7 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all items are already loaded
 	 */
 	public boolean loadNextItem() {
+		long time = System.currentTimeMillis();
 		if (itemNodeList == null)
 			return true;
 		if (iteratorItems < itemNodeList.getLength()
@@ -152,9 +157,16 @@ public class MapXmlReader extends XmlReader {
 				ic = loadWeapon(element);
 				break;
 			case "equipement":
-
+				break;
+			case "melee":
+				ic = loadMelee(element);
+				break;
 			default:
 				break;
+			}
+			time = System.currentTimeMillis() - time;
+			if(time > 60) {
+				System.out.println("Time to load "+element.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
 			}
 			if (ic != null) {
 				itemCollection.add(ic);
@@ -172,6 +184,7 @@ public class MapXmlReader extends XmlReader {
 	 * @return <i>true</i> if all informations are already loaded
 	 */
 	public boolean loadNextInformation() {
+		long time = System.currentTimeMillis();
 		if (iteratorInfo < infoNodeList.getLength()
 				&& infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
 			Element info = (Element) infoNodeList.item(iteratorInfo);
@@ -228,6 +241,10 @@ public class MapXmlReader extends XmlReader {
 				break;
 			default:
 				break;
+			}
+			time = System.currentTimeMillis() - time;
+			if(time > 60) {
+				System.out.println("Time to load "+info.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
 			}
 		}
 		iteratorInfo++;
@@ -324,6 +341,41 @@ public class MapXmlReader extends XmlReader {
 
 		return ic;
 	}
+	
+	private static ItemConcept loadMelee(Element entity) {
+		// ItemConcept required
+				Vec2f colliderExtent = new Vec2f();
+				try {
+					Element vecteur = getSingleElement(entity, "vecteur");
+					colliderExtent.x = Float.parseFloat(vecteur.getAttribute("x"));
+					colliderExtent.y = Float.parseFloat(vecteur.getAttribute("y"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				String type = entity.getAttribute("type");
+				String proba = entity.getAttribute("proba");
+				String size = entity.getAttribute("size");
+				ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size));
+		
+				// ItemConcept implied
+				if (entity.hasAttribute("name")) {
+					ic.name = entity.getAttribute("name");
+				}
+				if (entity.hasAttribute("damage")) {
+					ic.damage = Float.parseFloat(entity.getAttribute("damage"));
+				}
+				if (entity.hasAttribute("bangSound")) {
+					ic.bangSound = entity.getAttribute("bangSound");
+				}
+				if (entity.hasAttribute("spritePath")) {
+					ic.spritePath = entity.getAttribute("spritePath");
+				}
+				if (entity.hasAttribute("fireRate")) {
+					ic.fireRate = Double.parseDouble(entity.getAttribute("fireRate"));
+				}
+				return ic;
+
+	}
 
 	private static Mesh loadMesh(Element entity) {
 		Vec3f position = new Vec3f();
@@ -352,7 +404,6 @@ public class MapXmlReader extends XmlReader {
 				}
 			}
 		}
-
 		return new Mesh(position, rot, scale, src);
 	}
 

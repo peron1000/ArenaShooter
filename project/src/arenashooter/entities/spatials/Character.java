@@ -3,7 +3,7 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.Impact;
+import arenashooter.engine.physic.ImpactOld;
 import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
@@ -101,7 +101,7 @@ public class Character extends Spatial {
 		}
 
 	}
-	
+
 	public void attackStop() {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
@@ -111,35 +111,26 @@ public class Character extends Spatial {
 
 	public void getItem() {
 		Item arme = null;
-		Item armure = null;
 
 		boolean hasWeapon = getWeapon() != null;
 		boolean hasArmor = children.containsKey("Item_Armor");
-		
+
 		if (!hasWeapon || !hasArmor) {
 			for (Entity e : GameMaster.gm.getEntities()) {
 				if (!hasWeapon && e instanceof Weapon) {
-					Item weapon = (Weapon) e;
+					Weapon weapon = (Weapon) e;
 					float xDiff = Math.abs(pos().x - weapon.pos().x);
 					float yDiff = Math.abs(pos().y - weapon.pos().y);
 					if (xDiff < 175 && yDiff < 175)
 						arme = weapon;
 				}
-//				else if (!hasArmor && e instanceof Equipement) {
-//					Item item = (Equipement) e;
-//					float xDiff = Math.abs(pos().x - item.pos().x);
-//					float yDiff = Math.abs(pos().y - item.pos().y);
-//					if (xDiff < 175 && yDiff < 175)
-//						armure = item;
-//				}
 			}
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				((SoundEffect) arme.children.get("snd_Pickup")).play();
+				SoundEffect soundPickup = arme.pickup;
+				soundPickup.play();
 			}
-//			if (armure != null)
-//				armure.attachToParent(this, "Item_Armor");
 		}
 	}
 
@@ -147,18 +138,20 @@ public class Character extends Spatial {
 		attackStop();
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
-			
-			if( arme instanceof Weapon )
-				((Weapon)arme).setVel(new Vec2f());
-			
+
+			if (arme instanceof Weapon)
+				((Weapon) arme).setVel(new Vec2f());
+
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}
-	
+
 	public Weapon getWeapon() {
 		Entity e = children.get("Item_Weapon");
-		if(e instanceof Weapon) return (Weapon)e;
-		else return null;
+		if (e instanceof Weapon)
+			return (Weapon) e;
+		else
+			return null;
 	}
 
 	public float takeDamage(float damage, boolean droite) {// degats orientes
@@ -204,7 +197,7 @@ public class Character extends Spatial {
 				for (Entity coll : ((Plateform) plat).children.values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
-						Impact impact = new Impact(collider, c, Vec2f.multiply(vel, (float) d));
+						ImpactOld impact = new ImpactOld(collider, c, Vec2f.multiply(vel, (float) d));
 						vel.x = vel.x * impact.getVelMod().x;
 						vel.y = vel.y * impact.getVelMod().y;
 						if (collider.getYBottom() + (vel.y * d) >= c.getYTop()

@@ -3,7 +3,7 @@ package arenashooter.engine.math;
 import arenashooter.engine.graphics.Window;
 
 /**
- * Mutable 2 dimensionnal vector of floats
+ * Mutable 2 dimensional vector of floats
  */
 public class Vec2f {
 

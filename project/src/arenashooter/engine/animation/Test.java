@@ -14,10 +14,10 @@ import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.entities.Camera;
 import arenashooter.entities.Map;
 import arenashooter.entities.Music;
 import arenashooter.entities.Sky;
+import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Main;
@@ -234,9 +234,9 @@ public class Test extends Map{
 		
 		//Fade
 		float opacity = sceneOpacityA.valueAt((float)time).floatValue();
-		bg.colorMod.w = opacity;
-		bg.colorMod.x = bg.colorMod.w;
-		bg.colorMod.y = bg.colorMod.w;
+		bg.colorMod.x = opacity;
+		bg.colorMod.y = bg.colorMod.x;
+		bg.colorMod.z = bg.colorMod.x;
 		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
 		
 		if(!punched && time >= 4f) {

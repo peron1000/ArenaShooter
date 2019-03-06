@@ -49,13 +49,29 @@ public class Mesh extends Spatial3 {
 		}
 	}
 	
+	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Shader[] shaders, Texture[] textures) {
+		super(position);
+		
+		this.rotation = rotation;
+		this.scale = scale.clone();
+		
+		this.models = models;
+		
+		this.shaders = shaders;
+		this.textures = textures;
+	}
+	
+	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Shader shader, Texture texture) {
+		return new Mesh(position, rotation, scale, new Model[] {Model.loadQuad()}, new Shader[] {shader}, new Texture[] {texture});
+	}
+	
 	@Override
 	public void draw() {
 		Profiler.startTimer(Profiler.MESHES);
 		
 		for( int i=0; i<models.length; i++ ) {
 			shaders[i].bind();
-			shaders[i].setUniformM4("model", Mat4f.transform(position, rotation, scale));
+			shaders[i].setUniformM4("model", Mat4f.transform(pos(), rotation, scale));
 			shaders[i].setUniformM4("view", Window.camera.viewMatrix);
 			shaders[i].setUniformM4("projection", Window.proj);
 			

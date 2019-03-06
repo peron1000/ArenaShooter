@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Arial Black", Gadget, sans-serif;
+  font-weight: lighter;
 }
 
 /*
@@ -14,6 +15,7 @@ nav {
   padding: 0;
   top: 0;
   width: 100%;
+  z-index: 100;
   text-align: center;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -99,6 +101,7 @@ section {
   width: 70%;
   margin: 20px auto 20px;
   padding: 10px 30px;
+  overflow: hidden;
   border-radius: 5px;
   background-color: rgba(43, 24, 71, 0.85);
   color: #cbccd6;
@@ -137,8 +140,8 @@ div.desc {
 * Backgrounds
 */
 .parallax {
-    padding: 10px 0;
-    margin: 0;
+  padding: 10px 0;
+  margin: 0;
 }
 
 .bg_01 {
@@ -147,7 +150,11 @@ div.desc {
   background-attachment: fixed;
   background-position: center; 
   background-size: cover;
-  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;          /* Firefox        */
+  image-rendering: -o-crisp-edges;            /* Opera          */
+  image-rendering: -webkit-optimize-contrast; /* Safari         */
+  image-rendering: pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+           */
 }
 
 .bg_02 {
@@ -156,7 +163,11 @@ div.desc {
   background-attachment: fixed;
   background-position: center; 
   background-size: cover;
-  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;          /* Firefox        */
+  image-rendering: -o-crisp-edges;            /* Opera          */
+  image-rendering: -webkit-optimize-contrast; /* Safari         */
+  image-rendering: pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+           */
 }
 /*
 * Backgrounds end
@@ -164,33 +175,95 @@ div.desc {
 
 h3 {
   font-size: 2.5em;
+  font-weight: lighter;
   color: white;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-section.b{
-	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-    font-size:20px;
+
+h4 {
+  font-size: 1.5em;
+  font-weight: lighter;
+  color: white;
 }
-a.lge{
-	color:red;
-	  text-align:right;
-}
-ul.a{
-	list-style-type: circle;
-}
-h4{
-	font-family: "Palatino Linotype", "BookAntiqua", Palatino, serif;
-    font-size: 28px;
-	color:red;
+
+ul.features{
+  list-style-type: circle;
 }
 
 img {
   image-rendering: auto;
 }
 
+.slideshow {
+  position: relative;
+  width: 500px;
+  height: 311px;
+  margin: 0 auto;
+}
+
+.slideshow img {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+@keyframes fade {
+  0%   { opacity: 1; }
+  15%  { opacity: 1; }
+  25%  { opacity: 0; }
+  90%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.slideshow img:nth-of-type(1) {
+    animation: fade 24s 18s infinite;
+}
+.slideshow img:nth-of-type(2) {
+    animation: fade 24s 12s infinite;
+}
+.slideshow img:nth-of-type(3) {
+    animation: fade 24s 6s infinite;
+}
+.slideshow img:nth-of-type(4) {
+    animation: fade 24s 0s infinite; 
+}
+
+.pixelated {
+  image-rendering: -moz-crisp-edges;          /* Firefox        */
+  image-rendering: -o-crisp-edges;            /* Opera          */
+  image-rendering: -webkit-optimize-contrast; /* Safari         */
+  image-rendering: pixelated;                 /* CSS4 Proposed  */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE8+           */
+}
+
 video {
   image-rendering: auto;
   width: 100%;
   height: auto;
+}
+
+footer {
+  position: fixed;
+  left: 0px;
+  bottom: 10px;
+  padding: 10px 10px 10px 15px;
+  z-index: 100;
+  color: red;
+  text-align: left;
+
+  background-color: rgba(30, 30, 30, 0.85);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.lang {
+  color: red;
+  text-align: left;
+}
+
+.lang:visited {
+  color: red;
+  text-align: left;
 }

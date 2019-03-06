@@ -16,20 +16,19 @@ public class Physic {
 	private ArrayList<StaticBody> staticBodies = new ArrayList<StaticBody>();
 	private ArrayList<RigidBody> rigidBodies = new ArrayList<RigidBody>();
 	
+	HashSet<BodiesCouple> couplesToTest = new HashSet<BodiesCouple>();
+	
 	/** Map represented by this simulation */
 	private Map map;
 	
-	private static Physic tempCurrentPhysic; //TODO: Remove this
-	
 	public Physic(Map map) {
 		this.map = map;
-		tempCurrentPhysic = this;
 	}
 	
 	public void step(double d) {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
-		HashSet<BodiesCouple> couplesToTest = new HashSet<BodiesCouple>();
+		couplesToTest.clear();
 		for(RigidBody b : rigidBodies)
 			for(Body other : bodies)
 				if(b != other && mayCollide(b.shape, other.shape))
@@ -57,16 +56,24 @@ public class Physic {
 		Profiler.endTimer(Profiler.PHYSIC);
 	}
 	
-	public static void registerRigidBody(RigidBody body) {
-		tempCurrentPhysic.bodies.add(body);
-		tempCurrentPhysic.rigidBodies.add(body);
+	public void registerRigidBody(RigidBody body) {
+		bodies.add(body);
+		rigidBodies.add(body);
 	}
 	
-	public static void registerStaticBody(StaticBody body) {
-		if(tempCurrentPhysic != null) {
-			tempCurrentPhysic.bodies.add(body);
-			tempCurrentPhysic.staticBodies.add(body);
-		}
+	public void registerStaticBody(StaticBody body) {
+		bodies.add(body);
+		staticBodies.add(body);
+	}
+	
+	public void unregisterRigidBody(RigidBody body) {
+		bodies.remove(body);
+		rigidBodies.remove(body);
+	}
+	
+	public void unregisterStaticBody(StaticBody body) {
+		bodies.remove(body);
+		staticBodies.remove(body);
 	}
 	
 	/**
@@ -102,41 +109,41 @@ public class Physic {
 		return distSqr <= radiiSqr;
 	}
 	
-	public boolean rectVsRect(Rectangle a, Rectangle b) {
+	public boolean rectVsRect(Rectangle a, Rectangle b) { //TODO: Fixed?
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
-//		Vec2f projA = a.project(normal);
-		Vec2f projA = a.projectSelfX();
+		Vec2f projA = a.project(normal);
+//		Vec2f projA = a.projectSelfX();
 		Vec2f projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.rotate90(normal);
-//		projA = a.project(normal);
-		projA = a.projectSelfY();
+		projA = a.project(normal);
+//		projA = a.projectSelfY();
 		projB = b.project(normal);
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.fromAngle(b.body.rotation);
 		projA = a.project(normal);
-//		projB = b.project(normal);
-		projB = b.projectSelfX();
+		projB = b.project(normal);
+//		projB = b.projectSelfX();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
-//		projB = b.project(normal);
-		projB = b.projectSelfY();
+		projB = b.project(normal);
+//		projB = b.projectSelfY();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		
 		return true;
 	}
 
-	public boolean diskVsRect(Disk a, Rectangle b) { //TODO: Test
+	public boolean diskVsRect(Disk a, Rectangle b) { //TODO: Fix
 		Vec2f normal = Vec2f.fromAngle(b.body.rotation);
 		Vec2f projA = a.project(normal);
-//		Vec2f projB = b.project(normal);
-		Vec2f projB = b.projectSelfX();
+		Vec2f projB = b.project(normal);
+//		Vec2f projB = b.projectSelfX();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		normal = Vec2f.rotate90(normal);
 		projA = a.project(normal);
-//		projB = b.project(normal);
-		projB = b.projectSelfY();
+		projB = b.project(normal);
+//		projB = b.projectSelfY();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
 		
 		return true;
@@ -147,6 +154,11 @@ public class Physic {
 		private BodiesCouple(Body a, Body b) {
 			this.a = a;
 			this.b = b;
+		}
+		
+		@Override
+		public String toString() {
+			return a+" and "+b;
 		}
 	}
 }

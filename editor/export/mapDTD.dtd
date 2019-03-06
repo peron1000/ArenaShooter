@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT map (information , entities)>
+<!ELEMENT map (information , entities , items?)>
+<!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
@@ -10,13 +11,11 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|plateform|weapon|mesh|text)*>
+<!ELEMENT entities (entity|plateform|mesh|text)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT plateform (vecteur , vecteur, entities?)>
 <!ATTLIST plateform name CDATA #IMPLIED>
-<!ELEMENT weapon (vecteur, vecteur, entities?)>
-<!ATTLIST weapon name CDATA #IMPLIED>
 <!ELEMENT mesh (vecteur, vecteur, vecteur, entities?)>
 <!ATTLIST mesh name CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>
@@ -29,3 +28,38 @@
 <!ELEMENT vecteur EMPTY>
 <!ATTLIST vecteur w CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED use CDATA #IMPLIED >
 <!ELEMENT fichier (#PCDATA)>
+
+<!-- Items allowed -->
+<!ELEMENT items (equipement | weapon | melee)*>
+<!ELEMENT equipement EMPTY>
+<!ELEMENT weapon (vecteur , entities?)>
+<!ATTLIST weapon name CDATA #IMPLIED
+				 damage CDATA #IMPLIED
+				 fireRate CDATA #IMPLIED
+				 thrust CDATA #IMPLIED
+				 recoil CDATA #IMPLIED
+				 tpsCharge CDATA #IMPLIED
+				 chargeInertia CDATA #IMPLIED
+				 spritePath CDATA #IMPLIED
+				 clickSoundPath CDATA #IMPLIED
+				 bangSoundPath CDATA #IMPLIED
+				 pickupSound CDATA #IMPLIED
+				 chargeSoundPath CDATA #IMPLIED
+				 noAmmoSound CDATA #IMPLIED
+				 bulletType CDATA #IMPLIED
+				 bulletSpeed CDATA #IMPLIED
+				 cannonLength CDATA #IMPLIED
+				 
+				 type CDATA #REQUIRED
+				 proba CDATA #REQUIRED
+				 size CDATA #REQUIRED>
+<!ELEMENT melee (vecteur, entities?)>
+<!ATTLIST melee name CDATA #IMPLIED
+				damage CDATA #IMPLIED
+				bangSound CDATA #IMPLIED
+				spritePath CDATA #IMPLIED
+				fireRate CDATA #IMPLIED
+				type CDATA #REQUIRED
+				 proba CDATA #REQUIRED
+				 size CDATA #REQUIRED
+				>
