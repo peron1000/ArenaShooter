@@ -12,6 +12,7 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Controller;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Character;
@@ -59,6 +60,10 @@ public class Game extends GameState {
 
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			pause = !pause;
+			if(!pause)
+				Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+			else
+				Window.postProcess = new PostProcess("data/shaders/post_process/pp_pause");
 		}
 		if (!pause) {
 			if (map.children.get("Text_Pause") != null) {
@@ -67,11 +72,13 @@ public class Game extends GameState {
 			map.step(d);
 		} else {
 			Text text = new Text(Main.font, Text.TextAlignH.CENTER, "PAUSE");
+			
 			TextSpatial textEnt = new TextSpatial(Window.camera.pos(), new Vec3f(450), text);
 			textEnt.position.z = 0;
 			textEnt.localPosition.z = 0;
 			textEnt.zIndex = 9999;
 			textEnt.attachToParent(map, "Text_Pause");
+			textEnt.color=new Vec4f(1,0,0.75,1);
 		}
 
 	}
