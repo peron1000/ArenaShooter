@@ -60,6 +60,14 @@ public class MapChooser extends GameState {
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");
 
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change the map");
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -400, -10), new Vec3f(250), text2);
+		textEnt2.attachToParent(map, "Text_touch");
+		
+		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to continue");
+		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, 535, -10), new Vec3f(450), text3);
+		textEnt3.attachToParent(map, "Text_Choice");
+		
 		selectMap(0);
 
 		Shader shader = Shader.loadShader("data/shaders/sprite_simple");
@@ -123,13 +131,13 @@ public class MapChooser extends GameState {
 		mapChosen = maps.get(newMap);
 
 		// Regenerate map name
-		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
-		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, 450, -10), new Vec3f(450), text2);
+		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
+		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 450, -10), new Vec3f(450), text4);
 
 		Entity oldText = getMap().children.get("Text_Mapname");
 		if (oldText != null)
 			oldText.destroy();
 
-		textEnt2.attachToParent(getMap(), "Text_Mapname");
+		textEnt4.attachToParent(getMap(), "Text_Mapname");
 	}
 }

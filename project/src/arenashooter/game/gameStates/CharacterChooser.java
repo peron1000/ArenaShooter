@@ -36,6 +36,19 @@ public class CharacterChooser extends GameState {
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");
 		
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change your figther");
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -400, -10), new Vec3f(250), text2);
+		textEnt2.attachToParent(map, "Text_char");
+		
+		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Z and S to change your skin");
+		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -350, -10), new Vec3f(250), text3);
+		textEnt3.attachToParent(map, "Text_touch");
+		
+		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to go to the map chooser");
+		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 400, -10), new Vec3f(350), text4);
+		textEnt4.attachToParent(map, "Text_touch2");
+		
+		
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
 		controllers.put(Device.KEYBOARD, controllerKeyboard);
 		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.getCharInfo());
