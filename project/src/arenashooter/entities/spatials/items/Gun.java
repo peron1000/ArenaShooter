@@ -28,7 +28,7 @@ public class Gun extends Melee {
 	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound, String noAmmoSound,
 			double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
 			double thrust, double tpsCharge, double size) {
-		super(position, itemSprite, damage, fireRate,"GunCock1" );
+		super(position, itemSprite, damage, fireRate, "GunCock1");
 
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
@@ -40,11 +40,11 @@ public class Gun extends Melee {
 		bang.setVolume(0.25f);
 		bang.attachToParent(this, "snd_Bang");
 
-		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", -1, 1, 1);
+		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", 1, 1, 1);
 		charge.setVolume(0.35f);
 		sndCharge = charge;
 
-		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 2, 0.85f, 1.15f);
+		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
 		noAmmo.setVolume(0.25f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
 
@@ -67,13 +67,13 @@ public class Gun extends Melee {
 		bang.setVolume(0.35f);
 		bang.attachToParent(this, "snd_Bang");
 
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 2, 0.9f, 1.1f);
+		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1, 0.9f, 1.1f);
 		pickup.setVolume(0.35f);
 		pickup.attachToParent(this, "snd_Pickup");
 
 		SoundEffect charge = null;
 
-		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/slap.ogg", 2, 0.9f, 1.1f);
+		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/slap.ogg", 1, 0.9f, 1.1f);
 		noAmmo.setVolume(0.35f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
 

@@ -1,15 +1,9 @@
 package arenashooter.entities.spatials.items;
 
-import java.util.Vector;
-
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Collider;
-import arenashooter.entities.Entity;
 import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.Character;
-import arenashooter.game.GameMaster;
 
 public class Melee extends Weapon {
 	private Timer fireRate = new Timer(0.15);
@@ -20,7 +14,7 @@ public class Melee extends Weapon {
 	public Melee(Vec2f position, String itemSprite, float damage, double fireRate, String soundpickup) {
 		super(position, itemSprite, damage);
 		this.fireRate = new Timer(fireRate);
-		SoundEffect soundPickup = new SoundEffect(position, "data/sound/" + soundpickup + ".ogg", 16);
+		SoundEffect soundPickup = new SoundEffect(position, "data/sound/" + soundpickup + ".ogg", 2);
 		soundPickup.attachToParent(this, "snd_Pickup");
 	}
 
