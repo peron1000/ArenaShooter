@@ -1,7 +1,7 @@
-package arenashooter.entities.spatials;
+package arenashooter.game;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.game.CharacterClass;
+import arenashooter.entities.spatials.Character;
 
 public class CharacterInfo {
 	public CharacterClass charClass = CharacterClass.agile;

@@ -8,6 +8,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Weapon;
+import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {

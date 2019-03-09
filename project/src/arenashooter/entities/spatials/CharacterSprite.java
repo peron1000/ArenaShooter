@@ -8,6 +8,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Weapon;
+import arenashooter.game.CharacterInfo;
 
 public class CharacterSprite extends Spatial {
 

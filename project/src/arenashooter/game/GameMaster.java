@@ -8,6 +8,7 @@ import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.game.gameStates.CharacterChooser;
+import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;

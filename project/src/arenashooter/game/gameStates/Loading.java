@@ -14,7 +14,6 @@ import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
-import arenashooter.game.Game;
 import arenashooter.game.GameMaster;
 
 public class Loading extends GameState {

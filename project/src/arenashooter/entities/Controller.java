@@ -7,7 +7,7 @@ import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.CharacterInfo;
+import arenashooter.game.CharacterInfo;
 
 public class Controller {
 	/** Input device used by this controller */

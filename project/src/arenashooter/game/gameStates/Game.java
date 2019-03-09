@@ -1,4 +1,4 @@
-package arenashooter.game;
+package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +17,8 @@ import arenashooter.entities.Controller;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.TextSpatial;
-import arenashooter.game.gameStates.GameState;
+import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
