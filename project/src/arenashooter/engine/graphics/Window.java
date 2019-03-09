@@ -51,11 +51,11 @@ public final class Window {
 	//Projection
 	/** Projection matrix */
 	public static Mat4f proj;
-	private static float fov = 90;
+	private static float fov = 70;
 	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
 	
 	//View
-	public static Camera camera = new Camera(new Vec3f(0, 0, 450));
+	private static Camera camera = new Camera(new Vec3f(0, 0, 450));
 	
 	//Post processing
 	/** Current post processing settings */
@@ -280,6 +280,11 @@ public final class Window {
 		createProjectionMatrix();
 	}
 	
+	public static Mat4f getView() {
+		if(camera == null) return Mat4f.identity();
+		else return camera.viewMatrix;
+	}
+	
 	/**
 	 * Create the projection matrix based on window size
 	 */
@@ -357,6 +362,13 @@ public final class Window {
 	 */
 	public static void setVsync(boolean enable) {
 		glfwSwapInterval( enable ? 1 : 0 );
+	}
+	
+	public static Camera getCamera() { return camera; }
+	
+	public static void setCamera(Camera newCam) {
+		camera = newCam;
+		setFOV(newCam.getFOV());
 	}
 	
 	private static void setIcon(String[] paths) {

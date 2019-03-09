@@ -38,8 +38,10 @@ public class Loading extends GameState {
 
 		ArrayList<Entity> entities = new ArrayList<>();
 
-		Window.camera = new Camera(new Vec3f(0, 0, 600));
-		entities.add(Window.camera);
+		Camera cam = new Camera(new Vec3f(0, 0, 600));
+		cam.setFOV(90);
+		entities.add(cam);
+		Window.setCamera(cam);
 
 		float startX = -(GameMaster.gm.controllers.size() * 128f) / 2f;
 		int i = 0;

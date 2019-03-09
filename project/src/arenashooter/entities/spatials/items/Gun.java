@@ -270,7 +270,7 @@ public class Gun extends Melee {
 				rotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
-				Window.camera.setCameraShake(2.8f);
+				Window.getCamera().setCameraShake(2.8f);
 			}
 
 		}

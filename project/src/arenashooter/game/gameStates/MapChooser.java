@@ -55,6 +55,9 @@ public class MapChooser extends GameState {
 				maps.add(name);
 			}
 		}
+		
+		//Set FOV
+		Window.getCamera().setFOV(90);
 
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your map");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);

@@ -88,7 +88,7 @@ class EmitterSparks extends Emitter {
 		shader.bind();
 		
 		//Get matrices
-		shader.setUniformM4("view", Window.camera.viewMatrix);
+		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);

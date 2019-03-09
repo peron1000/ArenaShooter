@@ -42,7 +42,7 @@ public class Disk extends Shape {
 		//Create matrices
 		Mat4f modelM = Mat4f.transform(body.position, body.rotation, new Vec2f( radius*2 ));
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Window.camera.viewMatrix);
+		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
 		
 		shader.setUniformV4("color", new float[]{1,0,0,1});

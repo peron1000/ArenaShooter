@@ -96,9 +96,15 @@
 			<vecteur use="scale" x="200" y="200" z="200"/>
 		</mesh>
 		
-		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
-			<vecteur use="position" x="1000" y="0" z="-4000"/>
+		<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+			<vecteur use="position" x="0" y="400" z="0"/>
 			<vecteur use="rotation" x="0" y="0" z="0" w="1"/>
+			<vecteur use="scale" x="35" y="35" z="35"/>
+		</mesh>
+		
+		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
+			<vecteur use="position" x="1000" y="0" z="-6000"/>
+			<vecteur use="rotation" x="0" y=".2" z="0" w="1"/>
 			<vecteur use="scale" x="100" y="100" z="100"/>
             
             <entities>

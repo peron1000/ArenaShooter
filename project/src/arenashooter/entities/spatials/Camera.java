@@ -14,7 +14,9 @@ public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(500, 500);
-	private float zoomMin = 300, zoomMax = 3000;
+	private float zoomMin = 600, zoomMax = 6000;
+	
+	private float fov = 70;
 	
 	public boolean interpolate = true;
 	
@@ -52,6 +54,14 @@ public class Camera extends Spatial3 {
 	 */
 	public void setCameraShake( float intensity ) {
 		shakeIntensity = Math.max( shakeIntensity, intensity );
+	}
+	
+	public float getFOV() { return fov; }
+	
+	public void setFOV( float fov ) {
+		this.fov = fov;
+		if(Window.getCamera() == this)
+			Window.setFOV(fov);
 	}
 	
 	/**

@@ -63,7 +63,7 @@ public class LoadingFloor extends Spatial {
 		//Create matrices
 		Mat4f modelM = Mat4f.transform(position, rotation, size);
 		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Window.camera.viewMatrix);
+		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
 		
 		model.bindToShader(shader);

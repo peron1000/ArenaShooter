@@ -211,7 +211,7 @@ public class Vec2f {
 	 */
 	public static Vec2f worldToScreen(Vec3f world) { //TODO: test
 		Mat4f model = Mat4f.translation(world);
-		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.camera.viewMatrix), model).val[3];
+		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.getCamera().viewMatrix), model).val[3];
 				
 		return new Vec2f( projected[0], projected[1] );
 	}
@@ -223,7 +223,7 @@ public class Vec2f {
 	 */
 	public static Vec2f worldToScreen(Vec2f world) { //TODO: test
 		Mat4f model = Mat4f.translation(world);
-		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.camera.viewMatrix), model).val[3];
+		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.getCamera().viewMatrix), model).val[3];
 				
 		return new Vec2f( projected[0], projected[1] );
 	}

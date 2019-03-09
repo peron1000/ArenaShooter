@@ -41,16 +41,17 @@ public class Game extends GameState {
 		}
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
-		Window.camera = new Camera(new Vec3f(0, 0, 450));
-		Window.camera.attachToParent(map, "camera");
+		Camera cam = new Camera(new Vec3f(0, 0, 450));
+		cam.attachToParent(map, "camera");
+		Window.setCamera(cam);
 	}
 
 	@Override
 	public void update(double d) {
-		if (Window.camera != null) {
-			Window.camera.center(players, null, d);
+		if (Window.getCamera() != null) {
+			Window.getCamera().center(players, null, d);
 //			camera.center(players, map.cameraBounds, d); //TODO: Fix camera bounds and uncomment this
-			Audio.setListener(Window.camera.position, Window.camera.rotation);
+			Audio.setListener(Window.getCamera().pos(), Window.getCamera().rotation);
 		} else
 			Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 
@@ -73,7 +74,7 @@ public class Game extends GameState {
 		} else {
 			Text text = new Text(Main.font, Text.TextAlignH.CENTER, "PAUSE");
 			
-			TextSpatial textEnt = new TextSpatial(Window.camera.pos(), new Vec3f(450), text);
+			TextSpatial textEnt = new TextSpatial(Window.getCamera().pos(), new Vec3f(450), text);
 			textEnt.position.z = 0;
 			textEnt.localPosition.z = 0;
 			textEnt.zIndex = 9999;

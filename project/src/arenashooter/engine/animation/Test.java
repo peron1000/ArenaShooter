@@ -72,9 +72,11 @@ public class Test extends Map{
 		pressStart.color = new Vec4f(.925, .235, .110, 1);
 		
 		//Camera
-		Window.camera = new Camera(new Vec3f(0, 0, 550));
-		Window.camera.attachToParent(this, "camera");
-		Window.camera.interpolate = false;
+		Camera cam = new Camera(new Vec3f(0, 0, 550));
+		cam.setFOV(90);
+		cam.interpolate = false;
+		cam.attachToParent(this, "camera");
+		Window.setCamera(cam);
 		
 		HashMap<Float, Vec3f> vec3Map = new HashMap<>();
 		vec3Map.put(5.2f, new Vec3f(0, 0, 550));
@@ -229,8 +231,8 @@ public class Test extends Map{
 		logo.rotation = logoRotA.valueAt((float)time);
 		logo.size.set(logoSizeA.valueAt((float)time));
 		
-		Window.camera.position = camA.valueAt((float)time);
-		pressStart.position.y = 325+Window.camera.position.y;
+		Window.getCamera().position = camA.valueAt((float)time);
+		pressStart.position.y = 325+Window.getCamera().position.y;
 		
 		//Fade
 		float opacity = sceneOpacityA.valueAt((float)time).floatValue();
@@ -241,7 +243,7 @@ public class Test extends Map{
 		
 		if(!punched && time >= 4f) {
 			sndPunch.play();
-			Window.camera.setCameraShake(3f);
+			Window.getCamera().setCameraShake(3f);
 			punched = true;
 		}
 		

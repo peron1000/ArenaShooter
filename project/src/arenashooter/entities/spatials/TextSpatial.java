@@ -36,7 +36,7 @@ public class TextSpatial extends Spatial3 {
 		
 		shader.bind();
 		shader.setUniformM4("model", Mat4f.transform(pos(), rotation, scale));
-		shader.setUniformM4("view", Window.camera.viewMatrix);
+		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
 		
 		shader.setUniformV4("baseColor", color);
