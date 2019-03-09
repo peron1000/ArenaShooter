@@ -1,9 +1,9 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Collider;
-import arenashooter.entities.SoundEffect;
 import arenashooter.entities.Timer;
+import arenashooter.entities.spatials.Collider;
+import arenashooter.entities.spatials.SoundEffect;
 
 public class Melee extends Weapon {
 	private Timer fireRate = new Timer(0.15);

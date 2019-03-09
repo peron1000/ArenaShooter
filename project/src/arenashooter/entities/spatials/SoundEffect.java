@@ -1,10 +1,9 @@
-package arenashooter.entities;
+package arenashooter.entities.spatials;
 
 import arenashooter.engine.audio.AudioSourceI;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.spatials.Spatial;
 
 /**
  * Spatial entity containing a sound effect.
@@ -13,16 +12,33 @@ import arenashooter.entities.spatials.Spatial;
 public class SoundEffect extends Spatial {
 	private AudioSourceI sound;
 
+	/**
+	 * Create a new spatialized sound effect
+	 * @param position initial location of the sound
+	 * @param path audio file
+	 * @param maxPlays maximum simultaneous plays of this sound ()
+	 */
 	public SoundEffect( Vec2f position, String path, int maxPlays ) {
-		this(position, path, maxPlays, .8f, 1.2f);
+		this(position, path, maxPlays, 1, 1);
 	}
 	
+	/**
+	 * Create a new spatialized sound effect with random pitch
+	 * @param position initial location of the sound
+	 * @param path audio file
+	 * @param maxPlays maximum simultaneous plays of this sound (-1 for a looping sound)
+	 * @param pitchMin minimum pitch
+	 * @param pitchMax maximum pitch
+	 */
 	public SoundEffect( Vec2f position, String path, int maxPlays, float pitchMin, float pitchMax ) {
 		super(position);
 		
 		if( maxPlays < 0 )
 			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, true);
-		else if( maxPlays == 0 )
+		else if( maxPlays == 0 ) {
+			System.err.println("Audio - Invalid maxPlays value (0), defaulting to 1 (for +"+path+")");
+			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, false);
+		} else if( maxPlays == 1 )
 			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, false);
 		else
 			sound = new SoundSourceMulti(path, maxPlays, pitchMin, pitchMax, true);

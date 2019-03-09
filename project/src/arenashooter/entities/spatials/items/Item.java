@@ -1,11 +1,11 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Collider;
-import arenashooter.entities.SoundEffect;
 import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.Collider;
+import arenashooter.entities.spatials.SoundEffect;
 
 public abstract class Item extends Spatial {
 

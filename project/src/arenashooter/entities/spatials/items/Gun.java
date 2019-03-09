@@ -5,12 +5,12 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Entity;
-import arenashooter.entities.SoundEffect;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
+import arenashooter.entities.spatials.SoundEffect;
 
 public class Gun extends Melee {
 	public float recoil = 0.4f;// High
@@ -40,7 +40,7 @@ public class Gun extends Melee {
 		bang.setVolume(0.25f);
 		bang.attachToParent(this, "snd_Bang");
 
-		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", 1, 1, 1);
+		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", -1, 1, 1);
 		charge.setVolume(0.35f);
 		sndCharge = charge;
 
@@ -124,8 +124,7 @@ public class Gun extends Melee {
 	// fire = new Timer(0.10);
 	// fire.attachToParent(this, "attack timer");
 	//
-	// sndCharge = new SoundEffect(this.position, "data/sound/IonChargeV2_3.ogg",
-	// -1, 1, 1);
+	// sndCharge = new SoundEffect(this.position, "data/sound/IonChargeV2_3.ogg", -1, 1, 1);
 	// sndCharge.attachToParent(this, "snd_charge");
 	//
 	// thrust = 100;
@@ -137,8 +136,7 @@ public class Gun extends Melee {
 	// tpscharge = 0.6;
 	// chargeInertia = 0;
 	//
-	// SoundEffect bangSound3 = new SoundEffect(this.position,
-	// "data/sound/BangIonGun2.ogg", 2, 0.9f, 1.1f);
+	// SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun2.ogg", 2, 0.9f, 1.1f);
 	// bangSound3.setVolume(0.35f);
 	// bangSound3.attachToParent(this, "snd_Bang");
 	//
@@ -150,8 +148,7 @@ public class Gun extends Melee {
 	// break;
 	// }
 	//
-	// SoundEffect pickup = new SoundEffect(this.position,
-	// "data/sound/GunCock1.ogg", 1);
+	// SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
 	// pickup.setVolume(0.5f);
 	// pickup.attachToParent(this, "snd_Pickup");
 	//

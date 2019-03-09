@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Collider;
 import arenashooter.entities.Entity;
 
 public class CircleBullet extends Projectile {

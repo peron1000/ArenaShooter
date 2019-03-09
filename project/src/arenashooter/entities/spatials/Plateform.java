@@ -3,7 +3,6 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.Rectangle;
-import arenashooter.entities.Collider;
 
 public class Plateform extends Spatial {
 	
