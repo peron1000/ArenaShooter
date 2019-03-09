@@ -9,19 +9,19 @@ import java.util.Map;
 import arenashooter.engine.animation.animevents.AnimEvent;
 
 public class EventTrack {
-	protected float[] times;
+	protected double[] times;
 	protected AnimEvent[] values;
 
-	public EventTrack(Map<Float, AnimEvent> keyframes) {
-		times = new float[keyframes.size()];
+	public EventTrack(Map<Double, AnimEvent> keyframes) {
+		times = new double[keyframes.size()];
 		values = new AnimEvent[keyframes.size()];
 		
 		//Make sure keyframes times are sorted
-		ArrayList<Float> timesList = new ArrayList<>(keyframes.size());
+		ArrayList<Double> timesList = new ArrayList<>(keyframes.size());
 		timesList.addAll(keyframes.keySet());
-		timesList.sort( new Comparator<Float>() {
-			public int compare(Float f1, Float f2) {
-				return f1.compareTo(f2);
+		timesList.sort( new Comparator<Double>() {
+			public int compare(Double d1, Double d2) {
+				return d1.compareTo(d2);
 			}
 		});
 
@@ -31,10 +31,10 @@ public class EventTrack {
 		}
 	}
 	
-	List<AnimEvent> getEvents(float from, float to) {
+	public List<AnimEvent> getEvents(double from, double to) {
 		LinkedList<AnimEvent> res = new LinkedList<>();
 		
-		float current = from;
+		double current = from;
 		while(current < to) {
 			int next = nextKeyframe(current);
 			
@@ -48,14 +48,14 @@ public class EventTrack {
 		return res;
 	}
 
-	protected int prevKeyframe(float time) {
+	protected int prevKeyframe(double time) {
 		for(int i=times.length-1; i>=0; i--) {
 			if(times[i]<=time) return i;
 		}
 		return 0;
 	}
 	
-	protected int nextKeyframe(float time) {
+	protected int nextKeyframe(double time) {
 		for(int i=0; i<times.length; i++) {
 			if(times[i]>time) return i;
 		}
