@@ -18,10 +18,10 @@ import arenashooter.game.GameMaster;
 class EmitterSparks extends Emitter {
 	private final EmitterTemplateSparks data;
 	
-	ArrayList<Vec2f> positions;
-	ArrayList<Vec2f> velocities;
-	ArrayList<Float> lives;
-	ArrayList<Float> livesTotal;
+	private ArrayList<Vec2f> positions;
+	private ArrayList<Vec2f> velocities;
+	private ArrayList<Float> lives;
+	private ArrayList<Float> livesTotal;
 
 	/**
 	 * Create a spark particle emitter (rectangles oriented towards their velocity)

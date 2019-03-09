@@ -25,29 +25,29 @@ import arenashooter.game.Main;
 public class Test extends Map{
 	double time = 0;
 	
-	Sky sky;
-	Vec3f skyTop, skyBot;
+	private Sky sky;
+	private Vec3f skyTop, skyBot;
 
-	Sprite cat = new Sprite(new Vec2f(-360, 300));
-	Sprite fox = new Sprite(new Vec2f(360, 300));
-	TextSpatial pressStart;
+	private Sprite cat = new Sprite(new Vec2f(-360, 300));
+	private Sprite fox = new Sprite(new Vec2f(360, 300));
+	private TextSpatial pressStart;
 	
-	AnimTrackDouble sceneOpacityA;
+	private AnimTrackDouble sceneOpacityA;
 	
-	Sprite bg = new Sprite(new Vec2f(0, -950), "data/sprites/intro/bg.png");
-	Sprite logo;
-	AnimTrackDouble logoRotA;
-	AnimTrackVec2f logoSizeA;
+	private Sprite bg = new Sprite(new Vec2f(0, -950), "data/sprites/intro/bg.png");
+	private Sprite logo;
+	private AnimTrackDouble logoRotA;
+	private AnimTrackVec2f logoSizeA;
 	
-	Sprite crowd_01, crowd_02, crowd_03, crowd_04;
-	AnimTrackTexture crowdA;
+	private Sprite crowd_01, crowd_02, crowd_03, crowd_04;
+	private AnimTrackTexture crowdA;
 	
-	AnimTrackVec2f catA, foxA, foxAS;
-	AnimTrackTexture catAT, foxAT;
-	AnimTrackVec3f camA;
+	private AnimTrackVec2f catA, foxA, foxAS;
+	private AnimTrackTexture catAT, foxAT;
+	private AnimTrackVec3f camA;
 	
-	SoundSourceSingle sndPunch;
-	boolean punched = false;
+	private SoundSourceSingle sndPunch;
+	private boolean punched = false;
 	
 	public Test() {
 		skyBot = new Vec3f(.9, .9, 1);

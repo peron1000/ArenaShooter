@@ -17,13 +17,13 @@ import arenashooter.game.GameMaster;
 
 class EmitterBasic extends Emitter {
 	private final EmitterTemplateBasic data;
-	final float sizeInitial, sizeEnd;
+	private final float sizeInitial, sizeEnd;
 	
-	ArrayList<Vec2f> positions;
-	ArrayList<Vec2f> velocities;
-	ArrayList<Float> rotations;
-	ArrayList<Float> lives;
-	ArrayList<Float> livesTotal;
+	private ArrayList<Vec2f> positions;
+	private ArrayList<Vec2f> velocities;
+	private ArrayList<Float> rotations;
+	private ArrayList<Float> lives;
+	private ArrayList<Float> livesTotal;
 	
 	/**
 	 * Create a basic particle emitter

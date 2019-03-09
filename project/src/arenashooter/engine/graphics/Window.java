@@ -275,11 +275,14 @@ public final class Window {
 	 * Set the camera's field of view
 	 * @param verticalFOV new FOV
 	 */
-	public static void setFOV(float verticalFOV) {
+	private static void setFOV(float verticalFOV) {
 		fov = verticalFOV;
 		createProjectionMatrix();
 	}
 	
+	/**
+	 * @return current view matrix
+	 */
 	public static Mat4f getView() {
 		if(camera == null) return Mat4f.identity();
 		else return camera.viewMatrix;
@@ -288,7 +291,7 @@ public final class Window {
 	/**
 	 * Create the projection matrix based on window size
 	 */
-	private static void createProjectionMatrix() {
+	public static void createProjectionMatrix() {
 //		float sizeY = 800;
 //		float sizeX = sizeY*ratio;
 //		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
@@ -364,8 +367,15 @@ public final class Window {
 		glfwSwapInterval( enable ? 1 : 0 );
 	}
 	
+	/**
+	 * @return current camera
+	 */
 	public static Camera getCamera() { return camera; }
 	
+	/**
+	 * Change the current camera, affecting view and projection matrices
+	 * @param newCam
+	 */
 	public static void setCamera(Camera newCam) {
 		camera = newCam;
 		setFOV(newCam.getFOV());

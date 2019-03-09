@@ -16,8 +16,10 @@ public class Camera extends Spatial3 {
 	private Vec2f margin = new Vec2f(500, 500);
 	private float zoomMin = 600, zoomMax = 6000;
 	
+	/** Vertical field of view */
 	private float fov = 70;
 	
+	/** Does this camera interpolates its position towards its targetLoc */
 	public boolean interpolate = true;
 	
 	private float shakeIntensity = 0;
@@ -25,6 +27,7 @@ public class Camera extends Spatial3 {
 	
 	public Camera(Vec3f position) {
 		super(position);
+		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x, position.y, position.z), rotation);
 		this.targetLoc = position.clone();
 	}
 	
@@ -56,12 +59,21 @@ public class Camera extends Spatial3 {
 		shakeIntensity = Math.max( shakeIntensity, intensity );
 	}
 	
+	/**
+	 * @return vertical field of view
+	 */
 	public float getFOV() { return fov; }
 	
+	/**
+	 * Set the vertical field of view for this camera
+	 * @param fov
+	 */
 	public void setFOV( float fov ) {
 		this.fov = fov;
+		
+		//Update projection matrix if this is the current camera
 		if(Window.getCamera() == this)
-			Window.setFOV(fov);
+			Window.createProjectionMatrix();
 	}
 	
 	/**

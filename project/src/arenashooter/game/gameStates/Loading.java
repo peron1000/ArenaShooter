@@ -28,8 +28,7 @@ public class Loading extends GameState {
 
 	private Iterator<Entity> iteratorEntities;
 
-	private Loading() {
-	}
+	private Loading() { }
 
 	public void init() {
 		map = new Map();
@@ -38,6 +37,7 @@ public class Loading extends GameState {
 
 		ArrayList<Entity> entities = new ArrayList<>();
 
+		//Camera
 		Camera cam = new Camera(new Vec3f(0, 0, 600));
 		cam.setFOV(90);
 		entities.add(cam);

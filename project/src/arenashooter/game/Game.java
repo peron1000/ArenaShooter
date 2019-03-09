@@ -31,8 +31,6 @@ public class Game extends GameState {
 	@Override
 	public void init() {
 
-		long time = System.currentTimeMillis();
-
 		while (iterator.hasNext()) {
 			Controller controller = iterator.next();
 			Character character = controller.createNewCharacter(map.GetRandomRespawn());
@@ -40,6 +38,7 @@ public class Game extends GameState {
 			character.attachToParent(map, character.genName());
 		}
 
+		//Camera
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		Camera cam = new Camera(new Vec3f(0, 0, 450));
 		cam.attachToParent(map, "camera");
@@ -50,7 +49,7 @@ public class Game extends GameState {
 	public void update(double d) {
 		if (Window.getCamera() != null) {
 			Window.getCamera().center(players, null, d);
-//			camera.center(players, map.cameraBounds, d); //TODO: Fix camera bounds and uncomment this
+//			Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera bounds and uncomment this
 			Audio.setListener(Window.getCamera().pos(), Window.getCamera().rotation);
 		} else
 			Audio.setListener(new Vec3f(), Quat.fromAngle(0));
