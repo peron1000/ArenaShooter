@@ -13,8 +13,11 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
 final class ModelObjLoader {
-	public static Model[] loadObj( String path ) { //TODO: Materials
-		ArrayList<Model> models = new ArrayList<Model>(1);
+	private ModelObjLoader() {};
+	
+	public static ModelsData loadObj( String path ) {
+		ArrayList<Model> models = new ArrayList<>(1);
+		ArrayList<Texture> textures = new ArrayList<>(1);
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -30,6 +33,10 @@ final class ModelObjLoader {
 			ArrayList<int[]> points = new ArrayList<int[]>(); //(VertexID, TexCoordsID, NormalsID)[]
 			HashMap<int[], Integer> pointsID = new HashMap<int[], Integer>(); //To find a point's ID from its value
 			ArrayList<int[]> faces = new ArrayList<int[]>(); //(Point1, Point2, Point3)[]
+			
+			//Materials
+			HashMap<String, Texture> materials = new HashMap<>();
+			String currentMat = "";
 
 			//Read data
 			String line = "";
@@ -39,13 +46,21 @@ final class ModelObjLoader {
 				lineParts = line.split(" ");
 				if( lineParts.length < 1 ) break;
 				switch(lineParts[0]) {
+				case "mtllib": //Materials
+					String matLibPath = path.substring(0, path.lastIndexOf('/'))+'/'+lineParts[1];
+					materials = loadMaterials(matLibPath);
+					break;
 				case "o": //Begin object
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-
+						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+						
 						//Clear faces
 						faces.clear();
 					}
+					break;
+				case "usemtl": //Change current material
+					currentMat = lineParts[1];
 					break;
 				case "v": //Vertex
 					vertices.add(new Vec3f(Float.valueOf(lineParts[1]), -1*Float.valueOf(lineParts[2]), Float.valueOf(lineParts[3])));
@@ -103,16 +118,23 @@ final class ModelObjLoader {
 			}
 
 			models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
+			textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
 
 			reader.close();
 			inReader.close();
 			in.close();
 		} catch (Exception e) {
-			System.err.println("Can't load model: "+path);
+			System.err.println("Render - Can't load model: "+path);
 		}
-
-		Model[] res = new Model[models.size()];
-		return models.toArray(res);
+		
+		//If textures are missing, replace them with default texture
+		for( int i=textures.size()-1; i<models.size(); i++ )
+			textures.add(Texture.default_tex);
+		
+		Model[] modelsArray = models.toArray(new Model[models.size()]);
+		Texture[] texturesArray = textures.toArray(new Texture[textures.size()]);
+		
+		return new ModelsData(modelsArray, texturesArray);
 	}
 	
 	/**
@@ -186,5 +208,52 @@ final class ModelObjLoader {
 			ids[i] = idsList.get(i);
 		
 		return new Model(data, ids);
+	}
+
+	private static HashMap<String, Texture> loadMaterials(String path) {
+		HashMap<String, Texture> res = new HashMap<>();
+		
+		try {
+			InputStream in = new FileInputStream(new File(path));
+
+			InputStreamReader inReader = new InputStreamReader(in);
+			BufferedReader reader = new BufferedReader(inReader);
+
+			//Read data
+			String line = "";
+			String[] lineParts;
+			
+			String currentMat = "";
+
+			while( (line = reader.readLine()) != null ) {
+				lineParts = line.split(" ");
+				if( lineParts.length < 1 ) break;
+				switch(lineParts[0]) {
+				case "newmtl": //Begin a new material
+					currentMat = lineParts[1];
+					break;
+				case "map_Kd": //Base color texture path
+					String texPath = lineParts[1];
+					
+					int dataIndex = texPath.indexOf("/data/");
+					if(dataIndex == -1) //Relative path
+						texPath = path.substring(0, path.lastIndexOf('/'))+'/'+texPath;
+					else
+						texPath = texPath.substring(dataIndex+1);
+						
+					Texture tex = Texture.loadTexture(texPath);
+					res.put(currentMat, tex);
+					break;
+				}
+			}
+			
+			reader.close();
+			in.close();
+		} catch(Exception e) {
+			System.err.println("Render - Error loading materials");
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 }

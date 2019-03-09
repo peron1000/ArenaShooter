@@ -20,6 +20,10 @@ import org.lwjgl.system.MemoryUtil;
 
 import arenashooter.engine.math.Vec2f;
 
+/**
+ * Contains data for a single model 
+ * Doesn't have any shader or texture
+ */
 public class Model {
 	private static Map<String, ModelEntry> models = new HashMap<String, ModelEntry>();
 	
@@ -32,10 +36,6 @@ public class Model {
 	
 	public Model( float[] data, int[] indices ) {
 		loadModel( data, indices );
-	}
-	
-	public static Model[] loadModel(String path) {
-		return ModelObjLoader.loadObj(path);
 	}
 	
 	/**

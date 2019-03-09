@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
@@ -16,7 +17,7 @@ public class Mesh extends Spatial3 {
 
 	private Model[] models;
 	private Shader[] shaders;
-	public Texture[] textures;
+	private Texture[] textures;
 	
 	public Vec3f scale;
 	
@@ -34,19 +35,16 @@ public class Mesh extends Spatial3 {
 		this.rotation = rotation;
 		this.scale = scale.clone();
 		
-		models = Model.loadModel(modelPath);
-
+		ModelsData data = ModelsData.loadModel(modelPath);
+		
+		models = data.models;
+		textures = data.textures;
+		
 		//TODO: Load materials from model file
 		Shader shaderBase = Shader.loadShader("data/shaders/mesh_simple");
-		Texture textureBase = Texture.loadTexture("data/default_texture.png");
-		
 		shaders = new Shader[models.length];
-		textures = new Texture[models.length];
-		
-		for( int i=0; i<models.length; i++ ) {
+		for( int i=0; i<models.length; i++ )
 			shaders[i] = shaderBase;
-			textures[i] = textureBase;
-		}
 	}
 	
 	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Shader[] shaders, Texture[] textures) {

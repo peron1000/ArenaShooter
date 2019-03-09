@@ -13,7 +13,7 @@ import java.util.Map;
 public class Texture {
 	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
-	private static final Texture default_tex = loadTexture( "data/default_texture.png" );
+	public static final Texture default_tex = loadTexture( "data/default_texture.png" );
 	
 	private final int id;
 	private final String file;
