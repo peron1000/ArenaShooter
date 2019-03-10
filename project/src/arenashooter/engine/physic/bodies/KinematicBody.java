@@ -11,4 +11,5 @@ public class KinematicBody extends Body {
 	public KinematicBody(Shape shape, Vec2f position, double rotation) {
 		super(shape, position, rotation);
 	}
+
 }

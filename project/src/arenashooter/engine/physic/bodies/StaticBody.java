@@ -11,4 +11,5 @@ public class StaticBody extends Body {
 	public StaticBody(Shape shape, Vec2f position, double rotation) {
 		super(shape, position, rotation);
 	}
+
 }

@@ -132,7 +132,7 @@ public class Map extends Entity {
 	 */
 	private void testPhysics() {
 		// Rigid body 1
-		Vec2f position = new Vec2f(-500, -500);
+		Vec2f position = new Vec2f(000, -700);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
@@ -147,6 +147,15 @@ public class Map extends Entity {
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(100, 100);
 		rb.attachToParent(this, "Rigid Body test 2");
+		rbSprite.attachToParent(rb, "Sprite");
+
+		// Rigid body 3
+		position = new Vec2f(-750, -600);
+		body = new RigidBody(new Disk(45), position, 0, 75);
+		rb = new RigidBodyContainer(position, body);
+		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		rbSprite.size = new Vec2f(90, 90);
+		rb.attachToParent(this, "Rigid Body test 3");
 		rbSprite.attachToParent(rb, "Sprite");
 	}
 

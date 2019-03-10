@@ -28,6 +28,10 @@ public class Physic {
 	public void step(double d) {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
+		for( RigidBody rigid : rigidBodies ) {
+			rigid.preprocess(d, map.gravity);
+		}
+		
 		couplesToTest.clear();
 		for(RigidBody b : rigidBodies)
 			for(Body other : bodies)
@@ -38,19 +42,19 @@ public class Physic {
 			if( isColliding(c.a.shape, c.b.shape) ) {
 				if(c.a instanceof RigidBody) {
 					c.a.position = Vec2f.subtract(c.a.position, Vec2f.multiply(((RigidBody)c.a).velocity, d));
-					((RigidBody)c.a).velocity = new Vec2f();
-					((RigidBody)c.a).angularVel = 0;
+					((RigidBody)c.a).velocity = Vec2f.multiply(((RigidBody)c.a).velocity, -0.6);
+					((RigidBody)c.a).angularVel = ((RigidBody)c.a).angularVel*.6;
 				}
 				if(c.b instanceof RigidBody) {
 					c.b.position = Vec2f.subtract(c.b.position, Vec2f.multiply(((RigidBody)c.b).velocity, d));
-					((RigidBody)c.b).velocity = new Vec2f();
-					((RigidBody)c.b).angularVel = 0;
+					((RigidBody)c.b).velocity = Vec2f.multiply(((RigidBody)c.b).velocity, -0.6);
+					((RigidBody)c.b).angularVel = ((RigidBody)c.b).angularVel*.6;
 				}
 			}
 		}
 		
 		for( RigidBody rigid : rigidBodies ) {
-			rigid.process(d, map.gravity);
+			rigid.process(d);
 		}
 		
 		Profiler.endTimer(Profiler.PHYSIC);
@@ -109,7 +113,7 @@ public class Physic {
 		return distSqr <= radiiSqr;
 	}
 	
-	public boolean rectVsRect(Rectangle a, Rectangle b) { //TODO: Fixed?
+	public boolean rectVsRect(Rectangle a, Rectangle b) { //TODO: Fix
 		Vec2f normal = Vec2f.fromAngle(a.body.rotation);
 		Vec2f projA = a.project(normal);
 //		Vec2f projA = a.projectSelfX();
@@ -130,7 +134,6 @@ public class Physic {
 		projB = b.project(normal);
 //		projB = b.projectSelfY();
 		if( projB.x >= projA.y || projA.x >= projB.y ) return false;
-		
 		return true;
 	}
 

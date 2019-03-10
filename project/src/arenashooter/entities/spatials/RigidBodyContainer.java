@@ -45,7 +45,7 @@ public class RigidBodyContainer extends Spatial {
 		
 		//TODO: Temp impulse added on attack input from keyboard
 		if( Input.actionJustPressed(Device.KEYBOARD, Action.ATTACK) )
-			body.applyImpulse(new Vec2f(position.x, position.y+10), new Vec2f(50, 0));
+			body.applyImpulse(new Vec2f(position.x, position.y+10), new Vec2f(50, -70));
 		
 		super.step(d);
 		
