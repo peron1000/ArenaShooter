@@ -84,29 +84,21 @@ public class Gun extends Melee {
 	// public Gun(Vec2f position, SpritePath itemSprite) {
 	// super(position, itemSprite);
 	// coll = new Collider(position, new Vec2f(40, 40));
-	// switch (itemSprite) {
-	// case assault:
+	// 
+	// assault:
 	// fire = new Timer(0.10);
-	// fire.attachToParent(this, "attack timer");
-	//
 	// thrust = 500;
 	// recoil = 0.5f;
 	// damage = 25f;
 	// bulletSpeed = 4000;
 	// cannonLength = 40.0;
-	//
 	// tpscharge = 0;
 	// chargeInertia = 0;
-	//
-	// SoundEffect bangSound1 = new SoundEffect(this.position,
 	// "data/sound/Bang1.ogg", 2);
-	// bangSound1.setVolume(3f);
-	// bangSound1.attachToParent(this, "snd_Bang");
-	// break;
-	// case minigun:
-	// fire = new Timer(0.03);
-	// fire.attachToParent(this, "attack timer");
-	//
+	// bangSound1.setVolume(3f)
+	// 
+	// minigun:
+	// fire = new Timer(0.03)
 	// thrust = 500;
 	// recoil = 0.30f;
 	// damage = 1f;
@@ -114,47 +106,23 @@ public class Gun extends Melee {
 	// cannonLength = 65.0;
 	// tpscharge = 0.8;
 	// chargeInertia = 0.2;
-	//
-	// SoundEffect bangSound2 = new SoundEffect(this.position,
 	// "data/sound/Bang2.ogg", 2);
 	// bangSound2.setVolume(3f);
-	// bangSound2.attachToParent(this, "snd_Bang");
-	// break;
-	// case iongun:
+	//
+	// iongun:
 	// fire = new Timer(0.10);
-	// fire.attachToParent(this, "attack timer");
-	//
-	// sndCharge = new SoundEffect(this.position, "data/sound/IonChargeV2_3.ogg", -1, 1, 1);
-	// sndCharge.attachToParent(this, "snd_charge");
-	//
+	// sndCharge SoundEffect("data/sound/IonChargeV2_3.ogg", -1, 1, 1)
 	// thrust = 100;
 	// recoil = 0.4f;
 	// damage = 8f;
 	// bulletSpeed = 2500;
-	// cannonLength = 55.0;
-	//
+	// cannonLength = 55.0
 	// tpscharge = 0.6;
-	// chargeInertia = 0;
-	//
-	// SoundEffect bangSound3 = new SoundEffect(this.position, "data/sound/BangIonGun2.ogg", 2, 0.9f, 1.1f);
-	// bangSound3.setVolume(0.35f);
-	// bangSound3.attachToParent(this, "snd_Bang");
-	//
+	// chargeInertia = 0
+	// "data/sound/BangIonGun2.ogg", 2, 0.9f, 1.1f)
 	// handPosL = new Vec2f(8, 20);
-	//
 	// handPosR = new Vec2f(-15, 20);
-	// break;
-	// default:
-	// break;
-	// }
-	//
-	// SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1);
-	// pickup.setVolume(0.5f);
-	// pickup.attachToParent(this, "snd_Pickup");
-	//
-	// Entity particleContainer = new Entity();
-	// particleContainer.attachToParent(this, "particle_container");
-	// }
+	//"data/sound/GunCock1.ogg", 1)
 
 	@Override
 	public void attackStart() {

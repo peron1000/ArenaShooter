@@ -47,11 +47,6 @@ public class Character extends Spatial {
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 
-		// SoundEffect punchHitSound = new SoundEffect(this.pos(),
-		// "data/sound/punch_01.ogg");
-		// punchHitSound.setVolume(.7f);
-		// punchHitSound.attachToParent(this, "snd_Punch_Hit");
-
 		SoundEffect punchHitSound = new SoundEffect(this.pos(), "data/sound/snd_Punch_Hit2.ogg", 2);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
@@ -174,7 +169,6 @@ public class Character extends Spatial {
 	}
 
 	private void death() {
-		health = 0;
 		// TODO: Effects
 		health = healthMax;
 		position = new Vec2f(spawn.x, spawn.y);
