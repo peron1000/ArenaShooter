@@ -102,11 +102,10 @@ public class MapChooser extends GameState {
 			selectMap(init);
 		}
 
-		if (Input.actionPressed(Device.KEYBOARD, Action.UI_OK)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
 			GameMaster.gm.requestNextState();
-		} else if (Input.actionPressed(Device.KEYBOARD, Action.UI_BACK)) {
+		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
-
 		}
 
 		ringAngle = Utils.lerpAngle(ringAngle, Math.PI / 2 + (init * Utils.PI2 / maps.size()), Math.min(1, 8d * delta));

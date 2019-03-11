@@ -44,8 +44,6 @@ public class GameMaster {
 				for (Controller controller : c.getControllers())
 					controllers.add(controller);
 
-				// Loading.loading.setNextState(new Game(),"data/mapXML/mapXML.xml");// TODO :
-				// create the map
 				Loading.loading.setNextState(new MapChooser(), "data/mapXML/empty.xml");
 				current = Loading.loading;
 				current.init();
@@ -61,38 +59,16 @@ public class GameMaster {
 				Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/empty.xml");// TODO : create the map
 			}
 		}
-
-//		if (current instanceof Start) { // Start
-//			Loading.loading.setNextState(new Intro(), "data/mapXML/empty.xml");// TODO : create the map
-//			current = Loading.loading;
-//			current.init();
-//		} else if (current instanceof CharacterChooser) { // Character chooser
-//			CharacterChooser c = (CharacterChooser) current;
-//			for (Controller controller : c.getControllers())
-//				controllers.add(controller);
-//
-//			// Loading.loading.setNextState(new Game(),"data/mapXML/mapXML.xml");// TODO :
-//			// create the map
-//			Loading.loading.setNextState(new MapChooser(), "data/mapXML/empty.xml");
-//			current = Loading.loading;
-//			current.init();
-//		} else if (current instanceof MapChooser) { // Map chooser
-//			MapChooser mapChooser = (MapChooser) current;
-//			current = Loading.loading;
-//			current.init();
-//			Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());// TODO : create the map
-//		} else if (current == Loading.loading) { // Loading
-//			current = Loading.loading.getNextState();
-//		} else if (current instanceof Intro) { // Intro movie
-//			System.out.println("mlep");
-//			current = Loading.loading;
-//			current.init();
-//			Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/empty.xml");// TODO : create the map
-//		}
 	}
 
 	public void requestPreviousState() {
+		if(current instanceof CharacterChooser) {
+			controllers.clear();
+		}
 		 current = stateStack.pop();
+		 if(current instanceof Intro) {
+			 current = new Start();
+		 }
 	}
 
 	/**
