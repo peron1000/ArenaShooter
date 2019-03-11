@@ -69,6 +69,13 @@ public class CharacterChooser extends GameState {
 				i += 150;
 			}
 			// TODO : remove controller when UI_BACK is pressed
+			if (Input.actionPressed(device, Action.UI_BACK) && controllers.keySet().contains(device)
+					&& !device.equals(device.KEYBOARD)) {
+				sprites.get((controllers.get(device))).detach();
+				sprites.remove((controllers.get(device)));
+				i -= 150;
+				controllers.remove(device);
+			}
 		}
 		
 		//Update controllers
