@@ -146,8 +146,7 @@ public class Gun extends Melee {
 	@Override
 	public void step(double d) {
 
-		boolean charge = timerAttack.isOver();
-
+		// se cale sur la position du perso
 		if (isEquipped()) {
 			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
 
@@ -157,7 +156,7 @@ public class Gun extends Melee {
 		}
 
 		if (sndCharge != null) {
-			if (charge) {
+			if (charged) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
 				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d * 4.5);
 			} else {
@@ -169,7 +168,7 @@ public class Gun extends Melee {
 				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
 		}
 
-		if (charge) {
+		if (charged) {
 			timerAttack.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);

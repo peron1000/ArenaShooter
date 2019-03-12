@@ -9,6 +9,7 @@ public abstract class Weapon extends Item {
 	public Vec2f handPosR = null;
 	protected float damage = 0f;
 	protected Timer timerAttack = new Timer(0.15);
+	protected boolean charged = timerAttack.isOver();
 
 	public Weapon(Vec2f position, String itemSprite, float damage) {
 		super(position, itemSprite);
@@ -16,11 +17,19 @@ public abstract class Weapon extends Item {
 		timerAttack.attachToParent(this, timerAttack.genName());
 	}
 
-	public abstract void attackStart();
+	public void attackStart() {
+		timerAttack.setIncreasing(true);
+		timerAttack.setProcessing(true);
+	}
 
-	public abstract void attackStop();
+	public void attackStop() {
+		timerAttack.setIncreasing(true);
+	}
 
 	public void step(double d) {
+		if(charged) {
+			
+		}
 		super.step(d);
 	}
 }
