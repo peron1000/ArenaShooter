@@ -145,7 +145,8 @@ public class Gun extends Melee {
 	 */
 	@Override
 	public void step(double d) {
-
+		charged = timerAttack.isOver();
+		
 		// se cale sur la position du perso
 		if (isEquipped()) {
 			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
