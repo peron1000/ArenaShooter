@@ -5,6 +5,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Entity;
+import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
@@ -19,6 +20,9 @@ public class Gun extends Melee {
 	public int bulletType = 0;
 	public double bulletSpeed = 1.0;
 	public double waitCharge;// Temps depuis lequel la gachette est enclenchee
+
+	/** Time before the first bullet is fired */
+	protected Timer timerWarmup = new Timer(0.15);
 
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
@@ -43,6 +47,7 @@ public class Gun extends Melee {
 		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", -1, 1, 1);
 		charge.setVolume(0.35f);
 		sndCharge = charge;
+		timerWarmup.attachToParent(this, timerWarmup.genName());
 
 		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
 		noAmmo.setVolume(0.25f);
@@ -51,7 +56,7 @@ public class Gun extends Melee {
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
 
-		timerAttack.setProcessing(false);
+		timerWarmup.setProcessing(false);
 
 	}
 
@@ -127,17 +132,17 @@ public class Gun extends Melee {
 	@Override
 	public void attackStart() {
 		if (nbAmmo > 0) {
-			timerAttack.setIncreasing(true);
-			timerAttack.setProcessing(true);
+			timerWarmup.setIncreasing(true);
+			timerWarmup.setProcessing(true);
 		} else {
-			timerAttack.setValue(0.05);
+			timerWarmup.setValue(0.05);
 			super.attackStart();
 		}
 	}
 
 	@Override
 	public void attackStop() {
-		timerAttack.setIncreasing(false);
+		timerWarmup.setIncreasing(false);
 	}
 
 	/* (non-Javadoc)
@@ -145,19 +150,17 @@ public class Gun extends Melee {
 	 */
 	@Override
 	public void step(double d) {
-		charged = timerAttack.isOver();
-		
 		// se cale sur la position du perso
 		if (isEquipped()) {
-			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
-
-			localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
-			localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
-			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
+//			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
+//
+//			localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
+//			localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
+//			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
 		}
 
 		if (sndCharge != null) {
-			if (charged) {
+			if (timerWarmup.isOver()) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
 				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d * 4.5);
 			} else {
@@ -169,8 +172,8 @@ public class Gun extends Melee {
 				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
 		}
 
-		if (charged) {
-			timerAttack.restart();
+		if (timerWarmup.isOver()) {
+			timerWarmup.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
 
