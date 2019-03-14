@@ -52,7 +52,7 @@ public final class Window {
 	/** Projection matrix */
 	public static Mat4f proj;
 	private static float fov = 70;
-	private static final float CLIP_NEAR = 10, CLIP_FAR = 10000;
+	private static final float CLIP_NEAR = 50, CLIP_FAR = 150000;
 	
 	//View
 	private static Camera camera = new Camera(new Vec3f(0, 0, 450));
