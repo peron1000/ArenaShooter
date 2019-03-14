@@ -242,6 +242,8 @@ final class ModelObjLoader {
 						texPath = texPath.substring(dataIndex+1);
 						
 					Texture tex = Texture.loadTexture(texPath);
+					//Disable texture filtering
+					tex.setFilter(false);
 					res.put(currentMat, tex);
 					break;
 				}
