@@ -2,7 +2,7 @@
 
 //In
 in vec2 texCoord;
-in vec3 normalCamSpace;
+in vec3 normalCamSpaceIn;
 in vec3 ambient;
 in vec3 directionalLightDir;
 in vec3 directionalLightColor;
@@ -20,6 +20,11 @@ uniform vec4 baseColorMod = vec4(1.0, 1.0, 1.0, 1.0);
 out vec4 FragmentColor;
 
 void main() {
+	//Two-sided lighting
+	vec3 normalCamSpace = normalCamSpaceIn;
+	if(!gl_FrontFacing)
+		normalCamSpace *= -1.0;
+
     vec4 textureSample = texture(baseColor, texCoord);
     
     if(textureSample.a <= 0) discard;

@@ -12,7 +12,7 @@ uniform mat4 projection;
 
 //Out
 out vec2 texCoord;
-out vec3 normalCamSpace;
+out vec3 normalCamSpaceIn;
 out vec3 ambient;
 out vec3 directionalLightDir;
 out vec3 directionalLightColor;
@@ -27,7 +27,7 @@ void main() {
     mat4 mvp = projection * viewModel;
     gl_Position = mvp * vec4(position, 1.0);
     texCoord = uv;
-    normalCamSpace = normalize( ( viewModel * vec4(normal, 0.0) ).xyz );
+    normalCamSpaceIn = normalize( ( viewModel * vec4(normal, 0.0) ).xyz );
     
     ambient = vec3(0.063, 0.078, 0.078);
     
