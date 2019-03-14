@@ -103,17 +103,22 @@
 		</mesh>
 		
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
-			<vecteur use="position" x="1000" y="0" z="-6000"/>
+			<vecteur use="position" x="1000" y="0" z="-10000"/>
 			<vecteur use="rotation" x="0" y=".2" z="0" w="1"/>
 			<vecteur use="scale" x="100" y="100" z="100"/>
-            
-            <entities>
-                <mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
-			        <vecteur use="position" x="-300" y="-1470" z="0"/>
-			        <vecteur use="rotation" x="0" y="0" z="0" w="1"/>
-			        <vecteur use="scale" x="1" y="1" z="1"/>
-		        </mesh>
-            </entities>
+			<entities>
+                		<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
+			        	<vecteur use="position" x="-300" y="-1470" z="0"/>
+					<vecteur use="rotation" x="0" y="0" z="0" w="1"/>
+					<vecteur use="scale" x="1" y="1" z="1"/>
+				</mesh>
+			</entities>
+		</mesh>
+
+		<mesh src="data/meshes/landscape_field/Hill.obj">
+			<vecteur use="position" x="0" y="14500" z="-4000"/>
+			<vecteur use="rotation" x="-0.15" y="0" z="0" w="1"/>
+			<vecteur use="scale" x="150" y="150" z="150"/>
 		</mesh>
 
 	</entities>
