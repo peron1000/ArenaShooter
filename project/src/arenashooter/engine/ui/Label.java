@@ -8,9 +8,7 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Main;
 
@@ -19,12 +17,12 @@ public class Label extends UiElement {
 	private Text text;
 	
 	public float thickness = .3f;
-	public Vec4f color = new Vec4f(1, 1, .5, 1);
+	public Vec4f color = new Vec4f(1, 1, 1, 1);
 	
 	public Label(Vec2f pos, double rot, Vec2f scale, String text) {
 		super(pos, rot, scale);
 		this.text = new Text(Main.font, Text.TextAlignH.CENTER, text);
-		this.shader = Shader.loadShader("data/shaders/text_distance_field");
+		this.shader = Shader.loadShader("data/shaders/ui/ui_text_distance_field");
 	}
 	
 	public void setText(String newText) {
@@ -39,13 +37,11 @@ public class Label extends UiElement {
 
 	@Override
 	protected void draw() {
-		System.out.println("blep");
 		Model model = text.getModel();
 		
 		shader.bind();
 		shader.setUniformM4("model", Mat4f.transform(pos, rotation, scale));
-		shader.setUniformM4("view",  Mat4f.viewMatrix(new Vec3f(0, 0, 500), Quat.fromAngle(0))); //TODO: Berk
-		shader.setUniformM4("projection", Window.proj);
+		shader.setUniformM4("projection", Window.projOrtho);
 		
 		shader.setUniformV4("baseColor", color);
 		

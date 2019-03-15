@@ -46,13 +46,18 @@ public final class Window {
 	private static int width, height;
 	private static float ratio;
 	
-	private static boolean transparency = false;
+	/** Current Window state is Transparency */
+	private static boolean stateTransparency = false;
+	/** Current Window state is UI */
+	private static boolean stateUi = false;
 	
 	//Projection
-	/** Projection matrix */
+	/** Perspective projection matrix */
 	public static Mat4f proj;
 	private static float fov = 70;
 	private static final float CLIP_NEAR = 50, CLIP_FAR = 150000;
+	/** Orthographic projection matrix */
+	public static Mat4f projOrtho;
 	
 	//View
 	private static Camera camera = new Camera(new Vec3f(0, 0, 450));
@@ -209,21 +214,43 @@ public final class Window {
 	
 	public static void beginTransparency() {
 		Profiler.startTimer(Profiler.TRANSPARENCY);
-		if(transparency) return;
-		transparency = true;
+		if(stateTransparency) return;
+		stateTransparency = true;
 		glDepthMask(false);
 		glEnable(GL_BLEND);
 	}
 	
 	public static void endTransparency() {
-		if(!transparency) {
+		if(!stateTransparency) {
 			Profiler.endTimer(Profiler.TRANSPARENCY);
 			return;
 		} else {
-			transparency = false;
+			stateTransparency = false;
 			glDepthMask(true);
 			glDisable(GL_BLEND);
 			Profiler.endTimer(Profiler.TRANSPARENCY);
+		}
+	}
+
+	public static void beginUi() {
+//		Profiler.startTimer(Profiler.TRANSPARENCY);
+		if(stateUi) return;
+		stateUi = true;
+		glDisable(GL_DEPTH_TEST);
+		glDepthMask(false);
+		glEnable(GL_BLEND);
+	}
+	
+	public static void endUi() {
+		if(!stateUi) {
+//			Profiler.endTimer(Profiler.TRANSPARENCY);
+			return;
+		} else {
+			stateUi = false;
+			glEnable(GL_DEPTH_TEST);
+			glDepthMask(true);
+			glDisable(GL_BLEND);
+//			Profiler.endTimer(Profiler.TRANSPARENCY);
 		}
 	}
 	
@@ -292,9 +319,9 @@ public final class Window {
 	 * Create the projection matrix based on window size
 	 */
 	public static void createProjectionMatrix() {
-//		float sizeY = 800;
-//		float sizeX = sizeY*ratio;
-//		proj = Mat4f.ortho(0.1f, 500, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
+		float sizeY = 100;
+		float sizeX = sizeY*ratio;
+		projOrtho = Mat4f.ortho(0.01f, 100, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
 		proj = Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio);
 	}
 	
