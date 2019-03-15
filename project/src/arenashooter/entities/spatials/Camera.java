@@ -27,7 +27,7 @@ public class Camera extends Spatial3 {
 	
 	public Camera(Vec3f position) {
 		super(position);
-		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x, position.y, position.z), rotation);
+		viewMatrix = Mat4f.viewMatrix(pos(), rotation);
 		this.targetLoc = position.clone();
 	}
 	

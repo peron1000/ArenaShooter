@@ -189,7 +189,7 @@ public class Gun extends Melee {
 				switch (bulletType) {
 				case 0:
 					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-					bul.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul.genName()));
+					bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
 					if (isEquipped())
 						bul.shooter = ((Character) parent);
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
@@ -207,14 +207,14 @@ public class Gun extends Melee {
 						bull.shooter = ((Character) parent);
 						bull2.shooter = ((Character) parent);
 					}
-					bull.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull.genName()));
-					bull2.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bull2.genName()));
+					bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
+					bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
 					break;
 
 				default:
 
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
-					bul1.attachToParent(GameMaster.gm.getMap(), ("bullet_" + bul1.genName()));
+					bul1.attachToParent(getMap(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) parent);
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");

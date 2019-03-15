@@ -84,6 +84,8 @@ public class MapChooser extends GameState {
 
 	@Override
 	public void update(double delta) {
+		super.update(delta);
+		
 		// Temp sprite changing
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
 			if (init < maps.size() - 1) {

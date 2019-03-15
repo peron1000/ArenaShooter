@@ -33,6 +33,7 @@ public class ConfigManager {
 		//Fill default values
 		defaults.setProperty("resX", "1280");
 		defaults.setProperty("resY", "720");
+		defaults.setProperty("fullscreen", "false");
 	}
 	
 	public static void save() {
@@ -50,5 +51,9 @@ public class ConfigManager {
 	
 	public static int getInt(String key) {
 		return Integer.valueOf(getString(key));
+	}
+	
+	public static boolean getBool(String key) {
+		return Boolean.valueOf(getString(key));
 	}
 }
