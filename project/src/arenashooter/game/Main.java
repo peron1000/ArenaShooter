@@ -1,5 +1,6 @@
 package arenashooter.game;
 
+import arenashooter.engine.ConfigManager;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
@@ -16,8 +17,9 @@ public class Main {
 	public static Font font = null;
 	
 	public static void main(String[] args) {
+		ConfigManager.init();
 		Audio.init(false);
-		Window.init(1280, 720, "Super Blep");
+		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), "Super Blep");
 		Window.setVsync(true);
 		
 		gameMaster = GameMaster.gm;
