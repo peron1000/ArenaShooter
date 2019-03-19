@@ -19,8 +19,8 @@ public class Label extends UiElement {
 	public float thickness = .3f;
 	public Vec4f color = new Vec4f(1, 1, 1, 1);
 	
-	public Label(Vec2f pos, double rot, Vec2f scale, String text) {
-		super(pos, rot, scale);
+	public Label(Menu owner, Vec2f pos, double rot, Vec2f scale, String text) {
+		super(owner, pos, rot, scale);
 		this.text = new Text(Main.font, Text.TextAlignH.CENTER, text);
 		this.shader = Shader.loadShader("data/shaders/ui/ui_text_distance_field");
 	}
