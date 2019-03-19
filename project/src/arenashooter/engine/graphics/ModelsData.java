@@ -33,6 +33,11 @@ public class ModelsData {
 		}
 	}
 	
+	/**
+	 * Find and parse the shader overrides file attached to a mesh file
+	 * @param path mesh file (*.obj)
+	 * @return a map of material names linked to their shaders
+	 */
 	static HashMap<String, Shader> getShadersOverrides(String path) {
 		HashMap<String, Shader> res = new HashMap<>();
 		
