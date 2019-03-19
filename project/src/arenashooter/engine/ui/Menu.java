@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 
 public class Menu {
 	private ArrayList<UiElement> elems = new ArrayList<>();
@@ -11,11 +12,14 @@ public class Menu {
 	private UiElement focus = null;
 
 	public Menu() {
-		elems.add(new Label(new Vec2f(), 0, new Vec2f(50, 50), "PAUSE"));
+		elems.add(new Rectangle(this, new Vec2f(), 0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25)));
+		elems.add(new Label(this, new Vec2f(0, -30), 0, new Vec2f(50, 50), "PAUSE"));
+		elems.add(new Button(this, new Vec2f(0, 0), 0, new Vec2f(28, 8), "Quit"));
 	}
 	
 	public void update() {
-		
+		for(UiElement elem : elems)
+			elem.update();
 	}
 	
 	public void draw() {
