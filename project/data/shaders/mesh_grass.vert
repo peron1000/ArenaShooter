@@ -9,6 +9,7 @@ in vec3 normal;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform int time;
 
 //Out
 out vec2 texCoord;
@@ -25,9 +26,15 @@ out struct Light {
 void main() {
     mat4 viewModel = view * model;
     mat4 mvp = projection * viewModel;
-    gl_Position = mvp * vec4(position, 1.0);
+    
+    //Wind
+    float xOffset = 0.0;
+    if(uv.y < 0.5) xOffset = sin(position.z+time*.0032+cos(time*0.001))*2.5;
+    vec3 position_wind = vec3( position.x+xOffset, position.y, position.z );
+    
+    gl_Position = mvp * vec4(position_wind, 1.0);
     texCoord = uv;
-    normalCamSpaceIn = normalize( ( viewModel * vec4(0.0, 1.0, 0.0, 0.0) ).xyz ); //Custom normal
+    normalCamSpaceIn = normalize( ( viewModel * vec4(0.0, -1.0, 0.0, 0.0) ).xyz ); //Custom normal
     
     ambient = vec3(0.063, 0.078, 0.078);
     
