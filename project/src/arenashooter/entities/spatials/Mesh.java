@@ -38,13 +38,8 @@ public class Mesh extends Spatial3 {
 		ModelsData data = ModelsData.loadModel(modelPath);
 		
 		models = data.models;
+		shaders = data.shaders;
 		textures = data.textures;
-		
-		//TODO: Load materials from model file
-		Shader shaderBase = Shader.loadShader("data/shaders/mesh_simple");
-		shaders = new Shader[models.length];
-		for( int i=0; i<models.length; i++ )
-			shaders[i] = shaderBase;
 	}
 	
 	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Shader[] shaders, Texture[] textures) {

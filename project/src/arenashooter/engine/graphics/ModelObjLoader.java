@@ -13,11 +13,15 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
 final class ModelObjLoader {
+	
 	private ModelObjLoader() {};
 	
-	public static ModelsData loadObj( String path ) {
+	static ModelsData loadObj( String path ) {
 		ArrayList<Model> models = new ArrayList<>(1);
+		ArrayList<Shader> shaders = new ArrayList<>(1);
 		ArrayList<Texture> textures = new ArrayList<>(1);
+		
+		HashMap<String, Shader> shaderOverrides = ModelsData.getShadersOverrides(path);
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -54,6 +58,7 @@ final class ModelObjLoader {
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
 						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+						shaders.add( shaderOverrides.getOrDefault(currentMat, ModelsData.default_shader) );
 						
 						//Clear faces
 						faces.clear();
@@ -119,6 +124,7 @@ final class ModelObjLoader {
 
 			models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
 			textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+			shaders.add( shaderOverrides.getOrDefault(currentMat, ModelsData.default_shader) );
 
 			reader.close();
 			inReader.close();
@@ -128,13 +134,21 @@ final class ModelObjLoader {
 		}
 		
 		//If textures are missing, replace them with default texture
+		if(textures.size()<models.size())
+			System.err.println("Render - Missing textures for "+path);
 		for( int i=textures.size()-1; i<models.size(); i++ )
 			textures.add(Texture.default_tex);
+		//If shaders are missing, replace them with default shader
+		if(shaders.size()<models.size())
+			System.err.println("Render - Missing shaders for "+path);
+		for( int i=shaders.size()-1; i<models.size(); i++ )
+			shaders.add(ModelsData.default_shader);
 		
 		Model[] modelsArray = models.toArray(new Model[models.size()]);
+		Shader[] shadersArray = shaders.toArray(new Shader[shaders.size()]);
 		Texture[] texturesArray = textures.toArray(new Texture[textures.size()]);
 		
-		return new ModelsData(modelsArray, texturesArray);
+		return new ModelsData(modelsArray, shadersArray, texturesArray);
 	}
 	
 	/**
