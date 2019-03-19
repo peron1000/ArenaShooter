@@ -19,6 +19,8 @@ public class Mesh extends Spatial3 {
 	private Shader[] shaders;
 	private Texture[] textures;
 	
+	private int timeMs = 0;
+	
 	public Vec3f scale;
 	
 	public Mesh(Vec3f position, String modelPath) {
@@ -59,6 +61,13 @@ public class Mesh extends Spatial3 {
 	}
 	
 	@Override
+	public void step(double d) {
+		timeMs += d*1000;
+		
+		super.step(d);
+	}
+	
+	@Override
 	public void draw() {
 		Profiler.startTimer(Profiler.MESHES);
 		
@@ -67,6 +76,8 @@ public class Mesh extends Spatial3 {
 			shaders[i].setUniformM4("model", Mat4f.transform(pos(), rotation, scale));
 			shaders[i].setUniformM4("view", Window.getView());
 			shaders[i].setUniformM4("projection", Window.proj);
+			
+			shaders[i].setUniformI("time", timeMs);
 			
 			models[i].bindToShader(shaders[i]);
 			
