@@ -97,12 +97,12 @@
 		</mesh>
 		
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
-			<vecteur use="position" x="22500" y="13000" z="-60000"/>
+			<vecteur use="position" x="22500" y="28000" z="-62500"/>
 			<vecteur use="rotation" x="0" y=".2" z="0" w="1"/>
-			<vecteur use="scale" x="450" y="450" z="450"/>
+			<vecteur use="scale" x="950" y="950" z="950"/>
 			<entities>
                 		<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
-					<vecteur use="position" x="-300" y="1470" z="0"/>
+					<vecteur use="position" x="-300" y="1200" z="0"/>
 					<vecteur use="rotation" x="0" y="0" z="0" w="1"/>
 					<vecteur use="scale" x="1" y="1" z="1"/>
 				</mesh>
@@ -118,8 +118,8 @@
 		<!-- TEMP BLADES -->
 
 		<mesh src="data/meshes/landscape_field/Hill.obj">
-			<vecteur use="position" x="0" y="53500" z="-25000"/>
-			<vecteur use="rotation" x="-0.35" y="0" z="0" w="1"/>
+			<vecteur use="position" x="0" y="53500" z="-22000"/>
+			<vecteur use="rotation" x="-0.2" y="0" z="0" w="1"/>
 			<vecteur use="scale" x="300" y="300" z="300"/>
 		</mesh>
 
