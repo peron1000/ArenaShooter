@@ -32,6 +32,7 @@ import org.lwjgl.opengl.GL;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.spatials.Camera;
 
@@ -71,6 +72,7 @@ public final class Window {
 	private static int renderTarget, colorRenderBuffer, depthRenderBuffer, fbo;
 	//Internal rendering resolution
 	private static int resX, resY;
+	public static float resolutionScale = 1;
 	
 	//This class cannot be instantiated
 	private Window() {}
@@ -271,8 +273,10 @@ public final class Window {
 	public static void resize(int newWidth, int newHeight) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
-		resX = width;
-		resY = height;
+		
+		resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
+		resX = (int)(width*resolutionScale);
+		resY = (int)(height*resolutionScale);
 		
 		ratio = (float)width/(float)height;
 		

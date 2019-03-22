@@ -34,6 +34,7 @@ public class ConfigManager {
 		defaults.setProperty("resX", "1280");
 		defaults.setProperty("resY", "720");
 		defaults.setProperty("fullscreen", "false");
+		defaults.setProperty("resScale", "1");
 	}
 	
 	public static void save() {
@@ -51,6 +52,10 @@ public class ConfigManager {
 	
 	public static int getInt(String key) {
 		return Integer.valueOf(getString(key));
+	}
+	
+	public static float getFloat(String key) {
+		return Float.valueOf(getString(key));
 	}
 	
 	public static boolean getBool(String key) {

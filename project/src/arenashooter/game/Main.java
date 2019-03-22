@@ -19,6 +19,7 @@ public class Main {
 	public static void main(String[] args) {
 		ConfigManager.init();
 		Audio.init(false);
+		Window.resolutionScale = ConfigManager.getFloat("resScale");
 		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), "Super Blep");
 		Window.setVsync(true);
 		
