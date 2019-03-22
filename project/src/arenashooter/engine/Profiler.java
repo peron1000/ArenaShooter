@@ -1,10 +1,18 @@
 package arenashooter.engine;
 
+/**
+ * Game data profiler</br>
+ * This keeps track of things like the time spent processing physics or drawing particles 
+ * or the amount of draw calls used by the scene
+ */
 public final class Profiler {
 	//This class cannot be instantiated
 	private Profiler() {}
 	
 	private static final double NANOTOMILLI = 0.000001;
+	
+	/** Draw calls counter, should be incremented at every call to glDrawElements */
+	public static int drawCalls = 0;
 	
 	//
 	//Timers
@@ -22,16 +30,20 @@ public final class Profiler {
 	private static boolean[] running = new boolean[9];
 	
 	/**
-	 * Reset all the timers
+	 * Reset all the counters and timers
 	 */
 	public static void beginFrame() {
+		drawCalls = 0;
 		for(int i=0; i<times.length; i++) {
 			times[i] = 0;
 			running[i] = false;
 		}
 	}
 	
-	public static void printTimes() {
+	/**
+	 * Print data collected since the last call to beginFrame()
+	 */
+	public static void printData() {
 		System.out.println("Frame profiling:");
 
 		System.out.println("-Frame: "+(float)((times[RENDER]+times[STEP])*NANOTOMILLI)+"ms");
@@ -40,6 +52,7 @@ public final class Profiler {
 		System.out.println(" | |-Physic:......."+(float)(times[PHYSIC]*NANOTOMILLI)+"ms");
 		System.out.println(" |");
 		System.out.println(" |-Render:."+(float)(times[RENDER]*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Draw calls:..."+drawCalls);
 		System.out.println(" | |-Transparency:."+(float)(times[TRANSPARENCY]*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Sprites:......"+(float)(times[SPRITES]*NANOTOMILLI)+"ms");
 		System.out.println(" | |-Meshes:......."+(float)(times[MESHES]*NANOTOMILLI)+"ms");

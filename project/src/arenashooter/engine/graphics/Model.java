@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.lwjgl.system.MemoryUtil;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 
 /**
@@ -191,6 +192,7 @@ public class Model {
 	 */
 	public void draw() {
 		glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
+		Profiler.drawCalls++;
 	}
 	
 	/**
@@ -199,6 +201,7 @@ public class Model {
 	 */
 	public void draw(boolean wireframe) {
 		glDrawElements(wireframe ? GL_LINE_LOOP : GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
+		Profiler.drawCalls++;
 	}
 	
 	public static void unbind() {
