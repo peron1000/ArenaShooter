@@ -67,6 +67,7 @@ public class Gun extends Melee {
 		recoil = 0.5f;
 		bulletSpeed = 4000;
 		cannonLength = 40.0;
+		nbAmmo = 20;
 
 		SoundEffect bang = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2, 0.9f, 1.1f);
 		bang.setVolume(0.35f);
