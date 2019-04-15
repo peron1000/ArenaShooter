@@ -2,8 +2,6 @@ package arenashooter.engine.itemCollection;
 
 import java.util.ArrayList;
 
-import arenashooter.engine.math.Vec2f;
-
 public class ItemCollection<T extends ItemConcept> {
 	
 	private ArrayList<T> list = new ArrayList<>();
