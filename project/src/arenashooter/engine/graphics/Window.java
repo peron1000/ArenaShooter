@@ -74,6 +74,9 @@ public final class Window {
 	private static int resX, resY;
 	public static float resolutionScale = 1;
 	
+	//Callbacks
+	private static GLFWErrorCallback callbackError;
+	
 	//This class cannot be instantiated
 	private Window() {}
 	
@@ -87,8 +90,8 @@ public final class Window {
 	public static void init(int windowWidth, int windowHeight, String windowTtitle) {
 		System.out.println("Render - Initializing");
 		
-		GLFWErrorCallback errorfun = GLFWErrorCallback.createPrint();
-		glfwSetErrorCallback(errorfun);
+		callbackError = GLFWErrorCallback.createPrint(System.err);
+		glfwSetErrorCallback(callbackError);
 		
 		if(!glfwInit()) {
 			System.err.println("Render - Can't initialize GLFW !");
@@ -120,10 +123,8 @@ public final class Window {
 		
 		setIcon( new String[] {"data/icon_32.png", "data/icon_64.png", "data/icon_128.png"} );
 		
-		//Definir le contexte de la fenetre
+		//Attach an openGL context to the window
 		glfwMakeContextCurrent(window);
-		
-		//Lier la fenetre a OpenGL
 		GL.createCapabilities();
 		
 		//Set window size, create projection matrix, create framebuffers etc
@@ -257,12 +258,14 @@ public final class Window {
 	}
 	
 	/**
-	 * Destroy the fenetre
+	 * Destroy the window and terminates GLFW
 	 */
 	public static void destroy() {
 		System.out.println("Render - Stopping");
 		
 		glfwDestroyWindow(window);
+		
+		glfwTerminate();
 	}
 	
 	/**
