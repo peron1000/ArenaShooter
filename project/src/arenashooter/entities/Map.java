@@ -35,10 +35,23 @@ public class Map extends Entity {
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
 
-	Timer spawnWeapon = new Timer(10);
+	/**
+	 * Time to count before deciding who wins, or if it's a draw if the last one dies before the timer expires
+	 */
+	Timer chooseWinner = new Timer(3.2);
+	
+	/**
+	 * Time before switching to next map. After the winner has been found
+	 */
+	Timer endGame = new Timer(2);
+	boolean mapIsOver = false;
+	
+	Timer spawnWeapon = new Timer(4);
 
 	public Map() {
-		physic = new Physic(this);
+		physic = new Physic(this);//?? owo How's it work ?
+		chooseWinner.setIncreasing(false);
+		endGame.setIncreasing(false);
 	}
 
 	@Override
