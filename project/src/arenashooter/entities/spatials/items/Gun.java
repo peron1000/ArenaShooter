@@ -27,7 +27,7 @@ public class Gun extends Melee {
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
 
-	private int nbAmmo = 15;
+	private int nbAmmo = 50;
 
 	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound, String noAmmoSound,
 			double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
@@ -61,7 +61,7 @@ public class Gun extends Melee {
 	}
 
 	public Gun(Vec2f position) {
-		super(position, "data/weapons/Assaut_1.png", 1, 0.15 , "data/sound/GunCock1.ogg");
+		super(position, "data/weapons/Assaut_1.png", 1, 0.15 , "data/sound/GunCock1");
 
 		thrust = 500;
 		recoil = 0.5f;

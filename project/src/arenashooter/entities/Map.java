@@ -36,20 +36,21 @@ public class Map extends Entity {
 	public Vec4f cameraBounds;
 
 	/**
-	 * Time to count before deciding who wins, or if it's a draw if the last one dies before the timer expires
+	 * Time to count before deciding who wins, or if it's a draw if the last one
+	 * dies before the timer expires
 	 */
-	Timer chooseWinner = new Timer(3.2);
-	
+	public Timer chooseWinner = new Timer(3.2);
+
 	/**
 	 * Time before switching to next map. After the winner has been found
 	 */
-	Timer endGame = new Timer(2);
+	public Timer endGame = new Timer(2);
 	boolean mapIsOver = false;
-	
+
 	Timer spawnWeapon = new Timer(4);
 
 	public Map() {
-		physic = new Physic(this);//?? owo How's it work ?
+		physic = new Physic(this);
 		chooseWinner.setIncreasing(false);
 		endGame.setIncreasing(false);
 	}
@@ -57,6 +58,11 @@ public class Map extends Entity {
 	@Override
 	public void step(double d) {
 		super.step(d);
+		chooseWinner.step(d);
+		if (chooseWinner.isOver() && !endGame.isIncreasing()) {
+			endGame.setIncreasing(true);
+		}
+		endGame.step(d);
 		if (spawnWeapon.isOver()) {
 			try {
 				spawnWeapon.restart();
@@ -177,22 +183,26 @@ public class Map extends Entity {
 		testPhysics();
 		spawnWeapon.attachToParent(this, "test");
 
-//		Gun gun2 = new Gun(new Vec2f(300, 350));
-////		Melee kata = new Melee(new Vec2f(750, 350));
-//		Gun gun3 = new Gun(new Vec2f(-250, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
-//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-//		Gun gun4 = new Gun(new Vec2f(1000, 350), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
-//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-//		Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png", "Bang2", "GunCock1", "GunCock1", "jump",
-//				0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-//		Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1_tr.png", "BangIonGun2", "GunCock1",
-//				"IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3);
-//		gun6.attachToParent(this, "Item_Weapon" + genName());
-////		kata.attachToParent(this, "Item_Weapon"+genName());
-//		gun2.attachToParent(this, "Item_Weapon" + genName());
-//		gun3.attachToParent(this, "Item_Weapon" + genName());
-//		gun4.attachToParent(this, "Item_Weapon" + genName());
-//		gun5.attachToParent(this, "Item_Weapon" + genName());
+		// Gun gun2 = new Gun(new Vec2f(300, 350));
+		//// Melee kata = new Melee(new Vec2f(750, 350));
+		// Gun gun3 = new Gun(new Vec2f(-250, 1050), "data/weapons/Minigun_1.png",
+		// "Bang2", "GunCock1", "GunCock1", "jump",
+		// 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
+		// Gun gun4 = new Gun(new Vec2f(1000, 350), "data/weapons/Minigun_1.png",
+		// "Bang2", "GunCock1", "GunCock1", "jump",
+		// 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
+		// Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png",
+		// "Bang2", "GunCock1", "GunCock1", "jump",
+		// 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
+		// Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1_tr.png",
+		// "BangIonGun2", "GunCock1",
+		// "IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3);
+		// gun6.attachToParent(this, "Item_Weapon" + genName());
+		//// kata.attachToParent(this, "Item_Weapon"+genName());
+		// gun2.attachToParent(this, "Item_Weapon" + genName());
+		// gun3.attachToParent(this, "Item_Weapon" + genName());
+		// gun4.attachToParent(this, "Item_Weapon" + genName());
+		// gun5.attachToParent(this, "Item_Weapon" + genName());
 
 	}
 }

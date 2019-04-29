@@ -8,16 +8,22 @@ import arenashooter.engine.input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.CharacterInfo;
+import arenashooter.game.GameMaster;
+import arenashooter.game.gameStates.Game;
 
 public class Controller {
 	/** Input device used by this controller */
 	private Device device;
 	/** This controller's character information */
 	private CharacterInfo charInfo;
-
 	/** Currently possessed character */
 	private Character character;
-
+	boolean deadChar = false;
+	
+	public boolean hasDeadChar() {
+		return deadChar;
+	}
+	
 	public Controller(Device device) {
 		this.device = device;
 		charInfo = new CharacterInfo();
@@ -36,6 +42,13 @@ public class Controller {
 
 	public Character getCharacter() {
 		return character;
+	}
+	
+	public void death() {
+		deadChar = true;
+		if(GameMaster.current instanceof Game) {
+			((Game)GameMaster.current).evalOneLeft();
+		}
 	}
 
 	public void step(double d) {

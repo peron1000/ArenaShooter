@@ -4,7 +4,9 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.ImpactOld;
+import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
+import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Weapon;
@@ -12,6 +14,8 @@ import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {
+
+	public Controller controller = null;
 	private static final float defaultDamage = 5;
 	private float health, healthMax;
 	private final Vec2f spawn;
@@ -168,8 +172,15 @@ public class Character extends Spatial {
 		return res;
 	}
 
-	private void death() {
+	public void death() {
 		// TODO: Effects
+
+		dropItem();
+		if (controller != null)
+			controller.death();
+//		if (parent instanceof Map) {
+//			detach();
+//		}
 		health = healthMax;
 		position = new Vec2f(spawn.x, spawn.y);
 		vel = new Vec2f();

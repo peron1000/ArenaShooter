@@ -17,13 +17,26 @@ public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
 	private Iterator<Controller> iterator = GameMaster.gm.controllers.iterator();
+	private boolean oneLeft;
+
+	public void evalOneLeft() {
+		int compteur = 0;
+		while (iterator.hasNext()) {
+			Controller controller = iterator.next();
+			if (controller.hasDeadChar()) {
+				compteur++;
+			}
+		}
+		if (compteur <= 1)
+			oneLeft = true;
+	}
 
 	public Game() {
 	}
 
 	@Override
 	public void init() {
-
+		
 		while (iterator.hasNext()) {
 			Controller controller = iterator.next();
 			Character character = controller.createNewCharacter(map.GetRandomRespawn());
@@ -31,7 +44,7 @@ public class Game extends GameState {
 			character.attachToParent(map, character.genName());
 		}
 
-		//Camera
+		// Camera
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 		Camera cam = new Camera(new Vec3f(0, 0, 450));
 		cam.attachToParent(map, "camera");
@@ -41,12 +54,21 @@ public class Game extends GameState {
 	@Override
 	public void update(double d) {
 		super.update(d);
-		
-		if(menu != null) return;
-		
+
+		if (oneLeft && !map.chooseWinner.isIncreasing()) {
+			map.chooseWinner.setIncreasing(true);
+		}
+		if(map.endGame.isOver()) {
+			init();
+		}
+
+		if (menu != null)
+			return;
+
 		if (Window.getCamera() != null) {
 			Window.getCamera().center(players, null, d);
-//			Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera bounds and uncomment this
+			// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera
+			// bounds and uncomment this
 			Audio.setListener(Window.getCamera().pos(), Window.getCamera().rotation);
 		} else
 			Audio.setListener(new Vec3f(), Quat.fromAngle(0));

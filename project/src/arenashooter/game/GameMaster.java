@@ -20,7 +20,7 @@ public class GameMaster {
 	public ArrayList<Controller> controllers = new ArrayList<>();
 
 	Stack<GameState> stateStack = new Stack<>();
-	private static GameState current = new Start();
+	public static GameState current = new Start();
 
 	public static final GameMaster gm = new GameMaster();
 
@@ -77,7 +77,7 @@ public class GameMaster {
 	public Collection<Entity> getEntities() {
 		return current.getMap().children.values();
 	}
-
+	
 	public Map getMap() {
 		return current.getMap();
 	}
