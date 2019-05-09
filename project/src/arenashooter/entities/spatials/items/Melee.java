@@ -20,7 +20,6 @@ public class Melee extends Usable {
 
 	@Override
 	public void step(double d) {
-		getSprite().rotation = rotation;
 		super.step(d);
 	}
 

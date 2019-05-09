@@ -11,6 +11,8 @@ public abstract class Item extends Spatial {
 
 	private Vec2f vel = new Vec2f();
 	Collider collider;
+	public Vec2f handPosL = null;
+	public Vec2f handPosR = null;
 	public SoundEffect pickup = new SoundEffect(position, "data/sound/GunCock1.ogg", 2);
 
 	public boolean isEquipped() {
