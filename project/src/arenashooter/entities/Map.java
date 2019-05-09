@@ -35,34 +35,15 @@ public class Map extends Entity {
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
 
-	/**
-	 * Time to count before deciding who wins, or if it's a draw if the last one
-	 * dies before the timer expires
-	 */
-	public Timer chooseWinner = new Timer(3.2);
-
-	/**
-	 * Time before switching to next map. After the winner has been found
-	 */
-	public Timer endGame = new Timer(2);
-	boolean mapIsOver = false;
-
 	Timer spawnWeapon = new Timer(4);
 
 	public Map() {
 		physic = new Physic(this);
-		chooseWinner.setIncreasing(false);
-		endGame.setIncreasing(false);
 	}
 
 	@Override
 	public void step(double d) {
 		super.step(d);
-		chooseWinner.step(d);
-		if (chooseWinner.isOver() && !endGame.isIncreasing()) {
-			endGame.setIncreasing(true);
-		}
-		endGame.step(d);
 		if (spawnWeapon.isOver()) {
 			try {
 				spawnWeapon.restart();

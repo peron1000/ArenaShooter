@@ -16,10 +16,7 @@ public class Projectile extends Spatial {
 	}
 
 	public boolean isShooter(Character dude) {
-		if (shooter != null) {
 			return dude == shooter;
-		} else
-			return false;
 	}
 
 	public Projectile(Vec2f position) {

@@ -10,6 +10,7 @@ import arenashooter.entities.spatials.Character;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.Game;
+//import arenashooter.game.gameStates.GameState;
 
 public class Controller {
 	/** Input device used by this controller */
@@ -19,11 +20,11 @@ public class Controller {
 	/** Currently possessed character */
 	private Character character;
 	boolean deadChar = false;
-	
+
 	public boolean hasDeadChar() {
 		return deadChar;
 	}
-	
+
 	public Controller(Device device) {
 		this.device = device;
 		charInfo = new CharacterInfo();
@@ -31,8 +32,13 @@ public class Controller {
 		System.out.println("Added controller for:\n " + Input.getDeviceInfo(device));
 	}
 
-	public Character createNewCharacter(Vec2f spawn) {
+	public Character createNewCharacter(Game game, Vec2f spawn) {
+		if (character != null)
+			character.death();
 		character = charInfo.createNewCharacter(spawn);
+		character.controller = this;
+		game.registerCharacter(character);
+		deadChar = false;
 		return character;
 	}
 
@@ -43,12 +49,14 @@ public class Controller {
 	public Character getCharacter() {
 		return character;
 	}
-	
+
 	public void death() {
 		deadChar = true;
-		if(GameMaster.current instanceof Game) {
-			((Game)GameMaster.current).evalOneLeft();
+		if (GameMaster.current instanceof Game) {
+			((Game) GameMaster.current).characterDeath(this, character);
 		}
+		character.controller = null;
+		character = null;
 	}
 
 	public void step(double d) {
@@ -58,7 +66,7 @@ public class Controller {
 				if (device == Device.KEYBOARD) {
 					Vec2f charPos = Vec2f.worldToScreen(character.position);
 					charPos.y *= -1;
-					
+
 					Vec2f mouseCentered = Vec2f.add(Input.mousePos,
 							new Vec2f(-Window.getWidth() / 2, -Window.getHeight() / 2));
 
@@ -78,7 +86,6 @@ public class Controller {
 				else if (Input.actionJustReleased(device, Action.ATTACK))
 					character.attackStop();
 
-				
 				if (Input.actionJustPressed(device, Action.GET_ITEM))
 					character.getItem();
 				if (Input.actionJustPressed(device, Action.DROP_ITEM))

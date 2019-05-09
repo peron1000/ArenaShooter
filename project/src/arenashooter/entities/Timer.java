@@ -9,7 +9,7 @@ public class Timer extends Entity {
 	private double max;
 	private double current = 0;
 	private boolean over = false;
-	private boolean inProcess = true;
+	public boolean inProcess = true;
 	private boolean increasing = true;
 
 	public Timer(double timer) {
@@ -38,8 +38,8 @@ public class Timer extends Entity {
 
 	/**
 	 * @param process = </br>
-	 *                | {@code true} : keep running or restart to run </br>
-	 *                | {@code false} : putting on pause
+	 *                | {@code true} : keeps running or restart to run </br>
+	 *                | {@code false} : put on pause
 	 */
 	public void setProcessing(boolean process) {
 

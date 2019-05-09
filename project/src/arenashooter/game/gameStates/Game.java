@@ -1,7 +1,6 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.PostProcess;
@@ -9,6 +8,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Controller;
+import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.GameMaster;
@@ -16,18 +16,26 @@ import arenashooter.game.GameMaster;
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
-	private Iterator<Controller> iterator = GameMaster.gm.controllers.iterator();
 	private boolean oneLeft;
 
-	public void evalOneLeft() {
-		int compteur = 0;
-		while (iterator.hasNext()) {
-			Controller controller = iterator.next();
-			if (controller.hasDeadChar()) {
-				compteur++;
-			}
+	/**
+	 * Time to count before deciding who wins, or if it's a draw if the last one
+	 * dies before the timer expires
+	 */
+	public Timer chooseWinner = new Timer(3.2);
+
+	/**
+	 * Time before switching to next map. After the winner has been found
+	 */
+	public Timer endGame = new Timer(2);
+
+	private void evalOneLeft() {
+		int aliveChars = 0;
+		for (Controller controller : GameMaster.gm.controllers) {
+			if (!controller.hasDeadChar())
+				aliveChars++;
 		}
-		if (compteur <= 1)
+		if (aliveChars <= 1)
 			oneLeft = true;
 	}
 
@@ -36,13 +44,17 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
-		
-		while (iterator.hasNext()) {
-			Controller controller = iterator.next();
-			Character character = controller.createNewCharacter(map.GetRandomRespawn());
-			players.add(character);
+		chooseWinner.restart();
+		endGame.restart();
+		chooseWinner.setProcessing(false);
+		endGame.setProcessing(false);
+
+		for (Controller controller : GameMaster.gm.controllers) {
+			Character character = controller.createNewCharacter(this, map.GetRandomRespawn());
 			character.attachToParent(map, character.genName());
 		}
+
+		oneLeft = false;
 
 		// Camera
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
@@ -51,14 +63,29 @@ public class Game extends GameState {
 		Window.setCamera(cam);
 	}
 
+	public void registerCharacter(Character character) {
+		players.add(character);
+	}
+
+	public void characterDeath(Controller controller, Character character) {
+		players.remove(character);
+		evalOneLeft();
+	}
+
 	@Override
 	public void update(double d) {
 		super.update(d);
-
-		if (oneLeft && !map.chooseWinner.isIncreasing()) {
-			map.chooseWinner.setIncreasing(true);
+		
+		if (oneLeft && !chooseWinner.inProcess) {
+			System.out.println("melp !");
+			chooseWinner.setProcessing(true);
 		}
-		if(map.endGame.isOver()) {
+		chooseWinner.step(d);
+		if (chooseWinner.isOver() && !endGame.inProcess) {
+			endGame.setProcessing(true);
+		}
+		endGame.step(d);
+		if (endGame.isOver()) {
 			init();
 		}
 
