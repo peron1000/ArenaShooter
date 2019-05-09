@@ -9,7 +9,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.Weapon;
+import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 
@@ -115,12 +115,12 @@ public class Character extends Spatial {
 
 		if (!hasWeapon || !hasArmor) {
 			for (Entity e : GameMaster.gm.getEntities()) {
-				if (!hasWeapon && e instanceof Weapon) {
-					Weapon weapon = (Weapon) e;
-					float xDiff = Math.abs(pos().x - weapon.pos().x);
-					float yDiff = Math.abs(pos().y - weapon.pos().y);
+				if (!hasWeapon && e instanceof Usable) {
+					Usable usable = (Usable) e;
+					float xDiff = Math.abs(pos().x - usable.pos().x);
+					float yDiff = Math.abs(pos().y - usable.pos().y);
 					if (xDiff < 175 && yDiff < 175)
-						arme = weapon;
+						arme = usable;
 				}
 			}
 
@@ -137,17 +137,17 @@ public class Character extends Spatial {
 		if (children.containsKey("Item_Weapon")) {
 			Entity arme = children.get("Item_Weapon");
 
-			if (arme instanceof Weapon)
-				((Weapon) arme).setVel(new Vec2f());
+			if (arme instanceof Usable)
+				((Usable) arme).setVel(new Vec2f());
 
 			arme.attachToParent(this.getParent(), arme.genName());
 		}
 	}
 
-	public Weapon getWeapon() {
+	public Usable getWeapon() {
 		Entity e = children.get("Item_Weapon");
-		if (e instanceof Weapon)
-			return (Weapon) e;
+		if (e instanceof Usable)
+			return (Usable) e;
 		else
 			return null;
 	}

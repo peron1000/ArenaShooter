@@ -7,7 +7,7 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.items.Weapon;
+import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
 
 public class CharacterSprite extends Spatial {
@@ -189,7 +189,7 @@ public class CharacterSprite extends Spatial {
 
 		// Hands
 		if (parent instanceof Character) {
-			Weapon weap = ((Character) parent).getWeapon();
+			Usable weap = ((Character) parent).getWeapon();
 
 			if (weap != null && weap.handPosL != null) {
 				if (!handLOnWeap) {

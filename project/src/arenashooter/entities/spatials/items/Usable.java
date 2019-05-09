@@ -5,7 +5,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 
-public abstract class Weapon extends Item {
+public abstract class Usable extends Item {
 
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
@@ -13,7 +13,7 @@ public abstract class Weapon extends Item {
 	/** Time in between attacks */
 	protected Timer timerCooldown = new Timer(0.15);
 
-	public Weapon(Vec2f position, String itemSprite, float damage) {
+	public Usable(Vec2f position, String itemSprite, float damage) {
 		super(position, itemSprite);
 		this.damage = damage;
 		timerCooldown.attachToParent(this, timerCooldown.genName());

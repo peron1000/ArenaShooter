@@ -5,7 +5,7 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Collider;
 import arenashooter.entities.spatials.SoundEffect;
 
-public class Melee extends Weapon {
+public class Melee extends Usable {
 	private Timer fireRate = new Timer(0.15);
 	Collider collider;
 	protected float damage = 10f;
