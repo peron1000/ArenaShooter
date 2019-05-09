@@ -9,19 +9,19 @@ import java.util.Map;
  * @param <T> Animated data type
  */
 public abstract class AnimTrack<T> {
-	protected float[] times;
+	protected double[] times;
 	protected Object[] values;
 	
-	public AnimTrack(Map<Float, T> keyframes) {
-		times = new float[keyframes.size()];
+	public AnimTrack(Map<Double, T> keyframes) {
+		times = new double[keyframes.size()];
 		values = new Object[keyframes.size()];
 		
 		//Make sure keyframes times are sorted
-		ArrayList<Float> timesList = new ArrayList<>(keyframes.size());
+		ArrayList<Double> timesList = new ArrayList<>(keyframes.size());
 		timesList.addAll(keyframes.keySet());
-		timesList.sort( new Comparator<Float>() {
-			public int compare(Float f1, Float f2) {
-				return f1.compareTo(f2);
+		timesList.sort( new Comparator<Double>() {
+			public int compare(Double d1, Double d2) {
+				return d1.compareTo(d2);
 			}
 		});
 
@@ -36,16 +36,16 @@ public abstract class AnimTrack<T> {
 	 * @param time
 	 * @return value
 	 */
-	public abstract T valueAt(float time);
+	public abstract T valueAt(double time);
 	
-	protected int prevKeyframe(float time) {
+	protected int prevKeyframe(double time) {
 		for(int i=times.length-1; i>=0; i--) {
 			if(times[i]<=time) return i;
 		}
 		return 0;
 	}
 	
-	protected int nextKeyframe(float time) {
+	protected int nextKeyframe(double time) {
 		for(int i=0; i<times.length; i++) {
 			if(times[i]>time) return i;
 		}

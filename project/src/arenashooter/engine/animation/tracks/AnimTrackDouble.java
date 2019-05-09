@@ -9,15 +9,15 @@ import arenashooter.engine.math.Utils;
  */
 public class AnimTrackDouble extends AnimTrack<Double> {
 
-	public AnimTrackDouble(Map<Float, Double> keyframes) {
+	public AnimTrackDouble(Map<Double, Double> keyframes) {
 		super(keyframes);
 	}
 
 	@Override
-	public Double valueAt(float time) {
+	public Double valueAt(double time) {
 		int prev = prevKeyframe(time);
 		int next = nextKeyframe(time);
-		float f = times[next]-times[prev];
+		double f = times[next]-times[prev];
 		if(f != 0)
 			f = (time-times[prev])/f;
 		return Utils.lerpD((double)values[prev], (double)values[next], f);

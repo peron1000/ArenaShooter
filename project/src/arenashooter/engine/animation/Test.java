@@ -78,9 +78,9 @@ public class Test extends Map{
 		cam.attachToParent(this, "camera");
 		Window.setCamera(cam);
 		
-		HashMap<Float, Vec3f> vec3Map = new HashMap<>();
-		vec3Map.put(5.2f, new Vec3f(0, 0, 550));
-		vec3Map.put(9f, new Vec3f(0, -1900, 550));
+		HashMap<Double, Vec3f> vec3Map = new HashMap<>();
+		vec3Map.put(5.2, new Vec3f(0, 0, 550));
+		vec3Map.put(9.0, new Vec3f(0, -1900, 550));
 		camA = new AnimTrackVec3f(vec3Map);
 		
 		//BG
@@ -89,9 +89,9 @@ public class Test extends Map{
 		bg.attachToParent(this, "bg");
 		
 		//Fade out
-		HashMap<Float, Double> opacityMap = new HashMap<>();
-		opacityMap.put(9f, 1d);
-		opacityMap.put(10f, 0d);
+		HashMap<Double, Double> opacityMap = new HashMap<>();
+		opacityMap.put(9d, 1d);
+		opacityMap.put(10d, 0d);
 		sceneOpacityA = new AnimTrackDouble(opacityMap);
 		
 		//Logo
@@ -100,14 +100,14 @@ public class Test extends Map{
 		logo.attachToParent(this, "logo");
 		logo.zIndex = 1;
 		
-		HashMap<Float, Double> rotMap = new HashMap<>();
-		rotMap.put(10f, 0d);
-		rotMap.put(11f, -8*Math.PI);
+		HashMap<Double, Double> rotMap = new HashMap<>();
+		rotMap.put(10d, 0d);
+		rotMap.put(11d, -8*Math.PI);
 		logoRotA = new AnimTrackDouble(rotMap);
 		
-		HashMap<Float, Vec2f> vecMap = new HashMap<>();
-		vecMap.put(10f, new Vec2f(695));
-		vecMap.put(11f, new Vec2f(1200));
+		HashMap<Double, Vec2f> vecMap = new HashMap<>();
+		vecMap.put(10d, new Vec2f(695));
+		vecMap.put(11d, new Vec2f(1200));
 		logoSizeA = new AnimTrackVec2f(vecMap);
 		
 		//Crowd
@@ -132,27 +132,27 @@ public class Test extends Map{
 		cat.zIndex = 2;
 		fox.zIndex = 2;
 		
-		HashMap<Float, Texture> texMap = new HashMap<>();
+		HashMap<Double, Texture> texMap = new HashMap<>();
 		Texture t = Texture.loadTexture("data/sprites/intro/crowd_01_01.png");
 		t.setFilter(false);
 		Texture t2 = Texture.loadTexture("data/sprites/intro/crowd_01_02.png");
 		t2.setFilter(false);
 		boolean b=false;
-		float time=0;
+		double time=0;
 		while(time<8) {
 			if(b)
 				texMap.put(time, t);
 			else
 				texMap.put(time, t2);
 			b = !b;
-			time+=.50f;
+			time+=.50;
 		}
 		crowdA = new AnimTrackTexture(texMap);
 		
 		//Cat
 		vecMap = new HashMap<>();
-		vecMap.put(4f, new Vec2f(0));
-		vecMap.put(6f, new Vec2f(-400, 400));
+		vecMap.put(4d, new Vec2f(0));
+		vecMap.put(6d, new Vec2f(-400, 400));
 		catA = new AnimTrackVec2f(vecMap);
 		
 		texMap = new HashMap<>();
@@ -160,20 +160,20 @@ public class Test extends Map{
 		t.setFilter(false);
 		t2 = Texture.loadTexture("data/sprites/intro/cat_02.png");
 		t2.setFilter(false);
-		b=false;
-		time=0;
+		b = false;
+		time = 0;
 		while(time<4) {
 			if(b)
 				texMap.put(time, t);
 			else
 				texMap.put(time, t2);
 			b = !b;
-			time+=.50f;
+			time+=.50;
 		}
-		texMap.put(0f, t);
+		texMap.put(0d, t);
 		t = Texture.loadTexture("data/sprites/intro/cat_03.png");
 		t.setFilter(false);
-		texMap.put(4f, t);
+		texMap.put(4d, t);
 		catAT = new AnimTrackTexture(texMap);
 		
 		cat.size = new Vec2f(600);
@@ -197,20 +197,20 @@ public class Test extends Map{
 		}
 		t = Texture.loadTexture("data/sprites/intro/fox_03.png");
 		t.setFilter(false);
-		texMap.put(3.8f, t);
+		texMap.put(3.8, t);
 		foxAT = new AnimTrackTexture(texMap);
 		
 		fox.size = new Vec2f(600);
 		fox.attachToParent(this, "fox");
 		
 		vecMap = new HashMap<>();
-		vecMap.put(3.8f, new Vec2f(0));
-		vecMap.put(4f, new Vec2f(-100, -25));
+		vecMap.put(3.8, new Vec2f(0));
+		vecMap.put(4.0, new Vec2f(-100, -25));
 		foxA = new AnimTrackVec2f(vecMap);
 		
 		vecMap = new HashMap<>();
-		vecMap.put(3.79999f, new Vec2f(600));
-		vecMap.put(3.8f, new Vec2f(1200, 600));
+		vecMap.put(3.79999, new Vec2f(600));
+		vecMap.put(3.8, new Vec2f(1200, 600));
 		foxAS = new AnimTrackVec2f(vecMap);
 	}
 	

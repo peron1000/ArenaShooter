@@ -9,12 +9,12 @@ import arenashooter.engine.graphics.Texture;
  */
 public class AnimTrackTexture extends AnimTrack<Texture> {
 
-	public AnimTrackTexture(Map<Float, Texture> keyframes) {
+	public AnimTrackTexture(Map<Double, Texture> keyframes) {
 		super(keyframes);
 	}
 
 	@Override
-	public Texture valueAt(float time) {
+	public Texture valueAt(double time) {
 		return (Texture)values[prevKeyframe(time)];
 	}
 
