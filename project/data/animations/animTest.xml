@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animation SYSTEM "animationDTD.dtd" >
+<animation length="2.0" loop="false">
+
+	<trackD name="testVal">
+		<keyframeD time="0.0" value="0.0" />
+		<keyframeD time="0.5" value="10.0" />
+		<keyframeD time="1.0" value="-2.0" />
+		<keyframeD time="2.0" value="0.0" />
+	</trackD>
+	
+	<trackVec2f name="pos">
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="1.0" x="100.0" y="10.0" />
+		<keyframeVec2f time="1.5" x="-200.0" y="-300.0" />
+		<keyframeVec2f time="2.0" x="0.0" y="0.0" />
+	</trackVec2f>
+
+</animation>

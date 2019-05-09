@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT animation (trackEvent,(trackD|trackT|trackVec2f|trackVec3f)*)>
+<!ELEMENT animation (trackEvent?,(trackD|trackT|trackVec2f|trackVec3f)*)>
+<!ATTLIST animation length CDATA #REQUIRED>
+<!ATTLIST animation loop (true|false) "false">
 
 <!ELEMENT trackD (keyframeD+)>
+<!ATTLIST trackD name ID #REQUIRED>
 <!ELEMENT keyframeD EMPTY>
 <!ATTLIST keyframeD time CDATA #REQUIRED>
 <!ATTLIST keyframeD value CDATA #REQUIRED>
 
 <!ELEMENT trackT (keyframeT+)>
+<!ATTLIST trackT name ID #REQUIRED>
 <!ELEMENT keyframeT EMPTY>
 <!ATTLIST keyframeT time CDATA #REQUIRED>
 <!ATTLIST keyframeT value CDATA #REQUIRED>
 
 <!ELEMENT trackVec2f (keyframeVec2f+)>
+<!ATTLIST trackVec2f name ID #REQUIRED>
 <!ELEMENT keyframeVec2f EMPTY>
 <!ATTLIST keyframeVec2f time CDATA #REQUIRED>
 <!ATTLIST keyframeVec2f x CDATA #REQUIRED>
 <!ATTLIST keyframeVec2f y CDATA #REQUIRED>
 
 <!ELEMENT trackVec3f (keyframeVec3f+)>
+<!ATTLIST trackVec3f name ID #REQUIRED>
 <!ELEMENT keyframeVec3f EMPTY>
 <!ATTLIST keyframeVec3f time CDATA #REQUIRED>
 <!ATTLIST keyframeVec3f x CDATA #REQUIRED>
