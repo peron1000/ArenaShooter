@@ -3,8 +3,8 @@ package arenashooter.engine.animation.tracks;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
 
@@ -31,8 +31,14 @@ public class EventTrack {
 		}
 	}
 	
-	public List<AnimEvent> getEvents(double from, double to) {
-		LinkedList<AnimEvent> res = new LinkedList<>();
+	/**
+	 * Get all anim events between two time stamps
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public Queue<AnimEvent> getEvents(double from, double to) {
+		Queue<AnimEvent> res = new LinkedList<>();
 		
 		double current = from;
 		while(current < to) {

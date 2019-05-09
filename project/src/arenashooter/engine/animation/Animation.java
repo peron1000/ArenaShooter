@@ -1,7 +1,7 @@
 package arenashooter.engine.animation;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.tracks.AnimTrackDouble;
@@ -13,7 +13,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
-public abstract class Animation {
+public class Animation {
 
 	public boolean looping=false;
 	
@@ -32,8 +32,15 @@ public abstract class Animation {
 	private Map<String, AnimTrackVec2f>   tracksVec2f;
 	private Map<String, AnimTrackVec3f>   tracksVec3f;
 	
+	private Queue<AnimEvent> events;
+	
 	public Animation() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public static Animation blend(Animation anim1, Animation anim2, double factor) {
+		//TODO
+		return new Animation();
 	}
 	
 	public void play() {
@@ -54,9 +61,17 @@ public abstract class Animation {
 					time = length;
 			}
 			
-			List<AnimEvent> events = eventTrack.getEvents(oldTime, time);
-			//TODO: execute events
+			Queue<AnimEvent> newEvents = eventTrack.getEvents(oldTime, time);
+			for(AnimEvent event : newEvents)
+				events.add(event);
 		}
+	}
+	
+	/**
+	 * @return Queue of events to execute
+	 */
+	public Queue<AnimEvent> getEvents() {
+		return events;
 	}
 	
 	/**

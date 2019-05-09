@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT animation (trackD*,trackT*,trackVec2f*,trackVec3f*)>
+<!ELEMENT animation (trackEvent,(trackD|trackT|trackVec2f|trackVec3f)*)>
 
 <!ELEMENT trackD (keyframeD+)>
 <!ELEMENT keyframeD EMPTY>
@@ -23,3 +23,6 @@
 <!ATTLIST keyframeVec3f x CDATA #REQUIRED>
 <!ATTLIST keyframeVec3f y CDATA #REQUIRED>
 <!ATTLIST keyframeVec3f z CDATA #REQUIRED>
+
+<!ELEMENT trackEvent EMPTY>
+<!-- TODO -->
