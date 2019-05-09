@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT animation (trackD*,trackT*,trackVec2f*,trackVec3f*)>
+
+<!ELEMENT trackD (keyframeD+)>
+<!ELEMENT keyframeD EMPTY>
+<!ATTLIST keyframeD time CDATA #REQUIRED>
+<!ATTLIST keyframeD value CDATA #REQUIRED>
+
+<!ELEMENT trackT (keyframeT+)>
+<!ELEMENT keyframeT EMPTY>
+<!ATTLIST keyframeT time CDATA #REQUIRED>
+<!ATTLIST keyframeT value CDATA #REQUIRED>
+
+<!ELEMENT trackVec2f (keyframeVec2f+)>
+<!ELEMENT keyframeVec2f EMPTY>
+<!ATTLIST keyframeVec2f time CDATA #REQUIRED>
+<!ATTLIST keyframeVec2f x CDATA #REQUIRED>
+<!ATTLIST keyframeVec2f y CDATA #REQUIRED>
+
+<!ELEMENT trackVec3f (keyframeVec3f+)>
+<!ELEMENT keyframeVec3f EMPTY>
+<!ATTLIST keyframeVec3f time CDATA #REQUIRED>
+<!ATTLIST keyframeVec3f x CDATA #REQUIRED>
+<!ATTLIST keyframeVec3f y CDATA #REQUIRED>
+<!ATTLIST keyframeVec3f z CDATA #REQUIRED>
