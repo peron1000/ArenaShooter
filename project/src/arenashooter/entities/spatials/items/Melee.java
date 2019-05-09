@@ -19,20 +19,13 @@ public class Melee extends Weapon {
 	}
 
 	@Override
-	public void attackStart() {
-		
-	}
-
-	@Override
-	public void attackStop() {
-	}
-
-	@Override
 	public void step(double d) {
-		if (fireRate.isOver()) {
-			fireRate.restart();
-			position = Vec2f.rotate90(position);
-		}
+		getSprite().rotation = rotation;
 		super.step(d);
+	}
+
+	@Override
+	protected void setLocalPositionOfSprite() {
+		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
 	}
 }

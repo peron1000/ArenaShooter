@@ -22,14 +22,17 @@ public abstract class Weapon extends Item {
 	public void attackStart() {
 		timerCooldown.setIncreasing(true);
 		timerCooldown.setProcessing(true);
-		
 	}
 
 	public void attackStop() {
-
+		timerCooldown.setIncreasing(false);
 	}
 
 	public void step(double d) {
+		if (timerCooldown.isOver()) {
+			timerCooldown.restart();
+			
+		}
 		Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
 		localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
 		localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));

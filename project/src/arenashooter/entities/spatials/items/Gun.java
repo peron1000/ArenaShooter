@@ -61,7 +61,7 @@ public class Gun extends Melee {
 	}
 
 	public Gun(Vec2f position) {
-		super(position, "data/weapons/Assaut_1.png", 1, 0.15 , "data/sound/GunCock1");
+		super(position, "data/weapons/Assaut_1.png", 1, 0.15, "data/sound/GunCock1");
 
 		thrust = 500;
 		recoil = 0.5f;
@@ -87,55 +87,13 @@ public class Gun extends Melee {
 		particleContainer.attachToParent(this, "particle_container");
 	}
 
-	// public Gun(Vec2f position, SpritePath itemSprite) {
-	// super(position, itemSprite);
-	// coll = new Collider(position, new Vec2f(40, 40));
-	// 
-	// assault:
-	// fire = new Timer(0.10);
-	// thrust = 500;
-	// recoil = 0.5f;
-	// damage = 25f;
-	// bulletSpeed = 4000;
-	// cannonLength = 40.0;
-	// tpscharge = 0;
-	// chargeInertia = 0;
-	// "data/sound/Bang1.ogg", 2);
-	// bangSound1.setVolume(3f)
-	// 
-	// minigun:
-	// fire = new Timer(0.03)
-	// thrust = 500;
-	// recoil = 0.30f;
-	// damage = 1f;
-	// bulletSpeed = 4000;
-	// cannonLength = 65.0;
-	// tpscharge = 0.8;
-	// chargeInertia = 0.2;
-	// "data/sound/Bang2.ogg", 2);
-	// bangSound2.setVolume(3f);
-	//
-	// iongun:
-	// fire = new Timer(0.10);
-	// sndCharge SoundEffect("data/sound/IonChargeV2_3.ogg", -1, 1, 1)
-	// thrust = 100;
-	// recoil = 0.4f;
-	// damage = 8f;
-	// bulletSpeed = 2500;
-	// cannonLength = 55.0
-	// tpscharge = 0.6;
-	// chargeInertia = 0
-	// "data/sound/BangIonGun2.ogg", 2, 0.9f, 1.1f)
-	// handPosL = new Vec2f(8, 20);
-	// handPosR = new Vec2f(-15, 20);
-	//"data/sound/GunCock1.ogg", 1)
-
 	@Override
 	public void attackStart() {
 		if (nbAmmo > 0) {
 			timerWarmup.setIncreasing(true);
 			timerWarmup.setProcessing(true);
 		} else {
+			//
 			timerWarmup.setValue(0.05);
 			super.attackStart();
 		}
@@ -146,20 +104,8 @@ public class Gun extends Melee {
 		timerWarmup.setIncreasing(false);
 	}
 
-	/* (non-Javadoc)
-	 * @see arenashooter.entities.spatials.items.Weapon#step(double)
-	 */
 	@Override
 	public void step(double d) {
-		// se cale sur la position du perso
-		if (isEquipped()) {
-//			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
-//
-//			localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
-//			localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
-//			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
-		}
-
 		if (sndCharge != null) {
 			if (timerWarmup.isOver()) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
@@ -183,10 +129,10 @@ public class Gun extends Melee {
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			Particles flash;
-			
+
 			if (nbAmmo > 0) {
 				nbAmmo--;
-				
+
 				switch (bulletType) {
 				case 0:
 					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
@@ -245,7 +191,6 @@ public class Gun extends Melee {
 		}
 
 		getSprite().rotation = rotation;
-
 		super.step(d);
 	}
 
