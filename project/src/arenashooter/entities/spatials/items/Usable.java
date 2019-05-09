@@ -9,11 +9,12 @@ public class Usable extends Item {
 
 	protected float damage = 0f;
 	/** Time in between attacks */
-	protected Timer timerCooldown = new Timer(0.15);
+	protected Timer timerCooldown = null;
 
-	public Usable(Vec2f position, String itemSprite, float damage) {
+	public Usable(Vec2f position, String itemSprite, float damage, double fireRate) {
 		super(position, itemSprite);
 		this.damage = damage;
+		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 	}
 

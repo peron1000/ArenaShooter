@@ -12,7 +12,7 @@ public class Melee extends Usable {
 	private boolean val = false;
 
 	public Melee(Vec2f position, String itemSprite, float damage, double fireRate, String soundpickup) {
-		super(position, itemSprite, damage);
+		super(position, itemSprite, damage, fireRate);
 		this.fireRate = new Timer(fireRate);
 		SoundEffect soundPickup = new SoundEffect(position, "data/sound/" + soundpickup + ".ogg", 2);
 		soundPickup.attachToParent(this, "snd_Pickup");
