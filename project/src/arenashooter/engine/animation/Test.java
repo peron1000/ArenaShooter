@@ -217,25 +217,25 @@ public class Test extends Map{
 	@Override
 	public void step(double d) {
 		time += d;
-		cat.tex = catAT.valueAt((float)time);
-		cat.localPosition.set(catA.valueAt((float)time));
-		fox.tex = foxAT.valueAt((float)time);
-		fox.size = foxAS.valueAt((float)time);
-		fox.localPosition.set(foxA.valueAt((float)time));
+		cat.tex = catAT.valueAt(time);
+		cat.localPosition.set(catA.valueAt(time));
+		fox.tex = foxAT.valueAt(time);
+		fox.size = foxAS.valueAt(time);
+		fox.localPosition.set(foxA.valueAt(time));
 		
-		crowd_01.tex = crowdA.valueAt((float)time);
-		crowd_02.tex = crowdA.valueAt((float)time);
-		crowd_03.tex = crowdA.valueAt((float)time);
-		crowd_04.tex = crowdA.valueAt((float)time);
+		crowd_01.tex = crowdA.valueAt(time);
+		crowd_02.tex = crowdA.valueAt(time);
+		crowd_03.tex = crowdA.valueAt(time);
+		crowd_04.tex = crowdA.valueAt(time);
 		
-		logo.rotation = logoRotA.valueAt((float)time);
-		logo.size.set(logoSizeA.valueAt((float)time));
+		logo.rotation = logoRotA.valueAt(time);
+		logo.size.set(logoSizeA.valueAt(time));
 		
-		Window.getCamera().position = camA.valueAt((float)time);
+		Window.getCamera().position = camA.valueAt(time);
 		pressStart.position.y = 325+Window.getCamera().position.y;
 		
 		//Fade
-		float opacity = sceneOpacityA.valueAt((float)time).floatValue();
+		float opacity = sceneOpacityA.valueAt(time).floatValue();
 		bg.colorMod.x = opacity;
 		bg.colorMod.y = bg.colorMod.x;
 		bg.colorMod.z = bg.colorMod.x;
