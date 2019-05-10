@@ -15,7 +15,7 @@ public class AnimationData {
 	
 	final double length;
 
-	final boolean looping;
+	final boolean loop;
 	
 	final EventTrack eventTrack;
 	
@@ -27,7 +27,7 @@ public class AnimationData {
 	private AnimationData(double length, boolean loop, EventTrack eventTrack,  
 			Map<String, AnimTrackDouble> tracksD, Map<String, AnimTrackTexture> tracksT, 
 			Map<String, AnimTrackVec2f> tracksVec2f, Map<String, AnimTrackVec3f> tracksVec3f) {
-		looping = loop;
+		this.loop = loop;
 		this.length = length;
 		this.eventTrack = eventTrack;
 		this.tracksD = tracksD;

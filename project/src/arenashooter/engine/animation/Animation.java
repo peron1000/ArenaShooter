@@ -7,6 +7,9 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
+/**
+ * Instance of an animation
+ */
 public class Animation {
 	
 	private final AnimationData animData;
@@ -15,32 +18,57 @@ public class Animation {
 	
 	private double playSpeed = 1;
 	
-	private boolean playing = true;
+	private boolean playing = false;
 	
 	private Queue<AnimEvent> events;
 	
+	/**
+	 * Create a new instance of an animation
+	 * @param data
+	 */
 	public Animation(AnimationData data) {
 		this.animData = data;
 	}
 	
-	public static Animation blend(Animation anim1, Animation anim2, double factor) {
-		//TODO
-		return new Animation(anim1.animData);
-	}
-	
+	/**
+	 * Start or resume playing the animation
+	 */
 	public void play() {
 		playing = true;
 	}
 	
+	/**
+	 * @return is the animation currently playing
+	 */
 	public boolean isPlaying() { return playing; }
 	
+	/**
+	 * @return current play position in seconds
+	 */
+	public double getTime() { return time; }
+	
+	/**
+	 * Set current play position
+	 * @param newTime in seconds
+	 */
+	public void setTime(double newTime) { time = newTime; }
+	
+	/**
+	 * @return total duration of the animation in seconds
+	 */
+	public double getLength() { return animData.length; }
+	
+	/**
+	 * Update the animation and fill the event queue
+	 * @param delta time in seconds
+	 */
 	public void step(double delta) {
 		if(playing) {
 			double oldTime = time;
 			time += delta*playSpeed;
 			
 			if(time >= animData.length) {
-				if(animData.looping)
+				if(animData.loop)
 					time = time % animData.length;
 				else
 					time = animData.length;
