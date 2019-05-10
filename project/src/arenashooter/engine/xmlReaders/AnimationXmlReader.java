@@ -102,6 +102,8 @@ public class AnimationXmlReader extends XmlReader {
 			double value = Double.parseDouble(current.getAttribute("value"));
 			keyframes.put(time, value);
 		}
+		
+		tracksD.put(node.getNodeName(), new AnimTrackDouble(keyframes));
 	}
 	
 	private static void readTrackT(Node node) {
@@ -117,6 +119,8 @@ public class AnimationXmlReader extends XmlReader {
 			Texture value = Texture.loadTexture(current.getAttribute("value"));
 			keyframes.put(time, value);
 		}
+		
+		tracksT.put(node.getNodeName(), new AnimTrackTexture(keyframes));
 	}
 	
 	private static void readTrackVec2f(Node node) {
@@ -134,6 +138,8 @@ public class AnimationXmlReader extends XmlReader {
 			Vec2f value = new Vec2f(x, y);
 			keyframes.put(time, value);
 		}
+
+		tracksVec2f.put(node.getNodeName(), new AnimTrackVec2f(keyframes));
 	}
 	
 	private static void readTrackVec3f(Node node) {
@@ -152,6 +158,8 @@ public class AnimationXmlReader extends XmlReader {
 			Vec3f value = new Vec3f(x, y, z);
 			keyframes.put(time, value);
 		}
+		
+		tracksVec3f.put(node.getNodeName(), new AnimTrackVec3f(keyframes));
 	}
 	
 	private static void readTrackEvents(Node node) {
