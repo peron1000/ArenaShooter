@@ -53,7 +53,6 @@ public class GameMaster {
 				current.init();
 				Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());// TODO : create the map
 			} else if (current instanceof Intro) { // Intro movie
-				System.out.println("mlep");
 				current = Loading.loading;
 				current.init();
 				Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/empty.xml");// TODO : create the map
