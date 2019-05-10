@@ -29,7 +29,10 @@ public class MapChooser extends GameState {
 
 	private double ringAngle = 0;
 	private final double ringRadius = 2500;
-
+	
+	private Shader thumbnailShader;
+	private int lastThumbnail = 0;
+	
 	public String getMapChoosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
 	}
@@ -38,9 +41,6 @@ public class MapChooser extends GameState {
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 
-		//TODO: Remove this line
-		long time = System.currentTimeMillis();
-		
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
@@ -55,15 +55,8 @@ public class MapChooser extends GameState {
 			}
 		}
 
-		//TODO: Remove these two lines
-		System.out.println("Map loader took "+(System.currentTimeMillis()-time)+" ms to scan maps folder");
-		time = System.currentTimeMillis();
-		
 		//Sort maps alphabetically
 		Collections.sort(maps);
-
-		//TODO: Remove this line
-		System.out.println("Map loader took "+(System.currentTimeMillis()-time)+" ms to sort maps");
 		
 		//Set FOV
 		Window.getCamera().setFOV(90);
@@ -81,24 +74,28 @@ public class MapChooser extends GameState {
 		textEnt3.attachToParent(map, "Text_Choice");
 		
 		selectMap(0);
-
-		//TODO: Remove this line
-		time = System.currentTimeMillis();
 		
-		Shader shader = Shader.loadShader("data/shaders/sprite_simple");
-		for (int i = 0; i < maps.size(); i++) {
-			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), shader,
-					Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
-			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
-		}
-
-		//TODO: Remove this line
-		System.out.println("Map loader took "+(System.currentTimeMillis()-time)+" ms to create thumbnails");
+		thumbnailShader = Shader.loadShader("data/shaders/sprite_simple");
+		Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
+				Texture.loadTexture("data/MAP_VIS/" + maps.get(0) + ".png"));
+		m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(0));
+//		for (int i = 0; i < maps.size(); i++) {
+//			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), thumbnailShader,
+//					Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
+//			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
+//		}
 	}
 
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+		
+		if(lastThumbnail < maps.size()) {
+			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
+					Texture.loadTexture("data/MAP_VIS/" + maps.get(lastThumbnail) + ".png"));
+			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(lastThumbnail));
+			lastThumbnail++;
+		}
 		
 		// Temp sprite changing
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
