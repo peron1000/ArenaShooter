@@ -60,11 +60,11 @@ public class AnimationXmlReader extends XmlReader {
 		
 		NodeList tracks = root.getChildNodes();
 		
-		Node current = null;
+		Element current = null;
 		for(int i=0; i<tracks.getLength(); i++) {
 			if(tracks.item(i).getNodeType() != Node.ELEMENT_NODE) continue;
 			
-			current = tracks.item(i);
+			current = (Element)tracks.item(i);
 			switch( current.getNodeName() ) {
 			case "trackEvent":
 				readTrackEvents(current);
@@ -89,7 +89,7 @@ public class AnimationXmlReader extends XmlReader {
 		return new AnimationData(length, loop, new EventTrack(events), tracksD, tracksT, tracksVec2f, tracksVec3f);
 	}
 	
-	private static void readTrackD(Node node) {
+	private static void readTrackD(Element node) {
 		Map<Double, Double> keyframes = new HashMap<>();
 		
 		NodeList children = node.getChildNodes();
@@ -102,9 +102,11 @@ public class AnimationXmlReader extends XmlReader {
 			double value = Double.parseDouble(current.getAttribute("value"));
 			keyframes.put(time, value);
 		}
+		
+		tracksD.put(node.getAttribute("name"), new AnimTrackDouble(keyframes));
 	}
 	
-	private static void readTrackT(Node node) {
+	private static void readTrackT(Element node) {
 		Map<Double, Texture> keyframes = new HashMap<>();
 		
 		NodeList children = node.getChildNodes();
@@ -117,9 +119,11 @@ public class AnimationXmlReader extends XmlReader {
 			Texture value = Texture.loadTexture(current.getAttribute("value"));
 			keyframes.put(time, value);
 		}
+		
+		tracksT.put(node.getAttribute("name"), new AnimTrackTexture(keyframes));
 	}
 	
-	private static void readTrackVec2f(Node node) {
+	private static void readTrackVec2f(Element node) {
 		Map<Double, Vec2f> keyframes = new HashMap<>();
 		
 		NodeList children = node.getChildNodes();
@@ -134,9 +138,11 @@ public class AnimationXmlReader extends XmlReader {
 			Vec2f value = new Vec2f(x, y);
 			keyframes.put(time, value);
 		}
+
+		tracksVec2f.put(node.getAttribute("name"), new AnimTrackVec2f(keyframes));
 	}
 	
-	private static void readTrackVec3f(Node node) {
+	private static void readTrackVec3f(Element node) {
 		Map<Double, Vec3f> keyframes = new HashMap<>();
 		
 		NodeList children = node.getChildNodes();
@@ -152,6 +158,8 @@ public class AnimationXmlReader extends XmlReader {
 			Vec3f value = new Vec3f(x, y, z);
 			keyframes.put(time, value);
 		}
+		
+		tracksVec3f.put(node.getAttribute("name"), new AnimTrackVec3f(keyframes));
 	}
 	
 	private static void readTrackEvents(Node node) {

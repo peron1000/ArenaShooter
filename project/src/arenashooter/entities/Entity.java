@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.game.GameMaster;
 
 public class Entity {
 
@@ -83,8 +84,7 @@ public class Entity {
 	}
 
 	public void destroy() {
-		// GameMaster.gm.getMap().toDestroy.add(this);
-		detach();
+		GameMaster.gm.getMap().toDestroy.add(this);
 	}
 
 	/**

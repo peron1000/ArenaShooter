@@ -11,6 +11,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -30,14 +31,17 @@ public class Test extends Map{
 
 	private Sprite cat = new Sprite(new Vec2f(-360, 300));
 	private Sprite fox = new Sprite(new Vec2f(360, 300));
+	
 	private TextSpatial pressStart;
+	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
 	
 	private AnimTrackDouble sceneOpacityA;
 	
 	private Sprite bg = new Sprite(new Vec2f(0, -950), "data/sprites/intro/bg.png");
 	private Sprite logo;
+	private AnimTrackTexture logoTex;
 	private AnimTrackDouble logoRotA;
-	private AnimTrackVec2f logoSizeA;
+	private AnimTrackVec2f logoPosA, logoSizeA;
 	
 	private Sprite crowd_01, crowd_02, crowd_03, crowd_04;
 	private AnimTrackTexture crowdA;
@@ -63,7 +67,7 @@ public class Test extends Map{
 		
 		//Sound
 		sndPunch = new SoundSourceSingle("data/sound/slap.ogg", 1, 1, false, false);
-		sndPunch.setVolume(.5f);
+		sndPunch.setVolume(.48f);
 		
 		//PRESS START text
 		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
@@ -89,16 +93,35 @@ public class Test extends Map{
 		bg.attachToParent(this, "bg");
 		
 		//Fade out
+		double flashIntensity = 0.5;
 		HashMap<Double, Double> opacityMap = new HashMap<>();
 		opacityMap.put(9d, 1d);
 		opacityMap.put(10d, 0d);
+		opacityMap.put(10.95, 0d);
+		opacityMap.put(11.00, flashIntensity);
+		opacityMap.put(11.05, 0d);
+		opacityMap.put(11.10, flashIntensity);
+		opacityMap.put(11.15, 0d);
+		opacityMap.put(11.20, flashIntensity);
+		opacityMap.put(11.25, 0d);
+		opacityMap.put(11.30, flashIntensity);
+		opacityMap.put(11.40, 0d);
 		sceneOpacityA = new AnimTrackDouble(opacityMap);
 		
 		//Logo
-		logo = new Sprite(new Vec2f(0, -2005), "data/sprites/intro/logo.png");
+		logo = new Sprite(new Vec2f(0, -2000));
 		logo.tex.setFilter(false);
 		logo.attachToParent(this, "logo");
 		logo.zIndex = 1;
+		
+		HashMap<Double, Texture> texMap = new HashMap<>();
+		Texture t = Texture.loadTexture("data/sprites/intro/logo_no_blood.png");
+		t.setFilter(false);
+		Texture t2 = Texture.loadTexture("data/sprites/intro/logo.png");
+		t2.setFilter(false);
+		texMap.put(0d, t);
+		texMap.put(11d, t2);
+		logoTex = new AnimTrackTexture(texMap);
 		
 		HashMap<Double, Double> rotMap = new HashMap<>();
 		rotMap.put(10d, 0d);
@@ -106,9 +129,14 @@ public class Test extends Map{
 		logoRotA = new AnimTrackDouble(rotMap);
 		
 		HashMap<Double, Vec2f> vecMap = new HashMap<>();
-		vecMap.put(10d, new Vec2f(695));
+		vecMap.put(10d, new Vec2f(655));
 		vecMap.put(11d, new Vec2f(1200));
 		logoSizeA = new AnimTrackVec2f(vecMap);
+		
+		vecMap = new HashMap<>();
+		vecMap.put(10d, new Vec2f(-50, -18));
+		vecMap.put(11d, new Vec2f(0));
+		logoPosA = new AnimTrackVec2f(vecMap);
 		
 		//Crowd
 		crowd_01 = new Sprite(new Vec2f(-650, 425));
@@ -132,10 +160,10 @@ public class Test extends Map{
 		cat.zIndex = 2;
 		fox.zIndex = 2;
 		
-		HashMap<Double, Texture> texMap = new HashMap<>();
-		Texture t = Texture.loadTexture("data/sprites/intro/crowd_01_01.png");
+		texMap = new HashMap<>();
+		t = Texture.loadTexture("data/sprites/intro/crowd_01_01.png");
 		t.setFilter(false);
-		Texture t2 = Texture.loadTexture("data/sprites/intro/crowd_01_02.png");
+		t2 = Texture.loadTexture("data/sprites/intro/crowd_01_02.png");
 		t2.setFilter(false);
 		boolean b=false;
 		double time=0;
@@ -228,6 +256,8 @@ public class Test extends Map{
 		crowd_03.tex = crowdA.valueAt(time);
 		crowd_04.tex = crowdA.valueAt(time);
 		
+		logo.tex = logoTex.valueAt(time);
+		logo.localPosition.set(logoPosA.valueAt(time));
 		logo.rotation = logoRotA.valueAt(time);
 		logo.size.set(logoSizeA.valueAt(time));
 		
@@ -240,6 +270,10 @@ public class Test extends Map{
 		bg.colorMod.y = bg.colorMod.x;
 		bg.colorMod.z = bg.colorMod.x;
 		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
+		
+		//Text
+		pressStart.color = Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d);
+		pressStart.thickness = Utils.lerpF(.2f, .45f, (1+Math.sin(time*8))/2d);
 		
 		if(!punched && time >= 4f) {
 			sndPunch.play();

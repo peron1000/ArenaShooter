@@ -2,6 +2,7 @@ package arenashooter.game.gameStates;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Shader;
@@ -23,18 +24,16 @@ import arenashooter.game.Main;
 public class MapChooser extends GameState {
 
 	private String mapChosen = "mapXML";
-	// private String[] cho = { "AAHH", "720TREE", "bat", "BUG", "empty",
-	// "mapclosecombat",
-	// "mapCloseSn","mapPOP","mapPop2","mapt1","MARZI","TENDEM","mapXML" };
 	private ArrayList<String> maps = new ArrayList<>();
 	private int init = 0;
-	// private int max = cho.length;
 
 	private double ringAngle = 0;
 	private final double ringRadius = 2500;
-
+	
+	private Shader thumbnailShader;
+	private int lastThumbnail = 0;
+	
 	public String getMapChoosen() {
-		// System.out.println(mapChosen);
 		return "data/mapXML/" + mapChosen + ".xml";
 	}
 
@@ -55,6 +54,9 @@ public class MapChooser extends GameState {
 				maps.add(name);
 			}
 		}
+
+		//Sort maps alphabetically
+		Collections.sort(maps);
 		
 		//Set FOV
 		Window.getCamera().setFOV(90);
@@ -72,19 +74,28 @@ public class MapChooser extends GameState {
 		textEnt3.attachToParent(map, "Text_Choice");
 		
 		selectMap(0);
-
-		Shader shader = Shader.loadShader("data/shaders/sprite_simple");
-		for (int i = 0; i < maps.size(); i++) {
-			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), shader,
-					Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
-			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
-		}
-
+		
+		thumbnailShader = Shader.loadShader("data/shaders/sprite_simple");
+		Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
+				Texture.loadTexture("data/MAP_VIS/" + maps.get(0) + ".png"));
+		m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(0));
+//		for (int i = 0; i < maps.size(); i++) {
+//			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), thumbnailShader,
+//					Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
+//			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
+//		}
 	}
 
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+		
+		if(lastThumbnail < maps.size()) {
+			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
+					Texture.loadTexture("data/MAP_VIS/" + maps.get(lastThumbnail) + ".png"));
+			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(lastThumbnail));
+			lastThumbnail++;
+		}
 		
 		// Temp sprite changing
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {

@@ -1,7 +1,6 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
@@ -21,11 +20,7 @@ public class Loading extends GameState {
 
 	private GameState next;
 
-	private MapXmlReader mapXmlReader;
-
-	private boolean mapDone = false;
-
-	private Iterator<Entity> iteratorEntities;
+	private MapXmlReader mapXmlRedader;
 
 	private Loading() { }
 
@@ -58,6 +53,7 @@ public class Loading extends GameState {
 		for (Entity entity : entities) {
 			entity.attachToParent(map, entity.genName());
 		}
+		
 	}
 
 	/**
@@ -68,68 +64,25 @@ public class Loading extends GameState {
 	 */
 	public void setNextState(GameState next, String mapName) {
 		this.next = next;
-		mapDone = false;
-		mapXmlReader = new MapXmlReader(mapName);
+		mapXmlRedader = new MapXmlReader(mapName);
+		update(0);
+		mapXmlRedader.load(next.map);
 	}
 
 	public GameState getNextState() {
 		return next;
 	}
 
-	private boolean createNewMap() {
-		iteratorEntities = mapXmlReader.getEntities().iterator();
-		long time = System.currentTimeMillis();
-		Map m = next.map;
-		while (iteratorEntities.hasNext()) {
-			Entity entity = iteratorEntities.next();
-			entity.attachToParent(m, entity.genName());
-			if (System.currentTimeMillis() - time > 0) {
-				return false;
-			}
-		}
-		m.spawn = mapXmlReader.getSpawn();
-		m.cameraBounds = mapXmlReader.getCameraBounds();
-		m.gravity = mapXmlReader.getGravity();
-		m.itemCollection = mapXmlReader.getItemCollection();
-		if (next instanceof Game)
-			m.init();
-		return true;
-	}
-
 	@Override
 	public void update(double delta) {
-		long time = System.currentTimeMillis();
 		map.step(delta);
-		boolean done = loadNextMap(time);
-		if (done) {
-			next.init();
-			GameMaster.gm.requestNextState();
-		}
-		time = System.currentTimeMillis() - time;
-		if(time > 60) {
-			System.out.println("Time to load "+next.getClass().getSimpleName()+" too long "+ time+"ms");
+		if(mapXmlRedader.isDone()) {
+			stopLoading();
 		}
 	}
-
-	private boolean loadNextMap(long time) {
-		final long timeMax = 20;
-		if (!mapDone) {
-			boolean entitiesLoaded = mapXmlReader.loadNextEntity();
-			if (System.currentTimeMillis() - time > timeMax) {
-				return false;
-			}
-			boolean informationsloaded = mapXmlReader.loadNextInformation();
-			if (System.currentTimeMillis() - time > timeMax) {
-				return false;
-			}
-			boolean itemsLoaded = mapXmlReader.loadNextItem();
-			if (System.currentTimeMillis() - time > timeMax) {
-				return false;
-			}
-			if (entitiesLoaded && informationsloaded && itemsLoaded) {
-				mapDone = createNewMap();
-			}
-		}
-		return mapDone;
+	
+	public void stopLoading() {
+		next.init();
+		GameMaster.gm.requestNextState();
 	}
 }

@@ -11,6 +11,7 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
@@ -21,6 +22,7 @@ public class Map extends Entity {
 	public ArrayList<Vec2f> spawn;
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
+	ArrayList<Entity> toDestroy = new ArrayList<Entity>();
 
 	public Physic physic;
 
@@ -39,11 +41,18 @@ public class Map extends Entity {
 
 	public Map() {
 		physic = new Physic(this);
+		createTestEntities();
 	}
 
 	@Override
 	public void step(double d) {
 		super.step(d);
+		
+		for (Entity ordure : toDestroy) {
+			ordure.detach();
+		}
+		toDestroy.clear();
+		
 		if (spawnWeapon.isOver()) {
 			try {
 				spawnWeapon.restart();
@@ -128,9 +137,9 @@ public class Map extends Entity {
 	}
 
 	/**
-	 * Create entities to test physics engine
+	 * Create entities to test stuf
 	 */
-	private void testPhysics() {
+	private void createTestEntities() {
 		// Rigid body 1
 		Vec2f position = new Vec2f(000, -700);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
@@ -157,33 +166,8 @@ public class Map extends Entity {
 		rbSprite.size = new Vec2f(90, 90);
 		rb.attachToParent(this, "Rigid Body test 3");
 		rbSprite.attachToParent(rb, "Sprite");
-	}
-
-	// déso, ces lignes sont temporaires
-	public void init() {
-		testPhysics();
-		spawnWeapon.attachToParent(this, "test");
-
-		// Gun gun2 = new Gun(new Vec2f(300, 350));
-		//// Melee kata = new Melee(new Vec2f(750, 350));
-		// Gun gun3 = new Gun(new Vec2f(-250, 1050), "data/weapons/Minigun_1.png",
-		// "Bang2", "GunCock1", "GunCock1", "jump",
-		// 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-		// Gun gun4 = new Gun(new Vec2f(1000, 350), "data/weapons/Minigun_1.png",
-		// "Bang2", "GunCock1", "GunCock1", "jump",
-		// 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-		// Gun gun5 = new Gun(new Vec2f(1000, 1050), "data/weapons/Minigun_1.png",
-		// "Bang2", "GunCock1", "GunCock1", "jump",
-		// 0.03d, 0, 4000f, 5, 65d, 0.3, 500, 1, 1);
-		// Gun gun6 = new Gun(new Vec2f(1000, 1450), "data/weapons/RayGun1_tr.png",
-		// "BangIonGun2", "GunCock1",
-		// "IonChargeV2_3", "jump", 0.10d, 1, 2500f, 5, 55d, 0.4, 200, 0.6, 3);
-		// gun6.attachToParent(this, "Item_Weapon" + genName());
-		//// kata.attachToParent(this, "Item_Weapon"+genName());
-		// gun2.attachToParent(this, "Item_Weapon" + genName());
-		// gun3.attachToParent(this, "Item_Weapon" + genName());
-		// gun4.attachToParent(this, "Item_Weapon" + genName());
-		// gun5.attachToParent(this, "Item_Weapon" + genName());
-
+		
+		AnimationTester animTester = new AnimationTester(new Vec2f(500, 0));
+		animTester.attachToParent(this, "anim tester 1");
 	}
 }
