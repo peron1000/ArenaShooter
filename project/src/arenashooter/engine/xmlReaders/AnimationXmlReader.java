@@ -1,6 +1,5 @@
 package arenashooter.engine.xmlReaders;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import arenashooter.engine.animation.AnimationData;
+import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.tracks.AnimTrackDouble;
 import arenashooter.engine.animation.tracks.AnimTrackTexture;
 import arenashooter.engine.animation.tracks.AnimTrackVec2f;
@@ -24,7 +24,7 @@ public class AnimationXmlReader extends XmlReader {
 
 	private static boolean loop;
 	
-	private static EventTrack eventTrack;
+	private static Map<Double, AnimEvent> events;
 	
 	private static Map<String, AnimTrackDouble>  tracksD;
 	private static Map<String, AnimTrackTexture> tracksT;
@@ -52,7 +52,7 @@ public class AnimationXmlReader extends XmlReader {
 			}
 		}
 		
-		//TODO: Event track
+		events = new HashMap<>();
 		tracksD = new HashMap<>();
 		tracksT = new HashMap<>();
 		tracksVec2f = new HashMap<>();
@@ -67,6 +67,7 @@ public class AnimationXmlReader extends XmlReader {
 			current = tracks.item(i);
 			switch( current.getNodeName() ) {
 			case "trackEvent":
+				readTrackEvents(current);
 				break;
 			case "trackD":
 				readTrackD(current);
@@ -85,7 +86,7 @@ public class AnimationXmlReader extends XmlReader {
 			}
 		}
 		
-		return new AnimationData(length, loop, eventTrack, tracksD, tracksT, tracksVec2f, tracksVec3f);
+		return new AnimationData(length, loop, new EventTrack(events), tracksD, tracksT, tracksVec2f, tracksVec3f);
 	}
 	
 	private static void readTrackD(Node node) {
@@ -151,5 +152,10 @@ public class AnimationXmlReader extends XmlReader {
 			Vec3f value = new Vec3f(x, y, z);
 			keyframes.put(time, value);
 		}
+	}
+	
+	private static void readTrackEvents(Node node) {
+		//TODO: load events
+		System.out.println("Animation - Loading anim events is not supported yet!");
 	}
 }
