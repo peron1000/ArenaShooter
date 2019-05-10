@@ -35,18 +35,18 @@ public class GameMaster {
 		} else {
 			stateStack.push(current);
 			if (current instanceof Start) { // Start
-				Loading.loading.setNextState(new Intro(), "data/mapXML/empty.xml");// TODO : create the map
 				current = Loading.loading;
 				current.init();
+				Loading.loading.setNextState(new Intro(), "data/mapXML/empty.xml");// TODO : create the map
 			} else if (current instanceof CharacterChooser) { // Character chooser
 				CharacterChooser c = (CharacterChooser) current;
 				controllers.clear();
 				for (Controller controller : c.getControllers())
 					controllers.add(controller);
 
-				Loading.loading.setNextState(new MapChooser(), "data/mapXML/empty.xml");
 				current = Loading.loading;
 				current.init();
+				Loading.loading.setNextState(new MapChooser(), "data/mapXML/empty.xml");
 			} else if (current instanceof MapChooser) { // Map chooser
 				MapChooser mapChooser = (MapChooser) current;
 				current = Loading.loading;

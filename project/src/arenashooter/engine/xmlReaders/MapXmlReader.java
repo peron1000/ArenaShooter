@@ -1,6 +1,7 @@
 package arenashooter.engine.xmlReaders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,450 +9,313 @@ import org.w3c.dom.NodeList;
 
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
-import arenashooter.engine.itemCollection.ItemCollection;
-import arenashooter.engine.itemCollection.ItemConcept;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Entity;
+import arenashooter.entities.Map;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.game.gameStates.Loading;
 
 public class MapXmlReader extends XmlReader {
 
-	// Entities variables
-	private int iteratorEntite = 0;
-	private ArrayList<Entity> entities = new ArrayList<>();
-	private NodeList entitiesNodeList;
-
-	// Informations variables
-	private int iteratorInfo = 0;
-	private ArrayList<Vec2f> spawn = new ArrayList<>();
-	private Vec2f gravity = new Vec2f();
-	private Vec4f cameraBounds = new Vec4f();
-	private NodeList infoNodeList;
-
-	// Items variables
-	private int iteratorItems = 0;
-	private ItemCollection<ItemConcept> itemCollection = new ItemCollection<ItemConcept>();
-	private NodeList itemNodeList;
+	private Element root;
+	private boolean done;
 
 	public MapXmlReader(String path) {
 		parse(path);
-		resetCollections();
+		root = document.getDocumentElement();
 
-		NodeList infoTag = document.getElementsByTagName("information");
-		if (infoTag.item(0) != null)
-			infoNodeList = infoTag.item(0).getChildNodes();
-		iteratorInfo = 0;
+	}
 
-		NodeList entitieTag = document.getElementsByTagName("entities");
-		if (entitieTag.item(0) != null)
-			entitiesNodeList = entitieTag.item(0).getChildNodes();
-		iteratorEntite = 0;
-
-		NodeList itemTag = document.getElementsByTagName("items");
-		if (itemTag.item(0) != null) {
-			itemNodeList = itemTag.item(0).getChildNodes();
-		}
-		iteratorItems = 0;
+	public boolean isDone() {
+		return done;
 	}
 
 	/**
-	 * Change position and extent to match with the vectors given in the NodeList
-	 * 
-	 * @param vectors
-	 * @param position
-	 * @param extent
+	 * @param name   balise recherchée
+	 * @param parent balise du parent
+	 * @return Le premier Element correspondant au name parmi les enfants de parent
 	 */
-	private static void getVectorsEntity(NodeList vectors, Vec2f position, Vec2f extent) {
-		for (int i = 0; i < vectors.getLength(); i++) {
-			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
-				Element vector = (Element) vectors.item(i);
-				if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
-					position.x = Float.parseFloat(vector.getAttribute("x"));
-					position.y = Float.parseFloat(vector.getAttribute("y"));
-				}
-				if (vector.hasAttribute("use") && vector.getAttribute("use").equals("extent")) {
-					extent.x = Float.parseFloat(vector.getAttribute("x"));
-					extent.y = Float.parseFloat(vector.getAttribute("y"));
+	private Element getFirstElementByName(String name, Element parent) {
+		NodeList list = parent.getElementsByTagName(name);
+		Element ret = (Element) list.item(0);
+		return ret;
+	}
+
+	private List<Element> getListElementByName(String name, Element parent) {
+		ArrayList<Element> array = new ArrayList<>();
+		NodeList list = parent.getChildNodes();
+		for (int i = 0; i < list.getLength(); i++) {
+			Node node = list.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equalsIgnoreCase(name)) {
+				array.add((Element) list.item(i));
+			}
+		}
+		return array;
+	}
+
+	public void load(Map map) {
+		Loading.loading.update(0);
+		loadInformation(getFirstElementByName("information", root), map);
+		Loading.loading.update(0);
+		loadEntities(getFirstElementByName("entities", root), map);
+		Loading.loading.update(0);
+		done = true;
+	}
+
+	private void loadInformation(Element information, Map map) {
+		map.spawn = new ArrayList<>();
+		loadGravity(getFirstElementByName("gravity", information), map);
+		loadSky(getFirstElementByName("sky", information), map);
+		loadCameraBound(getFirstElementByName("cameraBound", information), map);
+
+		List<Element> listSpawn = getListElementByName("spawn", information);
+		for (Element element : listSpawn) {
+			loadSpawns(element, map);
+		}
+	}
+
+	private void loadSpawns(Element spawn, Map map) {
+		XmlVecteur vec = loadVecteur(getFirstElementByName("vecteur", spawn));
+		map.spawn.add(new Vec2f(vec.x, vec.y));
+	}
+
+	private XmlVecteur loadVecteur(Element vecteur) {
+		return new XmlVecteur(vecteur);
+	}
+
+	private void loadCameraBound(Element cameraBound, Map map) {
+		double w = 0, x = 0, y = 0, z = 0;
+		if (cameraBound.hasAttribute("x")) {
+			x = Double.parseDouble(cameraBound.getAttribute("x"));
+		} else {
+			System.err.println("X dans camera Bound non renseigné");
+		}
+		if (cameraBound.hasAttribute("y")) {
+			y = Double.parseDouble(cameraBound.getAttribute("y"));
+		} else {
+			System.err.println("Y dans camera Bound non renseigné");
+		}
+		if (cameraBound.hasAttribute("z")) {
+			z = Double.parseDouble(cameraBound.getAttribute("z"));
+		} else {
+			System.err.println("Z dans camera Bound non renseigné");
+		}
+		if (cameraBound.hasAttribute("w")) {
+			w = Double.parseDouble(cameraBound.getAttribute("w"));
+		} else {
+			System.err.println("W dans camera Bound non renseigné");
+		}
+		map.cameraBounds = new Vec4f(x, y, z, w);
+	}
+
+	private void loadSky(Element sky, Map map) {
+		List<Element> vecteurs = getListElementByName("vecteur", sky);
+		Vec3f top = new Vec3f(), bottom = new Vec3f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("Balise Sky dans XML ne possède pas " + nbVec + " vecteurs");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVecteur vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "top":
+					top = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				case "bottom":
+					bottom = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+
+				default:
+					System.err.println("Sky mal défini");
+					break;
 				}
 			}
 		}
-	}
-
-	/**
-	 * Initialization of all collections
-	 */
-	private void resetCollections() {
-		iteratorEntite = 0;
-		iteratorInfo = 0;
-		iteratorItems = 0;
-		entities.clear();
-		spawn.clear();
-		itemCollection = new ItemCollection<ItemConcept>();
-	}
-
-	/**
-	 * Load a new entity
-	 * 
-	 * @return <i>true</i> if all entities are already loaded
-	 */
-	public boolean loadNextEntity() {
-		long time = System.currentTimeMillis();
-		if (iteratorEntite < entitiesNodeList.getLength()
-				&& entitiesNodeList.item(iteratorEntite).getNodeType() == Node.ELEMENT_NODE) {
-			Element entity = (Element) entitiesNodeList.item(iteratorEntite);
-
-			Entity newEntity = null;
-
-			switch (entity.getNodeName()) {
-			case "entity":
-				newEntity = new Entity();
-				break;
-			case "plateform":
-				newEntity = loadPlateform(entity);
-				break;
-			case "mesh":
-				newEntity = loadMesh(entity);
-				break;
-			case "text":
-				newEntity = loadText(entity);
-				break;
-			default:
-				break;
-			}
-			time = System.currentTimeMillis() - time;
-			if(time > 60) {
-				System.out.println("Time to load "+entity.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
-			}
-			if (newEntity != null)
-				entities.add(newEntity);
-			else
-				System.out.println(entity.getNodeName());
-		}
-		iteratorEntite++;
-		return !(iteratorEntite < entitiesNodeList.getLength());
-	}
-
-	/**
-	 * Load a new item
-	 * 
-	 * @return <i>true</i> if all items are already loaded
-	 */
-	public boolean loadNextItem() {
-		long time = System.currentTimeMillis();
-		if (itemNodeList == null)
-			return true;
-		if (iteratorItems < itemNodeList.getLength()
-				&& itemNodeList.item(iteratorItems).getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) itemNodeList.item(iteratorItems);
-
-			ItemConcept ic = null;
-
-			switch (element.getNodeName()) {
-			case "weapon":
-				ic = loadWeapon(element);
-				break;
-			case "equipement":
-				break;
-			case "melee":
-				ic = loadMelee(element);
-				break;
-			default:
-				break;
-			}
-			time = System.currentTimeMillis() - time;
-			if(time > 60) {
-				System.out.println("Time to load "+element.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
-			}
-			if (ic != null) {
-				itemCollection.add(ic);
-			} else {
-				System.err.println("Error in MapXmlReader on element read : " + element.getNodeName());
-			}
-		}
-		iteratorItems++;
-		return !(iteratorItems < itemNodeList.getLength());
-	}
-
-	/**
-	 * Load a new information
-	 * 
-	 * @return <i>true</i> if all informations are already loaded
-	 */
-	public boolean loadNextInformation() {
-		long time = System.currentTimeMillis();
-		if (iteratorInfo < infoNodeList.getLength()
-				&& infoNodeList.item(iteratorInfo).getNodeType() == Node.ELEMENT_NODE) {
-			Element info = (Element) infoNodeList.item(iteratorInfo);
-
-			Element vecteur = null;
-
-			switch (info.getNodeName()) {
-			case "spawn":
-				try {
-					vecteur = getSingleElement(info, "vecteur");
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				if (vecteur != null) {
-					spawn.add(loadVecteurXY(vecteur));
-				}
-				break;
-			case "gravity":
-				try {
-					vecteur = getSingleElement(info, "vecteur");
-				} catch (Exception e) {
-					System.out.println("watch out ! gravity null !!!");
-					e.printStackTrace();
-				}
-				if (vecteur != null) {
-					gravity = loadVecteurXY(vecteur);
-				} else {
-					gravity = new Vec2f(0, 9.81);
-				}
-				break;
-			case "cameraBound":
-				cameraBounds = loadVecteurWXYZ(info);
-				break;
-			case "sky":
-				Vec3f bottom = new Vec3f();
-				Vec3f top = new Vec3f();
-				NodeList vectors = info.getChildNodes();
-				for (int i = 0; i < vectors.getLength(); i++) {
-					if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
-						Element vector = (Element) vectors.item(i);
-						if (vector.hasAttribute("use") && vector.getAttribute("use").equals("bottom")) {
-							bottom.x = Float.parseFloat(vector.getAttribute("x"));
-							bottom.y = Float.parseFloat(vector.getAttribute("y"));
-							bottom.z = Float.parseFloat(vector.getAttribute("z"));
-						}
-						if (vector.hasAttribute("use") && vector.getAttribute("use").equals("top")) {
-							top.x = Float.parseFloat(vector.getAttribute("x"));
-							top.y = Float.parseFloat(vector.getAttribute("y"));
-							top.z = Float.parseFloat(vector.getAttribute("z"));
-						}
-					}
-				}
-				entities.add(new Sky(bottom, top));
-				break;
-			default:
-				break;
-			}
-			time = System.currentTimeMillis() - time;
-			if(time > 60) {
-				System.out.println("Time to load "+info.getNodeName()+" in MapXmlReader is too long : "+time+"ms");
-			}
-		}
-		iteratorInfo++;
-		return !(iteratorInfo < infoNodeList.getLength());
-	}
-
-	public ArrayList<Entity> getEntities() {
-		return entities;
-	}
-
-	public ArrayList<Vec2f> getSpawn() {
-		return spawn;
-	}
-
-	public Vec2f getGravity() {
-		return gravity;
-	}
-
-	public Vec4f getCameraBounds() {
-		return cameraBounds;
-	}
-
-	public ItemCollection<ItemConcept> getItemCollection() {
-		return itemCollection;
-	}
-
-	private static Plateform loadPlateform(Element entity) {
-		Vec2f position = new Vec2f();
-		Vec2f extent = new Vec2f();
-		NodeList vectors = entity.getChildNodes();
-		getVectorsEntity(vectors, position, extent);
-		return new Plateform(position, extent);
-	}
-
-	private static ItemConcept loadWeapon(Element entity) {
-
-		// ItemConcept required
-		Vec2f colliderExtent = new Vec2f();
-		try {
-			Element vecteur = getSingleElement(entity, "vecteur");
-			colliderExtent.x = Float.parseFloat(vecteur.getAttribute("x"));
-			colliderExtent.y = Float.parseFloat(vecteur.getAttribute("y"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		String type = entity.getAttribute("type");
-		String proba = entity.getAttribute("proba");
-		String size = entity.getAttribute("size");
-		ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size));
-
-		// ItemConcept implied
-		if (entity.hasAttribute("name")) {
-			ic.name = entity.getAttribute("name");
-		}
-		if (entity.hasAttribute("damage")) {
-			ic.damage = Float.parseFloat(entity.getAttribute("damage"));
-		}
-		if (entity.hasAttribute("spritePath")) {
-			ic.spritePath = entity.getAttribute("spritePath");
-		}
-		if (entity.hasAttribute("bangSound")) {
-			ic.bangSound = entity.getAttribute("bangSound");
-		}
-		if (entity.hasAttribute("pickupSound")) {
-			ic.pickupSound = entity.getAttribute("pickupSound");
-		}
-		if (entity.hasAttribute("chargeSound")) {
-			ic.chargeSound = entity.getAttribute("chargeSound");
-		}
-		if (entity.hasAttribute("noAmmoSound")) {
-			ic.noAmmoSound = entity.getAttribute("noAmmoSound");
-		}
-		if (entity.hasAttribute("fireRate")) {
-			ic.fireRate = Double.parseDouble("fireRate");
-		}
-		if (entity.hasAttribute("cannonLength")) {
-			ic.cannonLength = Double.parseDouble("cannonLength");
-		}
-		if (entity.hasAttribute("recoil")) {
-			ic.recoil = Double.parseDouble("recoil");
-		}
-		if (entity.hasAttribute("thrust")) {
-			ic.thrust = Double.parseDouble("thrust");
-		}
-		if (entity.hasAttribute("tpsCharge")) {
-			ic.tpsCharge = Double.parseDouble("tpsCharge");
-		}
-		if (entity.hasAttribute("bulletSpeed")) {
-			ic.bulletSpeed = Float.parseFloat(entity.getAttribute("bulletSpeed"));
-		}
-		if (entity.hasAttribute("bulletType")) {
-			ic.bulletType = Integer.parseInt(entity.getAttribute("bulletType"));
-		}
-
-		return ic;
-	}
-	
-	private static ItemConcept loadMelee(Element entity) {
-		// ItemConcept required
-				Vec2f colliderExtent = new Vec2f();
-				try {
-					Element vecteur = getSingleElement(entity, "vecteur");
-					colliderExtent.x = Float.parseFloat(vecteur.getAttribute("x"));
-					colliderExtent.y = Float.parseFloat(vecteur.getAttribute("y"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				String type = entity.getAttribute("type");
-				String proba = entity.getAttribute("proba");
-				String size = entity.getAttribute("size");
-				ItemConcept ic = new ItemConcept(type, Double.parseDouble(proba), colliderExtent, Double.parseDouble(size));
-		
-				// ItemConcept implied
-				if (entity.hasAttribute("name")) {
-					ic.name = entity.getAttribute("name");
-				}
-				if (entity.hasAttribute("damage")) {
-					ic.damage = Float.parseFloat(entity.getAttribute("damage"));
-				}
-				if (entity.hasAttribute("bangSound")) {
-					ic.bangSound = entity.getAttribute("bangSound");
-				}
-				if (entity.hasAttribute("spritePath")) {
-					ic.spritePath = entity.getAttribute("spritePath");
-				}
-				if (entity.hasAttribute("fireRate")) {
-					ic.fireRate = Double.parseDouble(entity.getAttribute("fireRate"));
-				}
-				return ic;
+		Sky s = new Sky(bottom, top);
+		s.attachToParent(map, s.genName());
 
 	}
 
-	private static Mesh loadMesh(Element entity) {
+	private void loadGravity(Element gravity, Map map) {
+		XmlVecteur vec = new XmlVecteur(getFirstElementByName("vecteur", gravity));
+		map.gravity = new Vec2f(vec.x, vec.y);
+	}
+
+	private void loadEntities(Element entities, Entity parent) {
+		// entity
+		List<Element> entitys = getListElementByName("entity", entities);
+		for (Element entity : entitys) {
+			loadEntity(entity, parent);
+		}
+
+		// plateform
+		List<Element> plateforms = getListElementByName("plateform", entities);
+		for (Element plateform : plateforms) {
+			loadPlateform(plateform, parent);
+		}
+
+		// mesh
+		List<Element> meshs = getListElementByName("mesh", entities);
+		for (Element mesh : meshs) {
+			loadMesh(mesh, parent);
+		}
+
+		// text
+		List<Element> texts = getListElementByName("text", entities);
+		for (Element text : texts) {
+			loadText(text, parent);
+		}
+	}
+
+	private void loadText(Element text, Entity parent) {
+		// vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", text);
 		Vec3f position = new Vec3f();
-		Quat rot = Quat.fromAngle(0);
-		Vec3f scale = new Vec3f(1);
-		String src = entity.getAttribute("src");
+		Vec3f scale = new Vec3f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("Balise Text dans XML ne possède pas " + nbVec + " vecteurs");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVecteur vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				case "scale":
+					scale = new Vec3f(vec.x, vec.y, vec.z);
+					break;
 
-		NodeList vectors = entity.getChildNodes();
-		for (int i = 0; i < vectors.getLength(); i++) {
-			if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
-				Element vector = (Element) vectors.item(i);
-				if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
-					position.x = Float.parseFloat(vector.getAttribute("x"));
-					position.y = Float.parseFloat(vector.getAttribute("y"));
-					position.z = Float.parseFloat(vector.getAttribute("z"));
-				} else if (vector.hasAttribute("use") && vector.getAttribute("use").equals("rotation")) {
-					float w = Float.parseFloat(vector.getAttribute("w"));
-					float x = Float.parseFloat(vector.getAttribute("x"));
-					float y = Float.parseFloat(vector.getAttribute("y"));
-					float z = Float.parseFloat(vector.getAttribute("z"));
-					rot = new Quat(x, y, z, w);
-				} else if (vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
-					scale.x = Float.parseFloat(vector.getAttribute("x"));
-					scale.y = Float.parseFloat(vector.getAttribute("y"));
-					scale.z = Float.parseFloat(vector.getAttribute("z"));
+				default:
+					System.err.println("Vecteur dans Text mal défini");
+					break;
 				}
 			}
 		}
-		return new Mesh(position, rot, scale, src);
+
+		// Text
+		String content, font;
+		font = text.getAttribute("font");
+		Font f = Font.loadFont(font);
+		content = text.getAttribute("content");
+		Text t = new Text(f, Text.TextAlignH.CENTER, content);
+		TextSpatial spatial = new TextSpatial(position, scale, t);
+		if (text.hasAttribute("name")) {
+			spatial.attachToParent(parent, text.getAttribute("name"));
+		} else {
+			spatial.attachToParent(parent, spatial.genName());
+		}
+
+		// entities
+		List<Element> entitiess = getListElementByName("entities", text);
+		for (Element entities : entitiess) {
+			loadEntities(entities, parent);
+		}
 	}
 
-	private static TextSpatial loadText(Element entity) {
-		Font font = Font.loadFont(entity.getAttribute("font"));
-		if (font != null) {
-			Vec3f position = new Vec3f();
-			Vec3f size = new Vec3f(1);
-			String content = entity.getAttribute("content");
-			NodeList vectors = entity.getChildNodes();
-			for (int i = 0; i < vectors.getLength(); i++) {
-				if (vectors.item(i).getNodeType() == Node.ELEMENT_NODE) {
-					Element vector = (Element) vectors.item(i);
-					if (vector.hasAttribute("use") && vector.getAttribute("use").equals("position")) {
-						position.x = Float.parseFloat(vector.getAttribute("x"));
-						position.y = Float.parseFloat(vector.getAttribute("y"));
-						position.y = Float.parseFloat(vector.getAttribute("z"));
-					} else if (vector.hasAttribute("use") && vector.getAttribute("use").equals("scale")) {
-						size.x = Float.parseFloat(vector.getAttribute("x"));
-						size.y = Float.parseFloat(vector.getAttribute("y"));
-					}
+	private void loadMesh(Element mesh, Entity parent) {
+		Loading.loading.getMap().step(0);
+		// vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", mesh);
+		Vec3f position = new Vec3f(), scale = new Vec3f();
+		Vec4f rotation = new Vec4f();
+		int nbVec = 3;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("Balise Mesh dans XML ne possède pas " + nbVec + " vecteurs [src="
+					+ mesh.getAttribute("src") + "]");
+			System.out.println(vecteurs.size());
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVecteur vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				case "scale":
+					scale = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				case "rotation":
+					rotation = new Vec4f(vec.x, vec.y, vec.z, vec.w);
+					break;
+				default:
+					System.err.println("Vecteur dans Mesh mal défini");
+					break;
 				}
 			}
-			Text text = new Text(font, Text.TextAlignH.CENTER, content); // TODO: Load text align from XML
-			return new TextSpatial(position, size, text);
 		}
-		return null;
-	}
 
-	private static Element getSingleElement(Element parent, String elementName) throws Exception {
-		NodeList list = parent.getElementsByTagName(elementName);
-		if (list.getLength() == 1) {
-			return (Element) list.item(0);
+		// Mesh
+		String modelPath = mesh.getAttribute("src");
+		Mesh m = new Mesh(position, new Quat(rotation.x, rotation.y, rotation.z, rotation.w), scale, modelPath);
+		if (mesh.hasAttribute("name")) {
+			m.attachToParent(parent, mesh.getAttribute("name"));
+		} else {
+			m.attachToParent(parent, m.genName());
 		}
-		throw new Exception("Not single element (Nathan exception)");
+
+		// entities
+		List<Element> entitiess = getListElementByName("entities", mesh);
+		for (Element entities : entitiess) {
+			loadEntities(entities, parent);
+		}
 	}
 
-	private static Vec2f loadVecteurXY(Element vecteur) {
-		float x = Float.parseFloat(vecteur.getAttribute("x"));
-		float y = Float.parseFloat(vecteur.getAttribute("y"));
-		return new Vec2f(x, y);
+	private void loadPlateform(Element plateform, Entity parent) {
+		// vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", plateform);
+		Vec2f position = new Vec2f(), extent = new Vec2f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("Balise Plateform dans XML ne possède pas " + nbVec + " vecteurs");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVecteur vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec2f(vec.x, vec.y);
+					break;
+				case "extent":
+					extent = new Vec2f(vec.x, vec.y);
+					break;
+				default:
+					System.err.println("Vecteur dans Plateform mal défini");
+					break;
+				}
+			}
+		}
+
+		// Plateform
+		Plateform p = new Plateform(position, extent);
+		if (plateform.hasAttribute("name")) {
+			p.attachToParent(parent, plateform.getAttribute("name"));
+		} else {
+			p.attachToParent(parent, p.genName());
+		}
+
+		// entities
+		List<Element> entitiess = getListElementByName("entities", plateform);
+		for (Element entities : entitiess) {
+			loadEntities(entities, parent);
+		}
 	}
 
-	private static Vec4f loadVecteurWXYZ(Element vecteur) {
-		float x = Float.parseFloat(vecteur.getAttribute("x"));
-		float y = Float.parseFloat(vecteur.getAttribute("y"));
-		float z = Float.parseFloat(vecteur.getAttribute("z"));
-		float w = Float.parseFloat(vecteur.getAttribute("w"));
-		return new Vec4f(x, y, z, w);
+	private void loadEntity(Element entity, Entity parent) {
+		Entity e = new Entity();
+		if (entity.hasAttribute("name")) {
+			e.attachToParent(parent, entity.getAttribute("name"));
+		} else {
+			e.attachToParent(parent, e.genName());
+		}
+		// entities
+		List<Element> entitiess = getListElementByName("entities", entity);
+		for (Element entities : entitiess) {
+			loadEntities(entities, e);
+		}
 	}
 }
