@@ -53,7 +53,8 @@
 				 cannonLength CDATA #REQUIRED
 				 recoil CDATA #REQUIRED
 				 thrust CDATA #REQUIRED
-				 size CDATA #REQUIRED>
+				 size CDATA #REQUIRED
+				 proba CDATA #REQUIRED>
 
 <!ELEMENT melee>
 <!ATTLIST melee  weight CDATA #REQUIRED
@@ -69,7 +70,8 @@
 				 bangSound CDATA #REQUIRED
 				 noAmmoSound CDATA #REQUIRED
 				 damage CDATA #REQUIRED
-				 size CDATA #REQUIRED>
+				 size CDATA #REQUIRED
+				 proba CDATA #REQUIRED>
 				 
 <!ELEMENT autre>
 <!ATTLIST autre>
