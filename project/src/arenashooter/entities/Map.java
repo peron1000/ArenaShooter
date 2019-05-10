@@ -11,6 +11,7 @@ import arenashooter.engine.physic.Physic;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
@@ -128,9 +129,9 @@ public class Map extends Entity {
 	}
 
 	/**
-	 * Create entities to test physics engine
+	 * Create entities to test stuf
 	 */
-	private void testPhysics() {
+	private void createTestEntities() {
 		// Rigid body 1
 		Vec2f position = new Vec2f(000, -700);
 		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
@@ -157,11 +158,14 @@ public class Map extends Entity {
 		rbSprite.size = new Vec2f(90, 90);
 		rb.attachToParent(this, "Rigid Body test 3");
 		rbSprite.attachToParent(rb, "Sprite");
+		
+		AnimationTester animTester = new AnimationTester(new Vec2f(500, 0));
+		animTester.attachToParent(this, "anim tester 1");
 	}
 
 	// déso, ces lignes sont temporaires
 	public void init() {
-		testPhysics();
+		createTestEntities();
 		spawnWeapon.attachToParent(this, "test");
 
 		// Gun gun2 = new Gun(new Vec2f(300, 350));

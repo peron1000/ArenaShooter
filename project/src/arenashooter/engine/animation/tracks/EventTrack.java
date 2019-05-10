@@ -40,6 +40,8 @@ public class EventTrack {
 	public Queue<AnimEvent> getEvents(double from, double to) {
 		Queue<AnimEvent> res = new LinkedList<>();
 		
+		if(times.length <= 0) return res;
+		
 		double current = from;
 		while(current < to) {
 			int next = nextKeyframe(current);
