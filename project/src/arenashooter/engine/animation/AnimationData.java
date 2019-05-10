@@ -8,6 +8,7 @@ import arenashooter.engine.animation.tracks.AnimTrackTexture;
 import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
 import arenashooter.engine.animation.tracks.EventTrack;
+import arenashooter.engine.xmlReaders.AnimationXmlReader;
 
 public class AnimationData {
 
@@ -24,7 +25,18 @@ public class AnimationData {
 	final Map<String, AnimTrackVec2f>   tracksVec2f;
 	final Map<String, AnimTrackVec3f>   tracksVec3f;
 
-	private AnimationData(double length, boolean loop, EventTrack eventTrack,  
+	/**
+	 * Creates AnimationData, used by AnimationXmlReader. 
+	 * <b>Use AnimationData.loadAnim() to load animation data</b>
+	 * @param length
+	 * @param loop
+	 * @param eventTrack
+	 * @param tracksD
+	 * @param tracksT
+	 * @param tracksVec2f
+	 * @param tracksVec3f
+	 */
+	public AnimationData(double length, boolean loop, EventTrack eventTrack,  
 			Map<String, AnimTrackDouble> tracksD, Map<String, AnimTrackTexture> tracksT, 
 			Map<String, AnimTrackVec2f> tracksVec2f, Map<String, AnimTrackVec3f> tracksVec3f) {
 		this.loop = loop;
@@ -36,10 +48,17 @@ public class AnimationData {
 		this.tracksVec3f = tracksVec3f;
 	}
 	
+	/**
+	 * Load animation data from a file (or cache)
+	 * @param path
+	 * @return
+	 */
 	public static AnimationData loadAnim(String path) {
 		AnimationData result = cache.get(path);
 		if(result != null) return result;
-		return null; //TODO: load from file
+		result = AnimationXmlReader.read(path);
+		cache.put(path, result);
+		return result;
 	}
 	
 }
