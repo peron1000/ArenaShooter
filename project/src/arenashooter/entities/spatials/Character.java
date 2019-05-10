@@ -189,7 +189,8 @@ public class Character extends Spatial {
 
 		Profiler.startTimer(Profiler.PHYSIC);
 
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, d * (isOnGround ? 10 : 10));
+		double lerpFactor = Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1);
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, lerpFactor);
 		if (!isOnGround)
 			vel.y += Math.min(9.807 * 800 * d, 2000);
 
