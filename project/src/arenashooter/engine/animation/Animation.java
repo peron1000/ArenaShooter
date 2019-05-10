@@ -1,46 +1,31 @@
 package arenashooter.engine.animation;
 
-import java.util.Map;
 import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
-import arenashooter.engine.animation.tracks.AnimTrackDouble;
-import arenashooter.engine.animation.tracks.AnimTrackTexture;
-import arenashooter.engine.animation.tracks.AnimTrackVec2f;
-import arenashooter.engine.animation.tracks.AnimTrackVec3f;
-import arenashooter.engine.animation.tracks.EventTrack;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
 public class Animation {
+	
+	private final AnimationData animData;
 
-	public boolean looping=false;
-	
 	private double time=0;
-	
-	private double length;
 	
 	private double playSpeed = 1;
 	
 	private boolean playing = true;
 	
-	private EventTrack eventTrack;
-	
-	private Map<String, AnimTrackDouble>  tracksD;
-	private Map<String, AnimTrackTexture> tracksT;
-	private Map<String, AnimTrackVec2f>   tracksVec2f;
-	private Map<String, AnimTrackVec3f>   tracksVec3f;
-	
 	private Queue<AnimEvent> events;
 	
-	public Animation() {
-		// TODO Auto-generated constructor stub
+	public Animation(AnimationData data) {
+		this.animData = data;
 	}
 	
 	public static Animation blend(Animation anim1, Animation anim2, double factor) {
 		//TODO
-		return new Animation();
+		return new Animation(anim1.animData);
 	}
 	
 	public void play() {
@@ -54,14 +39,14 @@ public class Animation {
 			double oldTime = time;
 			time += delta*playSpeed;
 			
-			if(time >= length) {
-				if(looping)
-					time = time % length;
+			if(time >= animData.length) {
+				if(animData.looping)
+					time = time % animData.length;
 				else
-					time = length;
+					time = animData.length;
 			}
 			
-			Queue<AnimEvent> newEvents = eventTrack.getEvents(oldTime, time);
+			Queue<AnimEvent> newEvents = animData.eventTrack.getEvents(oldTime, time);
 			for(AnimEvent event : newEvents)
 				events.add(event);
 		}
@@ -77,40 +62,43 @@ public class Animation {
 	/**
 	 * Get current value from a double track
 	 * @param track name
-	 * @return current value or default if inexistant track
+	 * @return current value or default (0.0) if inexistent track
 	 */
 	public double getTrackD(String track) {
-		if(tracksD.get(track) == null) {
+		if(animData.tracksD.containsKey(track)) 
+			return animData.tracksD.get(track).valueAt(time);
+		else {
 			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0.0)");
 			return 0.0;
 		}
-		return tracksD.get(track).valueAt(time);
 	}
 
 	/**
 	 * Get current value from a Texture track
 	 * @param track name
-	 * @return current value or default if inexistant track
+	 * @return current value or default if inexistent track
 	 */
 	public Texture getTrackTex(String track) {
-		if(tracksT.get(track) == null) {
+		if(animData.tracksT.containsKey(track))
+			return animData.tracksT.get(track).valueAt(time);
+		else {
 			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default texture");
 			return Texture.default_tex;
 		}
-		return tracksT.get(track).valueAt(time);
 	}
 
 	/**
 	 * Get current value from a Vec2f track
 	 * @param track name
-	 * @return current value or default if inexistant track
+	 * @return current value or default if inexistent track
 	 */
 	public Vec2f getTrackVec2f(String track) {
-		if(tracksVec2f.get(track) == null) {
+		if(animData.tracksVec2f.containsKey(track)) 
+			return animData.tracksVec2f.get(track).valueAt(time);
+		else {
 			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0)");
 			return new Vec2f();
 		}
-		return tracksVec2f.get(track).valueAt(time);
 	}
 
 	/**
@@ -119,11 +107,12 @@ public class Animation {
 	 * @return current value or default if inexistant track
 	 */
 	public Vec3f getTrackVec3f(String track) {
-		if(tracksVec3f.get(track) == null) {
+		if(animData.tracksVec3f.containsKey(track)) 
+			return animData.tracksVec3f.get(track).valueAt(time);
+		else {
 			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0, 0)");
 			return new Vec3f();
 		}
-		return tracksVec3f.get(track).valueAt(time);
 	}
 
 }
