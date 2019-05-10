@@ -4,7 +4,9 @@
 
 <!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
-<!ELEMENT spawn (vecteur)>
+<!ELEMENT spawn (vecteur,usable)>
+<!ATTLIST spawn spawnperso (false|true) true>
+
 <!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
 <!ATTLIST cameraBound x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
@@ -30,38 +32,46 @@
 <!ELEMENT fichier (#PCDATA)>
 
 <!-- Items allowed -->
-<!ELEMENT items (equipement | weapon | melee)*>
-<!ELEMENT equipement EMPTY>
-<!ELEMENT weapon (vecteur , entities?)>
-<!ATTLIST weapon name CDATA #IMPLIED
-				 damage CDATA #IMPLIED
-				 fireRate CDATA #IMPLIED
-				 thrust CDATA #IMPLIED
-				 recoil CDATA #IMPLIED
-				 tpsCharge CDATA #IMPLIED
-				 chargeInertia CDATA #IMPLIED
-				 spritePath CDATA #IMPLIED
-				 clickSoundPath CDATA #IMPLIED
-				 bangSoundPath CDATA #IMPLIED
-				 pickupSound CDATA #IMPLIED
-				 chargeSoundPath CDATA #IMPLIED
-				 noAmmoSound CDATA #IMPLIED
-				 bulletType CDATA #IMPLIED
-				 bulletSpeed CDATA #IMPLIED
-				 cannonLength CDATA #IMPLIED
-				 
-				 type CDATA #REQUIRED
-				 proba CDATA #REQUIRED
+<!ELEMENT usable (vecteur,gun,melee,autre)*>
+
+<!ELEMENT gun>
+<!ATTLIST gun    weight CDATA #REQUIRED
+				 pathSprite CDATA #REQUIRED
+				 handPosL CDATA #REQUIRED
+				 handPosR CDATA #REQUIRED
+				 soundPickup CDATA #REQUIRED
+				 fireRate CDATA #REQUIRED
+				 uses CDATA #REQUIRED
+				 animPath CDATA #REQUIRED
+				 warmupDuration CDATA #REQUIRED
+				 soundWarmup CDATA #REQUIRED
+				 bangSound CDATA #REQUIRED
+				 noAmmoSound CDATA #REQUIRED
+				 bulletType CDATA #REQUIRED
+				 bulletSpeed CDATA #REQUIRED
+				 damage CDATA #REQUIRED
+				 cannonLength CDATA #REQUIRED
+				 recoil CDATA #REQUIRED
+				 thrust CDATA #REQUIRED
 				 size CDATA #REQUIRED>
-<!ELEMENT melee (vecteur, entities?)>
-<!ATTLIST melee name CDATA #IMPLIED
-				damage CDATA #IMPLIED
-				bangSound CDATA #IMPLIED
-				spritePath CDATA #IMPLIED
-				fireRate CDATA #IMPLIED
-				type CDATA #REQUIRED
-				 proba CDATA #REQUIRED
-				 size CDATA #REQUIRED
-				>
+
+<!ELEMENT melee>
+<!ATTLIST melee  weight CDATA #REQUIRED
+				 pathSprite CDATA #REQUIRED
+				 handPosL CDATA #REQUIRED
+				 handPosR CDATA #REQUIRED
+				 soundPickup CDATA #REQUIRED
+				 fireRate CDATA #REQUIRED
+				 uses CDATA #REQUIRED
+				 animPath CDATA #REQUIRED
+				 warmupDuration CDATA #REQUIRED
+				 soundWarmup CDATA #REQUIRED
+				 bangSound CDATA #REQUIRED
+				 noAmmoSound CDATA #REQUIRED
+				 damage CDATA #REQUIRED
+				 size CDATA #REQUIRED>
+				 
+<!ELEMENT autre>
+<!ATTLIST autre>
 				
 
