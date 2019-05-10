@@ -38,6 +38,9 @@ public class MapChooser extends GameState {
 	public void init() {
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
 
+		//TODO: Remove this line
+		long time = System.currentTimeMillis();
+		
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
@@ -51,9 +54,16 @@ public class MapChooser extends GameState {
 				maps.add(name);
 			}
 		}
+
+		//TODO: Remove these two lines
+		System.out.println("Map loader took "+(System.currentTimeMillis()-time)+" ms to scan maps folder");
+		time = System.currentTimeMillis();
 		
 		//Sort maps alphabetically
 		Collections.sort(maps);
+
+		//TODO: Remove this line
+		System.out.println("Map loader took "+(System.currentTimeMillis()-time)+" ms to sort maps");
 		
 		//Set FOV
 		Window.getCamera().setFOV(90);
@@ -72,6 +82,9 @@ public class MapChooser extends GameState {
 		
 		selectMap(0);
 
+		//TODO: Remove this line
+		time = System.currentTimeMillis();
+		
 		Shader shader = Shader.loadShader("data/shaders/sprite_simple");
 		for (int i = 0; i < maps.size(); i++) {
 			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), shader,
@@ -79,6 +92,8 @@ public class MapChooser extends GameState {
 			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
 		}
 
+		//TODO: Remove this line
+		System.out.println("Map loader took "+(System.currentTimeMillis()-time)+" ms to create thumbnails");
 	}
 
 	@Override
