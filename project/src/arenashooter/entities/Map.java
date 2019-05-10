@@ -22,6 +22,7 @@ public class Map extends Entity {
 	public ArrayList<Vec2f> spawn;
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
+	ArrayList<Entity> toDestroy = new ArrayList<Entity>();
 
 	public Physic physic;
 
@@ -45,6 +46,12 @@ public class Map extends Entity {
 	@Override
 	public void step(double d) {
 		super.step(d);
+		
+		for (Entity ordure : toDestroy) {
+			ordure.detach();
+		}
+		toDestroy.clear();
+		
 		if (spawnWeapon.isOver()) {
 			try {
 				spawnWeapon.restart();
