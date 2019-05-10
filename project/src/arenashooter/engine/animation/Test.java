@@ -134,7 +134,7 @@ public class Test extends Map{
 		logoSizeA = new AnimTrackVec2f(vecMap);
 		
 		vecMap = new HashMap<>();
-		vecMap.put(10d, new Vec2f(-70, -18));
+		vecMap.put(10d, new Vec2f(-50, -18));
 		vecMap.put(11d, new Vec2f(0));
 		logoPosA = new AnimTrackVec2f(vecMap);
 		
@@ -274,10 +274,6 @@ public class Test extends Map{
 		//Text
 		pressStart.color = Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d);
 		pressStart.thickness = Utils.lerpF(.2f, .45f, (1+Math.sin(time*8))/2d);
-//		if(Math.sin(time*5) > 0)
-//			pressStart.thickness = 0;
-//		else
-//			pressStart.thickness = .3f;
 		
 		if(!punched && time >= 4f) {
 			sndPunch.play();
