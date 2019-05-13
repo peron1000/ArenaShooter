@@ -196,6 +196,9 @@ public final class MapExporter {
 	private static void remplissageSpawns(Document document, Element information) {
 		for (Vec2 spawn : Main.map.spawns) {
 			Element e = document.createElement("spawn");
+			e.setAttribute("spawnperso", "true");
+			e.setAttribute("cooldown", "4");
+			
 			e.appendChild(remplissageVec2(document, spawn));
 			information.appendChild(e);
 		}
