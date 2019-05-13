@@ -74,7 +74,7 @@ public class CharacterChooser extends GameState {
 			}
 			// TODO : remove controller when UI_BACK is pressed
 			if (Input.actionPressed(device, Action.UI_BACK) && controllers.keySet().contains(device)
-					&& !device.equals(device.KEYBOARD)) {
+					&& !device.equals(Device.KEYBOARD)) {
 
 				CharacterSprite sp = sprites.get(controllers.get(device));
 				
@@ -90,7 +90,7 @@ public class CharacterChooser extends GameState {
 					CharacterSprite value = entry.getValue();
 					//int j = i;
 					float jj = value.position.x;
-					if (!key.getDevice().equals(device.KEYBOARD)) {
+					if (!key.getDevice().equals(Device.KEYBOARD)) {
 						
 						if (jj > sp.position.x) {
 							jj -= 150;
