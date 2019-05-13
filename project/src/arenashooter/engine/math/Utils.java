@@ -40,6 +40,21 @@ public final class Utils {
 		return Math.min(Math.max( min, a ), max);
 	}
 	
+//	/**
+//	 * Smoothstep
+//	 * Implemented from <a href="https://en.wikipedia.org/wiki/Smoothstep">Wikipedia</a>
+//	 * @param edge0
+//	 * @param edge1
+//	 * @param x
+//	 * @return
+//	 */
+//	public static double smoothstepD(double edge0, double edge1, double x) {
+//		// Scale, bias and saturate x to 0..1 range
+//		x = clampD((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
+//		// Evaluate polynomial
+//		return x * x * (3 - 2 * x);
+//	}
+	
 	/**
 	 * Linear interpolation between a and b
 	 * @param a

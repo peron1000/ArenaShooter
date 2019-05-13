@@ -26,7 +26,7 @@ public class Melee extends Usable {
 		attack.attachToParent(this, "snd_attack");
 		
 		SoundEffect warmup = new SoundEffect(position, "data/sound/" + soundWarmup + ".ogg", 2);
-		attack.attachToParent(this, "snd_Warmup");
+		warmup.attachToParent(this, "snd_Warmup");
 		this.timerWarmup = new Timer(warmupDuration);
 		this.timerWarmup.attachToParent(this, this.timerWarmup.genName());
 	}

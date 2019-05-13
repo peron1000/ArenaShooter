@@ -24,38 +24,6 @@ public class Collider extends Spatial {
 				&& Math.abs(pos().y - other.pos().y) < extent.y + other.extent.y;
 	}
 
-	private ImpactOld colliding(Vec2f vel, Collider other) {
-		return new ImpactOld(this, other, vel);
-	}
-
-	/**
-	 * @return The point on top and left corner
-	 */
-	private Vec2f getTopLeftVec() {
-		return new Vec2f(pos().x - extent.x, pos().y - extent.y);
-	}
-
-	/**
-	 * @return The point on top and right corner
-	 */
-	private Vec2f getTopRightVec() {
-		return new Vec2f(pos().x + extent.x, pos().y - extent.y);
-	}
-
-	/**
-	 * @return The point on bottom and left corner
-	 */
-	private Vec2f getBottomLeftVec() {
-		return new Vec2f(pos().x - extent.x, pos().y + extent.y);
-	}
-
-	/**
-	 * @return The point on bottom and right corner
-	 */
-	private Vec2f getBottomRightVec() {
-		return new Vec2f(pos().x + extent.x, pos().y + extent.y);
-	}
-
 	/**
 	 * @return The position -<code>float</code>- which is the most toward the left
 	 *         on X axe
