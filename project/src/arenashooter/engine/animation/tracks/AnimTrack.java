@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 
+import arenashooter.engine.animation.AnimInterpolation;
+
 /**
  * Abstract class for a keyframe animation track
  * @param <T> Animated data type
  */
 public abstract class AnimTrack<T> {
-	protected double[] times;
-	protected Object[] values;
+	protected final double[] times;
+	protected final Object[] values;
+	protected final AnimInterpolation interpMode;
 	
 	public AnimTrack(Map<Double, T> keyframes) {
+		this(keyframes, AnimInterpolation.CUBIC);
+	}
+	
+	public AnimTrack(Map<Double, T> keyframes, AnimInterpolation interpMode) {
+		this.interpMode = interpMode;
+		
 		times = new double[keyframes.size()];
 		values = new Object[keyframes.size()];
 		

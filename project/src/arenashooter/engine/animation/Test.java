@@ -85,7 +85,7 @@ public class Test extends Map{
 		HashMap<Double, Vec3f> vec3Map = new HashMap<>();
 		vec3Map.put(5.2, new Vec3f(0, 0, 550));
 		vec3Map.put(9.0, new Vec3f(0, -1900, 550));
-		camA = new AnimTrackVec3f(vec3Map);
+		camA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
 		//BG
 		bg.size = new Vec2f(3000);
@@ -106,7 +106,7 @@ public class Test extends Map{
 		opacityMap.put(11.25, 0d);
 		opacityMap.put(11.30, flashIntensity);
 		opacityMap.put(11.40, 0d);
-		sceneOpacityA = new AnimTrackDouble(opacityMap);
+		sceneOpacityA = new AnimTrackDouble(opacityMap, AnimInterpolation.LINEAR);
 		
 		//Logo
 		logo = new Sprite(new Vec2f(0, -2000));
@@ -126,17 +126,17 @@ public class Test extends Map{
 		HashMap<Double, Double> rotMap = new HashMap<>();
 		rotMap.put(10d, 0d);
 		rotMap.put(11d, -8*Math.PI);
-		logoRotA = new AnimTrackDouble(rotMap);
+		logoRotA = new AnimTrackDouble(rotMap, AnimInterpolation.LINEAR);
 		
 		HashMap<Double, Vec2f> vecMap = new HashMap<>();
 		vecMap.put(10d, new Vec2f(655));
 		vecMap.put(11d, new Vec2f(1200));
-		logoSizeA = new AnimTrackVec2f(vecMap);
+		logoSizeA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		vecMap = new HashMap<>();
 		vecMap.put(10d, new Vec2f(-50, -18));
 		vecMap.put(11d, new Vec2f(0));
-		logoPosA = new AnimTrackVec2f(vecMap);
+		logoPosA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		//Crowd
 		crowd_01 = new Sprite(new Vec2f(-650, 425));
@@ -181,7 +181,7 @@ public class Test extends Map{
 		vecMap = new HashMap<>();
 		vecMap.put(4d, new Vec2f(0));
 		vecMap.put(6d, new Vec2f(-400, 400));
-		catA = new AnimTrackVec2f(vecMap);
+		catA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		texMap = new HashMap<>();
 		t = Texture.loadTexture("data/sprites/intro/cat_01.png");
@@ -234,12 +234,12 @@ public class Test extends Map{
 		vecMap = new HashMap<>();
 		vecMap.put(3.8, new Vec2f(0));
 		vecMap.put(4.0, new Vec2f(-100, -25));
-		foxA = new AnimTrackVec2f(vecMap);
+		foxA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		vecMap = new HashMap<>();
 		vecMap.put(3.79999, new Vec2f(600));
 		vecMap.put(3.8, new Vec2f(1200, 600));
-		foxAS = new AnimTrackVec2f(vecMap);
+		foxAS = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 	}
 	
 	@Override

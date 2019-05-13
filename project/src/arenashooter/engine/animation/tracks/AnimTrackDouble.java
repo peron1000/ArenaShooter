@@ -2,15 +2,19 @@ package arenashooter.engine.animation.tracks;
 
 import java.util.Map;
 
+import arenashooter.engine.animation.AnimInterpolation;
 import arenashooter.engine.math.Utils;
 
 /**
  * Double animation track with linear interpolation
  */
 public class AnimTrackDouble extends AnimTrack<Double> {
-
 	public AnimTrackDouble(Map<Double, Double> keyframes) {
 		super(keyframes);
+	}
+	
+	public AnimTrackDouble(Map<Double, Double> keyframes, AnimInterpolation interpMode) {
+		super(keyframes, interpMode);
 	}
 
 	@Override

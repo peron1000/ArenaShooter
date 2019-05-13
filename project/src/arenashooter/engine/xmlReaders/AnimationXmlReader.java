@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import arenashooter.engine.animation.AnimInterpolation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.tracks.AnimTrackDouble;
@@ -103,7 +104,21 @@ public class AnimationXmlReader extends XmlReader {
 			keyframes.put(time, value);
 		}
 		
-		tracksD.put(node.getAttribute("name"), new AnimTrackDouble(keyframes));
+		if(node.hasAttribute("interpolation")) {
+			switch(node.getAttribute("interpolation")) {
+			case "cubic":
+				tracksD.put(node.getAttribute("name"), new AnimTrackDouble(keyframes, AnimInterpolation.CUBIC));
+				break;
+			case "linear":
+				tracksD.put(node.getAttribute("name"), new AnimTrackDouble(keyframes, AnimInterpolation.LINEAR));
+				break;
+			default:
+				System.err.println("Animation - Invalid interpolation mode for track "+node.getAttribute("name")+": "+node.getAttribute("interpolation"));
+				tracksD.put(node.getAttribute("name"), new AnimTrackDouble(keyframes));
+				break;
+			}
+		} else
+			tracksD.put(node.getAttribute("name"), new AnimTrackDouble(keyframes));
 	}
 	
 	private static void readTrackT(Element node) {
@@ -119,7 +134,7 @@ public class AnimationXmlReader extends XmlReader {
 			Texture value = Texture.loadTexture(current.getAttribute("value"));
 			keyframes.put(time, value);
 		}
-		
+
 		tracksT.put(node.getAttribute("name"), new AnimTrackTexture(keyframes));
 	}
 	
@@ -139,7 +154,21 @@ public class AnimationXmlReader extends XmlReader {
 			keyframes.put(time, value);
 		}
 
-		tracksVec2f.put(node.getAttribute("name"), new AnimTrackVec2f(keyframes));
+		if(node.hasAttribute("interpolation")) {
+			switch(node.getAttribute("interpolation")) {
+			case "cubic":
+				tracksVec2f.put(node.getAttribute("name"), new AnimTrackVec2f(keyframes, AnimInterpolation.CUBIC));
+				break;
+			case "linear":
+				tracksVec2f.put(node.getAttribute("name"), new AnimTrackVec2f(keyframes, AnimInterpolation.LINEAR));
+				break;
+			default:
+				System.err.println("Animation - Invalid interpolation mode for track "+node.getAttribute("name")+": "+node.getAttribute("interpolation"));
+				tracksVec2f.put(node.getAttribute("name"), new AnimTrackVec2f(keyframes));
+				break;
+			}
+		} else
+			tracksVec2f.put(node.getAttribute("name"), new AnimTrackVec2f(keyframes));
 	}
 	
 	private static void readTrackVec3f(Element node) {
@@ -159,7 +188,21 @@ public class AnimationXmlReader extends XmlReader {
 			keyframes.put(time, value);
 		}
 		
-		tracksVec3f.put(node.getAttribute("name"), new AnimTrackVec3f(keyframes));
+		if(node.hasAttribute("interpolation")) {
+			switch(node.getAttribute("interpolation")) {
+			case "cubic":
+				tracksVec3f.put(node.getAttribute("name"), new AnimTrackVec3f(keyframes, AnimInterpolation.CUBIC));
+				break;
+			case "linear":
+				tracksVec3f.put(node.getAttribute("name"), new AnimTrackVec3f(keyframes, AnimInterpolation.LINEAR));
+				break;
+			default:
+				System.err.println("Animation - Invalid interpolation mode for track "+node.getAttribute("name")+": "+node.getAttribute("interpolation"));
+				tracksVec3f.put(node.getAttribute("name"), new AnimTrackVec3f(keyframes));
+				break;
+			}
+		} else
+			tracksVec3f.put(node.getAttribute("name"), new AnimTrackVec3f(keyframes));
 	}
 	
 	private static void readTrackEvents(Node node) {

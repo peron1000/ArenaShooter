@@ -2,18 +2,16 @@
 <!DOCTYPE animation SYSTEM "animationDTD.dtd" >
 <animation length="2.0" loop="true">
 	
-	<trackVec2f name="pos">
+	<trackVec2f name="pos" interpolation="cubic">
 		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
-		<keyframeVec2f time="1.0" x="100.0" y="10.0" />
-		<keyframeVec2f time="1.5" x="-200.0" y="-300.0" />
+		<keyframeVec2f time="0.5" x="200.0" y="0.0" />
+		<keyframeVec2f time="1.0" x="200.0" y="200.0" />
+		<keyframeVec2f time="1.5" x="0.0" y="200.0" />
 		<keyframeVec2f time="2.0" x="0.0" y="0.0" />
 	</trackVec2f>
 
-	<trackD name="rot">
+	<trackD name="rot" interpolation="linear">
 		<keyframeD time="0.0" value="0.0" />
-		<keyframeD time="0.5" value="1.0" />
-		<keyframeD time="1.0" value="-2.0" />
-		<keyframeD time="2.0" value="0.0" />
 	</trackD>
 
 </animation>
