@@ -32,17 +32,4 @@ public class ItemCollection<T extends ItemConcept> {
 			throw new Exception("No items in this map");
 		}
 	}
-	
-	public static void main(String[] args) {
-//		ItemCollection<ItemConcept> ic = new ItemCollection<ItemConcept>();
-//		ItemConcept it1 = new ItemConcept("type1",new Vec2f() , 0.5);
-//		ItemConcept it2 = new ItemConcept("type2", new Vec2f() , 10.5);
-//		
-//		ic.add(it1);
-//		ic.add(it2);
-//		
-//		for (int i = 0; i < 100; i++) {
-//			System.out.println(ic.get().getType());
-//		}
-	}
 }

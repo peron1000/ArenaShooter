@@ -13,41 +13,45 @@ import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.SoundEffect;
 
-public class Gun extends Melee {
+public class Gun extends Usable {
 	public float recoil = 0.4f;// High
 	public float thrust = 0;//
 	public double cannonLength = 1.0;
 	public int bulletType = 0;
 	public double bulletSpeed = 1.0;
-	public double waitCharge;// Temps depuis lequel la gachette est enclenchee
+	public float damage = 0f;
 
 	/** Time before the first bullet is fired */
 	protected Timer timerWarmup = null;
 	private SoundEffect sndCharge = null;
 	private float sndChargeVol, sndChargePitch;
 
-	private int nbAmmo = 50;
+	private int nbAmmo;
 
-	public Gun(Vec2f position, String itemSprite, String bangSound, String chargeSound, String noAmmoSound,
-			double fireRate, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
-			double thrust, double tpsCharge, double size) {
-		super(position, itemSprite, damage, fireRate, "GunCock1");
+	public Gun(Vec2f position, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup,
+			double fireRate, int uses, String animPath, double warmupDuration, String soundWarmup, String bangSound,
+			String noAmmoSound, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
+			double thrust, double size) {
+		super(position, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration,
+				soundWarmup, bangSound);
 
+		nbAmmo = uses;
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
 		this.cannonLength = cannonLength;
+		this.damage = damage;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
 
-		SoundEffect bang = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
-		bang.setVolume(0.25f);
-		bang.attachToParent(this, "snd_Bang");
+		SoundEffect attack = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
+		attack.setVolume(0.25f);
+		attack.attachToParent(this, "snd_Bang");
 
-		SoundEffect charge = new SoundEffect(this.position, "data/sound/" + chargeSound + ".ogg", -1, 1, 1);
-		charge.setVolume(0.35f);
-		sndCharge = charge;
-		timerWarmup = new Timer(fireRate);
-		timerWarmup.attachToParent(this, timerWarmup.genName());
+		SoundEffect warmup = new SoundEffect(this.position, "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
+		warmup.setVolume(0.35f);
+		sndCharge = warmup;
+		this.timerWarmup = new Timer(warmupDuration);
+		this.timerWarmup.attachToParent(this, this.timerWarmup.genName());
 
 		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
 		noAmmo.setVolume(0.25f);
@@ -57,37 +61,7 @@ public class Gun extends Melee {
 		particleContainer.attachToParent(this, "particle_container");
 
 		timerWarmup.setProcessing(false);
-
 	}
-
-	public Gun(Vec2f position) {
-		super(position, "data/weapons/Assaut_1.png", 1, 0.15 , "data/sound/GunCock1");
-
-		thrust = 500;
-		recoil = 0.5f;
-		bulletSpeed = 4000;
-		cannonLength = 40.0;
-		nbAmmo = 20;
-
-		SoundEffect bang = new SoundEffect(this.position, "data/sound/Bang1.ogg", 2, 0.9f, 1.1f);
-		bang.setVolume(0.35f);
-		bang.attachToParent(this, "snd_Bang");
-
-		SoundEffect pickup = new SoundEffect(this.position, "data/sound/GunCock1.ogg", 1, 0.9f, 1.1f);
-		pickup.setVolume(0.35f);
-		pickup.attachToParent(this, "snd_Pickup");
-
-		SoundEffect charge = null;
-
-		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/slap.ogg", 1, 0.9f, 1.1f);
-		noAmmo.setVolume(0.35f);
-		noAmmo.attachToParent(this, "snd_NoAmmo");
-
-		Entity particleContainer = new Entity();
-		particleContainer.attachToParent(this, "particle_container");
-	}
-
-	
 
 	@Override
 	public void attackStart() {
@@ -105,20 +79,8 @@ public class Gun extends Melee {
 		timerWarmup.setIncreasing(false);
 	}
 
-	/* (non-Javadoc)
-	 * @see arenashooter.entities.spatials.items.Weapon#step(double)
-	 */
 	@Override
 	public void step(double d) {
-		// se cale sur la position du perso
-		if (isEquipped()) {
-//			Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
-//
-//			localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
-//			localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
-//			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
-		}
-
 		if (sndCharge != null) {
 			if (timerWarmup.isOver()) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
@@ -142,10 +104,10 @@ public class Gun extends Melee {
 			bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 			Particles flash;
-			
+
 			if (nbAmmo > 0) {
 				nbAmmo--;
-				
+
 				switch (bulletType) {
 				case 0:
 					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);

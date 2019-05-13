@@ -53,7 +53,7 @@ public class Map extends Entity {
 		}
 		toDestroy.clear();
 		
-		if (spawnWeapon.isOver()) {
+/*		if (spawnWeapon.isOver()) {
 			try {
 				spawnWeapon.restart();
 				spawnWeapons();
@@ -61,11 +61,11 @@ public class Map extends Entity {
 				System.err.println(e.getMessage());
 				spawnWeapon.breakTimer();
 			}
-		}
+		}*/
 		physic.step(d);
 	}
 
-	private void spawnWeapons() throws Exception {
+/*	private void spawnWeapons() throws Exception {
 		ItemConcept ic = itemCollection.get();
 		switch (ic.getType()) {
 		case "Gun":
@@ -91,7 +91,7 @@ public class Map extends Entity {
 		default:
 			break;
 		}
-	}
+	}*/
 
 	private Vec2f newPositionWeapons() {
 		int size = spawn.size();

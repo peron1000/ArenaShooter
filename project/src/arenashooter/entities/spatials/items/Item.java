@@ -22,7 +22,7 @@ public abstract class Item extends Spatial {
 			return false;
 	}
 
-	public Item(Vec2f position, String pathSprite) {
+	public Item(Vec2f position, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup) {
 		super(position);
 
 		Sprite sprite = new Sprite(position, pathSprite);

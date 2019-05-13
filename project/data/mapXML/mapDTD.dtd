@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT map (information , entities , items?)>
+<!ELEMENT map (information , entities)>
 <!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
-<!ELEMENT spawn (vecteur,usable)>
-<!ATTLIST spawn spawnperso (false|true) true>
+<!ELEMENT spawn (vecteur,usable*)>
+<!ATTLIST spawn spawnperso (false|true) "true"
+		        src CDATA #REQUIRED
+		        cooldown CDATA #REQUIRED>
 
 <!ELEMENT gravity (vecteur)>
 <!ELEMENT cameraBound EMPTY>
@@ -32,9 +34,9 @@
 <!ELEMENT fichier (#PCDATA)>
 
 <!-- Items allowed -->
-<!ELEMENT usable (vecteur,gun,melee,autre)*>
+<!ELEMENT usable (vecteur , (gun | melee | autre))*>
 
-<!ELEMENT gun>
+<!ELEMENT gun EMPTY>
 <!ATTLIST gun    weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 handPosL CDATA #REQUIRED
@@ -54,9 +56,10 @@
 				 recoil CDATA #REQUIRED
 				 thrust CDATA #REQUIRED
 				 size CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 proba CDATA #REQUIRED
+				 type CDATA #REQUIRED>
 
-<!ELEMENT melee>
+<!ELEMENT melee EMPTY>
 <!ATTLIST melee  weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 handPosL CDATA #REQUIRED
@@ -71,9 +74,10 @@
 				 noAmmoSound CDATA #REQUIRED
 				 damage CDATA #REQUIRED
 				 size CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 proba CDATA #REQUIRED
+				 type CDATA #REQUIRED>
 				 
-<!ELEMENT autre>
+<!ELEMENT autre EMPTY>
 <!ATTLIST autre>
 				
 

@@ -2,17 +2,17 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
 	<information>
-		<spawn>
-			<vecteur x="-300" y="0" />
-		</spawn>
-		<spawn>
-			<vecteur x="300" y="0" />
-		</spawn>
-		<spawn>
-			<vecteur x="-2000" y="-490" />
-		</spawn>
-		<spawn>
-			<vecteur x="2000" y="300" />
+		<spawn spawnperso="true"
+			src="data/meshes/item_pickup/weapon_pickup.obj" cooldown="4">
+			<vecteur x="0" y="0" />
+			<usable>
+				<vecteur x="0" y="0" />
+				<gun handPosR="" noAmmoSound="" cannonLength="" type=""
+					handPosL="" pathSprite="" bangSound="" bulletSpeed="55" weight="35"
+					soundPickup="" size="33" bulletType="" fireRate="44"
+					warmupDuration="5" proba="1" thrust="" animPath="" soundWarmup=""
+					damage="27" recoil="0.44" uses="35" />
+			</usable>
 		</spawn>
 
 		<gravity>
@@ -25,7 +25,6 @@
 			<vecteur x="0.659" y="0.835" z="0.996" use="bottom" />
 			<vecteur x="0.016" y="0.145" z="0.565" use="top" />
 		</sky>
-
 	</information>
 
 	<entities>
@@ -84,56 +83,51 @@
 			<vecteur x="0" y="2200" use="position" />
 			<vecteur x="5000" y="10" use="extent" />
 		</plateform>
-		
+
 		<text content="Mlep!" font="data/fonts/ubuntu.fnt">
 			<vecteur x="0" y="0" z="-10" use="position" />
 			<vecteur x="300" y="300" use="scale" />
 		</text>
-		
+
 		<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-			<vecteur use="position" x="0" y="400" z="0"/>
-			<vecteur use="rotation" x="0" y="0" z="0" w="1"/>
-			<vecteur use="scale" x="35" y="35" z="35"/>
+			<vecteur use="position" x="0" y="400" z="0" />
+			<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+			<vecteur use="scale" x="35" y="35" z="35" />
 		</mesh>
-		
+
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
-			<vecteur use="position" x="22500" y="28000" z="-62500"/>
-			<vecteur use="rotation" x="0" y=".2" z="0" w="1"/>
-			<vecteur use="scale" x="950" y="950" z="950"/>
+			<vecteur use="position" x="22500" y="28000" z="-62500" />
+			<vecteur use="rotation" x="0" y=".2" z="0" w="1" />
+			<vecteur use="scale" x="950" y="950" z="950" />
 			<entities>
-                		<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
-					<vecteur use="position" x="-300" y="1200" z="0"/>
-					<vecteur use="rotation" x="0" y="0" z="0" w="1"/>
-					<vecteur use="scale" x="1" y="1" z="1"/>
+				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
+					<vecteur use="position" x="-300" y="1200" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
 		</mesh>
 
 		<!-- TEMP BLADES -->
 		<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
-			<vecteur use="position" x="-11000" y="-4200" z="-300000"/>
-			<vecteur use="rotation" x="0" y=".2" z="0" w="1"/>
-			<vecteur use="scale" x="450" y="450" z="450"/>
+			<vecteur use="position" x="-11000" y="-4200" z="-300000" />
+			<vecteur use="rotation" x="0" y=".2" z="0" w="1" />
+			<vecteur use="scale" x="450" y="450" z="450" />
 		</mesh>
 		<!-- TEMP BLADES -->
 
 		<mesh src="data/meshes/landscape_field/Hill.obj">
-			<vecteur use="position" x="0" y="53500" z="-22000"/>
-			<vecteur use="rotation" x="-0.2" y="0" z="0" w="1"/>
-			<vecteur use="scale" x="300" y="300" z="300"/>
+			<vecteur use="position" x="0" y="53500" z="-22000" />
+			<vecteur use="rotation" x="-0.2" y="0" z="0" w="1" />
+			<vecteur use="scale" x="300" y="300" z="300" />
 		</mesh>
 
 	</entities>
-	
-	<items>
-		<weapon type="Gun" proba="0.5" size="2" bulletSpeed="2000" bulletType="0" spritePath="data/weapons/Minigun_1.png">
-			<vecteur x="40" y="40"/>
-		</weapon>
-		<weapon type="Gun" size="2" proba="1" chargeInertia="2102" damage="100">
-			<vecteur x="40" y="40"/>
-		</weapon>
-		<melee size="1" type="Melee" proba="0.01" spritePath="data/weapons/kata.png" fireRate="2">
-			<vecteur x="40" y="40"/>
-		</melee>
-	</items>
+
+	<!--><items> <weapon type="Gun" proba="0.5" size="1" bulletSpeed="2000" 
+		bulletType="0" spritePath="data/weapons/Minigun_1.png"> <vecteur x="40" y="40"/> 
+		</weapon> <weapon type="Gun" size="1.5" proba="1" chargeInertia="2102" damage="100"> 
+		<vecteur x="40" y="40"/> </weapon> <melee size="1" type="Melee" proba="0.01" 
+		spritePath="data/weapons/kata.png" fireRate="2"> <vecteur x="40" y="40"/> 
+		</melee> </items> < -->
 </map>
