@@ -1,7 +1,6 @@
 package arenashooter.entities;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
@@ -18,11 +17,8 @@ public class Map extends Entity {
 	public ArrayList<Vec2f> spawn;
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
-	ArrayList<Entity> toDestroy = new ArrayList<Entity>();
 
 	public Physic physic;
-
-	private int dernierspawn = -1;
 
 	/**
 	 * Character spawns
@@ -41,11 +37,6 @@ public class Map extends Entity {
 	@Override
 	public void step(double d) {
 		super.step(d);
-		
-		for (Entity ordure : toDestroy) {
-			ordure.detach();
-		}
-		toDestroy.clear();
 		physic.step(d);
 	}
 

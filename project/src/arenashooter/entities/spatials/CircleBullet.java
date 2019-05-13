@@ -64,7 +64,7 @@ public class CircleBullet extends Projectile {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
 							sndImpact.play(pos());
-							destroy();
+							detach();
 							destroyed = true;
 							break;
 						}
@@ -78,7 +78,7 @@ public class CircleBullet extends Projectile {
 						if (c.isColliding(collider)) {
 							sndImpact.play(pos());
 							((Character) bump).takeDamage(damage, vel.x > 0);
-							destroy();
+							detach();
 							destroyed = true;
 							break;
 						}

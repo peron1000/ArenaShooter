@@ -2,6 +2,7 @@ package arenashooter.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Stack;
 
 import arenashooter.entities.Controller;
@@ -74,7 +75,9 @@ public class GameMaster {
 	 * @return An ArrayList of all entities in the current map of the game
 	 */
 	public Collection<Entity> getEntities() {
-		return current.getMap().getChildren().values();
+		Collection<Entity> collection = new HashSet<>();
+		collection.addAll(current.getMap().getChildren().values());
+		return collection;
 	}
 	
 	public Map getMap() {

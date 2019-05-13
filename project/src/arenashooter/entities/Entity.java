@@ -6,33 +6,30 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import arenashooter.engine.graphics.Window;
-import arenashooter.game.GameMaster;
 
 public class Entity {
 
 	protected Entity parent;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
-	public HashMap<String, Entity> children = new HashMap<String, Entity>();
-	
+	private HashMap<String, Entity> children = new HashMap<String, Entity>();
+
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
 
-	//Entity comparator based on zIndex
+	// Entity comparator based on zIndex
 	protected static Comparator<Entity> comparator = new Comparator<Entity>() {
 		@Override
 		public int compare(Entity o1, Entity o2) {
-			return o1.getZIndex()-o2.getZIndex();
+			return o1.getZIndex() - o2.getZIndex();
 		}
 	};
-	
+
 	/**
 	 * Attach this a child of another Entity
 	 * 
-	 * @param newParent
-	 *            new parent Entity
-	 * @param name
-	 *            used as a key in parent's children
+	 * @param newParent new parent Entity
+	 * @param name      used as a key in parent's children
 	 * @return previous child of the new parent using that name
 	 */
 	public Entity attachToParent(Entity newParent, String name) {
@@ -68,13 +65,10 @@ public class Entity {
 	public Entity getParent() {
 		return parent;
 	}
-	
-	
 
 	public HashMap<String, Entity> getChildren() {
 		return children;
 	}
-
 
 	/**
 	 * 
@@ -90,10 +84,6 @@ public class Entity {
 		this.parent = parent;
 	}
 
-	public void destroy() {
-		GameMaster.gm.getMap().toDestroy.add(this);
-	}
-
 	/**
 	 * Update children.
 	 */
@@ -105,36 +95,37 @@ public class Entity {
 				e.step(d);
 		}
 	}
-	
+
 	/**
 	 * @return Map containing this entity or self if this is the Map
 	 */
-	public Map getMap() { //TODO: Replace this with something cleaner
-		if(this instanceof Map) return (Map)this;
-		
+	public Map getMap() { // TODO: Replace this with something cleaner
+		if (this instanceof Map)
+			return (Map) this;
+
 		Entity current = parent;
-		while( current != null && !(current instanceof Map) )
+		while (current != null && !(current instanceof Map))
 			current = current.parent;
-		
-		if(current instanceof Map) return (Map)current;
-		else return null;
+
+		if (current instanceof Map)
+			return (Map) current;
+		else
+			return null;
 	}
-	
-	
 
 	// /**
 	// * Attempts to enable or disable transparency for this entity
 	// * @param value
 	// */
 	// public void setTransparency(boolean value) {};
-	
+
 	/**
 	 * @return should this entity be drawn during transparency pass
 	 */
 	public boolean drawAsTransparent() {
 		return false;
 	}
-	
+
 	/**
 	 * @return final zIndex
 	 */
@@ -165,23 +156,22 @@ public class Entity {
 //		for (Entity e : toDraw)
 //			e.drawOpaque(transparent);
 //	}
-	
+
 	/**
-	 * Draw this entity
-	 * collection<br/>
+	 * Draw this entity collection<br/>
 	 * This will call this function of every children
 	 * 
 	 */
 	public void drawSelfAndChildren() {
-		if(drawAsTransparent())
+		if (drawAsTransparent())
 			Window.beginTransparency();
 		else
 			Window.endTransparency();
 		draw();
-		
+
 		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
 		toDraw.sort(comparator);
-		
+
 		for (Entity e : toDraw)
 			e.drawSelfAndChildren();
 	}

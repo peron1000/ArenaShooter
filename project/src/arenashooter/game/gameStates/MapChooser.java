@@ -151,7 +151,7 @@ public class MapChooser extends GameState {
 
 		Entity oldText = getMap().getChildren().get("Text_Mapname");
 		if (oldText != null)
-			oldText.destroy();
+			oldText.detach();
 
 		textEnt4.attachToParent(getMap(), "Text_Mapname");
 	}

@@ -178,7 +178,7 @@ public class Character extends Spatial {
 		dropItem();
 		if (controller != null)
 			controller.death();
-		destroy();
+		detach();
 //		health = healthMax;
 //		position = new Vec2f(spawn.x, spawn.y);
 //		vel = new Vec2f();
