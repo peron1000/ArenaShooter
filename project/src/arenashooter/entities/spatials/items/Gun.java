@@ -28,12 +28,12 @@ public class Gun extends Usable {
 
 	private int nbAmmo;
 
-	public Gun(Vec2f position, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup,
-			double fireRate, int uses, String animPath, double warmupDuration, String soundWarmup, String bangSound,
-			String noAmmoSound, int bulletType, float bulletSpeed, float damage, double cannonLength, double recoil,
-			double thrust, double size) {
-		super(position, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration,
-				soundWarmup, bangSound);
+	public Gun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+			String soundPickup, double fireRate, int uses, String animPath, double warmupDuration, String soundWarmup,
+			String bangSound, String noAmmoSound, int bulletType, float bulletSpeed, float damage, double cannonLength,
+			double recoil, double thrust, double size) {
+		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath,
+				warmupDuration, soundWarmup, bangSound);
 
 		nbAmmo = uses;
 		this.bulletType = bulletType;

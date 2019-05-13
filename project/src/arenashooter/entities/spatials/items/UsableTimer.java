@@ -10,9 +10,10 @@ public class UsableTimer extends Item {
 	/** Time in between attacks */
 	protected Timer timerCooldown = null;
 
-	public UsableTimer(Vec2f position, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int duration, String animPath,
-			double warmup, String soundWarmup, String soundFire) {
-		super(position, weight, pathSprite, handPosL, handPosR, soundPickup);
+	public UsableTimer(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+			String soundPickup, double fireRate, int duration, String animPath, double warmup, String soundWarmup,
+			String soundFire) {
+		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup);
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 	}
@@ -29,7 +30,7 @@ public class UsableTimer extends Item {
 	public void step(double d) {
 		if (timerCooldown.isOver()) {
 			timerCooldown.restart();
-			
+
 		}
 		Vec2f targetOffSet = Vec2f.rotate(new Vec2f(50, 0), rotation);
 		localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));

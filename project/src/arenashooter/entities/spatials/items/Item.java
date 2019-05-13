@@ -22,17 +22,18 @@ public abstract class Item extends Spatial {
 			return false;
 	}
 
-	public Item(Vec2f position, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup) {
+	public Item(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+			String soundPickup) {
 		super(position);
 
 		Sprite sprite = new Sprite(position, pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
-		
+
 		pickup.attachToParent(this, pickup.genName());
 
 		setSizeOfSprite();
 		setSizeOfCollider();
-		
+
 	}
 
 	@Override
@@ -82,16 +83,16 @@ public abstract class Item extends Spatial {
 	 * Set the rotation of the item Sprite
 	 */
 	protected void setSpriteFlip() {
-		if(getParent() instanceof Character)
-			getSprite().flipY = !((Character)getParent()).lookRight;
+		if (getParent() instanceof Character)
+			getSprite().flipY = !((Character) getParent()).lookRight;
 	}
 
 	/**
 	 * Set the local Position of the item Sprite
 	 */
 	protected void setLocalPositionOfSprite() {
-		if(getParent() instanceof Character) {
-			if (((Character)getParent()).lookRight) {
+		if (getParent() instanceof Character) {
+			if (((Character) getParent()).lookRight) {
 				localPosition = new Vec2f(20, 0);
 			} else {
 				localPosition = new Vec2f(-20, 0);

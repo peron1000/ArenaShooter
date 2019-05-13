@@ -36,7 +36,8 @@
 <!ELEMENT usable (vecteur , (gun | melee | autre))*>
 
 <!ELEMENT gun EMPTY>
-<!ATTLIST gun    weight CDATA #REQUIRED
+<!ATTLIST gun    name CDATA #REQUIRED 
+				 weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 handPosL CDATA #REQUIRED
 				 handPosR CDATA #REQUIRED
@@ -59,7 +60,8 @@
 				 type CDATA #REQUIRED>
 
 <!ELEMENT melee EMPTY>
-<!ATTLIST melee  weight CDATA #REQUIRED
+<!ATTLIST melee  name CDATA #REQUIRED 
+				 weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 handPosL CDATA #REQUIRED
 				 handPosR CDATA #REQUIRED

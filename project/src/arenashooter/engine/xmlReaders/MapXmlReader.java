@@ -20,6 +20,8 @@ import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.entities.spatials.Tuple;
+import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.gameStates.Loading;
 
 public class MapXmlReader extends XmlReader {
@@ -43,9 +45,9 @@ public class MapXmlReader extends XmlReader {
 	 * @return Le premier Element correspondant au name parmi les enfants de parent
 	 */
 	private Element getFirstElementByName(String name, Element parent) {
-		
+
 		List<Element> list = getListElementByName(name, parent);
-		if(list.isEmpty())
+		if (list.isEmpty())
 			return null;
 		return list.get(0);
 	}
@@ -85,12 +87,26 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadSpawns(Element spawn, Map map) {
+		List<Tuple<String, Integer>> table = new ArrayList<Tuple<String, Integer>>();
+
 		XmlVecteur vec = loadVecteur(getFirstElementByName("vecteur", spawn));
 		double cooldown = 0;
+
 		if (spawn.hasAttribute("cooldown")) {
 			cooldown = Double.parseDouble(spawn.getAttribute("cooldown"));
 		}
-		Spawner spawner = new Spawner(new Vec2f(vec.x, vec.y), cooldown);
+		List<Element> usable = getListElementByName("usable", spawn);
+		
+		// Chargement des guns dans la table pour déterminer quelle arme à faire spawn
+		for (Element e : usable) {
+			if(e.hasAttribute("gun"));
+				List<Element> guns = getListElementByName("gun", e);
+				for (Element gun : guns) {
+					loadGunsIntoSpawn(table, gun);
+				}
+			}
+			
+		Spawner spawner = new Spawner(new Vec2f(vec.x, vec.y), cooldown, table);
 		// entities
 		List<Element> entitiess = getListElementByName("entities", spawn);
 		for (Element entities : entitiess) {
@@ -99,6 +115,23 @@ public class MapXmlReader extends XmlReader {
 		spawner.attachToParent(map, spawner.genName());
 	}
 
+	private void loadGunsIntoSpawn(List<Tuple<String, Integer>> table, Element gun) {
+		if (gun.hasAttribute("name")) {
+			Tuple<String, Integer> g = new Tuple<String, Integer>(gun.getAttribute("name"),
+					Integer.decode(gun.getAttribute("proba")));
+			table.add(g);
+		}
+	}
+
+/*	private void loadMeleeIntoSpawn(List<Tuple<String, Integer>> table, Element melee) {
+		String name = "";
+		if (melee.hasAttribute(name)) {
+			Tuple<String, Integer> g = new Tuple<String, Integer>(melee.getAttribute("name"),
+					Integer.decode(melee.getAttribute("proba")));
+			table.add(g);
+		}
+	}*/
+	
 	private XmlVecteur loadVecteur(Element vecteur) {
 		return new XmlVecteur(vecteur);
 	}

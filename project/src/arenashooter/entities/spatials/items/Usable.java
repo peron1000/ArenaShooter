@@ -10,9 +10,9 @@ public class Usable extends Item {
 	/** Time in between attacks */
 	protected Timer timerCooldown = null;
 
-	public Usable(Vec2f position, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int uses, String animPath,
+	public Usable(Vec2f position, String name, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int uses, String animPath,
 			double warmup, String soundWarmup, String soundFire) {
-		super(position, weight, pathSprite, handPosL, handPosR, soundPickup);
+		super(position,name, weight, pathSprite, handPosL, handPosR, soundPickup);
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 	}
