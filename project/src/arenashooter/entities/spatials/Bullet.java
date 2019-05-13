@@ -37,7 +37,7 @@ public class Bullet extends Projectile {
 		boolean destroyed = false;
 		for (Entity bump : siblings) {
 			if (bump instanceof Plateform) {
-				for (Entity coll : ((Plateform) bump).children.values()) {
+				for (Entity coll : ((Plateform) bump).getChildren().values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
@@ -50,7 +50,7 @@ public class Bullet extends Projectile {
 				}
 			}
 			if (bump instanceof Character && !isShooter(((Character) bump))) {
-				for (Entity coll : ((Character) bump).children.values()) {
+				for (Entity coll : ((Character) bump).getChildren().values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
@@ -70,9 +70,9 @@ public class Bullet extends Projectile {
 
 		position.add(Vec2f.multiply(vel, (float) d));
 
-		((Spatial) children.get("bul_Sprite")).position = pos();
-		((Spatial) children.get("collider")).position = pos();
-		((Spatial) children.get("bul_Sprite")).rotation = rotation;
+		((Spatial) getChildren().get("bul_Sprite")).position = pos();
+		((Spatial) getChildren().get("collider")).position = pos();
+		((Spatial) getChildren().get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);
 	}

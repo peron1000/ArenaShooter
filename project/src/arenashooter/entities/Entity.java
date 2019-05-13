@@ -68,6 +68,13 @@ public class Entity {
 	public Entity getParent() {
 		return parent;
 	}
+	
+	
+
+	public HashMap<String, Entity> getChildren() {
+		return children;
+	}
+
 
 	/**
 	 * 
@@ -112,13 +119,15 @@ public class Entity {
 		if(current instanceof Map) return (Map)current;
 		else return null;
 	}
+	
+	
 
 	// /**
 	// * Attempts to enable or disable transparency for this entity
 	// * @param value
 	// */
 	// public void setTransparency(boolean value) {};
-
+	
 	/**
 	 * @return should this entity be drawn during transparency pass
 	 */

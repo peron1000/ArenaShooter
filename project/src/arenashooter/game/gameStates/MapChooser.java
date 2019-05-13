@@ -124,7 +124,7 @@ public class MapChooser extends GameState {
 		ringAngle = Utils.lerpAngle(ringAngle, Math.PI / 2 + (init * Utils.PI2 / maps.size()), Math.min(1, 8d * delta));
 
 		for (int i = 0; i < maps.size(); i++) {
-			Entity thumbnail = getMap().children.get("Map_Thumbnail_" + maps.get(i));
+			Entity thumbnail = getMap().getChildren().get("Map_Thumbnail_" + maps.get(i));
 			if (thumbnail instanceof Mesh) {
 				double angle = ringAngle - (i * Utils.PI2 / maps.size());
 				((Mesh) thumbnail).position = new Vec3f(ringRadius * Math.cos(angle), 0,
@@ -149,7 +149,7 @@ public class MapChooser extends GameState {
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 450, -10), new Vec3f(450), text4);
 
-		Entity oldText = getMap().children.get("Text_Mapname");
+		Entity oldText = getMap().getChildren().get("Text_Mapname");
 		if (oldText != null)
 			oldText.destroy();
 

@@ -24,7 +24,7 @@ public class AnimationTester extends Spatial implements IAnimated {
 	public void step(double d) {
 		anim.step(d);
 		
-		Entity sprite = children.get("moine");
+		Entity sprite = getChildren().get("moine");
 		if( sprite instanceof Sprite ) {
 			((Sprite)sprite).localPosition.set(anim.getTrackVec2f("pos"));
 			((Sprite)sprite).rotation = anim.getTrackD("rot");
