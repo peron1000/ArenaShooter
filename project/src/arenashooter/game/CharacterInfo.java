@@ -20,6 +20,9 @@ public class CharacterInfo {
 		case "Agile":
 			charClass = CharacterClass.heavy;
 			break;
+		case "Heavy" :
+			charClass = CharacterClass.aqua;
+			break;
 		default:
 			charClass = CharacterClass.bird;
 			break;
@@ -30,13 +33,16 @@ public class CharacterInfo {
 		skin = 0;
 		switch(charClass.name) {
 		case "Bird":
+			charClass = CharacterClass.aqua;
+			break;
+		case "Aqua":
 			charClass = CharacterClass.heavy;
 			break;
-		case "Agile":
-			charClass = CharacterClass.bird;
+		case "Heavy":
+			charClass = CharacterClass.agile;
 			break;
 		default:
-			charClass = CharacterClass.agile;
+			charClass = CharacterClass.bird;
 			break;
 		}
 	}
