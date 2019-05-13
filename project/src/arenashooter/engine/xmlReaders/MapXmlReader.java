@@ -97,15 +97,15 @@ public class MapXmlReader extends XmlReader {
 		}
 		List<Element> usable = getListElementByName("usable", spawn);
 		
-		// Chargement des guns dans la table pour déterminer quelle arme à faire spawn
+		// Chargement des guns dans la table pour dï¿½terminer quelle arme ï¿½ faire spawn
 		for (Element e : usable) {
-			if(e.hasAttribute("gun"));
-				List<Element> guns = getListElementByName("gun", e);
-				for (Element gun : guns) {
-					loadGunsIntoSpawn(table, gun);
-				}
+			if(e.hasAttribute("gun")); //TODO: ðŸ¤”
+			List<Element> guns = getListElementByName("gun", e);
+			for (Element gun : guns) {
+				loadGunsIntoSpawn(table, gun);
 			}
-			
+		}
+
 		Spawner spawner = new Spawner(new Vec2f(vec.x, vec.y), cooldown, table);
 		// entities
 		List<Element> entitiess = getListElementByName("entities", spawn);

@@ -8,15 +8,16 @@ import arenashooter.entities.Entity;
 
 public class Spatial3 extends Entity {
 	/** World space position */
-	public Vec3f position;
+	public Vec3f position = new Vec3f();
 	/** Local space position */
-	public Vec3f localPosition = new Vec3f();
+	public Vec3f localPosition;
 	
 	/** World space rotation */
 	public Quat rotation = Quat.fromAngle(0);
 	
 	public Spatial3(Vec3f position) {
-		this.position = position.clone();
+		super();
+		localPosition = position.clone();
 	}
 	
 	@Override
@@ -44,6 +45,10 @@ public class Spatial3 extends Entity {
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial3)
 					((Spatial3) e).position.set(pos());
+				else if (e instanceof Spatial) {
+					((Spatial) e).position.x = pos().x;
+					((Spatial) e).position.y = pos().y;
+				}
 				e.step(d);
 			}
 		}

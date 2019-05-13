@@ -28,7 +28,7 @@ public class Camera extends Spatial3 {
 	public Camera(Vec3f position) {
 		super(position);
 		viewMatrix = Mat4f.viewMatrix(pos(), rotation);
-		this.targetLoc = position.clone();
+		this.targetLoc = localPosition.clone();
 	}
 	
 	@Override
@@ -41,11 +41,11 @@ public class Camera extends Spatial3 {
 		time += d;
 		
 		if(interpolate) { //TODO: Change this to work with attachment
-			position.x = Utils.lerpF( position.x, targetLoc.x, Math.min(1, 15*d) );
-			position.y = Utils.lerpF( position.y, targetLoc.y, Math.min(1, 15*d) );
-			position.z = Utils.lerpF( position.z, targetLoc.z, Math.min(1, 20*d) );
+			localPosition.x = Utils.lerpF( localPosition.x, targetLoc.x, Math.min(1, 15*d) );
+			localPosition.y = Utils.lerpF( localPosition.y, targetLoc.y, Math.min(1, 15*d) );
+			localPosition.z = Utils.lerpF( localPosition.z, targetLoc.z, Math.min(1, 20*d) );
 		}
-		viewMatrix = Mat4f.viewMatrix(new Vec3f(position.x+shakeX, position.y+shakeY, position.z+shakeZ), rotation);
+		viewMatrix = Mat4f.viewMatrix(new Vec3f(pos().x+shakeX, pos().y+shakeY, pos().z+shakeZ), rotation);
 		
 		super.step(d);
 	}
@@ -85,15 +85,15 @@ public class Camera extends Spatial3 {
 	public void center( ArrayList<Character> players, Vec4f bounds, double d ) { //TODO: Improve bounds support
 		if(players.size() == 0 ) return;
 		
-		Vec2f boundsX = new Vec2f(players.get(0).position.x, players.get(0).position.x);
-		Vec2f boundsY = new Vec2f(players.get(0).position.y, players.get(0).position.y);
+		Vec2f boundsX = new Vec2f(players.get(0).pos().x, players.get(0).pos().x);
+		Vec2f boundsY = new Vec2f(players.get(0).pos().y, players.get(0).pos().y);
 		
 		for( int i=1; i<players.size(); i++ ) {
-			boundsX.x = Math.min(boundsX.x, players.get(i).position.x);
-			boundsX.y = Math.max(boundsX.y, players.get(i).position.x);
+			boundsX.x = Math.min(boundsX.x, players.get(i).pos().x);
+			boundsX.y = Math.max(boundsX.y, players.get(i).pos().x);
 
-			boundsY.x = Math.min(boundsY.x, players.get(i).position.y);
-			boundsY.y = Math.max(boundsY.y, players.get(i).position.y);
+			boundsY.x = Math.min(boundsY.x, players.get(i).pos().y);
+			boundsY.y = Math.max(boundsY.y, players.get(i).pos().y);
 		}
 		
 		if(bounds != null) {

@@ -3,7 +3,7 @@
 <map>
 	<information>
 		<spawn spawnperso="true" cooldown="15">
-			<vecteur x="0" y="0" />
+			<vecteur x="100" y="400" />
 			<usable>
 				<vecteur x="0" y="0" />
 				<gun name="minigun" handPosR="" noAmmoSound="" cannonLength=""
@@ -95,11 +95,11 @@
 			<vecteur x="300" y="300" use="scale" />
 		</text>
 
-		<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-			<vecteur use="position" x="0" y="400" z="0" />
-			<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-			<vecteur use="scale" x="35" y="35" z="35" />
-		</mesh>
+<!-- 		<mesh src="data/meshes/item_pickup/weapon_pickup.obj"> -->
+<!-- 			<vecteur use="position" x="0" y="400" z="0" /> -->
+<!-- 			<vecteur use="rotation" x="0" y="0" z="0" w="1" /> -->
+<!-- 			<vecteur use="scale" x="35" y="35" z="35" /> -->
+<!-- 		</mesh> -->
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
 			<vecteur use="position" x="22500" y="28000" z="-62500" />

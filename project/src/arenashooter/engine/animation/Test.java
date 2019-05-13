@@ -69,14 +69,8 @@ public class Test extends Map{
 		sndPunch = new SoundSourceSingle("data/sound/slap.ogg", 1, 1, false, false);
 		sndPunch.setVolume(.48f);
 		
-		//PRESS START text
-		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
-		pressStart = new TextSpatial(new Vec3f(0, 325, 10), new Vec3f(500), txt);
-		pressStart.attachToParent(this, "text");
-		pressStart.color = new Vec4f(.925, .235, .110, 1);
-		
 		//Camera
-		Camera cam = new Camera(new Vec3f(0, 0, 550));
+		Camera cam = new Camera(new Vec3f());
 		cam.setFOV(90);
 		cam.interpolate = false;
 		cam.attachToParent(this, "camera");
@@ -86,6 +80,13 @@ public class Test extends Map{
 		vec3Map.put(5.2, new Vec3f(0, 0, 550));
 		vec3Map.put(9.0, new Vec3f(0, -1900, 550));
 		camA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
+
+		//PRESS START text
+		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
+		pressStart = new TextSpatial(new Vec3f(0, 325, 100), new Vec3f(500), txt);
+		pressStart.attachToParent(this, "text");
+		pressStart.color = new Vec4f(.925, .235, .110, 1);
+//		pressStart.attachToParent(cam, "text");
 		
 		//BG
 		bg.size = new Vec2f(3000);
@@ -261,8 +262,8 @@ public class Test extends Map{
 		logo.rotation = logoRotA.valueAt(time);
 		logo.size.set(logoSizeA.valueAt(time));
 		
-		Window.getCamera().position = camA.valueAt(time);
-		pressStart.position.y = 325+Window.getCamera().position.y;
+		Window.getCamera().localPosition = camA.valueAt(time);
+		pressStart.localPosition.y = 325+Window.getCamera().pos().y;
 		
 		//Fade
 		float opacity = sceneOpacityA.valueAt(time).floatValue();
@@ -273,7 +274,7 @@ public class Test extends Map{
 		
 		//Text
 		pressStart.color = Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d);
-		pressStart.thickness = Utils.lerpF(.2f, .45f, (1+Math.sin(time*8))/2d);
+		pressStart.thickness = Utils.lerpF(.2f, .42f, (1+Math.sin(time*8))/2d);
 		
 		if(!punched && time >= 4f) {
 			sndPunch.play();

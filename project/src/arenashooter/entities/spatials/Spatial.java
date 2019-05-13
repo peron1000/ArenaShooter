@@ -43,6 +43,10 @@ public class Spatial extends Entity {
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial)
 					((Spatial) e).position.set(pos());
+				else if (e instanceof Spatial3) {
+					((Spatial3) e).position.x = pos().x;
+					((Spatial3) e).position.y = pos().y;
+				}
 				e.step(d);
 			}
 		}
