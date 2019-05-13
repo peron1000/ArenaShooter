@@ -4,9 +4,8 @@
 
 <!-- Map info -->
 <!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
-<!ELEMENT spawn (vecteur,usable*)>
+<!ELEMENT spawn (vecteur,usable*,entities?)>
 <!ATTLIST spawn spawnperso (false|true) "true"
-		        src CDATA #REQUIRED
 		        cooldown CDATA #REQUIRED>
 
 <!ELEMENT gravity (vecteur)>

@@ -18,6 +18,7 @@ import arenashooter.entities.Map;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.gameStates.Loading;
 
@@ -42,9 +43,11 @@ public class MapXmlReader extends XmlReader {
 	 * @return Le premier Element correspondant au name parmi les enfants de parent
 	 */
 	private Element getFirstElementByName(String name, Element parent) {
-		NodeList list = parent.getElementsByTagName(name);
-		Element ret = (Element) list.item(0);
-		return ret;
+		
+		List<Element> list = getListElementByName(name, parent);
+		if(list.isEmpty())
+			return null;
+		return list.get(0);
 	}
 
 	private List<Element> getListElementByName(String name, Element parent) {
@@ -74,6 +77,7 @@ public class MapXmlReader extends XmlReader {
 		loadSky(getFirstElementByName("sky", information), map);
 		loadCameraBound(getFirstElementByName("cameraBound", information), map);
 
+		// Load spawns
 		List<Element> listSpawn = getListElementByName("spawn", information);
 		for (Element element : listSpawn) {
 			loadSpawns(element, map);
@@ -82,7 +86,17 @@ public class MapXmlReader extends XmlReader {
 
 	private void loadSpawns(Element spawn, Map map) {
 		XmlVecteur vec = loadVecteur(getFirstElementByName("vecteur", spawn));
-		map.spawn.add(new Vec2f(vec.x, vec.y));
+		double cooldown = 0;
+		if (spawn.hasAttribute("cooldown")) {
+			cooldown = Double.parseDouble(spawn.getAttribute("cooldown"));
+		}
+		Spawner spawner = new Spawner(new Vec2f(vec.x, vec.y), cooldown);
+		// entities
+		List<Element> entitiess = getListElementByName("entities", spawn);
+		for (Element entities : entitiess) {
+			loadEntities(entities, spawner);
+		}
+		spawner.attachToParent(map, spawner.genName());
 	}
 
 	private XmlVecteur loadVecteur(Element vecteur) {

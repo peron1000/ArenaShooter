@@ -2,8 +2,7 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
 	<information>
-		<spawn spawnperso="true"
-			src="data/meshes/item_pickup/weapon_pickup.obj" cooldown="4">
+		<spawn spawnperso="true" cooldown="4">
 			<vecteur x="0" y="0" />
 			<usable>
 				<vecteur x="0" y="0" />
@@ -13,6 +12,13 @@
 					warmupDuration="5" proba="1" thrust="" animPath="" soundWarmup=""
 					damage="27" recoil="0.44" uses="35" />
 			</usable>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+			</entities>
 		</spawn>
 
 		<gravity>
@@ -123,11 +129,4 @@
 		</mesh>
 
 	</entities>
-
-	<!--><items> <weapon type="Gun" proba="0.5" size="1" bulletSpeed="2000" 
-		bulletType="0" spritePath="data/weapons/Minigun_1.png"> <vecteur x="40" y="40"/> 
-		</weapon> <weapon type="Gun" size="1.5" proba="1" chargeInertia="2102" damage="100"> 
-		<vecteur x="40" y="40"/> </weapon> <melee size="1" type="Melee" proba="0.01" 
-		spritePath="data/weapons/kata.png" fireRate="2"> <vecteur x="40" y="40"/> 
-		</melee> </items> < -->
 </map>

@@ -50,7 +50,8 @@ public class Game extends GameState {
 		endGame.setProcessing(false);
 
 		for (Controller controller : GameMaster.gm.controllers) {
-			Character character = controller.createNewCharacter(this, map.GetRandomRespawn());
+			// Ce n'est plus un spawn aleatoire
+			Character character = controller.createNewCharacter(this, map.GetRandomRespawnch());
 			character.attachToParent(map, character.genName());
 		}
 

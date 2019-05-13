@@ -3,8 +3,6 @@ package arenashooter.entities;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import arenashooter.engine.itemCollection.ItemCollection;
-import arenashooter.engine.itemCollection.ItemConcept;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.Physic;
@@ -14,8 +12,6 @@ import arenashooter.engine.physic.shapes.Rectangle;
 import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
-import arenashooter.entities.spatials.items.Gun;
-import arenashooter.entities.spatials.items.Melee;
 
 public class Map extends Entity {
 	/** Spawn points */
@@ -27,8 +23,6 @@ public class Map extends Entity {
 	public Physic physic;
 
 	private int dernierspawn = -1;
-
-	public ItemCollection<ItemConcept> itemCollection = new ItemCollection<ItemConcept>();
 
 	/**
 	 * Character spawns
@@ -52,53 +46,9 @@ public class Map extends Entity {
 			ordure.detach();
 		}
 		toDestroy.clear();
-		
-/*		if (spawnWeapon.isOver()) {
-			try {
-				spawnWeapon.restart();
-				spawnWeapons();
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-				spawnWeapon.breakTimer();
-			}
-		}*/
 		physic.step(d);
 	}
 
-/*	private void spawnWeapons() throws Exception {
-		ItemConcept ic = itemCollection.get();
-		switch (ic.getType()) {
-		case "Gun":
-			Vec2f position = newPositionWeapons();
-			Gun gun = new Gun(position, ic.spritePath, ic.bangSound, ic.chargeSound, ic.noAmmoSound, ic.fireRate,
-					ic.bulletType, ic.bulletSpeed, ic.damage, ic.cannonLength, ic.recoil, ic.thrust, ic.tpsCharge,
-					ic.getSize());
-			if (ic.name == null) {
-				gun.attachToParent(this, gun.genName());
-			} else {
-				gun.attachToParent(this, ic.name);
-			}
-			break;
-		case "Melee":
-			position = newPositionWeapons();
-			Melee melee = new Melee(position, ic.spritePath, ic.damage, ic.fireRate, ic.pickupSound);
-			if (ic.name == null) {
-				melee.attachToParent(this, melee.genName());
-			} else {
-				melee.attachToParent(this, ic.name);
-			}
-			break;
-		default:
-			break;
-		}
-	}*/
-
-	private Vec2f newPositionWeapons() {
-		int size = spawn.size();
-		double random = Math.random();
-		random *= size;
-		return spawn.get((int) random);
-	}
 
 	/**
 	 * @author SnPop GetRandomRespawn : rend un spawn aleatoire entre 0 inclus et
@@ -107,14 +57,14 @@ public class Map extends Entity {
 	 *         dernier utilise
 	 * @return Vec2f
 	 */
-	public Vec2f GetRandomRespawn() {
+	/*public Vec2f GetRandomRespawn() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, spawn.size());
 		while (dernierspawn == randomNum) {
 			randomNum = ThreadLocalRandom.current().nextInt(0, spawn.size());
 		}
 		dernierspawn = randomNum;
 		return spawn.get(randomNum);
-	}
+	}*/
 
 	/**
 	 * @author Shervin Donne un vecteur/spawn qui n'est utilisé par aucun joueur
@@ -123,7 +73,7 @@ public class Map extends Entity {
 	 * @return Vec2f
 	 */
 	public Vec2f GetRandomRespawnch() {
-		int rand = ThreadLocalRandom.current().nextInt(spawn.size());
+		/*int rand = ThreadLocalRandom.current().nextInt(spawn.size());
 		if (!spawnch.isEmpty()) {
 			while (spawnch.contains(spawn.get(rand))) {
 				rand = ThreadLocalRandom.current().nextInt(0, spawn.size());
@@ -132,8 +82,9 @@ public class Map extends Entity {
 		}
 		if (!spawnch.contains(spawn.get(rand))) {
 			spawnch.add(spawn.get(rand));
-		}
-		return spawn.get(rand);
+		}*/
+		Vec2f rand = new Vec2f(0,0);
+		return rand;
 	}
 
 	/**

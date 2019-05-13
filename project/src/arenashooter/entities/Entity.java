@@ -13,7 +13,7 @@ public class Entity {
 	protected Entity parent;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
-	private HashMap<String, Entity> children = new HashMap<String, Entity>();
+	public HashMap<String, Entity> children = new HashMap<String, Entity>();
 	
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
