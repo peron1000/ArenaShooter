@@ -50,7 +50,7 @@ public class RigidBodyContainer extends Spatial {
 		super.step(d);
 		
 		//TODO: Proper attachement system
-		for(Entity e : children.values())
+		for(Entity e : getChildren().values())
 			if(e instanceof Spatial) ((Spatial)e).rotation = rotation;
 	}
 	

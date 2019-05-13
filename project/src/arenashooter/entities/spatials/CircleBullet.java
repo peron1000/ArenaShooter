@@ -47,7 +47,7 @@ public class CircleBullet extends Projectile {
 		collider.localPosition.x = (float) (cos * 4);
 		collider.localPosition.y = (float) (sin * 4);
 		
-		Sprite sprite = ((Sprite)children.get("bul_Sprite"));
+		Sprite sprite = ((Sprite)getChildren().get("bul_Sprite"));
 		sprite.localPosition.x = (float) (-20 + cos * 40);
 		sprite.localPosition.y = (float) (-20 + sin * 40);
 
@@ -59,7 +59,7 @@ public class CircleBullet extends Projectile {
 		boolean destroyed = false;
 		for (Entity bump : siblings) {
 			if (bump instanceof Plateform) {
-				for (Entity coll : ((Plateform) bump).children.values()) {
+				for (Entity coll : ((Plateform) bump).getChildren().values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
@@ -72,7 +72,7 @@ public class CircleBullet extends Projectile {
 				}
 			}
 			if (bump instanceof Character && !isShooter(((Character) bump))) {
-				for (Entity coll : ((Character) bump).children.values()) {
+				for (Entity coll : ((Character) bump).getChildren().values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
@@ -92,9 +92,9 @@ public class CircleBullet extends Projectile {
 
 		position.add(Vec2f.multiply(vel, (float) d));
 
-		((Spatial) children.get("bul_Sprite")).position = pos();
-		((Spatial) children.get("collider")).position = pos();
-		((Spatial) children.get("bul_Sprite")).rotation = rotation;
+		((Spatial) getChildren().get("bul_Sprite")).position = pos();
+		((Spatial) getChildren().get("collider")).position = pos();
+		((Spatial) getChildren().get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);
 	}

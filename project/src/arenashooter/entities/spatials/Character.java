@@ -60,7 +60,7 @@ public class Character extends Spatial {
 		if (!isOnGround)
 			return;
 		vel.y = -saut;
-		((SoundEffect) children.get("snd_Jump")).play();
+		((SoundEffect) getChildren().get("snd_Jump")).play();
 	}
 
 	public void attackStart() {
@@ -69,7 +69,7 @@ public class Character extends Spatial {
 		} else if (attack.isOver()) {
 			attack.restart();
 
-			CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
+			CharacterSprite skeleton = ((CharacterSprite) getChildren().get("skeleton"));
 			if (skeleton != null)
 				skeleton.punch();
 
@@ -90,7 +90,7 @@ public class Character extends Spatial {
 						float yDiff = Math.abs(pos().y - c.pos().y);
 						if (xDiff < 175 && yDiff < 175) {
 							c.takeDamage(defaultDamage, lookRight);
-							((SoundEffect) children.get("snd_Punch_Hit")).play();
+							((SoundEffect) getChildren().get("snd_Punch_Hit")).play();
 						}
 					}
 
@@ -111,7 +111,7 @@ public class Character extends Spatial {
 		Item arme = null;
 
 		boolean hasWeapon = getWeapon() != null;
-		boolean hasArmor = children.containsKey("Item_Armor");
+		boolean hasArmor = getChildren().containsKey("Item_Armor");
 
 		if (!hasWeapon || !hasArmor) {
 			for (Entity e : GameMaster.gm.getEntities()) {
@@ -134,8 +134,8 @@ public class Character extends Spatial {
 
 	public void dropItem() {
 		attackStop();
-		if (children.containsKey("Item_Weapon")) {
-			Entity arme = children.get("Item_Weapon");
+		if (getChildren().containsKey("Item_Weapon")) {
+			Entity arme = getChildren().get("Item_Weapon");
 
 			if (arme instanceof Usable)
 				((Usable) arme).setVel(new Vec2f());
@@ -145,7 +145,7 @@ public class Character extends Spatial {
 	}
 
 	public Usable getWeapon() {
-		Entity e = children.get("Item_Weapon");
+		Entity e = getChildren().get("Item_Weapon");
 		if (e instanceof Usable)
 			return (Usable) e;
 		else
@@ -194,9 +194,9 @@ public class Character extends Spatial {
 			vel.y += Math.min(9.807 * 800 * d, 2000);
 
 		isOnGround = false;
-		for (Entity plat : getParent().children.values()) {
+		for (Entity plat : getParent().getChildren().values()) {
 			if (plat instanceof Plateform) {
-				for (Entity coll : ((Plateform) plat).children.values()) {
+				for (Entity coll : ((Plateform) plat).getChildren().values()) {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						ImpactOld impact = new ImpactOld(collider, c, Vec2f.multiply(vel, (float) d));
@@ -232,7 +232,7 @@ public class Character extends Spatial {
 			aimInput = Math.PI;
 		}
 
-		CharacterSprite skeleton = ((CharacterSprite) children.get("skeleton"));
+		CharacterSprite skeleton = ((CharacterSprite) getChildren().get("skeleton"));
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
 		}

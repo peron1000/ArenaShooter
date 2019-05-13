@@ -37,9 +37,9 @@ public class Spatial extends Entity {
 	 */
 	@Override
 	public void step(double d) {
-		if(!children.isEmpty()) {
+		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();
-			toUpdate.addAll(children.values());
+			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial)
 					((Spatial) e).position.set(pos());

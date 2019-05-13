@@ -74,7 +74,7 @@ public class GameMaster {
 	 * @return An ArrayList of all entities in the current map of the game
 	 */
 	public Collection<Entity> getEntities() {
-		return current.getMap().children.values();
+		return current.getMap().getChildren().values();
 	}
 	
 	public Map getMap() {
