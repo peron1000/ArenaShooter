@@ -27,6 +27,7 @@ public class Character extends Spatial {
 	public boolean lookRight = true;
 	public boolean isAiming = false;
 	public double aimInput = 0;
+	private Timer jump = new Timer(0.5);
 
 	private Timer attack = new Timer(0.3);
 
@@ -56,6 +57,10 @@ public class Character extends Spatial {
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
 
+	public void jumpStart() {
+		
+	}
+	
 	public void jump(int saut) {
 		if (!isOnGround)
 			return;
@@ -152,6 +157,14 @@ public class Character extends Spatial {
 			return null;
 	}
 
+	public void heal(float healed) {
+		//TODO Effects/Sound
+		if(health+healed > healthMax)
+			health = healthMax;
+		else
+			health += healed;
+	}
+	
 	public float takeDamage(float damage, boolean droite) {// degats orientes
 
 		float res = Math.min(damage, health);// ? Ajouter Commentaire
