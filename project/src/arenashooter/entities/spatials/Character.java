@@ -211,7 +211,7 @@ public class Character extends Spatial {
 			}
 		}
 
-		position.add(Vec2f.multiply(vel, (float) d));
+		parentPosition.add(Vec2f.multiply(vel, (float) d));
 
 		Profiler.endTimer(Profiler.PHYSIC);
 

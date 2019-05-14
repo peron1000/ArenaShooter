@@ -64,7 +64,7 @@ public class Controller {
 			if (!character.isDead()) {
 				character.movementInput = Input.getAxis(device, Axis.MOVE_X);
 				if (device == Device.KEYBOARD) {
-					Vec2f charPos = Vec2f.worldToScreen(character.position);
+					Vec2f charPos = Vec2f.worldToScreen(character.parentPosition);
 					charPos.y *= -1;
 
 					Vec2f mouseCentered = Vec2f.add(Input.mousePos,

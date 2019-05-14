@@ -40,12 +40,12 @@ public class RigidBodyContainer extends Spatial {
 			physicsDirty = false;
 		}
 		
-		position.set(body.position); //TODO: Change this to work with attachment
+		parentPosition.set(body.position); //TODO: Change this to work with attachment
 		rotation = body.rotation;
 		
 		//TODO: Temp impulse added on attack input from keyboard
 		if( Input.actionJustPressed(Device.KEYBOARD, Action.ATTACK) )
-			body.applyImpulse(new Vec2f(position.x, position.y+10), new Vec2f(50, -70));
+			body.applyImpulse(new Vec2f(parentPosition.x, parentPosition.y+10), new Vec2f(50, -70));
 		
 		super.step(d);
 		

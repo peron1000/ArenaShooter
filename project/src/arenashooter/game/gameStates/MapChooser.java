@@ -127,7 +127,7 @@ public class MapChooser extends GameState {
 			Entity thumbnail = getMap().getChildren().get("Map_Thumbnail_" + maps.get(i));
 			if (thumbnail instanceof Mesh) {
 				double angle = ringAngle - (i * Utils.PI2 / maps.size());
-				((Mesh) thumbnail).position = new Vec3f(ringRadius * Math.cos(angle), 0,
+				((Mesh) thumbnail).parentPosition = new Vec3f(ringRadius * Math.cos(angle), 0,
 						ringRadius * Math.sin(angle) - ringRadius);
 
 				if (i == init)

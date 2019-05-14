@@ -13,7 +13,7 @@ public abstract class Item extends Spatial {
 	Collider collider;
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
-	public SoundEffect pickup = new SoundEffect(position, "data/sound/GunCock1.ogg", 2);
+	public SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/GunCock1.ogg", 2);
 
 	public boolean isEquipped() {
 		if (parent != null)
@@ -42,9 +42,9 @@ public abstract class Item extends Spatial {
 		if (isEquipped()) {
 			setSpriteFlip();
 			setLocalPositionOfSprite();
-			position.add(localPosition);
+			parentPosition.add(localPosition);
 		} else {
-			position.add(Vec2f.multiply(getVel(), (float) d));
+			parentPosition.add(Vec2f.multiply(getVel(), (float) d));
 		}
 		super.step(d);
 	}
@@ -75,7 +75,7 @@ public abstract class Item extends Spatial {
 	/** Set the size of the collider by default **/
 	protected void setSizeOfCollider() {
 		Sprite sprite = getSprite();
-		collider = new Collider(position, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
+		collider = new Collider(parentPosition, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
 		collider.attachToParent(this, "coll_item");
 	}
 

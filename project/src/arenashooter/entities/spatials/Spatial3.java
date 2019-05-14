@@ -7,8 +7,8 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
 
 public class Spatial3 extends Entity {
-	/** World space position */
-	public Vec3f position = new Vec3f();
+	/** Parent position */
+	public Vec3f parentPosition = new Vec3f();
 	/** Local space position */
 	public Vec3f localPosition;
 	
@@ -31,7 +31,7 @@ public class Spatial3 extends Entity {
 	 * @return position+localPosition
 	 */
 	public Vec3f pos() {
-		return Vec3f.add(position, localPosition);
+		return Vec3f.add(parentPosition, localPosition);
 	}
 	
 	/**
@@ -44,10 +44,10 @@ public class Spatial3 extends Entity {
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial3)
-					((Spatial3) e).position.set(pos());
+					((Spatial3) e).parentPosition.set(pos());
 				else if (e instanceof Spatial) {
-					((Spatial) e).position.x = pos().x;
-					((Spatial) e).position.y = pos().y;
+					((Spatial) e).parentPosition.x = pos().x;
+					((Spatial) e).parentPosition.y = pos().y;
 				}
 				e.step(d);
 			}

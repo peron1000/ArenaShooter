@@ -43,17 +43,17 @@ public class Gun extends Usable {
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
 
-		SoundEffect attack = new SoundEffect(this.position, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
+		SoundEffect attack = new SoundEffect(this.parentPosition, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
 		attack.setVolume(0.25f);
 		attack.attachToParent(this, "snd_Bang");
 
-		SoundEffect warmup = new SoundEffect(this.position, "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
+		SoundEffect warmup = new SoundEffect(this.parentPosition, "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
 		warmup.setVolume(0.35f);
 		sndCharge = warmup;
 		this.timerWarmup = new Timer(warmupDuration);
 		this.timerWarmup.attachToParent(this, this.timerWarmup.genName());
 
-		SoundEffect noAmmo = new SoundEffect(this.position, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
+		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
 		noAmmo.setVolume(0.25f);
 		noAmmo.attachToParent(this, "snd_NoAmmo");
 

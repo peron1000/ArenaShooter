@@ -7,7 +7,7 @@ import arenashooter.entities.Entity;
 
 public class Spatial extends Entity {
 	/** World space Parent position */
-	public Vec2f position;
+	public Vec2f parentPosition;
 	/** Local space position */
 	public Vec2f localPosition;
 	
@@ -15,12 +15,12 @@ public class Spatial extends Entity {
 	public double rotation = 0;
 
 	public Spatial() {
-		position = new Vec2f();
+		parentPosition = new Vec2f();
 		localPosition = new Vec2f();
 	}
 
 	public Spatial(Vec2f position) {
-		this.position = position.clone();
+		this.parentPosition = position.clone();
 		localPosition = new Vec2f();
 	}
 
@@ -29,7 +29,7 @@ public class Spatial extends Entity {
 	 * @return position+localPosition
 	 */
 	public Vec2f pos() {
-		return Vec2f.add(position, localPosition);
+		return Vec2f.add(parentPosition, localPosition);
 	}
 
 	/**
@@ -42,10 +42,10 @@ public class Spatial extends Entity {
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial)
-					((Spatial) e).position.set(pos());
+					((Spatial) e).parentPosition.set(pos());
 				else if (e instanceof Spatial3) {
-					((Spatial3) e).position.x = pos().x;
-					((Spatial3) e).position.y = pos().y;
+					((Spatial3) e).parentPosition.x = pos().x;
+					((Spatial3) e).parentPosition.y = pos().y;
 				}
 				e.step(d);
 			}

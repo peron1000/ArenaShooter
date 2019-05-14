@@ -44,9 +44,9 @@ public class SoundEffect extends Spatial {
 			sound = new SoundSourceMulti(path, maxPlays, pitchMin, pitchMax, true);
 		
 		if( sound instanceof SoundSourceMulti )
-			((SoundSourceMulti)sound).setPositions( this.position );
+			((SoundSourceMulti)sound).setPositions( this.parentPosition );
 		else if( sound instanceof SoundSourceSingle )
-			((SoundSourceSingle)sound).setPosition( this.position );
+			((SoundSourceSingle)sound).setPosition( this.parentPosition );
 	}
 	
 	public AudioSourceI getSound() { return sound; }
@@ -84,9 +84,9 @@ public class SoundEffect extends Spatial {
 	@Override
 	public void step(double d) {
 		if( sound instanceof SoundSourceMulti )
-			((SoundSourceMulti)sound).setPositions( position );
+			((SoundSourceMulti)sound).setPositions( parentPosition );
 		else if( sound instanceof SoundSourceSingle )
-			((SoundSourceSingle)sound).setPosition( position );
+			((SoundSourceSingle)sound).setPosition( parentPosition );
 
 		super.step(d);
 	}

@@ -89,13 +89,13 @@ public class CharacterChooser extends GameState {
 					Controller key = entry.getKey();
 					CharacterSprite value = entry.getValue();
 					//int j = i;
-					float jj = value.position.x;
+					float jj = value.parentPosition.x;
 					if (!key.getDevice().equals(Device.KEYBOARD)) {
 						
-						if (jj > sp.position.x) {
+						if (jj > sp.parentPosition.x) {
 							jj -= 150;
 							Vec2f pos = new Vec2f(jj, 0);
-							value.position.set(pos);
+							value.parentPosition.set(pos);
 							//value.destroy();
 							//Vec2f pos = new Vec2f(jj, 0);
 							//sprites.remove(key);
@@ -118,28 +118,28 @@ public class CharacterChooser extends GameState {
 			// Temp sprite changing
 			if (Input.actionJustPressed(controller.getDevice(), Action.UI_RIGHT)) {
 				controller.getCharInfo().classNext();
-				Vec2f pos = sprites.get(controller).position;
+				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
 				controller.getCharInfo().classPrev();
-				Vec2f pos = sprites.get(controller).position;
+				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_UP)) {
 				controller.getCharInfo().skinNext();
-				Vec2f pos = sprites.get(controller).position;
+				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_DOWN)) {
 				controller.getCharInfo().skinPrev();
-				Vec2f pos = sprites.get(controller).position;
+				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
 				sprites.put(controller, c);

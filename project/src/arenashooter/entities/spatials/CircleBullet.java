@@ -16,7 +16,7 @@ public class CircleBullet extends Projectile {
 	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/slap.ogg", 10, .8f, 1.2f, true);
 
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
-		this.position = Vec2f.add(position.clone(), this.vel);
+		this.parentPosition = Vec2f.add(position.clone(), this.vel);
 		this.vel = vel.clone();
 		movementTime += (Math.random()-0.5)/2;
 
@@ -90,10 +90,10 @@ public class CircleBullet extends Projectile {
 				break;
 		}
 
-		position.add(Vec2f.multiply(vel, (float) d));
+		parentPosition.add(Vec2f.multiply(vel, (float) d));
 
-		((Spatial) getChildren().get("bul_Sprite")).position = pos();
-		((Spatial) getChildren().get("collider")).position = pos();
+		((Spatial) getChildren().get("bul_Sprite")).parentPosition = pos();
+		((Spatial) getChildren().get("collider")).parentPosition = pos();
 		((Spatial) getChildren().get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);

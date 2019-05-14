@@ -97,7 +97,7 @@ public class CharacterSprite extends Spatial {
 
 	public void punch() {
 		handR.localPosition.x = lookRight ? 150 : -150;
-		sndPunch.play(position);
+		sndPunch.play(parentPosition);
 	}
 
 	public void setLookRight(boolean lookRight) {
@@ -144,7 +144,7 @@ public class CharacterSprite extends Spatial {
 		stepTimer.step(d * Math.abs(moveSpeed) / 500);
 		if (!(getParent() instanceof Map)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
-				sndStep.play(position);
+				sndStep.play(parentPosition);
 				stepTimer.restart();
 			}
 		}
