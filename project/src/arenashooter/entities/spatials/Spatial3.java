@@ -28,7 +28,7 @@ public class Spatial3 extends Entity {
 	
 	/**
 	 * Get this entity's world position
-	 * @return position+localPosition
+	 * @return parent position + local position
 	 */
 	public Vec3f pos() {
 		return Vec3f.add(parentPosition, localPosition);

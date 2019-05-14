@@ -10,7 +10,6 @@ import arenashooter.entities.spatials.Character;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.Game;
-//import arenashooter.game.gameStates.GameState;
 
 public class Controller {
 	/** Input device used by this controller */
@@ -64,7 +63,7 @@ public class Controller {
 			if (!character.isDead()) {
 				character.movementInput = Input.getAxis(device, Axis.MOVE_X);
 				if (device == Device.KEYBOARD) {
-					Vec2f charPos = Vec2f.worldToScreen(character.parentPosition);
+					Vec2f charPos = Vec2f.worldToScreen(character.pos());
 					charPos.y *= -1;
 
 					Vec2f mouseCentered = Vec2f.add(Input.mousePos,
