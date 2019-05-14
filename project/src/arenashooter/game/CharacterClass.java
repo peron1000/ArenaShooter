@@ -1,17 +1,48 @@
 package arenashooter.game;
 
-public class CharacterClass {
-	public static final CharacterClass 
-		bird = new CharacterClass( "Bird", new String[] {"moineau_01", "canard_01", "canard_02"} ),
-		agile = new CharacterClass( "Agile", new String[] {"chat_01", "renard_01", "renard_02", "renard_03", "renard_04", "ecureuil_01"} ),
-		heavy = new CharacterClass( "Heavy", new String[] {"chevre_01", "vache_01"} ),
-		aqua = new CharacterClass( "Aqua", new String[] {"poisson_01", "manchot_01", "manchot_02"} );
+import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.spatials.Character;
+
+public enum CharacterClass {
+	Bird("moineau_01", "canard_01", "canard_02"), 
+	Agile ("chat_01", "renard_01", "renard_02", "renard_03", "renard_04", "ecureuil_01"),
+	Heavy ("chevre_01", "vache_01"),
+	Aqua ("poisson_01", "manchot_01", "manchot_02");
 	
-	public final String name;
-	public final String[] skins;
-	
-	private CharacterClass(String name, String[] skins) {
-		this.name = name;
+	private String[] skins;
+	private int indexSkin;
+
+	private CharacterClass (String... skins) {
 		this.skins = skins;
+		indexSkin = 0;
+	}
+	
+	public void nextSkin () {
+		indexSkin = (indexSkin+1)%skins.length;
+	}
+	
+	public void previousSkin () {
+		indexSkin--;
+		if(indexSkin < 0 ) {
+			indexSkin = skins.length-1;
+		}
+	}
+	
+	public String getSkin() {
+		return skins[indexSkin];
+	}
+	
+	public CharacterClass nextClass() {
+		int next = (this.ordinal()+1)%values().length;
+		return values()[next];
+	}
+	
+	public CharacterClass previousClass() {
+		int next = (this.ordinal()+1)%values().length;
+		return values()[next];
+	}
+
+	public Character createNewCharacter(Vec2f spawn) {
+		return new Character(spawn, this);
 	}
 }

@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
-import arenashooter.game.CharacterInfo;
+import arenashooter.game.CharacterClass;
 
 public class CharacterSprite extends Spatial {
 
@@ -35,9 +35,9 @@ public class CharacterSprite extends Spatial {
 		sndPunch.setVolume(.7f);
 	}
 
-	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
+	public CharacterSprite(Vec2f position, CharacterClass charInfo) {
 		super(position);
-		folder = "data/sprites/characters/"+charInfo.charClass.skins[charInfo.skin];
+		folder = "data/sprites/characters/"+charInfo.getSkin();
 
 		File f = new File(folder + "/body.png");
 		if(f.exists() && !f.isDirectory()) { 

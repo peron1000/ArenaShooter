@@ -42,7 +42,7 @@ public class Loading extends GameState {
 		for (Controller c : GameMaster.gm.controllers) {
 			float x = startX + (128f * i);
 
-			entities.add(new CharacterSprite(new Vec2f(x, -30), c.getCharInfo()));
+			entities.add(new CharacterSprite(new Vec2f(x, -30), c.info));
 			entities.add(new LoadingFloor(new Vec2f(x, 80)));
 			i++;
 		}

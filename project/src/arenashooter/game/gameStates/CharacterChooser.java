@@ -53,7 +53,7 @@ public class CharacterChooser extends GameState {
 
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
 		controllers.put(Device.KEYBOARD, controllerKeyboard);
-		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.getCharInfo());
+		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.info);
 		sprites.put(controllerKeyboard, c);
 		i += 150;
 		c.attachToParent(map, c.genName());
@@ -67,7 +67,7 @@ public class CharacterChooser extends GameState {
 			if (Input.actionPressed(device, Action.UI_OK) && !controllers.keySet().contains(device)) {
 				Controller newController = new Controller(device);
 				controllers.put(device, newController);
-				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.getCharInfo());
+				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.info);
 				sprites.put(newController, c);
 				c.attachToParent(map, c.genName());
 				i += 150;
@@ -117,31 +117,31 @@ public class CharacterChooser extends GameState {
 
 			// Temp sprite changing
 			if (Input.actionJustPressed(controller.getDevice(), Action.UI_RIGHT)) {
-				controller.getCharInfo().classNext();
+				controller.info = controller.info.nextClass();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
+				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
-				controller.getCharInfo().classPrev();
+				controller.info = controller.info.previousClass();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
+				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_UP)) {
-				controller.getCharInfo().skinNext();
+				controller.info.nextSkin();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
+				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_DOWN)) {
-				controller.getCharInfo().skinPrev();
+				controller.info.previousSkin();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.getCharInfo());
+				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			}

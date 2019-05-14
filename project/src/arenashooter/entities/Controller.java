@@ -7,7 +7,7 @@ import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
-import arenashooter.game.CharacterInfo;
+import arenashooter.game.CharacterClass;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.Game;
 
@@ -15,7 +15,7 @@ public class Controller {
 	/** Input device used by this controller */
 	private Device device;
 	/** This controller's character information */
-	private CharacterInfo charInfo;
+	public CharacterClass info;
 	/** Currently possessed character */
 	private Character character;
 	boolean deadChar = false;
@@ -26,7 +26,7 @@ public class Controller {
 
 	public Controller(Device device) {
 		this.device = device;
-		charInfo = new CharacterInfo();
+		info = CharacterClass.Agile;
 
 		System.out.println("Added controller for:\n " + Input.getDeviceInfo(device));
 	}
@@ -34,15 +34,11 @@ public class Controller {
 	public Character createNewCharacter(Game game, Vec2f spawn) {
 		if (character != null)
 			character.death();
-		character = charInfo.createNewCharacter(spawn);
+		character = info.createNewCharacter(spawn);
 		character.controller = this;
 		game.registerCharacter(character);
 		deadChar = false;
 		return character;
-	}
-
-	public CharacterInfo getCharInfo() {
-		return charInfo;
 	}
 
 	public Character getCharacter() {
