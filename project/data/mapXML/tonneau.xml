@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd">
+<map>
+  <information>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="245.0" y="160.0"/>
+      			<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
+				fireRate="125" uses="350" animPath="" warmupDuration="15"
+				soundWarmup="IonCharge1"
+				bangSound="Bang1"
+				noAmmoSound="GunCock1" bulletType="1"
+				bulletSpeed="7.9" damage="1" cannonLength="10" recoil="12"
+				thrust="22" size="32" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="40" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+				</entities>
+      
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="395.0" y="160.0"/>
+   		<!-- <melee name="sword" soundWarmup="IonCharge1" animPath="" proba="1" uses="100" weight="7" warmupDuration="2" pathSprite="data/weapons/kata.png" damage="33" fireRate="3" soundPickup="Bang1" size="25" bangSound="Bang1">
+   		</melee> -->
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="345.0" y="160.0"/>
+    	<gun name="Minigun2" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
+				fireRate="125" uses="350" animPath="" warmupDuration="15"
+				soundWarmup="IonCharge1"
+				bangSound="Bang1"
+				noAmmoSound="GunCock1" bulletType="1"
+				bulletSpeed="7.9" damage="1" cannonLength="10" recoil="12"
+				thrust="22" size="32" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+    
+    	<gun name="Alien" weight="125"
+				pathSprite="data/weapons/alien.png" soundPickup="Bang1"
+				fireRate="55" uses="52" animPath="" warmupDuration="5"
+				soundWarmup="IonCharge1"
+				bangSound="Bang1"
+				noAmmoSound="GunCock1" bulletType="2"
+				bulletSpeed="35.0" damage="27" cannonLength="10" recoil="7"
+				thrust="22" size="32" proba="2">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+    		<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+				</entities>
+    
+    
+    
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="295.0" y="160.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="445.0" y="160.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="265.0" y="439.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="205.0" y="440.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="325.0" y="440.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="695.0" y="330.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="645.0" y="330.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="745.0" y="330.0"/>
+    </spawn>
+    <spawn cooldown="4" spawnperso="true">
+      <vecteur x="145.0" y="440.0"/>
+    </spawn>
+    <gravity>
+      <vecteur x="0.0" y="9.807"/>
+    </gravity>
+    <cameraBound w="1000" x="-5000" y="-1000" z="5000"/>
+    <sky>
+      <vecteur use="top" x="1.0" y="1.0" z="1.0"/>
+      <vecteur use="bottom" x="1.0" y="1.0" z="1.0"/>
+    </sky>
+  </information>
+  <entities>
+       <plateform name="Platform_5404481793333">
+      <vecteur use="position" x="405.0" y="750.0"/>
+      <vecteur use="extent" x="500.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_5391209996000">
+      <vecteur use="position" x="350.0" y="260.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_5398076260888">
+      <vecteur use="position" x="695.0" y="441.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    <plateform name="Platform_5400633540888">
+      <vecteur use="position" x="146.0" y="563.0"/>
+      <vecteur use="extent" x="150.0" y="10.0"/>
+    </plateform>
+    
+   <mesh src="data/meshes/decor/tonneau.obj">
+					<!-- <vecteur use="position" x="-300" y="1200" z="0" /> -->
+					<vecteur use="position" x="200" y="40" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+				
+   	<mesh src="data/meshes/decor/ammadetonneau.obj">
+					<!-- <vecteur use="position" x="-300" y="1200" z="0" /> -->
+					<vecteur use="position" x="320" y="40" z="20" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+					</mesh>
+		
+  </entities>
+</map>
