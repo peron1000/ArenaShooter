@@ -1,7 +1,7 @@
 package arenashooter.game.gameParam;
 
 public enum GameMode {
-	Death_Match , Battle_Royal , King_OfT_heHill , Time , Stock_Match, Capture_The_Flag , Rixe;
+	Death_Match , Battle_Royal , King_Of_TheHill , Time , Stock_Match, Capture_The_Flag , Rixe;
 	
 	public GameMode getNext() {
 		int index = this.ordinal();
