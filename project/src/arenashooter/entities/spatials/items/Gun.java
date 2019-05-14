@@ -69,7 +69,7 @@ public class Gun extends Usable {
 			timerWarmup.setIncreasing(true);
 			timerWarmup.setProcessing(true);
 		} else {
-			timerWarmup.setValue(0.05);
+			timerWarmup.setMax(0.05);
 			super.attackStart();
 		}
 	}

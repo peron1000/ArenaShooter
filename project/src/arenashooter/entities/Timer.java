@@ -11,6 +11,10 @@ public class Timer extends Entity {
 	private boolean over = false;
 	public boolean inProcess = true;
 	private boolean increasing = true;
+	
+	public double current() {
+		return current;
+	}
 
 	public Timer(double timer) {
 		max = timer;
@@ -62,8 +66,12 @@ public class Timer extends Entity {
 		this.increasing = increasing;
 	}
 	
-	public void setValue(double newValue) {
-		this.max = newValue;
+	public void setMax(double max) {
+		this.max = max;
+	}
+	
+	public double getMax() {
+		return max;
 	}
 
 	@Override

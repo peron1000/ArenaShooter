@@ -44,10 +44,8 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
-		chooseWinner.restart();
-		endGame.restart();
-		chooseWinner.setProcessing(false);
-		endGame.setProcessing(false);
+		endGame.reset();
+		chooseWinner.reset();
 
 		for (Controller controller : GameMaster.gm.controllers) {
 			// Ce n'est plus un spawn aleatoire
@@ -78,7 +76,6 @@ public class Game extends GameState {
 		super.update(d);
 		
 		if (oneLeft && !chooseWinner.inProcess) {
-			System.out.println("melp !");
 			chooseWinner.setProcessing(true);
 		}
 		chooseWinner.step(d);
