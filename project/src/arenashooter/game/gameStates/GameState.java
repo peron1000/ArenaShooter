@@ -6,6 +6,7 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.ui.Menu;
 import arenashooter.entities.Map;
+import arenashooter.game.GameMaster;
 
 public abstract class GameState {
 	protected Map map;
@@ -20,7 +21,7 @@ public abstract class GameState {
 	}
 
 	public void update(double delta) {
-		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
+		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK) | Input.actionJustPressed(Device.CONTROLLER01, Action.UI_PAUSE) && (GameMaster.current instanceof Game)) {
 			if(menu == null)
 				menu = new Menu();
 			else
