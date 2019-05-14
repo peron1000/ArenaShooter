@@ -27,11 +27,19 @@ public class Timer extends Entity {
 		over = false;
 		current = 0;
 	}
-
+	
 	/**
-	 * Stop the timer and reset all his variables
+	 * @author Marin C
+	 * Stops processing
 	 */
-	public void breakTimer() {
+	public void stop() {
+		inProcess = false;
+	}
+	
+	/**
+	 * Stops the timer and reset all his variables
+	 */
+	public void reset() {
 		restart();
 		inProcess = false;
 	}
@@ -47,7 +55,6 @@ public class Timer extends Entity {
 	}
 
 	public boolean isIncreasing() {
-
 		return increasing;
 	}
 
