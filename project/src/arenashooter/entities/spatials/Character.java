@@ -16,7 +16,7 @@ import arenashooter.game.GameMaster;
 public class Character extends Spatial {
 
 	public Controller controller = null;
-	private static final float defaultDamage = 5;
+	private static final float defaultDamage = 10;
 	private float health, healthMax;
 	private final Vec2f spawn;
 
@@ -27,8 +27,8 @@ public class Character extends Spatial {
 	public boolean lookRight = true;
 	public boolean isAiming = false;
 	public double aimInput = 0;
-	private Timer jump = new Timer(0.5);
-
+	
+	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
 	public Character(Vec2f position, CharacterClass charInfo) {
@@ -44,6 +44,7 @@ public class Character extends Spatial {
 		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
+		jumpTimer.attachToParent(this, "jump Timer");
 
 		CharacterSprite skeleton = new CharacterSprite(this.pos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
@@ -57,15 +58,19 @@ public class Character extends Spatial {
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
 
-	public void jumpStart() {
-		
-	}
-	
 	public void jump(int saut) {
-		if (!isOnGround)
-			return;
-		vel.y = -saut;
-		((SoundEffect) getChildren().get("snd_Jump")).play();
+		if (isOnGround) {
+			isOnGround = false;
+			vel.y = -saut;
+			jumpTimer.setProcessing(true);
+			((SoundEffect) getChildren().get("snd_Jump")).play();
+		}
+	}
+
+	public void planer(double coeff) {
+		if (!jumpTimer.isOver() && jumpTimer.inProcess && vel.y<0) {
+				vel.y = (float) (-2000*Math.expm1(1-(jumpTimer.current()/jumpTimer.getMax())));
+		}
 	}
 
 	public void attackStart() {
@@ -116,9 +121,8 @@ public class Character extends Spatial {
 		Item arme = null;
 
 		boolean hasWeapon = getWeapon() != null;
-		boolean hasArmor = getChildren().containsKey("Item_Armor");
 
-		if (!hasWeapon || !hasArmor) {
+		if (!hasWeapon) {
 			for (Entity e : GameMaster.gm.getEntities()) {
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
@@ -158,13 +162,14 @@ public class Character extends Spatial {
 	}
 
 	public void heal(float healed) {
-		//TODO Effects/Sound
-		if(health+healed > healthMax)
+		// TODO Effects
+		if (health + healed > healthMax) {
 			health = healthMax;
-		else
-			health += healed;
+		} else {
+			health = health + healed;
+		}
 	}
-	
+
 	public float takeDamage(float damage, boolean droite) {// degats orientes
 
 		float res = Math.min(damage, health);// ? Ajouter Commentaire
@@ -192,17 +197,17 @@ public class Character extends Spatial {
 		if (controller != null)
 			controller.death();
 		detach();
-//		health = healthMax;
-//		position = new Vec2f(spawn.x, spawn.y);
-//		vel = new Vec2f();
 	}
 
 	@Override
 	public void step(double d) {
 
+		if (Math.random() > 0.6)
+			jumpTimer.isOver();
+
 		Profiler.startTimer(Profiler.PHYSIC);
 
-		vel.x = (float) Utils.lerpD( vel.x, movementInput * 1500, Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1) );
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1));
 		if (!isOnGround)
 			vel.y += Math.min(9.807 * 800 * d, 2000);
 
@@ -224,7 +229,10 @@ public class Character extends Spatial {
 			}
 		}
 
-		parentPosition.add(Vec2f.multiply(vel, (float) d));
+		if (isOnGround)
+			jumpTimer.reset();
+
+		localPosition.add(Vec2f.multiply(vel, (float) d));
 
 		Profiler.endTimer(Profiler.PHYSIC);
 

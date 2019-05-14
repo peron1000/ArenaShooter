@@ -73,8 +73,11 @@ public class Controller {
 					character.isAiming = isAiming();
 				}
 
-				if (Input.actionPressed(device, Action.JUMP))
-					character.jump(3000);
+				if (Input.actionJustPressed(device, Action.JUMP))
+					character.jump(1000);
+				else if(Input.actionPressed(device, Action.JUMP)) {
+					character.planer(1.0);
+				}
 
 				if (Input.actionJustPressed(device, Action.ATTACK))
 					character.attackStart();
