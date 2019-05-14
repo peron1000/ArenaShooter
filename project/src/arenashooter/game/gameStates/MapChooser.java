@@ -9,6 +9,7 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
+import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -20,6 +21,7 @@ import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
+import arenashooter.game.gameParam.GameParam;
 
 public class MapChooser extends GameState {
 
@@ -32,6 +34,11 @@ public class MapChooser extends GameState {
 	
 	private Shader thumbnailShader;
 	private int lastThumbnail = 0;
+	
+	// Params
+	private TextSpatial gameMode;
+	private final String gameModeString = "GameMode : ";
+	private GameParam gameParam = new GameParam();
 	
 	public String getMapChoosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
@@ -84,11 +91,30 @@ public class MapChooser extends GameState {
 //					Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
 //			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
 //		}
+		
+		// params
+		createTextGameMode(gameModeString+gameParam.getMode().name());
+		gameMode.attachToParent(map, gameMode.genName());
 	}
 
+	private void createTextGameMode(String str) {
+		gameMode = new TextSpatial(new Vec3f(750, -570, 0), new Vec3f(250), new Text(Main.font, TextAlignH.CENTER, str));
+		gameMode.attachToParent(map, gameMode.genName());
+	}
+	
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+		
+		// Refresh gameMode
+		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_NathanTest)) {
+			gameParam.setMode(gameParam.getMode().getNext());
+		}
+		if(gameParam.isChanged()) {
+			gameMode.detach();
+			createTextGameMode(gameModeString+gameParam.getMode());
+		}
+		
 		
 		if(lastThumbnail < maps.size()) {
 			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
@@ -114,7 +140,7 @@ public class MapChooser extends GameState {
 			}
 			selectMap(init);
 		}
-
+		
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
 			GameMaster.gm.requestNextState();
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {

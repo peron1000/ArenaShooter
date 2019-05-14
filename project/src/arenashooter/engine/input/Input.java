@@ -150,6 +150,8 @@ public final class Input {
 				
 				actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS);
 				actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS);
+				
+				actions[Action.UI_NathanTest.id][i] = getActionState(actions[Action.UI_NathanTest.id][i], glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS);
 
 			} else if( glfwJoystickIsGamepad(i) ) { //Gamepad
 				
