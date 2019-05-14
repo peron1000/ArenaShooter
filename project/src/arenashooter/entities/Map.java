@@ -10,6 +10,7 @@ import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
 import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
+import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.Sprite;
 
 public class Map extends Entity {
@@ -24,6 +25,7 @@ public class Map extends Entity {
 	 * Character spawns
 	 */
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
+	
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
 

@@ -2,17 +2,8 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
 	<information>
-		<spawn>
+		<spawn cooldown="1">
 			<vecteur x="-300" y="0" />
-		</spawn>
-		<spawn>
-			<vecteur x="300" y="0" />
-		</spawn>
-		<spawn>
-			<vecteur x="-2000" y="-300" />
-		</spawn>
-		<spawn>
-			<vecteur x="2000" y="300" />
 		</spawn>
 
 		<gravity>

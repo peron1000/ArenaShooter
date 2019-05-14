@@ -22,6 +22,10 @@ import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.entities.spatials.Tuple;
 import arenashooter.entities.spatials.items.Gun;
+import arenashooter.entities.spatials.items.Item;
+import arenashooter.entities.spatials.items.Melee;
+import arenashooter.entities.spatials.items.Usable;
+import arenashooter.entities.spatials.items.UsableTimer;
 import arenashooter.game.gameStates.Loading;
 
 public class MapXmlReader extends XmlReader {
@@ -40,7 +44,7 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	/**
-	 * @param name   balise recherchée
+	 * @param name   balise recherchÃ©e
 	 * @param parent balise du parent
 	 * @return Le premier Element correspondant au name parmi les enfants de parent
 	 */
@@ -87,51 +91,203 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadSpawns(Element spawn, Map map) {
-		List<Tuple<String, Integer>> table = new ArrayList<Tuple<String, Integer>>();
 
 		XmlVecteur vec = loadVecteur(getFirstElementByName("vecteur", spawn));
 		double cooldown = 0;
 
 		if (spawn.hasAttribute("cooldown")) {
 			cooldown = Double.parseDouble(spawn.getAttribute("cooldown"));
+		} else {
+			System.err.println("Pas d'attribut cooldown");
 		}
-		List<Element> usable = getListElementByName("usable", spawn);
-		
-		// Chargement des guns dans la table pour d�terminer quelle arme � faire spawn
-		for (Element e : usable) {
-			if(e.hasAttribute("gun")); //TODO: 🤔
-			List<Element> guns = getListElementByName("gun", e);
-			for (Element gun : guns) {
-				loadGunsIntoSpawn(table, gun);
-			}
+		Vec2f position = new Vec2f(vec.x, vec.y);
+		Spawner spawner = new Spawner(position, cooldown);
+
+		// Usables
+		List<Element> usables = getListElementByName("usable", spawn);
+		for (Element usable : usables) {
+			loadUsable(usable, spawner, position);
 		}
 
-		Spawner spawner = new Spawner(new Vec2f(vec.x, vec.y), cooldown, table);
-		// entities
+		// Guns
+		List<Element> guns = getListElementByName("gun", spawn);
+		for (Element gun : guns) {
+			loadGun(gun, spawner, position);
+		}
+
+		// Melee
+		List<Element> melees = getListElementByName("melee", spawn);
+		for (Element melee : melees) {
+			loadMelee(melee, spawner, position);
+		}
+
+		// UsableTimers
+		List<Element> usableTimers = getListElementByName("usabletimer", spawn);
+		for (Element usableTimer : usableTimers) {
+			loadUsableTimers(usableTimer, spawner, position);
+		}
+
+		// Entities
 		List<Element> entitiess = getListElementByName("entities", spawn);
 		for (Element entities : entitiess) {
 			loadEntities(entities, spawner);
 		}
+
 		spawner.attachToParent(map, spawner.genName());
 	}
 
-	private void loadGunsIntoSpawn(List<Tuple<String, Integer>> table, Element gun) {
-		if (gun.hasAttribute("name")) {
-			Tuple<String, Integer> g = new Tuple<String, Integer>(gun.getAttribute("name"),
-					Integer.decode(gun.getAttribute("proba")));
-			table.add(g);
+	private void loadUsableTimers(Element usableTimer, Spawner spawner, Vec2f position) {
+		// Attributs
+		String name = usableTimer.getAttribute("name");
+		int weight = Integer.parseInt(usableTimer.getAttribute("weight"));
+		String pathSprite = usableTimer.getAttribute("pathSprite");
+		String soundPickup = usableTimer.getAttribute("soundPickup");
+		double fireRate = Double.parseDouble(usableTimer.getAttribute("fireRate"));
+		int duration = Integer.parseInt(usableTimer.getAttribute("duration"));
+		String animPath = usableTimer.getAttribute("animPath");
+		double warmup = Double.parseDouble(usableTimer.getAttribute("warmupDuration"));
+		String soundWarmup = usableTimer.getAttribute("soundWarmup");
+		String attackSound = usableTimer.getAttribute("bangSound");
+
+		// Vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", usableTimer);
+		Vec2f handPosL = new Vec2f();
+		Vec2f handPosR = new Vec2f();
+		for (Element vecteur : vecteurs) {
+			XmlVecteur vec = loadVecteur(vecteur);
+			switch (vec.use) {
+			case "handPosL":
+				handPosL = new Vec2f(vec.x, vec.y);
+				break;
+			case "handPosR":
+				handPosR = new Vec2f(vec.x, vec.y);
+				break;
+			default:
+				System.err.println("Use érroné");
+				break;
+			}
 		}
+		UsableTimer u = new UsableTimer(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, duration,
+				animPath, warmup, soundWarmup, attackSound);
+		spawner.addItem(u, Integer.parseInt(usableTimer.getAttribute("proba")));
 	}
 
-/*	private void loadMeleeIntoSpawn(List<Tuple<String, Integer>> table, Element melee) {
-		String name = "";
-		if (melee.hasAttribute(name)) {
-			Tuple<String, Integer> g = new Tuple<String, Integer>(melee.getAttribute("name"),
-					Integer.decode(melee.getAttribute("proba")));
-			table.add(g);
+	private void loadMelee(Element melee, Spawner spawner, Vec2f position) {
+		// Attributs
+		String name = melee.getAttribute("name");
+		int weight = Integer.parseInt(melee.getAttribute("weight"));
+		String pathSprite = melee.getAttribute("pathSprite");
+		String soundPickup = melee.getAttribute("soundPickup");
+		double fireRate = Double.parseDouble(melee.getAttribute("fireRate"));
+		int uses = Integer.parseInt(melee.getAttribute("uses"));
+		String animPath = melee.getAttribute("animPath");
+		double warmup = Double.parseDouble(melee.getAttribute("warmupDuration"));
+		String soundWarmup = melee.getAttribute("soundWarmup");
+		String attackSound = melee.getAttribute("bangSound");
+		float damage = Float.parseFloat(melee.getAttribute("damage"));
+		double size = Double.parseDouble(melee.getAttribute("size"));
+		
+		// Vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", melee);
+		Vec2f handPosL = new Vec2f();
+		Vec2f handPosR = new Vec2f();
+		for (Element vecteur : vecteurs) {
+			XmlVecteur vec = loadVecteur(vecteur);
+			switch (vec.use) {
+			case "handPosL":
+				handPosL = new Vec2f(vec.x, vec.y);
+				break;
+			case "handPosR":
+				handPosR = new Vec2f(vec.x, vec.y);
+				break;
+			default:
+				System.err.println("Use érroné");
+				break;
+			}
 		}
-	}*/
-	
+		Melee u = new Melee(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmup, soundWarmup, attackSound, damage, size);
+		spawner.addItem(u, Integer.parseInt(melee.getAttribute("proba")));
+	}
+
+	private void loadGun(Element gun, Spawner spawner, Vec2f position) {
+		// Attributs
+				String name = gun.getAttribute("name");
+				int weight = Integer.parseInt(gun.getAttribute("weight"));
+				String pathSprite = gun.getAttribute("pathSprite");
+				String soundPickup = gun.getAttribute("soundPickup");
+				double fireRate = Double.parseDouble(gun.getAttribute("fireRate"));
+				int uses = Integer.parseInt(gun.getAttribute("uses"));
+				String animPath = gun.getAttribute("animPath");
+				double warmup = Double.parseDouble(gun.getAttribute("warmupDuration"));
+				String soundWarmup = gun.getAttribute("soundWarmup");
+				String attackSound = gun.getAttribute("bangSound");
+				String noAmmoSound = gun.getAttribute("noAmmoSound");
+				float damage = Float.parseFloat(gun.getAttribute("damage"));
+				double size = Double.parseDouble(gun.getAttribute("size"));
+				int bulletType = Integer.parseInt(gun.getAttribute("bulletType"));
+				float bulletSpeed = Float.parseFloat(gun.getAttribute("bulletSpeed"));
+				double cannonLength = Double.parseDouble(gun.getAttribute("cannonLength"));
+				double recoil = Double.parseDouble(gun.getAttribute("recoil"));
+				double thrust = Double.parseDouble(gun.getAttribute("thrust"));
+				
+				// Vecteurs
+				List<Element> vecteurs = getListElementByName("vecteur", gun);
+				Vec2f handPosL = new Vec2f();
+				Vec2f handPosR = new Vec2f();
+				for (Element vecteur : vecteurs) {
+					XmlVecteur vec = loadVecteur(vecteur);
+					switch (vec.use) {
+					case "handPosL":
+						handPosL = new Vec2f(vec.x, vec.y);
+						break;
+					case "handPosR":
+						handPosR = new Vec2f(vec.x, vec.y);
+						break;
+					default:
+						System.err.println("Use érroné");
+						break;
+					}
+				}
+				Gun u = new Gun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmup, soundWarmup, attackSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+				spawner.addItem(u, Integer.parseInt(gun.getAttribute("proba")));
+	}
+
+	private void loadUsable(Element usable, Spawner spawner, Vec2f position) {
+		// Attributs
+		String name = usable.getAttribute("name");
+		int weight = Integer.parseInt(usable.getAttribute("weight"));
+		String pathSprite = usable.getAttribute("pathSprite");
+		String soundPickup = usable.getAttribute("soundPickup");
+		double fireRate = Double.parseDouble(usable.getAttribute("fireRate"));
+		int uses = Integer.parseInt(usable.getAttribute("uses"));
+		String animPath = usable.getAttribute("animPath");
+		double warmup = Double.parseDouble(usable.getAttribute("warmupDuration"));
+		String soundWarmup = usable.getAttribute("soundWarmup");
+		String attackSound = usable.getAttribute("bangSound");
+
+		// Vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", usable);
+		Vec2f handPosL = new Vec2f();
+		Vec2f handPosR = new Vec2f();
+		for (Element vecteur : vecteurs) {
+			XmlVecteur vec = loadVecteur(vecteur);
+			switch (vec.use) {
+			case "handPosL":
+				handPosL = new Vec2f(vec.x, vec.y);
+				break;
+			case "handPosR":
+				handPosR = new Vec2f(vec.x, vec.y);
+				break;
+			default:
+				System.err.println("Use érroné");
+				break;
+			}
+		}
+		Usable u = new Usable(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses,
+				animPath, warmup, soundWarmup, attackSound);
+		spawner.addItem(u, Integer.parseInt(usable.getAttribute("proba")));
+	}
+
 	private XmlVecteur loadVecteur(Element vecteur) {
 		return new XmlVecteur(vecteur);
 	}
@@ -141,22 +297,22 @@ public class MapXmlReader extends XmlReader {
 		if (cameraBound.hasAttribute("x")) {
 			x = Double.parseDouble(cameraBound.getAttribute("x"));
 		} else {
-			System.err.println("X dans camera Bound non renseigné");
+			System.err.println("X dans camera Bound non renseignÃ©");
 		}
 		if (cameraBound.hasAttribute("y")) {
 			y = Double.parseDouble(cameraBound.getAttribute("y"));
 		} else {
-			System.err.println("Y dans camera Bound non renseigné");
+			System.err.println("Y dans camera Bound non renseignÃ©");
 		}
 		if (cameraBound.hasAttribute("z")) {
 			z = Double.parseDouble(cameraBound.getAttribute("z"));
 		} else {
-			System.err.println("Z dans camera Bound non renseigné");
+			System.err.println("Z dans camera Bound non renseignÃ©");
 		}
 		if (cameraBound.hasAttribute("w")) {
 			w = Double.parseDouble(cameraBound.getAttribute("w"));
 		} else {
-			System.err.println("W dans camera Bound non renseigné");
+			System.err.println("W dans camera Bound non renseignÃ©");
 		}
 		map.cameraBounds = new Vec4f(x, y, z, w);
 	}
@@ -166,7 +322,7 @@ public class MapXmlReader extends XmlReader {
 		Vec3f top = new Vec3f(), bottom = new Vec3f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Sky dans XML ne possède pas " + nbVec + " vecteurs");
+			System.err.println("Balise Sky dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -179,7 +335,7 @@ public class MapXmlReader extends XmlReader {
 					break;
 
 				default:
-					System.err.println("Sky mal défini");
+					System.err.println("Sky mal dÃ©fini");
 					break;
 				}
 			}
@@ -227,7 +383,7 @@ public class MapXmlReader extends XmlReader {
 		Vec3f scale = new Vec3f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Text dans XML ne possède pas " + nbVec + " vecteurs");
+			System.err.println("Balise Text dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -240,7 +396,7 @@ public class MapXmlReader extends XmlReader {
 					break;
 
 				default:
-					System.err.println("Vecteur dans Text mal défini");
+					System.err.println("Vecteur dans Text mal dÃ©fini");
 					break;
 				}
 			}
@@ -274,7 +430,7 @@ public class MapXmlReader extends XmlReader {
 		Vec4f rotation = new Vec4f();
 		int nbVec = 3;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Mesh dans XML ne possède pas " + nbVec + " vecteurs [src="
+			System.err.println("Balise Mesh dans XML ne possÃ¨de pas " + nbVec + " vecteurs [src="
 					+ mesh.getAttribute("src") + "]");
 			System.out.println(vecteurs.size());
 		} else {
@@ -291,7 +447,7 @@ public class MapXmlReader extends XmlReader {
 					rotation = new Vec4f(vec.x, vec.y, vec.z, vec.w);
 					break;
 				default:
-					System.err.println("Vecteur dans Mesh mal défini");
+					System.err.println("Vecteur dans Mesh mal dÃ©fini");
 					break;
 				}
 			}
@@ -319,7 +475,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Plateform dans XML ne possède pas " + nbVec + " vecteurs");
+			System.err.println("Balise Plateform dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -331,7 +487,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Vecteur dans Plateform mal défini");
+					System.err.println("Vecteur dans Plateform mal dÃ©fini");
 					break;
 				}
 			}
