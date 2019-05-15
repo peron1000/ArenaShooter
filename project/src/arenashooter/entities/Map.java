@@ -10,7 +10,6 @@ import arenashooter.engine.physic.shapes.Disk;
 import arenashooter.engine.physic.shapes.Rectangle;
 import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
-import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Shotgun;
@@ -119,7 +118,7 @@ public class Map extends Entity {
 		AnimationTester animTester = new AnimationTester(new Vec2f(500, 0));
 		animTester.attachToParent(this, "anim tester 1");
 		
-		Shotgun shot = new Shotgun(new Vec2f(),genName(),100,"data/weapons/shotgun1.png", new Vec2f(15, 0), new Vec2f(5, 0),"GunCock_02", 1.2, 6, "", 0, "Ptou","bang_shotgun_01","woosh_01",10, 0.3,0,2500,3,60,2,2500,2);
+		Shotgun shot = new Shotgun(new Vec2f(),"shotgun",100,"data/weapons/shotgun1.png", new Vec2f(15, 0), new Vec2f(5, 0),"GunCock_02", 1.2, 6, "", 0, "","bang_shotgun_01","no_ammo_01",10, 0.3,0,2500,3,60,2,2500,2);
 		shot.attachToParent(this, "test_Shotgun");
 	}
 }

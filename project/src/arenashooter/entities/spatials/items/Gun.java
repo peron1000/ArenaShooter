@@ -30,12 +30,37 @@ public class Gun extends Usable {
 	protected SoundEffect sndWarmup = null;
 	protected float sndChargeVol, sndChargePitch;
 
-	private int nbAmmo;
+	protected int nbAmmo;
 
+	/**
+	 * 
+	 * @param position
+	 * @param name
+	 * @param weight
+	 * @param pathSprite
+	 * @param handPosL
+	 * @param handPosR
+	 * @param soundPickup
+	 * @param cooldown
+	 * @param uses
+	 * @param animPath
+	 * @param warmupDuration
+	 * @param soundWarmup
+	 * @param bangSound
+	 * @param noAmmoSound
+	 * @param bulletType
+	 * @param bulletSpeed
+	 * @param damage
+	 * @param cannonLength
+	 * @param recoil
+	 * @param thrust
+	 * @param size
+	 */
 	public Gun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String bangSound, String noAmmoSound, int bulletType, float bulletSpeed, float damage, double cannonLength,
 			double recoil, double thrust, double size) {
+		
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, bangSound);
 

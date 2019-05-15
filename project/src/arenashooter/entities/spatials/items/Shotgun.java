@@ -4,8 +4,6 @@ import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Entity;
-import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
@@ -13,93 +11,120 @@ import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.SoundEffect;
 
 public class Shotgun extends Gun {
-	protected float recoil = 0.4f;// High
-	protected float thrust = 0;//
-	protected double cannonLength = 1.0;
-	protected int bulletType = 0;
-	protected float bulletSpeed = 1;
-	protected float damage = 0f;
-	protected double warmupDuration = 0;
-	protected String bangSound = "";
-	protected String noAmmoSound = "";
-	protected double size = 0;
-	protected Timer timerCooldown = null;
+//	protected float recoil = 0.4f;// High
+//	protected float thrust = 0;//
+//	protected double cannonLength = 1.0;
+//	protected int bulletType = 0;
+//	protected float bulletSpeed = 1;
+//	protected float damage = 0f;
+//	protected double warmupDuration = 0;
+//	protected String bangSound = "";
+//	protected String noAmmoSound = "";
+//	protected double size = 0;
+//	protected Timer timerCooldown = null;
 	private int multiShot = 10;
 	private double dispersion = 0.3;
+//
+//	/** Time before the first bullet is fired */
+//	protected Timer timerWarmup = null;
+//	protected SoundEffect sndWarmup = null;
+//	protected float sndChargeVol, sndChargePitch;
 
-	/** Time before the first bullet is fired */
-	protected Timer timerWarmup = null;
-	protected SoundEffect sndWarmup = null;
-	protected float sndChargeVol, sndChargePitch;
+//	private int nbAmmo;
 
-	private int nbAmmo;
-
+	/**
+	 * 
+	 * @param position
+	 * @param name
+	 * @param weight
+	 * @param pathSprite
+	 * @param handPosL
+	 * @param handPosR
+	 * @param soundPickup
+	 * @param cooldown
+	 * @param uses
+	 * @param animPath
+	 * @param warmupDuration
+	 * @param soundWarmup
+	 * @param bangSound
+	 * @param noAmmoSound
+	 * @param multiShot
+	 * @param dispersion
+	 * @param bulletType
+	 * @param bulletSpeed
+	 * @param damage
+	 * @param cannonLength
+	 * @param recoil
+	 * @param thrust
+	 * @param size
+	 */
 	public Shotgun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String bangSound, String noAmmoSound, int multiShot, double dispersion, int bulletType, float bulletSpeed, float damage,
 			double cannonLength, double recoil, double thrust, double size) {
+		
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
-				warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, damage, damage, size, size, size,
+				warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust,
 				size);
 
-		this.nbAmmo = uses;
-		this.bulletType = bulletType;
-		this.bulletSpeed = bulletSpeed;
-		this.cannonLength = cannonLength;
-		this.damage = damage;
-		this.recoil = (float) recoil;
-		this.thrust = (float) thrust;
-		this.warmupDuration = warmupDuration;
-		this.bangSound = bangSound;
-		this.noAmmoSound = noAmmoSound;
-		this.size = size;
+//		this.nbAmmo = uses;
+//		this.bulletType = bulletType;
+//		this.bulletSpeed = bulletSpeed;
+//		this.cannonLength = cannonLength;
+//		this.damage = damage;
+//		this.recoil = (float) recoil;
+//		this.thrust = (float) thrust;
+//		this.warmupDuration = warmupDuration;
+//		this.bangSound = bangSound;
+//		this.noAmmoSound = noAmmoSound;
+//		this.size = size;
 		this.multiShot = multiShot;
 		this.dispersion = dispersion;
 
-		SoundEffect attack = new SoundEffect(new Vec2f(), "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
-		attack.setVolume(0.25f);
-		attack.attachToParent(this, "snd_Bang");
-
-		if (soundWarmup == null || soundWarmup.isEmpty()) {
-			sndWarmup = null;
-		} else {
-			sndWarmup = new SoundEffect(new Vec2f(), "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
-			sndWarmup.setVolume(0);
-			sndWarmup.play();
-			sndWarmup.attachToParent(this, "snd_Warmup");
-		}
-
-		// Warmup
-		this.timerWarmup = new Timer(warmupDuration);
-		this.timerWarmup.setIncreasing(false);
-		this.timerWarmup.setProcessing(true);
-		this.timerWarmup.attachToParent(this, "timer_warmup");
-
-		// Cooldown
-		this.timerCooldown = new Timer(fireRate);
-		this.timerCooldown.setIncreasing(true);
-		this.timerCooldown.setProcessing(true);
-		this.timerCooldown.setValue(fireRate);
-		this.timerCooldown.attachToParent(this, "timer_cooldown");
-
-		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f,
-				1.15f);
-		noAmmo.setVolume(0.25f);
-		noAmmo.attachToParent(this, "snd_NoAmmo");
-
-		Entity particleContainer = new Entity();
-		particleContainer.attachToParent(this, "particle_container");
+//		SoundEffect attack = new SoundEffect(new Vec2f(), "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
+//		attack.setVolume(0.25f);
+//		attack.attachToParent(this, "snd_Bang");
+//
+//		if (soundWarmup == null || soundWarmup.isEmpty()) {
+//			sndWarmup = null;
+//		} else {
+//			sndWarmup = new SoundEffect(new Vec2f(), "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
+//			sndWarmup.setVolume(0);
+//			sndWarmup.play();
+//			sndWarmup.attachToParent(this, "snd_Warmup");
+//		}
+//
+//		// Warmup
+//		this.timerWarmup = new Timer(warmupDuration);
+//		this.timerWarmup.setIncreasing(false);
+//		this.timerWarmup.setProcessing(true);
+//		this.timerWarmup.attachToParent(this, "timer_warmup");
+//
+//		// Cooldown
+//		this.timerCooldown = new Timer(fireRate);
+//		this.timerCooldown.setIncreasing(true);
+//		this.timerCooldown.setProcessing(true);
+//		this.timerCooldown.setValue(fireRate);
+//		this.timerCooldown.attachToParent(this, "timer_cooldown");
+//
+//		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f,
+//				1.15f);
+//		noAmmo.setVolume(0.25f);
+//		noAmmo.attachToParent(this, "snd_NoAmmo");
+//
+//		Entity particleContainer = new Entity();
+//		particleContainer.attachToParent(this, "particle_container");
 	}
 
-	@Override
-	public void attackStart() {
-		timerWarmup.setIncreasing(true);
-	}
-
-	@Override
-	public void attackStop() {
-		timerWarmup.setIncreasing(false);
-	}
+//	@Override
+//	public void attackStart() {
+//		timerWarmup.setIncreasing(true);
+//	}
+//
+//	@Override
+//	public void attackStop() {
+//		timerWarmup.setIncreasing(false);
+//	}
 
 	@Override
 		public void step(double d) {
@@ -135,10 +160,10 @@ public class Shotgun extends Gun {
 					switch (bulletType) {
 					case 0:
 						for(int i = 0 ; i<multiShot ;i++) {
-						Bullet bul = new Bullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage);
-						bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
-						if (isEquipped())
-							bul.shooter = ((Character) parent);
+							Bullet bul = new Bullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage);
+							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
+							if (isEquipped())
+								bul.shooter = ((Character) parent);
 						}
 						flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 						flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
@@ -149,15 +174,15 @@ public class Shotgun extends Gun {
 						flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
 
 						for(int i = 0 ; i<multiShot ;i++) {
-						CircleBullet bull = new CircleBullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage, false);
-						CircleBullet bull2 = new CircleBullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage, true);
+							CircleBullet bull = new CircleBullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage, false);
+							CircleBullet bull2 = new CircleBullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage, true);
 
-						if (isEquipped()) {
-							bull.shooter = ((Character) parent);
-							bull2.shooter = ((Character) parent);
-						}
-						bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
-						bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
+							if (isEquipped()) {
+								bull.shooter = ((Character) parent);
+								bull2.shooter = ((Character) parent);
+							}
+							bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
+							bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
 						}
 						break;
 
@@ -200,15 +225,15 @@ public class Shotgun extends Gun {
 			super.step(d);
 		}
 
-	@Override
-	protected void setLocalPositionOfSprite() {
-		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
-	}
+//	@Override
+//	protected void setLocalPositionOfSprite() {
+//		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
+//	}
 
 	@Override
-	public Gun clone(Vec2f position) {
-		Gun gun = new Gun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses,
-				animPath, warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, bulletSpeed, damage,
+	public Shotgun clone(Vec2f position) {
+		Shotgun gun = new Shotgun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses,
+				animPath, warmupDuration, soundWarmup, bangSound, noAmmoSound, multiShot, dispersion, bulletType, bulletSpeed, damage,
 				cannonLength, recoil, thrust, size);
 		return gun;
 	}
