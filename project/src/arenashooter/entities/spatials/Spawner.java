@@ -18,7 +18,6 @@ public class Spawner extends Spatial {
 	private List<Tuple<Item, Integer>> itemList = new ArrayList<>();
 	private double probaTotal = 0;
 
-	// Item collection
 	public Spawner(Vec2f position, Double cooldown) {
 		super(position);
 		this.timerWarmup = new Timer(cooldown);
@@ -28,19 +27,35 @@ public class Spawner extends Spatial {
 	public void addItem(Item item, int proba) {
 		Tuple<Item, Integer> tuple = new Tuple<Item, Integer>(item, proba);
 		itemList.add(tuple);
+		probaTotal += tuple.y;
 	}
 
 	public void spawnWeapon() {
 		if (!itemList.isEmpty()) {
-			Item weaponToSpawn = itemList.get(0).x.clone();
+			Item weaponToSpawn = get().clone();
 			GameMaster.gm.getMap().items.add(weaponToSpawn);
 			weaponToSpawn.attachToParent(GameMaster.gm.getMap(), "test");
 		}
+	}
+	
+	
+	public Item get() {
+		double random = Math.random() * probaTotal;
+		double counter = 0;
+		Item chosenOne = null;
+		for (Tuple<Item, Integer> tuple : itemList) {
+			counter += tuple.y;
+			if (chosenOne == null && counter >= random) {
+				chosenOne = tuple.x;
+			}
+		}
+		return chosenOne;
 	}
 
 	@Override
 	public void step(double d) {
 		if (timerWarmup.isOver()) {
+			timerWarmup.restart();
 			spawnWeapon();
 		}
 		super.step(d);

@@ -2,7 +2,7 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
 	<information>
-		<spawn spawnperso="true" cooldown="15">
+		<spawn spawnperso="true" cooldown="2">
 			<vecteur x="100" y="360" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
@@ -12,6 +12,18 @@
 				noAmmoSound="GunCock1" bulletType="1"
 				bulletSpeed="7.9" damage="1" cannonLength="10" recoil="12"
 				thrust="22" size="32" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="Bang1"
+				fireRate="125" uses="350" animPath="" warmupDuration="15"
+				soundWarmup="IonCharge1"
+				bangSound="Bang1"
+				noAmmoSound="GunCock1" bulletType="1"
+				bulletSpeed="7.9" damage="1" cannonLength="10" recoil="12"
+				thrust="22" size="32" proba="2">
 
 				<vecteur use="handPosL" x="0" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
