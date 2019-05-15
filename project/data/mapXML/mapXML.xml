@@ -3,7 +3,54 @@
 <map>
 	<information>
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="100" y="360" />
+			<vecteur x="-700" y="360" />
+			<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
+				cooldown="0.07" uses="350" animPath="" warmupDuration="0.2"
+				soundWarmup="IonCharge3"
+				bangSound="Bang1"
+				noAmmoSound="GunCock1" bulletType="0"
+				bulletSpeed="2000" damage="1" cannonLength="100" recoil="1"
+				thrust="200" size="64" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="Bang1"
+				cooldown="0.14" uses="350" animPath="" warmupDuration="0"
+				soundWarmup=""
+				bangSound="Bang1"
+				noAmmoSound="GunCock1" bulletType="0"
+				bulletSpeed="3000" damage="1" cannonLength="58" recoil="1"
+				thrust="200" size="64" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="350" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3"
+				bangSound="BangIonGun"
+				noAmmoSound="GunCock_03" bulletType="1"
+				bulletSpeed="3000" damage="1" cannonLength="50" recoil="1"
+				thrust="200" size="64" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="40" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+			</entities>
+		</spawn>
+		
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="700" y="360" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
 				cooldown="0.07" uses="350" animPath="" warmupDuration="0.2"
@@ -64,7 +111,7 @@
 	<entities>
 		<plateform>
 			<vecteur x="0" y="510" use="position" />
-			<vecteur x="1500" y="100" use="extent" />
+			<vecteur x="750" y="100" use="extent" />
 		</plateform>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
