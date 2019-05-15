@@ -45,7 +45,7 @@ public class Melee extends Usable {
 	}
 	
 	@Override
-	public Melee clone() {
+	public Melee clone(Vec2f position) {
 		Melee clone = new Melee(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup, uses, animPath, warmup, animPath, animPath, damage, warmup) {
 		};
 		return clone;

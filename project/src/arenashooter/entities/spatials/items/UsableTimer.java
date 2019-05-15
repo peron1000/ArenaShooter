@@ -56,7 +56,7 @@ public class UsableTimer extends Item {
 	}
 	
 	@Override
-	public UsableTimer clone() {
+	public UsableTimer clone(Vec2f position) {
 		UsableTimer clone = new UsableTimer(localPosition, animPath, duration, animPath, handPosL, handPosR, animPath, fireRate, duration, animPath, warmup, soundWarmup, soundFire);
 		return clone;
 	}

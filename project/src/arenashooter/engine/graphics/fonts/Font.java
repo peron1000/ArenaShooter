@@ -18,13 +18,15 @@ public class Font {
 	/** Path to the fnt file */
 	final String path;
 	int scaleW, scaleH;
-	public Texture tex;
+	private Texture tex;
 	HashMap<Character, FontChar> chars = new HashMap<>();
 	int[] padding = new int[4];
 
 	private Font(String path) {
 		this.path = path;
 	}
+	
+	public Texture getTexture() { return tex; }
 	
 	public static Font loadFont(String path) {
 		//Check if the font has already been loaded
