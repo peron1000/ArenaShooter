@@ -6,24 +6,24 @@
 			<vecteur x="100" y="360" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
-				fireRate="125" uses="350" animPath="" warmupDuration="15"
+				fireRate="3000" uses="350" animPath="" warmupDuration="0.1"
 				soundWarmup="IonCharge1"
 				bangSound="Bang1"
-				noAmmoSound="GunCock1" bulletType="1"
-				bulletSpeed="7.9" damage="1" cannonLength="10" recoil="12"
-				thrust="22" size="64" proba="1">
+				noAmmoSound="GunCock1" bulletType="0"
+				bulletSpeed="2000" damage="1" cannonLength="10" recoil="1"
+				thrust="200" size="64" proba="1">
 
 				<vecteur use="handPosL" x="0" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
 			</gun>
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="Bang1"
-				fireRate="125" uses="350" animPath="" warmupDuration="15"
+				fireRate="10000" uses="350" animPath="" warmupDuration="0.1"
 				soundWarmup="IonCharge1"
 				bangSound="Bang1"
-				noAmmoSound="GunCock1" bulletType="1"
-				bulletSpeed="7.9" damage="1" cannonLength="10" recoil="12"
-				thrust="22" size="64" proba="2">
+				noAmmoSound="GunCock1" bulletType="0"
+				bulletSpeed="3000" damage="1" cannonLength="10" recoil="1"
+				thrust="200" size="64" proba="1">
 
 				<vecteur use="handPosL" x="0" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />

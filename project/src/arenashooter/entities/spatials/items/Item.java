@@ -112,7 +112,7 @@ public abstract class Item extends Spatial {
 		}
 	}
 	
-	public Item clone() {
+	public Item clone(Vec2f position) {
 		Item clone = new Item(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {
 		};
 		return clone;

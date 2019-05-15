@@ -76,10 +76,8 @@ public class Gun extends Usable {
 		if (nbAmmo > 0) {
 			timerWarmup.setIncreasing(true);
 			timerWarmup.setProcessing(true);
-		} else {
-			timerWarmup.setMax(0.05);
-			super.attackStart();
-		}
+		} 
+		super.attackStart();
 	}
 
 	@Override
@@ -101,8 +99,9 @@ public class Gun extends Usable {
 			if (sndCharge.getSound() instanceof SoundSourceSingle)
 				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
 		}
-
+		
 		if (timerWarmup.isOver()) {
+			System.out.println("lol");
 			timerWarmup.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);
@@ -184,7 +183,7 @@ public class Gun extends Usable {
 	}
 	
 	@Override
-	public Gun clone() {
+	public Gun clone(Vec2f position) {
 		Gun gun = new Gun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;
 	}

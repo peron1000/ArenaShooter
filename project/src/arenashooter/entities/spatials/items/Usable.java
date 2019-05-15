@@ -50,7 +50,7 @@ public class Usable extends Item {
 	}
 	
 	@Override
-	public Usable clone() {
+	public Usable clone(Vec2f position) {
 		Usable clone = new Usable(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
 		};
 		return clone;
