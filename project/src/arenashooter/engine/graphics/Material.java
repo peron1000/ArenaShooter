@@ -1,8 +1,5 @@
 package arenashooter.engine.graphics;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -20,7 +17,7 @@ public class Material {
 	private HashMap<String, Vec4f> paramsVec4f = new HashMap<>();
 	private HashMap<String, Texture> paramsTex = new HashMap<>();
 	
-	public Mat4f model, view, proj;
+	public Mat4f model = null, view = null, proj = null;
 	
 	public Material(String shaderPath) {
 		this.shader = Shader.loadShader(shaderPath);
@@ -30,9 +27,9 @@ public class Material {
 		shader.bind();
 		model.bindToShader(shader);
 		
-		shader.setUniformM4("model", this.model);
-		shader.setUniformM4("view", view);
-		shader.setUniformM4("projection", proj);
+		if(this.model != null) shader.setUniformM4("model", this.model);
+		if(this.view!= null) shader.setUniformM4("view", view);
+		if(this.proj != null) shader.setUniformM4("projection", proj);
 		
 		for(Entry<String, Float> entry : paramsF.entrySet())
 			shader.setUniformF(entry.getKey(), entry.getValue());

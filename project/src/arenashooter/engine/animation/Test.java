@@ -266,9 +266,6 @@ public class Test extends Map{
 		//Fade
 		float opacity = sceneOpacityA.valueAt(time).floatValue();
 		bg.material.setParamVec4f("baseColorMod", new Vec4f(opacity, opacity, opacity, 1.0));
-//		bg.colorMod.x = opacity;
-//		bg.colorMod.y = bg.colorMod.x;
-//		bg.colorMod.z = bg.colorMod.x;
 		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
 		
 		//Text
