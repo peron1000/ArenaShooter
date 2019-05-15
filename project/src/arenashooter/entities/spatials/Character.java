@@ -158,8 +158,8 @@ public class Character extends Spatial {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				SoundEffect soundPickup = arme.pickup;
-				soundPickup.play();
+				Entity soundPickup = arme.getChildren().get("sound_pickup");
+				if(soundPickup instanceof SoundEffect) ((SoundEffect)soundPickup).play();
 			}
 		}
 	}

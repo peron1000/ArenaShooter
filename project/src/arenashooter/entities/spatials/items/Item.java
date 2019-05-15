@@ -17,8 +17,7 @@ public abstract class Item extends Spatial {
 	public String name = "";
 	protected double weight = 0;
 	protected String pathSprite = ""; 
-	protected String soundPickup = ""; 
-	public SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/GunCock1.ogg", 2);
+	protected String soundPickup = "";
 
 	public boolean isEquipped() {
 		if (parent != null)
@@ -34,7 +33,8 @@ public abstract class Item extends Spatial {
 		Sprite sprite = new Sprite(position, pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
 
-		pickup.attachToParent(this, pickup.genName());
+		SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/"+soundPickup+".ogg", 1);
+		pickup.attachToParent(this, "sound_pickup");
 
 		setSizeOfSprite();
 		setSizeOfCollider();

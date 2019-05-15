@@ -13,11 +13,10 @@ public class Melee extends Usable {
 	protected Timer timerWarmup = null;
 
 	public Melee(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			String soundPickup, double fireRate, int uses, String animPath, double warmupDuration, String soundWarmup,
+			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage, double size) {
-		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath,
+		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
-		this.fireRate = new Timer(fireRate);
 
 		SoundEffect pickup = new SoundEffect(position, "data/sound/" + soundPickup + ".ogg", 2);
 		pickup.attachToParent(this, "snd_Pickup");
@@ -27,14 +26,37 @@ public class Melee extends Usable {
 
 		SoundEffect warmup = new SoundEffect(position, "data/sound/" + soundWarmup + ".ogg", 2);
 		warmup.attachToParent(this, "snd_Warmup");
+		
+		// Warmup
 		this.timerWarmup = new Timer(warmupDuration);
-		this.timerWarmup.attachToParent(this, this.timerWarmup.genName());
+		this.timerWarmup.setIncreasing(false);
+		this.timerWarmup.setProcessing(true);
+		this.timerWarmup.attachToParent(this, "timer_warmup");
+
+		// Cooldown
+		this.timerCooldown = new Timer(cooldown);
+		this.timerCooldown.setIncreasing(true);
+		this.timerCooldown.setProcessing(true);
+		this.timerCooldown.setValue(cooldown);
+		this.timerCooldown.attachToParent(this, "timer_cooldown");
+	}
+
+	@Override
+	public void attackStart() {
+		timerWarmup.setIncreasing(true);
+	}
+
+	@Override
+	public void attackStop() {
+		timerWarmup.setIncreasing(false);
 	}
 
 	@Override
 	public void step(double d) {
-		if (timerWarmup.isOver()) {
+		if (timerWarmup.isIncreasing() && timerWarmup.isOver() && timerCooldown.isOver()) {
 			timerCooldown.restart();
+			Vec2f aim = Vec2f.fromAngle(rotation);
+			this.position = aim;
 		}
 		super.step(d);
 	}
@@ -43,10 +65,11 @@ public class Melee extends Usable {
 	protected void setLocalPositionOfSprite() {
 		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
 	}
-	
+
 	@Override
 	public Melee clone(Vec2f position) {
-		Melee clone = new Melee(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup, uses, animPath, warmup, animPath, animPath, damage, warmup) {
+		Melee clone = new Melee(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup,
+				uses, animPath, warmup, animPath, animPath, damage, warmup) {
 		};
 		return clone;
 	}
