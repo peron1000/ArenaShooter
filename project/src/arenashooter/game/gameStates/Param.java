@@ -1,7 +1,5 @@
 package arenashooter.game.gameStates;
 
-import com.sun.javafx.webkit.UIClientImpl;
-
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
