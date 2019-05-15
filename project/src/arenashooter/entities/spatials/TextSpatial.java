@@ -16,8 +16,8 @@ public class TextSpatial extends Spatial3 {
 	private Text text;
 	private Shader shader;
 	
-	public float thickness = .3f;
-	public Vec4f color = new Vec4f(1, 1, .5, 1);
+//	public float thickness = .3f;
+//	public Vec4f color = new Vec4f(1, 1, .5, 1);
 	
 	public Vec3f scale;
 
@@ -26,7 +26,22 @@ public class TextSpatial extends Spatial3 {
 		this.scale = scale.clone();
 		this.text = text;
 		this.shader = Shader.loadShader("data/shaders/text_distance_field");
+		
+		setThickness(.3f);
+		shader.setUniformV4("baseColor", new Vec4f(1, 1, .5, 1));
 	}
+	
+	public void setThickness(float value) {
+		shader.bind();
+		shader.setUniformF("thickness", value);
+	}
+	
+	public void setColor(Vec4f value) {
+		shader.bind();
+		shader.setUniformV4("baseColor", value);
+	}
+	
+	public Shader getShader() { return shader; }
 	
 	@Override
 	public void draw() {
@@ -39,9 +54,9 @@ public class TextSpatial extends Spatial3 {
 		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
 		
-		shader.setUniformV4("baseColor", color);
+//		shader.setUniformV4("baseColor", color);
 		
-		shader.setUniformF("thickness", thickness);
+//		shader.setUniformF("thickness", thickness);
 
 		model.bindToShader(shader);
 

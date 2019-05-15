@@ -80,14 +80,14 @@ public abstract class Item extends Spatial {
 	/** Set the size of the Sprite by default **/
 	protected void setSizeOfSprite() {
 		Sprite sprite = getSprite();
-		sprite.size = new Vec2f(sprite.tex.getWidth()*2, sprite.tex.getHeight()*2);
-		sprite.tex.setFilter(false);
+		sprite.size = new Vec2f(sprite.getTexture().getWidth()*2, sprite.getTexture().getHeight()*2);
+		sprite.getTexture().setFilter(false);
 	}
 
 	/** Set the size of the collider by default **/
 	protected void setSizeOfCollider() {
 		Sprite sprite = getSprite();
-		collider = new Collider(parentPosition, new Vec2f(sprite.tex.getWidth(), sprite.tex.getHeight()));
+		collider = new Collider(parentPosition, new Vec2f(sprite.getTexture().getWidth(), sprite.getTexture().getHeight()));
 		collider.attachToParent(this, "coll_item");
 	}
 

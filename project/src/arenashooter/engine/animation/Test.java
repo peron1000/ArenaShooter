@@ -85,12 +85,10 @@ public class Test extends Map{
 		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
 		pressStart = new TextSpatial(new Vec3f(0, 325, 100), new Vec3f(500), txt);
 		pressStart.attachToParent(this, "text");
-		pressStart.color = new Vec4f(.925, .235, .110, 1);
-//		pressStart.attachToParent(cam, "text");
 		
 		//BG
 		bg.size = new Vec2f(3000);
-		bg.tex.setFilter(false);
+		bg.getTexture().setFilter(false);
 		bg.attachToParent(this, "bg");
 		
 		//Fade out
@@ -111,7 +109,7 @@ public class Test extends Map{
 		
 		//Logo
 		logo = new Sprite(new Vec2f(0, -2000));
-		logo.tex.setFilter(false);
+		logo.getTexture().setFilter(false);
 		logo.attachToParent(this, "logo");
 		logo.zIndex = 1;
 		
@@ -246,18 +244,18 @@ public class Test extends Map{
 	@Override
 	public void step(double d) {
 		time += d;
-		cat.tex = catAT.valueAt(time);
+		cat.setTexture(catAT.valueAt(time));
 		cat.localPosition.set(catA.valueAt(time));
-		fox.tex = foxAT.valueAt(time);
+		fox.setTexture(foxAT.valueAt(time));
 		fox.size = foxAS.valueAt(time);
 		fox.localPosition.set(foxA.valueAt(time));
 		
-		crowd_01.tex = crowdA.valueAt(time);
-		crowd_02.tex = crowdA.valueAt(time);
-		crowd_03.tex = crowdA.valueAt(time);
-		crowd_04.tex = crowdA.valueAt(time);
+		crowd_01.setTexture(crowdA.valueAt(time));
+		crowd_02.setTexture(crowdA.valueAt(time));
+		crowd_03.setTexture(crowdA.valueAt(time));
+		crowd_04.setTexture(crowdA.valueAt(time));
 		
-		logo.tex = logoTex.valueAt(time);
+		logo.setTexture(logoTex.valueAt(time));
 		logo.localPosition.set(logoPosA.valueAt(time));
 		logo.rotation = logoRotA.valueAt(time);
 		logo.size.set(logoSizeA.valueAt(time));
@@ -267,14 +265,15 @@ public class Test extends Map{
 		
 		//Fade
 		float opacity = sceneOpacityA.valueAt(time).floatValue();
-		bg.colorMod.x = opacity;
-		bg.colorMod.y = bg.colorMod.x;
-		bg.colorMod.z = bg.colorMod.x;
+		bg.material.setParamVec4f("baseColorMod", new Vec4f(opacity, opacity, opacity, 1.0));
+//		bg.colorMod.x = opacity;
+//		bg.colorMod.y = bg.colorMod.x;
+//		bg.colorMod.z = bg.colorMod.x;
 		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
 		
 		//Text
-		pressStart.color = Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d);
-		pressStart.thickness = Utils.lerpF(.2f, .42f, (1+Math.sin(time*8))/2d);
+		pressStart.setColor( Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d) );
+		pressStart.setThickness( Utils.lerpF(.2f, .42f, (1+Math.sin(time*8))/2d) );
 		
 		if(!punched && time >= 4f) {
 			sndPunch.play();

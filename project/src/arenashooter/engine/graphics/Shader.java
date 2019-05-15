@@ -6,16 +6,23 @@ import java.util.HashMap;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Shader {
-	private static HashMap<String, Shader> cache = new HashMap<>();
+//	private static HashMap<String, Shader> cache = new HashMap<>();
+	private static HashMap<String, Integer> cacheVertex = new HashMap<>();
+	private static HashMap<String, Integer> cacheFragment = new HashMap<>();
+
+	/** Currently bound shader program */
+	private static int boundShader = 0;
+	
+	private HashMap<String, Integer> uniforms = new HashMap<>();
 	
 	private int vertex, fragment, program;
 	/** Does this shader require transparency? */
 	public boolean transparent = false;
-//	private static int boundShader = 0;
 	
 	private Shader(int vertex, int fragment, int program) {
 		this.vertex = vertex;
@@ -31,12 +38,13 @@ public class Shader {
 	 * @return 
 	 */
 	public static Shader loadShader(String path) {
-		Shader cached = cache.get(path);
-		if(cached != null) return cached;
-		
-		Shader shader = loadShader(path+".vert", path+".frag");
-		cache.put(path, shader);
-		return shader;
+//		Shader cached = cache.get(path);
+//		if(cached != null) return cached;
+//		
+//		Shader shader = loadShader(path+".vert", path+".frag");
+//		cache.put(path, shader);
+//		return shader;
+		return loadShader(path+".vert", path+".frag");
 	}
 	
 	/**
@@ -46,20 +54,34 @@ public class Shader {
 	 * @return 
 	 */
 	private static Shader loadShader(String vertexPath, String fragmentPath) {
-		int vertex = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertex, FileUtils.resToString(vertexPath));
-		glCompileShader(vertex);
-		if( glGetShaderi(vertex, GL_COMPILE_STATUS) != GL_TRUE ) {
-			System.err.println( "Can't compile vertex shader: "+vertexPath );
-			System.err.println( glGetShaderInfoLog(vertex) );
+		int vertex;
+		if(cacheVertex.containsKey(vertexPath))
+			vertex = cacheVertex.get(vertexPath);
+		else {
+			vertex = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(vertex, FileUtils.resToString(vertexPath));
+			glCompileShader(vertex);
+			if( glGetShaderi(vertex, GL_COMPILE_STATUS) != GL_TRUE ) {
+				System.err.println( "Can't compile vertex shader: "+vertexPath );
+				System.err.println( glGetShaderInfoLog(vertex) );
+			}
+
+			cacheVertex.put(vertexPath, vertex);
 		}
 		
-		int fragment = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragment, FileUtils.resToString(fragmentPath));
-		glCompileShader(fragment);
-		if( glGetShaderi(fragment, GL_COMPILE_STATUS) != GL_TRUE ) {
-			System.err.println( "Can't compile fragment shader: "+fragmentPath );
-			System.err.println( glGetShaderInfoLog(fragment) );
+		int fragment;
+		if(cacheFragment.containsKey(fragmentPath))
+			fragment = cacheFragment.get(fragmentPath);
+		else {
+			fragment = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(fragment, FileUtils.resToString(fragmentPath));
+			glCompileShader(fragment);
+			if( glGetShaderi(fragment, GL_COMPILE_STATUS) != GL_TRUE ) {
+				System.err.println( "Can't compile fragment shader: "+fragmentPath );
+				System.err.println( glGetShaderInfoLog(fragment) );
+			}
+			
+			cacheFragment.put(fragmentPath, fragment);
 		}
 		
 		int program = glCreateProgram();
@@ -82,14 +104,32 @@ public class Shader {
 	
 	public int getAttribLocation(String name) { return glGetAttribLocation(program, name); }
 	
+	private int getUniformLocation(String name) {
+		if(uniforms.containsKey(name))
+			return uniforms.get(name);
+		else {
+			int res = glGetUniformLocation(program, name);
+			uniforms.put(name, res);
+			return res;
+		}
+	}
+	
 	/**
 	 * Set a Matrix4f uniform variable
 	 * @param name uniform's name
 	 * @param value uniform value
 	 */
 	public void setUniformM4(String name, Mat4f value) {
-		int location = glGetUniformLocation(program, name);
-		glUniformMatrix4fv(location, false, value.toArray());
+		glUniformMatrix4fv(getUniformLocation(name), false, value.toArray());
+	}
+	
+	/**
+	 * Set a Vec2f uniform variable
+	 * @param name uniform's name
+	 * @param value uniform value
+	 */
+	public void setUniformV2(String name, Vec2f value) {
+		glUniform2fv(getUniformLocation(name), value.toArray());
 	}
 	
 	/**
@@ -98,8 +138,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV3(String name, Vec3f value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform3fv(location, value.toArray());
+		glUniform3fv(getUniformLocation(name), value.toArray());
 	}
 	
 	/**
@@ -108,8 +147,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV3(String name, float[] value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform3fv(location, value);
+		glUniform3fv(getUniformLocation(name), value);
 	}
 	
 	/**
@@ -118,8 +156,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV4(String name, float[] value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform4fv(location, value);
+		glUniform4fv(getUniformLocation(name), value);
 	}
 	
 	/**
@@ -128,8 +165,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV4(String name, Vec4f value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform4fv(location, new float[] {value.x, value.y, value.z, value.w});
+		glUniform4fv(getUniformLocation(name), new float[] {value.x, value.y, value.z, value.w});
 	}
 	
 	/**
@@ -138,8 +174,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformF(String name, float value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform1f(location, value);
+		glUniform1f(getUniformLocation(name), value);
 	}
 	
 	/**
@@ -148,17 +183,16 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformI(String name, int value) {
-		int location = glGetUniformLocation(program, name);
-		glUniform1i(location, value);
+		glUniform1i(getUniformLocation(name), value);
 	}
 	
 	/**
 	 * Use this shader
 	 */
 	public void bind() {
-//		if( program == boundShader ) return;
+		if( program == boundShader ) return;
 		glUseProgram(program);
-//		boundShader = program;
+		boundShader = program;
 	}
 	
 	/**
@@ -166,7 +200,7 @@ public class Shader {
 	 */
 	public static void unbind() {
 		glUseProgram(0);
-//		boundShader = 0;
+		boundShader = 0;
 	}
 	
 	//
