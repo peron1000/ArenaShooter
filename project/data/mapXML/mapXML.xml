@@ -3,7 +3,7 @@
 <map>
 	<information>
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="100" y="360" />
+			<vecteur x="0" y="40" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"
 				fireRate="3000" uses="350" animPath="" warmupDuration="0.1"
@@ -27,7 +27,13 @@
 
 				<vecteur use="handPosL" x="0" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
-			</gun>
+			</gun> 
+			<usable name="alien" weight="43" pathSprite="data/weapons/alien.png" 
+				soundPickup="Bang1" fireRate="10000" uses="350" animPath="" warmupDuration="0.1"
+				soundWarmup="IonCharge1" bangSound="Bang1" proba="1">
+				<vecteur use="handPosL" x="5" y="0" />
+				<vecteur use="handPosR" x="5" y="0" />
+			</usable> 
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 					<vecteur use="position" x="0" y="40" z="0" />

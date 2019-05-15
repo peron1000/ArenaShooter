@@ -44,6 +44,7 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
+		super.init();
 		endGame.reset();
 		chooseWinner.reset();
 
@@ -55,11 +56,6 @@ public class Game extends GameState {
 
 		oneLeft = false;
 
-		// Camera
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
-		Camera cam = new Camera(new Vec3f(0, 0, 450));
-		cam.attachToParent(map, "camera");
-		Window.setCamera(cam);
 	}
 
 	public void registerCharacter(Character character) {
@@ -73,8 +69,6 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		super.update(d);
-		
 		if (oneLeft && !chooseWinner.inProcess) {
 			chooseWinner.setProcessing(true);
 		}
@@ -102,7 +96,6 @@ public class Game extends GameState {
 		for (Controller controller : GameMaster.gm.controllers)
 			controller.step(d);
 
-		map.step(d);
-
+		super.update(d);
 	}
 }

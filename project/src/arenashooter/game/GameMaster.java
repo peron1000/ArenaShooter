@@ -14,6 +14,7 @@ import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.MapChooser;
+import arenashooter.game.gameStates.Param;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
@@ -24,6 +25,8 @@ public class GameMaster {
 	public static GameState current = new Start();
 
 	public static final GameMaster gm = new GameMaster();
+
+	private static final String mapEmpty = "data/mapXML/empty.xml";
 
 	private GameMaster() {
 		// Constructor untouchable
@@ -38,7 +41,7 @@ public class GameMaster {
 			if (current instanceof Start) { // Start
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Intro(), "data/mapXML/empty.xml");// TODO : create the map
+				Loading.loading.setNextState(new Intro(), mapEmpty);// TODO : remettre Intro
 			} else if (current instanceof CharacterChooser) { // Character chooser
 				CharacterChooser c = (CharacterChooser) current;
 				controllers.clear();
@@ -47,16 +50,20 @@ public class GameMaster {
 
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new MapChooser(), "data/mapXML/empty.xml");
+				Loading.loading.setNextState(new MapChooser(), mapEmpty);
 			} else if (current instanceof MapChooser) { // Map chooser
 				MapChooser mapChooser = (MapChooser) current;
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());// TODO : create the map
+				Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());
 			} else if (current instanceof Intro) { // Intro movie
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new CharacterChooser(), "data/mapXML/empty.xml");// TODO : create the map
+				Loading.loading.setNextState(new CharacterChooser(), mapEmpty);// TODO : create the map
+			} else if(current instanceof Param) {
+				current  = Loading.loading;
+				current.init();
+				Loading.loading.setNextState(new MapChooser(), mapEmpty);
 			}
 		}
 	}

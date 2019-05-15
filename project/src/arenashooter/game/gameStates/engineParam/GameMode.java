@@ -1,4 +1,4 @@
-package arenashooter.game.gameParam;
+package arenashooter.game.gameStates.engineParam;
 
 public enum GameMode {
 	Death_Match , Battle_Royal , King_Of_TheHill , Time , Stock_Match, Capture_The_Flag , Rixe;
