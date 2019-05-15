@@ -46,6 +46,14 @@ public class Usable extends Item {
 			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
 			getSprite().rotation = rotation;
 		}
+		/*Vec2f aim = Vec2f.fromAngle(rotation);
+		if(isEquipped()) {
+			getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), 0));
+			((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), 0));
+		} else {
+			getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), 0));
+		}
+		getSprite().rotation = rotation;*/
 		super.step(d);
 	}
 	
