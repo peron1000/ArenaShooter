@@ -27,11 +27,13 @@ public class Character extends Spatial {
 	public boolean lookRight = true;
 	public boolean isAiming = false;
 	public double aimInput = 0;
-	
+
 	/**
 	 * The character is jumping
 	 */
 	public boolean jumpi;
+	private double jumpForce = 500;
+	private double parachuteForce = 2000;
 	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
@@ -62,30 +64,35 @@ public class Character extends Spatial {
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
 
-	public void jump(int saut) {
+	public void jump() {
 		if (isOnGround) {
 			isOnGround = false;
 			jumpi = true;
-			vel.y = -saut;
+			vel.y = (float) -jumpForce;
+			jumpTimer.reset();
 			jumpTimer.setProcessing(true);
 			((SoundEffect) getChildren().get("snd_Jump")).play();
 		}
 	}
 
-	public void planer(double coeff) {
-		if(!jumpTimer.isOver() && jumpTimer.inProcess) {
-			if (vel.y<0 && jumpi) {
-				vel.y = (float) (-2000*Math.expm1(1-(jumpTimer.current()/jumpTimer.getMax())));
+	public void planer() {
+		if (!isOnGround) {
+			if (!jumpTimer.isOver() && jumpTimer.inProcess) {
+				if (vel.y < 0 && jumpi) {
+					vel.y = (float) (-parachuteForce * Math.expm1(1 - (jumpTimer.current() / jumpTimer.getMax())));
+				}
+			} else {
+				jumpi = false;
 			}
 		} else {
-			jumpi = false;
+			jump();
 		}
 	}
-	
+
 	public void jumpStop() {
 		jumpi = false;
-		if(vel.y<0) {
-			vel.y = vel.y /2;
+		if (vel.y < 0) {
+			vel.y = vel.y / 2;
 		}
 	}
 
