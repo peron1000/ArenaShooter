@@ -20,7 +20,7 @@ public class UiImage extends UiElement {
 		this.texture = texture;
 		this.color = color.clone();
 		
-		shader = Shader.loadShader("data/shaders/ui/ui_rectangle");
+		shader = Shader.loadShader("data/shaders/ui/ui_image");
 		if(model == null) model = Model.loadQuad();
 	}
 

@@ -12,23 +12,22 @@ class ParamElement {
 	private String[] choices;
 	private String title;
 	private int index = 0;
+	TextSpatial text;
+	public Vec3f position = new Vec3f();
 	
 	public ParamElement(String title , String...choices) {
 		this.title = title;
 		this.choices = choices;
 	}
 	
-	public void afficherH(Map map , Vec3f position , Vec3f scale , Font font , TextAlignH align) {
-		TextSpatial text = new TextSpatial(position, scale, new Text(font, align, title+" : "+choices[index]));
+	public void afficherH(Map map , Vec3f position , Vec3f scale , Font font) {
+		text = new TextSpatial(position, scale, new Text(font, TextAlignH.LEFT, title+" : "+choices[index]));
 		text.attachToParent(map, text.genName());
+		this.position = position;
 	}
 	
-	public void afficherV(Map map , Vec3f position1 , Vec3f position2 , Vec3f scale , Font font , TextAlignH align) {
-		TextSpatial text1 = new TextSpatial(position1, scale, new Text(font, align, title));
-		text1.attachToParent(map, text1.genName());
-		
-		TextSpatial text2 = new TextSpatial(position2, scale, new Text(font, align, choices[index]));
-		text2.attachToParent(map, text2.genName());
+	public String getValue() {
+		return choices[index];
 	}
 	
 	public void next() {
@@ -44,6 +43,5 @@ class ParamElement {
 			index = choices.length-1;
 		}
 	}
-	
 	
 }
