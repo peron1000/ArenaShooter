@@ -28,6 +28,10 @@ public class Character extends Spatial {
 	public boolean isAiming = false;
 	public double aimInput = 0;
 	
+	/**
+	 * The character is jumping
+	 */
+	public boolean jumpi;
 	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
@@ -61,6 +65,7 @@ public class Character extends Spatial {
 	public void jump(int saut) {
 		if (isOnGround) {
 			isOnGround = false;
+			jumpi = true;
 			vel.y = -saut;
 			jumpTimer.setProcessing(true);
 			((SoundEffect) getChildren().get("snd_Jump")).play();
@@ -68,8 +73,19 @@ public class Character extends Spatial {
 	}
 
 	public void planer(double coeff) {
-		if (!jumpTimer.isOver() && jumpTimer.inProcess && vel.y<0) {
+		if(!jumpTimer.isOver() && jumpTimer.inProcess) {
+			if (vel.y<0 && jumpi) {
 				vel.y = (float) (-2000*Math.expm1(1-(jumpTimer.current()/jumpTimer.getMax())));
+			}
+		} else {
+			jumpi = false;
+		}
+	}
+	
+	public void jumpStop() {
+		jumpi = false;
+		if(vel.y<0) {
+			vel.y = vel.y /2;
 		}
 	}
 

@@ -77,8 +77,9 @@ public class Controller {
 					character.jump(1000);
 				else if(Input.actionPressed(device, Action.JUMP)) {
 					character.planer(1.0);
+				} else if(character.jumpi) {
+					character.jumpStop();
 				}
-
 				if (Input.actionJustPressed(device, Action.ATTACK))
 					character.attackStart();
 				else if (Input.actionJustReleased(device, Action.ATTACK))
