@@ -2,7 +2,7 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
 	<information>
-		<spawn spawnperso="true" cooldown="5">
+		<spawn spawnperso="true" cooldown="15">
 			<vecteur x="100" y="360" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="Bang1"

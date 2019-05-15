@@ -13,6 +13,11 @@ public abstract class Item extends Spatial {
 	Collider collider;
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
+	public Vec2f position = null;
+	public String name = "";
+	public double weight = 0;
+	public String pathSprite = ""; 
+	public String soundPickup = ""; 
 	public SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/GunCock1.ogg", 2);
 
 	public boolean isEquipped() {
@@ -25,7 +30,7 @@ public abstract class Item extends Spatial {
 	public Item(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup) {
 		super(position);
-
+		
 		Sprite sprite = new Sprite(position, pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
 
@@ -33,7 +38,14 @@ public abstract class Item extends Spatial {
 
 		setSizeOfSprite();
 		setSizeOfCollider();
-
+		
+		this.position = position;
+		this.name = name;
+		this.weight = weight;
+		this.pathSprite = pathSprite;
+		this.handPosL = handPosL;
+		this.handPosR = handPosR;
+		this.soundPickup = soundPickup;
 	}
 
 	@Override
@@ -98,5 +110,11 @@ public abstract class Item extends Spatial {
 				localPosition = new Vec2f(-20, 0);
 			}
 		}
+	}
+	
+	public Item clone() {
+		Item clone = new Item(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {
+		};
+		return clone;
 	}
 }

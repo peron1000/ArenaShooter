@@ -5,10 +5,12 @@ import java.util.List;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.xmlReaders.MapXmlReader;
+import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
+import arenashooter.game.GameMaster;
 
 public class Spawner extends Spatial {
 	// Timer de respawn
@@ -30,8 +32,9 @@ public class Spawner extends Spatial {
 
 	public void spawnWeapon() {
 		if (!itemList.isEmpty()) {
-			Item test = itemList.get(0).x;
-			test.attachToParent(getParent(), "test");
+			Item weaponToSpawn = itemList.get(0).x.clone();
+			GameMaster.gm.getMap().items.add(weaponToSpawn);
+			weaponToSpawn.attachToParent(GameMaster.gm.getMap(), "test");
 		}
 	}
 

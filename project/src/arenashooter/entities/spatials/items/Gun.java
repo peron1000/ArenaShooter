@@ -14,17 +14,21 @@ import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.SoundEffect;
 
 public class Gun extends Usable {
-	public float recoil = 0.4f;// High
-	public float thrust = 0;//
-	public double cannonLength = 1.0;
-	public int bulletType = 0;
-	public double bulletSpeed = 1.0;
-	public float damage = 0f;
+	protected float recoil = 0.4f;// High
+	protected float thrust = 0;//
+	protected double cannonLength = 1.0;
+	protected int bulletType = 0;
+	protected float bulletSpeed = 1;
+	protected float damage = 0f;
+	protected double warmupDuration = 0;
+	protected String bangSound = "";
+	protected String noAmmoSound = "";
+	protected double size = 0;
 
 	/** Time before the first bullet is fired */
 	protected Timer timerWarmup = null;
-	private SoundEffect sndCharge = null;
-	private float sndChargeVol, sndChargePitch;
+	protected SoundEffect sndCharge = null;
+	protected float sndChargeVol, sndChargePitch;
 
 	private int nbAmmo;
 
@@ -42,6 +46,10 @@ public class Gun extends Usable {
 		this.damage = damage;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
+		this.warmupDuration = warmupDuration;
+		this.bangSound = bangSound;
+		this.noAmmoSound = noAmmoSound;
+		this.size = size;
 
 		SoundEffect attack = new SoundEffect(this.parentPosition, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
 		attack.setVolume(0.25f);
@@ -173,5 +181,11 @@ public class Gun extends Usable {
 	@Override
 	protected void setLocalPositionOfSprite() {
 		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
+	}
+	
+	@Override
+	public Gun clone() {
+		Gun gun = new Gun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+		return gun;
 	}
 }

@@ -12,6 +12,7 @@ import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.Sprite;
+import arenashooter.entities.spatials.items.Item;
 
 public class Map extends Entity {
 	/** Spawn points */
@@ -25,6 +26,9 @@ public class Map extends Entity {
 	 * Character spawns
 	 */
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
+	
+	// All items on the map
+	public ArrayList<Item> items = new ArrayList<>();
 	
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
