@@ -39,6 +39,7 @@ public abstract class GameState {
 		}
 		if (menu != null)
 			menu.update();
+		map.step(delta);
 	}
 
 	public void draw() {

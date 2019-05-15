@@ -58,8 +58,6 @@ public class CharacterChooser extends GameState {
 
 	@Override
 	public void update(double delta) {
-		super.update(delta);
-
 		for (Device device : Device.values()) {
 			if (Input.actionPressed(device, Action.UI_OK) && !controllers.keySet().contains(device)) {
 				Controller newController = new Controller(device);
@@ -150,7 +148,7 @@ public class CharacterChooser extends GameState {
 			GameMaster.gm.requestPreviousState();
 		}
 
-		map.step(delta);
+		super.update(delta);
 	}
 
 }

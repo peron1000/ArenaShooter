@@ -69,8 +69,6 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		super.update(d);
-		
 		if (oneLeft && !chooseWinner.inProcess) {
 			chooseWinner.setProcessing(true);
 		}
@@ -98,7 +96,6 @@ public class Game extends GameState {
 		for (Controller controller : GameMaster.gm.controllers)
 			controller.step(d);
 
-		map.step(d);
-
+		super.update(d);
 	}
 }
