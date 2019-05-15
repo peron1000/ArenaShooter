@@ -49,7 +49,7 @@ public class Gun extends Usable {
 		this.warmupDuration = warmupDuration;
 		this.bangSound = bangSound;
 		this.noAmmoSound = noAmmoSound;
-		this.size = size*2;
+		this.size = size;
 
 		SoundEffect attack = new SoundEffect(this.parentPosition, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
 		attack.setVolume(0.25f);
