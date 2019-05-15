@@ -1,6 +1,7 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.PostProcess;
@@ -16,6 +17,12 @@ import arenashooter.game.GameMaster;
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
+	
+	int nbRounds = 1;
+	boolean teams = false;
+	HashSet<Controller> team1 = new HashSet<Controller>();
+	HashSet<Controller> team2 = new HashSet<Controller>();
+	Timer roundTimer;
 	private boolean oneLeft;
 
 	/**
@@ -44,7 +51,6 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
-		super.init();
 		endGame.reset();
 		chooseWinner.reset();
 
@@ -56,6 +62,11 @@ public class Game extends GameState {
 
 		oneLeft = false;
 
+		// Camera
+		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		Camera cam = new Camera(new Vec3f(0, 0, 450));
+		cam.attachToParent(map, "camera");
+		Window.setCamera(cam);
 	}
 
 	public void registerCharacter(Character character) {
@@ -69,6 +80,8 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
+		super.update(d);
+		
 		if (oneLeft && !chooseWinner.inProcess) {
 			chooseWinner.setProcessing(true);
 		}
@@ -96,6 +109,7 @@ public class Game extends GameState {
 		for (Controller controller : GameMaster.gm.controllers)
 			controller.step(d);
 
-		super.update(d);
+		map.step(d);
+
 	}
 }
