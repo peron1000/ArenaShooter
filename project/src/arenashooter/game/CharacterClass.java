@@ -39,7 +39,7 @@ public enum CharacterClass {
 	
 	public CharacterClass previousClass() {
 		int next = (this.ordinal()-1)%values().length;
-		if(next < 0)next = values().length;
+		if(next < 0)next = values().length-1;
 		return values()[next];
 	}
 
