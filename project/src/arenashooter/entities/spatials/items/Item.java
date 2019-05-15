@@ -9,15 +9,15 @@ import arenashooter.entities.spatials.SoundEffect;
 
 public abstract class Item extends Spatial {
 
-	private Vec2f vel = new Vec2f();
+	protected Vec2f vel = new Vec2f();
 	Collider collider;
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
-	public Vec2f position = null;
-	public String name = "";
-	public double weight = 0;
-	public String pathSprite = ""; 
-	public String soundPickup = ""; 
+	protected Vec2f position = null;
+	protected String name = "";
+	protected double weight = 0;
+	protected String pathSprite = ""; 
+	protected String soundPickup = ""; 
 	public SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/GunCock1.ogg", 2);
 
 	public boolean isEquipped() {

@@ -9,6 +9,12 @@ public class UsableTimer extends Item {
 
 	/** Time in between attacks */
 	protected Timer timerCooldown = null;
+	protected double fireRate = 0;
+	protected int duration = 0;
+	protected String animPath = "";
+	protected double warmup = 0;
+	protected String soundWarmup = "";
+	protected String soundFire = "";
 
 	public UsableTimer(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double fireRate, int duration, String animPath, double warmup, String soundWarmup,
@@ -16,6 +22,12 @@ public class UsableTimer extends Item {
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup);
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
+		this.fireRate = fireRate;
+		this.duration = duration;
+		this.animPath = animPath;
+		this.warmup = warmup;
+		this.soundWarmup = soundWarmup;
+		this.soundFire = soundFire;
 	}
 
 	public void attackStart() {
@@ -41,5 +53,11 @@ public class UsableTimer extends Item {
 		}
 
 		super.step(d);
+	}
+	
+	@Override
+	public UsableTimer clone() {
+		UsableTimer clone = new UsableTimer(localPosition, animPath, duration, animPath, handPosL, handPosR, animPath, fireRate, duration, animPath, warmup, soundWarmup, soundFire);
+		return clone;
 	}
 }

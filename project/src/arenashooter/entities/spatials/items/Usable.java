@@ -9,12 +9,12 @@ public class Usable extends Item {
 
 	/** Time in between attacks */
 	protected Timer timerCooldown = null;
-	public double fireRate = 0;
-	public int uses = 0;
-	public String animPath = "";
-	public double warmup = 0;
-	public String soundWarmup = "";
-	public String soundFire = "";
+	protected double fireRate = 0;
+	protected int uses = 0;
+	protected String animPath = "";
+	protected double warmup = 0;
+	protected String soundWarmup = "";
+	protected String soundFire = "";
 
 	public Usable(Vec2f position, String name, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int uses, String animPath,
 			double warmup, String soundWarmup, String soundFire) {
@@ -47,5 +47,12 @@ public class Usable extends Item {
 			getSprite().rotation = rotation;
 		}
 		super.step(d);
+	}
+	
+	@Override
+	public Usable clone() {
+		Usable clone = new Usable(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
+		};
+		return clone;
 	}
 }

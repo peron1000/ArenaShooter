@@ -6,7 +6,7 @@ import arenashooter.entities.spatials.Collider;
 import arenashooter.entities.spatials.SoundEffect;
 
 public class Melee extends Usable {
-	private Timer fireRate = null;
+	protected Timer fireRate = null;
 	Collider collider;
 	protected float damage = 10f;
 	/** Time before the first bullet is fired */
@@ -42,5 +42,12 @@ public class Melee extends Usable {
 	@Override
 	protected void setLocalPositionOfSprite() {
 		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
+	}
+	
+	@Override
+	public Melee clone() {
+		Melee clone = new Melee(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup, uses, animPath, warmup, animPath, animPath, damage, warmup) {
+		};
+		return clone;
 	}
 }
