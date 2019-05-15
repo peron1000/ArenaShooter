@@ -10,7 +10,6 @@ import arenashooter.engine.math.Vec2f;
 
 public class LoadingFloor extends Spatial {
 	private static final Texture[] tex;
-//	private static final Shader shader;
 	private static final Material material;
 	private static final Model model;
 	static private final Vec2f size = new Vec2f(128, 256);
@@ -19,7 +18,6 @@ public class LoadingFloor extends Spatial {
 	private double timer = 0;
 	
 	static {
-//		shader = Shader.loadShader("data/shaders/sprite_simple");
 		material = new Material("data/shaders/sprite_simple");
 		model = Model.loadQuad();
 		tex = new Texture[] {

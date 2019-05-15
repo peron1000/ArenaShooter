@@ -74,7 +74,7 @@ public class Main {
 			lastFrame = currentFrame;
 			
 			Profiler.endTimer(Profiler.SLEEP);
-//			Profiler.printData();
+			Profiler.printData();
 		}
 		
 		Window.destroy();

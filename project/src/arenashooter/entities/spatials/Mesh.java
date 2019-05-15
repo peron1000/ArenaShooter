@@ -81,7 +81,6 @@ public class Mesh extends Spatial3 {
 			
 			models[i].bindToShader(shaders[i]);
 			
-			glActiveTexture(GL_TEXTURE0);
 			textures[i].bind();
 			shaders[i].setUniformI("baseColor", 0);
 			
