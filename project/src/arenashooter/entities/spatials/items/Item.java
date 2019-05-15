@@ -80,7 +80,7 @@ public abstract class Item extends Spatial {
 	/** Set the size of the Sprite by default **/
 	protected void setSizeOfSprite() {
 		Sprite sprite = getSprite();
-		sprite.size = new Vec2f(sprite.getTexture().getWidth()*2, sprite.getTexture().getHeight()*2);
+		sprite.size = new Vec2f(sprite.getTexture().getWidth()*2.25, sprite.getTexture().getHeight()*2.25);
 		sprite.getTexture().setFilter(false);
 	}
 
