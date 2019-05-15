@@ -25,16 +25,13 @@ public class CharacterChooser extends GameState {
 	final int posdedepart = -300;
 	private int i = posdedepart;
 
-	// private boolean suppr;
-
 	public Collection<Controller> getControllers() {
 		return controllers.values();
 	}
 
 	@Override
 	public void init() {
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
-
+		super.init();
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
 		textEnt.attachToParent(map, "Text_Select");

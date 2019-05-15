@@ -46,7 +46,7 @@ public class MapChooser extends GameState {
 
 	@Override
 	public void init() {
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		super.init();
 
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
