@@ -50,7 +50,7 @@ public class Label extends UiElement {
 		model.bindToShader(shader);
 
 		glActiveTexture(GL_TEXTURE0);
-		text.getFont().tex.bind();
+		text.getFont().getTexture().bind();
 		shader.setUniformI("distanceField", 0);
 
 		model.bind();
