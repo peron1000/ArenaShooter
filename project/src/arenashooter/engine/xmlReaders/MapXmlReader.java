@@ -142,7 +142,7 @@ public class MapXmlReader extends XmlReader {
 		int weight = Integer.parseInt(usableTimer.getAttribute("weight"));
 		String pathSprite = usableTimer.getAttribute("pathSprite");
 		String soundPickup = usableTimer.getAttribute("soundPickup");
-		double fireRate = Double.parseDouble(usableTimer.getAttribute("fireRate"));
+		double cooldown = Double.parseDouble(usableTimer.getAttribute("cooldown"));
 		int duration = Integer.parseInt(usableTimer.getAttribute("duration"));
 		String animPath = usableTimer.getAttribute("animPath");
 		double warmup = Double.parseDouble(usableTimer.getAttribute("warmupDuration"));
@@ -167,7 +167,7 @@ public class MapXmlReader extends XmlReader {
 				break;
 			}
 		}
-		UsableTimer u = new UsableTimer(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, duration,
+		UsableTimer u = new UsableTimer(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, duration,
 				animPath, warmup, soundWarmup, attackSound);
 		spawner.addItem(u, Integer.parseInt(usableTimer.getAttribute("proba")));
 	}
@@ -178,7 +178,7 @@ public class MapXmlReader extends XmlReader {
 		int weight = Integer.parseInt(melee.getAttribute("weight"));
 		String pathSprite = melee.getAttribute("pathSprite");
 		String soundPickup = melee.getAttribute("soundPickup");
-		double fireRate = Double.parseDouble(melee.getAttribute("fireRate"));
+		double cooldown = Double.parseDouble(melee.getAttribute("cooldown"));
 		int uses = Integer.parseInt(melee.getAttribute("uses"));
 		String animPath = melee.getAttribute("animPath");
 		double warmup = Double.parseDouble(melee.getAttribute("warmupDuration"));
@@ -205,7 +205,7 @@ public class MapXmlReader extends XmlReader {
 				break;
 			}
 		}
-		Melee u = new Melee(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmup, soundWarmup, attackSound, damage, size);
+		Melee u = new Melee(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath, warmup, soundWarmup, attackSound, damage, size);
 		spawner.addItem(u, Integer.parseInt(melee.getAttribute("proba")));
 	}
 
@@ -215,7 +215,7 @@ public class MapXmlReader extends XmlReader {
 				int weight = Integer.parseInt(gun.getAttribute("weight"));
 				String pathSprite = gun.getAttribute("pathSprite");
 				String soundPickup = gun.getAttribute("soundPickup");
-				double fireRate = Double.parseDouble(gun.getAttribute("fireRate"));
+				double cooldown = Double.parseDouble(gun.getAttribute("cooldown"));
 				int uses = Integer.parseInt(gun.getAttribute("uses"));
 				String animPath = gun.getAttribute("animPath");
 				double warmup = Double.parseDouble(gun.getAttribute("warmupDuration"));
@@ -248,7 +248,7 @@ public class MapXmlReader extends XmlReader {
 						break;
 					}
 				}
-				Gun u = new Gun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmup, soundWarmup, attackSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+				Gun u = new Gun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath, warmup, soundWarmup, attackSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 				spawner.addItem(u, Integer.parseInt(gun.getAttribute("proba")));
 	}
 
@@ -258,7 +258,7 @@ public class MapXmlReader extends XmlReader {
 		int weight = Integer.parseInt(usable.getAttribute("weight"));
 		String pathSprite = usable.getAttribute("pathSprite");
 		String soundPickup = usable.getAttribute("soundPickup");
-		double fireRate = Double.parseDouble(usable.getAttribute("fireRate"));
+		double cooldown = Double.parseDouble(usable.getAttribute("cooldown"));
 		int uses = Integer.parseInt(usable.getAttribute("uses"));
 		String animPath = usable.getAttribute("animPath");
 		double warmup = Double.parseDouble(usable.getAttribute("warmupDuration"));
@@ -283,7 +283,7 @@ public class MapXmlReader extends XmlReader {
 				break;
 			}
 		}
-		Usable u = new Usable(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses,
+		Usable u = new Usable(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
 				animPath, warmup, soundWarmup, attackSound);
 		spawner.addItem(u, Integer.parseInt(usable.getAttribute("proba")));
 	}

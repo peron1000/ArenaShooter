@@ -39,7 +39,7 @@
 				 weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 soundPickup CDATA #REQUIRED
-				 fireRate CDATA #REQUIRED
+				 cooldown CDATA #REQUIRED
 				 uses CDATA #REQUIRED
 				 animPath CDATA #REQUIRED
 				 warmupDuration CDATA #REQUIRED
@@ -53,7 +53,7 @@
 				 weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 soundPickup CDATA #REQUIRED
-				 fireRate CDATA #REQUIRED
+				 cooldown CDATA #REQUIRED
 				 uses CDATA #REQUIRED
 				 animPath CDATA #REQUIRED
 				 warmupDuration CDATA #REQUIRED
@@ -75,7 +75,7 @@
 				 weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 soundPickup CDATA #REQUIRED
-				 fireRate CDATA #REQUIRED
+				 cooldown CDATA #REQUIRED
 				 uses CDATA #REQUIRED
 				 animPath CDATA #REQUIRED
 				 warmupDuration CDATA #REQUIRED
@@ -91,7 +91,7 @@
 				 weight CDATA #REQUIRED
 				 pathSprite CDATA #REQUIRED
 				 soundPickup CDATA #REQUIRED
-				 fireRate CDATA #REQUIRED
+				 cooldown CDATA #REQUIRED
 				 duration CDATA #REQUIRED
 				 animPath CDATA #REQUIRED
 				 warmupDuration CDATA #REQUIRED

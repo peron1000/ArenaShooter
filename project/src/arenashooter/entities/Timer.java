@@ -19,6 +19,14 @@ public class Timer extends Entity {
 	public Timer(double timer) {
 		max = timer;
 	}
+	
+	public double getValueRatio() { return current/max; }
+	
+	public double getValue() { return current; }
+	
+	public void setValue(double newValue) {
+		current = newValue;
+	}
 
 	public boolean isOver() {
 		return over;
@@ -47,6 +55,9 @@ public class Timer extends Entity {
 		restart();
 		inProcess = false;
 	}
+	
+
+	public boolean isProcessing() {	return inProcess; }
 
 	/**
 	 * @param process = </br>
@@ -54,7 +65,6 @@ public class Timer extends Entity {
 	 *                | {@code false} : put on pause
 	 */
 	public void setProcessing(boolean process) {
-
 		inProcess = process;
 	}
 
@@ -79,16 +89,12 @@ public class Timer extends Entity {
 
 		if (inProcess) {
 			if (increasing) {
-				if (current < max)
-					current += d;
+				current = Math.min(max, current + d);
 			} else {
-				if (current > 0)
-					current -= d;
+				current = Math.max(0, current - d);
 			}
-			if (current >= max)
-				over = true;
 		}
-
+		over = (current >= max);
 		super.step(d);
 	}
 

@@ -7,7 +7,6 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
-import arenashooter.game.GameMaster;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
@@ -24,22 +23,23 @@ public class Gun extends Usable {
 	protected String bangSound = "";
 	protected String noAmmoSound = "";
 	protected double size = 0;
+	protected Timer timerCooldown = null;
 
 	/** Time before the first bullet is fired */
 	protected Timer timerWarmup = null;
-	protected SoundEffect sndCharge = null;
+	protected SoundEffect sndWarmup = null;
 	protected float sndChargeVol, sndChargePitch;
 
 	private int nbAmmo;
 
 	public Gun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			String soundPickup, double fireRate, int uses, String animPath, double warmupDuration, String soundWarmup,
+			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String bangSound, String noAmmoSound, int bulletType, float bulletSpeed, float damage, double cannonLength,
 			double recoil, double thrust, double size) {
-		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath,
+		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, bangSound);
 
-		nbAmmo = uses;
+		this.nbAmmo = uses;
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
 		this.cannonLength = cannonLength;
@@ -51,15 +51,31 @@ public class Gun extends Usable {
 		this.noAmmoSound = noAmmoSound;
 		this.size = size;
 
-		SoundEffect attack = new SoundEffect(this.parentPosition, "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
+		SoundEffect attack = new SoundEffect(new Vec2f(), "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
 		attack.setVolume(0.25f);
 		attack.attachToParent(this, "snd_Bang");
 
-		SoundEffect warmup = new SoundEffect(this.parentPosition, "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
-		warmup.setVolume(0.35f);
-		sndCharge = warmup;
+		if(soundWarmup == null || soundWarmup.isEmpty()) {
+			sndWarmup = null;
+		} else {
+			sndWarmup = new SoundEffect(new Vec2f(), "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
+			sndWarmup.setVolume(0);
+			sndWarmup.play();
+			sndWarmup.attachToParent(this, "snd_Warmup");
+		}
+		
+		//Warmup
 		this.timerWarmup = new Timer(warmupDuration);
-		this.timerWarmup.attachToParent(this, this.timerWarmup.genName());
+		this.timerWarmup.setIncreasing(false);
+		this.timerWarmup.setProcessing(true);
+		this.timerWarmup.attachToParent(this, "timer_warmup");
+		
+		//Cooldown
+		this.timerCooldown = new Timer(fireRate);
+		this.timerCooldown.setIncreasing(true);
+		this.timerCooldown.setProcessing(true);
+		this.timerCooldown.setValue(fireRate);
+		this.timerCooldown.attachToParent(this, "timer_cooldown");
 
 		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
 		noAmmo.setVolume(0.25f);
@@ -67,17 +83,11 @@ public class Gun extends Usable {
 
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
-
-		timerWarmup.setProcessing(false);
 	}
 
 	@Override
 	public void attackStart() {
-		if (nbAmmo > 0) {
-			timerWarmup.setIncreasing(true);
-			timerWarmup.setProcessing(true);
-		} 
-		super.attackStart();
+		timerWarmup.setIncreasing(true);
 	}
 
 	@Override
@@ -87,31 +97,32 @@ public class Gun extends Usable {
 
 	@Override
 	public void step(double d) {
-		if (sndCharge != null) {
-			if (timerWarmup.isOver()) {
+		if (sndWarmup != null) {
+			if (timerWarmup.isIncreasing()) {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
 				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d * 4.5);
 			} else {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d * .04);
 				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d * 2.5);
 			}
-			sndCharge.setVolume(sndChargeVol);
-			if (sndCharge.getSound() instanceof SoundSourceSingle)
-				((SoundSourceSingle) sndCharge.getSound()).setPitch(sndChargePitch);
+			sndWarmup.setVolume(sndChargeVol);
+			if (sndWarmup.getSound() instanceof SoundSourceSingle)
+				((SoundSourceSingle) sndWarmup.getSound()).setPitch(sndChargePitch);
 		}
 		
-		if (timerWarmup.isOver()) {
-			timerWarmup.restart();
-
-			Vec2f aim = Vec2f.fromAngle(rotation);
-
-			Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
-			Vec2f bulletPos = pos();
-			bulletPos.add(Vec2f.multiply(aim, cannonLength));
-
-			Particles flash;
+		//Spawn projectile
+		if (timerWarmup.isIncreasing() && timerWarmup.isOver() && timerCooldown.isOver()) {
+			timerCooldown.restart();
 
 			if (nbAmmo > 0) {
+				Vec2f aim = Vec2f.fromAngle(rotation);
+
+				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
+				Vec2f bulletPos = pos();
+				bulletPos.add(Vec2f.multiply(aim, cannonLength));
+
+				Particles flash;
+				
 				nbAmmo--;
 
 				switch (bulletType) {
@@ -167,6 +178,8 @@ public class Gun extends Usable {
 
 				// Add camera shake
 				Window.getCamera().setCameraShake(2.8f);
+			} else {
+				((SoundEffect) getChildren().get("snd_NoAmmo")).play();
 			}
 
 		}
