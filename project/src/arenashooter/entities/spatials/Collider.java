@@ -1,7 +1,6 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.ImpactOld;
 
 /**
  * extends {@link Spatial}</br>

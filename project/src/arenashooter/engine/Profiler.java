@@ -9,6 +9,9 @@ public final class Profiler {
 	//This class cannot be instantiated
 	private Profiler() {}
 	
+	/** Is profiler enabled */
+	public static boolean enabled = false;
+	
 	private static final double NANOTOMILLI = 0.000001;
 	
 	/** Draw calls counter, should be incremented at every call to glDrawElements */
@@ -33,6 +36,7 @@ public final class Profiler {
 	 * Reset all the counters and timers
 	 */
 	public static void beginFrame() {
+		if(!enabled) return;
 		drawCalls = 0;
 		for(int i=0; i<times.length; i++) {
 			times[i] = 0;
@@ -44,6 +48,8 @@ public final class Profiler {
 	 * Print data collected since the last call to beginFrame()
 	 */
 	public static void printData() {
+		if(!enabled) return;
+		
 		System.out.println("Frame profiling:");
 
 		System.out.println("-Frame: "+(float)((times[RENDER]+times[STEP])*NANOTOMILLI)+"ms");
@@ -67,6 +73,7 @@ public final class Profiler {
 	 * @param timer constant from this class
 	 */
 	public static void startTimer(int timer) {
+		if(!enabled) return;
 		if(!running[timer])
 			counters[timer] = System.nanoTime();
 		running[timer] = true;
@@ -77,6 +84,7 @@ public final class Profiler {
 	 * @param timer constant from this class
 	 */
 	public static void endTimer(int timer) {
+		if(!enabled) return;
 		if(running[timer])
 			times[timer] += System.nanoTime()-counters[timer];
 		running[timer] = false;
