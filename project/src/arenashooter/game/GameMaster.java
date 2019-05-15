@@ -41,7 +41,7 @@ public class GameMaster {
 			if (current instanceof Start) { // Start
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Param(), mapEmpty);// TODO : remettre Intro
+				Loading.loading.setNextState(new Intro(), mapEmpty);// TODO : remettre Intro
 			} else if (current instanceof CharacterChooser) { // Character chooser
 				CharacterChooser c = (CharacterChooser) current;
 				controllers.clear();
@@ -50,7 +50,7 @@ public class GameMaster {
 
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Param(), mapEmpty);
+				Loading.loading.setNextState(new MapChooser(), mapEmpty);
 			} else if (current instanceof MapChooser) { // Map chooser
 				MapChooser mapChooser = (MapChooser) current;
 				current = Loading.loading;
