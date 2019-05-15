@@ -101,7 +101,6 @@ public class Gun extends Usable {
 		}
 		
 		if (timerWarmup.isOver()) {
-			System.out.println("lol");
 			timerWarmup.restart();
 
 			Vec2f aim = Vec2f.fromAngle(rotation);

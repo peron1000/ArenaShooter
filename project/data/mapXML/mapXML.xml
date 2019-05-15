@@ -10,7 +10,7 @@
 				soundWarmup="IonCharge1"
 				bangSound="Bang1"
 				noAmmoSound="GunCock1" bulletType="0"
-				bulletSpeed="2000" damage="1" cannonLength="10" recoil="1"
+				bulletSpeed="2000" damage="1" cannonLength="20" recoil="1"
 				thrust="200" size="64" proba="1">
 
 				<vecteur use="handPosL" x="0" y="0" />
@@ -22,7 +22,7 @@
 				soundWarmup="IonCharge1"
 				bangSound="Bang1"
 				noAmmoSound="GunCock1" bulletType="0"
-				bulletSpeed="3000" damage="1" cannonLength="10" recoil="1"
+				bulletSpeed="3000" damage="1" cannonLength="20" recoil="1"
 				thrust="200" size="64" proba="1">
 
 				<vecteur use="handPosL" x="0" y="0" />
