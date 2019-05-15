@@ -28,6 +28,18 @@
 				<vecteur use="handPosL" x="0" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
 			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				fireRate="10000" uses="350" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge1"
+				bangSound="BangIonGun"
+				noAmmoSound="GunCock_03" bulletType="1"
+				bulletSpeed="3000" damage="1" cannonLength="20" recoil="1"
+				thrust="200" size="64" proba="1">
+
+				<vecteur use="handPosL" x="0" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</gun>
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 					<vecteur use="position" x="0" y="40" z="0" />
