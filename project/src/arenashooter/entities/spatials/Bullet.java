@@ -21,7 +21,7 @@ public class Bullet extends Projectile {
 		collider.attachToParent(this, "collider");
 
 		Sprite bul = new Sprite(pos(), "data/sprites/Bullet.png");
-		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
+		bul.size = new Vec2f(bul.getTexture().getWidth(), bul.getTexture().getHeight());
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
 

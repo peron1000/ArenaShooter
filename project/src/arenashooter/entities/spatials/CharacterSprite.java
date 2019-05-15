@@ -45,8 +45,8 @@ public class CharacterSprite extends Spatial {
 		}else if(new File(folder + "/body_tr.png").exists()) {
 			body = new Sprite(position, folder + "/body_tr.png");
 		}
-		body.size = new Vec2f(body.tex.getWidth() * 3, body.tex.getHeight() * 3);
-		body.tex.setFilter(false);
+		body.size = new Vec2f(body.getTexture().getWidth() * 3, body.getTexture().getHeight() * 3);
+		body.getTexture().setFilter(false);
 		body.attachToParent(this, "body");
 		
 		f = new File(folder + "/head.png");
@@ -55,8 +55,8 @@ public class CharacterSprite extends Spatial {
 		}else if(new File(folder + "/head_tr.png").exists()) {
 			head = new Sprite(position, folder + "/head_tr.png");
 		}			
-		head.size = new Vec2f(head.tex.getWidth() * 3, head.tex.getHeight() * 3);
-		head.tex.setFilter(false);
+		head.size = new Vec2f(head.getTexture().getWidth() * 3, head.getTexture().getHeight() * 3);
+		head.getTexture().setFilter(false);
 		head.zIndex = 1;
 		head.attachToParent(this, "head");
 		
@@ -69,12 +69,12 @@ public class CharacterSprite extends Spatial {
 			footL = new Sprite(position, folder + "/foot_tr.png");
 			footR = new Sprite(position, folder + "/foot_tr.png");
 		}			
-		footL.size = new Vec2f(footL.tex.getWidth() * 3, footL.tex.getHeight() * 3);
-		footL.tex.setFilter(false);
+		footL.size = new Vec2f(footL.getTexture().getWidth() * 3, footL.getTexture().getHeight() * 3);
+		footL.getTexture().setFilter(false);
 		footL.attachToParent(this, "footL");
 		footL.zIndex = 1;
-		footR.size = new Vec2f(footR.tex.getWidth() * 3, footR.tex.getHeight() * 3);
-		footR.tex.setFilter(false);
+		footR.size = new Vec2f(footR.getTexture().getWidth() * 3, footR.getTexture().getHeight() * 3);
+		footR.getTexture().setFilter(false);
 		footR.attachToParent(this, "footR");
 		footR.zIndex = -1;
 		
@@ -87,11 +87,11 @@ public class CharacterSprite extends Spatial {
 			handL = new Sprite(position, folder + "/hand_tr.png");
 			handR = new Sprite(position, folder + "/hand_tr.png");
 		}		
-		handL.size = new Vec2f(handL.tex.getWidth() * 3, handL.tex.getHeight() * 3);
-		handL.tex.setFilter(false);
+		handL.size = new Vec2f(handL.getTexture().getWidth() * 3, handL.getTexture().getHeight() * 3);
+		handL.getTexture().setFilter(false);
 		handL.attachToParent(this, "handL");
-		handR.size = new Vec2f(handR.tex.getWidth() * 3, handR.tex.getHeight() * 3);
-		handR.tex.setFilter(false);
+		handR.size = new Vec2f(handR.getTexture().getWidth() * 3, handR.getTexture().getHeight() * 3);
+		handR.getTexture().setFilter(false);
 		handR.attachToParent(this, "handR");
 	}
 

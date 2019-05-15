@@ -119,6 +119,8 @@ public class Vec2f {
 	public Vec2f clone() {
 		return new Vec2f(x, y);
 	}
+	
+	public float[] toArray() { return new float[] {x, y}; }
 
 	public String toString() {
 		return "( " + x + ", " + y + " )";

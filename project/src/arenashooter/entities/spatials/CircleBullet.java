@@ -3,7 +3,6 @@ package arenashooter.entities.spatials;
 import java.util.LinkedList;
 
 import arenashooter.engine.audio.SoundSourceMulti;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Entity;
 
@@ -29,10 +28,10 @@ public class CircleBullet extends Projectile {
 		sndImpact.setVolume(.15f);
 		
 		Sprite bul = new Sprite(pos(), "data/sprites/Ion_Bullet.png");
-		bul.size = new Vec2f(bul.tex.getWidth(), bul.tex.getHeight());
+		bul.size = new Vec2f(bul.getTexture().getWidth(), bul.getTexture().getHeight());
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
-		bul.tex.setFilter(false);
+		bul.getTexture().setFilter(false);
 		bul.useTransparency = true;
 	}
 

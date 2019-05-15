@@ -1,11 +1,8 @@
 package arenashooter.entities.spatials;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-
 import arenashooter.engine.Profiler;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
@@ -13,7 +10,8 @@ import arenashooter.engine.math.Vec2f;
 
 public class LoadingFloor extends Spatial {
 	private static final Texture[] tex;
-	private static final Shader shader;
+//	private static final Shader shader;
+	private static final Material material;
 	private static final Model model;
 	static private final Vec2f size = new Vec2f(128, 256);
 	
@@ -21,7 +19,8 @@ public class LoadingFloor extends Spatial {
 	private double timer = 0;
 	
 	static {
-		shader = Shader.loadShader("data/shaders/sprite_simple");
+//		shader = Shader.loadShader("data/shaders/sprite_simple");
+		material = new Material("data/shaders/sprite_simple");
 		model = Model.loadQuad();
 		tex = new Texture[] {
 				Texture.loadTexture("data/sprites/loading_floor/floor_01.png"),
@@ -58,20 +57,11 @@ public class LoadingFloor extends Spatial {
 		
 		Profiler.startTimer(Profiler.SPRITES);
 		
-		shader.bind();
-		
-		//Create matrices
-		Mat4f modelM = Mat4f.transform(parentPosition, rotation, size);
-		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Window.getView());
-		shader.setUniformM4("projection", Window.proj);
-		
-		model.bindToShader(shader);
-		
-		//Bind texture
-		glActiveTexture(GL_TEXTURE0);
-		tex[currentTex].bind();
-		shader.setUniformI("baseColor", 0);
+		material.setParamTex("baseColor", tex[currentTex]);
+		material.model = Mat4f.transform(parentPosition, rotation, size);
+		material.view = Window.getView();
+		material.proj = Window.proj;
+		material.bind(model);
 		
 		model.bind();
 		model.draw();

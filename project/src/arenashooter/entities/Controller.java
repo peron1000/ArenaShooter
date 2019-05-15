@@ -74,11 +74,12 @@ public class Controller {
 				}
 
 				if (Input.actionJustPressed(device, Action.JUMP))
-					character.jump(1000);
+					character.jump();
 				else if(Input.actionPressed(device, Action.JUMP)) {
-					character.planer(1.0);
+					character.planer();
+				} else if(character.jumpi) {
+					character.jumpStop();
 				}
-
 				if (Input.actionJustPressed(device, Action.ATTACK))
 					character.attackStart();
 				else if (Input.actionJustReleased(device, Action.ATTACK))
