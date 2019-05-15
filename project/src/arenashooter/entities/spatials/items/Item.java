@@ -14,7 +14,7 @@ public abstract class Item extends Spatial {
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
 	protected Vec2f position = null;
-	protected String name = "";
+	public String name = "";
 	protected double weight = 0;
 	protected String pathSprite = ""; 
 	protected String soundPickup = ""; 
