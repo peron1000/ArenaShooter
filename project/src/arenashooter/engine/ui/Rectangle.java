@@ -1,24 +1,23 @@
 package arenashooter.engine.ui;
 
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 
 public class Rectangle extends UiElement {
-	private Shader shader;
 	private static Model model;
-	Vec4f color = new Vec4f(0, 0, 0, .8);
+	private Material material;
 
 	public Rectangle(Menu owner, Vec2f pos, double rot, Vec2f scale, Vec4f color) {
 		super(owner, pos, rot, scale);
 
-		this.color = color.clone();
-		
-		shader = Shader.loadShader("data/shaders/ui/ui_rectangle");
 		if(model == null) model = Model.loadQuad();
+
+		this.material = new Material("data/shaders/ui/ui_rectangle");
+		this.material.setParamVec4f("color", color.clone());
 	}
 
 	@Override
@@ -29,16 +28,10 @@ public class Rectangle extends UiElement {
 
 	@Override
 	protected void draw() {
-		shader.bind();
+		material.model = Mat4f.transform(pos, rotation, scale);
+		material.proj = Window.projOrtho;
 		
-		//Create matrices
-		shader.setUniformM4("model", Mat4f.transform(pos, rotation, scale));
-		shader.setUniformM4("projection", Window.projOrtho);
-		
-		model.bindToShader(shader);
-		
-		//Color change
-		shader.setUniformV4("color", color);
+		material.bind(model);
 		
 		model.bind();
 		model.draw();

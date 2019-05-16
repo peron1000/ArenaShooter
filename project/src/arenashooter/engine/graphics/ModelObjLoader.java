@@ -18,10 +18,10 @@ final class ModelObjLoader {
 	
 	static ModelsData loadObj( String path ) {
 		ArrayList<Model> models = new ArrayList<>(1);
-		ArrayList<Shader> shaders = new ArrayList<>(1);
+		ArrayList<String> shaders = new ArrayList<>(1);
 		ArrayList<Texture> textures = new ArrayList<>(1);
 		
-		HashMap<String, Shader> shaderOverrides = ModelsData.getShadersOverrides(path);
+		HashMap<String, String> shaderOverrides = ModelsData.getShadersOverrides(path);
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -145,10 +145,14 @@ final class ModelObjLoader {
 			shaders.add(ModelsData.default_shader);
 		
 		Model[] modelsArray = models.toArray(new Model[models.size()]);
-		Shader[] shadersArray = shaders.toArray(new Shader[shaders.size()]);
-		Texture[] texturesArray = textures.toArray(new Texture[textures.size()]);
+		Material[] materialsArray = new Material[textures.size()];
 		
-		return new ModelsData(modelsArray, shadersArray, texturesArray);
+		for(int i=0; i<materialsArray.length; i++) {
+			materialsArray[i] = new Material(shaders.get(i));
+			materialsArray[i].setParamTex("baseColor", textures.get(i));
+		}
+		
+		return new ModelsData(modelsArray, materialsArray);
 	}
 	
 	/**
