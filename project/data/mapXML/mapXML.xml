@@ -45,8 +45,8 @@
 				cooldown="1.2" uses="6" animPath="" warmupDuration="0"
 				soundWarmup=""
 				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="10" dispersion="0.3" bulletType="0"
-				bulletSpeed="2500" damage="3" cannonLength="60" recoil="2"
+				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.3" bulletType="0"
+				bulletSpeed="3200" damage="2" cannonLength="60" recoil="2"
 				thrust="2500" size="2"  proba="1">
 
 				<vecteur use="handPosL" x="15" y="0" />
@@ -104,8 +104,8 @@
 				cooldown="1.2" uses="6" animPath="" warmupDuration="0"
 				soundWarmup=""
 				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="10" dispersion="0.3" bulletType="0"
-				bulletSpeed="2500" damage="3" cannonLength="60" recoil="2"
+				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.3" bulletType="0"
+				bulletSpeed="3200" damage="3" cannonLength="60" recoil="2"
 				thrust="2500" size="2"  proba="1">
 
 				<vecteur use="handPosL" x="15" y="0" />

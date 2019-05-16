@@ -86,7 +86,7 @@ public class Shotgun extends Gun {
 					switch (bulletType) {
 					case 0:
 						for(int i = 0 ; i<multiShot ;i++) {
-							Bullet bul = new Bullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage);
+							Bullet bul = new Bullet(bulletPos, Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion)), 1+Math.random()/4), damage);
 							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) parent);
@@ -100,8 +100,8 @@ public class Shotgun extends Gun {
 						flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
 
 						for(int i = 0 ; i<multiShot ;i++) {
-							CircleBullet bull = new CircleBullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage, false);
-							CircleBullet bull2 = new CircleBullet(bulletPos, Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion), damage, true);
+							CircleBullet bull = new CircleBullet(bulletPos, Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion)), 1+Math.random()/4), damage, false);
+							CircleBullet bull2 = new CircleBullet(bulletPos, Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random()-0.5)*2*dispersion)), 1+Math.random()/4), damage, true);
 
 							if (isEquipped()) {
 								bull.shooter = ((Character) parent);
