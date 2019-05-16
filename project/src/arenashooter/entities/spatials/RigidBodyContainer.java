@@ -23,7 +23,7 @@ public class RigidBodyContainer extends Spatial {
 				needsPhysWorld = false;
 			}
 		} else {
-			localPosition = Vec2f.subtract(parentPosition, body.getPosition());
+			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
 			rotation = body.getRotation();
 		}
 		

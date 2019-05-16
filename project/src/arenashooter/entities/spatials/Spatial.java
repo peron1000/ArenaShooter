@@ -23,6 +23,20 @@ public class Spatial extends Entity {
 		this.parentPosition = position.clone();
 		localPosition = new Vec2f();
 	}
+	
+	@Override
+	public Entity attachToParent(Entity newParent, String name) {
+		Entity prev = super.attachToParent(newParent, name);
+		
+		if (newParent instanceof Spatial)
+			parentPosition.set(((Spatial) newParent).pos());
+		else if (newParent instanceof Spatial3) {
+			parentPosition.x = ((Spatial3) newParent).pos().x;
+			parentPosition.y = ((Spatial3) newParent).pos().y;
+		}
+		
+		return prev;
+	}
 
 	/**
 	 * Get this entity's world position

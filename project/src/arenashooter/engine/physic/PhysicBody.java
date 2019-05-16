@@ -20,6 +20,7 @@ public abstract class PhysicBody {
 	
 	public void removeFromWorld() {
 		world.getB2World().destroyBody(body);
+		world = null;
 	}
 	
 	public Vec2f getPosition() { return new Vec2f(body.getPosition()); }
@@ -27,7 +28,8 @@ public abstract class PhysicBody {
 	public float getRotation() { return body.getAngle(); }
 	
 	public void debugDraw() {
-		shape.debugDraw();
+		if(body != null)
+			shape.debugDraw(getPosition(), getRotation());
 	}
 	
 }

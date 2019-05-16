@@ -15,7 +15,7 @@ public class StaticBody extends PhysicBody {
 		super(shape, position, rotation);
 		
 		bodyDef = new BodyDef();
-		bodyDef.position.set(position.x, position.y);
+		bodyDef.setPosition(position.toB2Vec());
 		bodyDef.setAngle((float)rotation);
 	}
 

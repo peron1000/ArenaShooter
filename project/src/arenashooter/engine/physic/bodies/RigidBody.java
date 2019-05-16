@@ -22,7 +22,7 @@ public class RigidBody extends PhysicBody {
 		this.friction = friction;
 		
 		bodyDef = new BodyDef();
-		bodyDef.position.set(position.x, position.y);
+		bodyDef.setPosition(position.toB2Vec());
 		bodyDef.setAngle((float)rotation);
 		bodyDef.setType(BodyType.DYNAMIC);
 	}

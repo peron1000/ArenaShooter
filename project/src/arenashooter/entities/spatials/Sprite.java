@@ -7,6 +7,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 
 public class Sprite extends Spatial {
 	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");
@@ -24,6 +25,7 @@ public class Sprite extends Spatial {
 		if(model == null) model = Model.loadQuad();
 		material = new Material("data/shaders/sprite_simple");
 		setTexture(texture);
+		material.setParamVec4f("baseColorMod", new Vec4f(1, 1, 1, 1));
 		useTransparency = texture.transparency;
 	}
 	

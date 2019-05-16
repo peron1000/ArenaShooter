@@ -26,7 +26,7 @@ public class PhysicWorld {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
 //		world.setGravity(map.gravity.toB2Vec());
-		world.setGravity(new Vec2f(0, -9.807*100).toB2Vec()); //TODO: Remove this
+		world.setGravity(new Vec2f(0, 9.807*100).toB2Vec()); //TODO: Remove this
 		world.step((float) d, 9, 4);
 		
 		Profiler.endTimer(Profiler.PHYSIC);
@@ -36,7 +36,7 @@ public class PhysicWorld {
 	
 	public void createStaticBody(PhysicShape shape, Vec2f pos, double rot) {
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(pos.x, pos.y);
+		bodyDef.position.set(pos.x, pos.y*-1);
 
 		Body body = world.createBody(bodyDef);
 		body.createFixture(shape.b2Shape, 0);
