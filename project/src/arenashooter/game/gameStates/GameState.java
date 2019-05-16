@@ -26,7 +26,7 @@ public abstract class GameState {
 
 	public void update(double delta) {
 		if (menu != null)
-			menu.update();
+			menu.update(delta);
 		map.step(delta);
 	}
 

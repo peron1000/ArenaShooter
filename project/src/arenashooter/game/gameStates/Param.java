@@ -4,11 +4,10 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Label;
-import arenashooter.engine.ui.Menu;
+import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Rectangle;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
@@ -18,7 +17,7 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Param extends GameState {
 
 	public GameParam gameParam;
-	private Menu menu = new Menu();
+	private MenuSelectionV menu = new MenuSelectionV();
 	private UiImage selec;
 	private Label param1, param2, param3, param4;
 	private boolean activated = false;
@@ -37,14 +36,14 @@ public class Param extends GameState {
 
 		new UiImage(menu, new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
 
-		final float x = -57, y = -40, scale = 20f;
-		param1 = new Label(menu, new Vec2f(x, y), 0, new Vec2f(scale), gameParam.getStringGameMode());
-		param2 = new Label(menu, new Vec2f(x, y + 10), 0, new Vec2f(scale), gameParam.getStringRound());
-		param3 = new Label(menu, new Vec2f(x, y + 20), 0, new Vec2f(scale), gameParam.getStringTeam());
-		param4 = new Label(menu, new Vec2f(x, y + 30), 0, new Vec2f(scale), "Parametre");
+		final float y = -40, scale = 20f;
+		param1 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), gameParam.getStringGameMode());
+		param2 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), gameParam.getStringRound());
+		param3 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), gameParam.getStringTeam());
+		param4 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), "Parametre");
 		carre = new Rectangle(menu, new Vec2f(0, y), 0, new Vec2f(scale), color1);
 
-		param1.ui_Pointation(param2, param2, carre, null);
+		param1.ui_Pointation(null, null, carre, null);
 		param1.addAction("right", new Trigger() {
 
 			@Override
@@ -62,7 +61,7 @@ public class Param extends GameState {
 			}
 		});
 
-		param2.ui_Pointation(param1, param1, carre, null);
+		param2.ui_Pointation(null, null, carre, null);
 		param2.addAction("right", new Trigger() {
 
 			@Override
@@ -80,7 +79,7 @@ public class Param extends GameState {
 			}
 		});
 
-		param3.ui_Pointation(param2, param1, carre, null);
+		param3.ui_Pointation(null, null, carre, null);
 		param3.addAction("right", new Trigger() {
 
 			@Override
@@ -98,17 +97,23 @@ public class Param extends GameState {
 			}
 		});
 
-		param4.ui_Pointation(param3, param1, carre, null);
-
+		param4.ui_Pointation(null, null, carre, null);
+		
 		param3.visible = false;
 		param4.visible = false;
+		
+		selec = new UiImage(menu, new Vec2f(), 0, new Vec2f(40, 8), texture2,
+				new Vec4f(1, 1, 1, 1));
+		menu.ecartement = 5;
+		menu.setImageSelec(selec);
+		menu.setPositionRef(new Vec2f(-57, -40));
+		menu.addElement(param1);
+		menu.addElement(param2);
 
-		carre.ui_Pointation(null, null, null, param1);
+		carre.ui_Pointation(null, null, param1, param1);
 
 		menu.focus = param1;
 
-		selec = new UiImage(menu, new Vec2f(menu.focus.pos.x, menu.focus.pos.y + 2.25f), 0, new Vec2f(40, 8), texture2,
-				new Vec4f(1, 1, 1, 1));
 		super.init();
 	}
 
@@ -116,35 +121,39 @@ public class Param extends GameState {
 	public void update(double delta) {
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
 			if (!activated) {
-				menu.focusUp();
+				menu.previous(delta);
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
 			if (!activated) {
-				menu.focusDown();
+				menu.next(delta);
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)) {
 			if (activated) {
-				menu.focus.lunchAction("left");
+				menu.getTarget().lunchAction("left");
 			} else {
 				menu.focusLeft();
 				if (menu.focus == carre) {
 					carre.setColor(color2);
+					menu.active = false;
 				} else {
 					carre.setColor(color1);
+					menu.active = true;
 				}
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
 			if (activated) {
-				menu.focus.lunchAction("right");
+				menu.getTarget().lunchAction("right");
 			} else {
 				menu.focusRight();
 				if (menu.focus == carre) {
 					carre.setColor(color2);
+					menu.active = false;
 				} else {
 					carre.setColor(color1);
+					menu.active = true;
 				}
 			}
 		}
@@ -153,17 +162,12 @@ public class Param extends GameState {
 		}
 
 		if (GameParam.getGameMode() == GameMode.Rixe) {
-			param3.visible = true;
-			param2.down = param3;
-			param1.up = param3;
+			menu.addElement(param3);
 		} else {
-			param3.visible = false;
-			param2.down = param1;
-			param1.up = param2;
+			menu.removeElement(param3);
 		}
 
-		selec.pos = Vec2f.lerp(selec.pos, menu.focus.pos, Utils.clampD(delta * 20, 0, 1));
-		menu.update();
+		menu.update(delta);
 		super.update(delta);
 	}
 

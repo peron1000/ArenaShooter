@@ -96,7 +96,7 @@ public class Game extends GameState {
 				menu = null;
 		}
 		if (menu != null) {
-			menu.update();
+			menu.update(d);
 			menu.draw();
 			return;
 		} else {

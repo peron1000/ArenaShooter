@@ -1,11 +1,11 @@
 package arenashooter.engine.ui;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import arenashooter.engine.graphics.Window;
 
 public class Menu {
-	protected ArrayList<UiElement> elems = new ArrayList<>();
+	protected LinkedList<UiElement> elems = new LinkedList<>();
 
 	public UiElement focus = null;
 
@@ -37,7 +37,7 @@ public class Menu {
 			focus = focus.left;
 	}
 
-	public void update() {
+	public void update(double delta) {
 		for (UiElement elem : elems)
 			elem.update();
 	}
