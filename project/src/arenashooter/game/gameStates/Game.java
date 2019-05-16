@@ -36,6 +36,10 @@ public class Game extends GameState {
 	 */
 	public Timer endGame = new Timer(2);
 
+	/**
+	 * @author Marin C
+	 * Evaluates if one charcter or less is alive. (Trigger this function only when a character dies)
+	 */
 	private void evalOneLeft() {
 		int aliveChars = 0;
 		for (Controller controller : GameMaster.gm.controllers) {

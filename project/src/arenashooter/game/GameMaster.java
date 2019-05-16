@@ -15,6 +15,7 @@ import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.MapChooser;
 import arenashooter.game.gameStates.Param;
+import arenashooter.game.gameStates.Score;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
@@ -64,6 +65,10 @@ public class GameMaster {
 				current  = Loading.loading;
 				current.init();
 				Loading.loading.setNextState(new MapChooser(), mapEmpty);
+			} else if(current instanceof Game) {
+				current  = Loading.loading;
+				current.init();
+				Loading.loading.setNextState(new Score(), mapEmpty);
 			}
 		}
 	}
