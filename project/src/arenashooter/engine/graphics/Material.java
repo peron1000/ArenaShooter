@@ -10,7 +10,9 @@ import arenashooter.engine.math.Vec4f;
 
 public class Material {
 	private final Shader shader;
-	
+	private final String shaderPath;
+
+	private HashMap<String, Integer> paramsI = new HashMap<>();
 	private HashMap<String, Float> paramsF = new HashMap<>();
 	private HashMap<String, Vec2f> paramsVec2f = new HashMap<>();
 	private HashMap<String, Vec3f> paramsVec3f = new HashMap<>();
@@ -20,6 +22,7 @@ public class Material {
 	public Mat4f model = null, view = null, proj = null;
 	
 	public Material(String shaderPath) {
+		this.shaderPath = shaderPath;
 		this.shader = Shader.loadShader(shaderPath);
 	}
 	
@@ -30,6 +33,9 @@ public class Material {
 		if(this.model != null) shader.setUniformM4("model", this.model);
 		if(this.view!= null) shader.setUniformM4("view", view);
 		if(this.proj != null) shader.setUniformM4("projection", proj);
+
+		for(Entry<String, Integer> entry : paramsI.entrySet())
+			shader.setUniformI(entry.getKey(), entry.getValue());
 		
 		for(Entry<String, Float> entry : paramsF.entrySet())
 			shader.setUniformF(entry.getKey(), entry.getValue());
@@ -50,6 +56,14 @@ public class Material {
 			shader.setUniformI(entry.getKey(), texSlot);
 			texSlot++;
 		}
+	}
+	
+	public int getParamI(String name) {
+		return paramsI.get(name);
+	}
+
+	public void setParamI(String name, int value) {
+		paramsI.put(name, value);
 	}
 	
 	public float getParamF(String name) {
@@ -90,5 +104,20 @@ public class Material {
 
 	public void setParamTex(String name, Texture value) {
 		paramsTex.put(name, value);
+	}
+	
+	@Override
+	public Material clone() {
+		Material res = new Material(shaderPath);
+		res.model = model.clone();
+		res.view = view.clone();
+		res.proj = proj.clone();
+		res.paramsI = new HashMap<>(paramsI);
+		res.paramsF = new HashMap<>(paramsF);
+		res.paramsTex = new HashMap<>(paramsTex);
+		res.paramsVec2f = new HashMap<>(paramsVec2f);
+		res.paramsVec3f = new HashMap<>(paramsVec3f);
+		res.paramsVec4f = new HashMap<>(paramsVec4f);
+		return res;
 	}
 }

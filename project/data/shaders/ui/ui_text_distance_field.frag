@@ -6,9 +6,9 @@ in vec2 texCoord;
 //Uniforms
 uniform sampler2D distanceField;
 uniform vec4 baseColor = vec4(1.0, 1.0, 1.0, 1.0);
-uniform float thickness = .25;
+uniform float thickness = 0.25;
 uniform vec4 shadowColor = vec4(0.0, 0.0, 0.0, 1.0);
-uniform float shadowThickness = 3;
+uniform float shadowThickness = 0.0;
 
 //Out
 out vec4 FragmentColor;
@@ -18,7 +18,7 @@ void main() {
 
     //Shadow
     vec4 color = shadowColor;
-    color.a = shadowColor.a * smoothstep(0.0, shadowThickness, textureSample.r);
+    color.a = shadowColor.a * (1-smoothstep(0.0, shadowThickness, 1-textureSample.r));
 
     
     //Solid color

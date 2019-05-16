@@ -12,16 +12,14 @@ import java.util.HashMap;
  *
  */
 public class ModelsData {
-	static final Shader default_shader = Shader.loadShader("data/shaders/mesh_simple");
+	static final String default_shader = "data/shaders/mesh_simple";
 	
 	public Model[] models;
-	public Shader[] shaders;
-	public Texture[] textures;
+	public Material[] materials;
 	
-	ModelsData(Model[] models, Shader[] shaders, Texture[] textures) {
+	ModelsData(Model[] models, Material[] materials) {
 		this.models = models;
-		this.shaders = shaders;
-		this.textures = textures;
+		this.materials = materials;
 	}
 
 	public static ModelsData loadModel(String path) {
@@ -36,10 +34,10 @@ public class ModelsData {
 	/**
 	 * Find and parse the shader overrides file attached to a mesh file
 	 * @param path mesh file (*.obj)
-	 * @return a map of material names linked to their shaders
+	 * @return a map of material names linked to their shaders path
 	 */
-	static HashMap<String, Shader> getShadersOverrides(String path) {
-		HashMap<String, Shader> res = new HashMap<>();
+	static HashMap<String, String> getShadersOverrides(String path) {
+		HashMap<String, String> res = new HashMap<>();
 		
 		File file = new File( path.substring(0, path.lastIndexOf('.'))+".shaders" );
 		
@@ -57,7 +55,7 @@ public class ModelsData {
 				if(isMatName)
 					matName = line;
 				else
-					res.put(matName, Shader.loadShader(line));
+					res.put(matName, line);
 				
 				isMatName = !isMatName;
 			}

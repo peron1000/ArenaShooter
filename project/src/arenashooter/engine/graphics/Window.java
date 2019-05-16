@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.GL_COLOR_ATTACHMENT0;
 import static org.lwjgl.opengl.GL30.GL_DEPTH24_STENCIL8;
 import static org.lwjgl.opengl.GL30.GL_DEPTH_ATTACHMENT;
+//import static org.lwjgl.opengl.GL30.GL_RGB16F;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_COMPLETE;
 import static org.lwjgl.opengl.GL30.GL_RENDERBUFFER;
@@ -69,7 +70,11 @@ public final class Window {
 	private static Model quad;
 
 	//Framebuffers
-	private static int renderTarget, colorRenderBuffer, depthRenderBuffer, fbo;
+	/** Main framebuffer object */
+	private static int fbo;
+	/** Scene color texture */
+	private static int renderTarget;
+	private static int colorRenderBuffer, depthRenderBuffer;
 	//Internal rendering resolution
 	private static int resX, resY;
 	public static float resolutionScale = 1;
@@ -201,6 +206,7 @@ public final class Window {
 		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, renderTarget);
+//		glBindTexture(GL_TEXTURE_2D, colorRenderBuffer);
 		postProcess.getShader().setUniformI("sceneColor", 0);
 		
 		quad.bindToShader(postProcess.getShader());
@@ -340,7 +346,8 @@ public final class Window {
 		//Color
 		colorRenderBuffer = glGenRenderbuffers();
 		glBindRenderbuffer(GL_RENDERBUFFER, colorRenderBuffer);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, resX, resY);
+//		glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB16F, resX, resY);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB8, resX, resY);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderBuffer);
 
 		//Depth
@@ -355,7 +362,8 @@ public final class Window {
 		glBindTexture(GL_TEXTURE_2D, renderTarget);
 		
 		//Create empty image
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, resX, resY, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, resX, resY, 0, GL_RGB, GL_FLOAT, 0);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, resX, resY, 0, GL_RGB, GL_FLOAT, 0);
 		
 		//Filtering
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

@@ -19,7 +19,7 @@ public abstract class EmitterTemplate {
 	/** Gravity scale */
 	float gravityScale = 1;
 	//Visuals
-	Shader shader;
+//	Shader shader;
 	Texture tex;
 	
 	///Particles parameters

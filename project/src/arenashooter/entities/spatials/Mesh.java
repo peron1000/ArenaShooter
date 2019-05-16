@@ -1,13 +1,9 @@
 package arenashooter.entities.spatials;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-
 import arenashooter.engine.Profiler;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
-import arenashooter.engine.graphics.Shader;
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
@@ -16,8 +12,7 @@ import arenashooter.engine.math.Vec3f;
 public class Mesh extends Spatial3 {
 
 	private Model[] models;
-	private Shader[] shaders;
-	private Texture[] textures;
+	private Material[] materials;
 	
 	private int timeMs = 0;
 	
@@ -40,11 +35,10 @@ public class Mesh extends Spatial3 {
 		ModelsData data = ModelsData.loadModel(modelPath);
 		
 		models = data.models;
-		shaders = data.shaders;
-		textures = data.textures;
+		materials = data.materials;
 	}
 	
-	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Shader[] shaders, Texture[] textures) {
+	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Material[] materials) {
 		super(position);
 		
 		this.rotation = rotation;
@@ -52,12 +46,11 @@ public class Mesh extends Spatial3 {
 		
 		this.models = models;
 		
-		this.shaders = shaders;
-		this.textures = textures;
+		this.materials = materials;
 	}
 	
-	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Shader shader, Texture texture) {
-		return new Mesh(position, rotation, scale, new Model[] {Model.loadQuad()}, new Shader[] {shader}, new Texture[] {texture});
+	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
+		return new Mesh(position, rotation, scale, new Model[] {Model.loadQuad()}, new Material[] {material});
 	}
 	
 	@Override
@@ -72,17 +65,13 @@ public class Mesh extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 		
 		for( int i=0; i<models.length; i++ ) {
-			shaders[i].bind();
-			shaders[i].setUniformM4("model", Mat4f.transform(pos(), rotation, scale));
-			shaders[i].setUniformM4("view", Window.getView());
-			shaders[i].setUniformM4("projection", Window.proj);
-			
-			shaders[i].setUniformI("time", timeMs);
-			
-			models[i].bindToShader(shaders[i]);
-			
-			textures[i].bind();
-			shaders[i].setUniformI("baseColor", 0);
+			materials[i].model = Mat4f.transform(pos(), rotation, scale);
+			materials[i].view = Window.getView();
+			materials[i].proj = Window.proj;
+
+			materials[i].setParamI("time", timeMs);
+
+			materials[i].bind(models[i]);
 			
 			models[i].bind();
 			models[i].draw();

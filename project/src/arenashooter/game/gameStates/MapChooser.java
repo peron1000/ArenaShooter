@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import arenashooter.engine.graphics.Shader;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
@@ -29,13 +29,7 @@ public class MapChooser extends GameState {
 	private double ringAngle = 0;
 	private final double ringRadius = 2500;
 	
-	private Shader thumbnailShader;
 	private int lastThumbnail = 0;
-	
-//	// Params
-//	private TextSpatial gameMode;
-//	private final String gameModeString = "GameMode : ";
-//	private GameParam gameParam = new GameParam();
 	
 	public String getMapChoosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
@@ -79,9 +73,9 @@ public class MapChooser extends GameState {
 		
 		selectMap(0);
 		
-		thumbnailShader = Shader.loadShader("data/shaders/sprite_simple");
-		Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
-				Texture.loadTexture("data/MAP_VIS/" + maps.get(0) + ".png"));
+		Material mat = new Material("data/shaders/sprite_simple");
+		mat.setParamTex("baseColor", Texture.loadTexture("data/MAP_VIS/" + maps.get(0) + ".png"));
+		Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), mat);
 		m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(0));
 //		for (int i = 0; i < maps.size(); i++) {
 //			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), thumbnailShader,
@@ -112,8 +106,9 @@ public class MapChooser extends GameState {
 //		
 		
 		if(lastThumbnail < maps.size()) {
-			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), thumbnailShader,
-					Texture.loadTexture("data/MAP_VIS/" + maps.get(lastThumbnail) + ".png"));
+			Material mat = new Material("data/shaders/sprite_simple");
+			mat.setParamTex("baseColor", Texture.loadTexture("data/MAP_VIS/" + maps.get(lastThumbnail) + ".png"));
+			Mesh m = Mesh.quad(new Vec3f(lastThumbnail), Quat.fromAngle(0), new Vec3f(0), mat);
 			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(lastThumbnail));
 			lastThumbnail++;
 		}
