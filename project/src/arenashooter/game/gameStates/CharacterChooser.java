@@ -71,31 +71,30 @@ public class CharacterChooser extends GameState {
 					&& !device.equals(Device.KEYBOARD)) {
 
 				CharacterSprite sp = sprites.get(controllers.get(device));
-				
-				
+
 				sprites.get((controllers.get(device))).detach();
 				sprites.remove((controllers.get(device)));
 				controllers.remove(device);
-				//i -= 150;
-				
+				// i -= 150;
+
 				// replacement des persos après suppr
 				for (Map.Entry<Controller, CharacterSprite> entry : sprites.entrySet()) {
 					Controller key = entry.getKey();
 					CharacterSprite value = entry.getValue();
-					//int j = i;
+					// int j = i;
 					float jj = value.parentPosition.x;
 					if (!key.getDevice().equals(Device.KEYBOARD)) {
-						
+
 						if (jj > sp.parentPosition.x) {
 							jj -= 150;
 							Vec2f pos = new Vec2f(jj, 0);
 							value.parentPosition.set(pos);
-							//value.destroy();
-							//Vec2f pos = new Vec2f(jj, 0);
-							//sprites.remove(key);
-							//CharacterSprite c = new CharacterSprite(pos, key.getCharInfo());
-							//sprites.put(key, c);
-							//c.attachToParent(map, c.genName());
+							// value.destroy();
+							// Vec2f pos = new Vec2f(jj, 0);
+							// sprites.remove(key);
+							// CharacterSprite c = new CharacterSprite(pos, key.getCharInfo());
+							// sprites.put(key, c);
+							// c.attachToParent(map, c.genName());
 						}
 					}
 				}
@@ -142,7 +141,11 @@ public class CharacterChooser extends GameState {
 		}
 
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			GameMaster.gm.requestNextState(new MapChooser());
+			GameMaster.gm.controllers.clear();
+			for (Controller controller : controllers.values())
+				GameMaster.gm.controllers.add(controller);
+			GameMaster.gm.requestNextState(new MapChooser(), "data/mapXML/empty.xml");
+
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
 		}

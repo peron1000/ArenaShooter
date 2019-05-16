@@ -31,7 +31,7 @@ public class MapChooser extends GameState {
 	
 	private int lastThumbnail = 0;
 	
-	public String getMapChoosen() {
+	public String getMapChosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
 	}
 
@@ -132,7 +132,8 @@ public class MapChooser extends GameState {
 		}
 		
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			GameMaster.gm.requestNextState(new Game());
+			
+			GameMaster.gm.requestNextState(new Game(), getMapChosen());
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
 		}
