@@ -33,7 +33,7 @@ public class GameMaster {
 		// Constructor untouchable
 	}
 
-	public void requestNextState() {
+	public void requestNextState(GameState nextState) {
 
 		if (current == Loading.loading) { // Loading
 			current = Loading.loading.getNextState();
@@ -42,33 +42,32 @@ public class GameMaster {
 			if (current instanceof Start) { // Start
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Intro(), mapEmpty);// TODO : remettre Intro
+				Loading.loading.setNextState(nextState, mapEmpty);// TODO : remettre Intro
 			} else if (current instanceof CharacterChooser) { // Character chooser
-				CharacterChooser c = (CharacterChooser) current;
 				controllers.clear();
-				for (Controller controller : c.getControllers())
+				for (Controller controller : ((CharacterChooser) current).getControllers())
 					controllers.add(controller);
 
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new MapChooser(), mapEmpty);
+				Loading.loading.setNextState(nextState, mapEmpty);
 			} else if (current instanceof MapChooser) { // Map chooser
 				MapChooser mapChooser = (MapChooser) current;
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Game(), mapChooser.getMapChoosen());
+				Loading.loading.setNextState(nextState, mapChooser.getMapChoosen());
 			} else if (current instanceof Intro) { // Intro movie
 				current = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new CharacterChooser(), mapEmpty);// TODO : create the map
+				Loading.loading.setNextState(nextState, mapEmpty);// TODO : create the map
 			} else if(current instanceof Param) {
 				current  = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new MapChooser(), mapEmpty);
+				Loading.loading.setNextState(nextState, mapEmpty);
 			} else if(current instanceof Game) {
 				current  = Loading.loading;
 				current.init();
-				Loading.loading.setNextState(new Score(), mapEmpty);
+				Loading.loading.setNextState(nextState, mapEmpty);
 			}
 		}
 	}

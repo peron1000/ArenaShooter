@@ -9,7 +9,7 @@ public class Start extends GameState {
 	@Override
 	public void update(double delta) {
 		// TODO: update next instruction
-		GameMaster.gm.requestNextState();
+		GameMaster.gm.requestNextState(new Intro());
 	}
 
 }

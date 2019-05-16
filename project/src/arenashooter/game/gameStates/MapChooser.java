@@ -137,7 +137,7 @@ public class MapChooser extends GameState {
 		}
 		
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			GameMaster.gm.requestNextState();
+			GameMaster.gm.requestNextState(new Game());
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
 		}

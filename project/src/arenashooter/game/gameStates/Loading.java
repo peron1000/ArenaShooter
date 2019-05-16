@@ -83,6 +83,6 @@ public class Loading extends GameState {
 	
 	public void stopLoading() {
 		next.init();
-		GameMaster.gm.requestNextState();
+		GameMaster.gm.requestNextState(next);
 	}
 }

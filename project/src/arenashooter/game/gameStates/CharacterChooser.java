@@ -48,6 +48,7 @@ public class CharacterChooser extends GameState {
 
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
 		controllers.put(Device.KEYBOARD, controllerKeyboard);
+		GameMaster.gm.controllers.add(controllerKeyboard);
 		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.info);
 		sprites.put(controllerKeyboard, c);
 		i += 150;
@@ -141,7 +142,7 @@ public class CharacterChooser extends GameState {
 		}
 
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			GameMaster.gm.requestNextState();
+			GameMaster.gm.requestNextState(new MapChooser());
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
 		}
