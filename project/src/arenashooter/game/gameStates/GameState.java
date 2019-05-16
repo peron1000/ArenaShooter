@@ -7,6 +7,7 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.Menu;
+import arenashooter.engine.ui.MenuPause;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.game.GameMaster;
@@ -33,7 +34,7 @@ public abstract class GameState {
 				| Input.actionJustPressed(Device.CONTROLLER01, Action.UI_PAUSE)
 				&& (GameMaster.current instanceof Game)) {
 			if (menu == null)
-				menu = new Menu();
+				menu = new MenuPause();
 			else
 				menu = null;
 		}
