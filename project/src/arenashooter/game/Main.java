@@ -10,7 +10,7 @@ import arenashooter.engine.math.Utils;
 public class Main {
 	private static final int minFrametime = 8;
 	
-	public static boolean drawCollisions = true;
+	public static boolean drawCollisions = false;
 	
 	private static GameMaster gameMaster;
 	

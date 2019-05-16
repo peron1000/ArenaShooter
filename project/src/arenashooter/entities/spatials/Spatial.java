@@ -13,6 +13,9 @@ public class Spatial extends Entity {
 	
 	/** World space rotation */
 	public double rotation = 0;
+	
+	/** If true and attached to a Spatial, rotation will be set to parent's rotation on step */
+	public boolean rotationFromParent = false;
 
 	public Spatial() {
 		parentPosition = new Vec2f();
@@ -43,7 +46,10 @@ public class Spatial extends Entity {
 	 * @return parent position + local position
 	 */
 	public Vec2f pos() {
-		return Vec2f.add(parentPosition, localPosition);
+		if(rotationFromParent)
+			return Vec2f.add(parentPosition, Vec2f.rotate(localPosition, rotation));
+		else
+			return Vec2f.add(parentPosition, localPosition);
 	}
 
 	/**
@@ -51,6 +57,9 @@ public class Spatial extends Entity {
 	 */
 	@Override
 	public void step(double d) {
+		if(rotationFromParent && parent instanceof Spatial)
+			rotation = ((Spatial)parent).rotation;
+		
 		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(getChildren().values());
