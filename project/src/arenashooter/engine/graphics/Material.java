@@ -10,6 +10,7 @@ import arenashooter.engine.math.Vec4f;
 
 public class Material {
 	private final Shader shader;
+	private final String shaderPath;
 
 	private HashMap<String, Integer> paramsI = new HashMap<>();
 	private HashMap<String, Float> paramsF = new HashMap<>();
@@ -21,6 +22,7 @@ public class Material {
 	public Mat4f model = null, view = null, proj = null;
 	
 	public Material(String shaderPath) {
+		this.shaderPath = shaderPath;
 		this.shader = Shader.loadShader(shaderPath);
 	}
 	
@@ -102,5 +104,20 @@ public class Material {
 
 	public void setParamTex(String name, Texture value) {
 		paramsTex.put(name, value);
+	}
+	
+	@Override
+	public Material clone() {
+		Material res = new Material(shaderPath);
+		res.model = model.clone();
+		res.view = view.clone();
+		res.proj = proj.clone();
+		res.paramsI = new HashMap<>(paramsI);
+		res.paramsF = new HashMap<>(paramsF);
+		res.paramsTex = new HashMap<>(paramsTex);
+		res.paramsVec2f = new HashMap<>(paramsVec2f);
+		res.paramsVec3f = new HashMap<>(paramsVec3f);
+		res.paramsVec4f = new HashMap<>(paramsVec4f);
+		return res;
 	}
 }

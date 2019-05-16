@@ -1,5 +1,6 @@
 package arenashooter.engine.graphics.particles;
 
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
@@ -22,6 +23,7 @@ abstract class Emitter {
 	/** Particles to spawn this frame */
 	double particlesToSpawn = 0;
 	//Visuals
+	Material material;
 	Shader shader;
 	Texture tex;
 	

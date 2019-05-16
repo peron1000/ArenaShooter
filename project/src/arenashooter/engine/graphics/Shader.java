@@ -11,7 +11,7 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Shader {
-//	private static HashMap<String, Shader> cache = new HashMap<>();
+	private static HashMap<String, Shader> cache = new HashMap<>();
 	private static HashMap<String, Integer> cacheVertex = new HashMap<>();
 	private static HashMap<String, Integer> cacheFragment = new HashMap<>();
 
@@ -38,13 +38,12 @@ public class Shader {
 	 * @return 
 	 */
 	public static Shader loadShader(String path) {
-//		Shader cached = cache.get(path);
-//		if(cached != null) return cached;
-//		
-//		Shader shader = loadShader(path+".vert", path+".frag");
-//		cache.put(path, shader);
-//		return shader;
-		return loadShader(path+".vert", path+".frag");
+		Shader cached = cache.get(path);
+		if(cached != null) return cached;
+		
+		Shader shader = loadShader(path+".vert", path+".frag");
+		cache.put(path, shader);
+		return shader;
 	}
 	
 	/**
