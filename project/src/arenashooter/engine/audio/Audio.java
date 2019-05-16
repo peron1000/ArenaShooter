@@ -77,7 +77,7 @@ public final class Audio {
 	 * Destroy the audio system
 	 */
 	public static void destroy() {
-		System.out.println("Audio - Stopping");
+		log.info("Stopping");
 		
 		alcMakeContextCurrent(NULL);
 		alcDestroyContext(context);

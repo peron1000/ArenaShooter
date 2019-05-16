@@ -1,8 +1,12 @@
 package arenashooter.engine.physic;
 
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.collision.Manifold;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
@@ -15,11 +19,14 @@ public class PhysicWorld {
 	/** Map represented by this simulation */
 	private Map map;
 	
+	private MyContactListener contactListener = new MyContactListener();
+	
 	public PhysicWorld(Map map) {
 		this.map = map;
 		
 		world = new World(map.gravity.toB2Vec());
 		
+		world.setContactListener(contactListener);
 	}
 	
 	public void step(double d) {
@@ -42,4 +49,28 @@ public class PhysicWorld {
 		body.createFixture(shape.b2Shape, 0);
 	}
 	
+	private class MyContactListener implements ContactListener {
+
+		@Override
+		public void beginContact(Contact contact) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void endContact(Contact contact) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void preSolve(Contact contact, Manifold oldManifold) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void postSolve(Contact contact, ContactImpulse impulse) {
+			// TODO Auto-generated method stub
+		}
+		
+	}
 }
