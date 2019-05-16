@@ -1,8 +1,8 @@
 package arenashooter.engine.physic;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.shapes.Disk;
-import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.engine.physic.shapes.ShapeBox;
 
 public class AABB {
 	Vec2f center;
@@ -18,12 +18,12 @@ public class AABB {
 			&& Math.abs(center.y - other.center.y) < extent.y + other.extent.y;
 	}
 
-	public boolean isColliding(Rectangle other) {
+	public boolean isColliding(ShapeBox other) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isColliding(Disk other) {
+	public boolean isColliding(ShapeDisk other) {
 		// TODO Auto-generated method stub
 		return false;
 	}

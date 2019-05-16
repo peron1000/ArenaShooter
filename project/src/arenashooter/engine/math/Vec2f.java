@@ -1,5 +1,7 @@
 package arenashooter.engine.math;
 
+import org.jbox2d.common.Vec2;
+
 import arenashooter.engine.graphics.Window;
 
 /**
@@ -45,6 +47,22 @@ public class Vec2f {
 	public Vec2f(double x, double y) {
 		this.x = (float) x;
 		this.y = (float) y;
+	}
+	
+	/**
+	 * Creates a Vec2f from a Box-2d vector
+	 * @param b2Vec
+	 */
+	public Vec2f(Vec2 b2Vec) {
+		x = b2Vec.x;
+		y = b2Vec.y;
+	}
+	
+	/**
+	 * @return creates a Box-2d vector from this
+	 */
+	public Vec2 toB2Vec() {
+		return new Vec2(x, y);
 	}
 
 	/**

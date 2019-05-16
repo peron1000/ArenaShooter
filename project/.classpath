@@ -36,5 +36,6 @@
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-linux.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jbox-2d/jbox2d-library.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

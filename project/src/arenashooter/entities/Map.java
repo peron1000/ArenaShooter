@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.physic.Physic;
+import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.bodies.RigidBody;
-import arenashooter.engine.physic.shapes.Disk;
-import arenashooter.engine.physic.shapes.Rectangle;
+import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
@@ -20,7 +20,7 @@ public class Map extends Entity {
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
 
-	public Physic physic;
+	public PhysicWorld physic;
 
 	/**
 	 * Character spawns
@@ -36,7 +36,7 @@ public class Map extends Entity {
 	Timer spawnWeapon = new Timer(4);
 
 	public Map() {
-		physic = new Physic(this);
+		physic = new PhysicWorld(this);
 		createTestEntities();
 	}
 
@@ -90,7 +90,7 @@ public class Map extends Entity {
 	private void createTestEntities() {
 		// Rigid body 1
 		Vec2f position = new Vec2f(000, -700);
-		RigidBody body = new RigidBody(new Rectangle(new Vec2f(100, 50)), position, .5, 500);
+		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(100, 50)), position, .5, 1, .3f);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
 		rbSprite.size = new Vec2f(200, 100);
@@ -98,8 +98,8 @@ public class Map extends Entity {
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 2
-		position = new Vec2f(-700, -500);
-		body = new RigidBody(new Disk(50), position, 0, 100);
+		position = new Vec2f(-700, 0);
+		body = new RigidBody(new ShapeDisk(50), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(100, 100);
@@ -107,8 +107,8 @@ public class Map extends Entity {
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 3
-		position = new Vec2f(-750, -600);
-		body = new RigidBody(new Disk(45), position, 0, 75);
+		position = new Vec2f(-750, -100);
+		body = new RigidBody(new ShapeDisk(45), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(90, 90);
