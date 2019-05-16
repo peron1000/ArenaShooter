@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import arenashooter.engine.graphics.PostProcess;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -112,14 +110,14 @@ public class CharacterChooser extends GameState {
 
 			// Temp sprite changing
 			if (Input.actionJustPressed(controller.getDevice(), Action.UI_RIGHT)) {
-				controller.info = controller.info.nextClass();
+				controller.info.nextClass();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
-				controller.info = controller.info.previousClass();
+				controller.info.previousClass();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.info);

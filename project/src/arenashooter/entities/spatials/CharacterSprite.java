@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
-import arenashooter.game.CharacterClass;
+import arenashooter.game.CharacterInfo;
 
 public class CharacterSprite extends Spatial {
 
@@ -35,7 +35,7 @@ public class CharacterSprite extends Spatial {
 		sndPunch.setVolume(.7f);
 	}
 
-	public CharacterSprite(Vec2f position, CharacterClass charInfo) {
+	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
 		folder = "data/sprites/characters/"+charInfo.getSkin();
 
@@ -115,7 +115,7 @@ public class CharacterSprite extends Spatial {
 		wasOnGround = isOnGround;
 
 		if (getParent() instanceof Character) {
-			// lookAngle = ((Character)getParent()). //TODO: get aiming direction
+//			lookAngle = ((Character)getParent()). //TODO: get aiming direction
 			isOnGround = ((Character) getParent()).isOnGround;
 			moveSpeed = ((Character) getParent()).vel.x;
 		} else if (getParent() instanceof Map) { // TODO: Temp stuff for loading screen anim
@@ -192,7 +192,7 @@ public class CharacterSprite extends Spatial {
 			Usable weap = ((Character) parent).getWeapon();
 
 			if (weap != null && weap.handPosL != null) {
-				if (!handLOnWeap) {
+				if (!handLOnWeap) { //Left hand on weapon
 					handL.attachToParent(weap, "handL");
 					handL.zIndex = 1;
 					handLOnWeap = true;
@@ -206,9 +206,9 @@ public class CharacterSprite extends Spatial {
 				handL.localPosition.set(Vec2f.rotate(handPos, weap.rotation));
 				handL.rotation = weap.rotation;
 				handL.flipX = false;
-				handL.flipY = !lookRight;
+				handL.flipY = lookRight;
 			} else {
-				if (handLOnWeap) {
+				if (handLOnWeap) { //Left hand not on weapon
 					handL.attachToParent(this, "handL");
 					handL.zIndex = 0;
 					handLOnWeap = false;
@@ -222,7 +222,7 @@ public class CharacterSprite extends Spatial {
 			}
 
 			if (weap != null && weap.handPosR != null) {
-				if (!handROnWeap) {
+				if (!handROnWeap) { //Right hand on weapon
 					handR.attachToParent(weap, "handR");
 					handR.zIndex = 1;
 					handROnWeap = true;
@@ -236,9 +236,9 @@ public class CharacterSprite extends Spatial {
 				handR.localPosition.set(Vec2f.rotate(handPos, weap.rotation));
 				handR.rotation = weap.rotation;
 				handR.flipX = false;
-				handR.flipY = !lookRight;
+				handR.flipY = lookRight;
 			} else {
-				if (handROnWeap) {
+				if (handROnWeap) { //Right hand not on weapon
 					handR.attachToParent(this, "handR");
 					handR.zIndex = 0;
 					handROnWeap = false;

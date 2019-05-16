@@ -6,11 +6,10 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.ImpactOld;
 import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
-//import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
-import arenashooter.game.CharacterClass;
+import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 
 public class Character extends Spatial {
@@ -37,7 +36,7 @@ public class Character extends Spatial {
 	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
-	public Character(Vec2f position, CharacterClass charInfo) {
+	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position);
 
 		healthMax = 40;
