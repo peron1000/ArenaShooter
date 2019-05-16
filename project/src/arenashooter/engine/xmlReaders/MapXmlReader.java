@@ -24,6 +24,7 @@ import arenashooter.entities.spatials.Tuple;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Melee;
+import arenashooter.entities.spatials.items.Shotgun;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.entities.spatials.items.UsableTimer;
 import arenashooter.game.gameStates.Loading;
@@ -113,6 +114,12 @@ public class MapXmlReader extends XmlReader {
 		List<Element> guns = getListElementByName("gun", spawn);
 		for (Element gun : guns) {
 			loadGun(gun, spawner, position);
+		}
+		
+		// shotguns
+		List<Element> shotguns = getListElementByName("shotgun", spawn);
+		for (Element shotgun : shotguns) {
+			loadShotGun(shotgun, spawner, position);
 		}
 
 		// Melee
@@ -251,6 +258,52 @@ public class MapXmlReader extends XmlReader {
 				Gun u = new Gun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath, warmup, soundWarmup, attackSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 				spawner.addItem(u, Integer.parseInt(gun.getAttribute("proba")));
 	}
+	private void loadShotGun(Element shotgun, Spawner spawner, Vec2f position) {
+		// Attributs
+				String name = shotgun.getAttribute("name");
+				int weight = Integer.parseInt(shotgun.getAttribute("weight"));
+				String pathSprite = shotgun.getAttribute("pathSprite");
+				String soundPickup = shotgun.getAttribute("soundPickup");
+				double cooldown = Double.parseDouble(shotgun.getAttribute("cooldown"));
+				int uses = Integer.parseInt(shotgun.getAttribute("uses"));
+				String animPath = shotgun.getAttribute("animPath");
+				double warmup = Double.parseDouble(shotgun.getAttribute("warmupDuration"));
+				String soundWarmup = shotgun.getAttribute("soundWarmup");
+				String attackSound = shotgun.getAttribute("bangSound");
+				String noAmmoSound = shotgun.getAttribute("noAmmoSound");
+				float damage = Float.parseFloat(shotgun.getAttribute("damage"));
+				double size = Double.parseDouble(shotgun.getAttribute("size"));
+				int bulletType = Integer.parseInt(shotgun.getAttribute("bulletType"));
+				float bulletSpeed = Float.parseFloat(shotgun.getAttribute("bulletSpeed"));
+				double cannonLength = Double.parseDouble(shotgun.getAttribute("cannonLength"));
+				double recoil = Double.parseDouble(shotgun.getAttribute("recoil"));
+				double thrust = Double.parseDouble(shotgun.getAttribute("thrust"));
+				int multiShot = Integer.parseInt(shotgun.getAttribute("multiShot"));
+				double dispersion = Double.parseDouble(shotgun.getAttribute("dispersion"));
+				
+				// Vecteurs
+				List<Element> vecteurs = getListElementByName("vecteur", shotgun);
+				Vec2f handPosL = new Vec2f();
+				Vec2f handPosR = new Vec2f();
+				for (Element vecteur : vecteurs) {
+					XmlVecteur vec = loadVecteur(vecteur);
+					switch (vec.use) {
+					case "handPosL":
+						handPosL = new Vec2f(vec.x, vec.y);
+						break;
+					case "handPosR":
+						handPosR = new Vec2f(vec.x, vec.y);
+						break;
+					default:
+						System.err.println("Use érroné");
+						break;
+					}
+				}
+				Shotgun u = new Shotgun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath, warmup, soundWarmup, attackSound, noAmmoSound, multiShot, dispersion, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+				spawner.addItem(u, Integer.parseInt(shotgun.getAttribute("proba")));
+	}
+	
+	
 
 	private void loadUsable(Element usable, Spawner spawner, Vec2f position) {
 		// Attributs
