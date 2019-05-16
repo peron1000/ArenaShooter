@@ -17,7 +17,7 @@ public class Rectangle extends UiElement {
 		if(model == null) model = Model.loadQuad();
 
 		this.material = new Material("data/shaders/ui/ui_rectangle");
-		this.material.setParamVec4f("color", color.clone());
+		setColor(color.clone());
 	}
 
 	@Override
@@ -35,6 +35,10 @@ public class Rectangle extends UiElement {
 		
 		model.bind();
 		model.draw();
+	}
+	
+	public void setColor(Vec4f newColor) {
+		material.setParamVec4f("color", newColor.clone());
 	}
 
 }

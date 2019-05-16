@@ -13,6 +13,7 @@ public abstract class UiElement {
 	
 	public Vec2f pos , scale;
 	public double rotation;
+	public boolean visible = true;
 	
 	public UiElement( Menu owner, Vec2f pos, double rot, Vec2f scale ) {
 		this.owner = owner;
@@ -41,4 +42,12 @@ public abstract class UiElement {
 	public void removeAction(String name) {
 		actions.remove(name);
 	}
+	
+	public void ui_Pointation(UiElement up, UiElement down, UiElement right, UiElement left) {
+		this.up = up;
+		this.down = down;
+		this.right = right;
+		this.left = left;
+	}
+	
 }
