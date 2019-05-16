@@ -6,8 +6,12 @@ import java.util.HashSet;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.input.Action;
+import arenashooter.engine.input.Device;
+import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.ui.MenuPause;
 import arenashooter.entities.Controller;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Camera;
@@ -17,7 +21,7 @@ import arenashooter.game.GameMaster;
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
-	
+
 	int nbRounds = 1;
 	boolean teams = false;
 	HashSet<Controller> team1 = new HashSet<Controller>();
@@ -37,8 +41,8 @@ public class Game extends GameState {
 	public Timer endGame = new Timer(2);
 
 	/**
-	 * @author Marin C
-	 * Evaluates if one charcter or less is alive. (Trigger this function only when a character dies)
+	 * @author Marin C Evaluates if one charcter or less is alive. (Trigger this
+	 *         function only when a character dies)
 	 */
 	private void evalOneLeft() {
 		int aliveChars = 0;
@@ -84,36 +88,47 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		if (oneLeft && !chooseWinner.inProcess) {
-			chooseWinner.setProcessing(true);
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)
+				| Input.actionJustPressed(Device.CONTROLLER01, Action.UI_PAUSE)) {
+			if (menu == null)
+				menu = new MenuPause();
+			else
+				menu = null;
 		}
-		chooseWinner.step(d);
-		if (chooseWinner.isOver() && !endGame.inProcess) {
-			endGame.setProcessing(true);
-		}
-		endGame.step(d);
-		if (endGame.isOver()) {
-			init();
-		}
-
-		if (menu != null)
+		if (menu != null) {
+			menu.update();
+			menu.draw();
 			return;
+		} else {
 
-		if (Window.getCamera() != null) {
-			Window.getCamera().center(players, null, d);
-			// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera
-			// bounds and uncomment this
-			Audio.setListener(Window.getCamera().pos(), Window.getCamera().rotation);
-		} else
-			Audio.setListener(new Vec3f(), Quat.fromAngle(0));
+			if (oneLeft && !chooseWinner.inProcess) {
+				chooseWinner.setProcessing(true);
+			}
+			chooseWinner.step(d);
+			if (chooseWinner.isOver() && !endGame.inProcess) {
+				endGame.setProcessing(true);
+			}
+			endGame.step(d);
+			if (endGame.isOver()) {
+				init();
+			}
 
-		// Update controllers
-		for (Controller controller : GameMaster.gm.controllers)
-			controller.step(d);
-		
-		super.update(d);
+			if (Window.getCamera() != null) {
+				Window.getCamera().center(players, null, d);
+				// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera,
+				// c'est du bousin
+				// bounds and uncomment this
+				Audio.setListener(Window.getCamera().pos(), Window.getCamera().rotation);
+			} else
+				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 
-//		map.step(d);
+			// Update controllers
+			for (Controller controller : GameMaster.gm.controllers)
+				controller.step(d);
 
+			super.update(d);
+
+			// map.step(d);
+		}
 	}
 }

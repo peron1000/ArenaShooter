@@ -30,14 +30,6 @@ public abstract class GameState {
 	}
 
 	public void update(double delta) {
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)
-				| Input.actionJustPressed(Device.CONTROLLER01, Action.UI_PAUSE)
-				&& (GameMaster.current instanceof Game)) {
-			if (menu == null)
-				menu = new MenuPause();
-			else
-				menu = null;
-		}
 		if (menu != null)
 			menu.update();
 		map.step(delta);
