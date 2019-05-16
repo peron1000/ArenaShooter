@@ -19,6 +19,8 @@ public class Label extends UiElement {
 		
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, 1, 1));
+		setShadowThickness(0);
+		setShadowColor(new Vec4f(0, 0, 0, 0.5));
 	}
 	
 	public void setText(String newText) {
@@ -36,6 +38,14 @@ public class Label extends UiElement {
 	
 	public void setColor(Vec4f value) {
 		material.setParamVec4f("baseColor", value);
+	}
+	
+	public void setShadowThickness(float value) {
+		material.setParamF("shadowThickness", value);
+	}
+	
+	public void setShadowColor(Vec4f value) {
+		material.setParamVec4f("shadowColor", value);
 	}
 
 	@Override
