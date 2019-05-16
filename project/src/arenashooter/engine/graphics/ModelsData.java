@@ -26,7 +26,7 @@ public class ModelsData {
 		if(path.endsWith(".obj"))
 			return ModelObjLoader.loadObj(path);
 		else {
-			System.err.println("Error: "+path+" is not a wavefront obj file!");
+			Window.log.error(path+" is not a wavefront obj file");
 			return null;
 		}
 	}

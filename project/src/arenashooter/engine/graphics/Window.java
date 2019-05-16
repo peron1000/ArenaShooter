@@ -3,6 +3,9 @@ package arenashooter.engine.graphics;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
@@ -42,6 +45,8 @@ import arenashooter.entities.spatials.Camera;
  */
 public final class Window {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
+	
+	public static final Logger log = LogManager.getLogger("Render");
 	
 	private static long window;
 	private static GLFWVidMode vidmode;
@@ -93,13 +98,13 @@ public final class Window {
 	 * @param windowTtitle
 	 */
 	public static void init(int windowWidth, int windowHeight, String windowTtitle) {
-		System.out.println("Render - Initializing");
+		log.info("Initializing");
 		
 		callbackError = GLFWErrorCallback.createPrint(System.err);
 		glfwSetErrorCallback(callbackError);
 		
 		if(!glfwInit()) {
-			System.err.println("Render - Can't initialize GLFW !");
+			log.error("Cannot initialize GLFW");
 			System.exit(1);
 		}
 		
@@ -122,7 +127,7 @@ public final class Window {
 		window = glfwCreateWindow(WIDTH_MIN, HEIGHT_MIN, windowTtitle, NULL, NULL);
 
 		if (window == NULL) {
-			System.err.println("Render - Can't create window !");
+			log.fatal("Cannot create window");
 			System.exit(1);
 		}
 		
@@ -267,7 +272,7 @@ public final class Window {
 	 * Destroy the window and terminates GLFW
 	 */
 	public static void destroy() {
-		System.out.println("Render - Stopping");
+		log.info("Stopping");
 		
 		glfwDestroyWindow(window);
 		
@@ -380,7 +385,7 @@ public final class Window {
 		int fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
 		if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
-			System.err.println("Could not create FBO: " + fboStatus);
+			log.error("Could not create FBO: " + fboStatus);
 		
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -442,7 +447,7 @@ public final class Window {
 			glfwSetWindowIcon(window, images);
 				
 		} catch(Exception e) {
-			System.err.println("Render - Error loading window icons !");
+			log.error("Error loading window icons");
 			e.printStackTrace();
 		}
 	}

@@ -1,6 +1,5 @@
 package arenashooter.engine.graphics.particles;
 
-import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec4f;
 

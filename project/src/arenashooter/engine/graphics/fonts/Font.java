@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 
 /**
  * Represents a distance field font generated using <a href="https://github.com/libgdx/libgdx/wiki/Hiero">Hiero</a><br/>
@@ -49,7 +50,7 @@ public class Font {
 			
 			reader.close();
 		} catch(Exception e) {
-			System.err.println("Render - Could not load font : "+path);
+			Window.log.error("Could not load font : "+path);
 			e.printStackTrace();
 			return null;
 		}

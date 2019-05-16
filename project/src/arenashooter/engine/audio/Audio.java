@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
@@ -38,16 +40,17 @@ public final class Audio {
 	
 	private static Map<String, BufferEntry> sounds = new HashMap<String, BufferEntry>();
 	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
+	
+	protected static Logger log = LogManager.getLogger("Audio");
 
 	//This class cannot be instantiated
 	private Audio() {}
 	
 	/**
 	 * Initialize the audio system. Don't forget to destroy it !
-	 * @param printInfo print informations (available devices, frequency ...)
 	 */
-	public static void init(boolean printInfo) {
-		System.out.println("Audio - Initializing");
+	public static void init() {
+		log.info("Initializing");
 		
 		device = alcOpenDevice( (ByteBuffer)null );
 		
@@ -67,7 +70,7 @@ public final class Audio {
 		
 		AL11.alDistanceModel( AL11.AL_INVERSE_DISTANCE );
 		
-		if( printInfo ) printInitInfo( deviceCapabilities );
+		printInitInfo( deviceCapabilities );
 	}
 	
 	/**
@@ -105,28 +108,28 @@ public final class Audio {
 	}
 	
 	private static void printInitInfo(ALCCapabilities deviceCapabilities) {
-		System.out.println("Audio - OpenALC10: "+deviceCapabilities.OpenALC10);
-		System.out.println("Audio - OpenALC11: "+deviceCapabilities.OpenALC11);
-		System.out.println("Audio - caps.ALC_EXT_EFX: "+deviceCapabilities.ALC_EXT_EFX);
+		log.debug("OpenALC10: "+deviceCapabilities.OpenALC10);
+		log.debug("OpenALC11: "+deviceCapabilities.OpenALC11);
+		log.debug("caps.ALC_EXT_EFX: "+deviceCapabilities.ALC_EXT_EFX);
 		
 		if( deviceCapabilities.OpenALC11 ) {
 			List<String> devices = ALUtil.getStringList(NULL, ALC_ALL_DEVICES_SPECIFIER);
 			
 			if( devices != null ) {
-				System.out.println("Audio - Available devices :");
+				log.debug("Available devices :");
 				for( int i=0; i<devices.size(); i++ )
-					System.out.println("         "+i+": "+devices.get(i));
+					log.debug("Device "+i+": "+devices.get(i));
 			}
 		}
 		String defaultDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
 		if( defaultDevice != null )
-			System.out.println("Audio - Default device : "+defaultDevice);
+			log.info("Default device : "+defaultDevice);
 		
-		System.out.println( "Audio - Frequency : "+alcGetInteger(device, ALC_FREQUENCY)+"Hz" );
-		System.out.println( "Audio - Refresh rate : "+alcGetInteger(device, ALC_REFRESH)+"Hz" );
-		System.out.println( "Audio - Sync : "+(alcGetInteger(device, ALC_SYNC) == ALC_TRUE) );
-		System.out.println( "Audio - Mono sources : "+alcGetInteger(device, ALC_MONO_SOURCES) );
-		System.out.println( "Audio - Stereo sources : "+alcGetInteger(device, ALC_STEREO_SOURCES) );
+		log.debug( "Frequency : "+alcGetInteger(device, ALC_FREQUENCY)+"Hz" );
+		log.debug( "Refresh rate : "+alcGetInteger(device, ALC_REFRESH)+"Hz" );
+		log.debug( "Sync : "+(alcGetInteger(device, ALC_SYNC) == ALC_TRUE) );
+		log.debug( "Mono sources : "+alcGetInteger(device, ALC_MONO_SOURCES) );
+		log.debug( "Stereo sources : "+alcGetInteger(device, ALC_STEREO_SOURCES) );
 	}
 	
 	/**
@@ -138,8 +141,8 @@ public final class Audio {
 		int error = AL10.alGetError();
 		
 		if(error != AL10.AL_NO_ERROR) {
-			if(additionnalMsg != null) System.err.println(additionnalMsg);
-			System.err.println( "Audio - Error: "+AL10.alGetString(error) );
+			if(additionnalMsg != null) log.info(additionnalMsg+AL10.alGetString(error));
+			else log.error( AL10.alGetString(error) );
 		}
 		
 		return error;
@@ -171,7 +174,7 @@ public final class Audio {
 	 * Remove unused sound players from memory
 	 */
 	public static void cleanPlayers() {
-		System.out.println("Audio - Cleaning memory...");
+		log.info("Cleaning players...");
 		
 		int sourcesRemoved = 0;
 		for( int i=sources.size()-1; i>=0; i-- ) {
@@ -183,14 +186,14 @@ public final class Audio {
 			}
 		}
 		
-		System.out.println("Audio - Cleaned up "+sourcesRemoved+" sources.");
+		log.info("Cleaned up "+sourcesRemoved+" sources.");
 	}
 	
 	/**
 	 * Remove unused buffers from memory
 	 */
 	public static void cleanBuffers() {
-		System.out.println("Audio - Cleaning memory...");
+		log.info("Cleaning buffers...");
 		
 		ArrayList<String> toRemove = new ArrayList<String>(0);
 		for ( BufferEntry entry : sounds.values() ) {
@@ -203,7 +206,7 @@ public final class Audio {
 		for( String s : toRemove )
 			sounds.remove(s);
 		
-		System.out.println("Audio - Cleaned up "+toRemove.size()+" buffers.");
+		log.info("Cleaned up "+toRemove.size()+" buffers.");
 	}
 	
 	/**

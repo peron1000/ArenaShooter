@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.xmlReaders.MapXmlReader;
-import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.GameMaster;
 
 public class Spawner extends Spatial {

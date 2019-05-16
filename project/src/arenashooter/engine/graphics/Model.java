@@ -221,7 +221,7 @@ public class Model {
 	 * Remove unused models from memory
 	 */
 //	public static void cleanModels() { //TODO: Support multiple models per file
-//		System.out.println("Render - Cleaning memory...");
+//		Window.log.info("Cleaning models memory...");
 //		
 //		ArrayList<String> toRemove = new ArrayList<String>(0);
 //		
@@ -243,7 +243,7 @@ public class Model {
 //		for( String s : toRemove )
 //			models.remove(s);
 //		
-//		System.out.println("Render - Cleaned up "+toRemove.size()+" models.");
+//		Window.log.info("Cleaned up "+toRemove.size()+" models");
 //	}
 	
 	private static class ModelEntry {

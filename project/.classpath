@@ -37,5 +37,15 @@
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-natives-windows.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-release-3.2.0-custom/lwjgl-openal.jar" sourcepath="lib/lwjgl-release-3.2.0-custom/lwjgl-openal-sources.jar"/>
 	<classpathentry kind="lib" path="lib/jbox-2d/jbox2d-library.jar"/>
+	<classpathentry kind="lib" path="lib/apache-log4j-2.11.2-bin/log4j-core-2.11.2.jar" sourcepath="lib/apache-log4j-2.11.2-bin/log4j-core-2.11.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/apache-log4j-2.11.2-bin/log4j-core-2.11.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/apache-log4j-2.11.2-bin/log4j-api-2.11.2.jar" sourcepath="lib/apache-log4j-2.11.2-bin/log4j-api-2.11.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ArenaShooter/lib/apache-log4j-2.11.2-bin/log4j-api-2.11.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

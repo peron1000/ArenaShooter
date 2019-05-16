@@ -130,17 +130,17 @@ final class ModelObjLoader {
 			inReader.close();
 			in.close();
 		} catch (Exception e) {
-			System.err.println("Render - Can't load model: "+path);
+			Window.log.error("Cannot load model: "+path);
 		}
 		
 		//If textures are missing, replace them with default texture
 		if(textures.size()<models.size())
-			System.err.println("Render - Missing textures for "+path);
+			Window.log.error("Missing textures for "+path);
 		for( int i=textures.size()-1; i<models.size(); i++ )
 			textures.add(Texture.default_tex);
 		//If shaders are missing, replace them with default shader
 		if(shaders.size()<models.size())
-			System.err.println("Render - Missing shaders for "+path);
+			Window.log.error("Missing shaders for "+path);
 		for( int i=shaders.size()-1; i<models.size(); i++ )
 			shaders.add(ModelsData.default_shader);
 		
@@ -270,7 +270,7 @@ final class ModelObjLoader {
 			reader.close();
 			in.close();
 		} catch(Exception e) {
-			System.err.println("Render - Error loading materials");
+			Window.log.error("Error loading materials");
 			e.printStackTrace();
 		}
 

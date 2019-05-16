@@ -8,12 +8,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ConfigManager {
 	private static File file = new File("config.cfg");
 	private static Properties p = new Properties(), defaults = new Properties();
 	
+	private static Logger log = LogManager.getLogger("Config");
+	
 	public static void init() {
-		System.out.println("Reading config file");
+		log.info("Reading config file");
 
 		try {
 			if(!file.exists()) {
@@ -38,11 +43,11 @@ public class ConfigManager {
 	}
 	
 	public static void save() {
-		System.out.println("Saving configuration to file");
+		log.info("Saving configuration to file");
 		try( OutputStream out = new FileOutputStream(file) ) {
 			p.store(out, "SuperBlep Config");
 		} catch(Exception e) {
-			System.err.println("Error writing configuration file");
+			log.error("Error writing configuration file");
 		}
 	}
 	

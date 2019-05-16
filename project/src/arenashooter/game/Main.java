@@ -1,5 +1,8 @@
 package arenashooter.game;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import arenashooter.engine.ConfigManager;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
@@ -16,9 +19,13 @@ public class Main {
 	
 	public static Font font = null;
 	
+	public static final Logger log = LogManager.getLogger("Main");
+	
 	public static void main(String[] args) {
+		log.info("Starting Super Blep...");
+		
 		ConfigManager.init();
-		Audio.init(false);
+		Audio.init();
 		Window.resolutionScale = ConfigManager.getFloat("resScale");
 		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), "Super Blep");
 		Window.setVsync(true);
@@ -79,6 +86,8 @@ public class Main {
 		
 		Window.destroy();
 		Audio.destroy();
+		
+		log.info("Closing Super Blep...");
 	}
 
 }

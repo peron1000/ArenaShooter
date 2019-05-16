@@ -1,8 +1,6 @@
 package arenashooter.game.gameStates;
 
 import arenashooter.engine.animation.Test;
-import arenashooter.engine.graphics.PostProcess;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;

@@ -61,8 +61,8 @@ public class Shader {
 			glShaderSource(vertex, FileUtils.resToString(vertexPath));
 			glCompileShader(vertex);
 			if( glGetShaderi(vertex, GL_COMPILE_STATUS) != GL_TRUE ) {
-				System.err.println( "Can't compile vertex shader: "+vertexPath );
-				System.err.println( glGetShaderInfoLog(vertex) );
+				Window.log.error("Cannot compile vertex shader: "+vertexPath);
+				Window.log.error(glGetShaderInfoLog(vertex));
 			}
 
 			cacheVertex.put(vertexPath, vertex);
@@ -76,8 +76,8 @@ public class Shader {
 			glShaderSource(fragment, FileUtils.resToString(fragmentPath));
 			glCompileShader(fragment);
 			if( glGetShaderi(fragment, GL_COMPILE_STATUS) != GL_TRUE ) {
-				System.err.println( "Can't compile fragment shader: "+fragmentPath );
-				System.err.println( glGetShaderInfoLog(fragment) );
+				Window.log.error("Cannot compile fragment shader: "+fragmentPath);
+				Window.log.error(glGetShaderInfoLog(fragment));
 			}
 			
 			cacheFragment.put(fragmentPath, fragment);
@@ -89,13 +89,13 @@ public class Shader {
 		
 		glLinkProgram(program);
 		if( glGetProgrami(program, GL_LINK_STATUS) != GL_TRUE ) {
-			System.err.println( "Can't link shaders: "+vertexPath+", "+fragmentPath );
-			System.err.println( glGetProgramInfoLog(program) );
+			Window.log.error("Cannot link shaders: "+vertexPath+", "+fragmentPath);
+			Window.log.error(glGetProgramInfoLog(program));
 		}
 		glValidateProgram(program);
 		if( glGetProgrami(program, GL_VALIDATE_STATUS) != GL_TRUE ) {
-			System.err.println( "Can't validate shaders: "+vertexPath+", "+fragmentPath );
-			System.err.println( glGetProgramInfoLog(program) );
+			Window.log.error("Cannot validate shaders: "+vertexPath+", "+fragmentPath);
+			Window.log.error(glGetProgramInfoLog(program));
 		}
 		
 		return new Shader(vertex, fragment, program);

@@ -2,15 +2,10 @@ package arenashooter.game.gameStates;
 
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.Action;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.Menu;
-import arenashooter.engine.ui.MenuPause;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Camera;
-import arenashooter.game.GameMaster;
 
 public abstract class GameState {
 	protected Map map;

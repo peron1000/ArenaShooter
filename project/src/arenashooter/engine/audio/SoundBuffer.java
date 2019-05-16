@@ -40,7 +40,7 @@ public class SoundBuffer {
 				ShortBuffer pcm = loadVorbis(path, info);
 				
 				if( pcm == null ) {
-					System.err.println("Audio - Cannot load sound : "+path);
+					Audio.log.error("Cannot load sound : "+path);
 					return null;
 				}
 				
@@ -75,7 +75,7 @@ public class SoundBuffer {
 		long decoder = stb_vorbis_open_memory(vorbis, error, null);
 		
 		if(decoder == NULL) {
-			System.err.println("Audio - Can't load vorbis file : "+resource);
+			Audio.log.error("Can't load vorbis file : "+resource);
 			return null;
 		}
 		
@@ -84,7 +84,7 @@ public class SoundBuffer {
 		int channels = info.channels();
 		
 		if( channels != 1 && channels != 2 ) {
-			System.err.println("Audio - Unsupported channel count for "+resource+" ("+channels+") !");
+			Audio.log.error("Unsupported channel count for "+resource+" ("+channels+") !");
 		}
 		
 		ShortBuffer pcm = BufferUtils.createShortBuffer( stb_vorbis_stream_length_in_samples(decoder) * channels );

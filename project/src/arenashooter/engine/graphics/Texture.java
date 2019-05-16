@@ -44,7 +44,7 @@ public class Texture {
 		Image img = Image.loadImage(path);
 		
 		if( img == null ) {
-			System.err.println( "Render - Cannot load texture : "+path );
+			Window.log.error("Cannot load texture : "+path);
 			return default_tex;
 		}
 		
@@ -63,7 +63,7 @@ public class Texture {
 			pixelFormat = GL_RGBA;
 			break;
 		default:
-			System.err.println("Render - Unsupported channel count ("+channels+") for texture : "+path);
+			Window.log.error("Unsupported channel count ("+channels+") for texture : "+path);
 			return default_tex;
 		}
 		
@@ -141,7 +141,7 @@ public class Texture {
 	 * Remove unused textures from memory
 	 */
 	public static void cleanTextures() { //TODO: Test
-		System.out.println("Render - Cleaning memory...");
+		Window.log.info("Cleaning textures...");
 		
 		ArrayList<String> toRemove = new ArrayList<String>(0);
 		
@@ -158,7 +158,7 @@ public class Texture {
 		for( String s : toRemove )
 			textures.remove(s);
 		
-		System.out.println("Render - Cleaned up "+toRemove.size()+" textures.");
+		Window.log.info("Cleaned up "+toRemove.size()+" textures.");
 	}
 	
 	private static class TextureEntry {
