@@ -2,40 +2,145 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd">
 <map>
   <information>
-    <spawn>
+    <spawn cooldown="4" spawnperso="true">
       <vecteur x="2225.0" y="1600.0"/>
+      <gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="3500"
+				damage="1" cannonLength="100" recoil="0.2" thrust="275" size="64"
+				proba="1">
+
+				<vecteur use="handPosL" x="-25" y="6" />
+				<vecteur use="handPosR" x="3" y="3" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
+				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="3500"
+				damage="1" cannonLength="58" recoil="1.6" thrust="200" size="64"
+				proba="1">
+
+				<vecteur use="handPosL" x="-25" y="8" />
+				<vecteur use="handPosR" x="3" y="4" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="3000"
+				damage="1" cannonLength="50" recoil="1" thrust="200" size="64"
+				proba="1">
+
+				<vecteur use="handPosL" x="-25" y="6" />
+				<vecteur use="handPosR" x="3" y="3" />
+			</gun>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
+				cooldown="1.2" uses="6" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.3" bulletType="0" bulletSpeed="3200"
+				damage="2" cannonLength="60" recoil="2" thrust="2500" size="2"
+				proba="1">
+
+				<vecteur use="handPosL" x="15" y="0" />
+				<vecteur use="handPosR" x="5" y="0" />
+			</shotgun>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="40" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+			</entities>
+      
+      
     </spawn>
-    <spawn>
+    <spawn cooldown="4" spawnperso="true">
       <vecteur x="1115.0" y="1990.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="4" spawnperso="true">
       <vecteur x="570.0" y="1600.0"/>
+      <gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="3500"
+				damage="1" cannonLength="100" recoil="0.2" thrust="275" size="64"
+				proba="1">
+
+				<vecteur use="handPosL" x="-25" y="6" />
+				<vecteur use="handPosR" x="3" y="3" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
+				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="3500"
+				damage="1" cannonLength="58" recoil="1.6" thrust="200" size="64"
+				proba="1">
+
+				<vecteur use="handPosL" x="-25" y="8" />
+				<vecteur use="handPosR" x="3" y="4" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="3000"
+				damage="1" cannonLength="50" recoil="1" thrust="200" size="64"
+				proba="1">
+
+				<vecteur use="handPosL" x="-25" y="6" />
+				<vecteur use="handPosR" x="3" y="3" />
+			</gun>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
+				cooldown="1.2" uses="6" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.3" bulletType="0" bulletSpeed="3200"
+				damage="2" cannonLength="60" recoil="2" thrust="2500" size="2"
+				proba="1">
+
+				<vecteur use="handPosL" x="15" y="0" />
+				<vecteur use="handPosR" x="5" y="0" />
+			</shotgun>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="40" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="35" y="35" z="35" />
+				</mesh>
+			</entities>
+      
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="915.0" y="1300.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="1225.0" y="1050.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="1570.0" y="1415.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="2475.0" y="1945.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="1990.0" y="1905.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="1800.0" y="2350.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="1550.0" y="2025.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="1420.0" y="1875.0"/>
     </spawn>
-    <spawn>
+    <spawn cooldown="2" spawnperso="true">
       <vecteur x="845.0" y="2290.0"/>
     </spawn>
     <gravity>
