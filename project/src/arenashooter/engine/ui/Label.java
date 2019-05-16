@@ -1,5 +1,7 @@
 package arenashooter.engine.ui;
 
+import java.util.LinkedList;
+
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
@@ -58,5 +60,4 @@ public class Label extends UiElement {
 		text.getModel().bind();
 		text.getModel().draw();
 	}
-	
 }

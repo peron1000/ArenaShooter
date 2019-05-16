@@ -1,47 +1,39 @@
 package arenashooter.game.gameStates.engineParam;
 
-import arenashooter.engine.graphics.fonts.Font;
-import arenashooter.engine.graphics.fonts.Text;
-import arenashooter.engine.graphics.fonts.Text.TextAlignH;
-import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Map;
-import arenashooter.entities.spatials.TextSpatial;
-
-class ParamElement {
+abstract class ParamElement <T> {
 	
-	private String[] choices;
+	private T[] choices;
 	private String title;
 	private int index = 0;
-	TextSpatial text;
-	public Vec3f position = new Vec3f();
 	
-	public ParamElement(String title , String...choices) {
+	@SafeVarargs
+	public ParamElement(String title , T...choices) {
 		this.title = title;
 		this.choices = choices;
 	}
 	
-	public void afficherH(Map map , Vec3f position , Vec3f scale , Font font) {
-		text = new TextSpatial(position, scale, new Text(font, TextAlignH.LEFT, title+" : "+choices[index]));
-		text.attachToParent(map, text.genName());
-		this.position = position;
+	String getTitle() {
+		return title;
 	}
 	
-	public String getValue() {
+	T getValue() {
 		return choices[index];
 	}
 	
-	public void next() {
+	void next() {
 		index++;
 		if(index >= choices.length) {
 			index = 0;
 		}
 	}
 	
-	public void previous() {
+	void previous() {
 		index--;
 		if(index < 0) {
 			index = choices.length-1;
 		}
 	}
+	
+	abstract String getStringValue(); 
 	
 }
