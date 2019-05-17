@@ -111,16 +111,15 @@
 				<vecteur use="handPosL" x="15" y="0" />
 				<vecteur use="handPosR" x="5" y="0" />
 			</shotgun>
-			<!-- <melee name="kata" weight="5"
+			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="0.12" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" 
-				bangSound="woosh_01" size="64" proba="10000">
+				soundWarmup="" damage=""
+				bangSound="woosh_01" size="64" proba="1">
 				
 				<vecteur use="handPosL" x="0" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
-			-->
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 					<vecteur use="position" x="0" y="40" z="0" />
@@ -146,6 +145,16 @@
 		<plateform>
 			<vecteur x="0" y="510" use="position" />
 			<vecteur x="750" y="100" use="extent" />
+		</plateform>
+		
+		<plateform>
+			<vecteur x="1250" y="400" use="position" />
+			<vecteur x="250" y="30" use="extent" />
+		</plateform>
+		
+		<plateform>
+			<vecteur x="-1250" y="400" use="position" />
+			<vecteur x="250" y="30" use="extent" />
 		</plateform>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
