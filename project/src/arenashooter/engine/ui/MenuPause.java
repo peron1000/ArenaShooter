@@ -1,5 +1,8 @@
 package arenashooter.engine.ui;
 
+import java.awt.Robot;
+
+import org.apache.logging.log4j.core.util.Log4jThread;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
@@ -33,8 +36,15 @@ public class MenuPause extends MenuSelectionV {
 
 			@Override
 			public void make() {
-				System.out.println("op1 : Resume");
-				
+				 try { 
+					 Robot robot = new Robot();
+					 robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
+					 System.out.println("op1 : Resume");
+			  } catch (Exception ex) {
+				  	System.out.println("fail pause");
+				  	Log4jThread.getDefaultUncaughtExceptionHandler();
+			      
+			  }
 			}
 		});
 		op2.addAction("ok", new Trigger() {
@@ -63,7 +73,7 @@ public class MenuPause extends MenuSelectionV {
 		op3.visible = false;
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);		
-		selec = new UiImage(this, new Vec2f(), 0, new Vec2f(40, 8), texture2,
+		selec = new UiImage(this, new Vec2f(), 0, new Vec2f(45,18), texture2,
 				new Vec4f(1, 1, 1, 1));
 		this.ecartement = 10;
 		this.setImageSelec(selec);
@@ -71,8 +81,9 @@ public class MenuPause extends MenuSelectionV {
 		this.addElement(op1);
 		this.addElement(op2);	
 		this.addElement(op3);
-		this.addElement(op4);	
-
+		this.addElement(op4);
+		//this.focus = op1;
+		
 	
 	}
 
