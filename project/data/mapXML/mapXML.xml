@@ -3,7 +3,7 @@
 <map>
 	<information>
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="-700" y="-1" />
+			<vecteur x="-7" y="1" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
@@ -49,8 +49,8 @@
 				bulletSpeed="32" damage="2" cannonLength=".6" recoil="2"
 				thrust="25.00" size="2"  proba="1">
 
-				<vecteur use="handPosL" x="1.5" y="0" />
-				<vecteur use="handPosR" x=".5" y="0" />
+				<vecteur use="handPosL" x=".1" y="0" />
+				<vecteur use="handPosR" x=".15" y="0" />
 			</shotgun>
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
@@ -62,7 +62,7 @@
 		</spawn>
 		
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="7.0" y="-1" />
+			<vecteur x="7" y="1" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
@@ -108,8 +108,8 @@
 				bulletSpeed="32" damage="3" cannonLength=".6" recoil="2"
 				thrust="25.00" size="2"  proba="1">
 
-				<vecteur use="handPosL" x="1.5" y="0" />
-				<vecteur use="handPosR" x=".5" y="0" />
+				<vecteur use="handPosL" x=".1" y="0" />
+				<vecteur use="handPosR" x=".15" y="0" />
 			</shotgun>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
@@ -143,8 +143,8 @@
 
 	<entities>
 		<plateform>
-			<vecteur x="0" y="12" use="position" />
-			<vecteur x="75" y="10" use="extent" />
+			<vecteur x="0" y="4" use="position" />
+			<vecteur x="75" y="2" use="extent" />
 		</plateform>
 		
 		<plateform>

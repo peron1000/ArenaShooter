@@ -50,7 +50,7 @@ public class Character extends Spatial {
 
 		rotation = 0;
 
-		collider = new Collider(this.pos(), new Vec2f(1, 2));
+		collider = new Collider(this.pos(), new Vec2f(.5, 1));
 		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
