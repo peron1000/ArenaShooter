@@ -35,7 +35,6 @@ public class MenuPause extends MenuSelectionV {
 			public void make() {
 				System.out.println("op1 : Resume");
 				
-				
 			}
 		});
 		op2.addAction("ok", new Trigger() {
@@ -79,12 +78,12 @@ public class MenuPause extends MenuSelectionV {
 
 	@Override
 	public void update(double delta) {
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_UP)) {
 			if (!activated) {
 				this.previous(delta);
 			}
 		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_DOWN)) {
 			if (!activated) {
 				this.next(delta);
 			}
@@ -95,7 +94,7 @@ public class MenuPause extends MenuSelectionV {
 			activated = !activated;
 		}
 		
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
 			this.getTarget().lunchAction("ok");
 		}
 			
