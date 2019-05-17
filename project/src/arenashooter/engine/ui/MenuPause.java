@@ -6,6 +6,8 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.GameMaster;
+import arenashooter.game.gameStates.CharacterChooser;
 
 public class MenuPause extends MenuSelectionV {
 	
@@ -32,6 +34,8 @@ public class MenuPause extends MenuSelectionV {
 			@Override
 			public void make() {
 				System.out.println("op1 : Resume");
+				
+				
 			}
 		});
 		op2.addAction("ok", new Trigger() {
@@ -53,6 +57,7 @@ public class MenuPause extends MenuSelectionV {
 			@Override
 			public void make() {
 				System.out.println("op4 : quit");
+				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
 			}
 		});
 		
