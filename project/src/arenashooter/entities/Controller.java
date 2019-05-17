@@ -20,6 +20,7 @@ public class Controller {
 	public CharacterInfo info;
 	/** Currently possessed character */
 	private Character character;
+	public int team = 1;
 	boolean deadChar = false;
 
 	public boolean hasDeadChar() {

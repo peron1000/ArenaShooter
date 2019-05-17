@@ -27,7 +27,7 @@ public class GameMaster {
 
 	public static final GameMaster gm = new GameMaster();
 
-	private static final String mapEmpty = "data/mapXML/empty.xml";
+	public static final String mapEmpty = "data/mapXML/empty.xml";
 
 	private GameMaster() {
 		// Constructor untouchable

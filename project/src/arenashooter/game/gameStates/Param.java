@@ -11,12 +11,13 @@ import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Rectangle;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
+import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Param extends GameState {
 
-	public GameParam gameParam;
+	private GameParam gameParam;
 	private MenuSelectionV menu = new MenuSelectionV();
 	private UiImage selec;
 	private Label param1, param2, param3, param4;
@@ -159,6 +160,9 @@ public class Param extends GameState {
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.JUMP)) {
 			activated = !activated;
+		}
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
+			GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
 		}
 
 		if (GameParam.getGameMode() == GameMode.Rixe) {

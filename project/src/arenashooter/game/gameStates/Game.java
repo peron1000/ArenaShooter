@@ -17,13 +17,19 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.GameMaster;
+import arenashooter.game.gameStates.engineParam.GameMode;
+import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
 
+	int currentRound = 1;
+	GameMode gameMode = GameMode.Death_Match;
 	int nbRounds = 1;
 	boolean teams = false;
+	
+	//Les teams sont pour l'instant au nombre de 2. On pourra changer l'implementation plus tard en faisant en sorte d'avoir autant de team que voulues.
 	HashSet<Controller> team1 = new HashSet<Controller>();
 	HashSet<Controller> team2 = new HashSet<Controller>();
 	Timer roundTimer;
@@ -41,7 +47,7 @@ public class Game extends GameState {
 	public Timer endGame = new Timer(2);
 
 	/**
-	 * @author Marin C Evaluates if one charcter or less is alive. (Trigger this
+	 * @author Marin C Evaluates if one character or less is alive. (Trigger this
 	 *         function only when a character dies)
 	 */
 	private void evalOneLeft() {
@@ -54,6 +60,8 @@ public class Game extends GameState {
 			oneLeft = true;
 	}
 
+
+
 	public Game() {
 	}
 
@@ -61,6 +69,9 @@ public class Game extends GameState {
 	public void init() {
 		endGame.reset();
 		chooseWinner.reset();
+		gameMode = GameParam.getGameMode();
+		nbRounds = GameParam.getRound();
+		GameParam.getTeam();
 
 		for (Controller controller : GameMaster.gm.controllers) {
 			// Ce n'est plus un spawn aleatoire
@@ -72,7 +83,7 @@ public class Game extends GameState {
 
 		// Camera
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
-		Camera cam = new Camera(new Vec3f(0, 0, 60));
+		Camera cam = new Camera(new Vec3f(0, 0, 6));
 		cam.attachToParent(map, "camera");
 		Window.setCamera(cam);
 	}
@@ -110,7 +121,12 @@ public class Game extends GameState {
 			}
 			endGame.step(d);
 			if (endGame.isOver()) {
-				init();
+				if (nbRounds < nbRounds) {
+					currentRound++;
+					init();
+				} else {
+					GameMaster.gm.requestNextState(new Score(), "data/mapXML/empty.xml");
+				}
 			}
 
 			if (Window.getCamera() != null) {
