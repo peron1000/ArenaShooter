@@ -14,6 +14,9 @@ public class Spatial3 extends Entity {
 	
 	/** World space rotation */
 	public Quat rotation = Quat.fromAngle(0);
+
+	/** If true and attached to a Spatial, rotation will be set to parent's rotation on step */
+	public boolean rotationFromParent = false;
 	
 	public Spatial3(Vec3f position) {
 		super();
@@ -31,7 +34,11 @@ public class Spatial3 extends Entity {
 	 * @return parent position + local position
 	 */
 	public Vec3f pos() {
-		return Vec3f.add(parentPosition, localPosition);
+		if(rotationFromParent)
+//			return Vec3f.add(parentPosition, Vec3f.rotate(localPosition, rotation)); //TODO
+			return Vec3f.add(parentPosition, localPosition);
+		else
+			return Vec3f.add(parentPosition, localPosition);
 	}
 	
 	/**
@@ -39,6 +46,11 @@ public class Spatial3 extends Entity {
 	 */
 	@Override
 	public void step(double d) {
+		if(rotationFromParent && parent instanceof Spatial3)
+			rotation = ((Spatial3)parent).rotation;
+		else if(rotationFromParent && parent instanceof Spatial)
+				rotation = Quat.fromAngle(((Spatial)parent).rotation);
+	
 		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(getChildren().values());

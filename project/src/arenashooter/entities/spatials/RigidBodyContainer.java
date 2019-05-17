@@ -21,7 +21,7 @@ public class RigidBodyContainer extends Spatial {
 	@Override
 	public void step(double d) {
 		if(Input.actionJustPressed(Device.KEYBOARD, Action.ATTACK))
-			body.applyImpulse(new Vec2f(50, -30));
+			body.applyImpulse(new Vec2f(2, -20));
 		
 		if(needsPhysWorld) {
 			if(getMap() != null) {
