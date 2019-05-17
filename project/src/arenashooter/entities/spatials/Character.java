@@ -31,8 +31,8 @@ public class Character extends Spatial {
 	 * The character is jumping
 	 */
 	public boolean jumpi;
-	private double jumpForce = 10;
-	private double parachuteForce = 5;
+	private double jumpForce = 30;
+	private double parachuteForce = 0.5;
 	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
@@ -83,7 +83,7 @@ public class Character extends Spatial {
 		if (!isOnGround) {
 			if (!jumpTimer.isOver() && jumpTimer.inProcess) {
 				if (vel.y < 0 && jumpi) {
-					vel.y = (float) (-parachuteForce * Math.expm1(1 - (jumpTimer.current() / jumpTimer.getMax())));
+					vel.y += (float) (-parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio())));
 				}
 			} else {
 				jumpi = false;
@@ -201,8 +201,8 @@ public class Character extends Spatial {
 
 		float res = Math.min(damage, health);// ? Ajouter Commentaire
 
-		float bumpX = (damage >= 1 ? 400 * (1 + ((float) Math.log10(damage))) : 400);
-		float bumpY = (damage >= 1 ? 250 * (1 + ((float) Math.log10(damage))) : 250);
+		float bumpX = (damage >= 1 ? 4 * (1 + ((float) Math.log10(damage))) : 4);
+		float bumpY = (damage >= 1 ? 2.5f * (1 + ((float) Math.log10(damage))) : 2.5f);
 
 		if (droite)
 			vel.add(new Vec2f(bumpX, -bumpY));
@@ -236,7 +236,7 @@ public class Character extends Spatial {
 
 		vel.x = (float) Utils.lerpD(vel.x, movementInput * 15, Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1));
 		if (!isOnGround)
-			vel.y += Math.min(9.807 * d, 100);
+			vel.y += Math.min(9.807 * d * 10, 100);
 
 		isOnGround = false;
 		for (Entity plat : getParent().getChildren().values()) {

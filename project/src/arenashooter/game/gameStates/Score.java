@@ -19,7 +19,7 @@ public class Score extends GameState {
 	public void init(){
 		menu = new Menu();
 		
-		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu.png");
+		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Score.png");
 		texture1.setFilter(false);
 
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
