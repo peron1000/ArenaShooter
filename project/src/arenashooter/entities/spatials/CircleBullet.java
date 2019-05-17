@@ -43,8 +43,8 @@ public class CircleBullet extends Projectile {
 		double sin = Math.sin(movementTime * 40);
 		double cos = Math.cos(movementTime * 40);
 		
-		collider.localPosition.x = (float) (cos);
-		collider.localPosition.y = (float) (sin);
+		collider.localPosition.x = (float) (-.2 + cos * .5);
+		collider.localPosition.y = (float) (-.2 + sin * .5);
 		
 		Sprite sprite = ((Sprite)getChildren().get("bul_Sprite"));
 		sprite.localPosition.x = (float) (-.2 + cos * .5);
