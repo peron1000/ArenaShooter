@@ -104,7 +104,7 @@ public class Map extends Entity {
 		position = new Vec2f(-7, 0);
 		body = new RigidBody(new ShapeDisk(.5), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
-		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		Sprite rbSprite = new Sprite(new Vec2f(), "data/test.png");
 		rbSprite.size = new Vec2f(1, 1);
 		rb.attachToParent(this, "Rigid Body test 2");
 		rbSprite.rotationFromParent = true;
