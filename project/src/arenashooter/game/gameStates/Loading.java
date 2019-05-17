@@ -32,22 +32,22 @@ public class Loading extends GameState {
 		ArrayList<Entity> entities = new ArrayList<>();
 
 		//Camera
-		Camera cam = new Camera(new Vec3f(0, 0, 40));
+		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
 		entities.add(cam);
 		Window.setCamera(cam);
 
-		float startX = -(GameMaster.gm.controllers.size() * 128f) / 2f;
+		float startX = -(GameMaster.gm.controllers.size() * 1.28f) / 2f;
 		int i = 0;
 		for (Controller c : GameMaster.gm.controllers) {
-			float x = startX + (128f * i);
+			float x = startX + (1.28f * i);
 
-			entities.add(new CharacterSprite(new Vec2f(x, -30), c.info));
-			entities.add(new LoadingFloor(new Vec2f(x, 80)));
+			entities.add(new CharacterSprite(new Vec2f(x, -.52), c.info));
+			entities.add(new LoadingFloor(new Vec2f(x, .9)));
 			i++;
 		}
 		if (GameMaster.gm.controllers.size() == 0) { // No controllers, just place a floor
-			entities.add(new LoadingFloor(new Vec2f(0, 80)));
+			entities.add(new LoadingFloor(new Vec2f(0, .9)));
 		}
 
 		for (Entity entity : entities) {
