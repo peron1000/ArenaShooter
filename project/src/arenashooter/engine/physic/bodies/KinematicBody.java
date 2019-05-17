@@ -24,6 +24,10 @@ public class KinematicBody extends PhysicBody {
 		bodyDef.setAngle((float)rotation);
 		bodyDef.setType(BodyType.KINEMATIC);
 	}
+	
+	public void applyImpulse(Vec2f impulse) {
+		body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
+	}
 
 	@Override
 	public void addToWorld(PhysicWorld world) {

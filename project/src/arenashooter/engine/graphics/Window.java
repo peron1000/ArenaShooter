@@ -62,7 +62,7 @@ public final class Window {
 	/** Perspective projection matrix */
 	public static Mat4f proj;
 	private static float fov = 70;
-	private static final float CLIP_NEAR = 50, CLIP_FAR = 250000;
+	private static final float CLIP_NEAR = 2, CLIP_FAR = 2500;
 	/** Orthographic projection matrix */
 	public static Mat4f projOrtho;
 	

@@ -202,7 +202,7 @@ public class Gun extends Usable {
 				rotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
-				Window.getCamera().setCameraShake(2.8f);
+				Window.getCamera().setCameraShake(.028f);
 			} else {
 				((SoundEffect) getChildren().get("snd_NoAmmo")).play();
 			}
@@ -216,7 +216,7 @@ public class Gun extends Usable {
 
 	@Override
 	protected void setLocalPositionOfSprite() {
-		localPosition = Vec2f.rotate(new Vec2f(20, 0), rotation);
+		localPosition = Vec2f.rotate(new Vec2f(.5, 0), rotation);
 	}
 	
 	@Override

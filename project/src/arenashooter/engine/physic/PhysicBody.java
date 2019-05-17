@@ -23,6 +23,10 @@ public abstract class PhysicBody {
 		world = null;
 	}
 	
+	public boolean isActive() { return body.isActive(); }
+	
+	public void setActive(boolean active) { body.setActive(active); }
+	
 	public Vec2f getPosition() { return new Vec2f(body.getPosition()); }
 	
 	public float getRotation() { return body.getAngle(); }

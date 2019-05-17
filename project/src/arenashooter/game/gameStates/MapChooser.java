@@ -29,8 +29,6 @@ public class MapChooser extends GameState {
 	private double ringAngle = 0;
 	private final double ringRadius = 2500;
 	
-	private int lastThumbnail = 0;
-	
 	public String getMapChosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
 	}

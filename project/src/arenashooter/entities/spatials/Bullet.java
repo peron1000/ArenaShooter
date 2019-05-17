@@ -17,11 +17,11 @@ public class Bullet extends Projectile {
 		this.damage = damage;
 		rotation = vel.angle();
 
-		collider = new Collider(this.pos(), new Vec2f(16, 16));
+		collider = new Collider(this.pos(), new Vec2f(.5, .5));
 		collider.attachToParent(this, "collider");
 
 		Sprite bul = new Sprite(pos(), "data/sprites/Bullet.png");
-		bul.size = new Vec2f(bul.getTexture().getWidth(), bul.getTexture().getHeight());
+		bul.size = new Vec2f(bul.getTexture().getWidth()*.01, bul.getTexture().getHeight()*.01);
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
 

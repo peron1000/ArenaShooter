@@ -26,6 +26,10 @@ public class RigidBody extends PhysicBody {
 		bodyDef.setAngle((float)rotation);
 		bodyDef.setType(BodyType.DYNAMIC);
 	}
+	
+	public void applyImpulse(Vec2f impulse) {
+		body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
+	}
 
 	@Override
 	public void addToWorld(PhysicWorld world) {

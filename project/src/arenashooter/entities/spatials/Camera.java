@@ -13,8 +13,8 @@ public class Camera extends Spatial3 {
 	/** View matrix (updated at every step) */
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
-	private Vec2f margin = new Vec2f(500, 500);
-	private float zoomMin = 600, zoomMax = 6000;
+	private Vec2f margin = new Vec2f(5, 5);
+	private float zoomMin = 6, zoomMax = 60;
 	
 	/** Vertical field of view */
 	private float fov = 70;
@@ -34,9 +34,9 @@ public class Camera extends Spatial3 {
 	@Override
 	public void step(double d) {
 		//Camera shake
-		float shakeX = (float) (Math.sin(148*time)*shakeIntensity);
-		float shakeY = (float) (Math.cos(136*time)*shakeIntensity);
-		float shakeZ = (float) (Math.sin(155*time+.1)*shakeIntensity);
+		float shakeX = (float) (Math.sin(1.48*time)*shakeIntensity);
+		float shakeY = (float) (Math.cos(1.36*time)*shakeIntensity);
+		float shakeZ = (float) (Math.sin(1.55*time+.1)*shakeIntensity);
 		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 7*d ));
 		time += d;
 		

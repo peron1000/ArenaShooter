@@ -31,13 +31,18 @@ public class Character extends Spatial {
 	 * The character is jumping
 	 */
 	public boolean jumpi;
-	private double jumpForce = 500;
-	private double parachuteForce = 2000;
+	private double jumpForce = 10;
+	private double parachuteForce = 5;
 	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position);
+		
+		Sprite colliderVis = new Sprite(new Vec2f(), "data/default_texture.png");
+		colliderVis.size = new Vec2f(1, 2);
+		colliderVis.attachToParent(this, "collider_vis");
+		colliderVis.zIndex = -10;
 
 		healthMax = 40;
 		health = healthMax;
@@ -45,7 +50,7 @@ public class Character extends Spatial {
 
 		rotation = 0;
 
-		collider = new Collider(this.pos(), new Vec2f(25, 60));
+		collider = new Collider(this.pos(), new Vec2f(1, 2));
 		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
@@ -150,7 +155,7 @@ public class Character extends Spatial {
 					Usable usable = (Usable) e;
 					float xDiff = Math.abs(pos().x - usable.pos().x);
 					float yDiff = Math.abs(pos().y - usable.pos().y);
-					if (xDiff < 175 && yDiff < 175)
+					if (xDiff < 1.75 && yDiff < 1.75)
 						arme = usable;
 				}
 			}
@@ -229,9 +234,9 @@ public class Character extends Spatial {
 
 		Profiler.startTimer(Profiler.PHYSIC);
 
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 1500, Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1));
+		vel.x = (float) Utils.lerpD(vel.x, movementInput * 15, Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1));
 		if (!isOnGround)
-			vel.y += Math.min(9.807 * 800 * d, 2000);
+			vel.y += Math.min(9.807 * d, 100);
 
 		isOnGround = false;
 		for (Entity plat : getParent().getChildren().values()) {
@@ -280,7 +285,7 @@ public class Character extends Spatial {
 			skeleton.setLookRight(lookRight);
 		}
 
-		if (Math.abs(pos().x) > 10000 || Math.abs(pos().y) > 10000) {
+		if (Math.abs(pos().x) > 500 || Math.abs(pos().y) > 500) {
 			death();
 		}
 

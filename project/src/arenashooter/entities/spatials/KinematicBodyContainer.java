@@ -1,28 +1,22 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.input.Action;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.game.Main;
 
-public class RigidBodyContainer extends Spatial {
+public class KinematicBodyContainer extends Spatial {
 
-	private RigidBody body;
+	private KinematicBody body;
 	
 	private boolean needsPhysWorld = true;
 
-	public RigidBodyContainer(Vec2f position, RigidBody body) {
+	public KinematicBodyContainer(Vec2f position, KinematicBody body) {
 		super(position);
 		this.body = body;
 	}
 	
 	@Override
 	public void step(double d) {
-		if(Input.actionJustPressed(Device.KEYBOARD, Action.ATTACK))
-			body.applyImpulse(new Vec2f(50, -30));
-		
 		if(needsPhysWorld) {
 			if(getMap() != null) {
 				body.addToWorld(getMap().physic);

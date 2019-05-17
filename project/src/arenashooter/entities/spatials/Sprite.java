@@ -13,7 +13,7 @@ public class Sprite extends Spatial {
 	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");
 	public Material material;
 	private static Model model;
-	public Vec2f size = new Vec2f(100, 100);
+	public Vec2f size = new Vec2f(1, 1);
 	
 	/** Does this sprite require transparency */
 	public boolean useTransparency = false;

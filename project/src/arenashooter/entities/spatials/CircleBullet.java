@@ -22,13 +22,13 @@ public class CircleBullet extends Projectile {
 		this.damage = damage;
 		this.sens = sens;
 
-		collider = new Collider(this.pos(), new Vec2f(16, 16));
+		collider = new Collider(this.pos(), new Vec2f(.5, .5));
 		collider.attachToParent(this, "collider");
 
 		sndImpact.setVolume(.15f);
 		
 		Sprite bul = new Sprite(pos(), "data/sprites/Ion_Bullet.png");
-		bul.size = new Vec2f(bul.getTexture().getWidth(), bul.getTexture().getHeight());
+		bul.size = new Vec2f(bul.getTexture().getWidth()*.02, bul.getTexture().getHeight()*.02);
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
 		bul.getTexture().setFilter(false);
@@ -43,12 +43,12 @@ public class CircleBullet extends Projectile {
 		double sin = Math.sin(movementTime * 40);
 		double cos = Math.cos(movementTime * 40);
 		
-		collider.localPosition.x = (float) (cos * 4);
-		collider.localPosition.y = (float) (sin * 4);
+		collider.localPosition.x = (float) (cos);
+		collider.localPosition.y = (float) (sin);
 		
 		Sprite sprite = ((Sprite)getChildren().get("bul_Sprite"));
-		sprite.localPosition.x = (float) (-20 + cos * 40);
-		sprite.localPosition.y = (float) (-20 + sin * 40);
+		sprite.localPosition.x = (float) (-.2 + cos * .5);
+		sprite.localPosition.y = (float) (-.2 + sin * .5);
 
 		if (Math.abs(pos().x) > 10000 || Math.abs(pos().y) > 10000) {
 			detach();

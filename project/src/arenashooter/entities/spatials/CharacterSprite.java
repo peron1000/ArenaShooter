@@ -45,7 +45,7 @@ public class CharacterSprite extends Spatial {
 		}else if(new File(folder + "/body_tr.png").exists()) {
 			body = new Sprite(position, folder + "/body_tr.png");
 		}
-		body.size = new Vec2f(body.getTexture().getWidth() * 3, body.getTexture().getHeight() * 3);
+		body.size = new Vec2f(body.getTexture().getWidth() * .03, body.getTexture().getHeight() * .03);
 		body.getTexture().setFilter(false);
 		body.attachToParent(this, "body");
 		
@@ -55,7 +55,7 @@ public class CharacterSprite extends Spatial {
 		}else if(new File(folder + "/head_tr.png").exists()) {
 			head = new Sprite(position, folder + "/head_tr.png");
 		}			
-		head.size = new Vec2f(head.getTexture().getWidth() * 3, head.getTexture().getHeight() * 3);
+		head.size = new Vec2f(head.getTexture().getWidth() * .03, head.getTexture().getHeight() * .03);
 		head.getTexture().setFilter(false);
 		head.zIndex = 1;
 		head.attachToParent(this, "head");
@@ -69,11 +69,11 @@ public class CharacterSprite extends Spatial {
 			footL = new Sprite(position, folder + "/foot_tr.png");
 			footR = new Sprite(position, folder + "/foot_tr.png");
 		}			
-		footL.size = new Vec2f(footL.getTexture().getWidth() * 3, footL.getTexture().getHeight() * 3);
+		footL.size = new Vec2f(footL.getTexture().getWidth() * .03, footL.getTexture().getHeight() * .03);
 		footL.getTexture().setFilter(false);
 		footL.attachToParent(this, "footL");
 		footL.zIndex = 1;
-		footR.size = new Vec2f(footR.getTexture().getWidth() * 3, footR.getTexture().getHeight() * 3);
+		footR.size = new Vec2f(footR.getTexture().getWidth() * .03, footR.getTexture().getHeight() * .03);
 		footR.getTexture().setFilter(false);
 		footR.attachToParent(this, "footR");
 		footR.zIndex = -1;
@@ -87,16 +87,16 @@ public class CharacterSprite extends Spatial {
 			handL = new Sprite(position, folder + "/hand_tr.png");
 			handR = new Sprite(position, folder + "/hand_tr.png");
 		}		
-		handL.size = new Vec2f(handL.getTexture().getWidth() * 3, handL.getTexture().getHeight() * 3);
+		handL.size = new Vec2f(handL.getTexture().getWidth() * .03, handL.getTexture().getHeight() * .03);
 		handL.getTexture().setFilter(false);
 		handL.attachToParent(this, "handL");
-		handR.size = new Vec2f(handR.getTexture().getWidth() * 3, handR.getTexture().getHeight() * 3);
+		handR.size = new Vec2f(handR.getTexture().getWidth() * .03, handR.getTexture().getHeight() * .03);
 		handR.getTexture().setFilter(false);
 		handR.attachToParent(this, "handR");
 	}
 
 	public void punch() {
-		handR.localPosition.x = lookRight ? 150 : -150;
+		handR.localPosition.x = lookRight ? 1.5f : -1.5f;
 		sndPunch.play(parentPosition);
 	}
 
@@ -120,7 +120,7 @@ public class CharacterSprite extends Spatial {
 			moveSpeed = ((Character) getParent()).vel.x;
 		} else if (getParent() instanceof Map) { // TODO: Temp stuff for loading screen anim
 			isOnGround = true;
-			moveSpeed = 1000;
+			moveSpeed = 10;
 		}
 
 		if (isOnGround && !wasOnGround)
@@ -135,13 +135,13 @@ public class CharacterSprite extends Spatial {
 		footR.flipX = !lookRight;
 
 		// Feet
-		double footSin = Math.sin(movementTime * .02);
-		double footCos = Math.cos(movementTime * .02);
+		double footSin = Math.sin(movementTime * 2);
+		double footCos = Math.cos(movementTime * 2);
 
-		footSin = Utils.lerpD(1, footSin, Math.min(Math.abs(moveSpeed) / 500, 1));
-		footCos = Utils.lerpD(1, footCos, Math.min(Math.abs(moveSpeed) / 500, 1));
+		footSin = Utils.lerpD(1, footSin, Math.min(Math.abs(moveSpeed) / 5, 1));
+		footCos = Utils.lerpD(1, footCos, Math.min(Math.abs(moveSpeed) / 5, 1));
 
-		stepTimer.step(d * Math.abs(moveSpeed) / 500);
+		stepTimer.step(d * Math.abs(moveSpeed) / 5);
 		if (!(getParent() instanceof Map)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
 				sndStep.play(parentPosition);
@@ -150,11 +150,11 @@ public class CharacterSprite extends Spatial {
 		}
 
 		if (moveSpeed > 0) {
-			footL.localPosition.x = (float) (-20 + footCos * 4);
-			footL.localPosition.y = (float) (37 + footSin * 10);
+			footL.localPosition.x = (float) (-.2 + footCos * .04);
+			footL.localPosition.y = (float) (.37 + footSin * .10);
 
-			footR.localPosition.x = (float) (20 - footSin * 4);
-			footR.localPosition.y = (float) (37 + footCos * 10);
+			footR.localPosition.x = (float) (.20 - footSin * .04);
+			footR.localPosition.y = (float) (.37 + footCos * .10);
 
 			if (lookRight) {
 				footL.zIndex = 1;
@@ -164,11 +164,11 @@ public class CharacterSprite extends Spatial {
 				footR.zIndex = 1;
 			}
 		} else {
-			footL.localPosition.x = (float) (20 - footCos * 4);
-			footL.localPosition.y = (float) (37 + footSin * 10);
+			footL.localPosition.x = (float) (.20 - footCos * .04);
+			footL.localPosition.y = (float) (.37 + footSin * .10);
 
-			footR.localPosition.x = (float) (-20 + footSin * 4);
-			footR.localPosition.y = (float) (37 + footCos * 10);
+			footR.localPosition.x = (float) (-.20 + footSin * .04);
+			footR.localPosition.y = (float) (.37 + footCos * .10);
 
 			if (lookRight) {
 				footL.zIndex = -1;
@@ -180,12 +180,12 @@ public class CharacterSprite extends Spatial {
 		}
 
 		// Body
-		double bodyH = Utils.lerpD(0, Math.sin(movementTime * .01d), Math.min(Math.abs(moveSpeed) / 300, 1));
-		body.localPosition.y = (float) (-17 + bodyH * 1.9);
+		double bodyH = Utils.lerpD(0, Math.sin(movementTime * 1d), Math.min(Math.abs(moveSpeed) / 3, 1));
+		body.localPosition.y = (float) (-.17 + bodyH * .019);
 
 		// Head
-		double headH = Utils.lerpD(0, Math.cos(movementTime * .03d), Math.min(Math.abs(moveSpeed) / 300, 1));
-		head.localPosition.y = (float) (-17 + headH * 2.5);
+		double headH = Utils.lerpD(0, Math.cos(movementTime * 3d), Math.min(Math.abs(moveSpeed) / 3, 1));
+		head.localPosition.y = (float) (-.17 + headH * .025);
 
 		// Hands
 		if (parent instanceof Character) {

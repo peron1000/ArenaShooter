@@ -89,56 +89,56 @@ public class Map extends Entity {
 	 */
 	private void createTestEntities() {
 		// Rigid body 1
-		Vec2f position = new Vec2f(0, -700);
-		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(100, 50)), position, .5, 1, .3f);
+		Vec2f position = new Vec2f(0, -7);
+		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, .5, 1, .3f);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
-		rbSprite.size = new Vec2f(200, 100);
+		rbSprite.size = new Vec2f(2, 1);
 		rb.attachToParent(this, "Rigid Body test");
 		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 2
-		position = new Vec2f(-700, 0);
-		body = new RigidBody(new ShapeDisk(50), position, 0, 1, .3f);
+		position = new Vec2f(-7, 0);
+		body = new RigidBody(new ShapeDisk(.5), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
-		rbSprite.size = new Vec2f(100, 100);
+		rbSprite.size = new Vec2f(1, 1);
 		rb.attachToParent(this, "Rigid Body test 2");
 		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 3
-		position = new Vec2f(-750, -100);
-		body = new RigidBody(new ShapeDisk(45), position, 0, 1, .3f);
+		position = new Vec2f(-7.5, -1);
+		body = new RigidBody(new ShapeDisk(1), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
-		rbSprite.size = new Vec2f(90, 90);
+		rbSprite.size = new Vec2f(2, 2);
 		rb.attachToParent(this, "Rigid Body test 3");
 		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 4
-		position = new Vec2f(10, -900);
-		body = new RigidBody(new ShapeBox(new Vec2f(100, 50)), position, -.5, 1, .3f);
+		position = new Vec2f(10, -9);
+		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, -.5, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
-		rbSprite.size = new Vec2f(200, 100);
+		rbSprite.size = new Vec2f(2, 1);
 		rb.attachToParent(this, "Rigid Body test 4");
 		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 		
 		// Rigid body 5
-		position = new Vec2f(10, -1200);
-		body = new RigidBody(new ShapeBox(new Vec2f(100, 50)), position, 1.56, 1, .3f);
+		position = new Vec2f(10, -12);
+		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 1.56, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
-		rbSprite.size = new Vec2f(200, 100);
+		rbSprite.size = new Vec2f(2, 1);
 		rb.attachToParent(this, "Rigid Body test 5");
 		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 		
-		AnimationTester animTester = new AnimationTester(new Vec2f(500, 0));
+		AnimationTester animTester = new AnimationTester(new Vec2f(5, 0));
 		animTester.attachToParent(this, "anim tester 1");
 	}
 }
