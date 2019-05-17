@@ -15,6 +15,7 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
@@ -27,7 +28,7 @@ public class MapChooser extends GameState {
 	private int init = 0;
 
 	private double ringAngle = 0;
-	private final double ringRadius = 2500;
+	private final double ringRadius = 50;
 	
 	public String getMapChosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
@@ -55,18 +56,21 @@ public class MapChooser extends GameState {
 		Collections.sort(maps);
 		
 		//Set FOV
-		Window.getCamera().setFOV(90);
+		Camera cam = new Camera(new Vec3f(0, 0, 8));
+		cam.setFOV(90);
+		map.attachToParent(cam, "camera");
+		Window.setCamera(cam);
 
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your map");
-		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
+		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(map, "Text_Select");
 
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change the map");
-		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -400, -10), new Vec3f(250), text2);
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(map, "Text_touch");
 		
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to continue");
-		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, 535, -10), new Vec3f(450), text3);
+		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text3);
 		textEnt3.attachToParent(map, "Text_Choice");
 		
 		selectMap(0);
@@ -135,10 +139,10 @@ public class MapChooser extends GameState {
 
 				if (i == init)
 					((Mesh) thumbnail).scale
-							.set(Vec3f.lerp(((Mesh) thumbnail).scale, new Vec3f(700), Math.min(1, 8d * delta)));
+							.set(Vec3f.lerp(((Mesh) thumbnail).scale, new Vec3f(9f), Math.min(1, 8d * delta)));
 				else
 					((Mesh) thumbnail).scale
-							.set(Vec3f.lerp(((Mesh) thumbnail).scale, new Vec3f(300), Math.min(1, 12d * delta)));
+							.set(Vec3f.lerp(((Mesh) thumbnail).scale, new Vec3f(3), Math.min(1, 12d * delta)));
 			}
 		}
 
