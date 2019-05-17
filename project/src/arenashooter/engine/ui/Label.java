@@ -19,7 +19,7 @@ public class Label extends UiElement {
 		
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, 1, 1));
-		setShadowThickness(0);
+		setShadowThickness(0.001f);
 		setShadowColor(new Vec4f(0, 0, 0, 0.5));
 	}
 	
