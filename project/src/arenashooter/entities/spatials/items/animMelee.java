@@ -13,8 +13,8 @@ public class animMelee extends Spatial implements IAnimated {
 	protected Item item = null;
 	public animMelee(Vec2f position, Item item) {
 		super(position);
-		playAnim();
 		setAnim(new Animation( AnimationData.loadAnim("data/animations/animTest2.xml") ));
+		playAnim();
 		this.item = item;
 	}
 	
