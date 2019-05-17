@@ -100,7 +100,7 @@ public class MapChooser extends GameState {
 //		}
 		
 		// Temp sprite changing
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_RIGHT)) {
 			if (init < maps.size() - 1) {
 				init++;
 			} else {
@@ -108,7 +108,7 @@ public class MapChooser extends GameState {
 			}
 
 			selectMap(init);
-		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)) {
+		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_LEFT)) {
 			if (init > 0) {
 				init--;
 			} else {
@@ -117,10 +117,10 @@ public class MapChooser extends GameState {
 			selectMap(init);
 		}
 		
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
 			
 			GameMaster.gm.requestNextState(new Game(), getMapChosen());
-		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
+		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
 		}
 

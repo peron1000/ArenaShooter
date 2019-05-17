@@ -20,7 +20,7 @@ public class Intro extends GameState {
 	@Override
 	public void update(double delta) {
 		map.step(delta);
-		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
+		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
 			Entity bgm = map.getChildren().get("bgm");
 			if(bgm instanceof Music) ((Music)bgm).stop();
 			

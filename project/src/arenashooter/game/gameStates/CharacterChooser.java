@@ -138,6 +138,13 @@ public class CharacterChooser extends GameState {
 				sprites.put(controller, c);
 				c.attachToParent(map, c.genName());
 			}
+			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_PAUSE)) {
+				GameMaster.gm.controllers.clear();
+				for (Controller controller2 : controllers.values())
+					GameMaster.gm.controllers.add(controller2);
+				GameMaster.gm.requestNextState(new MapChooser(), "data/mapXML/empty.xml");
+
+			}
 		}
 
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
