@@ -12,7 +12,7 @@ public class Melee extends Usable {
 	Collider collider;
 	protected float damage = 10f;
 	/** Time before the first bullet is fired */
-	protected Timer timerWarmup = null;
+	protected Timer timerCooldown = null;
 	
 	protected animMelee animmelee = null;
 
@@ -31,17 +31,8 @@ public class Melee extends Usable {
 		SoundEffect warmup = new SoundEffect(position, "data/sound/" + soundWarmup + ".ogg", 2);
 		warmup.attachToParent(this, "snd_Warmup");*/
 		
-		// Warmup
-		this.timerWarmup = new Timer(warmupDuration);
-		this.timerWarmup.setIncreasing(false);
-		this.timerWarmup.setProcessing(true);
-		this.timerWarmup.attachToParent(this, "timer_warmup");
-
 		// Cooldown
 		this.timerCooldown = new Timer(cooldown);
-		this.timerCooldown.setIncreasing(true);
-		this.timerCooldown.setProcessing(true);
-		this.timerCooldown.setValue(cooldown);
 		this.timerCooldown.attachToParent(this, "timer_cooldown");
 		
 		this.animmelee = new animMelee(new Vec2f(0, 0), this);
@@ -50,19 +41,16 @@ public class Melee extends Usable {
 
 	@Override
 	public void attackStart() {
-		timerWarmup.setIncreasing(true);
 	}
 
 	@Override
 	public void attackStop() {
-		timerWarmup.setIncreasing(false);
 	}
 
 	@Override
 	public void step(double d) {
-		if (timerWarmup.isIncreasing() && timerWarmup.isOver() && timerCooldown.isOver()) {
+		if (timerCooldown.isOver()) {
 			timerCooldown.restart();
-			animmelee.playAnim();
 		}
 		super.step(d);
 	}

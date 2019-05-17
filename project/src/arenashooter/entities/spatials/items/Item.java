@@ -112,6 +112,18 @@ public abstract class Item extends Spatial {
 		}
 	}
 	
+	/**
+	 * @return Character if parent is a Character
+	 * or NULL if parent is different of a Character
+	 */
+	protected Character getCharacter() {
+		if(getParent() instanceof Character) {
+			return (Character) getParent();
+		} else {
+			return null;
+		}
+	}
+	
 	public Item clone(Vec2f position) {
 		Item clone = new Item(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {
 		};

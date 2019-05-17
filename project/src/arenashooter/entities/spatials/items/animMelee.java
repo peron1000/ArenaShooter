@@ -13,24 +13,27 @@ public class animMelee extends Spatial implements IAnimated {
 	protected Item item = null;
 	public animMelee(Vec2f position, Item item) {
 		super(position);
-		setAnim(new Animation( AnimationData.loadAnim("data/animations/animTest2.xml") ));
 		playAnim();
+		setAnim(new Animation( AnimationData.loadAnim("data/animations/animTest2.xml") ));
 		this.item = item;
 	}
 	
 	@Override
 	public void step(double d) {
 		anim.step(d);
-		if (item.getParent() instanceof Character) {
-			if (((Character) item.getParent()).lookRight) {
+		Character character = item.getCharacter();
+		Melee melee = (Melee) getParent();
+		if (character != null) {
+//			if (!character.lookRight) {
 				item.position.set(anim.getTrackVec2f("rightPos"));
 				item.rotation = anim.getTrackD("rightRot");
-			} else {
-				item.position.set(anim.getTrackVec2f("leftPos"));
-				item.rotation = anim.getTrackD("leftRot");
-			}
+				
+//			} else if (character.lookRight) {
+//				item.position.set(anim.getTrackVec2f("leftPos"));
+//				item.rotation = anim.getTrackD("leftRot");
+//			}
+//		}
 		}
-		
 		super.step(d);
 	}
 

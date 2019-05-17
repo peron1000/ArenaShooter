@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE animation SYSTEM "animationDTD.dtd" >
-<animation length="2.0" loop="true">
+<animation length="5.0" loop="true">
 	
 	<trackVec2f name="rightPos" interpolation="cubic">
-		<keyframeVec2f time="0.0" x="-5" y="-30.0" />
-		<keyframeVec2f time="0.10" x="-5" y="-10.0" />
-		<keyframeVec2f time="0.20" x="-5" y="0.0" />
-		<keyframeVec2f time="0.30" x="-5" y="40.0" />
-		<keyframeVec2f time="0.40" x="-5" y="50.0" />
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="2.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="3.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="4.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="5.0" x="0.0" y="0.0" />
 	</trackVec2f>
 
 	<trackD name="rightRot" interpolation="cubic">
-		<keyframeD time="0.0" value="-1.0" />
-		<keyframeD time="0.10" value="-0.5" />
-		<keyframeD time="0.20" value="0.0" />
-		<keyframeD time="0.30" value="0.5" />
-		<keyframeD time="0.40" value="1.0" />
+		<keyframeD time="0.0" value="0.75" />
+		<keyframeD time="2.0" value="1.57" />
+		<keyframeD time="3.0" value="-0.5" />
+		<keyframeD time="4.0" value="-1.0" />
+		<keyframeD time="5.0" value="-1.57" />
 	</trackD>
 	
 	<trackVec2f name="leftPos" interpolation="cubic">
-		<keyframeVec2f time="0.0" x="-5" y="-30.0" />
-		<keyframeVec2f time="0.10" x="-5" y="-10.0" />
-		<keyframeVec2f time="0.20" x="-5" y="0.0" />
-		<keyframeVec2f time="0.30" x="-5" y="40.0" />
-		<keyframeVec2f time="0.40" x="-5" y="50.0" />
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="2.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="3.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="4.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="5.0" x="0.0" y="0.0" />
 	</trackVec2f>
 	
 	<trackD name="leftRot" interpolation="cubic">
-		<keyframeD time="0.0" value="1.0" />
-		<keyframeD time="0.10" value="0.5" />
-		<keyframeD time="0.20" value="-0.0" />
-		<keyframeD time="0.30" value="-0.5" />
-		<keyframeD time="0.40" value="-1.0" />
+		<keyframeD time="0.0" value="-0.75" />
+		<keyframeD time="2.0" value="-1.57" />
+		<keyframeD time="3.0" value="0.5" />
+		<keyframeD time="4.0" value="1.0" />
+		<keyframeD time="5.0" value="1.57" />
 	</trackD>
 
 </animation>
