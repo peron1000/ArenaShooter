@@ -32,7 +32,7 @@ public class Loading extends GameState {
 		ArrayList<Entity> entities = new ArrayList<>();
 
 		//Camera
-		Camera cam = new Camera(new Vec3f(0, 0, 600));
+		Camera cam = new Camera(new Vec3f(0, 0, 40));
 		cam.setFOV(90);
 		entities.add(cam);
 		Window.setCamera(cam);

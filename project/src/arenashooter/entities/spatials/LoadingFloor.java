@@ -12,7 +12,7 @@ public class LoadingFloor extends Spatial {
 	private static final Texture[] tex;
 	private static final Material material;
 	private static final Model model;
-	static private final Vec2f size = new Vec2f(128, 256);
+	static private final Vec2f size = new Vec2f(1.28, 2.56);
 	
 	private int currentTex;
 	private double timer = 0;

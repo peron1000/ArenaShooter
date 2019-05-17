@@ -38,7 +38,7 @@ void main() {
     
     //Fog
     vec4 fogColor = vec4(directionalLightColor, 1.0);
-	float fogAmount = clamp( ( gl_FragCoord.z/gl_FragCoord.w )/250000, 0.0, 0.9 );
+	float fogAmount = clamp( ( gl_FragCoord.z/gl_FragCoord.w )/3000, 0.0, 0.9 );
 	fogAmount = mix(fogAmount, fogAmount*fogAmount, 0.5);
     
     FragmentColor = mix(FragmentColor, fogColor, fogAmount);

@@ -10,11 +10,11 @@
 				soundWarmup="warmup_minigun_01"
 				bangSound="Bang1"
 				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="2" recoil="0.2"
-				thrust="2.75" size="64" proba="1">
+				bulletSpeed="35" damage="1" cannonLength="1.9" recoil="0.2"
+				thrust="2.6" size="64" proba="1">
 
-				<vecteur use="handPosL" x="-2.5" y=".6" />
-				<vecteur use="handPosR" x=".3" y=".3" />
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
 			</gun>
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
@@ -22,11 +22,11 @@
 				soundWarmup=""
 				bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength=".58" recoil="1.6"
+				bulletSpeed="35" damage="1" cannonLength="1.38" recoil="1.6"
 				thrust="2.00" size="64" proba="1">
 
-				<vecteur use="handPosL" x="-2.5" y=".8" />
-				<vecteur use="handPosR" x=".3" y=".4" />
+				<vecteur use="handPosL" x="-.32" y=".15" />
+				<vecteur use="handPosR" x=".25" y=".05" />
 			</gun>
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
@@ -34,7 +34,7 @@
 				soundWarmup="IonCharge3"
 				bangSound="BangIonGun"
 				noAmmoSound="no_ammo_01" bulletType="1"
-				bulletSpeed="30" damage="1" cannonLength=".5" recoil="1"
+				bulletSpeed="30" damage="1" cannonLength="1.38" recoil="1"
 				thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-2.5" y=".6" />
@@ -49,14 +49,14 @@
 				bulletSpeed="32" damage="2" cannonLength=".6" recoil="2"
 				thrust="25.00" size="2"  proba="1">
 
-				<vecteur use="handPosL" x=".1" y="0" />
-				<vecteur use="handPosR" x=".15" y="0" />
+				<vecteur use="handPosL" x="-.65" y=".15" />
+				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 					<vecteur use="position" x="0" y="1" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x=".35" y=".35" z=".35" />
+					<vecteur use="scale" x=".5" y=".5" z=".5" />
 				</mesh>
 			</entities>
 		</spawn>
@@ -69,11 +69,11 @@
 				soundWarmup="warmup_minigun_01"
 				bangSound="Bang1"
 				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1" recoil="0.2"
-				thrust="2.75" size="64" proba="1">
+				bulletSpeed="35" damage="1" cannonLength="1.9" recoil="0.2"
+				thrust="2.6" size="64" proba="1">
 
-				<vecteur use="handPosL" x="-2.5" y=".6" />
-				<vecteur use="handPosR" x=".3" y=".3" />
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
 			</gun>
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
@@ -81,11 +81,11 @@
 				soundWarmup=""
 				bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength=".58" recoil="1.6"
+				bulletSpeed="35" damage="1" cannonLength="1.38" recoil="1.6"
 				thrust="2.00" size="64" proba="1">
 
-				<vecteur use="handPosL" x="-2.5" y=".8" />
-				<vecteur use="handPosR" x=".3" y=".4" />
+				<vecteur use="handPosL" x="-.32" y=".15" />
+				<vecteur use="handPosR" x=".25" y=".05" />
 			</gun>
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
@@ -93,11 +93,11 @@
 				soundWarmup="IonCharge3"
 				bangSound="BangIonGun"
 				noAmmoSound="no_ammo_01" bulletType="1"
-				bulletSpeed="30" damage="1" cannonLength=".5" recoil="1"
+				bulletSpeed="30" damage="1" cannonLength="1.38" recoil="1"
 				thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-2.5" y=".6" />
-				<vecteur use="handPosR" x=".3" y=".3" />
+				<vecteur use="handPosR" x=".3" y=".1" />
 			</gun>
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
@@ -105,11 +105,11 @@
 				soundWarmup=""
 				bangSound="bang_shotgun_01"
 				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.3" bulletType="0"
-				bulletSpeed="32" damage="3" cannonLength=".6" recoil="2"
+				bulletSpeed="32" damage="2" cannonLength=".6" recoil="2"
 				thrust="25.00" size="2"  proba="1">
 
-				<vecteur use="handPosL" x=".1" y="0" />
-				<vecteur use="handPosR" x=".15" y="0" />
+				<vecteur use="handPosL" x="-.65" y=".15" />
+				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
@@ -124,7 +124,7 @@
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 					<vecteur use="position" x="0" y="1" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x=".35" y=".35" z=".35" />
+					<vecteur use="scale" x=".5" y=".5" z=".5" />
 				</mesh>
 			</entities>
 		</spawn>
@@ -158,23 +158,23 @@
 		</plateform>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
-			<vecteur use="position" x="22500" y="28000" z="-62500" />
+			<vecteur use="position" x="225" y="280" z="-625" />
 			<vecteur use="rotation" x="0" y=".2" z="0" w="1" />
-			<vecteur use="scale" x="95" y="95" z="95" />
+			<vecteur use="scale" x="9.5" y="9.5" z="9.5" />
 			<entities>
 				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
 					<!-- <vecteur use="position" x="-300" y="1200" z="0" /> -->
-					<vecteur use="position" x="21200" y="13500" z="-61500" />
+					<vecteur use="position" x="212" y="135" z="-615" />
 					<vecteur use="rotation" x="0" y=".2" z="0" w="1" />
-					<vecteur use="scale" x="95" y="95" z="95" />
+					<vecteur use="scale" x="9.5" y="9.5" z="9.5" />
 				</mesh>
 			</entities>
 		</mesh>
 
 		<mesh src="data/meshes/landscape_field/Hill.obj">
-			<vecteur use="position" x="0" y="53500" z="-22000" />
+			<vecteur use="position" x="0" y="535" z="-220" />
 			<vecteur use="rotation" x="-0.2" y="0" z="0" w="1" />
-			<vecteur use="scale" x="30" y="30" z="30" />
+			<vecteur use="scale" x="3" y="3" z="3" />
 		</mesh>
 
 	</entities>

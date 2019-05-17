@@ -158,7 +158,7 @@ public class Shotgun extends Gun {
 				rotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
-				Window.getCamera().setCameraShake(2.8f);
+				Window.getCamera().setCameraShake(.029f);
 			} else {
 				((SoundEffect) getChildren().get("snd_NoAmmo")).play();
 			}
