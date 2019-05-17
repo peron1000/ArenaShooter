@@ -73,15 +73,12 @@ public class MapChooser extends GameState {
 		
 		selectMap(0);
 		
-		Material mat = new Material("data/shaders/sprite_simple");
-		mat.setParamTex("baseColor", Texture.loadTexture("data/MAP_VIS/" + maps.get(0) + ".png"));
-		Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(0), mat);
-		m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(0));
-//		for (int i = 0; i < maps.size(); i++) {
-//			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), thumbnailShader,
-//					Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
-//			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
-//		}
+		for (int i = 0; i < maps.size(); i++) {
+			Material mat = new Material("data/shaders/sprite_simple");
+			mat.setParamTex("baseColor", Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
+			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), mat);
+			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
+		}
 		
 		// params
 //		createTextGameMode(gameModeString+gameParam.getMode().name());
@@ -103,15 +100,6 @@ public class MapChooser extends GameState {
 //			gameMode.detach();
 //			createTextGameMode(gameModeString+gameParam.getMode());
 //		}
-//		
-		
-		if(lastThumbnail < maps.size()) {
-			Material mat = new Material("data/shaders/sprite_simple");
-			mat.setParamTex("baseColor", Texture.loadTexture("data/MAP_VIS/" + maps.get(lastThumbnail) + ".png"));
-			Mesh m = Mesh.quad(new Vec3f(lastThumbnail), Quat.fromAngle(0), new Vec3f(0), mat);
-			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(lastThumbnail));
-			lastThumbnail++;
-		}
 		
 		// Temp sprite changing
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
