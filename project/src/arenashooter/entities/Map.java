@@ -2,13 +2,16 @@ package arenashooter.entities;
 
 import java.util.ArrayList;
 
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.spatials.AnimationTester;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
@@ -90,19 +93,17 @@ public class Map extends Entity {
 	private void createTestEntities() {
 		// Rigid body 1
 		Vec2f position = new Vec2f(0, -7);
-		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, .5, 1, .3f);
+		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(5, .5)), position, .5, 1, .3f);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
-		Sprite rbSprite = new Sprite(new Vec2f(), "data/default_texture.png");
-		rbSprite.size = new Vec2f(2, 1);
 		rb.attachToParent(this, "Rigid Body test");
-		rbSprite.rotationFromParent = true;
-		rbSprite.attachToParent(rb, "Sprite");
+		Mesh rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
+		rbMesh.attachToParent(rb, "mesh");
 
 		// Rigid body 2
 		position = new Vec2f(-7, 0);
 		body = new RigidBody(new ShapeDisk(.5), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
-		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(1, 1);
 		rb.attachToParent(this, "Rigid Body test 2");
 		rbSprite.rotationFromParent = true;
