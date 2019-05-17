@@ -150,10 +150,10 @@ public class CharacterSprite extends Spatial {
 		}
 
 		if (moveSpeed > 0) {
-			footL.localPosition.x = (float) (-.282 + footCos * .08);
+			footL.localPosition.x = (float) (-.3 + footCos * .08);
 			footL.localPosition.y = (float) (.65 + footSin * .16);
 
-			footR.localPosition.x = (float) (.282 - footSin * .08);
+			footR.localPosition.x = (float) (.3 - footSin * .08);
 			footR.localPosition.y = (float) (.65 + footCos * .16);
 
 			if (lookRight) {
@@ -164,10 +164,10 @@ public class CharacterSprite extends Spatial {
 				footR.zIndex = 1;
 			}
 		} else {
-			footL.localPosition.x = (float) (.282 - footCos * .08);
+			footL.localPosition.x = (float) (.3 - footCos * .08);
 			footL.localPosition.y = (float) (.65 + footSin * .16);
 
-			footR.localPosition.x = (float) (-.282 + footSin * .08);
+			footR.localPosition.x = (float) (-.3 + footSin * .08);
 			footR.localPosition.y = (float) (.65 + footCos * .16);
 
 			if (lookRight) {

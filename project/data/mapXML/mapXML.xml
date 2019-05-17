@@ -144,17 +144,17 @@
 	<entities>
 		<plateform>
 			<vecteur x="0" y="4" use="position" />
-			<vecteur x="75" y="2" use="extent" />
+			<vecteur x="50" y="2" use="extent" />
 		</plateform>
 		
 		<plateform>
-			<vecteur x="125" y="-5" use="position" />
-			<vecteur x="50" y="3" use="extent" />
+			<vecteur x="70" y="-1" use="position" />
+			<vecteur x="20" y="0.5" use="extent" />
 		</plateform>
 		
 		<plateform>
-			<vecteur x="-125" y="-5" use="position" />
-			<vecteur x="50" y="3" use="extent" />
+			<vecteur x="-70" y="-1" use="position" />
+			<vecteur x="20" y="0.5" use="extent" />
 		</plateform>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
