@@ -40,7 +40,7 @@ public class Character extends Spatial {
 		super(position);
 		
 //		Sprite colliderVis = new Sprite(new Vec2f(), "data/default_texture.png");
-//		colliderVis.size = new Vec2f(.9, 2);
+//		colliderVis.size = new Vec2f(1, 2);
 //		colliderVis.attachToParent(this, "collider_vis");
 //		colliderVis.zIndex = -10;
 
@@ -50,7 +50,7 @@ public class Character extends Spatial {
 
 		rotation = 0;
 
-		collider = new Collider(this.pos(), new Vec2f(.45, 1));
+		collider = new Collider(this.pos(), new Vec2f(.5, 1));
 		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
