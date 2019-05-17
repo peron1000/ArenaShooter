@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -11,6 +12,7 @@ import arenashooter.engine.input.Action;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Controller;
+import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
@@ -20,8 +22,9 @@ public class CharacterChooser extends GameState {
 
 	private HashMap<Device, Controller> controllers = new HashMap<>(1);
 	private HashMap<Controller, CharacterSprite> sprites = new HashMap<>(1);
-	final int posdedepart = -300;
-	private int i = posdedepart;
+	private final double posdedepart = -3;
+	private double i = posdedepart;
+	private final double charOffset = 2;
 
 	public Collection<Controller> getControllers() {
 		return controllers.values();
@@ -31,27 +34,33 @@ public class CharacterChooser extends GameState {
 	public void init() {
 		super.init();
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
-		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -500, -10), new Vec3f(450), text);
+		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(map, "Text_Select");
 
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change your figther");
-		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -400, -10), new Vec3f(250), text2);
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(map, "Text_char");
 
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Z and S to change your skin");
-		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -350, -10), new Vec3f(250), text3);
+		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -5, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(map, "Text_touch");
 
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to go to the map chooser");
-		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 400, -10), new Vec3f(350), text4);
+		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
 		textEnt4.attachToParent(map, "Text_touch2");
+		
+		//Set camera
+		Camera cam = new Camera(new Vec3f(0, 0, 8));
+		cam.setFOV(90);
+		map.attachToParent(cam, "camera");
+		Window.setCamera(cam);
 
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
 		controllers.put(Device.KEYBOARD, controllerKeyboard);
 		GameMaster.gm.controllers.add(controllerKeyboard);
 		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.info);
 		sprites.put(controllerKeyboard, c);
-		i += 150;
+		i += charOffset;
 		c.attachToParent(map, c.genName());
 	}
 
@@ -64,7 +73,7 @@ public class CharacterChooser extends GameState {
 				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.info);
 				sprites.put(newController, c);
 				c.attachToParent(map, c.genName());
-				i += 150;
+				i += charOffset;
 			}
 			// TODO : remove controller when UI_BACK is pressed
 			if (Input.actionPressed(device, Action.UI_BACK) && controllers.keySet().contains(device)
@@ -75,7 +84,7 @@ public class CharacterChooser extends GameState {
 				sprites.get((controllers.get(device))).detach();
 				sprites.remove((controllers.get(device)));
 				controllers.remove(device);
-				// i -= 150;
+				// i -= charOffset;
 
 				// replacement des persos après suppr
 				for (Map.Entry<Controller, CharacterSprite> entry : sprites.entrySet()) {
@@ -86,7 +95,7 @@ public class CharacterChooser extends GameState {
 					if (!key.getDevice().equals(Device.KEYBOARD)) {
 
 						if (jj > sp.parentPosition.x) {
-							jj -= 150;
+							jj -= charOffset;
 							Vec2f pos = new Vec2f(jj, 0);
 							value.parentPosition.set(pos);
 							// value.destroy();
@@ -98,7 +107,7 @@ public class CharacterChooser extends GameState {
 						}
 					}
 				}
-				i -= 150;
+				i -= charOffset;
 
 			}
 
