@@ -132,13 +132,25 @@ public class Map extends Entity {
 		
 		// Rigid body 5
 		position = new Vec2f(10, -12);
-		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 1.56, 1, .3f);
+		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0.1, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rb.attachToParent(this, "Rigid Body test 5");
 		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
 		rbMesh.rotationFromParent = true;
 		rbMesh.scale.x = 2;
 		rbMesh.attachToParent(rb, "mesh");
+		
+		// Moult caisses
+		for(int i=0; i<32; i++) {
+			position = new Vec2f(5, -i*1.1);
+			body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0, 1, .3f);
+			rb = new RigidBodyContainer(position, body);
+			rb.attachToParent(this, "Rigid body crate "+i);
+			rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
+			rbMesh.rotationFromParent = true;
+			rbMesh.scale.x = 2;
+			rbMesh.attachToParent(rb, "mesh");
+		}
 		
 		AnimationTester animTester = new AnimationTester(new Vec2f(5, 0));
 		animTester.attachToParent(this, "anim tester 1");
