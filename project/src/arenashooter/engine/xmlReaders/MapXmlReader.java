@@ -19,10 +19,9 @@ import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.Spawner;
+import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.entities.spatials.TextSpatial;
-import arenashooter.entities.spatials.Tuple;
 import arenashooter.entities.spatials.items.Gun;
-import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Shotgun;
 import arenashooter.entities.spatials.items.Usable;
@@ -415,6 +414,12 @@ public class MapXmlReader extends XmlReader {
 		for (Element plateform : plateforms) {
 			loadPlateform(plateform, parent);
 		}
+		
+		// Static bodies
+		List<Element> statics = getListElementByName("static", entities);
+		for (Element body : statics) {
+			loadStaticBody(body, parent);
+		}
 
 		// mesh
 		List<Element> meshs = getListElementByName("mesh", entities);
@@ -528,7 +533,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Plateform dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
+			System.err.println("Balise Plateform dans XML ne possède pas " + nbVec + " vecteurs");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -540,7 +545,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Vecteur dans Plateform mal dÃ©fini");
+					System.err.println("Vecteur dans Plateform mal défini");
 					break;
 				}
 			}
@@ -559,6 +564,49 @@ public class MapXmlReader extends XmlReader {
 		for (Element entities : entitiess) {
 			loadEntities(entities, parent);
 		}
+	}
+	
+	private void loadStaticBody(Element entity, Entity parent) { //TODO: Add support for circular static bodies
+		//Read position and extent values
+		List<Element> vecteurs = getListElementByName("vecteur", entity);
+		Vec2f position = new Vec2f(), extent = new Vec2f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("StaticBody element should have " + nbVec + " vectors");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVecteur vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec2f(vec.x, vec.y);
+					break;
+				case "extent":
+					extent = new Vec2f(vec.x, vec.y);
+					break;
+				default:
+					System.err.println("Invalid vector definition in StaticBody");
+					break;
+				}
+			}
+		}
+		
+		//Read optional rotation
+		double rotation = 0.0;
+		if(entity.hasAttribute("rotation")) rotation = Double.parseDouble(entity.getAttribute("rotation"));
+		
+		//Create entity
+		StaticBodyContainer e = new StaticBodyContainer(position, extent, rotation);
+		
+		//Attach new entity
+		if (entity.hasAttribute("name"))
+			e.attachToParent(parent, entity.getAttribute("name"));
+		else
+			e.attachToParent(parent, e.genName());
+		
+		//Load children
+		List<Element> entitiess = getListElementByName("entities", entity);
+		for (Element entities : entitiess)
+			loadEntities(entities, e);
 	}
 
 	private void loadEntity(Element entity, Entity parent) {

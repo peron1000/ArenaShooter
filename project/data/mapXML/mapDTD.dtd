@@ -14,7 +14,7 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|plateform|mesh|text)*>
+<!ELEMENT entities (entity|plateform|mesh|text|static)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT plateform (vecteur , vecteur, entities?)>
@@ -26,6 +26,9 @@
 <!ATTLIST text name CDATA #IMPLIED>
 <!ATTLIST text content CDATA #REQUIRED>
 <!ATTLIST text font CDATA #REQUIRED>
+<!ELEMENT static (vecteur, vecteur, entities?)>
+<!ATTLIST static name CDATA #IMPLIED>
+<!ATTLIST static rotation CDATA #IMPLIED>
 
 <!-- Misc -->
 <!ELEMENT vecteur EMPTY>

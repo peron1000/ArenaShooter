@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.StaticBody;
+import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.game.Main;
 
 public class StaticBodyContainer extends Spatial {
@@ -13,6 +14,10 @@ public class StaticBodyContainer extends Spatial {
 	public StaticBodyContainer(Vec2f position, StaticBody body) {
 		super(position);
 		this.body = body;
+	}
+	
+	public StaticBodyContainer(Vec2f position, Vec2f extent, double rotation) {
+		this(position, new StaticBody(new ShapeBox(extent), position, rotation));
 	}
 	
 	@Override

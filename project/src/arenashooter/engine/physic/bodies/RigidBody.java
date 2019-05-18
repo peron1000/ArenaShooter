@@ -13,7 +13,7 @@ import arenashooter.engine.physic.PhysicWorld;
  * Fully simulated object
  */
 public class RigidBody extends PhysicBody {
-	float density = 1.0f, friction = 0.3f;
+	float density = 1.0f, friction = 0.3f, restitution = 0.25f;
 	
 	public RigidBody(PhysicShape shape, Vec2f position, double rotation, float density, float friction) {
 		super(shape, position, rotation);
@@ -39,7 +39,8 @@ public class RigidBody extends PhysicBody {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.setShape(shape.getB2Shape());
 		fixtureDef.setDensity(density);
-		fixtureDef.friction = friction;
+		fixtureDef.setRestitution(restitution);
+		fixtureDef.setFriction(friction);
 		
 		body.createFixture(fixtureDef);
 	}
