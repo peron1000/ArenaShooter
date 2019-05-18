@@ -29,6 +29,19 @@ public class Spatial3 extends Entity {
 		return ((int)pos().z)+zIndex;
 	}
 	
+	@Override
+	public Entity attachToParent(Entity newParent, String name) {
+		Entity prev = super.attachToParent(newParent, name);
+		
+		if (newParent instanceof Spatial) {
+			parentPosition.x = ((Spatial) newParent).pos().x;
+			parentPosition.y = ((Spatial) newParent).pos().y;
+		} else if (newParent instanceof Spatial3)
+			parentPosition.set(((Spatial3) newParent).pos());
+		
+		return prev;
+	}
+	
 	/**
 	 * Get this entity's world position
 	 * @return parent position + local position
