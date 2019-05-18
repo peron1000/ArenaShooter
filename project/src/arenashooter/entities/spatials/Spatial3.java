@@ -48,8 +48,7 @@ public class Spatial3 extends Entity {
 	 */
 	public Vec3f pos() {
 		if(rotationFromParent)
-//			return Vec3f.add(parentPosition, Vec3f.rotate(localPosition, rotation)); //TODO
-			return Vec3f.add(parentPosition, localPosition);
+			return Vec3f.add(parentPosition, rotation.rotate(localPosition));
 		else
 			return Vec3f.add(parentPosition, localPosition);
 	}
