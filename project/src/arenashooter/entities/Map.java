@@ -152,7 +152,7 @@ public class Map extends Entity {
 			rbMesh.attachToParent(rb, "mesh");
 		}
 		
-		AnimationTester animTester = new AnimationTester(new Vec2f(5, 0));
+		AnimationTester animTester = new AnimationTester(new Vec2f(-15, 0));
 		animTester.attachToParent(this, "anim tester 1");
 	}
 }

@@ -23,11 +23,11 @@ out struct Light {
 } light;
 
 void main() {
-    mat4 viewModel = view * model;
-    mat4 mvp = projection * viewModel;
+    mat4 modelView = view * model;
+    mat4 mvp = projection * modelView;
     gl_Position = mvp * vec4(position, 1.0);
     texCoord = uv;
-    normalCamSpaceIn = normalize( ( viewModel * vec4(normal, 0.0) ).xyz );
+    normalCamSpaceIn = normalize( transpose(inverse(mat3(modelView))) * normal );
     
     ambient = vec3(0.063, 0.078, 0.078);
     

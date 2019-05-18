@@ -3,7 +3,9 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.IAnimated;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
 
 public class AnimationTester extends Spatial implements IAnimated {
@@ -13,8 +15,8 @@ public class AnimationTester extends Spatial implements IAnimated {
 	public AnimationTester(Vec2f position) {
 		super(position);
 
-		Sprite sprite = new Sprite(position, "data/sprites/UnMoineHD.png");
-		sprite.attachToParent(this, "moine");
+		Mesh mesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/test_ball.obj");
+		mesh.attachToParent(this, "mesh");
 		
 		setAnim(new Animation( AnimationData.loadAnim("data/animations/animTest.xml") ));
 		playAnim();
@@ -24,10 +26,10 @@ public class AnimationTester extends Spatial implements IAnimated {
 	public void step(double d) {
 		anim.step(d);
 		
-		Entity sprite = getChildren().get("moine");
-		if( sprite instanceof Sprite ) {
-			((Sprite)sprite).localPosition.set(anim.getTrackVec2f("pos"));
-			((Sprite)sprite).rotation = anim.getTrackD("rot");
+		Entity mesh = getChildren().get("mesh");
+		if( mesh instanceof Mesh ) {
+			((Mesh)mesh).localPosition.set(anim.getTrackVec3f("pos"));
+			((Mesh)mesh).rotation = Quat.fromAngle(anim.getTrackD("rot"));
 		}
 		
 		super.step(d);

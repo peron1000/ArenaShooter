@@ -29,7 +29,8 @@ void main() {
     
     if(textureSample.a <= 0) discard;
 
-	float lightAmount = (dot(normalCamSpace, directionalLightDir)+1.0)/2.0;
+	//float lightAmount = max(dot(normalCamSpace, directionalLightDir), 0.0);
+	float lightAmount = max( (dot(normalCamSpace, directionalLightDir)+1.0)/2.0, 0.0 );
 	
 	lightAmount = mix( 0.2, 1.5, lightAmount );
 
@@ -42,7 +43,7 @@ void main() {
 	fogAmount = mix(fogAmount, fogAmount*fogAmount, 0.5);
     
     FragmentColor = mix(FragmentColor, fogColor, fogAmount);
-    
+
     //FragmentColor = vec4( (normalCamSpace+1.0)/2.0, 1.0 ); //Normal viewer
 }
 
