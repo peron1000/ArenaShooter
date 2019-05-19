@@ -62,8 +62,9 @@ public class Menu {
 
 	public void draw() {
 		Window.beginUi();
-		for (LinkedList<UiElement> elem : elems.values()) {
-			for (UiElement uiElement : elem) {
+		for (int i = 0; i < maxLayout; i++) {
+			LinkedList<UiElement> list = elems.get(Integer.valueOf(i));
+			for (UiElement uiElement : list) {
 				if(uiElement.visible) {
 					uiElement.draw();
 				}

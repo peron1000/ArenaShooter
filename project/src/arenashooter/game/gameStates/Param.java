@@ -6,11 +6,10 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Label;
+import arenashooter.engine.ui.Button;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Rectangle;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiImage;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
@@ -19,9 +18,9 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Param extends GameState {
 
 	private GameParam gameParam;
-	private MenuSelectionV<UiElement> menu = new MenuSelectionV<UiElement>(10);
+	private MenuSelectionV<Button> menu = new MenuSelectionV<Button>(10);
 	private UiImage selec;
-	private Label param1, param2, param3, param4;
+	private Button param1, param2, param3, param4;
 	private boolean activated = false;
 	private Rectangle carre;
 	private Vec4f color1 = new Vec4f(0.02f, 0.05f, 0.9f, 1), color2 = new Vec4f(0.8f, 0.1f, 0.4f, 1);
@@ -38,12 +37,12 @@ public class Param extends GameState {
 
 		new UiImage(menu, new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1) , 0);
 
-		final float y = -40, scale = 20f;
-		param1 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), gameParam.getStringGameMode() , 1);
-		param2 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), gameParam.getStringRound() , 1);
-		param3 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), gameParam.getStringTeam() , 1);
-		param4 = new Label(menu, new Vec2f(), 0, new Vec2f(scale), "Parametre" , 1);
-		carre = new Rectangle(menu, new Vec2f(0, y), 0, new Vec2f(scale), color1 , 1);
+		final float y = -40, scaleY = 5.5f , scaleX = 50f;
+		param1 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringGameMode() , 1);
+		param2 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringRound() , 1);
+		param3 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringTeam() , 1);
+		param4 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), "Parametre" , 1);
+		carre = new Rectangle(menu, new Vec2f(0, y), 0, new Vec2f(scaleY), color1 , 1);
 
 		param1.ui_Pointation(null, null, carre, null);
 		param1.addAction("right", new Trigger() {
@@ -115,6 +114,7 @@ public class Param extends GameState {
 		carre.ui_Pointation(null, null, param1, param1);
 
 		menu.focus = param1;
+		
 
 		super.init();
 	}
