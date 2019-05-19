@@ -31,17 +31,29 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 			}
 		}
 		final float scale = 27f;
-	
-		new Rectangle(this, new Vec2f(), 0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25) , 0);
-		new Label(this, new Vec2f(0, -30), 0, new Vec2f(50, 50), "PAUSE" , 1);
 		
-		op1 = new Label(this, new Vec2f(0, -15), 0, new Vec2f(scale), "Resume" , 1);
-				
-		op2 = new Label(this, new Vec2f(0, -5), 0, new Vec2f(scale), "Score" , 1);
+		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
+		texture2.setFilter(false);		
+		selec = new UiImage(new Vec2f(), 0, new Vec2f(45,18), texture2,
+				new Vec4f(1, 1, 1, 1));
+		setImageSelec(selec, 2);
 	
-		op3 = new Label(this, new Vec2f(0, 5), 0, new Vec2f(scale), "Option" , 1);
+		Rectangle rec = new Rectangle(new Vec2f(), 0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
+		setBackground(rec);
+		Label pause = new Label(new Vec2f(0, -30), 0, new Vec2f(50, 50), "PAUSE");
+		addUiElement(pause, 0);
+		
+		op1 = new Label(new Vec2f(0, -15), 0, new Vec2f(scale), "Resume");
+		addElementInListOfChoices(op1, 1);
+		
+		op2 = new Label(new Vec2f(0, -5), 0, new Vec2f(scale), "Score" );
+		addElementInListOfChoices(op2, 1);
+	
+		op3 = new Label(new Vec2f(0, 5), 0, new Vec2f(scale), "Option");
+		addElementInListOfChoices(op3, 1);
 
-		op4 = new Label(this, new Vec2f(0, 15), 0, new Vec2f(scale), "Quit : Alt+f4" , 1);
+		op4 = new Label(new Vec2f(0, 15), 0, new Vec2f(scale), "Quit : Alt+f4");
+		addElementInListOfChoices(op4, 1);
 	
 		op1.addAction("ok", new Trigger() {
 
@@ -82,17 +94,8 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 		});
 		
 		op3.visible = false;
-		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
-		texture2.setFilter(false);		
-		selec = new UiImage(this, new Vec2f(), 0, new Vec2f(45,18), texture2,
-				new Vec4f(1, 1, 1, 1) , 2);
 		this.ecartement = 10;
-		this.setImageSelec(selec);
-		this.setPositionRef(new Vec2f(0, -25));
-		this.addElement(op1);
-		this.addElement(op2);	
-		this.addElement(op3);
-		this.addElement(op4);
+		this.setPositionRef(new Vec2f(0, -15));
 		//this.focus = op1;
 		
 	

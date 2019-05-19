@@ -12,8 +12,8 @@ public class UiImage extends UiElement {
 	private static Model model;
 	private Material material;
 
-	public UiImage(Menu owner, Vec2f pos, double rot, Vec2f scale, Texture texture, Vec4f color , int layout) {
-		super(owner, pos, rot, scale , layout);
+	public UiImage(Vec2f pos, double rot, Vec2f scale, Texture texture, Vec4f color) {
+		super(pos, rot, scale);
 		
 		if(model == null) model = Model.loadQuad();
 
