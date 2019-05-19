@@ -11,8 +11,8 @@ public class Rectangle extends UiElement {
 	private static Model model;
 	private Material material;
 
-	public Rectangle(Menu owner, Vec2f pos, double rot, Vec2f scale, Vec4f color) {
-		super(owner, pos, rot, scale);
+	public Rectangle(Menu owner, Vec2f pos, double rot, Vec2f scale, Vec4f color , int layout) {
+		super(owner, pos, rot, scale , layout);
 
 		if(model == null) model = Model.loadQuad();
 

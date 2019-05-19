@@ -5,15 +5,19 @@ import java.util.LinkedList;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
-public class MenuSelectionV extends Menu {
+public class MenuSelectionV<Element extends UiElement> extends Menu {
 	private UiImage selec;
 	public float ecartement = 5;
 	private Vec2f positionRef = new Vec2f();
 	private int index = 0;
-	private LinkedList<UiElement> elements = new LinkedList<>();
+	private LinkedList<Element> elements = new LinkedList<>();
 	public boolean active = true;
+	
+	public MenuSelectionV(int maxLayout) {
+		super(maxLayout);
+	}
 
-	public void addElement(UiElement element) {
+	public void addElement(Element element) {
 		if (elements.isEmpty()) {
 			selec.pos = element.pos;
 		}
@@ -25,7 +29,7 @@ public class MenuSelectionV extends Menu {
 		element.visible = true;
 	}
 
-	public void removeElement(UiElement element) {
+	public void removeElement(Element element) {
 		if (elements.contains(element))
 			elements.remove(element);
 		if (element.pos.x == selec.pos.x && element.pos.y == selec.pos.y) {
@@ -63,7 +67,7 @@ public class MenuSelectionV extends Menu {
 		selec.pos.y = positionRef.y;
 	}
 
-	public UiElement getTarget() {
+	public Element getTarget() {
 		return elements.get(index);
 	}
 
@@ -74,7 +78,7 @@ public class MenuSelectionV extends Menu {
 		} else if(active) {
 			selec.visible = true;
 		}
-		for (UiElement uiElement : elements) {
+		for (Element uiElement : elements) {
 			uiElement.visible = true;
 			uiElement.update();
 		}

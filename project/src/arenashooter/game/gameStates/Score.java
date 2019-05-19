@@ -17,7 +17,7 @@ public class Score extends GameState {
 	
 	@Override
 	public void init(){
-		menu = new Menu();
+		menu = new Menu(10);
 		
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
 		texture1.setFilter(false);
@@ -25,7 +25,7 @@ public class Score extends GameState {
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);
 		
-		new UiImage(menu, new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
+		new UiImage(menu, new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1) , 0);
 		
 		super.init();
 	}

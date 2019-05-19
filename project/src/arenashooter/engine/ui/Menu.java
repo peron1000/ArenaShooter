@@ -1,11 +1,26 @@
 package arenashooter.engine.ui;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import arenashooter.engine.graphics.Window;
 
 public class Menu {
-	protected LinkedList<UiElement> elems = new LinkedList<>();
+	protected HashMap<Integer, LinkedList<UiElement>> elems = new HashMap<>();
+	protected final int maxLayout;
+
+	public Menu(int maxLayout) {
+		if(maxLayout < 1) {
+			Exception e = new Exception("Max layout trop petit");
+			e.printStackTrace();
+			this.maxLayout = maxLayout = 1;
+		} else {
+			this.maxLayout = maxLayout;
+		}
+		for (int i = 0; i < maxLayout; i++) {
+			elems.put(Integer.valueOf(i), new LinkedList<>());
+		}
+	}
 
 	public UiElement focus = null;
 
@@ -38,15 +53,22 @@ public class Menu {
 	}
 
 	public void update(double delta) {
-		for (UiElement elem : elems)
-			elem.update();
+		for (LinkedList<UiElement> elem : elems.values()) {
+			for (UiElement uiElement : elem) {
+				uiElement.update();
+			}
+		}
 	}
 
 	public void draw() {
 		Window.beginUi();
-		for (UiElement elem : elems) {
-			if (elem.visible)
-				elem.draw();
+		for (int i = 0; i < maxLayout; i++) {
+			LinkedList<UiElement> list = elems.get(Integer.valueOf(i));
+			for (UiElement uiElement : list) {
+				if(uiElement.visible) {
+					uiElement.draw();
+				}
+			}
 		}
 		Window.endUi();
 	}
