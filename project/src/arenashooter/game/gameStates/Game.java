@@ -102,7 +102,7 @@ public class Game extends GameState {
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)
 				| Input.actionJustPressed(Device.CONTROLLER01, Action.UI_PAUSE)) {
 			if (menu == null)
-				menu = new MenuPause();
+				menu = new MenuPause(10);
 			else
 				menu = null;
 		}

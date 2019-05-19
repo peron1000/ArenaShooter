@@ -12,8 +12,8 @@ public class Label extends UiElement {
 	private Material material;
 	private Text text;
 	
-	public Label(Menu owner, Vec2f pos, double rot, Vec2f scale, String text) {
-		super(owner, pos, rot, scale);
+	public Label(Menu owner, Vec2f pos, double rot, Vec2f scale, String text , int layout) {
+		super(owner, pos, rot, scale , layout);
 		this.text = new Text(Main.font, Text.TextAlignH.CENTER, text);
 		this.material = new Material("data/shaders/ui/ui_text_distance_field");
 		
