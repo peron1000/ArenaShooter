@@ -87,16 +87,18 @@ public class Shotgun extends Gun {
 					for (int i = 0; i < multiShot; i++) {
 
 						if (i > 3) {
-							Bullet bul = new Bullet(bulletPos,
-									Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random() - 0.5) * 2 * dispersion)),
-											1 + Math.random() / 4),
+							double rand = Math.random();
+							Bullet bul = new Bullet(
+									bulletPos, Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed, 1 + (1 - rand) * 0.2),
+															(Math.random()>=0.5 ? 1 : -1)* rand * dispersion)),
+													1 + Math.random() / 4),
 									damage);
 							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) parent);
 						} else {
 							Bullet bul = new Bullet(bulletPos,
-									Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random() - 0.5) * 0.5 * dispersion)),
+									Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed,1.2), (Math.random() - 0.5) * 0.5 * dispersion)),
 											1 + Math.random() / 4),
 									damage);
 							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));

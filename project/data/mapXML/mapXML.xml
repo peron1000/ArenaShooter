@@ -42,11 +42,11 @@
 			</gun>
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
-				cooldown="1.2" uses="6" animPath="" warmupDuration="0"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
 				soundWarmup=""
 				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.3" bulletType="0"
-				bulletSpeed="32" damage="2" cannonLength=".6" recoil="2"
+				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.18" bulletType="0"
+				bulletSpeed="45" damage="2" cannonLength=".6" recoil="2"
 				thrust="25.00" size="2"  proba="1">
 
 				<vecteur use="handPosL" x="-.65" y=".15" />
@@ -101,11 +101,11 @@
 			</gun>
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
-				cooldown="1.2" uses="6" animPath="" warmupDuration="0"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
 				soundWarmup=""
 				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.3" bulletType="0"
-				bulletSpeed="32" damage="2" cannonLength=".6" recoil="2"
+				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.18" bulletType="0"
+				bulletSpeed="45" damage="2" cannonLength=".6" recoil="2"
 				thrust="25.00" size="2"  proba="1">
 
 				<vecteur use="handPosL" x="-.65" y=".15" />
