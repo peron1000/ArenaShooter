@@ -11,7 +11,10 @@ import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.math.Utils;
 
 public class Main {
-	private static final int minFrametime = 8;
+	private static final int minFrametimeMilli = 8;
+	
+	/** Maximum duration of a step, longer steps will be broken down into sub-steps */
+	private static double tickLength = 1/150d;
 	
 	public static boolean drawCollisions = false;
 	
@@ -45,14 +48,23 @@ public class Main {
 			currentFrame = System.currentTimeMillis();
 			
 			//Limit delta to avoid errors
-			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, .001, .17);
+//			double delta = Math.max(tickLength, (double)(currentFrame-lastFrame)/1000d);
+			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, tickLength, .17);
 			
 			Profiler.beginFrame();
 			
-			Window.beginFrame();
-			
+			//If delta is too high, break down step into sub-steps
 			Profiler.startTimer(Profiler.STEP);
-			gameMaster.update(delta);
+			double remaining = delta;
+			while(remaining > tickLength) {
+				Window.beginFrame();
+				gameMaster.update(tickLength);
+				remaining -= tickLength;
+			}
+			if(remaining > 0) {
+				Window.beginFrame();
+				gameMaster.update(remaining);
+			}
 			Profiler.endTimer(Profiler.STEP);
 			
 			Profiler.startTimer(Profiler.RENDER);
@@ -65,16 +77,16 @@ public class Main {
 			fpsFrames++;
 			if(fpsFrames >= 10 && (currentFrame-fpsTime)>=250 ) {
 				double time = ((double)(currentFrame-fpsTime))/fpsFrames;
-				Window.setTitle( "Super Blep - " + (int)(1/(time/1000)) + "fps" );
+				Window.setTitle( "Super Blep - " + (int)(1/(time/1000d)) + "fps" );
 				fpsTime = currentFrame;
 				fpsFrames = 0;
 			}
 			
 			Profiler.startTimer(Profiler.SLEEP);
 			//Limit framerate
-			if(currentFrame-lastFrame < minFrametime)
+			if(currentFrame-lastFrame < minFrametimeMilli)
 				try {
-					Thread.sleep( minFrametime-(currentFrame-lastFrame) );
+					Thread.sleep( minFrametimeMilli-(currentFrame-lastFrame) );
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
