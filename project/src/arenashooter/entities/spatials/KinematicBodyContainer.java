@@ -28,6 +28,10 @@ public class KinematicBodyContainer extends Spatial {
 		body.setLinearVelocity(newVelocity);
 	}
 	
+	public KinematicBody getBody() {
+		return body;
+	}
+	
 	@Override
 	public void step(double d) {
 		if(needsPhysWorld) {

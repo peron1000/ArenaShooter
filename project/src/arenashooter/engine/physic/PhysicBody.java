@@ -23,6 +23,15 @@ public abstract class PhysicBody {
 		world = null;
 	}
 	
+	
+	public boolean isRotationLocked() { return bodyDef.isFixedRotation(); }
+	
+	public void setRotationLocked( boolean locked ) {
+		bodyDef.setFixedRotation(locked);
+		if(body != null)
+			body.setFixedRotation(locked);
+	}
+	
 	public boolean isActive() { return body.isActive(); }
 	
 	public void setActive(boolean active) { body.setActive(active); }

@@ -7,15 +7,16 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
+import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.spatials.AnimationTester;
+import arenashooter.entities.spatials.KinematicBodyContainer;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.entities.spatials.items.Shotgun;
 
 public class Map extends Entity {
 	/** Spawn points */
@@ -104,7 +105,7 @@ public class Map extends Entity {
 		position = new Vec2f(-7, 0);
 		body = new RigidBody(new ShapeDisk(.5), position, 0, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
-		Sprite rbSprite = new Sprite(new Vec2f(), "data/test.png");
+		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(1, 1);
 		rb.attachToParent(this, "Rigid Body test 2");
 		rbSprite.rotationFromParent = true;
@@ -151,6 +152,16 @@ public class Map extends Entity {
 			rbMesh.scale.x = 2;
 			rbMesh.attachToParent(rb, "mesh");
 		}
+		
+		
+		KinematicBody kBody = new KinematicBody(new ShapeDisk(1), new Vec2f(3, 0), 0, 1);
+		KinematicBodyContainer kBodyContainer = new KinematicBodyContainer(new Vec2f(3, 0), kBody);
+		rbSprite = new Sprite(new Vec2f(), "data/test.png");
+		rbSprite.size = new Vec2f(2, 2);
+		kBodyContainer.attachToParent(this, "Kinematic Body test");
+		rbSprite.rotationFromParent = true;
+		rbSprite.attachToParent(kBodyContainer, "Sprite");
+		
 		
 		AnimationTester animTester = new AnimationTester(new Vec2f(-15, 0));
 		animTester.attachToParent(this, "anim tester 1");
