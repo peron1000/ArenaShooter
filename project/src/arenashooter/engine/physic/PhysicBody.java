@@ -9,11 +9,13 @@ public abstract class PhysicBody {
 	protected PhysicShape shape;
 	protected BodyDef bodyDef;
 	protected Body body;
+	protected final CollisionFlags collFlags;
 	
 	protected PhysicWorld world;
 	
-	public PhysicBody(PhysicShape shape, Vec2f position, double rotation) {
+	public PhysicBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags) {
 		this.shape = shape;
+		this.collFlags = collFlags;
 	}
 	
 	public abstract void addToWorld(PhysicWorld world);
@@ -23,11 +25,23 @@ public abstract class PhysicBody {
 		world = null;
 	}
 	
+	
+	public boolean isRotationLocked() { return bodyDef.isFixedRotation(); }
+	
+	public void setRotationLocked( boolean locked ) {
+		bodyDef.setFixedRotation(locked);
+		if(body != null)
+			body.setFixedRotation(locked);
+	}
+	
 	public boolean isActive() { return body.isActive(); }
 	
 	public void setActive(boolean active) { body.setActive(active); }
 	
-	public Vec2f getPosition() { return new Vec2f(body.getPosition()); }
+	public Vec2f getPosition() {
+		if(body == null) return new Vec2f(bodyDef.getPosition());
+		return new Vec2f(body.getPosition());
+	}
 	
 	public float getRotation() { return body.getAngle(); }
 	

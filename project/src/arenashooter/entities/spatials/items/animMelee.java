@@ -3,6 +3,7 @@ package arenashooter.entities.spatials.items;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.IAnimated;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Spatial;
@@ -16,30 +17,30 @@ public class animMelee extends Spatial implements IAnimated {
 
 	public animMelee(Vec2f position, Item item) {
 		super(position);
-		this.sprite = item.getSprite();
 		setAnim(new Animation(AnimationData.loadAnim("data/animations/animTest2.xml")));
 		this.item = item;
+		this.sprite = item.getSprite();
 	}
 
 	@Override
 	public void step(double d) {
 		anim.step(d);
 		Character character = item.getCharacter();
-		Melee melee = (Melee) getParent();
 		sprite.rotationFromParent = true;
+		rotation = Utils.lerpAngle(rotation, Character.aimInput, Math.min(1, d * 17));
 		if (character != null) {
-			if (character.lookRight) {
+			//if (character.lookRight) {
 				sprite.localPosition = new Vec2f(-0.20, 0);
 				item.position.set(anim.getTrackVec2f("rightPos"));
-				item.rotation = anim.getTrackD("rightRot");
-				sprite.localPosition = new Vec2f(2.50, 0);
+				item.rotation = anim.getTrackD("rightRot") + rotation;
+				sprite.localPosition = new Vec2f(1.0, 0);
 
-			} else if (!character.lookRight) {
-				sprite.localPosition = new Vec2f(0.20, 0);
-				item.position.set(anim.getTrackVec2f("leftPos"));
-				item.rotation = anim.getTrackD("leftRot");
-				sprite.localPosition = new Vec2f(2.50, 0);
-			}
+//			} else if (!character.lookRight) {
+//				sprite.localPosition = new Vec2f(0.20, 0);
+//				item.position.set(anim.getTrackVec2f("leftPos"));
+//				item.rotation = anim.getTrackD("leftRot") + rotation;
+//				sprite.localPosition = new Vec2f(1.0, 0);
+//			}
 		}
 		super.step(d);
 
@@ -57,8 +58,12 @@ public class animMelee extends Spatial implements IAnimated {
 
 	@Override
 	public void stopAnim() {
-		// TODO Auto-generated method stub
+		anim.stopPlaying();
 
+	}
+	
+	public void isPlaying() {
+		anim.isPlaying();
 	}
 
 	@Override

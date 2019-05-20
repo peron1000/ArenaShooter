@@ -25,7 +25,7 @@ public class Character extends Spatial {
 	public float movementInput = 0;
 	public boolean lookRight = true;
 	public boolean isAiming = false;
-	public double aimInput = 0;
+	public static double aimInput = 0;
 
 	/**
 	 * The character is jumping

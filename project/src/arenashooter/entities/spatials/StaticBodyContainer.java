@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.game.Main;
@@ -17,7 +18,12 @@ public class StaticBodyContainer extends Spatial {
 	}
 	
 	public StaticBodyContainer(Vec2f position, Vec2f extent, double rotation) {
-		this(position, new StaticBody(new ShapeBox(extent), position, rotation));
+		this(position, new StaticBody(new ShapeBox(extent), position, rotation, CollisionFlags.LANDSCAPE));
+	}
+	
+	@Override
+	public Vec2f getWorldPos() {
+		return body.getPosition();
 	}
 	
 	@Override
