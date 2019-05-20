@@ -73,7 +73,6 @@ public abstract class Item extends Spatial {
 	 * @return Sprite of item
 	 */
 	public Sprite getSprite() {
-
 		return (Sprite) getChildren().get("Item_Sprite");
 	}
 
