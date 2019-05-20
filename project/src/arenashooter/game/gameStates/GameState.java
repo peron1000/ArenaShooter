@@ -10,8 +10,6 @@ import arenashooter.entities.spatials.Camera;
 public abstract class GameState {
 	protected Map map;
 
-	protected Menu menu = null;
-
 	public GameState() {
 		map = new Map();
 	}
@@ -25,16 +23,11 @@ public abstract class GameState {
 	}
 
 	public void update(double delta) {
-		if (menu != null)
-			menu.update(delta);
 		map.step(delta);
 	}
 
 	public void draw() {
 		map.drawSelfAndChildren();
-
-		if (menu != null)
-			menu.draw();
 
 		Window.endTransparency(); // Make sure to end transparency
 	}
