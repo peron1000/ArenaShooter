@@ -68,6 +68,22 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		});
 	}
 
+	public float getEcartementX() {
+		return ecartementX;
+	}
+
+	public void setEcartementX(float ecartementX) {
+		this.ecartementX = ecartementX;
+	}
+
+	public float getEcartementY() {
+		return ecartementY;
+	}
+
+	public void setEcartementY(float ecartementY) {
+		this.ecartementY = ecartementY;
+	}
+
 	public void put(E element, int layout, int x, int y) {
 		Coordonnees c = new Coordonnees(x, y);
 		mesElements.put(c, element);

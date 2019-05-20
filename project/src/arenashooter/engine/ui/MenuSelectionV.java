@@ -3,6 +3,8 @@ package arenashooter.engine.ui;
 import java.util.LinkedList;
 
 import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.NewValueEvent;
+import arenashooter.engine.events.menus.MenuActiveProperty;
 import arenashooter.engine.events.menus.MenuEventExit;
 import arenashooter.engine.events.menus.MenuEventExit.Side;
 import arenashooter.engine.math.Utils;
@@ -14,7 +16,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 	private Vec2f positionRef = getPosition();
 	private int index = 0;
 	private LinkedList<Element> elements = new LinkedList<>();
-	public boolean active = true;
+	public MenuActiveProperty active = new MenuActiveProperty();
 	public EventListener<MenuEventExit> exit = new EventListener<MenuEventExit>() {
 		
 		@Override
@@ -25,6 +27,15 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 
 	public MenuSelectionV(int maxLayout) {
 		super(maxLayout);
+		active.listener.add(new EventListener<NewValueEvent<Boolean>>() {
+			
+			@Override
+			public void action(NewValueEvent<Boolean> e) {
+				if(selec != null) {
+					selec.visible = e.getNewValue();
+				}
+			}
+		});
 	}
 
 	public void addElementInListOfChoices(Element element, int layout) {
@@ -103,11 +114,6 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 
 	@Override
 	public void update(double delta) {
-		if (elements.isEmpty() || !active) {
-			selec.visible = false;
-		} else if (active) {
-			selec.visible = true;
-		}
 		for (Element uiElement : elements) {
 			uiElement.visible = true;
 			uiElement.update();

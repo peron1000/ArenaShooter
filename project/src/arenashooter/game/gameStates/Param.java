@@ -1,5 +1,9 @@
 package arenashooter.game.gameStates;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.menus.MenuEventExit;
 import arenashooter.engine.graphics.Texture;
@@ -11,7 +15,6 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Button;
 import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
-import arenashooter.engine.ui.Rectangle;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
 import arenashooter.game.GameMaster;
@@ -22,11 +25,12 @@ public class Param extends GameState {
 
 	private GameParam gameParam;
 	private MenuSelectionV<Button> menuParam = new MenuSelectionV<Button>(10);
-	private MenuSelection<Rectangle> menuMap = new MenuSelection<>(10);
+	private MenuSelection<UiImage> menuMap = new MenuSelection<>(10);
 	private UiImage selec;
 	private Button param1, param2, param3, param4;
 	private boolean activated = false;
-	private Vec4f color1 = new Vec4f(0.02f, 0.05f, 0.9f, 1);
+	private ArrayList<String> maps = new ArrayList<>();
+	private TreeSet<String> selecMap = new TreeSet<>();
 
 	@Override
 	public void init() {
@@ -111,13 +115,46 @@ public class Param extends GameState {
 		menuParam.focus = param1;
 
 		// test
-		menuMap.setImageSelec(new UiImage(0, new Vec2f(3), texture2, new Vec4f(1, 1, 1, 1)), 3);
-		menuMap.setPosition(new Vec2f(10, -30));
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 6; j++) {
-				menuMap.put(new Rectangle(0, new Vec2f(2), color1), 2, i, j);
+		menuMap.setEcartementX(14);
+		menuMap.setEcartementY(14);
+		menuMap.setImageSelec(new UiImage(0, new Vec2f(15), texture2, new Vec4f(1, 1, 1, 1)), 3);
+		menuMap.setPosition(new Vec2f(-9, -30));
+		File mapFolder = new File("data/mapXML");
+		File[] folderContent = mapFolder.listFiles();
+		for (int i = 0; i < folderContent.length; i++) {
+			String name = folderContent[i].getPath();
+			int index = name.lastIndexOf('/');
+			if (index < 0)
+				index = name.lastIndexOf('\\'); // Special case for Windows
+			name = name.substring(index + 1);
+			if (!name.endsWith(".dtd")) {
+				name = name.substring(0, name.lastIndexOf('.'));
+				maps.add(name);
 			}
 		}
+
+		int y = 0, nbElemH = 7;
+		for (int i = 0; i < maps.size(); i++) {
+			String mapName = maps.get(i);
+			Texture image = Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png");
+			int x = i % nbElemH;
+			if (x == 0 && i != 0)
+				y++;
+			UiImage picture = new UiImage(0, new Vec2f(12) , image, new Vec4f(1, 1, 1, 1));
+			menuMap.put(picture, 1, x, y);
+			picture.addAction("selec", new Trigger() {
+				
+				@Override
+				public void make() {
+					if(selecMap.contains(mapName)) {
+						selecMap.remove(mapName);
+					} else {
+						selecMap.add(mapName);
+					}
+				}
+			});
+		}
+
 		menuMap.active.setValue(false);
 
 		menuParam.exit = new EventListener<MenuEventExit>() {
@@ -131,7 +168,7 @@ public class Param extends GameState {
 				case Right:
 				case Left:
 				default:
-					menuParam.active = false;
+					menuParam.active.setValue(false);
 					menuMap.active.setValue(true);
 					menuMap.restart();
 					break;
@@ -149,7 +186,7 @@ public class Param extends GameState {
 				case Right:
 				case Left:
 				default:
-					menuParam.active = true;
+					menuParam.active.setValue(true);
 					menuMap.active.setValue(false);
 					menuParam.restart();
 					break;
@@ -163,39 +200,44 @@ public class Param extends GameState {
 	@Override
 	public void update(double delta) {
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
-			if (!activated && menuParam.active) {
+			if (!activated && menuParam.active.getValue()) {
 				menuParam.up(delta);
 			} else if (menuMap.active.getValue()) {
 				menuMap.up();
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
-			if (!activated && menuParam.active) {
+			if (!activated && menuParam.active.getValue()) {
 				menuParam.down(delta);
 			} else if (menuMap.active.getValue()) {
 				menuMap.down();
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)) {
-			if (activated && menuParam.active) {
+			if (activated && menuParam.active.getValue()) {
 				menuParam.getTarget().lunchAction("left");
-			} else if(menuParam.active){
+			} else if (menuParam.active.getValue()) {
 				menuParam.left();
 			} else if (menuMap.active.getValue()) {
 				menuMap.left();
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
-			if (activated && menuParam.active) {
+			if (activated && menuParam.active.getValue()) {
 				menuParam.getTarget().lunchAction("right");
-			} else if(menuParam.active){
+			} else if (menuParam.active.getValue()) {
 				menuParam.right();
 			} else if (menuMap.active.getValue()) {
 				menuMap.right();
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.JUMP)) {
-			activated = !activated;
+			if (menuParam.active.getValue()) {
+				activated = !activated;
+			}
+			if (menuMap.active.getValue()) {
+				menuMap.getElemSelec().lunchAction("selec");
+			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
 			GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
