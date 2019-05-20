@@ -75,7 +75,7 @@ public class Shotgun extends Gun {
 				Vec2f aim = Vec2f.fromAngle(rotation);
 
 				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
-				Vec2f bulletPos = pos();
+				Vec2f bulletPos = getWorldPos();
 				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;

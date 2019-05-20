@@ -22,12 +22,12 @@ public class CircleBullet extends Projectile {
 		this.damage = damage;
 		this.sens = sens;
 
-		collider = new Collider(this.pos(), new Vec2f(.5, .5));
+		collider = new Collider(this.getWorldPos(), new Vec2f(.5, .5));
 		collider.attachToParent(this, "collider");
 
 		sndImpact.setVolume(.15f);
 		
-		Sprite bul = new Sprite(pos(), "data/sprites/Ion_Bullet.png");
+		Sprite bul = new Sprite(getWorldPos(), "data/sprites/Ion_Bullet.png");
 		bul.size = new Vec2f(bul.getTexture().getWidth()*.02, bul.getTexture().getHeight()*.02);
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
@@ -50,7 +50,7 @@ public class CircleBullet extends Projectile {
 		sprite.localPosition.x = (float) (-.2 + cos * .5);
 		sprite.localPosition.y = (float) (-.2 + sin * .5);
 
-		if (Math.abs(pos().x) > 10000 || Math.abs(pos().y) > 10000) {
+		if (Math.abs(getWorldPos().x) > 10000 || Math.abs(getWorldPos().y) > 10000) {
 			detach();
 		}
 		LinkedList<Entity> siblings = new LinkedList<>();
@@ -62,7 +62,7 @@ public class CircleBullet extends Projectile {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
-							sndImpact.play(pos());
+							sndImpact.play(getWorldPos());
 							detach();
 							destroyed = true;
 							break;
@@ -75,7 +75,7 @@ public class CircleBullet extends Projectile {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
-							sndImpact.play(pos());
+							sndImpact.play(getWorldPos());
 							((Character) bump).takeDamage(damage, vel.x > 0);
 							detach();
 							destroyed = true;
@@ -91,8 +91,8 @@ public class CircleBullet extends Projectile {
 
 		parentPosition.add(Vec2f.multiply(vel, (float) d));
 
-		((Spatial) getChildren().get("bul_Sprite")).parentPosition = pos();
-		((Spatial) getChildren().get("collider")).parentPosition = pos();
+		((Spatial) getChildren().get("bul_Sprite")).parentPosition = getWorldPos();
+		((Spatial) getChildren().get("collider")).parentPosition = getWorldPos();
 		((Spatial) getChildren().get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);

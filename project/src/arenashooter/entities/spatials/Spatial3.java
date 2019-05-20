@@ -34,8 +34,8 @@ public class Spatial3 extends Entity {
 		Entity prev = super.attachToParent(newParent, name);
 		
 		if (newParent instanceof Spatial) {
-			parentPosition.x = ((Spatial) newParent).pos().x;
-			parentPosition.y = ((Spatial) newParent).pos().y;
+			parentPosition.x = ((Spatial) newParent).getWorldPos().x;
+			parentPosition.y = ((Spatial) newParent).getWorldPos().y;
 		} else if (newParent instanceof Spatial3)
 			parentPosition.set(((Spatial3) newParent).pos());
 		

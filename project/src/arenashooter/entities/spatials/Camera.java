@@ -85,15 +85,15 @@ public class Camera extends Spatial3 {
 	public void center( ArrayList<Character> players, Vec4f bounds, double d ) { //TODO: Improve bounds support
 		if(players.size() == 0 ) return;
 		
-		Vec2f boundsX = new Vec2f(players.get(0).pos().x, players.get(0).pos().x);
-		Vec2f boundsY = new Vec2f(players.get(0).pos().y, players.get(0).pos().y);
+		Vec2f boundsX = new Vec2f(players.get(0).getWorldPos().x, players.get(0).getWorldPos().x);
+		Vec2f boundsY = new Vec2f(players.get(0).getWorldPos().y, players.get(0).getWorldPos().y);
 		
 		for( int i=1; i<players.size(); i++ ) {
-			boundsX.x = Math.min(boundsX.x, players.get(i).pos().x);
-			boundsX.y = Math.max(boundsX.y, players.get(i).pos().x);
+			boundsX.x = Math.min(boundsX.x, players.get(i).getWorldPos().x);
+			boundsX.y = Math.max(boundsX.y, players.get(i).getWorldPos().x);
 
-			boundsY.x = Math.min(boundsY.x, players.get(i).pos().y);
-			boundsY.y = Math.max(boundsY.y, players.get(i).pos().y);
+			boundsY.x = Math.min(boundsY.x, players.get(i).getWorldPos().y);
+			boundsY.y = Math.max(boundsY.y, players.get(i).getWorldPos().y);
 		}
 		
 		if(bounds != null) {

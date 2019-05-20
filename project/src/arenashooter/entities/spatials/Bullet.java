@@ -17,10 +17,10 @@ public class Bullet extends Projectile {
 		this.damage = damage;
 		rotation = vel.angle();
 
-		collider = new Collider(this.pos(), new Vec2f(.5, .5));
+		collider = new Collider(this.getWorldPos(), new Vec2f(.5, .5));
 		collider.attachToParent(this, "collider");
 
-		Sprite bul = new Sprite(pos(), "data/sprites/Bullet.png");
+		Sprite bul = new Sprite(getWorldPos(), "data/sprites/Bullet.png");
 		bul.size = new Vec2f(bul.getTexture().getWidth()*.018, bul.getTexture().getHeight()*.018);
 		bul.rotation = rotation;
 		bul.attachToParent(this, "bul_Sprite");
@@ -29,7 +29,7 @@ public class Bullet extends Projectile {
 	}
 
 	public void step(double d) {
-		if (Math.abs(pos().x) > 10000 || Math.abs(pos().y) > 10000) {
+		if (Math.abs(getWorldPos().x) > 10000 || Math.abs(getWorldPos().y) > 10000) {
 			detach();
 		}
 		LinkedList<Entity> siblings = new LinkedList<>();
@@ -41,7 +41,7 @@ public class Bullet extends Projectile {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
-							sndImpact.play(pos());
+							sndImpact.play(getWorldPos());
 							detach();
 							destroyed = true;
 							break;
@@ -54,7 +54,7 @@ public class Bullet extends Projectile {
 					if (coll instanceof Collider) {
 						Collider c = (Collider) coll;
 						if (c.isColliding(collider)) {
-							sndImpact.play(pos());
+							sndImpact.play(getWorldPos());
 							((Character) bump).takeDamage(damage, vel.x > 0);
 							detach();
 							destroyed = true;
@@ -70,8 +70,8 @@ public class Bullet extends Projectile {
 
 		parentPosition.add(Vec2f.multiply(vel, (float) d));
 
-		((Spatial) getChildren().get("bul_Sprite")).parentPosition = pos();
-		((Spatial) getChildren().get("collider")).parentPosition = pos();
+		((Spatial) getChildren().get("bul_Sprite")).parentPosition = getWorldPos();
+		((Spatial) getChildren().get("collider")).parentPosition = getWorldPos();
 		((Spatial) getChildren().get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);

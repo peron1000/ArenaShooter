@@ -17,8 +17,8 @@ public class Particles extends Spatial {
 	
 	@Override
 	public void step(double d) {
-		system.position.x = pos().x;
-		system.position.y = pos().y;
+		system.position.x = getWorldPos().x;
+		system.position.y = getWorldPos().y;
 		system.update(d);
 		
 		if(selfDestruct && system.ended()) detach();

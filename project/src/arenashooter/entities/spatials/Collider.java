@@ -19,8 +19,8 @@ public class Collider extends Spatial {
 	 * @return <i>true</i> if <code>this</code> and <code>other</code> are colliding
 	 */
 	public boolean isColliding(Collider other) {
-		return Math.abs(pos().x - other.pos().x) < extent.x + other.extent.x
-				&& Math.abs(pos().y - other.pos().y) < extent.y + other.extent.y;
+		return Math.abs(getWorldPos().x - other.getWorldPos().x) < extent.x + other.extent.x
+				&& Math.abs(getWorldPos().y - other.getWorldPos().y) < extent.y + other.extent.y;
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class Collider extends Spatial {
 	 *         on X axe
 	 */
 	public float getXLeft() {
-		return pos().x - extent.x;
+		return getWorldPos().x - extent.x;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class Collider extends Spatial {
 	 *         on X axe
 	 */
 	public float getXRight() {
-		return pos().x + extent.x;
+		return getWorldPos().x + extent.x;
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class Collider extends Spatial {
 	 *         Y axe
 	 */
 	public float getYTop() {
-		return pos().y - extent.y;
+		return getWorldPos().y - extent.y;
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Collider extends Spatial {
 	 *         on Y axe
 	 */
 	public float getYBottom() {
-		return pos().y + extent.y;
+		return getWorldPos().y + extent.y;
 	}
 
 	/**

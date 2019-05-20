@@ -34,7 +34,7 @@ public class Spatial extends Entity {
 		Entity prev = super.attachToParent(newParent, name);
 		
 		if (newParent instanceof Spatial)
-			parentPosition.set(((Spatial) newParent).pos());
+			parentPosition.set(((Spatial) newParent).getWorldPos());
 		else if (newParent instanceof Spatial3) {
 			parentPosition.x = ((Spatial3) newParent).pos().x;
 			parentPosition.y = ((Spatial3) newParent).pos().y;
@@ -47,7 +47,7 @@ public class Spatial extends Entity {
 	 * Get this entity's world position
 	 * @return parent position + local position
 	 */
-	public Vec2f pos() {
+	public Vec2f getWorldPos() {
 		if(rotationFromParent)
 			return Vec2f.add(parentPosition, Vec2f.rotate(localPosition, rotation), worldPosition);
 		else
@@ -67,10 +67,10 @@ public class Spatial extends Entity {
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
 				if (e instanceof Spatial)
-					((Spatial) e).parentPosition.set(pos());
+					((Spatial) e).parentPosition.set(getWorldPos());
 				else if (e instanceof Spatial3) {
-					((Spatial3) e).parentPosition.x = pos().x;
-					((Spatial3) e).parentPosition.y = pos().y;
+					((Spatial3) e).parentPosition.x = getWorldPos().x;
+					((Spatial3) e).parentPosition.y = getWorldPos().y;
 				}
 				e.step(d);
 			}

@@ -36,7 +36,7 @@ public class Spawner extends Spatial {
 			
 			// Variables pour posdiff
 			itemCourant = weaponToSpawn;
-			pos = weaponToSpawn.pos();
+			pos = weaponToSpawn.getWorldPos();
 			
 			GameMaster.gm.getMap().items.add(weaponToSpawn);
 			weaponToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
@@ -69,7 +69,7 @@ public class Spawner extends Spatial {
 
 	public boolean posDiff() {
 		boolean res = false;
-		if ((itemCourant == null && pos == null) || (itemCourant.pos().x != pos.x && itemCourant.pos().y != pos.y)) {
+		if ((itemCourant == null && pos == null) || (itemCourant.getWorldPos().x != pos.x && itemCourant.getWorldPos().y != pos.y)) {
 			res = true;
 		}
 		return res;

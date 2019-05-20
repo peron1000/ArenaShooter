@@ -50,20 +50,20 @@ public class Character extends Spatial {
 
 		rotation = 0;
 
-		collider = new Collider(this.pos(), new Vec2f(.5, 1));
+		collider = new Collider(this.getWorldPos(), new Vec2f(.5, 1));
 		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
 		jumpTimer.attachToParent(this, "jump Timer");
 
-		CharacterSprite skeleton = new CharacterSprite(this.pos(), charInfo);
+		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
 
-		SoundEffect jumpSound = new SoundEffect(this.pos(), "data/sound/jump.ogg", 2);
+		SoundEffect jumpSound = new SoundEffect(this.getWorldPos(), "data/sound/jump.ogg", 2);
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 
-		SoundEffect punchHitSound = new SoundEffect(this.pos(), "data/sound/snd_Punch_Hit2.ogg", 2);
+		SoundEffect punchHitSound = new SoundEffect(this.getWorldPos(), "data/sound/snd_Punch_Hit2.ogg", 2);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
 	}
@@ -123,8 +123,8 @@ public class Character extends Spatial {
 					}
 
 					if (isInFrontOfMe) {
-						float xDiff = Math.abs(pos().x - c.pos().x);
-						float yDiff = Math.abs(pos().y - c.pos().y);
+						float xDiff = Math.abs(getWorldPos().x - c.getWorldPos().x);
+						float yDiff = Math.abs(getWorldPos().y - c.getWorldPos().y);
 						if (xDiff < 175 && yDiff < 175) {
 							c.takeDamage(defaultDamage, lookRight);
 							((SoundEffect) getChildren().get("snd_Punch_Hit")).play();
@@ -153,8 +153,8 @@ public class Character extends Spatial {
 			for (Entity e : GameMaster.gm.getEntities()) {
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
-					float xDiff = Math.abs(pos().x - usable.pos().x);
-					float yDiff = Math.abs(pos().y - usable.pos().y);
+					float xDiff = Math.abs(getWorldPos().x - usable.getWorldPos().x);
+					float yDiff = Math.abs(getWorldPos().y - usable.getWorldPos().y);
 					if (xDiff < 1.75 && yDiff < 1.75)
 						arme = usable;
 				}
@@ -285,7 +285,7 @@ public class Character extends Spatial {
 			skeleton.setLookRight(lookRight);
 		}
 
-		if (Math.abs(pos().x) > 500 || Math.abs(pos().y) > 500) {
+		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500) {
 			death();
 		}
 
