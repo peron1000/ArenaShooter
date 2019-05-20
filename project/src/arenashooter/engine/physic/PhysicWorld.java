@@ -49,6 +49,10 @@ public class PhysicWorld {
 		body.createFixture(shape.b2Shape, 0);
 	}
 	
+	public Contact getContacts() {
+		return world.getContactList();
+	}
+	
 	private class MyContactListener implements ContactListener {
 
 		@Override
@@ -64,7 +68,10 @@ public class PhysicWorld {
 
 		@Override
 		public void preSolve(Contact contact, Manifold oldManifold) {
-			// TODO Auto-generated method stub
+			//Prevent characters from bouncing
+			if(contact.getFixtureA().getFilterData().categoryBits == CollisionCategory.CAT_CHARACTER.bits
+					|| contact.getFixtureB().getFilterData().categoryBits == CollisionCategory.CAT_CHARACTER.bits)
+				contact.setRestitution(0);
 		}
 
 		@Override

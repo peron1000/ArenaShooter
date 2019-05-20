@@ -117,7 +117,7 @@ public class CharacterSprite extends Spatial {
 		if (getParent() instanceof Character) {
 //			lookAngle = ((Character)getParent()). //TODO: get aiming direction
 			isOnGround = ((Character) getParent()).isOnGround;
-			moveSpeed = ((Character) getParent()).vel.x;
+			moveSpeed = ((Character) getParent()).getLinearVelocity().x;
 		} else if (getParent() instanceof Map) { // TODO: Temp stuff for loading screen anim
 			isOnGround = true;
 			moveSpeed = 10;

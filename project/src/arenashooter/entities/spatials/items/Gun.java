@@ -191,7 +191,8 @@ public class Gun extends Usable {
 				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
-					((Character) parent).vel.add(Vec2f.multiply(recoilDir, thrust));
+//					((Character) parent).vel.add(Vec2f.multiply(recoilDir, thrust));
+					((Character) parent).applyImpulse(Vec2f.multiply(recoilDir, thrust));
 				} else {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
