@@ -1,9 +1,15 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.Profiler;
+import org.jbox2d.callbacks.RayCastCallback;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Fixture;
+
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.ImpactOld;
+import arenashooter.engine.physic.CollisionCategory;
+import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
@@ -12,46 +18,43 @@ import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.GameMaster;
 
-public class Character extends Spatial {
+public class Character extends RigidBodyContainer {
 
 	public Controller controller = null;
 	private static final float defaultDamage = 10;
 	private float health, healthMax;
 	private final Vec2f spawn;
-
-	public Vec2f vel = new Vec2f();
-	public Collider collider;
+	
+//	public Vec2f vel = new Vec2f();
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
 	public boolean isAiming = false;
-	public static double aimInput = 0;
+	public double aimInput = 0;
+	
+	//Movement stats
+	public double maxSpeed = 18;
 
 	/**
 	 * The character is jumping
 	 */
 	public boolean jumpi;
-	private double jumpForce = 30;
-	private double parachuteForce = 0.5;
+	private double jumpForce = 25;
+	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.5);
 	private Timer attack = new Timer(0.3);
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
-		super(position);
+		super(position, new RigidBody(new ShapeBox(new Vec2f(.5, 1)), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
 		
-//		Sprite colliderVis = new Sprite(new Vec2f(), "data/default_texture.png");
-//		colliderVis.size = new Vec2f(1, 2);
-//		colliderVis.attachToParent(this, "collider_vis");
-//		colliderVis.zIndex = -10;
-
+		getBody().setBullet(true);
+		getBody().setRotationLocked(true);
+		
 		healthMax = 40;
 		health = healthMax;
 		spawn = position;
 
 		rotation = 0;
-
-		collider = new Collider(this.getWorldPos(), new Vec2f(.5, 1));
-		collider.attachToParent(this, "coll_Body");
 
 		attack.attachToParent(this, "attack timer");
 		jumpTimer.attachToParent(this, "jump Timer");
@@ -72,7 +75,11 @@ public class Character extends Spatial {
 		if (isOnGround) {
 			isOnGround = false;
 			jumpi = true;
-			vel.y = (float) -jumpForce;
+//			vel.y = (float) -jumpForce;
+			Vec2f newVel = getLinearVelocity();
+			newVel.y = 0;
+			setLinearVelocity(newVel);
+			getBody().applyImpulse(new Vec2f(0, -jumpForce));
 			jumpTimer.reset();
 			jumpTimer.setProcessing(true);
 			((SoundEffect) getChildren().get("snd_Jump")).play();
@@ -82,8 +89,10 @@ public class Character extends Spatial {
 	public void planer() {
 		if (!isOnGround) {
 			if (!jumpTimer.isOver() && jumpTimer.inProcess) {
-				if (vel.y < 0 && jumpi) {
-					vel.y += (float) (-parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio())));
+				if (getLinearVelocity().y < 0 && jumpi) {
+//					vel.y += (float) (-parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio())));
+					getBody().applyForce(new Vec2f(0, -parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio()))));
+					isOnGround = false;
 				}
 			} else {
 				jumpi = false;
@@ -95,8 +104,9 @@ public class Character extends Spatial {
 
 	public void jumpStop() {
 		jumpi = false;
-		if (vel.y < 0) {
-			vel.y = vel.y / 2;
+		if (getLinearVelocity().y < 0) {
+			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x, getLinearVelocity().y/2));
+//			vel.y = vel.y / 2;
 		}
 	}
 
@@ -116,10 +126,10 @@ public class Character extends Spatial {
 
 					boolean isInFrontOfMe = false;
 					if (skeleton != null) {
-						if ((lookRight && collider.getXRight() < (c.collider.getXRight() + 40))
-								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft() - 40))) {
-							isInFrontOfMe = true;
-						}
+//						if ((lookRight && collider.getXRight() < (c.collider.getXRight() + 40))
+//								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft() - 40))) {
+//							isInFrontOfMe = true;
+//						}
 					}
 
 					if (isInFrontOfMe) {
@@ -204,10 +214,10 @@ public class Character extends Spatial {
 		float bumpX = (damage >= 1 ? 4 * (1 + ((float) Math.log10(damage))) : 4);
 		float bumpY = (damage >= 1 ? 2.5f * (1 + ((float) Math.log10(damage))) : 2.5f);
 
-		if (droite)
-			vel.add(new Vec2f(bumpX, -bumpY));
-		else
-			vel.add(new Vec2f(-bumpX, -bumpY));
+//		if (droite) //TODO: impulsex
+//			vel.add(new Vec2f(bumpX, -bumpY));
+//		else
+//			vel.add(new Vec2f(-bumpX, -bumpY));
 
 		health = Math.max(0, health - damage);
 
@@ -232,36 +242,48 @@ public class Character extends Spatial {
 		if (Math.random() > 0.6)
 			jumpTimer.isOver();
 
-		Profiler.startTimer(Profiler.PHYSIC);
-
-		vel.x = (float) Utils.lerpD(vel.x, movementInput * 15, Utils.clampD(d * (isOnGround ? 10 : 10), 0, 1));
-		if (!isOnGround)
-			vel.y += Math.min(9.807 * d * 10, 100);
+		double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
+		getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
 
 		isOnGround = false;
-		for (Entity plat : getParent().getChildren().values()) {
-			if (plat instanceof Plateform) {
-				for (Entity coll : ((Plateform) plat).getChildren().values()) {
-					if (coll instanceof Collider) {
-						Collider c = (Collider) coll;
-						ImpactOld impact = new ImpactOld(collider, c, Vec2f.multiply(vel, (float) d));
-						vel.x = vel.x * impact.getVelMod().x;
-						vel.y = vel.y * impact.getVelMod().y;
-						if (collider.getYBottom() + (vel.y * d) >= c.getYTop()
-								&& collider.getYBottom() + (vel.y * d) < c.getYBottom()
-								&& Collider.isX1IncluedInX2(collider, c))
-							isOnGround = true;
-					}
-				}
+//		for (Entity plat : getParent().getChildren().values()) {
+//			if (plat instanceof Plateform) {
+//				for (Entity coll : ((Plateform) plat).getChildren().values()) {
+//					if (coll instanceof Collider) {
+//						Collider c = (Collider) coll;
+//						ImpactOld impact = new ImpactOld(collider, c, Vec2f.multiply(vel, (float) d));
+//						vel.x = vel.x * impact.getVelMod().x;
+//						vel.y = vel.y * impact.getVelMod().y;
+//						if (collider.getYBottom() + (vel.y * d) >= c.getYTop()
+//								&& collider.getYBottom() + (vel.y * d) < c.getYBottom()
+//								&& Collider.isX1IncluedInX2(collider, c))
+//							isOnGround = true;
+//					}
+//				}
+//			}
+//		}
+		
+		if(getBody().getBody() != null)
+			getBody().getBody().setGravityScale(6);
+		
+		if(!jumpTimer.isProcessing() || (jumpTimer.inProcess && jumpTimer.getValue() > 0.2) ) {
+			for(int i=0; i<4; i++) {
+				Vec2f start = getWorldPos().clone();
+				start.y += 1;
+				start.x -= .4;
+				start.x += i*.2;
+
+				Vec2f end = start.clone();
+				end.y += .1;
+
+				getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
-
+		
 		if (isOnGround)
 			jumpTimer.reset();
 
-		localPosition.add(Vec2f.multiply(vel, (float) d));
-
-		Profiler.endTimer(Profiler.PHYSIC);
+//		localPosition.add(Vec2f.multiply(vel, (float) d));
 
 		// Animation
 		if (!isAiming) {
@@ -307,4 +329,15 @@ public class Character extends Spatial {
 	public Vec2f getSpawn() {
 		return spawn;
 	}
+	
+	RayCastCallback GroundRaycastCallback = new RayCastCallback() {
+		@Override
+		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			//Ignore anything the character doesn't collide with
+			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
+			
+			isOnGround = true;
+			return fraction;
+		}
+	};
 }

@@ -47,6 +47,35 @@ public class KinematicBody extends PhysicBody {
 		body.setLinearVelocity(newVelocity.toB2Vec());
 	}
 
+	/**
+	 * Teleport this body
+	 * @param position
+	 */
+	public void setPosition(Vec2f position) {
+		if(body != null) {
+			body.setTransform(position.toB2Vec(), body.getAngle());
+			//Collision filter
+			Filter filter = new Filter();
+			filter.categoryBits = collFlags.category.bits;
+			filter.maskBits = collFlags.maskBits;
+		}
+	}
+	
+	/**
+	 * Teleport this body
+	 * @param position
+	 * @param angle
+	 */
+	public void setTransform(Vec2f position, double angle) {
+		if(body != null) {
+			body.setTransform(position.toB2Vec(), (float) angle);
+			//Collision filter
+			Filter filter = new Filter();
+			filter.categoryBits = collFlags.category.bits;
+			filter.maskBits = collFlags.maskBits;
+		}
+	}
+	
 	@Override
 	public void addToWorld(PhysicWorld world) {
 		this.world = world;
@@ -63,8 +92,9 @@ public class KinematicBody extends PhysicBody {
 		filter.categoryBits = collFlags.category.bits;
 		filter.maskBits = collFlags.maskBits;
 		fixtureDef.setFilter(filter);
+		fixtureDef.setSensor(isSensor());
 		
-		body.createFixture(fixtureDef);
+		fixture = body.createFixture(fixtureDef);
 	}
 
 }

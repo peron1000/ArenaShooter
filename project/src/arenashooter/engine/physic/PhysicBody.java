@@ -2,6 +2,7 @@ package arenashooter.engine.physic;
 
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.math.Vec2f;
 
@@ -10,6 +11,9 @@ public abstract class PhysicBody {
 	protected BodyDef bodyDef;
 	protected Body body;
 	protected final CollisionFlags collFlags;
+	protected Fixture fixture;
+	
+	private boolean isSensor = false;
 	
 	protected PhysicWorld world;
 	
@@ -25,6 +29,7 @@ public abstract class PhysicBody {
 		world = null;
 	}
 	
+	public Body getBody() { return body; }
 	
 	public boolean isRotationLocked() { return bodyDef.isFixedRotation(); }
 	
@@ -32,6 +37,19 @@ public abstract class PhysicBody {
 		bodyDef.setFixedRotation(locked);
 		if(body != null)
 			body.setFixedRotation(locked);
+	}
+	
+	public boolean isSensor() {
+		return isSensor;
+	}
+	
+	/**
+	 * Set this body as a sensor. <b>Only works if the body isn't attached to a world yet</b>
+	 * @param isSensor
+	 */
+	public void setIsSensor(boolean isSensor) {
+		if(body == null)
+			this.isSensor = isSensor;
 	}
 	
 	public boolean isActive() { return body.isActive(); }

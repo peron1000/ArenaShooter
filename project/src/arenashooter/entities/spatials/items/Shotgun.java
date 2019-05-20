@@ -146,7 +146,8 @@ public class Shotgun extends Gun {
 				}
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
-					((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+//					((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+					((Character) parent).applyImpulse(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 				} else {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
 				}
