@@ -35,15 +35,16 @@ public class Param extends GameState {
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);
 
-		UiImage bg = new UiImage(new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
+		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
 		menu.setBackground(bg);
 
 		final float y = -40, scaleY = 5.5f , scaleX = 50f;
-		param1 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringGameMode());
-		param2 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringRound());
-		param3 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringTeam());
-		param4 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), "Parametre");
-		carre = new Rectangle(new Vec2f(0, y), 0, new Vec2f(scaleY), color1);
+		param1 = new Button(0, new Vec2f(scaleX , scaleY), gameParam.getStringGameMode());
+		param2 = new Button(0, new Vec2f(scaleX , scaleY), gameParam.getStringRound());
+		param3 = new Button(0, new Vec2f(scaleX , scaleY), gameParam.getStringTeam());
+		param4 = new Button(0, new Vec2f(scaleX , scaleY), "Parametre");
+		carre = new Rectangle(0, new Vec2f(scaleY), color1);
+		carre.setPos(new Vec2f(0, y));
 		menu.addUiElement(carre, 1);
 
 		param1.ui_Pointation(null, null, carre, null);
@@ -105,11 +106,11 @@ public class Param extends GameState {
 		param3.visible = false;
 		param4.visible = false;
 		
-		selec = new UiImage(new Vec2f(), 0, new Vec2f(40, 8), texture2,
+		selec = new UiImage(0, new Vec2f(65, 10), texture2,
 				new Vec4f(1, 1, 1, 1));
-		menu.ecartement = 5;
+		menu.ecartement = 8;
 		menu.setImageSelec(selec , 2);
-		menu.setPositionRef(new Vec2f(-57, -40));
+		menu.setPosition(new Vec2f(-57, -40));
 		menu.addElementInListOfChoices(param1, 1);
 		menu.addElementInListOfChoices(param2, 1);
 
