@@ -34,25 +34,25 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 		
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);		
-		selec = new UiImage(new Vec2f(), 0, new Vec2f(45,18), texture2,
+		selec = new UiImage(0, new Vec2f(45,18), texture2,
 				new Vec4f(1, 1, 1, 1));
 		setImageSelec(selec, 2);
 	
-		Rectangle rec = new Rectangle(new Vec2f(), 0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
+		Rectangle rec = new Rectangle(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
 		setBackground(rec);
-		Label pause = new Label(new Vec2f(0, -30), 0, new Vec2f(50, 50), "PAUSE");
+		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
 		addUiElement(pause, 0);
 		
-		op1 = new Label(new Vec2f(0, -15), 0, new Vec2f(scale), "Resume");
+		op1 = new Label(0, new Vec2f(scale), "Resume");
 		addElementInListOfChoices(op1, 1);
 		
-		op2 = new Label(new Vec2f(0, -5), 0, new Vec2f(scale), "Score" );
+		op2 = new Label(0, new Vec2f(scale), "Score" );
 		addElementInListOfChoices(op2, 1);
 	
-		op3 = new Label(new Vec2f(0, 5), 0, new Vec2f(scale), "Option");
+		op3 = new Label(0, new Vec2f(scale), "Option");
 		addElementInListOfChoices(op3, 1);
 
-		op4 = new Label(new Vec2f(0, 15), 0, new Vec2f(scale), "Quit : Alt+f4");
+		op4 = new Label(0, new Vec2f(scale), "Quit : Alt+f4");
 		addElementInListOfChoices(op4, 1);
 	
 		op1.addAction("ok", new Trigger() {

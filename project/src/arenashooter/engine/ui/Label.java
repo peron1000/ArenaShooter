@@ -12,8 +12,8 @@ public class Label extends UiElement {
 	private Material material;
 	private Text text;
 	
-	public Label(Vec2f pos, double rot, Vec2f scale, String text) {
-		super(pos, rot, scale);
+	public Label(double rot, Vec2f scale, String text) {
+		super(rot, scale);
 		this.text = new Text(Main.font, Text.TextAlignH.CENTER, text);
 		this.material = new Material("data/shaders/ui/ui_text_distance_field");
 		
@@ -51,7 +51,7 @@ public class Label extends UiElement {
 	@Override
 	protected void draw() {
 		material.setParamTex("distanceField", text.getFont().getTexture());
-		material.model = Mat4f.transform(pos, rotation, scale);
+		material.model = Mat4f.transform(getPos(), rotation, getScale());
 		material.proj = Window.projOrtho;
 		material.bind(text.getModel());
 		

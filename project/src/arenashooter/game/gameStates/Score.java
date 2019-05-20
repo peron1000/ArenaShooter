@@ -1,7 +1,5 @@
 package arenashooter.game.gameStates;
 
-import java.util.ArrayList;
-
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
@@ -10,7 +8,6 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.UiImage;
-import arenashooter.entities.Controller;
 import arenashooter.game.GameMaster;
 
 public class Score extends GameState {
@@ -25,7 +22,7 @@ public class Score extends GameState {
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);
 		
-		UiImage im = new UiImage(new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
+		UiImage im = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
 		menu.addUiElement(im, 0);
 		
 		super.init();

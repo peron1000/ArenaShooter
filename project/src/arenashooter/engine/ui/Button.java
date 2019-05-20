@@ -14,28 +14,35 @@ public class Button extends UiElement {
 		}
 	};
 
-	public Button(Vec2f pos, double rot, Vec2f scale, String text) {
-		super(pos, rot, scale);
-		rect = new Rectangle(scale, rot, scale, new Vec4f(0, 0, 0, .8));
-		label = new Label(scale, rot, scale, text);
+	public Button(double rot, Vec2f scale, String text) {
+		super(rot, scale);
+		rect = new Rectangle(rot, scale, new Vec4f(0, 0, 0, .8));
+		label = new Label(rot, new Vec2f(scale.x*0.35, scale.y*5), text);
+	}
+	
+	@Override
+	public void setPos(Vec2f pos) {
+		label.setPos(new Vec2f(pos.x, pos.y-(getScale().y*0.37)));
+		rect.setPos(pos);
+		super.setPos(pos);
 	}
 
 	@Override
 	protected void update() { // TODO: berk
-		rect.visible = this.visible;
-		rect.pos.set(pos);
-		rect.rotation = rotation;
-		rect.scale.set(scale);
-
-		label.visible = this.visible;
-		label.pos.set(pos);
-		label.rotation = rotation;
-//		label.scale.set(scale);
-//		label.scale.multiply(.8f);
-		float scaleText = Math.min(scale.x, scale.y)*4;
-		label.scale.x = scaleText;
-		label.scale.y = scaleText;
-		label.pos.y -= 2.2f;
+//		rect.visible = this.visible;
+//		rect.setPos(getPos());
+//		rect.rotation = rotation;
+//		rect.setPos(getScale());
+//
+//		label.visible = this.visible;
+//		label.setPos(getPos());
+//		label.rotation = rotation;
+////		label.scale.set(scale);
+////		label.scale.multiply(.8f);
+//		float scaleText = Math.min(getScale().x, getScale().y)*4;
+//		label.setPos(getPos());
+//		label.setScale(new Vec2f(scaleText));
+//		label.getPos().y -= 2.2f;
 	}
 
 	@Override
