@@ -40,15 +40,31 @@ public class Quat {
 	/**
 	 * Create a quaternion from a 2d rotation
 	 * @param angle
-	 * @return
+	 * @return new Quat containing the result
 	 */
-	public static Quat fromAngle( double angle ) { //TODO: Test
+	public static Quat fromAngle( double angle ) {
 		Quat res = new Quat();
 		
 		res.w = (float)Math.cos(angle/2);
 		res.z = (float)Math.sin(angle/2);
 		
 		return res;
+	}
+	
+	/**
+	 * Target becomes a new Quat corresponding to an angle
+	 * <br/> Avoids object creation
+	 * @param angle 
+	 * @param target
+	 * @return target (modified)
+	 */
+    public static Quat fromAngle( double angle, Quat target ) {
+    	target.w = (float)Math.cos(angle/2);
+    	target.x = 0;
+    	target.y = 0;
+    	target.z = (float)Math.sin(angle/2);
+		
+		return target;
 	}
 	
 	/**

@@ -186,11 +186,14 @@ public class Gun extends Usable {
 
 					break;
 				}
+				
+				//Recoil
+				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
-					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
-					((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
+					((Character) parent).vel.add(Vec2f.multiply(recoilDir, thrust));
 				} else {
-					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
+					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
 				((SoundEffect) getChildren().get("snd_Bang")).play();
@@ -216,7 +219,7 @@ public class Gun extends Usable {
 
 	@Override
 	protected void setLocalPositionOfSprite() {
-		localPosition = Vec2f.rotate(new Vec2f(.5, 0), rotation);
+		Vec2f.rotate(new Vec2f(.5, 0), rotation, localPosition);
 	}
 	
 	@Override

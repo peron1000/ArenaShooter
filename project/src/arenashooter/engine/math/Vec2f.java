@@ -59,16 +59,16 @@ public class Vec2f {
 	}
 	
 	/**
-	 * @return creates a Box-2d vector from this
+	 * @return creates a Box-2d vector from <i>this</i>
 	 */
 	public Vec2 toB2Vec() {
 		return new Vec2(x, y);
 	}
 
 	/**
-	 * This becomes Other
-	 * @param other Box-2d vector to copy into this
-	 * @return this
+	 * <i>This</i> becomes Other
+	 * @param other Box-2d vector to copy into <i>this</i>
+	 * @return <i>this</i>
 	 */
 	public Vec2f set(Vec2 other) {
 		x = other.x;
@@ -77,7 +77,7 @@ public class Vec2f {
 	}
 
 	/**
-	 * This becomes Other
+	 * <i>This</i> becomes Other
 	 * 
 	 * @param other
 	 *            vector to copy
@@ -88,7 +88,7 @@ public class Vec2f {
 	}
 
 	/**
-	 * Add two vectors together. This becomes this+v
+	 * Add two vectors together. <i>This</i> becomes <i>this</i>+v
 	 * 
 	 * @param v
 	 */
@@ -98,7 +98,7 @@ public class Vec2f {
 	}
 
 	/**
-	 * Multiplies the vector. This becomes this*a
+	 * Multiplies the vector. <i>This</i> becomes <i>this</i>*a
 	 * 
 	 * @param a
 	 */
@@ -115,8 +115,8 @@ public class Vec2f {
 	}
 
 	/**
-	 * @return vector length squared this is cheaper than length() because it avoids
-	 *         using a square root
+	 * This is cheaper than length() because it avoids using a square root
+	 * @return vector length squared
 	 */
 	public double lengthSquared() {
 		return (x * x) + (y * y);
@@ -139,12 +139,15 @@ public class Vec2f {
 
 	/** 
 	 * 
-	 * @return angle de this en radians
+	 * @return angle de <i>this</i> in radians
 	 */
 	public double angle() {
 		return Math.atan2(y, x);
 	}
 
+	/**
+	 * Creates a new vector with the same x and y as <i>this</i>
+	 */
 	public Vec2f clone() {
 		return new Vec2f(x, y);
 	}
@@ -175,8 +178,8 @@ public class Vec2f {
 	}
 	
 	/**
-	 * Add two vectors together, store the result in target and return it <br/>
-	 * Useful to avoid object creation
+	 * Add two vectors together, store the result in target and return it
+	 * <br/> Avoids object creation
 	 * 
 	 * @param a
 	 * @param b
@@ -201,16 +204,28 @@ public class Vec2f {
 	}
 
 	/**
-	 * Multiplies a vector by a double
+	 * Multiplies a vector by a double, creates a new object
 	 * 
-	 * @param v
-	 *            the vector
-	 * @param a
-	 *            the double
+	 * @param v the vector
+	 * @param a the double
 	 * @return v*a (original vector is unchanged)
 	 */
 	public static Vec2f multiply(Vec2f v, double a) {
 		return new Vec2f(v.x * a, v.y * a);
+	}
+	
+	/**
+	 * Multiplies a vector by a double and stores the result in target
+	 * <br/> Avoids object creation
+	 * @param v
+	 * @param a
+	 * @param target
+	 * @return target (modified)
+	 */
+	public static Vec2f multiply(Vec2f v, double a, Vec2f target) {
+		target.x = (float) (v.x*a);
+		target.y = (float) (v.y*a);
+		return target;
 	}
 
 	/**
@@ -235,10 +250,32 @@ public class Vec2f {
 		return a.x * b.x + a.y * b.y;
 	}
 
+	/**
+	 * Rotate a vector by a given angle (in radians)
+	 * @param v vector to rotate
+	 * @param r angle
+	 * @return new rotated vector (original is unchanged)
+	 */
 	public static Vec2f rotate(Vec2f v, double r) {
 		double cos = Math.cos(r);
 		double sin = Math.sin(r);
 		return new Vec2f(cos * v.x - sin * v.y, sin * v.x + cos * v.y);
+	}
+	
+	/**
+	 * Rotate a vector by a given angle (in radians) and store the result in target
+	 * <br/> Avoids object creation
+	 * @param v vector to rotate
+	 * @param r angle
+	 * @param target vector storing the result
+	 * @return target (modified)
+	 */
+	public static Vec2f rotate(Vec2f v, double r, Vec2f target) {
+		double cos = Math.cos(r);
+		double sin = Math.sin(r);
+		target.x = (float)(cos * v.x - sin * v.y);
+		target.y = (float)(sin * v.x + cos * v.y);
+		return target;
 	}
 
 	public static Vec2f rotate90(Vec2f v) {

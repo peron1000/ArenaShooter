@@ -61,7 +61,7 @@ public class Spatial3 extends Entity {
 		if(rotationFromParent && parent instanceof Spatial3)
 			rotation = ((Spatial3)parent).rotation;
 		else if(rotationFromParent && parent instanceof Spatial)
-				rotation = Quat.fromAngle(((Spatial)parent).rotation);
+				Quat.fromAngle(((Spatial)parent).rotation, rotation);
 	
 		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();

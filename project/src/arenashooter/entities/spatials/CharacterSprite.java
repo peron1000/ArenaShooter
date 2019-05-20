@@ -203,7 +203,7 @@ public class CharacterSprite extends Spatial {
 					handPos.y *= -1;
 				// handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos,
 				// weap.rotation)));
-				handL.localPosition.set(Vec2f.rotate(handPos, weap.rotation));
+				Vec2f.rotate(handPos, weap.rotation, handL.localPosition);
 				handL.rotation = weap.rotation;
 				handL.flipX = false;
 				handL.flipY = lookRight;
@@ -233,7 +233,7 @@ public class CharacterSprite extends Spatial {
 					handPos.y *= -1;
 				// handR.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos,
 				// weap.rotation)));
-				handR.localPosition.set(Vec2f.rotate(handPos, weap.rotation));
+				Vec2f.rotate(handPos, weap.rotation, handR.localPosition);
 				handR.rotation = weap.rotation;
 				handR.flipX = false;
 				handR.flipY = lookRight;
