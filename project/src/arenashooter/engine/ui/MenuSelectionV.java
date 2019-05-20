@@ -17,7 +17,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		super(maxLayout);
 	}
 
-	public void addElement(Element element) {
+	public void addElementInListOfChoices(Element element , int layout) {
 		if (elements.isEmpty()) {
 			selec.pos = element.pos;
 		}
@@ -27,15 +27,18 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 			element.pos.y = positionRef.y + ecartement * elements.size();
 		}
 		element.visible = true;
+		
+		addUiElement(element, layout);
 	}
 
-	public void removeElement(Element element) {
+	public void removeElementInListOfChoices(Element element) {
 		if (elements.contains(element))
 			elements.remove(element);
 		if (element.pos.x == selec.pos.x && element.pos.y == selec.pos.y) {
 			selec.pos = elements.getLast().pos;
 		}
 		element.visible = false;
+		removeUiElement(element);
 	}
 
 	public void next(double delta) {
@@ -61,10 +64,11 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		}
 	}
 
-	public void setImageSelec(UiImage image) {
+	public void setImageSelec(UiImage image , int layout) {
 		selec = image;
 		selec.pos.x = positionRef.x;
 		selec.pos.y = positionRef.y;
+		addUiElement(image, layout);
 	}
 
 	public Element getTarget() {

@@ -14,10 +14,10 @@ public class Button extends UiElement {
 		}
 	};
 
-	public Button(Menu owner, Vec2f pos, double rot, Vec2f scale, String text, int layout) {
-		super(owner, pos, rot, scale, layout);
-		rect = new Rectangle(owner, scale, rot, scale, new Vec4f(0, 0, 0, .8), layout);
-		label = new Label(owner, scale, rot, scale, text, layout + 1);
+	public Button(Vec2f pos, double rot, Vec2f scale, String text) {
+		super(pos, rot, scale);
+		rect = new Rectangle(scale, rot, scale, new Vec4f(0, 0, 0, .8));
+		label = new Label(scale, rot, scale, text);
 	}
 
 	@Override
@@ -48,6 +48,27 @@ public class Button extends UiElement {
 
 	public void setText(String newString) {
 		label.setText(newString);
+	}
+	
+	public void setColorText(Vec4f color) {
+		label.setColor(color);
+	}
+	
+	public void setColorShadowText(Vec4f color) {
+		label.setShadowColor(color);
+	}
+	
+	public void setShadowThicknessText(float color) {
+		label.setShadowThickness(color);
+	}
+	
+	public void setThicknessText(float thickness) {
+		label.setThickness(thickness);
+	}
+	
+	
+	public void setColorFond(Vec4f color) {
+		rect.setColor(color);
 	}
 
 	public void arm() {

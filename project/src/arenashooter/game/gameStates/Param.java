@@ -35,14 +35,16 @@ public class Param extends GameState {
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);
 
-		new UiImage(menu, new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1) , 0);
+		UiImage bg = new UiImage(new Vec2f(), 0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
+		menu.setBackground(bg);
 
 		final float y = -40, scaleY = 5.5f , scaleX = 50f;
-		param1 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringGameMode() , 1);
-		param2 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringRound() , 1);
-		param3 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringTeam() , 1);
-		param4 = new Button(menu, new Vec2f(), 0, new Vec2f(scaleX , scaleY), "Parametre" , 1);
-		carre = new Rectangle(menu, new Vec2f(0, y), 0, new Vec2f(scaleY), color1 , 1);
+		param1 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringGameMode());
+		param2 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringRound());
+		param3 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), gameParam.getStringTeam());
+		param4 = new Button(new Vec2f(), 0, new Vec2f(scaleX , scaleY), "Parametre");
+		carre = new Rectangle(new Vec2f(0, y), 0, new Vec2f(scaleY), color1);
+		menu.addUiElement(carre, 1);
 
 		param1.ui_Pointation(null, null, carre, null);
 		param1.addAction("right", new Trigger() {
@@ -103,13 +105,13 @@ public class Param extends GameState {
 		param3.visible = false;
 		param4.visible = false;
 		
-		selec = new UiImage(menu, new Vec2f(), 0, new Vec2f(40, 8), texture2,
-				new Vec4f(1, 1, 1, 1) , 2);
+		selec = new UiImage(new Vec2f(), 0, new Vec2f(40, 8), texture2,
+				new Vec4f(1, 1, 1, 1));
 		menu.ecartement = 5;
-		menu.setImageSelec(selec);
+		menu.setImageSelec(selec , 2);
 		menu.setPositionRef(new Vec2f(-57, -40));
-		menu.addElement(param1);
-		menu.addElement(param2);
+		menu.addElementInListOfChoices(param1, 1);
+		menu.addElementInListOfChoices(param2, 1);
 
 		carre.ui_Pointation(null, null, param1, param1);
 
@@ -167,9 +169,9 @@ public class Param extends GameState {
 		}
 
 		if (GameParam.getGameMode() == GameMode.Rixe) {
-			menu.addElement(param3);
+			menu.addElementInListOfChoices(param3, 1);
 		} else {
-			menu.removeElement(param3);
+			menu.removeElementInListOfChoices(param3);
 		}
 
 		menu.update(delta);

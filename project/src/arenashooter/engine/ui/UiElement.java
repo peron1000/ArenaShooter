@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import arenashooter.engine.math.Vec2f;
 
 public abstract class UiElement {
-	Menu owner;
-
 	public UiElement left = null, right = null, up = null, down = null;
 
 	private HashMap<String, Trigger> actions = new HashMap<>();
@@ -15,30 +13,25 @@ public abstract class UiElement {
 	public Vec2f pos, scale;
 	public double rotation;
 	public boolean visible = true;
+	Menu owner = null;
+	int layout = -1;
 
-	public UiElement(Menu owner, Vec2f pos, double rot, Vec2f scale, int layout) {
-		this.owner = owner;
-		if (owner.elems.containsKey(Integer.valueOf(layout))) {
-			owner.elems.get(Integer.valueOf(layout)).add(this);
-		} else {
-			Exception e = new Exception("Pas suffisament de layout dans le menu");
-			e.printStackTrace();
-			
-			// correction erreur
-			owner.elems.put(Integer.valueOf(layout), new LinkedList<>());
-			owner.elems.get(Integer.valueOf(layout)).add(this);
-		}
+	public UiElement(Vec2f pos, double rot, Vec2f scale) {
 		this.pos = pos.clone();
 		this.rotation = rot;
 		this.scale = scale.clone();
 	}
-
+	
 	protected abstract void update();
 
 	protected abstract void draw();
 
 	public void addAction(String name, Trigger trigger) {
 		actions.put(name, trigger);
+	}
+	
+	public Menu getOwner() {
+		return owner;
 	}
 
 	public void lunchAction(String name) {
