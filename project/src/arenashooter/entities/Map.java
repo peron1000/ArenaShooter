@@ -1,8 +1,6 @@
 package arenashooter.entities;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Quat;
@@ -11,14 +9,10 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
-import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
-import arenashooter.engine.xmlReaders.MapXmlReader;
-import arenashooter.engine.xmlReaders.XmlReader;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.spatials.AnimationTester;
-import arenashooter.entities.spatials.KinematicBodyContainer;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
@@ -187,16 +181,6 @@ public class Map extends Entity {
 			rbMesh.scale.x = 2;
 			rbMesh.attachToParent(rb, "mesh");
 		}
-		
-		
-		KinematicBody kBody = new KinematicBody(new ShapeDisk(1), new Vec2f(3, 0), 0, CollisionFlags.RIGIDBODY, 1);
-		KinematicBodyContainer kBodyContainer = new KinematicBodyContainer(new Vec2f(3, 0), kBody);
-		rbSprite = new Sprite(new Vec2f(), "data/test.png");
-		rbSprite.size = new Vec2f(2, 2);
-		kBodyContainer.attachToParent(this, "Kinematic Body test");
-		rbSprite.rotationFromParent = true;
-		rbSprite.attachToParent(kBodyContainer, "Sprite");
-		
 		
 		AnimationTester animTester = new AnimationTester(new Vec2f(-15, 0));
 		animTester.attachToParent(this, "anim tester 1");
