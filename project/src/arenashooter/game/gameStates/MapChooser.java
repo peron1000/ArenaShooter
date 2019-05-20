@@ -154,7 +154,7 @@ public class MapChooser extends GameState {
 
 		// Regenerate map name
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, mapChosen);
-		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 450, -10), new Vec3f(450), text4);
+		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 4.50, -.10), new Vec3f(7.15f), text4);
 
 		Entity oldText = getMap().getChildren().get("Text_Mapname");
 		if (oldText != null)

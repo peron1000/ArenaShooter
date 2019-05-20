@@ -75,7 +75,7 @@ public class Game extends GameState {
 
 		for (Controller controller : GameMaster.gm.controllers) {
 			// Ce n'est plus un spawn aleatoire
-			Character character = controller.createNewCharacter(this, map.GetRandomRespawnch());
+			Character character = controller.createNewCharacter(this, map.GetRandomRespawnch2());
 			character.attachToParent(map, character.genName());
 		}
 

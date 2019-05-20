@@ -32,11 +32,12 @@ public class MapXmlReader extends XmlReader {
 
 	private Element root;
 	private boolean done;
-
+	
+	public ArrayList<Vec2f> spawner;
 	public MapXmlReader(String path) {
 		parse(path);
 		root = document.getDocumentElement();
-
+		spawner = new ArrayList<Vec2f>();
 	}
 
 	public boolean isDone() {
@@ -88,6 +89,7 @@ public class MapXmlReader extends XmlReader {
 		for (Element element : listSpawn) {
 			loadSpawns(element, map);
 		}
+		map.spawn=spawner;
 	}
 
 	private void loadSpawns(Element spawn, Map map) {
@@ -102,7 +104,7 @@ public class MapXmlReader extends XmlReader {
 		}
 		Vec2f position = new Vec2f(vec.x, vec.y);
 		Spawner spawner = new Spawner(position, cooldown);
-
+		this.spawner.add(position);
 		// Usables
 		List<Element> usables = getListElementByName("usable", spawn);
 		for (Element usable : usables) {
