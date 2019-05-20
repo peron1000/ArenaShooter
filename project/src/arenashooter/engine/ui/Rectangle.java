@@ -11,8 +11,8 @@ public class Rectangle extends UiElement {
 	private static Model model;
 	private Material material;
 
-	public Rectangle(Vec2f pos, double rot, Vec2f scale, Vec4f color) {
-		super(pos, rot, scale);
+	public Rectangle(double rot, Vec2f scale, Vec4f color) {
+		super(rot, scale);
 
 		if(model == null) model = Model.loadQuad();
 
@@ -28,7 +28,7 @@ public class Rectangle extends UiElement {
 
 	@Override
 	protected void draw() {
-		material.model = Mat4f.transform(pos, rotation, scale);
+		material.model = Mat4f.transform(getPos(), rotation, getScale());
 		material.proj = Window.projOrtho;
 		
 		material.bind(model);

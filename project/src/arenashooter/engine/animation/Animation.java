@@ -38,6 +38,13 @@ public class Animation {
 	}
 	
 	/**
+	 * @set playing to false
+	 */
+	public void stopPlaying() {
+		playing = false;
+	}
+	
+	/**
 	 * @return is the animation currently playing
 	 */
 	public boolean isPlaying() { return playing; }

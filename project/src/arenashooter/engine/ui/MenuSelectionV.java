@@ -8,37 +8,38 @@ import arenashooter.engine.math.Vec2f;
 public class MenuSelectionV<Element extends UiElement> extends Menu {
 	private UiImage selec;
 	public float ecartement = 5;
-	private Vec2f positionRef = new Vec2f();
+	private Vec2f positionRef = getPosition();
 	private int index = 0;
 	private LinkedList<Element> elements = new LinkedList<>();
 	public boolean active = true;
-	
+
 	public MenuSelectionV(int maxLayout) {
 		super(maxLayout);
 	}
 
-	public void addElementInListOfChoices(Element element , int layout) {
+	public void addElementInListOfChoices(Element element, int layout) {
+		if(elements.contains(element))return;
+		Vec2f newPosition = new Vec2f(positionRef.x, positionRef.y + ecartement * elements.size());
 		if (elements.isEmpty()) {
-			selec.pos = element.pos;
+			selec.setPos(newPosition);
 		}
 		if (!elements.contains(element)) {
 			elements.add(element);
-			element.pos.x = positionRef.x;
-			element.pos.y = positionRef.y + ecartement * elements.size();
 		}
-		element.visible = true;
-		
 		addUiElement(element, layout);
+		element.setPos(newPosition);
+		element.visible = true;
 	}
 
 	public void removeElementInListOfChoices(Element element) {
-		if (elements.contains(element))
+		if (elements.contains(element)) {
 			elements.remove(element);
-		if (element.pos.x == selec.pos.x && element.pos.y == selec.pos.y) {
-			selec.pos = elements.getLast().pos;
+			if (element.getPos().x == selec.getPos().x && element.getPos().y == selec.getPos().y) {
+				selec.setPos(elements.getLast().getPos());
+			}
+			element.visible = false;
+			removeUiElement(element);
 		}
-		element.visible = false;
-		removeUiElement(element);
 	}
 
 	public void next(double delta) {
@@ -59,16 +60,21 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		positionRef = position;
 		for (int i = 0; i < elements.size(); i++) {
 			UiElement uiElement = elements.get(i);
-			uiElement.pos.x = positionRef.x;
-			uiElement.pos.y = positionRef.y + ecartement * i;
+			uiElement.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
 		}
 	}
+	
+	@Override
+	public void setPosition(Vec2f newPosition) {
+		Vec2f dif = Vec2f.subtract(newPosition, getPosition());
+		super.setPosition(newPosition);
+		setPositionRef(Vec2f.add(positionRef, dif));
+	}
 
-	public void setImageSelec(UiImage image , int layout) {
-		selec = image;
-		selec.pos.x = positionRef.x;
-		selec.pos.y = positionRef.y;
+	public void setImageSelec(UiImage image, int layout) {
 		addUiElement(image, layout);
+		selec = image;
+		selec.setPos(positionRef.clone());
 	}
 
 	public Element getTarget() {
@@ -79,7 +85,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 	public void update(double delta) {
 		if (elements.isEmpty() || !active) {
 			selec.visible = false;
-		} else if(active) {
+		} else if (active) {
 			selec.visible = true;
 		}
 		for (Element uiElement : elements) {
@@ -87,7 +93,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 			uiElement.update();
 		}
 
-		selec.pos = Vec2f.lerp(selec.pos, elements.get(index).pos, Utils.clampD(delta * 20, 0, 1));
+		selec.setPos(Vec2f.lerp(selec.getPos(), elements.get(index).getPos(), Utils.clampD(delta * 20, 0, 1)));
 		super.update(delta);
 	}
 }

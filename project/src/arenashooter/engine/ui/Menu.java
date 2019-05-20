@@ -1,15 +1,15 @@
 package arenashooter.engine.ui;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Vec2f;
 
 public class Menu {
 	protected HashMap<Integer, LinkedList<UiElement>> elems = new HashMap<>();
 	protected final int maxLayout;
+	private Vec2f position = new Vec2f();
 
 	public Menu(int maxLayout) {
 		if (maxLayout < 2) {
@@ -22,6 +22,14 @@ public class Menu {
 		for (int i = 0; i < maxLayout; i++) {
 			elems.put(Integer.valueOf(i), new LinkedList<>());
 		}
+	}
+	
+	public void setPosition(Vec2f newPosition) {
+		position = newPosition.clone();
+	}
+	
+	public Vec2f getPosition() {
+		return position;
 	}
 
 	public UiElement focus = null;
@@ -66,6 +74,7 @@ public class Menu {
 		LinkedList<UiElement> bg = new LinkedList<>();
 		bg.add(background);
 		elems.put(Integer.valueOf(0), bg);
+		background.setPos(position);
 	}
 
 	public void addUiElement(UiElement element, int layout) {
@@ -81,6 +90,7 @@ public class Menu {
 		}
 		element.owner = this;
 		element.layout = layout;
+		element.setPos(position.clone());
 	}
 	
 	public void removeUiElement(UiElement element) {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE animation SYSTEM "animationDTD.dtd" >
-<animation length="0.5" loop="true">
+<animation length="0.4" loop="true">
 
 	<trackVec2f name="rightPos" interpolation="cubic">
-		<keyframeVec2f time="0.0" x="-0.1" y="2.0" />
-		<keyframeVec2f time="0.1" x="-0.2" y="2.25" />
-		<keyframeVec2f time="0.2" x="-0.3" y="3.45" />
-		<keyframeVec2f time="0.3" x="-0.2" y="4.60" />
-		<keyframeVec2f time="0.4" x="-0.1" y="2.0" />
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.1" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.2" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.3" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.4" x="0.0" y="0.0" />
 	</trackVec2f>
 
 	<trackD name="rightRot" interpolation="cubic">
@@ -19,11 +19,11 @@
 	</trackD>
 
 	<trackVec2f name="leftPos" interpolation="cubic">
-		<keyframeVec2f time="0.0" x="-0.1" y="2.0" />
-		<keyframeVec2f time="0.1" x="-0.2" y="-2.25" />
-		<keyframeVec2f time="0.2" x="-0.3" y="-3.45" />
-		<keyframeVec2f time="0.3" x="-0.2" y="-4.60" />
-		<keyframeVec2f time="0.4" x="-0.1" y="-2.0" />
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.1" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.2" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.3" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.4" x="0.0" y="0.0" />
 	</trackVec2f>
 
 	<trackD name="leftRot" interpolation="cubic">

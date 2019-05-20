@@ -12,8 +12,8 @@ public class UiImage extends UiElement {
 	private static Model model;
 	private Material material;
 
-	public UiImage(Vec2f pos, double rot, Vec2f scale, Texture texture, Vec4f color) {
-		super(pos, rot, scale);
+	public UiImage(double rot, Vec2f scale, Texture texture, Vec4f color) {
+		super(rot, scale);
 		
 		if(model == null) model = Model.loadQuad();
 
@@ -30,7 +30,7 @@ public class UiImage extends UiElement {
 
 	@Override
 	protected void draw() {
-		material.model = Mat4f.transform(pos, rotation, scale);
+		material.model = Mat4f.transform(getPos(), rotation, getScale());
 		material.proj = Window.projOrtho;
 		
 		material.bind(model);
