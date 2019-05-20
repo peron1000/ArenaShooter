@@ -33,13 +33,12 @@ public class Spawner extends Spatial {
 	public void spawnWeapon() {
 		if (!itemList.isEmpty()) {
 			Item weaponToSpawn = get().clone(position);
-			
+			GameMaster.gm.getMap().items.add(weaponToSpawn);
+			weaponToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
+
 			// Variables pour posdiff
 			itemCourant = weaponToSpawn;
 			pos = weaponToSpawn.getWorldPos();
-			
-			GameMaster.gm.getMap().items.add(weaponToSpawn);
-			weaponToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
 			timerWarmup.reset();
 		}
 	}
@@ -68,10 +67,11 @@ public class Spawner extends Spatial {
 	}
 
 	public boolean posDiff() {
-		boolean res = false;
-		if ((itemCourant == null && pos == null) || (itemCourant.getWorldPos().x != pos.x && itemCourant.getWorldPos().y != pos.y)) {
-			res = true;
-		}
-		return res;
+
+		if (itemCourant == null)
+			return true;
+
+		return itemCourant.getWorldPos().x != getWorldPos().x && itemCourant.getWorldPos().y != getWorldPos().y;
+
 	}
 }
