@@ -163,7 +163,7 @@ public class CharacterChooser extends GameState {
 			GameMaster.gm.requestNextState(new MapChooser(), "data/mapXML/empty.xml");
 
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
-			GameMaster.gm.requestPreviousState();
+			GameMaster.gm.requestNextState(new Intro(), "data/mapXML/empty.xml");
 		}
 
 		super.update(delta);
