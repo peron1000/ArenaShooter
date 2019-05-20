@@ -1,8 +1,5 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.input.Action;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.game.Main;
@@ -18,11 +15,23 @@ public class RigidBodyContainer extends Spatial {
 		this.body = body;
 	}
 	
+	/**
+	 * @return linear velocity at center of mass
+	 */
+	public Vec2f getLinearVelocity() { return body.getLinearVelocity(); }
+	
+	/**
+	 * Set linear velocity at center of mass
+	 * @param newVelocity
+	 */
+	public void setLinearVelocity(Vec2f newVelocity) {
+		body.setLinearVelocity(newVelocity);
+	}
+	
+	public RigidBody getBody() { return body; }
+	
 	@Override
 	public void step(double d) {
-		if(Input.actionJustPressed(Device.KEYBOARD, Action.ATTACK))
-			body.applyImpulse(new Vec2f(2, -20));
-		
 		if(needsPhysWorld) {
 			if(getMap() != null) {
 				body.addToWorld(getMap().physic);
