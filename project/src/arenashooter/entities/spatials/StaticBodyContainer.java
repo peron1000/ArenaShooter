@@ -22,6 +22,11 @@ public class StaticBodyContainer extends Spatial {
 	}
 	
 	@Override
+	public Vec2f getWorldPos() {
+		return body.getPosition();
+	}
+	
+	@Override
 	public void step(double d) {
 		if(needsPhysWorld) {
 			if(getMap() != null) {

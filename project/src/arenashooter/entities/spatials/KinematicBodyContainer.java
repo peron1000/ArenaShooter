@@ -15,6 +15,11 @@ public class KinematicBodyContainer extends Spatial {
 		this.body = body;
 	}
 	
+	@Override
+	public Vec2f getWorldPos() {
+		return body.getPosition();
+	}
+	
 	/**
 	 * @return linear velocity at center of mass
 	 */

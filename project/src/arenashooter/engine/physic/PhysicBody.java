@@ -38,7 +38,10 @@ public abstract class PhysicBody {
 	
 	public void setActive(boolean active) { body.setActive(active); }
 	
-	public Vec2f getPosition() { return new Vec2f(body.getPosition()); }
+	public Vec2f getPosition() {
+		if(body == null) return new Vec2f(bodyDef.getPosition());
+		return new Vec2f(body.getPosition());
+	}
 	
 	public float getRotation() { return body.getAngle(); }
 	

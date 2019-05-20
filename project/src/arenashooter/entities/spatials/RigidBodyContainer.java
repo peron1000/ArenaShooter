@@ -15,6 +15,11 @@ public class RigidBodyContainer extends Spatial {
 		this.body = body;
 	}
 	
+	@Override
+	public Vec2f getWorldPos() {
+		return body.getPosition();
+	}
+	
 	/**
 	 * @return linear velocity at center of mass
 	 */
@@ -26,6 +31,22 @@ public class RigidBodyContainer extends Spatial {
 	 */
 	public void setLinearVelocity(Vec2f newVelocity) {
 		body.setLinearVelocity(newVelocity);
+	}
+	
+	/**
+	 * Apply an impulse at center of mass
+	 * @param impulse
+	 */
+	public void applyImpulse(Vec2f impulse) {
+		body.applyImpulse(impulse);
+	}
+	/**
+	 * Apply an impulse at location
+	 * @param impulse
+	 * @param location world position
+	 */
+	public void applyImpulse(Vec2f impulse, Vec2f location) {
+		body.applyImpulse(impulse, location);
 	}
 	
 	public RigidBody getBody() { return body; }

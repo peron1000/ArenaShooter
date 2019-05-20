@@ -71,7 +71,10 @@ public class RigidBody extends PhysicBody {
 	/**
 	 * @return linear velocity at center of mass
 	 */
-	public Vec2f getLinearVelocity() { return linearVelocity.set(body.getLinearVelocity()); }
+	public Vec2f getLinearVelocity() {
+		if(body == null) return new Vec2f();
+		return linearVelocity.set(body.getLinearVelocity());
+	}
 	
 	/**
 	 * Set linear velocity at center of mass
