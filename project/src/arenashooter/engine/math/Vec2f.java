@@ -67,6 +67,17 @@ public class Vec2f {
 
 	/**
 	 * This becomes Other
+	 * @param other Box-2d vector to copy into this
+	 * @return this
+	 */
+	public Vec2f set(Vec2 other) {
+		x = other.x;
+		y = other.y;
+		return this;
+	}
+
+	/**
+	 * This becomes Other
 	 * 
 	 * @param other
 	 *            vector to copy
@@ -157,10 +168,25 @@ public class Vec2f {
 	 * 
 	 * @param a
 	 * @param b
-	 * @return a+b (original vector is unchanged)
+	 * @return a+b (original vectors are unchanged)
 	 */
 	public static Vec2f add(Vec2f a, Vec2f b) {
 		return new Vec2f(a.x + b.x, a.y + b.y);
+	}
+	
+	/**
+	 * Add two vectors together, store the result in target and return it <br/>
+	 * Useful to avoid object creation
+	 * 
+	 * @param a
+	 * @param b
+	 * @param target
+	 * @return target (a+b)
+	 */
+	public static Vec2f add(Vec2f a, Vec2f b, Vec2f target) {
+		target.x = a.x+b.x;
+		target.y = a.y+b.y;
+		return target;
 	}
 
 	/**

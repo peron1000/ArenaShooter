@@ -10,6 +10,8 @@ public class Spatial extends Entity {
 	public Vec2f parentPosition;
 	/** Local space position */
 	public Vec2f localPosition;
+	/** World space position */
+	private Vec2f worldPosition = new Vec2f();
 	
 	/** World space rotation */
 	public double rotation = 0;
@@ -47,9 +49,9 @@ public class Spatial extends Entity {
 	 */
 	public Vec2f pos() {
 		if(rotationFromParent)
-			return Vec2f.add(parentPosition, Vec2f.rotate(localPosition, rotation));
+			return Vec2f.add(parentPosition, Vec2f.rotate(localPosition, rotation), worldPosition);
 		else
-			return Vec2f.add(parentPosition, localPosition);
+			return Vec2f.add(parentPosition, localPosition, worldPosition);
 	}
 
 	/**
