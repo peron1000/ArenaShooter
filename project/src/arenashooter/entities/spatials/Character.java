@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionCategory;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
@@ -332,7 +333,9 @@ public class Character extends RigidBodyContainer {
 	RayCastCallback GroundRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
-			if(fixture.getBody() == getBody().getBody()) return -1;
+			//Ignore anything the character doesn't collide with
+			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
+			
 			isOnGround = true;
 			return fraction;
 		}
