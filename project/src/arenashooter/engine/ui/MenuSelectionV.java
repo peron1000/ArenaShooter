@@ -2,6 +2,9 @@ package arenashooter.engine.ui;
 
 import java.util.LinkedList;
 
+import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.menus.MenuEventExit;
+import arenashooter.engine.events.menus.MenuEventExit.Side;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
@@ -12,6 +15,13 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 	private int index = 0;
 	private LinkedList<Element> elements = new LinkedList<>();
 	public boolean active = true;
+	public EventListener<MenuEventExit> exit = new EventListener<MenuEventExit>() {
+		
+		@Override
+		public void action(MenuEventExit e) {
+			// Nothing
+		}
+	};
 
 	public MenuSelectionV(int maxLayout) {
 		super(maxLayout);
@@ -42,18 +52,28 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		}
 	}
 
-	public void next(double delta) {
+	public void down(double delta) {
 		index++;
 		if (index >= elements.size()) {
 			index = 0;
+			exit.action(new MenuEventExit(Side.Down));
 		}
 	}
 
-	public void previous(double delta) {
+	public void up(double delta) {
 		index--;
 		if (index < 0) {
 			index = elements.size() - 1;
+			exit.action(new MenuEventExit(Side.Up));
 		}
+	}
+	
+	public void right() {
+		exit.action(new MenuEventExit(Side.Right));
+	}
+	
+	public void left() {
+		exit.action(new MenuEventExit(Side.Left));
 	}
 
 	public void setPositionRef(Vec2f position) {
@@ -95,5 +115,13 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 
 		selec.setPos(Vec2f.lerp(selec.getPos(), elements.get(index).getPos(), Utils.clampD(delta * 20, 0, 1)));
 		super.update(delta);
+	}
+	
+	public void restart() {
+		index = 0;
+		Element e = elements.get(index);
+		if(e != null) {
+			selec.setPos(e.getPos());
+		}
 	}
 }

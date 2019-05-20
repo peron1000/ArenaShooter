@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Observable<T> extends java.util.Observable {
 	private T value;
-	public LinkedList<EventListener> listener = new LinkedList<>();
+	public LinkedList<EventListener<BasicEvent>> listener = new LinkedList<>();
 	
 	public Observable(T value) {
 		this.value = value;
@@ -15,7 +15,7 @@ public class Observable<T> extends java.util.Observable {
 	}
 	
 	public void setValue(T value) {
-		for (EventListener eventListener : listener) {
+		for (EventListener<BasicEvent> eventListener : listener) {
 			eventListener.action(new BasicEvent("new value : "+this.value+" -> "+value));
 		}
 		this.value = value;

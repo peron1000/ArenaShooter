@@ -3,7 +3,7 @@ package arenashooter.engine.events;
 public class Exemple {
 	public static void main(String[] args) {
 		Observable<Integer> obs = new Observable<Integer>(5);
-		EventListener lis = new EventListener() {
+		EventListener<BasicEvent> lis = new EventListener<BasicEvent>() {
 			
 			@Override
 			public void action(BasicEvent e) {
