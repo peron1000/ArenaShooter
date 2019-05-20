@@ -2,9 +2,11 @@ package arenashooter.engine.physic.bodies;
 
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicBody;
 import arenashooter.engine.physic.PhysicShape;
 import arenashooter.engine.physic.PhysicWorld;
@@ -15,8 +17,8 @@ import arenashooter.engine.physic.PhysicWorld;
 public class RigidBody extends PhysicBody {
 	float density = 1.0f, friction = 0.3f, restitution = 0.25f;
 	
-	public RigidBody(PhysicShape shape, Vec2f position, double rotation, float density, float friction) {
-		super(shape, position, rotation);
+	public RigidBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags, float density, float friction) {
+		super(shape, position, rotation, collFlags);
 		
 		this.density = density;
 		this.friction = friction;
@@ -54,6 +56,12 @@ public class RigidBody extends PhysicBody {
 		fixtureDef.setRestitution(restitution);
 		fixtureDef.setFriction(friction);
 		
+		//Collision filter
+		Filter filter = new Filter();
+		filter.categoryBits = collFlags.category.bits;
+		filter.maskBits = collFlags.maskBits;
+		fixtureDef.setFilter(filter);
+
 		body.createFixture(fixtureDef);
 	}
 

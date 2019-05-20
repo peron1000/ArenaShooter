@@ -2,8 +2,11 @@ package arenashooter.engine.physic.bodies;
 
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Filter;
+import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicBody;
 import arenashooter.engine.physic.PhysicShape;
 import arenashooter.engine.physic.PhysicWorld;
@@ -16,8 +19,8 @@ public class KinematicBody extends PhysicBody {
 	
 	private Vec2f linearVelocity = new Vec2f();
 
-	public KinematicBody(PhysicShape shape, Vec2f position, double rotation, float density) {
-		super(shape, position, rotation);
+	public KinematicBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags, float density) {
+		super(shape, position, rotation, collFlags);
 
 		this.density = density;
 
@@ -48,7 +51,20 @@ public class KinematicBody extends PhysicBody {
 	public void addToWorld(PhysicWorld world) {
 		this.world = world;
 		body = world.getB2World().createBody(bodyDef);
-		body.createFixture(shape.getB2Shape(), density);
+		
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.setShape(shape.getB2Shape());
+		fixtureDef.setDensity(density);
+		fixtureDef.setRestitution(.3f); //TODO
+		fixtureDef.setFriction(.3f); //TODO
+		
+		//Collision filter
+		Filter filter = new Filter();
+		filter.categoryBits = collFlags.category.bits;
+		filter.maskBits = collFlags.maskBits;
+		fixtureDef.setFilter(filter);
+		
+		body.createFixture(fixtureDef);
 	}
 
 }

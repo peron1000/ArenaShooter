@@ -9,11 +9,13 @@ public abstract class PhysicBody {
 	protected PhysicShape shape;
 	protected BodyDef bodyDef;
 	protected Body body;
+	protected final CollisionFlags collFlags;
 	
 	protected PhysicWorld world;
 	
-	public PhysicBody(PhysicShape shape, Vec2f position, double rotation) {
+	public PhysicBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags) {
 		this.shape = shape;
+		this.collFlags = collFlags;
 	}
 	
 	public abstract void addToWorld(PhysicWorld world);

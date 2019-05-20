@@ -9,6 +9,7 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -128,7 +129,7 @@ public class Map extends Entity {
 	private void createTestEntities() {
 		// Rigid body 1
 		Vec2f position = new Vec2f(9.6, -7);
-		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(.5, .5)), position, .5, 1, .3f);
+		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(.5, .5)), position, .5, CollisionFlags.RIGIDBODY, 1, .3f);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
 		rb.attachToParent(this, "Rigid Body test");
 		Mesh rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
@@ -137,7 +138,7 @@ public class Map extends Entity {
 
 		// Rigid body 2
 		position = new Vec2f(-7, 0);
-		body = new RigidBody(new ShapeDisk(.5), position, 0, 1, .3f);
+		body = new RigidBody(new ShapeDisk(.5), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(1, 1);
@@ -147,7 +148,7 @@ public class Map extends Entity {
 
 		// Rigid body 3
 		position = new Vec2f(-7.5, -1);
-		body = new RigidBody(new ShapeDisk(1), position, 0, 1, .3f);
+		body = new RigidBody(new ShapeDisk(1), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(2, 2);
@@ -157,7 +158,7 @@ public class Map extends Entity {
 
 		// Rigid body 4
 		position = new Vec2f(10, -9);
-		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, -.5, 1, .3f);
+		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, -.5, CollisionFlags.RIGIDBODY, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rb.attachToParent(this, "Rigid Body test 4");
 		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
@@ -167,7 +168,7 @@ public class Map extends Entity {
 		
 		// Rigid body 5
 		position = new Vec2f(10, -12);
-		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0.1, 1, .3f);
+		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0.1, CollisionFlags.RIGIDBODY, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rb.attachToParent(this, "Rigid Body test 5");
 		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
@@ -178,7 +179,7 @@ public class Map extends Entity {
 		// Moult caisses
 		for(int i=0; i<32; i++) {
 			position = new Vec2f(5, -i*1.1);
-			body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0, 1, .3f);
+			body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
 			rb = new RigidBodyContainer(position, body);
 			rb.attachToParent(this, "Rigid body crate "+i);
 			rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
@@ -188,7 +189,7 @@ public class Map extends Entity {
 		}
 		
 		
-		KinematicBody kBody = new KinematicBody(new ShapeDisk(1), new Vec2f(3, 0), 0, 1);
+		KinematicBody kBody = new KinematicBody(new ShapeDisk(1), new Vec2f(3, 0), 0, CollisionFlags.RIGIDBODY, 1);
 		KinematicBodyContainer kBodyContainer = new KinematicBodyContainer(new Vec2f(3, 0), kBody);
 		rbSprite = new Sprite(new Vec2f(), "data/test.png");
 		rbSprite.size = new Vec2f(2, 2);
