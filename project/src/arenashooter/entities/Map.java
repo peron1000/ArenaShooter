@@ -1,6 +1,9 @@
 package arenashooter.entities;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -9,6 +12,8 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.engine.xmlReaders.MapXmlReader;
+import arenashooter.engine.xmlReaders.XmlReader;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.Mesh;
@@ -24,10 +29,11 @@ public class Map extends Entity {
 	public Vec2f gravity = new Vec2f(0);
 
 	public PhysicWorld physic;
-
+	
 	/**
 	 * Character spawns
 	 */
+
 	public ArrayList<Vec2f> spawnch = new ArrayList<>();
 	
 	// All items on the map
@@ -86,6 +92,34 @@ public class Map extends Entity {
 		Vec2f rand = new Vec2f(0,0);
 		return rand;
 	}
+
+	public Vec2f GetRandomRespawnch2() {
+		Vec2f randi = new Vec2f();
+		
+		try {
+		//new Random();
+		System.out.println(" spawn size "+ spawn.size());
+		int rand = ThreadLocalRandom.current().nextInt(0,spawn.size());
+		System.out.println(rand);
+		
+		randi = spawn.get(rand);
+		int max = 100;
+		int etapes = 0;
+		while (spawnch.contains(randi) && etapes < max) {
+			rand = ThreadLocalRandom.current().nextInt(spawn.size());
+			randi = spawn.get(rand);
+			System.out.println("Vec2f x:"+randi.x+" y:"+randi.y);
+			etapes++;
+		}
+		
+	}catch (Exception e) {
+		// TODO: handle exception
+		System.out.println("fail spawn : "+e);
+	}
+		spawnch.add(randi);
+		return randi;
+	
+		}
 
 	/**
 	 * Create entities to test stuff
