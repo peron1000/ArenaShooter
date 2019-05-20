@@ -6,35 +6,43 @@ import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Spatial;
+import arenashooter.entities.spatials.Sprite;
 
 public class animMelee extends Spatial implements IAnimated {
 
 	private Animation anim;
 	protected Item item = null;
+	protected Sprite sprite = null;
+
 	public animMelee(Vec2f position, Item item) {
 		super(position);
-		setAnim(new Animation( AnimationData.loadAnim("data/animations/animTest2.xml") ));
-		playAnim();
+		this.sprite = item.getSprite();
+		setAnim(new Animation(AnimationData.loadAnim("data/animations/animTest2.xml")));
 		this.item = item;
 	}
-	
+
 	@Override
 	public void step(double d) {
 		anim.step(d);
 		Character character = item.getCharacter();
 		Melee melee = (Melee) getParent();
+		sprite.rotationFromParent = true;
 		if (character != null) {
-//			if (!character.lookRight) {
+			if (character.lookRight) {
+				sprite.localPosition = new Vec2f(-0.20, 0);
 				item.position.set(anim.getTrackVec2f("rightPos"));
 				item.rotation = anim.getTrackD("rightRot");
-				
-//			} else if (character.lookRight) {
-//				item.position.set(anim.getTrackVec2f("leftPos"));
-//				item.rotation = anim.getTrackD("leftRot");
-//			}
-//		}
+				sprite.localPosition = new Vec2f(2.50, 0);
+
+			} else if (!character.lookRight) {
+				sprite.localPosition = new Vec2f(0.20, 0);
+				item.position.set(anim.getTrackVec2f("leftPos"));
+				item.rotation = anim.getTrackD("leftRot");
+				sprite.localPosition = new Vec2f(2.50, 0);
+			}
 		}
 		super.step(d);
+
 	}
 
 	@Override
