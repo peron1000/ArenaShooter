@@ -30,7 +30,7 @@ public class Character extends RigidBodyContainer {
 	public float movementInput = 0;
 	public boolean lookRight = true;
 	public boolean isAiming = false;
-	public static double aimInput = 0;
+	public double aimInput = 0;
 	
 	//Movement stats
 	public double maxSpeed = 18;
