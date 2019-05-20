@@ -27,8 +27,20 @@ public class RigidBody extends PhysicBody {
 		bodyDef.setType(BodyType.DYNAMIC);
 	}
 	
+	/**
+	 * Apply an impulse at center of mass
+	 * @param impulse
+	 */
 	public void applyImpulse(Vec2f impulse) {
 		body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
+	}
+	/**
+	 * Apply an impulse at location
+	 * @param impulse
+	 * @param location world position
+	 */
+	public void applyImpulse(Vec2f impulse, Vec2f location) {
+		body.applyLinearImpulse(impulse.toB2Vec(), location.toB2Vec(), true);
 	}
 
 	@Override

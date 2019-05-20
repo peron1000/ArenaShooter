@@ -15,6 +15,19 @@ public class KinematicBodyContainer extends Spatial {
 		this.body = body;
 	}
 	
+	/**
+	 * @return linear velocity at center of mass
+	 */
+	public Vec2f getLinearVelocity() { return body.getLinearVelocity(); }
+	
+	/**
+	 * Set linear velocity at center of mass
+	 * @param newVelocity
+	 */
+	public void setLinearVelocity(Vec2f newVelocity) {
+		body.setLinearVelocity(newVelocity);
+	}
+	
 	@Override
 	public void step(double d) {
 		if(needsPhysWorld) {

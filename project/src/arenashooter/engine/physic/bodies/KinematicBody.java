@@ -13,6 +13,8 @@ import arenashooter.engine.physic.PhysicWorld;
  */
 public class KinematicBody extends PhysicBody {
 	float density;
+	
+	private Vec2f linearVelocity = new Vec2f();
 
 	public KinematicBody(PhysicShape shape, Vec2f position, double rotation, float density) {
 		super(shape, position, rotation);
@@ -27,6 +29,19 @@ public class KinematicBody extends PhysicBody {
 	
 	public void applyImpulse(Vec2f impulse) {
 		body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
+	}
+	
+	/**
+	 * @return linear velocity at center of mass
+	 */
+	public Vec2f getLinearVelocity() { return linearVelocity.set(body.getLinearVelocity()); }
+	
+	/**
+	 * Set linear velocity at center of mass
+	 * @param newVelocity
+	 */
+	public void setLinearVelocity(Vec2f newVelocity) {
+		body.setLinearVelocity(newVelocity.toB2Vec());
 	}
 
 	@Override
