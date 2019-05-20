@@ -11,6 +11,7 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuPause;
 import arenashooter.entities.Controller;
 import arenashooter.entities.Timer;
@@ -24,6 +25,7 @@ public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
 
+	Menu menu;
 	int currentRound = 1;
 	GameMode gameMode = GameMode.Death_Match;
 	int nbRounds = 1;

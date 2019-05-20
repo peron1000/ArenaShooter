@@ -18,6 +18,8 @@ public class Melee extends Usable {
 	protected animMelee animmelee = null;
 
 	protected Sprite sprite = null;
+	
+	protected Timer timerWarmup = null;
 
 	public Melee(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
@@ -35,9 +37,12 @@ public class Melee extends Usable {
 		 * SoundEffect warmup = new SoundEffect(position, "data/sound/" + soundWarmup +
 		 * ".ogg", 2); warmup.attachToParent(this, "snd_Warmup");
 		 */
-
-		// Cooldown
+		
+		//Cooldown
 		this.timerCooldown = new Timer(cooldown);
+		this.timerCooldown.setIncreasing(true);
+		this.timerCooldown.setProcessing(true);
+		this.timerCooldown.setValue(cooldown);
 		this.timerCooldown.attachToParent(this, "timer_cooldown");
 
 		this.animmelee = new animMelee(new Vec2f(0, 0), this);
@@ -46,10 +51,12 @@ public class Melee extends Usable {
 
 	@Override
 	public void attackStart() {
+		
 	}
 
 	@Override
 	public void attackStop() {
+		
 	}
 
 	@Override
