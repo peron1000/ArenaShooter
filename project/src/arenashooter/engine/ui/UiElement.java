@@ -34,7 +34,7 @@ public abstract class UiElement {
 		return pos;
 	}
 
-	void setPos(Vec2f pos) {
+	public void setPos(Vec2f pos) {
 		if (this.pos == null || rePos == null) {
 			this.pos = pos.clone();
 			this.rePos = pos.clone();
