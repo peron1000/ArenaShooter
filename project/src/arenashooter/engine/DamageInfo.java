@@ -12,6 +12,13 @@ public class DamageInfo {
 	/** Entity causing damage, Character for bullets and other weapon damages */
 	public final Entity instigator;
 	
+	/**
+	 * 
+	 * @param damage base damage
+	 * @param dmgType
+	 * @param direction unit vector (or 0,0 if non-oriented) indicating the direction of the damage (for example: normalized bullet velocity)
+	 * @param instigator entity responsible for damage
+	 */
 	public DamageInfo(float damage, DamageType dmgType, Vec2f direction, Entity instigator) {
 		this.damage = damage;
 		this.dmgType = dmgType;

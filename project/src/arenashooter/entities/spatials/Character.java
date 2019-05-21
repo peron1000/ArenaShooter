@@ -208,6 +208,11 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
+		//Force death if character fell out of bounds
+		if(info.dmgType == DamageType.OUTOFBOUNDS) {
+			death();
+			return health;
+		}
 
 		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
 
@@ -271,8 +276,6 @@ public class Character extends RigidBodyContainer {
 		if (isOnGround)
 			jumpTimer.reset();
 
-//		localPosition.add(Vec2f.multiply(vel, (float) d));
-
 		// Animation
 		if (!isAiming) {
 			if (movementInput > 0)
@@ -296,7 +299,7 @@ public class Character extends RigidBodyContainer {
 		}
 
 		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500) {
-			death();
+			takeDamage(new DamageInfo(0, DamageType.OUTOFBOUNDS, new Vec2f(), null));
 		}
 
 		super.step(d);
