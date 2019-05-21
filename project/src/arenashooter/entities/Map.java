@@ -3,17 +3,13 @@ package arenashooter.entities;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
-import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.spatials.AnimationTester;
-import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
@@ -122,60 +118,22 @@ public class Map extends Entity {
 	 */
 	private void createTestEntities() {
 		// Rigid body 1
-		Vec2f position = new Vec2f(9.6, -7);
-		RigidBody body = new RigidBody(new ShapeBox(new Vec2f(.5, .5)), position, .5, CollisionFlags.RIGIDBODY, 1, .3f);
+		Vec2f position = new Vec2f(-7, 0);
+		RigidBody body = new RigidBody(new ShapeDisk(.5), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
 		RigidBodyContainer rb = new RigidBodyContainer(position, body);
-		rb.attachToParent(this, "Rigid Body test");
-		Mesh rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-		rbMesh.rotationFromParent = true;
-		rbMesh.attachToParent(rb, "mesh");
-
-		// Rigid body 2
-		position = new Vec2f(-7, 0);
-		body = new RigidBody(new ShapeDisk(.5), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
-		rb = new RigidBodyContainer(position, body);
-		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+		Sprite rbSprite = new Sprite(new Vec2f(), "data/test.png");
 		rbSprite.size = new Vec2f(1, 1);
-		rb.attachToParent(this, "Rigid Body test 2");
+		rb.attachToParent(this, "Rigid Body test 1");
 		rbSprite.attachToParent(rb, "Sprite");
 
-		// Rigid body 3
+		// Rigid body 1
 		position = new Vec2f(-7.5, -1);
 		body = new RigidBody(new ShapeDisk(1), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
 		rb = new RigidBodyContainer(position, body);
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(2, 2);
-		rb.attachToParent(this, "Rigid Body test 3");
+		rb.attachToParent(this, "Rigid Body test 2");
 		rbSprite.attachToParent(rb, "Sprite");
-
-		// Rigid body 4
-		position = new Vec2f(10, -9);
-		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, -.5, CollisionFlags.RIGIDBODY, 1, .3f);
-		rb = new RigidBodyContainer(position, body);
-		rb.attachToParent(this, "Rigid Body test 4");
-		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-		rbMesh.scale.x = 2;
-		rbMesh.attachToParent(rb, "mesh");
-		
-		// Rigid body 5
-		position = new Vec2f(10, -12);
-		body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0.1, CollisionFlags.RIGIDBODY, 1, .3f);
-		rb = new RigidBodyContainer(position, body);
-		rb.attachToParent(this, "Rigid Body test 5");
-		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-		rbMesh.scale.x = 2;
-		rbMesh.attachToParent(rb, "mesh");
-		
-		// Moult caisses
-//		for(int i=0; i<32; i++) {
-//			position = new Vec2f(5, -i*1.1);
-//			body = new RigidBody(new ShapeBox(new Vec2f(1, .5)), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
-//			rb = new RigidBodyContainer(position, body);
-//			rb.attachToParent(this, "Rigid body crate "+i);
-//			rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-//			rbMesh.scale.x = 2;
-//			rbMesh.attachToParent(rb, "mesh");
-//		}
 		
 		AnimationTester animTester = new AnimationTester(new Vec2f(-15, 0));
 		animTester.attachToParent(this, "anim tester 1");

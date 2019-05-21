@@ -224,6 +224,42 @@
 				</mesh>
 			</entities>
 		</static>
+		
+		<rigid>
+			<vecteur x="-5" y="-3" use="position" />
+			<vecteur x=".5" y=".5" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
+		
+		<rigid>
+			<vecteur x="-5" y="-10" use="position" />
+			<vecteur x="1" y=".5" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="1" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
+		
+		<rigid>
+			<vecteur x="-5" y="-15" use="position" />
+			<vecteur x=".5" y=".5" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
 			<vecteur use="position" x="225" y="280" z="-625" />
