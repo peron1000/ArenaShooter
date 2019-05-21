@@ -36,6 +36,8 @@ public class Bullet extends Projectile {
 
 	@Override
 	public void impact(Spatial other) {
+		if(other instanceof Character)
+			((Character)other).takeDamage(damage, vel.x < 0);
 		detach();
 	}
 
