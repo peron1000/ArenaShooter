@@ -208,15 +208,15 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		//Force death if character fell out of bounds
+		//Force death if character fell out of bounds or was killed for a non-gameplay reason
 		if(info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
-			death();
+			death(info);
 			return health;
 		}
 
 		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
 
-		applyImpulse(Vec2f.multiply(info.direction, Math.log10(info.damage)));
+		applyImpulse(Vec2f.multiply(info.direction, info.damage));
 //		float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage))) : 4);
 //		float bumpY = (info.damage >= 1 ? 2.5f * (1 + ((float) Math.log10(info.damage))) : 2.5f);
 
@@ -228,12 +228,12 @@ public class Character extends RigidBodyContainer {
 		health = Math.max(0, health - info.damage);
 
 		if (health <= 0)
-			death();
+			death(info);
 
 		return res;
 	}
 
-	private void death() {
+	private void death(DamageInfo deathCause) {
 		// TODO: Effects
 		health = 0;
 		dropItem();
