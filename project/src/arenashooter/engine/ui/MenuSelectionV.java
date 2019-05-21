@@ -134,6 +134,6 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 	}
 	
 	private void majSelecPosition() {
-		selec.setPosLerp(getTarget().getPos(), 20);
+		selec.setPosLerp(getTarget().getPos(), 40);
 	}
 }
