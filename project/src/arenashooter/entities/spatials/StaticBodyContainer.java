@@ -4,6 +4,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.entities.Entity;
 import arenashooter.game.Main;
 
 public class StaticBodyContainer extends Spatial {
@@ -11,6 +12,7 @@ public class StaticBodyContainer extends Spatial {
 	private StaticBody body;
 	
 	private boolean needsPhysWorld = true;
+	private boolean init = false;
 
 	public StaticBodyContainer(Vec2f position, StaticBody body) {
 		super(position);
@@ -22,12 +24,40 @@ public class StaticBodyContainer extends Spatial {
 	}
 	
 	@Override
+	public Entity attachToParent(Entity newParent, String name) {
+		if(body != null) body.removeFromWorld();
+		needsPhysWorld = true;
+		
+		Entity prev = super.attachToParent(newParent, name);
+		
+		if(getMap() != null) {
+			body.addToWorld(getMap().physic);
+			needsPhysWorld = false;
+		}
+		
+		return prev;
+	}
+	
+	@Override
+	public void detach() {
+		if(body != null) body.removeFromWorld();
+		needsPhysWorld = true;
+		
+		super.detach();
+	}
+	
+	@Override
 	public Vec2f getWorldPos() {
 		return body.getPosition();
 	}
 	
 	@Override
 	public void step(double d) {
+		if(!init) {
+			init = true;
+			body.setUserData(this);
+		}
+		
 		if(needsPhysWorld) {
 			if(getMap() != null) {
 				body.addToWorld(getMap().physic);

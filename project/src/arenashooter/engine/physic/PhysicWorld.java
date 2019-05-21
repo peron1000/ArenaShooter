@@ -11,6 +11,8 @@ import org.jbox2d.dynamics.contacts.Contact;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Map;
+import arenashooter.entities.spatials.Projectile;
+import arenashooter.entities.spatials.Spatial;
 
 public class PhysicWorld {
 	/** Box-2d world */
@@ -57,7 +59,16 @@ public class PhysicWorld {
 
 		@Override
 		public void beginContact(Contact contact) {
-			// TODO Auto-generated method stub
+			if( contact.getFixtureA().getUserData() instanceof Spatial
+				&& contact.getFixtureB().getUserData() instanceof Spatial ) {
+					//A is a projectile
+					if( (contact.getFixtureA().getUserData()) instanceof Projectile )
+						((Projectile)contact.getFixtureA().getUserData()).impact((Spatial) contact.getFixtureB().getUserData());
+
+					//B is a projectile
+					if( (contact.getFixtureB().getUserData()) instanceof Projectile )
+						((Projectile)contact.getFixtureB().getUserData()).impact((Spatial) contact.getFixtureA().getUserData());
+				}
 		}
 
 		@Override

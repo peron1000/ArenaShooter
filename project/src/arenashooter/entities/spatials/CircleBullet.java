@@ -1,10 +1,10 @@
 package arenashooter.entities.spatials;
 
-import java.util.LinkedList;
-
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Entity;
+import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class CircleBullet extends Projectile {
 	
@@ -12,88 +12,55 @@ public class CircleBullet extends Projectile {
 	
 	private double movementTime = 0;
 	
+	private Vec2f direction;
+	private Vec2f finalVel = new Vec2f();
+	private static float frequency = 45, amplitude = 10;
+	
 	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/slap.ogg", 10, .8f, 1.2f, true);
 
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
-		this.parentPosition = Vec2f.add(position.clone(), this.vel);
-		this.vel = vel.clone();
+		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
+		
+		getBody().setBullet(true);
+		
+		this.sens = sens;
 		movementTime += (Math.random()-0.5)/2;
+		
+		this.vel = vel.clone();
+		direction = Vec2f.fromAngle(vel.angle());
 
 		this.damage = damage;
-		this.sens = sens;
 
-		collider = new Collider(this.getWorldPos(), new Vec2f(.5, .5));
-		collider.attachToParent(this, "collider");
-
-		sndImpact.setVolume(.15f);
-		
 		Sprite bul = new Sprite(getWorldPos(), "data/sprites/Ion_Bullet.png");
-		bul.size = new Vec2f(bul.getTexture().getWidth()*.02, bul.getTexture().getHeight()*.02);
+		bul.size = new Vec2f(bul.getTexture().getWidth()*.018, bul.getTexture().getHeight()*.018);
 		bul.rotation = rotation;
-		bul.attachToParent(this, "bul_Sprite");
 		bul.getTexture().setFilter(false);
 		bul.useTransparency = true;
+		bul.attachToParent(this, "bul_Sprite");
+
+		sndImpact.setVolume(.15f);
 	}
 
 	@Override
-	public void step(double d) {
+	public void impact(Spatial other) {
+		detach();
+	}
 
+	public void step(double d) {
+		if(getBody().getBody() != null) 
+			getBody().getBody().setGravityScale(0);
+		
 		movementTime += (sens ? d : -d);
 
-		double sin = Math.sin(movementTime * 40);
-		double cos = Math.cos(movementTime * 40);
+		Vec2f.rotate(direction, movementTime * frequency, finalVel);
+		finalVel.multiply(amplitude);
+		finalVel.add(vel);
 		
-		collider.localPosition.x = (float) (-.2 + cos * .5);
-		collider.localPosition.y = (float) (-.2 + sin * .5);
+		getBody().setLinearVelocity(finalVel);
 		
-		Sprite sprite = ((Sprite)getChildren().get("bul_Sprite"));
-		sprite.localPosition.x = (float) (-.2 + cos * .5);
-		sprite.localPosition.y = (float) (-.2 + sin * .5);
-
-		if (Math.abs(getWorldPos().x) > 10000 || Math.abs(getWorldPos().y) > 10000) {
+		if (Math.abs(getWorldPos().x) > 1000 || Math.abs(getWorldPos().y) > 1000) {
 			detach();
 		}
-		LinkedList<Entity> siblings = new LinkedList<>();
-		siblings.addAll(siblings().values());
-		boolean destroyed = false;
-		for (Entity bump : siblings) {
-			if (bump instanceof Plateform) {
-				for (Entity coll : ((Plateform) bump).getChildren().values()) {
-					if (coll instanceof Collider) {
-						Collider c = (Collider) coll;
-						if (c.isColliding(collider)) {
-							sndImpact.play(getWorldPos());
-							detach();
-							destroyed = true;
-							break;
-						}
-					}
-				}
-			}
-			if (bump instanceof Character && !isShooter(((Character) bump))) {
-				for (Entity coll : ((Character) bump).getChildren().values()) {
-					if (coll instanceof Collider) {
-						Collider c = (Collider) coll;
-						if (c.isColliding(collider)) {
-							sndImpact.play(getWorldPos());
-							((Character) bump).takeDamage(damage, vel.x > 0);
-							detach();
-							destroyed = true;
-							break;
-						}
-					}
-				}
-			}
-
-			if (destroyed)
-				break;
-		}
-
-		parentPosition.add(Vec2f.multiply(vel, (float) d));
-
-		((Spatial) getChildren().get("bul_Sprite")).parentPosition = getWorldPos();
-		((Spatial) getChildren().get("collider")).parentPosition = getWorldPos();
-		((Spatial) getChildren().get("bul_Sprite")).rotation = rotation;
 
 		super.step(d);
 	}

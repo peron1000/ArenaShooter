@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.entities.Entity;
 import arenashooter.game.Main;
 
 public class RigidBodyContainer extends Spatial {
@@ -9,10 +10,34 @@ public class RigidBodyContainer extends Spatial {
 	private RigidBody body;
 	
 	private boolean needsPhysWorld = true;
+	private boolean init = false;
 
 	public RigidBodyContainer(Vec2f position, RigidBody body) {
 		super(position);
 		this.body = body;
+	}
+	
+	@Override
+	public Entity attachToParent(Entity newParent, String name) {
+		if(body != null) body.removeFromWorld();
+		needsPhysWorld = true;
+		
+		Entity prev = super.attachToParent(newParent, name);
+		
+		if(getMap() != null) {
+			body.addToWorld(getMap().physic);
+			needsPhysWorld = false;
+		}
+		
+		return prev;
+	}
+	
+	@Override
+	public void detach() {
+		if(body != null) body.removeFromWorld();
+		needsPhysWorld = true;
+		
+		super.detach();
 	}
 	
 	@Override
@@ -53,6 +78,11 @@ public class RigidBodyContainer extends Spatial {
 	
 	@Override
 	public void step(double d) {
+		if(!init) {
+			init = true;
+			body.setUserData(this);
+		}
+		
 		if(needsPhysWorld) {
 			if(getMap() != null) {
 				body.addToWorld(getMap().physic);

@@ -102,8 +102,9 @@ public class RigidBody extends PhysicBody {
 		filter.maskBits = collFlags.maskBits;
 		fixtureDef.setFilter(filter);
 		fixtureDef.setSensor(isSensor());
-
-		body.createFixture(fixtureDef);
+		fixtureDef.setUserData(userData);
+		
+		fixture = body.createFixture(fixtureDef);
 	}
 
 }

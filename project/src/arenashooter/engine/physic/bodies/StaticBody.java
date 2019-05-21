@@ -1,6 +1,5 @@
 package arenashooter.engine.physic.bodies;
 
-import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
@@ -18,8 +17,7 @@ public class StaticBody extends PhysicBody {
 	
 	public StaticBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags) {
 		super(shape, position, rotation, collFlags);
-		
-		bodyDef = new BodyDef();
+
 		bodyDef.setPosition(position.toB2Vec());
 		bodyDef.setAngle((float)rotation);
 	}
@@ -41,8 +39,9 @@ public class StaticBody extends PhysicBody {
 		filter.maskBits = collFlags.maskBits;
 		fixtureDef.setFilter(filter);
 		fixtureDef.setSensor(isSensor());
+		fixtureDef.setUserData(userData);
 		
-		body.createFixture(fixtureDef);
+		fixture = body.createFixture(fixtureDef);
 	}
 
 }

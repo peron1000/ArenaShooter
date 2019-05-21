@@ -5,6 +5,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.spatials.Spatial;
 
 public abstract class PhysicBody {
 	protected PhysicShape shape;
@@ -12,6 +13,7 @@ public abstract class PhysicBody {
 	protected Body body;
 	protected final CollisionFlags collFlags;
 	protected Fixture fixture;
+	protected Spatial userData = null;
 	
 	private boolean isSensor = false;
 	
@@ -20,11 +22,26 @@ public abstract class PhysicBody {
 	public PhysicBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags) {
 		this.shape = shape;
 		this.collFlags = collFlags;
+
+		bodyDef = new BodyDef();
+	}
+	
+	/**
+	 * Set user data for this body
+	 * @param container Entity using this body
+	 */
+	public void setUserData(Spatial container) {
+		userData = container;
+		bodyDef.setUserData(userData);
+		if(body != null) body.setUserData(userData);
+		if(fixture != null) fixture.setUserData(userData);
+		System.out.println(bodyDef.getUserData());
 	}
 	
 	public abstract void addToWorld(PhysicWorld world);
 	
 	public void removeFromWorld() {
+		if(body == null || world == null) return;
 		world.getB2World().destroyBody(body);
 		world = null;
 	}

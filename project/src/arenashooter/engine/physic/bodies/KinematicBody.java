@@ -1,6 +1,5 @@
 package arenashooter.engine.physic.bodies;
 
-import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
@@ -24,7 +23,6 @@ public class KinematicBody extends PhysicBody {
 
 		this.density = density;
 
-		bodyDef = new BodyDef();
 		bodyDef.position.set(position.x, position.y);
 		bodyDef.setAngle((float)rotation);
 		bodyDef.setType(BodyType.KINEMATIC);
@@ -93,6 +91,7 @@ public class KinematicBody extends PhysicBody {
 		filter.maskBits = collFlags.maskBits;
 		fixtureDef.setFilter(filter);
 		fixtureDef.setSensor(isSensor());
+		fixtureDef.setUserData(userData);
 		
 		fixture = body.createFixture(fixtureDef);
 	}
