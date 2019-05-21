@@ -261,7 +261,7 @@ public class Test extends Map{
 		logo.size.set(logoSizeA.valueAt(time));
 		
 		Window.getCamera().localPosition = camA.valueAt(time);
-		pressStart.localPosition.y = 325+Window.getCamera().pos().y;
+		pressStart.localPosition.y = 325+Window.getCamera().getWorldPos().y;
 		
 		//Fade
 		float opacity = sceneOpacityA.valueAt(time).floatValue();

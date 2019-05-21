@@ -37,7 +37,7 @@ public class TextSpatial extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 		
 		material.setParamTex("distanceField", text.getFont().getTexture());
-		material.model = Mat4f.transform(pos(), rotation, scale);
+		material.model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
 		material.view = Window.getView();
 		material.proj = Window.proj;
 		material.bind(text.getModel());

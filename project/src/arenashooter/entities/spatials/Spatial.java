@@ -12,12 +12,14 @@ public class Spatial extends Entity {
 	public Vec2f localPosition;
 	/** World space position */
 	private Vec2f worldPosition = new Vec2f();
-	
+
+	/** World space Parent rotation */
+	public double parentRotation = 0;
 	/** World space rotation */
 	public double rotation = 0;
 	
 	/** If true and attached to a Spatial, rotation will be set to parent's rotation on step */
-	public boolean rotationFromParent = false;
+	public boolean rotationFromParent = true;
 
 	public Spatial() {
 		parentPosition = new Vec2f();
@@ -36,8 +38,8 @@ public class Spatial extends Entity {
 		if (newParent instanceof Spatial)
 			parentPosition.set(((Spatial) newParent).getWorldPos());
 		else if (newParent instanceof Spatial3) {
-			parentPosition.x = ((Spatial3) newParent).pos().x;
-			parentPosition.y = ((Spatial3) newParent).pos().y;
+			parentPosition.x = ((Spatial3) newParent).getWorldPos().x;
+			parentPosition.y = ((Spatial3) newParent).getWorldPos().y;
 		}
 		
 		return prev;
@@ -53,6 +55,10 @@ public class Spatial extends Entity {
 		else
 			return Vec2f.add(parentPosition, localPosition, worldPosition);
 	}
+	
+	public double getWorldRot() {
+		return rotation; //TODO: rotation from parent
+	}
 
 	/**
 	 * Update children, transmit position to every Spatial child.
@@ -66,11 +72,13 @@ public class Spatial extends Entity {
 			LinkedList<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
-				if (e instanceof Spatial)
+				if (e instanceof Spatial) {
 					((Spatial) e).parentPosition.set(getWorldPos());
-				else if (e instanceof Spatial3) {
+					((Spatial) e).parentRotation = getWorldRot();
+				} else if (e instanceof Spatial3) {
 					((Spatial3) e).parentPosition.x = getWorldPos().x;
 					((Spatial3) e).parentPosition.y = getWorldPos().y;
+					//TODO: transmit rotation
 				}
 				e.step(d);
 			}

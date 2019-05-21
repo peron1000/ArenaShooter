@@ -20,6 +20,8 @@ public abstract class Item extends Spatial {
 	protected String soundPickup = "";
 
 	public boolean isEquipped() {
+		rotationFromParent = false;
+		
 		if (parent != null)
 			return parent instanceof Character;
 		else

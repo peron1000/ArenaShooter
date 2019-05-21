@@ -29,7 +29,7 @@ public class AnimationTester extends Spatial implements IAnimated {
 		Entity mesh = getChildren().get("mesh");
 		if( mesh instanceof Mesh ) {
 			((Mesh)mesh).localPosition.set(anim.getTrackVec3f("pos"));
-			Quat.fromAngle(anim.getTrackD("rot"), ((Mesh)mesh).rotation);
+			Quat.fromAngle(anim.getTrackD("rot"), ((Mesh)mesh).localRotation);
 		}
 		
 		super.step(d);

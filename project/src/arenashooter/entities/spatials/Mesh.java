@@ -29,7 +29,7 @@ public class Mesh extends Spatial3 {
 	public Mesh(Vec3f position, Quat rotation, Vec3f scale, String modelPath) {
 		super(position);
 		
-		this.rotation = rotation;
+		this.localRotation = rotation;
 		this.scale = scale.clone();
 		
 		ModelsData data = ModelsData.loadModel(modelPath);
@@ -41,7 +41,7 @@ public class Mesh extends Spatial3 {
 	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Material[] materials) {
 		super(position);
 		
-		this.rotation = rotation;
+		this.localRotation = rotation;
 		this.scale = scale.clone();
 		
 		this.models = models;
@@ -65,7 +65,7 @@ public class Mesh extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 		
 		for( int i=0; i<models.length; i++ ) {
-			materials[i].model = Mat4f.transform(pos(), rotation, scale);
+			materials[i].model = Mat4f.transform(getWorldPos(), localRotation, scale);
 			materials[i].view = Window.getView();
 			materials[i].proj = Window.proj;
 

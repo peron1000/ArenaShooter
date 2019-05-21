@@ -121,6 +121,22 @@ public class Vec3f {
 	}
 	
 	/**
+	 * Add two vectors together, store the result in target and return it
+	 * <br/> Avoids object creation
+	 * 
+	 * @param a
+	 * @param b
+	 * @param target
+	 * @return target (a+b)
+	 */
+	public static Vec3f add(Vec3f a, Vec3f b, Vec3f target) {
+		target.x = a.x+b.x;
+		target.y = a.y+b.y;
+		target.z = a.z+b.z;
+		return target;
+	}
+	
+	/**
 	 * Subtract two vectors
 	 * @param a
 	 * @param b

@@ -58,6 +58,7 @@ public class CharacterSprite extends Spatial {
 		head.size = new Vec2f(head.getTexture().getWidth() * .052, head.getTexture().getHeight() * .052);
 		head.getTexture().setFilter(false);
 		head.zIndex = 1;
+		head.rotationFromParent = false;
 		head.attachToParent(this, "head");
 		
 		//Feet
@@ -89,9 +90,11 @@ public class CharacterSprite extends Spatial {
 		}		
 		handL.size = new Vec2f(handL.getTexture().getWidth() * .052, handL.getTexture().getHeight() * .052);
 		handL.getTexture().setFilter(false);
+		handL.rotationFromParent = false;
 		handL.attachToParent(this, "handL");
 		handR.size = new Vec2f(handR.getTexture().getWidth() * .052, handR.getTexture().getHeight() * .052);
 		handR.getTexture().setFilter(false);
+		handR.rotationFromParent = false;
 		handR.attachToParent(this, "handR");
 	}
 
@@ -186,7 +189,7 @@ public class CharacterSprite extends Spatial {
 		// Head
 		double headH = Utils.lerpD(0, Math.cos(movementTime * 3d), Math.min(Math.abs(moveSpeed) / 3, 1));
 		head.localPosition.y = (float) (-.2 + headH * .035);
-
+		
 		// Hands
 		if (parent instanceof Character) {
 			Usable weap = ((Character) parent).getWeapon();

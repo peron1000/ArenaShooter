@@ -24,11 +24,12 @@ public class Bullet extends Projectile {
 //		collider = new Collider(this.getWorldPos(), new Vec2f(.5, .5));
 //		collider.attachToParent(this, "collider");
 
-		Sprite bul = new Sprite(getWorldPos(), "data/sprites/Bullet.png");
-		bul.size = new Vec2f(bul.getTexture().getWidth()*.018, bul.getTexture().getHeight()*.018);
-		bul.rotation = rotation;
-		bul.getTexture().setFilter(false);
-		bul.attachToParent(this, "bul_Sprite");
+		Sprite sprite = new Sprite(getWorldPos(), "data/sprites/Bullet.png");
+		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
+		sprite.rotation = rotation;
+		sprite.getTexture().setFilter(false);
+		sprite.rotationFromParent = false;
+		sprite.attachToParent(this, "bul_Sprite");
 
 		sndImpact.setVolume(.15f);
 	}

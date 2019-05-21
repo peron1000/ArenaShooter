@@ -135,7 +135,7 @@ public class Game extends GameState {
 				// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera,
 				// c'est du bousin
 				// bounds and uncomment this
-				Audio.setListener(Window.getCamera().pos(), Window.getCamera().rotation);
+				Audio.setListener(Window.getCamera().getWorldPos(), Window.getCamera().getWorldRot());
 			} else
 				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 

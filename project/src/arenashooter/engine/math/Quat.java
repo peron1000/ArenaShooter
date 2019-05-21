@@ -66,6 +66,19 @@ public class Quat {
 		
 		return target;
 	}
+    
+    /**
+     * Copies the values from <i>other</i> into <i>this</i> and return it
+     * @param other Quat to copy
+     * @return <i>this</i> (modified)
+     */
+    public Quat set(Quat other) {
+    	this.w = other.w;
+    	this.x = other.x;
+    	this.y = other.y;
+    	this.z = other.z;
+    	return this;
+    }
 	
 	/**
 	 * Rotate a vector by this quaternion
@@ -80,6 +93,23 @@ public class Quat {
 		float z = r[0][2]*source.x + r[1][2]*source.y + r[2][2]*source.z;
 		
 		return new Vec3f(x, y, z);
+	}
+	
+	/**
+	 * Rotate a vector by this quaternion and stores the result in <i>target</i>.
+	 * <br/> Avoids object creation
+	 * @param source vector to rotate
+	 * @param target 
+	 * @return <i>target</i> (modified)
+	 */
+	public Vec3f rotate( Vec3f source, Vec3f target ) { //TODO: Test
+		float[][] r = Mat4f.rotation(this).val;
+		
+		target.x = r[0][0]*source.x + r[1][0]*source.y + r[2][0]*source.z;
+		target.y = r[0][1]*source.x + r[1][1]*source.y + r[2][1]*source.z;
+		target.z = r[0][2]*source.x + r[1][2]*source.y + r[2][2]*source.z;
+		
+		return target;
 	}
 	
 	/**
@@ -179,7 +209,13 @@ public class Quat {
 		return res;
 	}
 	
-	public static Quat mul(Quat q1, Quat q2) {
+	/**
+	 * Multiply two Quats
+	 * @param q1
+	 * @param q2
+	 * @return result as new object
+	 */
+	public static Quat multiply(Quat q1, Quat q2) {
 		Quat res = new Quat();
 		
 		res.x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
@@ -188,6 +224,22 @@ public class Quat {
 		res.w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
 		
 		return res;
+	}
+	
+	/**
+	 * Multiply two Quats and stores the result in <i>target</i>.
+	 * <br/> Avoids object creation
+	 * @param q1
+	 * @param q2
+	 * @return <i>target</i> (modified)
+	 */
+	public static Quat multiply(Quat q1, Quat q2, Quat target) {
+		target.x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
+		target.y = q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x;
+		target.z = q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w;
+		target.w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
+		
+		return target;
 	}
 	
 	public String toString() {

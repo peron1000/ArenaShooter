@@ -137,7 +137,6 @@ public class Map extends Entity {
 		Sprite rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(1, 1);
 		rb.attachToParent(this, "Rigid Body test 2");
-		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 3
@@ -147,7 +146,6 @@ public class Map extends Entity {
 		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
 		rbSprite.size = new Vec2f(2, 2);
 		rb.attachToParent(this, "Rigid Body test 3");
-		rbSprite.rotationFromParent = true;
 		rbSprite.attachToParent(rb, "Sprite");
 
 		// Rigid body 4
@@ -156,7 +154,6 @@ public class Map extends Entity {
 		rb = new RigidBodyContainer(position, body);
 		rb.attachToParent(this, "Rigid Body test 4");
 		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-		rbMesh.rotationFromParent = true;
 		rbMesh.scale.x = 2;
 		rbMesh.attachToParent(rb, "mesh");
 		
@@ -166,7 +163,6 @@ public class Map extends Entity {
 		rb = new RigidBodyContainer(position, body);
 		rb.attachToParent(this, "Rigid Body test 5");
 		rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-		rbMesh.rotationFromParent = true;
 		rbMesh.scale.x = 2;
 		rbMesh.attachToParent(rb, "mesh");
 		
@@ -177,7 +173,6 @@ public class Map extends Entity {
 //			rb = new RigidBodyContainer(position, body);
 //			rb.attachToParent(this, "Rigid body crate "+i);
 //			rbMesh = new Mesh(new Vec3f(), new Quat(), "data/meshes/crate/crate_01.obj");
-//			rbMesh.rotationFromParent = true;
 //			rbMesh.scale.x = 2;
 //			rbMesh.attachToParent(rb, "mesh");
 //		}
