@@ -14,6 +14,7 @@ import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
@@ -29,11 +30,11 @@ public class MapChooser extends GameState {
 
 	private double ringAngle = 0;
 	private final double ringRadius = 50;
-	
+
 	public MapChooser() {
 		super(1);
 	}
-	
+
 	public String getMapChosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
 	}
@@ -56,10 +57,10 @@ public class MapChooser extends GameState {
 			}
 		}
 
-		//Sort maps alphabetically
+		// Sort maps alphabetically
 		Collections.sort(maps);
-		
-		//Set FOV
+
+		// Set FOV
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
 		current.attachToParent(cam, "camera");
@@ -72,64 +73,67 @@ public class MapChooser extends GameState {
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change the map");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(current, "Text_touch");
-		
+
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to continue");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text3);
 		textEnt3.attachToParent(current, "Text_Choice");
-		
+
 		selectMap(0);
-		
+
 		for (int i = 0; i < maps.size(); i++) {
 			Material mat = new Material("data/shaders/sprite_simple");
 			mat.setParamTex("baseColor", Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png"));
 			Mesh m = Mesh.quad(new Vec3f(0), Quat.fromAngle(0), new Vec3f(1), mat);
 			m.attachToParent(getMap(), "Map_Thumbnail_" + maps.get(i));
 		}
-		
+
 		// params
-//		createTextGameMode(gameModeString+gameParam.getMode().name());
-//		gameMode.attachToParent(map, gameMode.genName());
+		// createTextGameMode(gameModeString+gameParam.getMode().name());
+		// gameMode.attachToParent(map, gameMode.genName());
 	}
 
-//	private void createTextGameMode(String str) {
-//		gameMode = new TextSpatial(new Vec3f(750, -570, 0), new Vec3f(250), new Text(Main.font, TextAlignH.CENTER, str));
-//		gameMode.attachToParent(map, gameMode.genName());
-//	}
-	
+	// private void createTextGameMode(String str) {
+	// gameMode = new TextSpatial(new Vec3f(750, -570, 0), new Vec3f(250), new
+	// Text(Main.font, TextAlignH.CENTER, str));
+	// gameMode.attachToParent(map, gameMode.genName());
+	// }
+
 	@Override
 	public void update(double delta) {
-//		// Refresh gameMode
-//		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_NathanTest)) {
-//			gameParam.setMode(gameParam.getMode().getNext());
-//		}
-//		if(gameParam.isChangedMode()) {
-//			gameMode.detach();
-//			createTextGameMode(gameModeString+gameParam.getMode());
-//		}
-		
+		// // Refresh gameMode
+		// if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_NathanTest)) {
+		// gameParam.setMode(gameParam.getMode().getNext());
+		// }
+		// if(gameParam.isChangedMode()) {
+		// gameMode.detach();
+		// createTextGameMode(gameModeString+gameParam.getMode());
+		// }
+
 		// Temp sprite changing
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_RIGHT)) {
-			if (init < maps.size() - 1) {
-				init++;
-			} else {
-				init = 0;
+		for (Controller controller : GameMaster.gm.controllers) {
+			if (Input.actionJustPressed(controller.getDevice(), Action.UI_RIGHT)) {
+				if (init < maps.size() - 1) {
+					init++;
+				} else {
+					init = 0;
+				}
+
+				selectMap(init);
+			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
+				if (init > 0) {
+					init--;
+				} else {
+					init = maps.size() - 1;
+				}
+				selectMap(init);
 			}
 
-			selectMap(init);
-		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_LEFT)) {
-			if (init > 0) {
-				init--;
-			} else {
-				init = maps.size() - 1;
+			if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
+
+				GameMaster.gm.requestNextState(new Game(1), getMapChosen());
+			} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
+				GameMaster.gm.requestPreviousState();
 			}
-			selectMap(init);
-		}
-		
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
-			
-			GameMaster.gm.requestNextState(new Game(1), getMapChosen());
-		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_BACK)) {
-			GameMaster.gm.requestPreviousState();
 		}
 
 		ringAngle = Utils.lerpAngle(ringAngle, Math.PI / 2 + (init * Utils.PI2 / maps.size()), Math.min(1, 8d * delta));

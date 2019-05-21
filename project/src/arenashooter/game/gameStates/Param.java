@@ -17,6 +17,7 @@ import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
+import arenashooter.entities.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -201,52 +202,58 @@ public class Param extends GameState {
 
 	@Override
 	public void update(double delta) {
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
-			if (!activated && menuParam.active.getValue()) {
-				menuParam.up(delta);
-			} else if (menuMap.active.getValue()) {
-				menuMap.up();
+		for (Device device : Device.values()) {
+			if (Input.actionJustPressed(device, Action.UI_UP)) {
+				if (!activated && menuParam.active.getValue()) {
+					menuParam.up(delta);
+				} else if (menuMap.active.getValue()) {
+					menuMap.up();
+				}
 			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
-			if (!activated && menuParam.active.getValue()) {
-				menuParam.down(delta);
-			} else if (menuMap.active.getValue()) {
-				menuMap.down();
+			if (Input.actionJustPressed(device, Action.UI_DOWN)) {
+				if (!activated && menuParam.active.getValue()) {
+					menuParam.down(delta);
+				} else if (menuMap.active.getValue()) {
+					menuMap.down();
+				}
 			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)) {
-			if (activated && menuParam.active.getValue()) {
-				menuParam.getTarget().lunchAction("left");
-			} else if (menuParam.active.getValue()) {
-				menuParam.left();
-			} else if (menuMap.active.getValue()) {
-				menuMap.left();
+			if (Input.actionJustPressed(device, Action.UI_LEFT)) {
+				if (activated && menuParam.active.getValue()) {
+					menuParam.getTarget().lunchAction("left");
+				} else if (menuParam.active.getValue()) {
+					menuParam.left();
+				} else if (menuMap.active.getValue()) {
+					menuMap.left();
+				}
 			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
-			if (activated && menuParam.active.getValue()) {
-				menuParam.getTarget().lunchAction("right");
-			} else if (menuParam.active.getValue()) {
-				menuParam.right();
-			} else if (menuMap.active.getValue()) {
-				menuMap.right();
+			if (Input.actionJustPressed(device, Action.UI_RIGHT)) {
+				if (activated && menuParam.active.getValue()) {
+					menuParam.getTarget().lunchAction("right");
+				} else if (menuParam.active.getValue()) {
+					menuParam.right();
+				} else if (menuMap.active.getValue()) {
+					menuMap.right();
+				}
 			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.JUMP)) {
-			if (menuParam.active.getValue()) {
-				activated = !activated;
+			if (Input.actionJustPressed(device, Action.JUMP)) {
+				if (menuParam.active.getValue()) {
+					activated = !activated;
+				}
+				if (menuMap.active.getValue()) {
+					menuMap.getElemSelec().lunchAction("selec");
+				}
 			}
-			if (menuMap.active.getValue()) {
-				menuMap.getElemSelec().lunchAction("selec");
+			if (Input.actionJustPressed(device, Action.UI_BACK)) {
+				if (activated)
+					activated = false;
 			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			if (!GameParam.maps.isEmpty())
-				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
-			else {
-				Exception e = new Exception("Choisissez au moins une map");
-				e.printStackTrace();
+			if (Input.actionJustPressed(device, Action.UI_OK)) {
+				if (!GameParam.maps.isEmpty())
+					GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+				else {
+					Exception e = new Exception("Choisissez au moins une map");
+					e.printStackTrace();
+				}
 			}
 		}
 
