@@ -22,7 +22,18 @@ public class Controller {
 	private Character character;
 	public int team = 1;
 	boolean deadChar = false;
-
+	
+	/**
+	 * Stats for Score
+	 */
+	public int roundsWon = 0;
+	public int deaths = 0;
+	public int kills = 0;
+	public int flagCatch = 0;
+	public int flagCapture = 0;
+	public int flagRetrieve = 0;
+	
+	
 	public boolean hasDeadChar() {
 		return deadChar;
 	}
