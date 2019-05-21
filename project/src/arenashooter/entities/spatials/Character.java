@@ -254,7 +254,10 @@ public class Character extends RigidBodyContainer {
 		if(!jumpTimer.isProcessing() || (jumpTimer.inProcess && jumpTimer.getValue() > 0.2) ) {
 			for(int i=0; i<4; i++) {
 				Vec2f start = getWorldPos().clone();
-				start.y += 1;
+				if(i == 0 || i == 3)
+					start.y += .7;
+				else
+					start.y += 1;
 				start.x -= .4;
 				start.x += i*.2;
 
