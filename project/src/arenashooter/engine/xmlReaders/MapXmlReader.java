@@ -13,11 +13,17 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.CollisionCategory;
+import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.entities.spatials.TextSpatial;
@@ -417,6 +423,12 @@ public class MapXmlReader extends XmlReader {
 			loadPlateform(plateform, parent);
 		}
 		
+		// caisse
+		List<Element> rigids = getListElementByName("rigid", entities);
+		for (Element rigid : rigids) {
+			loadRigid(rigid, parent);
+		}
+		
 		// Static bodies
 		List<Element> statics = getListElementByName("static", entities);
 		for (Element body : statics) {
@@ -565,6 +577,65 @@ public class MapXmlReader extends XmlReader {
 		List<Element> entitiess = getListElementByName("entities", plateform);
 		for (Element entities : entitiess) {
 			loadEntities(entities, parent);
+		}
+	}
+	
+	private void loadRigid(Element rigid, Entity parent) {
+		// vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", rigid);
+		Vec2f position = new Vec2f(), extent = new Vec2f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("Balise Plateform dans XML ne possède pas " + nbVec + " vecteurs");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVecteur vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec2f(vec.x, vec.y);
+					break;
+				case "extent":
+					extent = new Vec2f(vec.x, vec.y);
+					break;
+				default:
+					System.err.println("Vecteur dans Caisse mal défini");
+					break;
+				}
+			}
+		}
+
+		CollisionFlags flags = CollisionFlags.RIGIDBODY;
+		
+		double rotation = 0.0;
+		if(rigid.hasAttribute("rotation")) rotation = Double.parseDouble(rigid.getAttribute("rotation"));
+		
+		float density = 1;
+		if(rigid.hasAttribute("density")) density = Float.parseFloat(rigid.getAttribute("density"));
+		
+		float friction = 0.8f;
+		if(rigid.hasAttribute("friction")) friction = Float.parseFloat(rigid.getAttribute("friction"));
+		
+		float radius = -1;
+		if(rigid.hasAttribute("radius")) radius = Float.parseFloat(rigid.getAttribute("radius"));
+		
+		RigidBody body;
+		if(rigid.hasAttribute("radius")) {
+			body = new RigidBody(new ShapeDisk(radius), position, rotation, flags, density, friction);
+		} else
+			body = new RigidBody(new ShapeBox(extent), position, rotation, flags, density, friction);
+		
+		// Rigid
+		RigidBodyContainer p = new RigidBodyContainer(position, body);
+		if (rigid.hasAttribute("name")) {
+			p.attachToParent(parent, rigid.getAttribute("name"));
+		} else {
+			p.attachToParent(parent, p.genName());
+		}
+
+		// entities
+		List<Element> entitiess = getListElementByName("entities", rigid);
+		for (Element entities : entitiess) {
+			loadEntities(entities, p);
 		}
 	}
 	
