@@ -98,8 +98,9 @@ public class CharacterSprite extends Spatial {
 		handR.attachToParent(this, "handR");
 	}
 
-	public void punch() {
-		handR.localPosition.x = lookRight ? 1.5f : -1.5f;
+	public void punch(double direction) {
+		Vec2f.rotate(new Vec2f(1.5, 0), direction, handR.localPosition);
+		handR.rotation = direction;
 		sndPunch.play(parentPosition);
 	}
 

@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.DamageInfo;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Entity;
@@ -38,6 +39,13 @@ public class RigidBodyContainer extends Spatial {
 		needsPhysWorld = true;
 		
 		super.detach();
+	}
+	
+	@Override
+	public float takeDamage(DamageInfo info) { //TODO: Get impact location
+		applyImpulse(Vec2f.multiply(info.direction, info.damage));
+		
+		return 0;
 	}
 	
 	@Override

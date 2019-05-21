@@ -126,7 +126,7 @@ public class Character extends RigidBodyContainer {
 
 			CharacterSprite skeleton = ((CharacterSprite) getChildren().get("skeleton"));
 			if (skeleton != null)
-				skeleton.punch();
+				skeleton.punch(aimInput);
 			
 			DamageInfo punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 			
@@ -207,11 +207,11 @@ public class Character extends RigidBodyContainer {
 	}
 
 	@Override
-	public float takeDamage(DamageInfo info) {// degats orientes
+	public float takeDamage(DamageInfo info) {
 
 		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
 
-		applyImpulse(info.direction);
+		applyImpulse(Vec2f.multiply(info.direction, Math.log10(info.damage)));
 //		float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage))) : 4);
 //		float bumpY = (info.damage >= 1 ? 2.5f * (1 + ((float) Math.log10(info.damage))) : 2.5f);
 

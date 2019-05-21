@@ -126,7 +126,7 @@ public class Vec2f {
 	 * Normalizes a vector (sets its length to 1)
 	 * 
 	 * @param v
-	 * @return normalized vector, or (0,0) if length is 0
+	 * @return new normalized vector, or (0,0) if length is 0
 	 */
 	public static Vec2f normalize(Vec2f v) {
 		double len = v.length();

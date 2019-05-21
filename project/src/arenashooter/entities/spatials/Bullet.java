@@ -16,6 +16,7 @@ public class Bullet extends Projectile {
 		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
+		getBody().setIsSensor(true);
 		
 //		this.parentPosition = Vec2f.add(position.clone(), this.vel);
 		this.vel = vel.clone();
@@ -38,7 +39,9 @@ public class Bullet extends Projectile {
 
 	@Override
 	public void impact(Spatial other) {
-		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, vel, shooter));
+		if(other == shooter) return; //Ignore instigator
+		
+		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), shooter));
 		detach();
 	}
 

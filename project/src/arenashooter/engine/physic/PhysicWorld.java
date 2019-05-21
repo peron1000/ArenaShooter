@@ -76,13 +76,23 @@ public class PhysicWorld {
 
 		@Override
 		public void beginContact(Contact contact) {
-			
+			if( contact.getFixtureA().getUserData() instanceof Spatial
+					&& contact.getFixtureB().getUserData() instanceof Spatial ) {
+					//A is a projectile
+					if( (contact.getFixtureA().getUserData()) instanceof Projectile ) {
+						((Projectile)contact.getFixtureA().getUserData()).impact((Spatial) contact.getFixtureB().getUserData());
+					}
+					
+					//B is a projectile
+					if( (contact.getFixtureB().getUserData()) instanceof Projectile ) {
+						((Projectile)contact.getFixtureB().getUserData()).impact((Spatial) contact.getFixtureA().getUserData());
+					}
+			}
 		}
 
 		@Override
 		public void endContact(Contact contact) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -95,25 +105,7 @@ public class PhysicWorld {
 
 		@Override
 		public void postSolve(Contact contact, ContactImpulse impulse) {
-			boolean cancel = false;
-			if( contact.getFixtureA().getUserData() instanceof Spatial
-					&& contact.getFixtureB().getUserData() instanceof Spatial ) {
-					//A is a projectile
-					if( (contact.getFixtureA().getUserData()) instanceof Projectile ) {
-						((Projectile)contact.getFixtureA().getUserData()).impact((Spatial) contact.getFixtureB().getUserData());
-						cancel = true;
-					}
-					
-					//B is a projectile
-					if( (contact.getFixtureB().getUserData()) instanceof Projectile ) {
-						((Projectile)contact.getFixtureB().getUserData()).impact((Spatial) contact.getFixtureA().getUserData());
-						cancel = true;
-					}
-			}
-			
-			if(cancel) {
-				contact.setEnabled(false);
-			}
+			// TODO Auto-generated method stub
 		}
 		
 	}
