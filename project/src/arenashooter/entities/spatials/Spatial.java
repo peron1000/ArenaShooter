@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import java.util.LinkedList;
 
+import arenashooter.engine.DamageInfo;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Entity;
 
@@ -58,6 +59,15 @@ public class Spatial extends Entity {
 	
 	public double getWorldRot() {
 		return rotation; //TODO: rotation from parent
+	}
+	
+	/**
+	 * Apply damage on this entity
+	 * @param info
+	 * @return actual damages taken
+	 */
+	public float takeDamage(DamageInfo info) {
+		return 0;
 	}
 
 	/**

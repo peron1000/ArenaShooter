@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -44,8 +46,7 @@ public class CircleBullet extends Projectile {
 
 	@Override
 	public void impact(Spatial other) {
-		if(other instanceof Character)
-			((Character)other).takeDamage(damage, vel.x < 0);
+		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, vel, shooter));
 		detach();
 	}
 

@@ -4,6 +4,8 @@ import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Fixture;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -33,6 +35,10 @@ public class Character extends RigidBodyContainer {
 	
 	//Movement stats
 	public double maxSpeed = 18;
+	
+	//Combat stats
+	/** Melee attack cooldown */
+	private Timer attack = new Timer(0.3);
 
 	/**
 	 * The character is jumping
@@ -41,7 +47,6 @@ public class Character extends RigidBodyContainer {
 	private double jumpForce = 25;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.5);
-	private Timer attack = new Timer(0.3);
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position, new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
@@ -135,7 +140,8 @@ public class Character extends RigidBodyContainer {
 						float xDiff = Math.abs(getWorldPos().x - c.getWorldPos().x);
 						float yDiff = Math.abs(getWorldPos().y - c.getWorldPos().y);
 						if (xDiff < 175 && yDiff < 175) {
-							c.takeDamage(defaultDamage, lookRight);
+							DamageInfo dmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
+							c.takeDamage(dmgInfo);
 							((SoundEffect) getChildren().get("snd_Punch_Hit")).play();
 						}
 					}
@@ -206,19 +212,21 @@ public class Character extends RigidBodyContainer {
 		}
 	}
 
-	public float takeDamage(float damage, boolean droite) {// degats orientes
+	@Override
+	public float takeDamage(DamageInfo info) {// degats orientes
 
-		float res = Math.min(damage, health);// ? Ajouter Commentaire
+		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
 
-		float bumpX = (damage >= 1 ? 4 * (1 + ((float) Math.log10(damage))) : 4);
-		float bumpY = (damage >= 1 ? 2.5f * (1 + ((float) Math.log10(damage))) : 2.5f);
+		applyImpulse(info.direction);
+//		float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage))) : 4);
+//		float bumpY = (info.damage >= 1 ? 2.5f * (1 + ((float) Math.log10(info.damage))) : 2.5f);
 
 //		if (droite) //TODO: impulsex
 //			vel.add(new Vec2f(bumpX, -bumpY));
 //		else
 //			vel.add(new Vec2f(-bumpX, -bumpY));
 
-		health = Math.max(0, health - damage);
+		health = Math.max(0, health - info.damage);
 
 		if (health <= 0)
 			death();
