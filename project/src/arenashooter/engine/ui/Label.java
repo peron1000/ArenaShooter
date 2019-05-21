@@ -27,11 +27,6 @@ public class Label extends UiElement {
 		this.text = new Text(text.getFont(), Text.TextAlignH.CENTER, newText);
 	}
 
-	@Override
-	protected void update() {
-		// TODO Auto-generated method stub
-	}
-	
 	public void setThickness(float value) {
 		material.setParamF("thickness", value);
 	}
