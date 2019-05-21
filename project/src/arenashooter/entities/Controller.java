@@ -45,12 +45,11 @@ public class Controller {
 		Main.log.info("Added controller for: " + Input.getDeviceInfo(device));
 	}
 
-	public Character createNewCharacter(Game game, Vec2f spawn) {
+	public Character createNewCharacter(Vec2f spawn) {
 		if (character != null)
 			character.death();
 		character = info.createNewCharacter(spawn);
 		character.controller = this;
-		game.registerCharacter(character);
 		deadChar = false;
 		return character;
 	}

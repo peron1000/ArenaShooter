@@ -77,7 +77,8 @@ public class Game extends GameState {
 
 		for (Controller controller : GameMaster.gm.controllers) {
 			// Ce n'est plus un spawn aleatoire
-			Character character = controller.createNewCharacter(this, map.GetRandomRespawnch2());
+			Character character = controller.createNewCharacter(map.GetRandomRespawnch2());
+			players.add(character);
 			character.attachToParent(map, character.genName());
 		}
 
@@ -88,10 +89,6 @@ public class Game extends GameState {
 		Camera cam = new Camera(new Vec3f(0, 0, 6));
 		cam.attachToParent(map, "camera");
 		Window.setCamera(cam);
-	}
-
-	public void registerCharacter(Character character) {
-		players.add(character);
 	}
 
 	public void characterDeath(Controller controller, Character character) {
