@@ -318,6 +318,9 @@ public class Character extends RigidBodyContainer {
 	RayCastCallback GroundRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			//Ignore sensors
+			if(fixture.isSensor()) return -1;
+			
 			//Ignore anything the character doesn't collide with
 			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
 			
@@ -332,6 +335,9 @@ public class Character extends RigidBodyContainer {
 	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			//Ignore sensors
+			if(fixture.isSensor()) return -1;
+			
 			//We hit something that isn't self
 			if(fixture.getUserData() instanceof Spatial && fixture.getUserData() != this) {
 				if(punchHit.containsKey(fixture.getUserData())) {
