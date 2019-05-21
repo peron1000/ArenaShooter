@@ -1,5 +1,7 @@
 package arenashooter.entities;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -47,7 +49,7 @@ public class Controller {
 
 	public Character createNewCharacter(Vec2f spawn) {
 		if (character != null)
-			character.death();
+			character.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), null));
 		character = info.createNewCharacter(spawn);
 		character.controller = this;
 		deadChar = false;

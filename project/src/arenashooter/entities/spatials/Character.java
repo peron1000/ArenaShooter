@@ -209,7 +209,7 @@ public class Character extends RigidBodyContainer {
 	@Override
 	public float takeDamage(DamageInfo info) {
 		//Force death if character fell out of bounds
-		if(info.dmgType == DamageType.OUTOFBOUNDS) {
+		if(info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
 			death();
 			return health;
 		}
@@ -233,7 +233,7 @@ public class Character extends RigidBodyContainer {
 		return res;
 	}
 
-	public void death() {
+	private void death() {
 		// TODO: Effects
 		health = 0;
 		dropItem();
@@ -299,7 +299,7 @@ public class Character extends RigidBodyContainer {
 		}
 
 		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500) {
-			takeDamage(new DamageInfo(0, DamageType.OUTOFBOUNDS, new Vec2f(), null));
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		}
 
 		super.step(d);
