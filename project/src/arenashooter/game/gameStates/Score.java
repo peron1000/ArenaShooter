@@ -28,12 +28,19 @@ public class Score extends GameState {
 		texButtonA.setFilter(false);
 		UiImage butA = new UiImage(0, new Vec2f(texButtonA.getWidth()/2,texButtonA.getHeight()/2), texButtonA, new Vec4f(1, 1, 1, 1));
 		menu.addUiElement(butA, 4);
+		butA.setPos(new Vec2f(-67, 41));
 		
 		Texture texButtonY = Texture.loadTexture("data/sprites/interface/Button_Y.png");
 		texButtonY.setFilter(false);
+		UiImage butY = new UiImage(0, new Vec2f(texButtonY.getWidth()/2,texButtonY.getHeight()/2), texButtonY, new Vec4f(1, 1, 1, 1));
+		menu.addUiElement(butY, 4);
+		butY.setPos(new Vec2f(-30, 41));
 		
 		Texture texButtonB = Texture.loadTexture("data/sprites/interface/Button_B.png");
 		texButtonB.setFilter(false);
+		UiImage butB = new UiImage(0, new Vec2f(texButtonB.getWidth()/2,texButtonB.getHeight()/2), texButtonB, new Vec4f(1, 1, 1, 1));
+		menu.addUiElement(butB, 4);
+		butB.setPos(new Vec2f(7, 41));
 	
 		
 		super.init();
