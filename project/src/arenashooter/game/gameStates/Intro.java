@@ -9,19 +9,21 @@ import arenashooter.entities.Music;
 import arenashooter.game.GameMaster;
 
 public class Intro extends GameState {
-	public Intro() { }
+	public Intro() { 
+		super(1);
+	}
 	
 	@Override
 	public void init() {
 		super.init();
-		map = new Test();
+		current = new Test();
 	}
 
 	@Override
 	public void update(double delta) {
-		map.step(delta);
+		current.step(delta);
 		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
-			Entity bgm = map.getChildren().get("bgm");
+			Entity bgm = current.getChildren().get("bgm");
 			if(bgm instanceof Music) ((Music)bgm).stop();
 			
 			GameMaster.gm.requestNextState(new CharacterChooser(), "data/mapXML/empty.xml");

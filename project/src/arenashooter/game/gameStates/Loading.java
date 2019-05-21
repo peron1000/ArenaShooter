@@ -20,12 +20,14 @@ public class Loading extends GameState {
 
 	private GameState next;
 
-	private MapXmlReader mapXmlRedader;
+	private MapXmlReader mapXmlReader;
 
-	private Loading() { }
+	private Loading() { 
+		super(1);
+	}
 
 	public void init() {
-		map = new Map();
+		current = new Map();
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
 
@@ -51,7 +53,7 @@ public class Loading extends GameState {
 		}
 
 		for (Entity entity : entities) {
-			entity.attachToParent(map, entity.genName());
+			entity.attachToParent(current, entity.genName());
 		}
 		
 	}
@@ -60,13 +62,28 @@ public class Loading extends GameState {
 	 * Set loading target
 	 * 
 	 * @param next
-	 * @param mapName
+	 * @param mapPath
 	 */
-	public void setNextState(GameState next, String mapName) {
+	public void setNextState(GameState next, String... mapPath) {
+		if(mapPath.length < next.maps.length) {
+			Exception e = new Exception("Not enough map Path given");
+			e.printStackTrace();
+			for (int i = 0; i < next.maps.length; i++) {
+				if(i < mapPath.length) {
+					mapXmlReader = new MapXmlReader(mapPath[i]);
+				} else {
+					mapXmlReader = new MapXmlReader(mapPath[mapPath.length-1]);
+				}
+				mapXmlReader.load(next.maps[i]);
+			}
+		} else {
+			for (int i = 0; i < next.maps.length; i++) {
+				String string = mapPath[i];
+				mapXmlReader = new MapXmlReader(string);
+				mapXmlReader.load(next.maps[i]);
+			}
+		}
 		this.next = next;
-		mapXmlRedader = new MapXmlReader(mapName);
-		update(0);
-		mapXmlRedader.load(next.map);
 	}
 
 	public GameState getNextState() {
@@ -75,8 +92,8 @@ public class Loading extends GameState {
 
 	@Override
 	public void update(double delta) {
-		map.step(delta);
-		if(mapXmlRedader.isDone()) {
+		current.step(delta);
+		if(mapXmlReader.isDone()) {
 			stopLoading();
 		}
 	}

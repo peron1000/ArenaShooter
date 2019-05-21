@@ -8,12 +8,15 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.UiImage;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.GameMaster;
 
 public class Score extends GameState {
 	
 	private Menu menu = new Menu(5);
+	
+	public Score() {
+		super(1);
+	}
 	
 	@Override
 	public void init(){

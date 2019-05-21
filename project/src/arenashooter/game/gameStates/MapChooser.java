@@ -30,6 +30,10 @@ public class MapChooser extends GameState {
 	private double ringAngle = 0;
 	private final double ringRadius = 50;
 	
+	public MapChooser() {
+		super(1);
+	}
+	
 	public String getMapChosen() {
 		return "data/mapXML/" + mapChosen + ".xml";
 	}
@@ -58,20 +62,20 @@ public class MapChooser extends GameState {
 		//Set FOV
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
-		map.attachToParent(cam, "camera");
+		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
 
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your map");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
-		textEnt.attachToParent(map, "Text_Select");
+		textEnt.attachToParent(current, "Text_Select");
 
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change the map");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
-		textEnt2.attachToParent(map, "Text_touch");
+		textEnt2.attachToParent(current, "Text_touch");
 		
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to continue");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text3);
-		textEnt3.attachToParent(map, "Text_Choice");
+		textEnt3.attachToParent(current, "Text_Choice");
 		
 		selectMap(0);
 		
@@ -123,7 +127,7 @@ public class MapChooser extends GameState {
 		
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
 			
-			GameMaster.gm.requestNextState(new Game(), getMapChosen());
+			GameMaster.gm.requestNextState(new Game(1), getMapChosen());
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_BACK)) {
 			GameMaster.gm.requestPreviousState();
 		}

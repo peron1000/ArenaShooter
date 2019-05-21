@@ -33,7 +33,7 @@ public class GameMaster {
 		// Constructor untouchable
 	}
 
-	public void requestNextState(GameState nextState, String nextStateMap) {
+	public void requestNextState(GameState nextState, String... nextStateMap) {
 
 		if (current == Loading.loading) { // Loading
 			current = Loading.loading.getNextState();

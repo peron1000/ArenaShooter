@@ -17,6 +17,7 @@ import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
+import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class CharacterChooser extends GameState {
 
@@ -25,6 +26,10 @@ public class CharacterChooser extends GameState {
 	private final double posdedepart = -3;
 	private double i = posdedepart;
 	private final double charOffset = 2;
+	
+	public CharacterChooser() {
+		super(1);
+	}
 
 	public Collection<Controller> getControllers() {
 		return controllers.values();
@@ -35,24 +40,24 @@ public class CharacterChooser extends GameState {
 		super.init();
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
-		textEnt.attachToParent(map, "Text_Select");
+		textEnt.attachToParent(current, "Text_Select");
 
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change your figther");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
-		textEnt2.attachToParent(map, "Text_char");
+		textEnt2.attachToParent(current, "Text_char");
 
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Z and S to change your skin");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -5, 0), new Vec3f(4.25f), text3);
-		textEnt3.attachToParent(map, "Text_touch");
+		textEnt3.attachToParent(current, "Text_touch");
 
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to go to the map chooser");
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
-		textEnt4.attachToParent(map, "Text_touch2");
+		textEnt4.attachToParent(current, "Text_touch2");
 		
 		//Set camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
-		map.attachToParent(cam, "camera");
+		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
 
 		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
@@ -61,7 +66,7 @@ public class CharacterChooser extends GameState {
 		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.info);
 		sprites.put(controllerKeyboard, c);
 		i += charOffset;
-		c.attachToParent(map, c.genName());
+		c.attachToParent(current, c.genName());
 	}
 
 	@Override
@@ -72,7 +77,7 @@ public class CharacterChooser extends GameState {
 				controllers.put(device, newController);
 				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.info);
 				sprites.put(newController, c);
-				c.attachToParent(map, c.genName());
+				c.attachToParent(current, c.genName());
 				i += charOffset;
 			}
 			// TODO : remove controller when UI_BACK is pressed
@@ -124,28 +129,28 @@ public class CharacterChooser extends GameState {
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
-				c.attachToParent(map, c.genName());
+				c.attachToParent(current, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
 				controller.info.previousClass();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
-				c.attachToParent(map, c.genName());
+				c.attachToParent(current, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_UP)) {
 				controller.info.nextSkin();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
-				c.attachToParent(map, c.genName());
+				c.attachToParent(current, c.genName());
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_DOWN)) {
 				controller.info.previousSkin();
 				Vec2f pos = sprites.get(controller).parentPosition;
 				sprites.get(controller).detach();
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
-				c.attachToParent(map, c.genName());
+				c.attachToParent(current, c.genName());
 			}
 			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_PAUSE)) {
 				GameMaster.gm.controllers.clear();
@@ -160,7 +165,12 @@ public class CharacterChooser extends GameState {
 			GameMaster.gm.controllers.clear();
 			for (Controller controller : controllers.values())
 				GameMaster.gm.controllers.add(controller);
-			GameMaster.gm.requestNextState(new MapChooser(), "data/mapXML/empty.xml");
+			Object[] variable = GameParam.maps.toArray();
+			String[] chosenMaps = new String[variable.length];
+			for (int i = 0; i < variable.length; i++) {
+				chosenMaps[i] = (String) variable[i];
+			}
+			GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
 
 		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			GameMaster.gm.requestNextState(new Intro(), "data/mapXML/empty.xml");

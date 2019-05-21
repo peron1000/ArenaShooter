@@ -2,6 +2,7 @@ package arenashooter.game.gameStates;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.menus.MenuEventExit;
@@ -28,7 +29,11 @@ public class Param extends GameState {
 	private UiImage selec;
 	private Button param1, param2, param3, param4;
 	private boolean activated = false;
-	private ArrayList<String> maps = new ArrayList<>();
+	private ArrayList<File> maps = new ArrayList<>();
+
+	public Param() {
+		super(1);
+	}
 
 	@Override
 	public void init() {
@@ -120,39 +125,36 @@ public class Param extends GameState {
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
-			String name = folderContent[i].getPath();
-			int index = name.lastIndexOf('/');
-			if (index < 0)
-				index = name.lastIndexOf('\\'); // Special case for Windows
-			name = name.substring(index + 1);
-			if (!name.endsWith(".dtd")) {
-				name = name.substring(0, name.lastIndexOf('.'));
-				maps.add(name);
+			if (folderContent[i].getName().endsWith(".xml")) {
+				maps.add(folderContent[i]);
 			}
 		}
 
-		int y = 0, nbElemH = 7;
-		for (int i = 0; i < maps.size(); i++) {
-			String mapName = maps.get(i);
-			Texture image = Texture.loadTexture("data/MAP_VIS/" + maps.get(i) + ".png");
+		Collections.sort(maps);
+
+		int y = 0, i = 0, nbElemH = 7;
+		for (File file : maps) {
+			Texture image = Texture.loadTexture(
+					"data/MAP_VIS/" + file.getName().substring(0, file.getName().lastIndexOf('.')) + ".png");
 			int x = i % nbElemH;
 			if (x == 0 && i != 0)
 				y++;
-			UiImage picture = new UiImage(0, new Vec2f(12) , image, new Vec4f(1, 1, 1, 1));
+			UiImage picture = new UiImage(0, new Vec2f(6), image, new Vec4f(1, 1, 1, 1));
 			menuMap.put(picture, 1, x, y);
 			picture.addAction("selec", new Trigger() {
-				
+
 				@Override
 				public void make() {
-					if(GameParam.maps.contains(mapName)) {
-						GameParam.maps.remove(mapName);
-						picture.setScale(new Vec2f(12));
-					} else {
-						GameParam.maps.add(mapName);
+					if (GameParam.maps.contains(file.getPath())) {
+						GameParam.maps.remove(file.getPath());
 						picture.setScale(new Vec2f(6));
+					} else {
+						GameParam.maps.add(file.getPath());
+						picture.setScale(new Vec2f(12));
 					}
 				}
 			});
+			i++;
 		}
 
 		menuMap.active.setValue(false);
@@ -240,7 +242,12 @@ public class Param extends GameState {
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+			if (!GameParam.maps.isEmpty())
+				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+			else {
+				Exception e = new Exception("Choisissez au moins une map");
+				e.printStackTrace();
+			}
 		}
 
 		if (GameParam.getGameMode() == GameMode.Rixe) {
