@@ -6,10 +6,9 @@ import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.CollisionCategory;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
-import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeCharacter;
 import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
@@ -45,7 +44,7 @@ public class Character extends RigidBodyContainer {
 	private Timer attack = new Timer(0.3);
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
-		super(position, new RigidBody(new ShapeBox(new Vec2f(.5, 1)), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
+		super(position, new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
 		
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
