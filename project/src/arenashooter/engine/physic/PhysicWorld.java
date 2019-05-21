@@ -1,5 +1,7 @@
 package arenashooter.engine.physic;
 
+import java.util.LinkedList;
+
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
@@ -23,6 +25,8 @@ public class PhysicWorld {
 	
 	private MyContactListener contactListener = new MyContactListener();
 	
+	private LinkedList<PhysicBody> toDestroy = new LinkedList<>();
+	
 	public PhysicWorld(Map map) {
 		this.map = map;
 		
@@ -38,7 +42,20 @@ public class PhysicWorld {
 //		world.setGravity(new Vec2f(0, 9.807*100).toB2Vec()); //TODO: Remove this
 		world.step((float) d, 9, 4);
 		
+		//Safely destroy bodies after step
+		for(PhysicBody body : toDestroy)
+			body.destroy();
+		toDestroy.clear();
+		
 		Profiler.endTimer(Profiler.PHYSIC);
+	}
+	
+	/**
+	 * Mark a body for destruction
+	 * @param body
+	 */
+	public void destroyBody(PhysicBody body) {
+		toDestroy.add(body);
 	}
 	
 	public World getB2World() { return world; }
@@ -59,16 +76,7 @@ public class PhysicWorld {
 
 		@Override
 		public void beginContact(Contact contact) {
-			if( contact.getFixtureA().getUserData() instanceof Spatial
-				&& contact.getFixtureB().getUserData() instanceof Spatial ) {
-					//A is a projectile
-					if( (contact.getFixtureA().getUserData()) instanceof Projectile )
-						((Projectile)contact.getFixtureA().getUserData()).impact((Spatial) contact.getFixtureB().getUserData());
-
-					//B is a projectile
-					if( (contact.getFixtureB().getUserData()) instanceof Projectile )
-						((Projectile)contact.getFixtureB().getUserData()).impact((Spatial) contact.getFixtureA().getUserData());
-				}
+			
 		}
 
 		@Override
@@ -87,7 +95,25 @@ public class PhysicWorld {
 
 		@Override
 		public void postSolve(Contact contact, ContactImpulse impulse) {
-			// TODO Auto-generated method stub
+			boolean cancel = false;
+			if( contact.getFixtureA().getUserData() instanceof Spatial
+					&& contact.getFixtureB().getUserData() instanceof Spatial ) {
+					//A is a projectile
+					if( (contact.getFixtureA().getUserData()) instanceof Projectile ) {
+						((Projectile)contact.getFixtureA().getUserData()).impact((Spatial) contact.getFixtureB().getUserData());
+						cancel = true;
+					}
+					
+					//B is a projectile
+					if( (contact.getFixtureB().getUserData()) instanceof Projectile ) {
+						((Projectile)contact.getFixtureB().getUserData()).impact((Spatial) contact.getFixtureA().getUserData());
+						cancel = true;
+					}
+			}
+			
+			if(cancel) {
+				contact.setEnabled(false);
+			}
 		}
 		
 	}

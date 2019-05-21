@@ -35,14 +35,32 @@ public abstract class PhysicBody {
 		bodyDef.setUserData(userData);
 		if(body != null) body.setUserData(userData);
 		if(fixture != null) fixture.setUserData(userData);
-		System.out.println(bodyDef.getUserData());
 	}
 	
 	public abstract void addToWorld(PhysicWorld world);
 	
+	/**
+	 * Mark this body for destruction
+	 */
 	public void removeFromWorld() {
-		if(body == null || world == null) return;
-		world.getB2World().destroyBody(body);
+		if(world == null) return;
+		world.destroyBody(this);
+	}
+	
+	/**
+	 * Destroy this body
+	 * <br/><b>Do not call this during physic step!</b>
+	 */
+	protected void destroy() {
+		if(world == null) return;
+		if(body != null) {
+			world.getB2World().destroyBody(body);
+			body = null;
+		}
+		if(fixture != null) {
+			fixture.destroy();
+			fixture = null;
+		}
 		world = null;
 	}
 	
