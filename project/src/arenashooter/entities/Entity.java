@@ -34,9 +34,12 @@ public class Entity {
 	 */
 	public Entity attachToParent(Entity newParent, String name) {
 		if (this == newParent) {
-			System.err.println("Trying to attach an entity to itself!");
+			System.err.println("Trying to attach an entity to itself!"); //TODO: Move this to log
 			return null;
 		}
+		
+		//Trying to attach the entity to its current parent, nothing to do
+		if(newParent == parent) return null;
 
 		// Detach this from current parent
 		if (parent != null)

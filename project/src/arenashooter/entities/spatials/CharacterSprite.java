@@ -17,7 +17,7 @@ public class CharacterSprite extends Spatial {
 
 	private static SoundSourceMulti sndStep, sndPunch;
 
-	private float lookAngle = 0;
+	private double lookAngle = 0;
 	private float moveSpeed = 0;
 	private boolean wasOnGround = false, isOnGround = false;
 	private boolean lookRight = true;
@@ -119,10 +119,11 @@ public class CharacterSprite extends Spatial {
 		wasOnGround = isOnGround;
 
 		if (getParent() instanceof Character) {
-//			lookAngle = ((Character)getParent()). //TODO: get aiming direction
+			lookAngle = ((Character)getParent()).aimInput;
 			isOnGround = ((Character) getParent()).isOnGround;
 			moveSpeed = ((Character) getParent()).getLinearVelocity().x;
-		} else if (getParent() instanceof Map) { // TODO: Temp stuff for loading screen anim
+		} else if (getParent() instanceof Map) {
+			lookAngle = 0;
 			isOnGround = true;
 			moveSpeed = 10;
 		}
@@ -256,6 +257,10 @@ public class CharacterSprite extends Spatial {
 			}
 
 		} else {
+			//Attach hands back to this
+			handL.attachToParent(this, "handL");
+			handR.attachToParent(this, "handR");
+			
 			// Lerp to 0 for punch anim
 			handL.localPosition.x = Utils.lerpF(handL.localPosition.x, 0, Math.min(1, d * 8));
 			handR.localPosition.x = Utils.lerpF(handR.localPosition.x, 0, Math.min(1, d * 8));
