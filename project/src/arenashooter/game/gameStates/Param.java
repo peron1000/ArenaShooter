@@ -2,7 +2,6 @@ package arenashooter.game.gameStates;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.menus.MenuEventExit;
@@ -30,7 +29,6 @@ public class Param extends GameState {
 	private Button param1, param2, param3, param4;
 	private boolean activated = false;
 	private ArrayList<String> maps = new ArrayList<>();
-	private TreeSet<String> selecMap = new TreeSet<>();
 
 	@Override
 	public void init() {
@@ -146,10 +144,12 @@ public class Param extends GameState {
 				
 				@Override
 				public void make() {
-					if(selecMap.contains(mapName)) {
-						selecMap.remove(mapName);
+					if(GameParam.maps.contains(mapName)) {
+						GameParam.maps.remove(mapName);
+						picture.setScale(new Vec2f(12));
 					} else {
-						selecMap.add(mapName);
+						GameParam.maps.add(mapName);
+						picture.setScale(new Vec2f(6));
 					}
 				}
 			});
@@ -250,6 +250,7 @@ public class Param extends GameState {
 		}
 
 		menuParam.update(delta);
+		menuMap.update(delta);
 		super.update(delta);
 	}
 

@@ -7,7 +7,6 @@ import arenashooter.engine.events.NewValueEvent;
 import arenashooter.engine.events.menus.MenuActiveProperty;
 import arenashooter.engine.events.menus.MenuEventExit;
 import arenashooter.engine.events.menus.MenuEventExit.Side;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
 public class MenuSelectionV<Element extends UiElement> extends Menu {
@@ -69,6 +68,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 			index = 0;
 			exit.action(new MenuEventExit(Side.Down));
 		}
+		majSelecPosition();
 	}
 
 	public void up(double delta) {
@@ -77,6 +77,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 			index = elements.size() - 1;
 			exit.action(new MenuEventExit(Side.Up));
 		}
+		majSelecPosition();
 	}
 	
 	public void right() {
@@ -116,10 +117,11 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 	public void update(double delta) {
 		for (Element uiElement : elements) {
 			uiElement.visible = true;
-			uiElement.update();
+			//uiElement.update(delta);
 		}
 
-		selec.setPos(Vec2f.lerp(selec.getPos(), elements.get(index).getPos(), Utils.clampD(delta * 20, 0, 1)));
+		//selec.setPosLerp(getTarget().getPos(), 20);
+		//selec.setPos(Vec2f.lerp(selec.getPos(), elements.get(index).getPos(), Utils.clampD(delta * 20, 0, 1)));
 		super.update(delta);
 	}
 	
@@ -129,5 +131,9 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		if(e != null) {
 			selec.setPos(e.getPos());
 		}
+	}
+	
+	private void majSelecPosition() {
+		selec.setPosLerp(getTarget().getPos(), 20);
 	}
 }

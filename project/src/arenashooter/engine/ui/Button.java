@@ -28,24 +28,6 @@ public class Button extends UiElement {
 	}
 
 	@Override
-	protected void update() { // TODO: berk
-//		rect.visible = this.visible;
-//		rect.setPos(getPos());
-//		rect.rotation = rotation;
-//		rect.setPos(getScale());
-//
-//		label.visible = this.visible;
-//		label.setPos(getPos());
-//		label.rotation = rotation;
-////		label.scale.set(scale);
-////		label.scale.multiply(.8f);
-//		float scaleText = Math.min(getScale().x, getScale().y)*4;
-//		label.setPos(getPos());
-//		label.setScale(new Vec2f(scaleText));
-//		label.getPos().y -= 2.2f;
-	}
-
-	@Override
 	protected void draw() {
 		if (visible) {
 			rect.draw();

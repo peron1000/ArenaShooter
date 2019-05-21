@@ -91,7 +91,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 		}
 		for (Element uiElement : elements) {
 			uiElement.visible = true;
-			uiElement.update();
+			uiElement.update(delta);
 		}
 
 		selec.setPos(Vec2f.lerp(selec.getPos(), elements.get(index).getPos(), Utils.clampD(delta * 20, 0, 1)));

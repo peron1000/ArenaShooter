@@ -65,7 +65,7 @@ public class Menu {
 	public void update(double delta) {
 		for (LinkedList<UiElement> elem : elems.values()) {
 			for (UiElement uiElement : elem) {
-				uiElement.update();
+				uiElement.update(delta);
 			}
 		}
 	}

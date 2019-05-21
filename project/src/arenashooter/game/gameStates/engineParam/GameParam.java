@@ -1,5 +1,7 @@
 package arenashooter.game.gameStates.engineParam;
 
+import java.util.TreeSet;
+
 public class GameParam {
 	
 	// GameMode
@@ -81,5 +83,8 @@ public class GameParam {
 	public static boolean getTeam() {
 		return team.getValue();
 	}
+	
+	// Maps
+	public static TreeSet<String> maps = new TreeSet<>();
 
 }
