@@ -1,5 +1,8 @@
 package arenashooter.entities.spatials;
 
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Fixture;
@@ -39,6 +42,7 @@ public class Character extends RigidBodyContainer {
 	//Combat stats
 	/** Melee attack cooldown */
 	private Timer attack = new Timer(0.3);
+	private float range = 2;
 
 	/**
 	 * The character is jumping
@@ -123,30 +127,20 @@ public class Character extends RigidBodyContainer {
 			CharacterSprite skeleton = ((CharacterSprite) getChildren().get("skeleton"));
 			if (skeleton != null)
 				skeleton.punch();
-
-			for (Entity entity : GameMaster.gm.getEntities()) {
-				if (entity instanceof Character && entity != this) {
-					Character c = (Character) entity;
-
-					boolean isInFrontOfMe = false;
-					if (skeleton != null) {
-//						if ((lookRight && collider.getXRight() < (c.collider.getXRight() + 40))
-//								|| (!lookRight && collider.getXLeft() > (c.collider.getXLeft() - 40))) {
-//							isInFrontOfMe = true;
-//						}
-					}
-
-					if (isInFrontOfMe) {
-						float xDiff = Math.abs(getWorldPos().x - c.getWorldPos().x);
-						float yDiff = Math.abs(getWorldPos().y - c.getWorldPos().y);
-						if (xDiff < 175 && yDiff < 175) {
-							DamageInfo dmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
-							c.takeDamage(dmgInfo);
-							((SoundEffect) getChildren().get("snd_Punch_Hit")).play();
-						}
-					}
-
-				}
+			
+			DamageInfo punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
+			
+			Vec2f punchEnd = Vec2f.fromAngle(aimInput);
+			punchEnd.multiply(range);
+			punchEnd.add(getWorldPos());
+			
+			punchHit.clear();
+			punchRayFraction = 1;
+			
+			getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
+			for(Entry<Spatial, Float> entry : punchHit.entrySet()) {
+				if(entry.getValue() <= punchRayFraction)
+					entry.getKey().takeDamage(punchDmgInfo);
 			}
 		}
 
@@ -251,27 +245,11 @@ public class Character extends RigidBodyContainer {
 
 		double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
 		getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
-
-		isOnGround = false;
-//		for (Entity plat : getParent().getChildren().values()) {
-//			if (plat instanceof Plateform) {
-//				for (Entity coll : ((Plateform) plat).getChildren().values()) {
-//					if (coll instanceof Collider) {
-//						Collider c = (Collider) coll;
-//						ImpactOld impact = new ImpactOld(collider, c, Vec2f.multiply(vel, (float) d));
-//						vel.x = vel.x * impact.getVelMod().x;
-//						vel.y = vel.y * impact.getVelMod().y;
-//						if (collider.getYBottom() + (vel.y * d) >= c.getYTop()
-//								&& collider.getYBottom() + (vel.y * d) < c.getYBottom()
-//								&& Collider.isX1IncluedInX2(collider, c))
-//							isOnGround = true;
-//					}
-//				}
-//			}
-//		}
 		
 		if(getBody().getBody() != null)
 			getBody().getBody().setGravityScale(6);
+		
+		isOnGround = false;
 		
 		if(!jumpTimer.isProcessing() || (jumpTimer.inProcess && jumpTimer.getValue() > 0.2) ) {
 			for(int i=0; i<4; i++) {
@@ -344,6 +322,30 @@ public class Character extends RigidBodyContainer {
 			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
 			
 			isOnGround = true;
+			return fraction;
+		}
+	};
+	
+	HashMap<Spatial, Float> punchHit = new HashMap<>();
+	/** Farthest blocking entity hit by the punch */
+	float punchRayFraction = 1;
+	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
+		@Override
+		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			//We hit something that isn't self
+			if(fixture.getUserData() instanceof Spatial && fixture.getUserData() != this) {
+				if(punchHit.containsKey(fixture.getUserData())) {
+					if(punchHit.get(fixture.getUserData()) > fraction)
+						punchHit.put((Spatial) fixture.getUserData(), fraction);
+				} else {
+					punchHit.put((Spatial) fixture.getUserData(), fraction);
+				}
+			}
+			
+			//Ignore anything the character doesn't collide with
+			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
+
+			punchRayFraction = Math.max(punchRayFraction, fraction);
 			return fraction;
 		}
 	};
