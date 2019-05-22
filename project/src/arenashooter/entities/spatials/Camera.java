@@ -13,7 +13,7 @@ public class Camera extends Spatial3 {
 	/** View matrix (updated at every step) */
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
-	private Vec2f margin = new Vec2f(5, 5);
+	private Vec2f margin = new Vec2f(12, 8);
 	private float zoomMin = 12, zoomMax = 120;
 	
 	/** Vertical field of view */
