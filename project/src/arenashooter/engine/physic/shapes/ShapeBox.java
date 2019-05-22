@@ -18,6 +18,10 @@ public class ShapeBox extends PhysicShape {
 		((PolygonShape)b2Shape).setAsBox(extent.x, extent.y);
 	}
 	
+	/**
+	 * Set the size of this box, <b>only use this when it's not in the world</b>
+	 * @param extent
+	 */
 	public void resize(Vec2f extent) {
 		this.extent.set(extent);
 		((PolygonShape)b2Shape).setAsBox(this.extent.x, this.extent.y);

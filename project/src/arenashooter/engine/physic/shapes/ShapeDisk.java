@@ -20,6 +20,10 @@ public class ShapeDisk extends PhysicShape {
 	
 	public double getRadius() { return radius; }
 	
+	/**
+	 * Set the radius of this disk, <b>only use this when it's not in the world</b>
+	 * @param extent
+	 */
 	public void setRadius(double newRadius) {
 		this.radius = newRadius;
 		b2Shape.setRadius((float) newRadius);
