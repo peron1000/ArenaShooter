@@ -20,7 +20,6 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.Controller;
-import arenashooter.game.GameMaster;
 
 public class Character extends RigidBodyContainer {
 
@@ -159,7 +158,7 @@ public class Character extends RigidBodyContainer {
 		boolean hasWeapon = getWeapon() != null;
 
 		if (!hasWeapon) {
-			for (Entity e : GameMaster.gm.getEntities()) {
+			for (Entity e : getMap().getChildren().values()) { //TODO: Remove this
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
 					float xDiff = Math.abs(getWorldPos().x - usable.getWorldPos().x);
