@@ -18,7 +18,7 @@ public class CircleBullet extends Projectile {
 	private Vec2f finalVel = new Vec2f();
 	private static float frequency = 45, amplitude = 10;
 	
-	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/slap.ogg", 10, .8f, 1.2f, true);
+	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/slap.ogg", 8, .8f, 1.2f, true);
 
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
 		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
@@ -49,7 +49,10 @@ public class CircleBullet extends Projectile {
 	public void impact(Spatial other) {
 		if(other == shooter) return; //Ignore instigator
 		
-		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), shooter));
+		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, direction, shooter));
+		
+		sndImpact.play(getWorldPos());
+		
 		detach();
 	}
 
