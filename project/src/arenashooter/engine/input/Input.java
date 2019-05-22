@@ -184,7 +184,7 @@ public final class Input {
 					actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_UP) == GLFW_PRESS);
 					actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_DOWN) == GLFW_PRESS);
 
-					actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
+					actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS);
 					actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
 					
 					actions[Action.UI_PAUSE.id][i] = getActionState(actions[Action.UI_PAUSE.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS);

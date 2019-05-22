@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Stack;
 
-import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.game.gameStates.CharacterChooser;

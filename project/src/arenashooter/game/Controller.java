@@ -1,4 +1,4 @@
-package arenashooter.entities;
+package arenashooter.game;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
@@ -9,10 +9,6 @@ import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
-import arenashooter.game.CharacterClass;
-import arenashooter.game.CharacterInfo;
-import arenashooter.game.GameMaster;
-import arenashooter.game.Main;
 import arenashooter.game.gameStates.Game;
 
 public class Controller {

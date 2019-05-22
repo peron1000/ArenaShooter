@@ -35,7 +35,7 @@ public class Main {
 		
 		gameMaster = GameMaster.gm;
 		
-		font = Font.loadFont("data/fonts/ubuntu.fnt");
+		font = Font.loadFont("data/fonts/liberation_sans.fnt");
 		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;

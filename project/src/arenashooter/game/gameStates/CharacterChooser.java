@@ -11,10 +11,10 @@ import arenashooter.engine.input.Input;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Controller;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -42,15 +42,15 @@ public class CharacterChooser extends GameState {
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(current, "Text_Select");
 
-		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "Q or D to change your figther");
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "←Left and Right→to change class");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(current, "Text_char");
 
-		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "Z and S to change your skin");
+		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "↑Up and ↓Downto change skin");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -5, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(current, "Text_touch");
 
-		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press ENTER to go to the map chooser");
+		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press Start to continue");
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
 		textEnt4.attachToParent(current, "Text_touch2");
 		
@@ -152,29 +152,22 @@ public class CharacterChooser extends GameState {
 				sprites.put(controller, c);
 				c.attachToParent(current, c.genName());
 			}
-			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_PAUSE)) {
+			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_OK)) {
 				GameMaster.gm.controllers.clear();
-				for (Controller controller2 : controllers.values())
-					GameMaster.gm.controllers.add(controller2);
-				GameMaster.gm.requestNextState(new MapChooser(), "data/mapXML/empty.xml");
+				for (Controller lourdControlleur : controllers.values())
+					GameMaster.gm.controllers.add(lourdControlleur);
+				Object[] variable = GameParam.maps.toArray();
+				String[] chosenMaps = new String[variable.length];
+				for (int i = 0; i < variable.length; i++) {
+					chosenMaps[i] = (String) variable[i];
+				}
+				GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
 
+			} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
+				GameMaster.gm.requestPreviousState();
 			}
 		}
 
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			GameMaster.gm.controllers.clear();
-			for (Controller controller : controllers.values())
-				GameMaster.gm.controllers.add(controller);
-			Object[] variable = GameParam.maps.toArray();
-			String[] chosenMaps = new String[variable.length];
-			for (int i = 0; i < variable.length; i++) {
-				chosenMaps[i] = (String) variable[i];
-			}
-			GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
-
-		} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
-			GameMaster.gm.requestNextState(new Intro(), "data/mapXML/empty.xml");
-		}
 
 		super.update(delta);
 	}

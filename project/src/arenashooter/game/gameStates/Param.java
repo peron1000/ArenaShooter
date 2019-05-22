@@ -20,6 +20,7 @@ import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -288,61 +289,13 @@ public class Param extends GameState {
 
 	@Override
 	public void update(double delta) {
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
-			if (!activated && menuParam.active.getValue()) {
-				menuParam.up();
-			} else if (menuMap.active.getValue()) {
-				menuMap.up();
-			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
-			if (!activated && menuParam.active.getValue()) {
-				menuParam.down();
-			} else if (menuMap.active.getValue()) {
-				menuMap.down();
-			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_LEFT)) {
-			if (activated && menuParam.active.getValue()) {
-				menuParam.getTarget().lunchAction("left");
-			} else if (menuParam.active.getValue()) {
-				menuParam.left();
-			} else if (menuMap.active.getValue()) {
-				menuMap.left();
-			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_RIGHT)) {
-			if (activated && menuParam.active.getValue()) {
-				menuParam.getTarget().lunchAction("right");
-			} else if (menuParam.active.getValue()) {
-				menuParam.right();
-			} else if (menuMap.active.getValue()) {
-				menuMap.right();
-			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.JUMP)) {
-			if (menuParam.active.getValue()) {
-				activated = !activated;
-			}
-			if (menuMap.active.getValue()) {
-				menuMap.getElemSelec().lunchAction("selec");
-			}
-		}
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)) {
-			if (!GameParam.maps.isEmpty())
-				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
-			else {
-				Exception e = new Exception("Choisissez au moins une map");
-				e.printStackTrace();
-			}
-		}
-
 		if (GameParam.getGameMode() == GameMode.Rixe) {
 			menuParam.addElementInListOfChoices(param3, 1);
 		} else {
 			menuParam.removeElementInListOfChoices(param3);
 		}
 
+		inputs.step(delta);
 		menuParam.update(delta);
 		menuMap.update(delta);
 		super.update(delta);
