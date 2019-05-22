@@ -42,6 +42,7 @@ public class Bullet extends Projectile {
 		if(other == shooter) return; //Ignore instigator
 		
 		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), shooter));
+		
 		detach();
 	}
 

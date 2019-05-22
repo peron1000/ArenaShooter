@@ -25,7 +25,7 @@ public class PhysicWorld {
 	
 	private MyContactListener contactListener = new MyContactListener();
 	
-	private LinkedList<PhysicBody> toDestroy = new LinkedList<>();
+	private LinkedList<PhysicBody> toDestroy = new LinkedList<>(), toCreate = new LinkedList<>();
 	
 	public PhysicWorld(Map map) {
 		this.map = map;
@@ -46,6 +46,11 @@ public class PhysicWorld {
 		for(PhysicBody body : toDestroy)
 			body.destroy();
 		toDestroy.clear();
+
+		//Safely create bodies after step
+		for(PhysicBody body : toCreate)
+			body.create();
+		toCreate.clear();
 		
 		Profiler.endTimer(Profiler.PHYSIC);
 	}
@@ -56,6 +61,14 @@ public class PhysicWorld {
 	 */
 	public void destroyBody(PhysicBody body) {
 		toDestroy.add(body);
+	}
+	
+	/**
+	 * Mark a body for creation
+	 * @param body
+	 */
+	public void createBody(PhysicBody body) {
+		toCreate.add(body);
 	}
 	
 	public World getB2World() { return world; }

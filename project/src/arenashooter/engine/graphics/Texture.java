@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenashooter.engine.math.Vec2f;
+
 /**
  * Container for OpenGL texture
  */
@@ -117,6 +119,11 @@ public class Texture {
 	 * @return the texture's height in pixels
 	 */
 	public int getHeight() { return height; }
+	
+	/**
+	 * @return Size in pixels (width, height)
+	 */
+	public Vec2f getSize() { return new Vec2f(width, height); }
 	
 	/**
 	 * Set filtering on this texture (nearest or linear)

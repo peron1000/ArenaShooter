@@ -37,7 +37,29 @@ public abstract class PhysicBody {
 		if(fixture != null) fixture.setUserData(userData);
 	}
 	
-	public abstract void addToWorld(PhysicWorld world);
+	/** 
+	 * Get this body's shape, <b>only modify it if hasn't been added to the world yet!</b>
+	 * @return
+	 */
+	public PhysicShape getShape() { return shape; }
+	
+	/**
+	 * Attempt to create this body
+	 * @param world
+	 */
+	public void addToWorld(PhysicWorld world) {
+		this.world = world;
+		if(body != null) return;
+		body = create();
+		if(body == null)
+			world.createBody(this);
+	}
+	
+	/**
+	 *  Create this body
+	 * <br/><b>Do not call this during physic step!</b>
+	 */
+	protected abstract Body create();
 	
 	/**
 	 * Mark this body for destruction
@@ -87,16 +109,34 @@ public abstract class PhysicBody {
 			this.isSensor = isSensor;
 	}
 	
-	public boolean isActive() { return body.isActive(); }
+	public boolean isActive() {
+		if(body != null) return body.isActive();
+		return bodyDef.isActive();
+	}
 	
-	public void setActive(boolean active) { body.setActive(active); }
+	public void setActive(boolean active) {
+		bodyDef.setActive(active);
+		if(body != null)
+			body.setActive(active);
+	}
+	
+	/**
+	 * Set rotation (only works before body creation)
+	 * @param angle
+	 */
+	public void setRotation(float angle) {
+		bodyDef.setAngle(angle);
+	}
 	
 	public Vec2f getPosition() {
 		if(body == null) return new Vec2f(bodyDef.getPosition());
 		return new Vec2f(body.getPosition());
 	}
 	
-	public float getRotation() { return body.getAngle(); }
+	public float getRotation() {
+		if(body == null) return bodyDef.getAngle();
+		return body.getAngle();
+	}
 	
 	public void debugDraw() {
 		if(body != null)

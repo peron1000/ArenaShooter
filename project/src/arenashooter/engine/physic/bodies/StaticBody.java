@@ -1,5 +1,6 @@
 package arenashooter.engine.physic.bodies;
 
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
@@ -7,7 +8,6 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicBody;
 import arenashooter.engine.physic.PhysicShape;
-import arenashooter.engine.physic.PhysicWorld;
 
 /**
  * Immobile object
@@ -23,9 +23,10 @@ public class StaticBody extends PhysicBody {
 	}
 
 	@Override
-	public void addToWorld(PhysicWorld world) {
-		this.world = world;
+	public Body create() {
 		body = world.getB2World().createBody(bodyDef);
+		
+		if(body == null) return null;
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.setShape(shape.getB2Shape());
@@ -42,6 +43,8 @@ public class StaticBody extends PhysicBody {
 		fixtureDef.setUserData(userData);
 		
 		fixture = body.createFixture(fixtureDef);
+		
+		return body;
 	}
 
 }

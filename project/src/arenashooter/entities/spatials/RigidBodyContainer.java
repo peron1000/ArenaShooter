@@ -26,6 +26,8 @@ public class RigidBodyContainer extends Spatial {
 		Entity prev = super.attachToParent(newParent, name);
 		
 		if(getMap() != null) {
+			if(body == null) System.out.println("null bdoy!!");
+			if(getMap().physic == null) System.out.println("null physic world!");
 			body.addToWorld(getMap().physic);
 			needsPhysWorld = false;
 		}
