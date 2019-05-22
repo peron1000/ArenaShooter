@@ -4,11 +4,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.NewValueEvent;
-import arenashooter.engine.events.menus.MenuActiveProperty;
-import arenashooter.engine.events.menus.MenuEventExit;
-import arenashooter.engine.events.menus.MenuEventExit.Side;
+import arenashooter.engine.events.menus.MenuExitEvent;
+import arenashooter.engine.events.menus.MenuExitEvent.Side;
 import arenashooter.engine.math.Vec2f;
 
 public class MenuSelection<E extends UiElement> extends Menu {
@@ -18,11 +18,11 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	private Vec2f positionRelative = getPosition();
 	private TreeMap<Coordonnees, E> mesElements = new TreeMap<>();
 	private int x = 0, y = 0;
-	public MenuActiveProperty active = new MenuActiveProperty();
-	public EventListener<MenuEventExit> exit = new EventListener<MenuEventExit>() {
+	public BooleanProperty active = new BooleanProperty();
+	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
 		
 		@Override
-		public void action(MenuEventExit e) {
+		public void action(MenuExitEvent e) {
 			// Nothing
 		}
 	};
@@ -114,7 +114,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		x++;
 		if (x == c.size()) {
 			x = 0;
-			exit.action(new MenuEventExit(Side.Right));
+			exit.action(new MenuExitEvent(Side.Right));
 		}
 		majSelecPosition();
 	}
@@ -125,7 +125,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		x--;
 		if (x < 0) {
 			x = c.size() - 1;
-			exit.action(new MenuEventExit(Side.Left));
+			exit.action(new MenuExitEvent(Side.Left));
 		}
 		majSelecPosition();
 	}
@@ -136,7 +136,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		y--;
 		if (y < 0) {
 			y = c.size() - 1;
-			exit.action(new MenuEventExit(Side.Up));
+			exit.action(new MenuExitEvent(Side.Up));
 		}
 		majSelecPosition();
 	}
@@ -147,7 +147,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		y++;
 		if (y == c.size()) {
 			y = 0;
-			exit.action(new MenuEventExit(Side.Down));
+			exit.action(new MenuExitEvent(Side.Down));
 		}
 		majSelecPosition();
 	}

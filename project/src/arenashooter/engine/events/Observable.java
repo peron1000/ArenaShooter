@@ -2,21 +2,29 @@ package arenashooter.engine.events;
 
 import java.util.LinkedList;
 
+/**
+ * @author Nathan
+ *
+ * @param <T> Object that launch its list of listener if its value change
+ */
 public class Observable<T> extends java.util.Observable {
 	private T value;
-	public LinkedList<EventListener<BasicEvent>> listener = new LinkedList<>();
-	
+	/**
+	 * The list of listener that are launch in case of a value changement
+	 */
+	public LinkedList<EventListener<NewValueEvent<T>>> listener = new LinkedList<>();
+
 	public Observable(T value) {
 		this.value = value;
 	}
-	
+
 	public T getValue() {
 		return value;
 	}
-	
+
 	public void setValue(T value) {
-		for (EventListener<BasicEvent> eventListener : listener) {
-			eventListener.action(new BasicEvent("new value : "+this.value+" -> "+value));
+		for (EventListener<NewValueEvent<T>> eventListener : listener) {
+			eventListener.action(new NewValueEvent<>(this.value, value));
 		}
 		this.value = value;
 	}

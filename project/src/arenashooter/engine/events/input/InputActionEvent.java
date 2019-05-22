@@ -5,6 +5,10 @@ import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionTest;
 import arenashooter.engine.input.Device;
 
+/**
+ * @author Nathan
+ * Package of information inherit for a Action Event
+ */
 public class InputActionEvent extends Event {
 	
 	private final Device device;

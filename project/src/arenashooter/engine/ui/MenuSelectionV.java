@@ -2,11 +2,11 @@ package arenashooter.engine.ui;
 
 import java.util.LinkedList;
 
+import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.NewValueEvent;
-import arenashooter.engine.events.menus.MenuActiveProperty;
-import arenashooter.engine.events.menus.MenuEventExit;
-import arenashooter.engine.events.menus.MenuEventExit.Side;
+import arenashooter.engine.events.menus.MenuExitEvent;
+import arenashooter.engine.events.menus.MenuExitEvent.Side;
 import arenashooter.engine.math.Vec2f;
 
 public class MenuSelectionV<Element extends UiElement> extends Menu {
@@ -15,11 +15,11 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 	private Vec2f positionRef = getPosition();
 	private int index = 0;
 	private LinkedList<Element> elements = new LinkedList<>();
-	public MenuActiveProperty active = new MenuActiveProperty();
-	public EventListener<MenuEventExit> exit = new EventListener<MenuEventExit>() {
+	public BooleanProperty active = new BooleanProperty();
+	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
 		
 		@Override
-		public void action(MenuEventExit e) {
+		public void action(MenuExitEvent e) {
 			// Nothing
 		}
 	};
@@ -66,7 +66,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		index++;
 		if (index >= elements.size()) {
 			index = 0;
-			exit.action(new MenuEventExit(Side.Down));
+			exit.action(new MenuExitEvent(Side.Down));
 		}
 		majSelecPosition();
 	}
@@ -75,17 +75,17 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		index--;
 		if (index < 0) {
 			index = elements.size() - 1;
-			exit.action(new MenuEventExit(Side.Up));
+			exit.action(new MenuExitEvent(Side.Up));
 		}
 		majSelecPosition();
 	}
 	
 	public void right() {
-		exit.action(new MenuEventExit(Side.Right));
+		exit.action(new MenuExitEvent(Side.Right));
 	}
 	
 	public void left() {
-		exit.action(new MenuEventExit(Side.Left));
+		exit.action(new MenuExitEvent(Side.Left));
 	}
 
 	public void setPositionRef(Vec2f position) {

@@ -2,24 +2,26 @@ package arenashooter.engine.events.input;
 
 import java.util.LinkedList;
 
-import arenashooter.engine.events.Event;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionTest;
 import arenashooter.engine.input.AxisTest;
 import arenashooter.engine.input.Device;
 
+/**
+ * @author Nathan
+ * This Class launch an Event if an Input is detected
+ * </br>[Don't forget to step]
+ */
 public class InputListener {
-	private LinkedList<EventListener<InputActionEvent>> actions = new LinkedList<>();
-	private LinkedList<EventListener<Event>> axis = new LinkedList<>();
-	
-	public void addAction(EventListener<InputActionEvent> event) {
-		actions.add(event);
-	}
-	
-	public void addAxisInput(EventListener<Event> event) {
-		axis.add(event);
-	}
+	/**
+	 * List of Event in case of an inputs from Keyboard or Gamepad's button
+	 */
+	public LinkedList<EventListener<InputActionEvent>> actions = new LinkedList<>();
+	/**
+	 * List of Event in case of an inputs from Gamepad's joysticks
+	 */
+	public LinkedList<EventListener<InputAxisEvent>> axis = new LinkedList<>();
 	
 	public void step(double delta) {
 		for (Device device : Device.values()) {

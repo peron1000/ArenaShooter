@@ -7,7 +7,7 @@ import java.util.Collections;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.events.menus.MenuEventExit;
+import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
@@ -34,7 +34,7 @@ public class Param extends GameState {
 
 	public Param() {
 		super(1);
-		inputs.addAction(new EventListener<InputActionEvent>() {
+		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
 			public void action(InputActionEvent e) {
@@ -236,10 +236,10 @@ public class Param extends GameState {
 
 		menuMap.active.setValue(false);
 
-		menuParam.exit = new EventListener<MenuEventExit>() {
+		menuParam.exit = new EventListener<MenuExitEvent>() {
 
 			@Override
-			public void action(MenuEventExit e) {
+			public void action(MenuExitEvent e) {
 				switch (e.getSide()) {
 				case Down:
 				case Up:
@@ -254,10 +254,10 @@ public class Param extends GameState {
 				}
 			}
 		};
-		menuMap.exit = new EventListener<MenuEventExit>() {
+		menuMap.exit = new EventListener<MenuExitEvent>() {
 
 			@Override
-			public void action(MenuEventExit e) {
+			public void action(MenuExitEvent e) {
 				switch (e.getSide()) {
 				case Down:
 				case Up:

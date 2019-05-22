@@ -1,5 +1,9 @@
 package arenashooter.engine.events;
 
 public interface EventListener<E extends Event> extends java.util.EventListener {
-	public void action(E e);
+	/**
+	 * @param event A package with informations related to the Event
+	 * The action to do
+	 */
+	public void action(E event);
 }
