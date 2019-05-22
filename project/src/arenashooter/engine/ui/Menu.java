@@ -94,9 +94,10 @@ public class Menu {
 	}
 	
 	public void removeUiElement(UiElement element) {
-		for (int i = 0; i < maxLayout; i++) {
-			elems.remove(Integer.valueOf(i), element);
-		}
+//		for (int i = 0; i < maxLayout; i++) {
+//			elems.remove(Integer.valueOf(i), element);
+//		}
+		elems.get(element.layout).remove(element);
 		element.layout = -1;
 		element.owner = null;
 		
