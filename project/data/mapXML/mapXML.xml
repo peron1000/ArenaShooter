@@ -3,6 +3,9 @@
 <map>
 	<information>
 		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="15" y="1" />
+		</spawn>
+		<spawn spawnperso="false" cooldown="2">
 			<vecteur x="-7" y="1" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
@@ -61,7 +64,7 @@
 			</entities>
 		</spawn>
 		
-		<spawn spawnperso="true" cooldown="2">
+		<spawn spawnperso="false" cooldown="2">
 			<vecteur x="7" y="1" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
