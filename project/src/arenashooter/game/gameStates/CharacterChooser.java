@@ -72,7 +72,7 @@ public class CharacterChooser extends GameState {
 	@Override
 	public void update(double delta) {
 		for (Device device : Device.values()) {
-			if (Input.actionPressed(device, Action.UI_OK) && !controllers.keySet().contains(device)) {
+			if (Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
 				Controller newController = new Controller(device);
 				controllers.put(device, newController);
 				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.info);
@@ -154,15 +154,12 @@ public class CharacterChooser extends GameState {
 			}
 			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_OK)) {
 				GameMaster.gm.controllers.clear();
-				for (Controller lourdControlleur : controllers.values())
-					GameMaster.gm.controllers.add(lourdControlleur);
 				Object[] variable = GameParam.maps.toArray();
 				String[] chosenMaps = new String[variable.length];
 				for (int i = 0; i < variable.length; i++) {
 					chosenMaps[i] = (String) variable[i];
 				}
 				GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
-
 			} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 				GameMaster.gm.requestPreviousState();
 			}
