@@ -15,7 +15,7 @@ import arenashooter.engine.physic.PhysicShape;
  * Fully simulated object
  */
 public class RigidBody extends PhysicBody {
-	float density = 1.0f, friction = 0.3f, restitution = 0.25f;
+	float density = 1.0f, friction = 0.5f, restitution = 0.25f;
 	
 	private Vec2f linearVelocity = new Vec2f();
 	
@@ -36,9 +36,9 @@ public class RigidBody extends PhysicBody {
 	 * @param isBullet
 	 */
 	public void setBullet(boolean isBullet) {
-		bodyDef.setBullet(true);
+		bodyDef.setBullet(isBullet);
 		if(body != null)
-			body.setBullet(true);
+			body.setBullet(isBullet);
 	}
 	
 	/**
