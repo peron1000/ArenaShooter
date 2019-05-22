@@ -11,8 +11,6 @@ import arenashooter.engine.events.menus.MenuEventExit;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Button;
@@ -20,7 +18,6 @@ import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
-import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -101,6 +98,13 @@ public class Param extends GameState {
 				if (e.getActionState() == ActionState.JUST_PRESSED) {
 					if (menuParam.active.getValue()) {
 						activated = !activated;
+						if(activated) {
+							menuParam.getTarget().setColorFond(new Vec4f(0.5, 0.5, 0.5, 1));
+							menuParam.getTarget().setColorText(new Vec4f(0, 0, 0, 1));
+						} else {
+							menuParam.getTarget().setColorFond(new Vec4f(0, 0, 0, 1));
+							menuParam.getTarget().setColorText(new Vec4f(1, 1, 1, 1));
+						}
 					} else if (menuMap.active.getValue()) {
 						menuMap.getElemSelec().lunchAction("selec");
 					}
