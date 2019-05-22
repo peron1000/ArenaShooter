@@ -13,7 +13,6 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.physic.CollisionCategory;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
@@ -39,14 +38,16 @@ public class MapXmlReader extends XmlReader {
 	private Element root;
 	private boolean done;
 
+	/** All spawners */
 	public ArrayList<Vec2f> spawner;
-	public ArrayList<Vec2f> spawnerPerso;
+	/** Character spawners */
+	public ArrayList<Vec2f> spawnerChars;
 
 	public MapXmlReader(String path) {
 		parse(path);
 		root = document.getDocumentElement();
 		spawner = new ArrayList<Vec2f>();
-		spawnerPerso = new ArrayList<Vec2f>();
+		spawnerChars = new ArrayList<Vec2f>();
 	}
 
 	public boolean isDone() {
@@ -79,28 +80,26 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	public void load(Map map) {
-		Loading.loading.update(0);
+		Loading.loading.update(.01667);
 		loadInformation(getFirstElementByName("information", root), map);
-		Loading.loading.update(0);
+		Loading.loading.update(.01667);
 		loadEntities(getFirstElementByName("entities", root), map);
-		Loading.loading.update(0);
+		Loading.loading.update(.01667);
 		done = true;
 	}
 
 	private void loadInformation(Element information, Map map) {
-		map.spawn = new ArrayList<>();
-		map.spawnperso = new ArrayList<>();
 		loadGravity(getFirstElementByName("gravity", information), map);
 		loadSky(getFirstElementByName("sky", information), map);
 		loadCameraBound(getFirstElementByName("cameraBound", information), map);
 
 		// Load spawns
 		List<Element> listSpawn = getListElementByName("spawn", information);
-		for (Element element : listSpawn) {
+		for (Element element : listSpawn)
 			loadSpawns(element, map);
-		}
+		
 		map.spawn = spawner;
-		map.spawnperso = spawnerPerso;
+		map.spawnperso = spawnerChars;
 	}
 
 	private void loadSpawns(Element spawn, Map map) {
@@ -121,7 +120,7 @@ public class MapXmlReader extends XmlReader {
 			
 		}	
 			if(spawnperso) {
-				this.spawnerPerso.add(position);
+				this.spawnerChars.add(position);
 				this.spawner.add(position);
 			}
 		 else {
@@ -437,7 +436,7 @@ public class MapXmlReader extends XmlReader {
 			loadEntity(entity, parent);
 		}
 
-		// plateform
+		// plateform //TODO: Remove this
 		List<Element> plateforms = getListElementByName("plateform", entities);
 		for (Element plateform : plateforms) {
 			loadPlateform(plateform, parent);
@@ -507,7 +506,7 @@ public class MapXmlReader extends XmlReader {
 			spatial.attachToParent(parent, spatial.genName());
 		}
 
-		// entities
+		// Load children
 		List<Element> entitiess = getListElementByName("entities", text);
 		for (Element entities : entitiess) {
 			loadEntities(entities, parent);
@@ -554,14 +553,14 @@ public class MapXmlReader extends XmlReader {
 			m.attachToParent(parent, m.genName());
 		}
 
-		// entities
+		// Load children
 		List<Element> entitiess = getListElementByName("entities", mesh);
 		for (Element entities : entitiess) {
 			loadEntities(entities, parent);
 		}
 	}
 
-	private void loadPlateform(Element plateform, Entity parent) {
+	private void loadPlateform(Element plateform, Entity parent) { //TODO: Delete this
 		// vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", plateform);
 		Vec2f position = new Vec2f(), extent = new Vec2f();
@@ -593,7 +592,7 @@ public class MapXmlReader extends XmlReader {
 			p.attachToParent(parent, p.genName());
 		}
 
-		// entities
+		// Load children
 		List<Element> entitiess = getListElementByName("entities", plateform);
 		for (Element entities : entitiess) {
 			loadEntities(entities, parent);
@@ -656,7 +655,7 @@ public class MapXmlReader extends XmlReader {
 			p.attachToParent(parent, p.genName());
 		}
 
-		// entities
+		// Load children
 		List<Element> entitiess = getListElementByName("entities", rigid);
 		for (Element entities : entitiess) {
 			loadEntities(entities, p);
@@ -714,7 +713,8 @@ public class MapXmlReader extends XmlReader {
 		} else {
 			e.attachToParent(parent, e.genName());
 		}
-		// entities
+		
+		// Load children
 		List<Element> entitiess = getListElementByName("entities", entity);
 		for (Element entities : entitiess) {
 			loadEntities(entities, e);

@@ -10,41 +10,50 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.GameMaster;
 
 public class Spawner extends Spatial {
-	// Timer de respawn
+	/** Spawn timer */
 	private Timer timerWarmup = null;
+	/** List of all items available in this spawner, linked to their probability */
 	private List<Tuple<Item, Integer>> itemList = new ArrayList<>();
+	/** Sum of probabilities */
 	private double probaTotal = 0;
-	private Vec2f position = null;
-	private Item itemCourant = null;
-	private Vec2f pos = null;
+	/** Last spawned item */
+	private Item currentItem = null;
 
-	public Spawner(Vec2f position, Double cooldown) {
+	public Spawner(Vec2f position, double cooldown) {
 		super(position);
-		this.position = position;
 		this.timerWarmup = new Timer(cooldown);
-		timerWarmup.attachToParent(this, timerWarmup.genName());
+		timerWarmup.attachToParent(this, "timer_spawn");
 	}
 
+	/**
+	 * Add an item to the spawn list
+	 * @param item
+	 * @param proba
+	 */
 	public void addItem(Item item, int proba) {
 		Tuple<Item, Integer> tuple = new Tuple<Item, Integer>(item, proba);
 		itemList.add(tuple);
 		probaTotal += tuple.y;
 	}
 
-	public void spawnWeapon() {
+	/**
+	 * Spawn a random item and reset timer
+	 */
+	private void spawnItem() {
 		if (!itemList.isEmpty()) {
-			Item weaponToSpawn = get().clone(position);
-			GameMaster.gm.getMap().items.add(weaponToSpawn);
-			weaponToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
+			Item itemToSpawn = getRandomItem().clone(getWorldPos());
+			GameMaster.gm.getMap().items.add(itemToSpawn);
+			itemToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
 
-			// Variables pour posdiff
-			itemCourant = weaponToSpawn;
-			pos = weaponToSpawn.getWorldPos();
+			currentItem = itemToSpawn;
 			timerWarmup.reset();
 		}
 	}
 
-	public Item get() {
+	/**
+	 * @return random item to spawn based on their probabilities
+	 */
+	private Item getRandomItem() {
 		double random = Math.random() * probaTotal;
 		double counter = 0;
 		Item chosenOne = null;
@@ -59,20 +68,22 @@ public class Spawner extends Spatial {
 
 	@Override
 	public void step(double d) {
-		if (posDiff()) {
+		if(posDiff()) {
 			timerWarmup.setProcessing(true);
 			if (timerWarmup.isOver())
-				spawnWeapon();
+				spawnItem();
 		}
 		super.step(d);
 	}
 
-	public boolean posDiff() {
-
-		if (itemCourant == null)
+	/**
+	 * 
+	 * @return <b>true</b> if last spawned item has been moved out of the spawner or if no item has been spawned yet
+	 */
+	private boolean posDiff() {
+		if (currentItem == null)
 			return true;
 
-		return itemCourant.getWorldPos().x != getWorldPos().x && itemCourant.getWorldPos().y != getWorldPos().y;
-
+		return !currentItem.getWorldPos().equals(getWorldPos(), .5f);
 	}
 }

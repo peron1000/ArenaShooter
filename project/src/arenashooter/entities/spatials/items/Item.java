@@ -184,9 +184,12 @@ public abstract class Item extends Spatial {
 		}
 	}
 	
+	/**
+	 * @param position
+	 * @return a copy of this item at <i>position</i>
+	 */
 	public Item clone(Vec2f position) {
-		Item clone = new Item(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {
-		};
+		Item clone = new Item(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {};
 		return clone;
 	}
 }

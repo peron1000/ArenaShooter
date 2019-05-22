@@ -5,19 +5,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
-import arenashooter.engine.physic.bodies.RigidBody;
-import arenashooter.engine.physic.shapes.ShapeDisk;
-import arenashooter.entities.spatials.AnimationTester;
-import arenashooter.entities.spatials.RigidBodyContainer;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.game.Main;
 
 public class Map extends Entity {
-	/** Spawn points */
+	/** All spawn points (items and characters) */
 	public ArrayList<Vec2f> spawn;
-	/** Spawn points */
+	/** Character spawn points */
 	public ArrayList<Vec2f> spawnperso;
 	
 	/** World gravity vector */
@@ -25,13 +20,10 @@ public class Map extends Entity {
 
 	public PhysicWorld physic;
 	
-	/**
-	 * Character spawns
-	 */
-
-	public ArrayList<Vec2f> spawnch = new ArrayList<>();
+	/** Character spawns that have been used */
+	public ArrayList<Vec2f> usedSpawns = new ArrayList<>();
 	
-	// All items on the map
+	/** All items currently on the map */
 	public ArrayList<Item> items = new ArrayList<>();
 	
 	/** World bounds (min x, min y, max x, max y) */
@@ -41,9 +33,6 @@ public class Map extends Entity {
 
 	public Map() {
 		physic = new PhysicWorld(this);
-		createTestEntities();
-//		spawn = new ArrayList<>();
-//		spawnperso = new ArrayList<>();
 	}
 
 	@Override
@@ -51,7 +40,6 @@ public class Map extends Entity {
 		super.step(d);
 		physic.step(d);
 	}
-
 
 	/**
 	 * @author SnPop GetRandomRespawn : rend un spawn aleatoire entre 0 inclus et
@@ -70,9 +58,9 @@ public class Map extends Entity {
 	}*/
 
 	/**
-	 * @author Shervin Donne un vecteur/spawn qui n'est utilisé par aucun joueur
-	 *         (random)<br/>
-	 *         Utiliser pour donner un spawn aleatoire different a chaque joueur
+	 * Get a spawn location that is not currently occupied by a Character
+	 * <br/> Use this to give a random spawn to each Character
+	 * @author Shervin
 	 * @return Vec2f
 	 */
 	public Vec2f GetRandomRespawnch() {
@@ -92,55 +80,24 @@ public class Map extends Entity {
 
 	public Vec2f GetRandomRespawnch2() {
 		Vec2f randi = new Vec2f();
-		
-		try {
-		//new Random();
-		//System.out.println(" spawnperso size "+ spawnperso.size());
-		int rand = ThreadLocalRandom.current().nextInt(0,spawnperso.size());
-		//System.out.println(rand);
-		
-		randi = spawnperso.get(rand);
-		int max = 100;
-		int etapes = 0;
-		while (spawnch.contains(randi) && etapes < max) {
-			rand = ThreadLocalRandom.current().nextInt(spawnperso.size());
-			randi = spawnperso.get(rand);
-			//System.out.println("Vec2f x:"+randi.x+" y:"+randi.y);
-			etapes++;
-		}
-		
-	}catch (Exception e) {
-		// TODO: handle exception
-		System.out.println("fail spawn : "+e);
-	}
-		spawnch.add(randi);
-		return randi;
-	
-		}
 
-	/**
-	 * Create entities to test stuff
-	 */
-	private void createTestEntities() {
-		// Rigid body 1
-//		Vec2f position = new Vec2f(-7, 0);
-//		RigidBody body = new RigidBody(new ShapeDisk(.5), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
-//		RigidBodyContainer rb = new RigidBodyContainer(position, body);
-//		Sprite rbSprite = new Sprite(new Vec2f(), "data/test.png");
-//		rbSprite.size = new Vec2f(1, 1);
-//		rb.attachToParent(this, "Rigid Body test 1");
-//		rbSprite.attachToParent(rb, "Sprite");
-//
-//		// Rigid body 1
-//		position = new Vec2f(-7.5, -1);
-//		body = new RigidBody(new ShapeDisk(1), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
-//		rb = new RigidBodyContainer(position, body);
-//		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
-//		rbSprite.size = new Vec2f(2, 2);
-//		rb.attachToParent(this, "Rigid Body test 2");
-//		rbSprite.attachToParent(rb, "Sprite");
-		
-		AnimationTester animTester = new AnimationTester(new Vec2f(-15, 0));
-		animTester.attachToParent(this, "anim tester 1");
+		try {
+			int rand = ThreadLocalRandom.current().nextInt(0,spawnperso.size());
+
+			randi = spawnperso.get(rand);
+			int max = 100;
+			int etapes = 0;
+			while (usedSpawns.contains(randi) && etapes < max) {
+				rand = ThreadLocalRandom.current().nextInt(spawnperso.size());
+				randi = spawnperso.get(rand);
+				etapes++;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			Main.log.error("Failed to find a spawn point: "+e.getLocalizedMessage());
+		}
+		usedSpawns.add(randi);
+		return randi;
+
 	}
 }
