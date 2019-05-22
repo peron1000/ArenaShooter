@@ -37,7 +37,7 @@ public class GameParam {
 			if (getValue() != -1) {
 				return getValue().toString();
 			} else {
-				return Character.getName('\u221E');
+				return "\u221E";
 			}
 		}
 	};
