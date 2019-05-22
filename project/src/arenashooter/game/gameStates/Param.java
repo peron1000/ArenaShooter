@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.input.InputActionEvent;
+import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.events.menus.MenuEventExit;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
+import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
@@ -30,9 +33,93 @@ public class Param extends GameState {
 	private Button param1, param2, param3, param4;
 	private boolean activated = false;
 	private ArrayList<File> maps = new ArrayList<>();
+	private InputListener inputs = new InputListener();
 
 	public Param() {
 		super(1);
+		inputs.addAction(Action.UI_DOWN, new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent e) {
+				if (e.getActionState() == ActionState.JUST_PRESSED) {
+					if (!activated && menuParam.active.getValue()) {
+						menuParam.down();
+					} else if (menuMap.active.getValue()) {
+						menuMap.down();
+					}
+				}
+			}
+		});
+		inputs.addAction(Action.UI_UP, new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent e) {
+				if (e.getActionState() == ActionState.JUST_PRESSED) {
+					if (!activated && menuParam.active.getValue()) {
+						menuParam.up();
+					} else if (menuMap.active.getValue()) {
+						menuMap.up();
+					}
+				}
+			}
+		});
+		inputs.addAction(Action.UI_LEFT, new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent e) {
+				if (e.getActionState() == ActionState.JUST_PRESSED) {
+					if (activated && menuParam.active.getValue()) {
+						menuParam.getTarget().lunchAction("left");
+					} else if (menuParam.active.getValue()) {
+						menuParam.left();
+					} else if (menuMap.active.getValue()) {
+						menuMap.left();
+					}
+				}
+			}
+		});
+		inputs.addAction(Action.UI_RIGHT, new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent e) {
+				if (e.getActionState() == ActionState.JUST_PRESSED) {
+					if (activated && menuParam.active.getValue()) {
+						menuParam.getTarget().lunchAction("right");
+					} else if (menuParam.active.getValue()) {
+						menuParam.right();
+					} else if (menuMap.active.getValue()) {
+						menuMap.right();
+					}
+				}
+			}
+		});
+		inputs.addAction(Action.JUMP, new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent e) {
+				if (e.getActionState() == ActionState.JUST_PRESSED) {
+					if (menuParam.active.getValue()) {
+						activated = !activated;
+					} else if (menuMap.active.getValue()) {
+						menuMap.getElemSelec().lunchAction("selec");
+					}
+				}
+			}
+		});
+		inputs.addAction(Action.UI_OK, new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent event) {
+				if (event.getActionState() == ActionState.JUST_PRESSED) {
+					if (!GameParam.maps.isEmpty()) {
+						GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+					} else {
+						Exception e = new Exception("Choisissez au moins une map");
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 
 	@Override
@@ -203,14 +290,14 @@ public class Param extends GameState {
 	public void update(double delta) {
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)) {
 			if (!activated && menuParam.active.getValue()) {
-				menuParam.up(delta);
+				menuParam.up();
 			} else if (menuMap.active.getValue()) {
 				menuMap.up();
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)) {
 			if (!activated && menuParam.active.getValue()) {
-				menuParam.down(delta);
+				menuParam.down();
 			} else if (menuMap.active.getValue()) {
 				menuMap.down();
 			}

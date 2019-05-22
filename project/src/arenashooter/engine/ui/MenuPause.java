@@ -105,12 +105,12 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 	public void update(double delta) {
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_UP)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_UP)) {
 			if (!activated) {
-				this.up(delta);
+				this.up();
 			}
 		}
 		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_DOWN)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_DOWN)) {
 			if (!activated) {
-				this.down(delta);
+				this.down();
 			}
 		}
 		
