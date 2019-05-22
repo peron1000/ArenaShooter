@@ -42,6 +42,8 @@ public final class Audio {
 	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
 	
 	protected static Logger log = LogManager.getLogger("Audio");
+	
+	private static FloatBuffer listenerRot;
 
 	//This class cannot be instantiated
 	private Audio() {}
@@ -71,6 +73,8 @@ public final class Audio {
 		AL11.alDistanceModel( AL11.AL_INVERSE_DISTANCE );
 		
 		printInitInfo( deviceCapabilities );
+		
+		listenerRot = BufferUtils.createFloatBuffer(6);
 	}
 	
 	/**
@@ -95,7 +99,7 @@ public final class Audio {
 		Vec3f forward = Vec3f.multiply(rot.forward(), -1 );
 		Vec3f up = rot.up();
 		
-		FloatBuffer listenerRot = BufferUtils.createFloatBuffer(6);
+		listenerRot.clear();
 		listenerRot.put(forward.x);
 		listenerRot.put(forward.y);
 		listenerRot.put(forward.z);
