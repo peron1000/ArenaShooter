@@ -14,10 +14,10 @@ public class Camera extends Spatial3 {
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
 	private Vec2f margin = new Vec2f(5, 5);
-	private float zoomMin = 10, zoomMax = 100;
+	private float zoomMin = 12, zoomMax = 120;
 	
 	/** Vertical field of view */
-	private float fov = 70;
+	private float fov = 55;
 	
 	/** Does this camera interpolates its position towards its targetLoc */
 	public boolean interpolate = true;
