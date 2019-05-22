@@ -51,6 +51,34 @@ public class Mat4f {
 		res.val[3][3] = 1;
 		return res;
 	}
+	
+	/**
+	 * Set <i>this</i> to identity and return it
+	 * @return <i>this</i> (modified)
+	 */
+	public Mat4f setToIdentity() {
+		val[0][0] = 1;
+		val[0][1] = 0;
+		val[0][2] = 0;
+		val[0][3] = 0;
+
+		val[1][0] = 0;
+		val[1][1] = 1;
+		val[1][2] = 0;
+		val[1][3] = 0;
+
+		val[2][0] = 0;
+		val[2][1] = 0;
+		val[2][2] = 1;
+		val[2][3] = 0;
+
+		val[3][0] = 0;
+		val[3][1] = 0;
+		val[3][2] = 0;
+		val[3][3] = 1;
+		
+		return this;
+	}
 
 	/**
 	 * Create a rotation matrix
@@ -194,7 +222,9 @@ public class Mat4f {
 	 */
 	public static Mat4f transform( Vec3f loc, Quat rot, Vec3f scale ) {
 		Mat4f res = new Mat4f();
-		res = mul(mul(translation(loc), rotation(rot)), scale(scale));
+		mul(translation(loc), rotation(rot), res);
+		mul(res, scale(scale), res);
+//		res = mul(mul(translation(loc), rotation(rot)), scale(scale));
 		return res;
 	}
 	
@@ -231,13 +261,18 @@ public class Mat4f {
 		return res;
 	}
 	
+	/**
+	 * Create a view matrix
+	 * @param loc
+	 * @param rot
+	 * @return
+	 */
 	public static Mat4f viewMatrix(Vec3f loc, Quat rot) {
 		Mat4f res = identity();
 		res.val[3][0] = -loc.x;
 		res.val[3][1] = -loc.y;
 		res.val[3][2] = -loc.z;
-		res = mul(rotation(Quat.conjugate(rot)), res);
-		return res;
+		return mul(rotation(Quat.conjugate(rot)), res, res);
 	}
 	
 	/**
@@ -305,6 +340,27 @@ public class Mat4f {
 	}
 	
 	/**
+	 * Multiplies 2 matrices and stores the result in <i>target</i>
+	 * @param m1
+	 * @param m2
+	 * @param target
+	 * @return <i>target</i> (modified)
+	 */
+	public static Mat4f mul( Mat4f m1, Mat4f m2, Mat4f target ) { 
+		float[][] res = new float[4][4];
+		
+		for( int j=0; j<4; j++ )
+			for( int i=0; i<4; i++ )
+				res[i][j] = (m1.val[0][j]*m2.val[i][0])+
+							(m1.val[1][j]*m2.val[i][1])+
+							(m1.val[2][j]*m2.val[i][2])+
+							(m1.val[3][j]*m2.val[i][3]);
+		
+		target.val = res;
+		return target;
+	}
+	
+	/**
 	 * Multiplies 2 matrices
 	 * @param m1
 	 * @param m2
@@ -312,15 +368,7 @@ public class Mat4f {
 	 */
 	public static Mat4f mul( Mat4f m1, Mat4f m2 ) { 
 		Mat4f res = new Mat4f();
-		
-		for( int j=0; j<4; j++ )
-			for( int i=0; i<4; i++ )
-				res.val[i][j] = (m1.val[0][j]*m2.val[i][0])+
-								(m1.val[1][j]*m2.val[i][1])+
-								(m1.val[2][j]*m2.val[i][2])+
-								(m1.val[3][j]*m2.val[i][3]);
-		
-		return res;
+		return mul(m1, m2, res);
 	}
 	
 	public String toString() {
