@@ -62,7 +62,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		}
 	}
 
-	public void down(double delta) {
+	public void down() {
 		index++;
 		if (index >= elements.size()) {
 			index = 0;
@@ -71,7 +71,7 @@ public class MenuSelectionV<Element extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void up(double delta) {
+	public void up() {
 		index--;
 		if (index < 0) {
 			index = elements.size() - 1;
