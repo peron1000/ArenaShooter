@@ -233,6 +233,9 @@ public final class Input {
 				}
 			}
 		}
+		for (Device device : Device.values()) {
+			device.update(window , currentGamepad);
+		}
 	}
 
 	private static ActionState getActionState(ActionState current, boolean isPressed) {
