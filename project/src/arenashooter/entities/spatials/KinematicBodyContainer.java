@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.entities.Entity;
@@ -40,6 +42,18 @@ public class KinematicBodyContainer extends Spatial {
 		super.detach();
 	}
 	
+	/**
+	 * Detach if out of bounds
+	 */
+	@Override
+	public float takeDamage(DamageInfo info) { //TODO: Get impact location
+		//Destroy when out of bounds
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS) detach();
+		
+		return 0;
+	}
+	
+	
 	@Override
 	public Vec2f getWorldPos() {
 		return body.getPosition();
@@ -78,6 +92,10 @@ public class KinematicBodyContainer extends Spatial {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
 			rotation = body.getRotation();
 		}
+		
+		//Destroy when out of bounds
+		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		super.step(d);
 	}

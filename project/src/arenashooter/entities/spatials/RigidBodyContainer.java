@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Entity;
@@ -41,10 +42,17 @@ public class RigidBodyContainer extends Spatial {
 		super.detach();
 	}
 	
+	/**
+	 * Apply an impulse depending on damage received.
+	 * <br/>Detach if out of bounds
+	 */
 	@Override
 	public float takeDamage(DamageInfo info) { //TODO: Get impact location
 		applyImpulse(Vec2f.multiply(info.direction, info.damage));
 		
+		//Destroy when out of bounds
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS) detach();
+
 		return 0;
 	}
 	
@@ -100,6 +108,10 @@ public class RigidBodyContainer extends Spatial {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
 			rotation = body.getRotation();
 		}
+		
+		//Destroy when out of bounds
+		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		super.step(d);
 	}

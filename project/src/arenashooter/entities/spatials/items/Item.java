@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -71,6 +73,21 @@ public abstract class Item extends Spatial {
 		super.detach();
 	}
 	
+	/**
+	 * Apply an impulse depending on damage received.
+	 * <br/>Detach if out of bounds
+	 */
+	@Override
+	public float takeDamage(DamageInfo info) { //TODO: Get impact location
+		if(rigidBody != null)
+			rigidBody.applyImpulse(Vec2f.multiply(info.direction, info.damage));
+		
+		//Destroy when out of bounds
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS) detach();
+
+		return 0;
+	}
+	
 	private void updateRigidBodyState() {
 		if(!isEquipped() && rigidBody == null) {
 			RigidBody body = new RigidBody( new ShapeBox(new Vec2f(1, .2)), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1) ;
@@ -87,10 +104,15 @@ public abstract class Item extends Spatial {
 
 	@Override
 	public void step(double d) {
+		//Lock transform to rigid body when simulating
 		if(rigidBody != null) {
 			localPosition.set(Vec2f.subtract(rigidBody.getWorldPos(), parentPosition));
 			rotation = rigidBody.getWorldRot();
 		}
+
+		//Destroy when out of bounds
+		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		// SpriteFlip
 		if (isEquipped()) {

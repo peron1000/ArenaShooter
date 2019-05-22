@@ -297,9 +297,9 @@ public class Character extends RigidBodyContainer {
 			skeleton.setLookRight(lookRight);
 		}
 
-		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500) {
+		//Kill character when out of bounds
+		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
-		}
 
 		super.step(d);
 	}
