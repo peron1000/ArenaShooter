@@ -32,6 +32,8 @@ public class PhysicWorld {
 		
 		world = new World(map.gravity.toB2Vec());
 		
+		world.setSleepingAllowed(false);
+		
 		world.setContactListener(contactListener);
 	}
 	
@@ -39,7 +41,6 @@ public class PhysicWorld {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
 		world.setGravity(map.gravity.toB2Vec());
-//		world.setGravity(new Vec2f(0, 9.807*100).toB2Vec()); //TODO: Remove this
 		world.step((float) d, 9, 4);
 		
 		//Safely destroy bodies after step
