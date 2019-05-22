@@ -95,9 +95,9 @@ public class Map extends Entity {
 		
 		try {
 		//new Random();
-		System.out.println(" spawnperso size "+ spawnperso.size());
+		//System.out.println(" spawnperso size "+ spawnperso.size());
 		int rand = ThreadLocalRandom.current().nextInt(0,spawnperso.size());
-		System.out.println(rand);
+		//System.out.println(rand);
 		
 		randi = spawnperso.get(rand);
 		int max = 100;
@@ -105,7 +105,7 @@ public class Map extends Entity {
 		while (spawnch.contains(randi) && etapes < max) {
 			rand = ThreadLocalRandom.current().nextInt(spawnperso.size());
 			randi = spawnperso.get(rand);
-			System.out.println("Vec2f x:"+randi.x+" y:"+randi.y);
+			//System.out.println("Vec2f x:"+randi.x+" y:"+randi.y);
 			etapes++;
 		}
 		
