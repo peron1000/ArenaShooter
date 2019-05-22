@@ -70,9 +70,6 @@ public enum Device {
 			for (ActionTest a : actions.keySet()) {
 				boolean isPressed = a.isKeyPressed(window);
 				ActionState nouveau = getActionState(actions.get(a), isPressed);
-				if(nouveau == ActionState.JUST_PRESSED) {
-					System.out.println(a.name());
-				}
 				actions.put(a, nouveau);
 			}
 		} else if(glfwJoystickIsGamepad(id)) {

@@ -97,7 +97,7 @@ public enum ActionTest {
 
 		@Override
 		public boolean isButtonPressed(GLFWGamepadState gamePad) {
-			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y) >= 0.3f;
+			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y) <= -0.3f;
 			boolean s = gamePad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_UP) == GLFW_PRESS;
 			return p || s;
 		}

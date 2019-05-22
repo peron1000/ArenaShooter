@@ -9,7 +9,6 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.events.menus.MenuEventExit;
 import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
@@ -35,93 +34,79 @@ public class Param extends GameState {
 
 	public Param() {
 		super(1);
-		inputs.addAction(Action.UI_DOWN, new EventListener<InputActionEvent>() {
+		inputs.addAction(new EventListener<InputActionEvent>() {
 
 			@Override
 			public void action(InputActionEvent e) {
-				if (e.getActionState() == ActionState.JUST_PRESSED) {
-					if (!activated && menuParam.active.getValue()) {
-						menuParam.down();
-					} else if (menuMap.active.getValue()) {
-						menuMap.down();
-					}
-				}
-			}
-		});
-		inputs.addAction(Action.UI_UP, new EventListener<InputActionEvent>() {
-
-			@Override
-			public void action(InputActionEvent e) {
-				if (e.getActionState() == ActionState.JUST_PRESSED) {
-					if (!activated && menuParam.active.getValue()) {
-						menuParam.up();
-					} else if (menuMap.active.getValue()) {
-						menuMap.up();
-					}
-				}
-			}
-		});
-		inputs.addAction(Action.UI_LEFT, new EventListener<InputActionEvent>() {
-
-			@Override
-			public void action(InputActionEvent e) {
-				if (e.getActionState() == ActionState.JUST_PRESSED) {
-					if (activated && menuParam.active.getValue()) {
-						menuParam.getTarget().lunchAction("left");
-					} else if (menuParam.active.getValue()) {
-						menuParam.left();
-					} else if (menuMap.active.getValue()) {
-						menuMap.left();
-					}
-				}
-			}
-		});
-		inputs.addAction(Action.UI_RIGHT, new EventListener<InputActionEvent>() {
-
-			@Override
-			public void action(InputActionEvent e) {
-				if (e.getActionState() == ActionState.JUST_PRESSED) {
-					if (activated && menuParam.active.getValue()) {
-						menuParam.getTarget().lunchAction("right");
-					} else if (menuParam.active.getValue()) {
-						menuParam.right();
-					} else if (menuMap.active.getValue()) {
-						menuMap.right();
-					}
-				}
-			}
-		});
-		inputs.addAction(Action.JUMP, new EventListener<InputActionEvent>() {
-
-			@Override
-			public void action(InputActionEvent e) {
-				if (e.getActionState() == ActionState.JUST_PRESSED) {
-					if (menuParam.active.getValue()) {
-						activated = !activated;
-						if(activated) {
-							menuParam.getTarget().setColorFond(new Vec4f(0.5, 0.5, 0.5, 1));
-							menuParam.getTarget().setColorText(new Vec4f(0, 0, 0, 1));
-						} else {
-							menuParam.getTarget().setColorFond(new Vec4f(0, 0, 0, 1));
-							menuParam.getTarget().setColorText(new Vec4f(1, 1, 1, 1));
+				switch (e.getAction()) {
+				case UI_Right:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						if (activated && menuParam.active.getValue()) {
+							menuParam.getTarget().lunchAction("right");
+						} else if (menuParam.active.getValue()) {
+							menuParam.right();
+						} else if (menuMap.active.getValue()) {
+							menuMap.right();
 						}
-					} else if (menuMap.active.getValue()) {
-						menuMap.getElemSelec().lunchAction("selec");
 					}
-				}
-			}
-		});
-		inputs.addAction(Action.UI_OK, new EventListener<InputActionEvent>() {
-
-			@Override
-			public void action(InputActionEvent event) {
-				if (event.getActionState() == ActionState.JUST_PRESSED) {
-					if (!GameParam.maps.isEmpty()) {
-						GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
-					} else {
-						Exception e = new Exception("Choisissez au moins une map");
-						e.printStackTrace();
+					break;
+				case UI_Left:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						if (activated && menuParam.active.getValue()) {
+							menuParam.getTarget().lunchAction("left");
+						} else if (menuParam.active.getValue()) {
+							menuParam.left();
+						} else if (menuMap.active.getValue()) {
+							menuMap.left();
+						}
 					}
+					break;
+				case UI_Up:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						if (!activated && menuParam.active.getValue()) {
+							menuParam.up();
+						} else if (menuMap.active.getValue()) {
+							menuMap.up();
+						}
+					}
+					break;
+				case UI_Down:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						if (!activated && menuParam.active.getValue()) {
+							menuParam.down();
+						} else if (menuMap.active.getValue()) {
+							menuMap.down();
+						}
+					}
+					break;
+				case JUMP:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						if (menuParam.active.getValue()) {
+							activated = !activated;
+							if (activated) {
+								menuParam.getTarget().setColorFond(new Vec4f(0.5, 0.5, 0.5, 1));
+								menuParam.getTarget().setColorText(new Vec4f(0, 0, 0, 1));
+							} else {
+								menuParam.getTarget().setColorFond(new Vec4f(0, 0, 0, 1));
+								menuParam.getTarget().setColorText(new Vec4f(1, 1, 1, 1));
+							}
+						} else if (menuMap.active.getValue()) {
+							menuMap.getElemSelec().lunchAction("selec");
+						}
+					}
+					break;
+				case UI_Ok:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						if (!GameParam.maps.isEmpty()) {
+							GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+						} else {
+							Exception exc = new Exception("Choisissez au moins une map");
+							exc.printStackTrace();
+						}
+					}
+					break;
+				default:
+					break;
 				}
 			}
 		});
