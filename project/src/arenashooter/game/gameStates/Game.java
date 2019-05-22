@@ -148,4 +148,11 @@ public class Game extends GameState {
 			// map.step(d);
 		}
 	}
+	@Override
+	public void draw() {
+		super.draw();
+		if(menu != null) {
+			menu.draw();
+		}
+	}
 }

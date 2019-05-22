@@ -37,7 +37,6 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 		selec = new UiImage(0, new Vec2f(45,18), texture2,
 				new Vec4f(1, 1, 1, 1));
 		setImageSelec(selec, 2);
-	
 		Rectangle rec = new Rectangle(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
 		setBackground(rec);
 		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
@@ -97,7 +96,9 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 		this.ecartement = 10;
 		this.setPositionRef(new Vec2f(0, -15));
 		//this.focus = op1;
-		
+		pause.setPos(new Vec2f(0, -27));
+		selec.setPos(op1.getPos());
+		selec.setScale( new Vec2f(scale,9.5f));
 	
 	}
 
