@@ -3,7 +3,9 @@ package arenashooter.game.gameStates;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.Device;
@@ -11,6 +13,9 @@ import arenashooter.engine.input.Input;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.ui.Menu;
+import arenashooter.engine.ui.UiImage;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.TextSpatial;
@@ -23,9 +28,12 @@ public class CharacterChooser extends GameState {
 
 	private HashMap<Device, Controller> controllers = new HashMap<>(1);
 	private HashMap<Controller, CharacterSprite> sprites = new HashMap<>(1);
-	private final double posdedepart = -3;
-	private double i = posdedepart;
+	Stack<Controller> pileOrdreJoueur = new Stack<Controller>();
+	private final double firstX = -3;
+	private double nextSpriteX = firstX;
 	private final double charOffset = 2;
+	Menu menu = new Menu(6);
+	HashMap<Controller, UiImage> imagePlayerNumber = new HashMap<>();
 	
 	public CharacterChooser() {
 		super(1);
@@ -34,10 +42,57 @@ public class CharacterChooser extends GameState {
 	public Collection<Controller> getControllers() {
 		return controllers.values();
 	}
+	
+	private void addController(Device device) {
+		Controller newController = new Controller(device);
+		newController.playerNumber = pileOrdreJoueur.size();
+		controllers.put(device, newController);
+		pileOrdreJoueur.push(newController);
+		
+		GameMaster.gm.controllers.add(newController);
+		CharacterSprite caracSprite = new CharacterSprite(new Vec2f(nextSpriteX, 0), newController.info);
+		sprites.put(newController, caracSprite);
+		nextSpriteX += charOffset;
+		caracSprite.attachToParent(current, caracSprite.genName());
 
+		updatePlayersNumber();
+	}
+	
+	/**
+	 * Update player number in each controller and reposition character numbers on screen
+	 */
+	private void updatePlayersNumber() {
+		for(UiImage img : imagePlayerNumber.values())
+			menu.removeUiElement(img);
+		
+		imagePlayerNumber.clear();
+		
+		for(int i = 0 ; i< pileOrdreJoueur.size() ; i++) {
+			Controller current = pileOrdreJoueur.get(i);
+			current.playerNumber = i;
+			
+			Texture tex = Texture.loadTexture("data/sprites/interface/Player_" + (i+1) +"_Arrow.png");
+			tex.setFilter(false);
+			UiImage playerNb = new UiImage(0, new Vec2f(10, 10), tex, new Vec4f(1, 1, 1, 1));
+			imagePlayerNumber.put(current, playerNb);
+			menu.addUiElement(playerNb, 5);
+
+			Vec2f imagePos = sprites.get(current).getWorldPos();
+			imagePos.y += 1.5;
+			imagePos = Vec2f.worldToScreen(imagePos);
+			playerNb.setPos( imagePos );
+		}
+	}
+	
 	@Override
 	public void init() {
 		super.init();
+		
+		Texture fondMenuTex = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
+		fondMenuTex.setFilter(false);
+		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1, 1, 1, 1));
+//		menu.setBackground(bg);
+		
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(current, "Text_Select");
@@ -60,25 +115,14 @@ public class CharacterChooser extends GameState {
 		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
 
-		Controller controllerKeyboard = new Controller(Device.KEYBOARD);
-		controllers.put(Device.KEYBOARD, controllerKeyboard);
-		GameMaster.gm.controllers.add(controllerKeyboard);
-		CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), controllerKeyboard.info);
-		sprites.put(controllerKeyboard, c);
-		i += charOffset;
-		c.attachToParent(current, c.genName());
+		addController(Device.KEYBOARD);
 	}
 
 	@Override
 	public void update(double delta) {
 		for (Device device : Device.values()) {
 			if (Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
-				Controller newController = new Controller(device);
-				controllers.put(device, newController);
-				CharacterSprite c = new CharacterSprite(new Vec2f(i, 0), newController.info);
-				sprites.put(newController, c);
-				c.attachToParent(current, c.genName());
-				i += charOffset;
+				addController(device);
 			}
 			// TODO : remove controller when UI_BACK is pressed
 			if (Input.actionPressed(device, Action.UI_BACK) && controllers.keySet().contains(device)
@@ -88,6 +132,8 @@ public class CharacterChooser extends GameState {
 
 				sprites.get((controllers.get(device))).detach();
 				sprites.remove((controllers.get(device)));
+				pileOrdreJoueur.remove(controllers.get(device).playerNumber);
+				updatePlayersNumber();
 				controllers.remove(device);
 				// i -= charOffset;
 
@@ -112,7 +158,7 @@ public class CharacterChooser extends GameState {
 						}
 					}
 				}
-				i -= charOffset;
+				nextSpriteX -= charOffset;
 
 			}
 
@@ -170,6 +216,13 @@ public class CharacterChooser extends GameState {
 
 
 		super.update(delta);
+		menu.update(delta);
+	}
+	
+	public void draw() {
+
+		super.draw();
+		menu.draw();
 	}
 
 }
