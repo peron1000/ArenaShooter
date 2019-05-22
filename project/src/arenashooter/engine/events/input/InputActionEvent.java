@@ -1,7 +1,6 @@
 package arenashooter.engine.events.input;
 
 import arenashooter.engine.events.Event;
-import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionTest;
 import arenashooter.engine.input.Device;

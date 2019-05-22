@@ -39,7 +39,7 @@ public class Param extends GameState {
 			@Override
 			public void action(InputActionEvent e) {
 				switch (e.getAction()) {
-				case UI_Right:
+				case UI_RIGHT:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (activated && menuParam.active.getValue()) {
 							menuParam.getTarget().lunchAction("right");
@@ -50,7 +50,7 @@ public class Param extends GameState {
 						}
 					}
 					break;
-				case UI_Left:
+				case UI_LEFT:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (activated && menuParam.active.getValue()) {
 							menuParam.getTarget().lunchAction("left");
@@ -61,7 +61,7 @@ public class Param extends GameState {
 						}
 					}
 					break;
-				case UI_Up:
+				case UI_UP:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (!activated && menuParam.active.getValue()) {
 							menuParam.up();
@@ -70,7 +70,7 @@ public class Param extends GameState {
 						}
 					}
 					break;
-				case UI_Down:
+				case UI_DOWN:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (!activated && menuParam.active.getValue()) {
 							menuParam.down();
@@ -79,7 +79,7 @@ public class Param extends GameState {
 						}
 					}
 					break;
-				case JUMP:
+				case UI_OK:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (menuParam.active.getValue()) {
 							activated = !activated;
@@ -95,7 +95,7 @@ public class Param extends GameState {
 						}
 					}
 					break;
-				case UI_Ok:
+				case UI_CONTINUE:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (!GameParam.maps.isEmpty()) {
 							GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
