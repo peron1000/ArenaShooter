@@ -148,14 +148,27 @@ public class Vec2f {
 	/**
 	 * Creates a new vector with the same x and y as <i>this</i>
 	 */
+	@Override
 	public Vec2f clone() {
 		return new Vec2f(x, y);
 	}
 	
 	public float[] toArray() { return new float[] {x, y}; }
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Vec2f)
+			return ((Vec2f)other).x == x && ((Vec2f)other).y == y;
+		return false;
+	}
+	
+	public boolean equals(Vec2f other, float errorMargin) {
+		return Math.abs(other.x-x) < errorMargin && Math.abs(other.y-y) < errorMargin;
+	}
 
+	@Override
 	public String toString() {
-		return "( " + x + ", " + y + " )";
+		return "Vec2f( " + x + ", " + y + " )";
 	}
 
 	//
@@ -304,14 +317,10 @@ public class Vec2f {
 	 * @param world point to project
 	 * @return screen space projection
 	 */
-	public static Vec2f worldToScreen(Vec2f world) { //TODO: test
+	public static Vec2f worldToScreen(Vec2f world) { //TODO: fix this
 		Mat4f model = Mat4f.translation(world);
-		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.getView()), model).val[3];
-				
+		float[] projected = Mat4f.mul( Window.proj, Mat4f.mul( Window.getView(), model) ).val[3];
+		
 		return new Vec2f( projected[0], projected[1] );
-	}
-	
-	public void print() {
-		System.out.println("x = " + x + " ; y = " + y);
 	}
 }
