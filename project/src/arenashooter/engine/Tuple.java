@@ -1,4 +1,4 @@
-package arenashooter.entities.spatials;
+package arenashooter.engine;
 
 public class Tuple<X, Y> {
 	public final X x; 
