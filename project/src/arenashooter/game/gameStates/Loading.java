@@ -7,12 +7,12 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.MapXmlReader;
-import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Map;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 
 public class Loading extends GameState {

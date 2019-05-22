@@ -14,11 +14,11 @@ import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 

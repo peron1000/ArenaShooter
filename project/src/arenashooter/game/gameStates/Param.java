@@ -17,7 +17,7 @@ import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiImage;
-import arenashooter.entities.Controller;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;

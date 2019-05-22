@@ -9,7 +9,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Label;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.UiImage;
-import arenashooter.entities.Controller;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameParam;
 

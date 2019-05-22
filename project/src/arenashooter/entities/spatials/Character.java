@@ -14,12 +14,12 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeCharacter;
-import arenashooter.entities.Controller;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
+import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 
 public class Character extends RigidBodyContainer {
