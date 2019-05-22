@@ -45,7 +45,7 @@ public class Melee extends Usable {
 			getChildren().get("anim_attack_01").detach();
 		}
 		
-	}
+	} 
 
 	@Override
 	protected void setLocalPositionOfSprite() {

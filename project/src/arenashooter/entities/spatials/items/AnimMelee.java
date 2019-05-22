@@ -33,19 +33,9 @@ public class AnimMelee extends Spatial implements IAnimated {
 		Character character = item.getCharacter();
 		if (character != null) {
 			rotation = Utils.lerpAngle(rotation, character.aimInput, Math.min(1, d * 17));
-
-			//if (character.lookRight) {
-			sprite.localPosition = new Vec2f(-0.20, 0);
 			item.localPosition.set(anim.getTrackVec2f("rightPos"));
 			item.rotation = anim.getTrackD("rightRot") + rotation;
 			sprite.localPosition = new Vec2f(1.0, 0);
-
-			//			} else if (!character.lookRight) {
-			//				sprite.localPosition = new Vec2f(0.20, 0);
-			//				item.position.set(anim.getTrackVec2f("leftPos"));
-			//				item.rotation = anim.getTrackD("leftRot") + rotation;
-			//				sprite.localPosition = new Vec2f(1.0, 0);
-			//			}
 		}
 
 	}

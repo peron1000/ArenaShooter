@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
+<map>
+	<information>
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="-5" y="-12" />
+			<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
+				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".15" />
+				<vecteur use="handPosR" x=".25" y=".05" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".2" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
+
+				<vecteur use="handPosL" x="-.65" y=".15" />
+				<vecteur use="handPosR" x=".067" y=".125" />
+			</shotgun>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x=".5" y=".5" z=".5" />
+				</mesh>
+			</entities>
+		</spawn>
+
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="15" y="-12" />
+			<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
+				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".15" />
+				<vecteur use="handPosR" x=".25" y=".05" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".3" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
+
+				<vecteur use="handPosL" x="-.65" y=".15" />
+				<vecteur use="handPosR" x=".067" y=".125" />
+			</shotgun>
+			<melee name="kata" weight="5"
+				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
+				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
+				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
+
+				<vecteur use="handPosL" x="-50" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</melee>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x=".5" y=".5" z=".5" />
+				</mesh>
+			</entities>
+		</spawn>
+		
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="-15" y="-12" />
+			<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
+				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".15" />
+				<vecteur use="handPosR" x=".25" y=".05" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".3" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
+
+				<vecteur use="handPosL" x="-.65" y=".15" />
+				<vecteur use="handPosR" x=".067" y=".125" />
+			</shotgun>
+			<melee name="kata" weight="5"
+				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
+				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
+				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
+
+				<vecteur use="handPosL" x="-50" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</melee>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x=".5" y=".5" z=".5" />
+				</mesh>
+			</entities>
+		</spawn>
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="5" y="-12" />
+			<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
+			</gun>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
+				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".15" />
+				<vecteur use="handPosR" x=".25" y=".05" />
+			</gun>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".3" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
+
+				<vecteur use="handPosL" x="-.65" y=".15" />
+				<vecteur use="handPosR" x=".067" y=".125" />
+			</shotgun>
+			<melee name="kata" weight="5"
+				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
+				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
+				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
+
+				<vecteur use="handPosL" x="-50" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</melee>
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
+					<vecteur use="position" x="0" y="1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x=".5" y=".5" z=".5" />
+				</mesh>
+			</entities>
+		</spawn>
+
+		<gravity>
+			<vecteur x="0" y="9.807" />
+		</gravity>
+
+		<cameraBound w="100" x="-500" y="-100" z="500" />
+
+		<sky>
+			<vecteur x="0.659" y="0.835" z="0.996" use="bottom" />
+			<vecteur x="0.016" y="0.145" z="0.565" use="top" />
+		</sky>
+	</information>
+
+	<entities>
+		<static>
+			<vecteur x="-5" y="0" use="position" />
+			<vecteur x="20" y="0.25" use="extent" />
+			<entities>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-15" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-5" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="5" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="15" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</static>
+
+		<static>
+			<vecteur x="-20" y="0" use="position" />
+			<vecteur x="20" y="0.25" use="extent" />
+			<entities>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-15" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-5" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="5" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="15" y="-.5" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</static>
+		<rigid>
+			<vecteur x="5" y="-8" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="5" y="-6" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="5" y="-4" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="5" y="-2" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="5" y="-0.1" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="15" y="-8" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="15" y="-6" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="15" y="-4" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="15" y="-2" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="15" y="-0.1" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="-15" y="-8" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="-15" y="-6" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="-15" y="-4" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="-15" y="-2" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="-15" y="-0.1" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="-5" y="-8" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid>
+			<vecteur x="-5" y="-6" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="-5" y="-4" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="-5" y="-2" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+				<rigid>
+			<vecteur x="-5" y="-0.1" use="position" />
+			<vecteur x="1" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="2" y="2" z="2" />
+				</mesh>
+			</entities>
+		</rigid>
+
+		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
+			<vecteur use="position" x="225" y="280" z="-625" />
+			<vecteur use="rotation" x="0" y=".2" z="0" w="1" />
+			<vecteur use="scale" x="9.5" y="9.5" z="9.5" />
+			<entities>
+				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
+					<!-- <vecteur use="position" x="-300" y="1200" z="0" /> -->
+					<vecteur use="position" x="212" y="135" z="-615" />
+					<vecteur use="rotation" x="0" y=".2" z="0" w="1" />
+					<vecteur use="scale" x="9.5" y="9.5" z="9.5" />
+				</mesh>
+			</entities>
+		</mesh>
+
+		<mesh src="data/meshes/landscape_field/Hill.obj">
+			<vecteur use="position" x="0" y="535" z="-220" />
+			<vecteur use="rotation" x="-0.2" y="0" z="0" w="1" />
+			<vecteur use="scale" x="3" y="3" z="3" />
+		</mesh>
+
+	</entities>
+</map>
