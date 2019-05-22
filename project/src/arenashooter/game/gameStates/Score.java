@@ -109,7 +109,7 @@ public class Score extends GameState {
 				menu.addUiElement(but, 3);
 				but.setPos(new Vec2f(7, 41));
 			} else if (Input.actionJustReleased(controller.getDevice(), Action.UI_BACK)) {
-				GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
+				GameMaster.gm.requestNextState(new Start(), GameMaster.mapEmpty);
 			}
 		}
 

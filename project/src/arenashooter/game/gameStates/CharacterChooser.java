@@ -153,6 +153,7 @@ public class CharacterChooser extends GameState {
 				c.attachToParent(current, c.genName());
 			}
 			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_OK)) {
+				GameMaster.gm.controllers.clear();
 				for (Controller cont : controllers.values()) {
 					GameMaster.gm.controllers.add(cont);
 				}

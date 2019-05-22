@@ -32,12 +32,12 @@ public class GameMaster {
 		// Constructor untouchable
 	}
 
+	@SuppressWarnings("unchecked")
 	public void requestNextState(GameState nextState, String... nextStateMap) {
 
 		if (current == Loading.loading) { // Loading
 			current = Loading.loading.getNextState();
 		} else {
-			stateStack.push(current);
 			if (current instanceof Start) { // Start
 			} else if (current instanceof CharacterChooser) { // Character chooser
 			} else if (current instanceof MapChooser) { // Map chooser
@@ -45,7 +45,9 @@ public class GameMaster {
 			} else if(current instanceof Param) {
 			} else if(current instanceof Game) {
 			} else if(current instanceof Score) {
+				goBackTo((Class<GameState>) nextState.getClass());
 			}
+			stateStack.push(current);
 			current = Loading.loading;
 			current.init();
 			Loading.loading.setNextState(nextState, nextStateMap);
@@ -53,22 +55,25 @@ public class GameMaster {
 	}
 
 	public void requestPreviousState() {
-		if(current instanceof CharacterChooser) {
-			controllers.clear();
-		}
 		 current = stateStack.pop();
 		 if(current instanceof Intro) {
 			 current = new Start();
 		 }
 	}
 
-	/**
-	 * @return An ArrayList of all entities in the current map of the game
-	 */
-	public Collection<Entity> getEntities() {
-		Collection<Entity> collection = new HashSet<>();
-		collection.addAll(current.getMap().getChildren().values());
-		return collection;
+	private void goBackTo(Class<GameState> stateClass) {
+		boolean boo = false;
+		for (GameState gameState : stateStack) {
+			if (gameState.getClass().equals(stateClass)) {
+				boo = true;
+			}
+		}
+		if(boo)
+			while(!(current.getClass().equals(stateClass))){
+				System.out.println(current.getClass().getName());
+				requestPreviousState();
+			}
+		requestPreviousState();
 	}
 	
 	public Map getMap() {
