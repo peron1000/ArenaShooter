@@ -3,7 +3,7 @@ package arenashooter.game.gameStates.engineParam;
 import java.util.TreeSet;
 
 public class GameParam {
-	
+
 	// GameMode
 	private static ParamElement<GameMode> gameMode = new ParamElement<GameMode>("Game Mode", GameMode.values()) {
 
@@ -12,7 +12,7 @@ public class GameParam {
 			return getValue().name();
 		}
 	};
-	
+
 	public void nextGameMode() {
 		gameMode.next();
 	}
@@ -28,17 +28,20 @@ public class GameParam {
 	public static GameMode getGameMode() {
 		return gameMode.getValue();
 	}
-	
-	
+
 	// Rounds
-	private static ParamElement<Integer> nbRound = new ParamElement<Integer>("Round(s)", 1, 2, 3, 4, 5) {
+	private static ParamElement<Integer> nbRound = new ParamElement<Integer>("Round(s)", 1, 2, 3, 4, 5, -1) {
 
 		@Override
 		String getStringValue() {
-			return getValue().toString();
+			if (getValue() != -1) {
+				return getValue().toString();
+			} else {
+				return Character.getName('\u221E');
+			}
 		}
 	};
-	
+
 	public void nextRound() {
 		nbRound.next();
 	}
@@ -54,20 +57,20 @@ public class GameParam {
 	public static int getRound() {
 		return nbRound.getValue();
 	}
-	
+
 	// Team
-	private static ParamElement<Boolean> team = new ParamElement<Boolean>("Team" , true , false) {
-		
+	private static ParamElement<Boolean> team = new ParamElement<Boolean>("Team", true, false) {
+
 		@Override
 		String getStringValue() {
-			if(getValue()) {
+			if (getValue()) {
 				return "yes";
 			} else {
 				return "no";
 			}
 		}
 	};
-	
+
 	public void nextTeam() {
 		team.next();
 	}
@@ -83,7 +86,7 @@ public class GameParam {
 	public static boolean getTeam() {
 		return team.getValue();
 	}
-	
+
 	// Maps
 	public static TreeSet<String> maps = new TreeSet<>();
 
