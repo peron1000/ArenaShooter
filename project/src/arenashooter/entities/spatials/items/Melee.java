@@ -2,20 +2,16 @@ package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Timer;
-import arenashooter.entities.spatials.AnimationTester;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Collider;
-import arenashooter.entities.spatials.SoundEffect;
 import arenashooter.entities.spatials.Sprite;
 
 public class Melee extends Usable {
 	protected Timer fireRate = null;
 	Collider collider;
 	protected float damage = 10f;
-	/** Time before the first bullet is fired */
-	protected Timer timerCooldown = null;
 
-	protected animMelee animmelee = null;
+	protected AnimMelee animmelee = null;
 
 	protected Sprite sprite = null;
 	
@@ -26,36 +22,28 @@ public class Melee extends Usable {
 			String attackSound, float damage, double size) {
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
-
-		/*
-		 * SoundEffect pickup = new SoundEffect(position, "data/sound/" + soundPickup +
-		 * ".ogg", 2); pickup.attachToParent(this, "snd_Pickup");
-		 * 
-		 * SoundEffect attack = new SoundEffect(position, "data/sound/" + attackSound +
-		 * ".ogg", 2); attack.attachToParent(this, "snd_attack");
-		 * 
-		 * SoundEffect warmup = new SoundEffect(position, "data/sound/" + soundWarmup +
-		 * ".ogg", 2); warmup.attachToParent(this, "snd_Warmup");
-		 */
 		
-		//Cooldown
-		this.timerCooldown = new Timer(cooldown);
-		this.timerCooldown.setIncreasing(true);
-		this.timerCooldown.setProcessing(true);
-		this.timerCooldown.setValue(cooldown);
-		this.timerCooldown.attachToParent(this, "timer_cooldown");
-
-		this.animmelee = new animMelee(new Vec2f(0, 0), this);
-		animmelee.attachToParent(this, "anim fzfzef 1");
+		this.animmelee = new AnimMelee(new Vec2f(), this);
 	}
 
 	@Override
+	public void detach() {
+		animmelee.stopAnim();
+		super.detach();
+	}
+	
+	@Override
 	public void attackStart() {
-		
+		animmelee.attachToParent(this, "anim_attack_01");
+		animmelee.playAnim();
 	}
 
 	@Override
 	public void attackStop() {
+		if( getChildren().get("anim_attack_01") instanceof AnimMelee ) {
+			((AnimMelee)getChildren().get("anim_attack_01")).stopAnim();
+			getChildren().get("anim_attack_01").detach();
+		}
 		
 	}
 
@@ -68,15 +56,6 @@ public class Melee extends Usable {
 				localPosition = new Vec2f(-0.3, 0.1);
 			}
 		}
-	}
-
-	@Override
-	public void step(double d) {
-		if (timerCooldown.isOver()) {
-			timerCooldown.restart();
-			animmelee.playAnim();
-		}
-		super.step(d);
 	}
 
 	@Override

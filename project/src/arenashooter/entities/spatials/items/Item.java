@@ -18,7 +18,6 @@ public abstract class Item extends Spatial {
 	Collider collider;
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
-	protected Vec2f position = null;
 	public String name = "";
 	protected double weight = 0;
 	protected String pathSprite = ""; 
@@ -42,17 +41,11 @@ public abstract class Item extends Spatial {
 		Sprite sprite = new Sprite(position, pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
 		
-		//Collision
-//		collider = new Collider(parentPosition, new Vec2f(sprite.getTexture().getWidth(), sprite.getTexture().getHeight()));
-//		collider.attachToParent(this, "coll_item");
-
 		SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/"+soundPickup+".ogg", 1);
 		pickup.attachToParent(this, "sound_pickup");
 
 		setSizeOfSprite();
 
-		
-		this.position = position;
 		this.name = name;
 		this.weight = weight;
 		this.pathSprite = pathSprite;
