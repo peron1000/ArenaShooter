@@ -17,6 +17,9 @@ import arenashooter.entities.spatials.items.Item;
 public class Map extends Entity {
 	/** Spawn points */
 	public ArrayList<Vec2f> spawn;
+	/** Spawn points */
+	public ArrayList<Vec2f> spawnperso;
+	
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
 
@@ -39,6 +42,8 @@ public class Map extends Entity {
 	public Map() {
 		physic = new PhysicWorld(this);
 		createTestEntities();
+//		spawn = new ArrayList<>();
+//		spawnperso = new ArrayList<>();
 	}
 
 	@Override
@@ -90,17 +95,17 @@ public class Map extends Entity {
 		
 		try {
 		//new Random();
-		//System.out.println(" spawn size "+ spawn.size());
-		int rand = ThreadLocalRandom.current().nextInt(0,spawn.size());
-		//System.out.println(rand);
+		System.out.println(" spawnperso size "+ spawnperso.size());
+		int rand = ThreadLocalRandom.current().nextInt(0,spawnperso.size());
+		System.out.println(rand);
 		
-		randi = spawn.get(rand);
+		randi = spawnperso.get(rand);
 		int max = 100;
 		int etapes = 0;
 		while (spawnch.contains(randi) && etapes < max) {
-			rand = ThreadLocalRandom.current().nextInt(spawn.size());
-			randi = spawn.get(rand);
-			//System.out.println("Vec2f x:"+randi.x+" y:"+randi.y);
+			rand = ThreadLocalRandom.current().nextInt(spawnperso.size());
+			randi = spawnperso.get(rand);
+			System.out.println("Vec2f x:"+randi.x+" y:"+randi.y);
 			etapes++;
 		}
 		
@@ -118,22 +123,22 @@ public class Map extends Entity {
 	 */
 	private void createTestEntities() {
 		// Rigid body 1
-		Vec2f position = new Vec2f(-7, 0);
-		RigidBody body = new RigidBody(new ShapeDisk(.5), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
-		RigidBodyContainer rb = new RigidBodyContainer(position, body);
-		Sprite rbSprite = new Sprite(new Vec2f(), "data/test.png");
-		rbSprite.size = new Vec2f(1, 1);
-		rb.attachToParent(this, "Rigid Body test 1");
-		rbSprite.attachToParent(rb, "Sprite");
-
-		// Rigid body 1
-		position = new Vec2f(-7.5, -1);
-		body = new RigidBody(new ShapeDisk(1), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
-		rb = new RigidBodyContainer(position, body);
-		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
-		rbSprite.size = new Vec2f(2, 2);
-		rb.attachToParent(this, "Rigid Body test 2");
-		rbSprite.attachToParent(rb, "Sprite");
+//		Vec2f position = new Vec2f(-7, 0);
+//		RigidBody body = new RigidBody(new ShapeDisk(.5), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
+//		RigidBodyContainer rb = new RigidBodyContainer(position, body);
+//		Sprite rbSprite = new Sprite(new Vec2f(), "data/test.png");
+//		rbSprite.size = new Vec2f(1, 1);
+//		rb.attachToParent(this, "Rigid Body test 1");
+//		rbSprite.attachToParent(rb, "Sprite");
+//
+//		// Rigid body 1
+//		position = new Vec2f(-7.5, -1);
+//		body = new RigidBody(new ShapeDisk(1), position, 0, CollisionFlags.RIGIDBODY, 1, .3f);
+//		rb = new RigidBodyContainer(position, body);
+//		rbSprite = new Sprite(new Vec2f(), "data/sprites/UnMoineHD.png");
+//		rbSprite.size = new Vec2f(2, 2);
+//		rb.attachToParent(this, "Rigid Body test 2");
+//		rbSprite.attachToParent(rb, "Sprite");
 		
 		AnimationTester animTester = new AnimationTester(new Vec2f(-15, 0));
 		animTester.attachToParent(this, "anim tester 1");
