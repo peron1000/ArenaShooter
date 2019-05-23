@@ -3,6 +3,11 @@ package arenashooter.game;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.input.InputActionEvent;
+import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.input.ActionState;
+import arenashooter.engine.input.ActionTest;
 import arenashooter.entities.Arena;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.Game;
@@ -25,9 +30,18 @@ public class GameMaster {
 
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
 	public static final String mapCharChooser = "data/mapXML/menu_character_chooser.xml";
+	
+	InputListener inputs = new InputListener();
 
 	private GameMaster() {
-		// Constructor untouchable
+		inputs.actions.add(new EventListener<InputActionEvent>() {
+			@Override
+			public void action(InputActionEvent event) {
+				if(event.getAction() == ActionTest.DEBUG_SHOW_COLLISION && event.getActionState() == ActionState.JUST_PRESSED) {
+					Main.drawCollisions = !Main.drawCollisions;
+				}
+			}
+		});
 	}
 
 	@SuppressWarnings("unchecked")
@@ -84,6 +98,7 @@ public class GameMaster {
 	}
 
 	public void update(double delta) {
+		inputs.step(delta);
 		current.update(delta);
 	}
 }
