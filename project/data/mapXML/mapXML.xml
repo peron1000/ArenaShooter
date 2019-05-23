@@ -55,6 +55,18 @@
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
+			<gun name="grenade_launcher" weight="50"
+				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
+				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
+				soundWarmup=""
+				bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2"
+				bulletSpeed="30" damage="95" cannonLength="1.38" recoil="1"
+				thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".2" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 					<vecteur use="position" x="0" y="1" z="0" />
@@ -114,6 +126,18 @@
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
+			<gun name="grenade_launcher" weight="50"
+				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
+				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
+				soundWarmup=""
+				bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2"
+				bulletSpeed="30" damage="95" cannonLength="1.38" recoil="1"
+				thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".2" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
@@ -182,6 +206,18 @@
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
+			<gun name="grenade_launcher" weight="50"
+				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
+				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
+				soundWarmup=""
+				bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2"
+				bulletSpeed="30" damage="95" cannonLength="1.38" recoil="1"
+				thrust="2.00" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-.32" y=".2" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"

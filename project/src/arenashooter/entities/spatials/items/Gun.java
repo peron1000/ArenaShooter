@@ -9,6 +9,7 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
+import arenashooter.entities.spatials.Grenade;
 import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.SoundEffect;
 
@@ -174,16 +175,23 @@ public class Gun extends Usable {
 					bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
 					bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
 					break;
+					
+				case 2:
+					Grenade bul2 = new Grenade(bulletPos, bulSpeed, damage);
+					bul2.attachToParent(getMap(), ("grenade_" + bul2.genName()));
+					if (isEquipped())
+						bul2.shooter = ((Character) getParent());
+//					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+//					flash.attachToParent(getChild("particle_container"), "particles_flash");
+					break;
 
 				default:
-
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getMap(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 					flash.attachToParent(getChild("particle_container"), "particles_flash");
-
 					break;
 				}
 				
