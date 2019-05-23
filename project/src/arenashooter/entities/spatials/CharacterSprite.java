@@ -117,16 +117,16 @@ public class CharacterSprite extends Spatial {
 	
 	public void explode(Vec2f impulse) {
 		//Head
-		RigidBody rb = new RigidBody(new ShapeDisk(.35), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		RigidBody rb = new RigidBody(new ShapeDisk(.45), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
 		RigidBodyContainer rbc = new RigidBodyContainer(head.getWorldPos(), rb);
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		head.attachToParent(rbc, "head");
-		head.localPosition.set(0, 0);
+		head.localPosition.set(-.1, .19);
 		head.rotationFromParent = true;
 		
 		//HandL
-		rb = new RigidBody(new ShapeDisk(.1), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rb = new RigidBody(new ShapeDisk(.15), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
 		rbc = new RigidBodyContainer(handL.getWorldPos(), rb);
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
@@ -135,7 +135,7 @@ public class CharacterSprite extends Spatial {
 		handL.rotationFromParent = true;
 		
 		//HandR
-		rb = new RigidBody(new ShapeDisk(.1), handR.getWorldPos(), handR.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rb = new RigidBody(new ShapeDisk(.15), handR.getWorldPos(), handR.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
 		rbc = new RigidBodyContainer(handR.getWorldPos(), rb);
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
