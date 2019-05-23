@@ -99,7 +99,7 @@ public class Config extends GameState {
 				case UI_CONTINUE:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (!GameParam.maps.isEmpty()) {
-							GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+							GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
 						} else {
 							Exception exc = new Exception("Choisissez au moins une map");
 							exc.printStackTrace();

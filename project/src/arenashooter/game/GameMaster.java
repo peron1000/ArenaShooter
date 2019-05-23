@@ -24,6 +24,7 @@ public class GameMaster {
 	public static final GameMaster gm = new GameMaster();
 
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
+	public static final String mapCharChooser = "data/mapXML/menu_character_chooser.xml";
 
 	private GameMaster() {
 		// Constructor untouchable

@@ -88,7 +88,7 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 			@Override
 			public void make() {
 				System.out.println("op4 : quit");
-				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapEmpty);
+				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
 			}
 		});
 		
