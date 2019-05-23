@@ -160,6 +160,17 @@ public enum ActionTest {
 		public boolean isButtonPressed(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS;
 		}
+	},
+	DEBUG_SHOW_COLLISION {
+		@Override
+		public boolean isKeyPressed(long window) {
+			return glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS;
+		}
+
+		@Override
+		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+			return false;
+		}
 	}
 ;
 

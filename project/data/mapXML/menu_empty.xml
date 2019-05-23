@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
+<map>
+	<information>
+		<spawn cooldown="1">
+			<vecteur x="0" y="0" />
+		</spawn>
+
+		<gravity>
+			<vecteur x="0" y="9.807" />
+		</gravity>
+
+		<cameraBound w="1000" x="-5000" y="-1000" z="5000" />
+
+		<sky>
+			<vecteur x="0" y="0" z="0" use="bottom" />
+			<vecteur x="0" y="0" z="0" use="top" />
+		</sky>
+	</information>
+
+	<entities>
+	</entities>
+</map>

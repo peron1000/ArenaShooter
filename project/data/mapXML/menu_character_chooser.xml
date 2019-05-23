@@ -3,7 +3,7 @@
 <map>
 	<information>
 		<spawn cooldown="1">
-			<vecteur x="-300" y="0" />
+			<vecteur x="0" y="0" />
 		</spawn>
 
 		<gravity>
@@ -16,10 +16,8 @@
 			<vecteur x="0.996" y="0.9098" z="0.003922" use="bottom" />
 			<vecteur x="0.34901960784" y="0.13725490196" z="0.48235294118" use="top" />
 		</sky>
-
 	</information>
 
 	<entities>
-		
 	</entities>
 </map>

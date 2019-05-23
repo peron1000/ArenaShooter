@@ -69,7 +69,7 @@ public class CharacterSprite extends Spatial {
 		if(f.exists() && !f.isDirectory()) { 
 			footL = new Sprite(position, folder + "/foot.png");
 			footR = new Sprite(position, folder + "/foot.png");
-		}else if(new File(folder + "/foot_tr.png").exists()) {
+		} else if(new File(folder + "/foot_tr.png").exists()) {
 			footL = new Sprite(position, folder + "/foot_tr.png");
 			footR = new Sprite(position, folder + "/foot_tr.png");
 		}			
@@ -124,6 +124,15 @@ public class CharacterSprite extends Spatial {
 		head.attachToParent(rbc, "head");
 		head.localPosition.set(-.1, .19);
 		head.rotationFromParent = true;
+
+		//Body
+		rb = new RigidBody(new ShapeDisk(.45), body.getWorldPos(), body.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rbc = new RigidBodyContainer(body.getWorldPos(), rb);
+		rbc.attachToParent(getMap(), rbc.genName());
+		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
+		body.attachToParent(rbc, "body");
+		body.localPosition.set(-.1, 0);
+		body.rotationFromParent = true;
 		
 		//HandL
 		rb = new RigidBody(new ShapeDisk(.15), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
