@@ -131,9 +131,8 @@ public abstract class Item extends Spatial {
 			setSpriteFlip();
 			setLocalPositionOfSprite();
 			parentPosition.add(localPosition);
-		} else {
-			parentPosition.add(Vec2f.multiply(getVel(), (float) d));
 		}
+		
 		super.step(d);
 		
 		if(rigidBody != null) {
