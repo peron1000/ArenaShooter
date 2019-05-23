@@ -15,6 +15,7 @@ import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.Config;
 import arenashooter.game.gameStates.Game;
+import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Start;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
@@ -92,7 +93,7 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 			@Override
 			public void make() {
 				System.out.println("op4 : quit");
-				GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
+				GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
 			}
 		});
 
