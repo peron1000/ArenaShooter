@@ -29,10 +29,6 @@ public abstract class Item extends Spatial {
 	
 	private boolean isEquipped = false;
 
-	public boolean isEquipped() {
-		return isEquipped;
-	}
-
 	public Item(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup) {
 		super(position);
@@ -56,6 +52,13 @@ public abstract class Item extends Spatial {
 		this.soundPickup = soundPickup;
 	}
 	
+
+	/**
+	 * Attach this item to a new parent and update its eqipped status
+	 * @param newParent new parent Entity
+	 * @param name      used as a key in parent's children
+	 * @return previous child of the new parent using that name
+	 */
 	@Override
 	public Entity attachToParent(Entity newParent, String name) {
 		Entity prev = super.attachToParent(newParent, name);
@@ -66,12 +69,20 @@ public abstract class Item extends Spatial {
 		return prev;
 	}
 	
+	/**
+	 * Detach this item and update its equipped status
+	 */
 	@Override
 	public void detach() {
 		isEquipped = false;
 		updateRigidBodyState();
 		super.detach();
 	}
+	
+	/**
+	 * @return <b>true</b> if this item is currently equipped on a Character
+	 */
+	public boolean isEquipped() { return isEquipped; }
 	
 	/**
 	 * Apply an impulse depending on damage received.
@@ -88,6 +99,9 @@ public abstract class Item extends Spatial {
 		return 0;
 	}
 	
+	/**
+	 * Create or destroy the rigid body for this item depending on its equipped state
+	 */
 	private void updateRigidBodyState() {
 		if(!isEquipped() && rigidBody == null) {
 			RigidBody body = new RigidBody( new ShapeBox(new Vec2f(1, .2)), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1) ;
@@ -173,15 +187,14 @@ public abstract class Item extends Spatial {
 	}
 	
 	/**
-	 * @return Character if parent is a Character
-	 * or NULL if parent is different of a Character
+	 * @return Character if parent is a Character (equipped) 
+	 * or NULL if parent is not a Character (not equipped)
 	 */
 	protected Character getCharacter() {
-		if(getParent() instanceof Character) {
+		if(isEquipped())
 			return (Character) getParent();
-		} else {
+		else
 			return null;
-		}
 	}
 	
 	/**
