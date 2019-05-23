@@ -60,7 +60,7 @@ public abstract class Item extends Spatial {
 	public Entity attachToParent(Entity newParent, String name) {
 		Entity prev = super.attachToParent(newParent, name);
 		
-		isEquipped = parent instanceof Character;
+		isEquipped = getParent() instanceof Character;
 		updateRigidBodyState();
 		
 		return prev;

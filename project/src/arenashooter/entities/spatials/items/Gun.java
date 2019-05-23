@@ -155,7 +155,7 @@ public class Gun extends Usable {
 					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 					bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
 					if (isEquipped())
-						bul.shooter = ((Character) parent);
+						bul.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
 					break;
@@ -168,8 +168,8 @@ public class Gun extends Usable {
 					CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
 
 					if (isEquipped()) {
-						bull.shooter = ((Character) parent);
-						bull2.shooter = ((Character) parent);
+						bull.shooter = ((Character) getParent());
+						bull2.shooter = ((Character) getParent());
 					}
 					bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
 					bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
@@ -180,7 +180,7 @@ public class Gun extends Usable {
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getMap(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
-						bul1.shooter = ((Character) parent);
+						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
 
@@ -191,8 +191,8 @@ public class Gun extends Usable {
 				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
-//					((Character) parent).vel.add(Vec2f.multiply(recoilDir, thrust));
-					((Character) parent).applyImpulse(Vec2f.multiply(recoilDir, thrust));
+//					((Character) getParent()).vel.add(Vec2f.multiply(recoilDir, thrust));
+					((Character) getParent()).applyImpulse(Vec2f.multiply(recoilDir, thrust));
 				} else {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}

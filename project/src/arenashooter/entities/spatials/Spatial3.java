@@ -69,10 +69,10 @@ public class Spatial3 extends Entity {
 	 */
 	@Override
 	public void step(double d) {
-		if(rotationFromParent && parent instanceof Spatial3)
-			localRotation = ((Spatial3)parent).localRotation;
-		else if(rotationFromParent && parent instanceof Spatial)
-				Quat.fromAngle(((Spatial)parent).rotation, localRotation);
+		if(rotationFromParent && getParent() instanceof Spatial3)
+			localRotation = ((Spatial3)getParent()).localRotation;
+		else if(rotationFromParent && getParent() instanceof Spatial)
+				Quat.fromAngle(((Spatial)getParent()).rotation, localRotation);
 	
 		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();

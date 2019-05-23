@@ -75,8 +75,8 @@ public class Spatial extends Entity {
 	 */
 	@Override
 	public void step(double d) {
-		if(rotationFromParent && parent instanceof Spatial)
-			rotation = ((Spatial)parent).rotation;
+		if(rotationFromParent && getParent() instanceof Spatial)
+			rotation = ((Spatial)getParent()).rotation;
 		
 		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();

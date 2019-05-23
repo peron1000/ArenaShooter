@@ -43,7 +43,7 @@ public class Usable extends Item {
 		localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
 		localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
 		if (isEquipped()) {
-			rotation = Utils.lerpAngle(rotation, ((Character) parent).aimInput, Math.min(1, d * 17));
+			rotation = Utils.lerpAngle(rotation, ((Character) getParent()).aimInput, Math.min(1, d * 17));
 			getSprite().rotation = rotation;
 		}
 		super.step(d);

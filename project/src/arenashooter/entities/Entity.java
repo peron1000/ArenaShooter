@@ -9,7 +9,7 @@ import arenashooter.engine.graphics.Window;
 
 public class Entity {
 
-	protected Entity parent;
+	private Entity parent;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
 	private HashMap<String, Entity> children = new HashMap<String, Entity>();
@@ -58,6 +58,9 @@ public class Entity {
 		return e;
 	}
 
+	/**
+	 * Detach from current parent
+	 */
 	public void detach() {
 		if (parent != null)
 			parent.children.remove(name);
@@ -71,20 +74,6 @@ public class Entity {
 
 	public HashMap<String, Entity> getChildren() {
 		return children;
-	}
-
-	/**
-	 * 
-	 * @return LinkedList with parent's childrens, including self
-	 */
-	public HashMap<String, Entity> siblings() {
-		if (parent != null)
-			return parent.children;
-		return new HashMap<String, Entity>();
-	}
-
-	public void setParent(Entity parent) {
-		this.parent = parent;
 	}
 
 	/**

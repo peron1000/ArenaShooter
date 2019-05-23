@@ -95,7 +95,7 @@ public class Shotgun extends Gun {
 									damage);
 							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
 							if (isEquipped())
-								bul.shooter = ((Character) parent);
+								bul.shooter = ((Character) getParent());
 						} else {
 							Bullet bul = new Bullet(bulletPos,
 									Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed,1.2), (Math.random() - 0.5) * 0.5 * dispersion)),
@@ -103,7 +103,7 @@ public class Shotgun extends Gun {
 									damage);
 							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
 							if (isEquipped())
-								bul.shooter = ((Character) parent);
+								bul.shooter = ((Character) getParent());
 						}
 					}
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
@@ -125,8 +125,8 @@ public class Shotgun extends Gun {
 								damage, true);
 
 						if (isEquipped()) {
-							bull.shooter = ((Character) parent);
-							bull2.shooter = ((Character) parent);
+							bull.shooter = ((Character) getParent());
+							bull2.shooter = ((Character) getParent());
 						}
 						bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
 						bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
@@ -138,7 +138,7 @@ public class Shotgun extends Gun {
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getMap(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
-						bul1.shooter = ((Character) parent);
+						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
 
@@ -146,8 +146,8 @@ public class Shotgun extends Gun {
 				}
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
-//					((Character) parent).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
-					((Character) parent).applyImpulse(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+//					((Character) getParent()).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+					((Character) getParent()).applyImpulse(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 				} else {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
 				}

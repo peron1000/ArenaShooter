@@ -26,7 +26,7 @@ public class CharacterSprite extends Spatial {
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
-	private double time = Math.random() * Math.PI, movementTime = 0;
+	private double movementTime = 0;
 
 	static {
 		sndStep = new SoundSourceMulti("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
@@ -131,7 +131,6 @@ public class CharacterSprite extends Spatial {
 		if (isOnGround && !wasOnGround)
 			land();
 
-		time += d;
 		movementTime += d * Math.abs(moveSpeed);
 
 		body.flipX = !lookRight;
@@ -193,8 +192,8 @@ public class CharacterSprite extends Spatial {
 		head.localPosition.y = (float) (-.2 + headH * .035);
 		
 		// Hands
-		if (parent instanceof Character) {
-			Usable weap = ((Character) parent).getWeapon();
+		if (getParent() instanceof Character) {
+			Usable weap = ((Character) getParent()).getWeapon();
 
 			if (weap != null && weap.handPosL != null) {
 				if (!handLOnWeap) { //Left hand on weapon
