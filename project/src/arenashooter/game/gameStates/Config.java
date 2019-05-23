@@ -106,6 +106,12 @@ public class Config extends GameState {
 						}
 					}
 					break;
+				case UI_BACK:
+					if (e.getActionState() == ActionState.JUST_PRESSED) {
+						GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
+					}
+					break;
+				
 				default:
 					break;
 				}
