@@ -27,20 +27,22 @@ public class Character extends RigidBodyContainer {
 	private static final float defaultDamage = 10;
 	private float health, healthMax;
 	private final Vec2f spawn;
-	
-//	public Vec2f vel = new Vec2f();
+
+	// public Vec2f vel = new Vec2f();
 	boolean isOnGround = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
 	public boolean isAiming = false;
 	public double aimInput = 0;
-	
-	//Movement stats
+
+	// Movement stats
 	public double maxSpeed = 18;
-	
-	//Combat stats
+
+	// Combat stats
 	/** Melee attack cooldown */
-	private Timer attack = new Timer(0.3);
+	private Timer attackCooldown = new Timer(0.3);
+	private int attackCombo = 0;
+	private Timer holdCombo = new Timer(1);
 	private float range = 2;
 
 	/**
@@ -53,36 +55,44 @@ public class Character extends RigidBodyContainer {
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position, new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
-		
+
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
-		
+
 		healthMax = 40;
 		health = healthMax;
 		spawn = position;
 
 		rotation = 0;
 
-		attack.attachToParent(this, "attack timer");
+		attackCooldown.attachToParent(this, "attack timer");
 		jumpTimer.attachToParent(this, "jump Timer");
 
 		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
 
-		SoundEffect jumpSound = new SoundEffect(this.getWorldPos(), "data/sound/jump.ogg", 2);
+		SoundEffect jumpSound = new SoundEffect(this.getWorldPos(), "data/sound/jump.ogg", 1);
 		jumpSound.setVolume(.7f);
 		jumpSound.attachToParent(this, "snd_Jump");
 
-		SoundEffect punchHitSound = new SoundEffect(this.getWorldPos(), "data/sound/snd_Punch_Hit2.ogg", 2);
+		SoundEffect punchHitSound = new SoundEffect(this.getWorldPos(), "data/sound/snd_Punch_Hit2.ogg", 1);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
+		
+		SoundEffect punchHitSound2 = new SoundEffect(this.getWorldPos(), "data/sound/slap.ogg", 1);
+		punchHitSound2.setVolume(.7f);
+		punchHitSound2.attachToParent(this, "snd_Punch_Hit2");
+		
+		SoundEffect punchHitSound3 = new SoundEffect(this.getWorldPos(), "data/sound/BangIonGun2.ogg", 1);
+		punchHitSound3.setVolume(.7f);
+		punchHitSound3.attachToParent(this, "snd_Punch_Hit3");
 	}
 
 	public void jump() {
 		if (isOnGround) {
 			isOnGround = false;
 			jumpi = true;
-//			vel.y = (float) -jumpForce;
+			// vel.y = (float) -jumpForce;
 			Vec2f newVel = getLinearVelocity();
 			newVel.y = 0;
 			setLinearVelocity(newVel);
@@ -97,7 +107,8 @@ public class Character extends RigidBodyContainer {
 		if (!isOnGround) {
 			if (!jumpTimer.isOver() && jumpTimer.inProcess) {
 				if (getLinearVelocity().y < 0 && jumpi) {
-//					vel.y += (float) (-parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio())));
+					// vel.y += (float) (-parachuteForce * Math.expm1(1 -
+					// (jumpTimer.getValueRatio())));
 					getBody().applyForce(new Vec2f(0, -parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio()))));
 					isOnGround = false;
 				}
@@ -112,34 +123,54 @@ public class Character extends RigidBodyContainer {
 	public void jumpStop() {
 		jumpi = false;
 		if (getLinearVelocity().y < 0) {
-			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x, getLinearVelocity().y/2));
-//			vel.y = vel.y / 2;
+			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x, getLinearVelocity().y / 2));
+			// vel.y = vel.y / 2;
 		}
 	}
 
 	public void attackStart() {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
-		} else if (attack.isOver()) {
-			attack.restart();
+		} else if (attackCooldown.isOver()) {
+			attackCooldown.restart();
+//			if (holdCombo.isOver()) {
+//				holdCombo.restart();
+//				attackCombo = 0;
+//			}
+//			attackCombo++;
 
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			if (skeleton != null)
 				skeleton.punch(aimInput);
-			
+
 			DamageInfo punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
-			
+
 			Vec2f punchEnd = Vec2f.fromAngle(aimInput);
 			punchEnd.multiply(range);
 			punchEnd.add(getWorldPos());
-			
+
 			punchHit.clear();
 			punchRayFraction = 0;
-			
+
 			getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
-			for(Entry<Spatial, Float> entry : punchHit.entrySet()) {
-				if(entry.getValue() <= punchRayFraction)
+			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
+				if (entry.getValue() <= punchRayFraction)
 					entry.getKey().takeDamage(punchDmgInfo);
+			}
+			if(!punchHit.isEmpty()) {
+//				switch(attackCombo) {
+//				case 1:
+//				((SoundEffect)getChild("snd_Punch_Hit")).play();
+//				break;
+//				case 2:
+//				((SoundEffect)getChild("snd_Punch_Hit2")).play();
+//				break;
+//				case 3:
+				((SoundEffect)getChild("snd_Punch_Hit3")).play();
+//				break;
+//				default:
+//					break;
+//				}
 			}
 		}
 
@@ -149,7 +180,6 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
 		}
-
 	}
 
 	public void getItem() {
@@ -158,7 +188,7 @@ public class Character extends RigidBodyContainer {
 		boolean hasWeapon = getWeapon() != null;
 
 		if (!hasWeapon) {
-			for (Entity e : getMap().getChildren().values()) { //TODO: Remove this
+			for (Entity e : getMap().getChildren().values()) { // TODO: Remove this
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
 					float xDiff = Math.abs(getWorldPos().x - usable.getWorldPos().x);
@@ -171,14 +201,15 @@ public class Character extends RigidBodyContainer {
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
 				Entity soundPickup = arme.getChild("sound_pickup");
-				if(soundPickup instanceof SoundEffect) ((SoundEffect)soundPickup).play();
+				if (soundPickup instanceof SoundEffect)
+					((SoundEffect) soundPickup).play();
 			}
 		}
 	}
 
 	public void dropItem() {
 		attackStop();
-		
+
 		Entity item = getChild("Item_Weapon");
 		if (item != null) {
 			if (item instanceof Usable)
@@ -207,8 +238,9 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		//Force death if character fell out of bounds or was killed for a non-gameplay reason
-		if(info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
+		// Force death if character fell out of bounds or was killed for a non-gameplay
+		// reason
+		if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
 			death(info);
 			return health;
 		}
@@ -216,13 +248,15 @@ public class Character extends RigidBodyContainer {
 		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
 
 		applyImpulse(Vec2f.multiply(info.direction, info.damage));
-//		float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage))) : 4);
-//		float bumpY = (info.damage >= 1 ? 2.5f * (1 + ((float) Math.log10(info.damage))) : 2.5f);
+		// float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage)))
+		// : 4);
+		// float bumpY = (info.damage >= 1 ? 2.5f * (1 + ((float)
+		// Math.log10(info.damage))) : 2.5f);
 
-//		if (droite) //TODO: impulsex
-//			vel.add(new Vec2f(bumpX, -bumpY));
-//		else
-//			vel.add(new Vec2f(-bumpX, -bumpY));
+		// if (droite) //TODO: impulsex
+		// vel.add(new Vec2f(bumpX, -bumpY));
+		// else
+		// vel.add(new Vec2f(-bumpX, -bumpY));
 
 		health = Math.max(0, health - info.damage);
 
@@ -234,9 +268,9 @@ public class Character extends RigidBodyContainer {
 
 	private void death(DamageInfo deathCause) {
 		// TODO: Effects
-//		if(deathCause.dmgType == DamageType.EXPLOSION)
+		// if(deathCause.dmgType == DamageType.EXPLOSION)
 		((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
-		
+
 		health = 0;
 		dropItem();
 		if (controller != null)
@@ -246,28 +280,30 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public void step(double d) {
-		if(getMap() == null) return;
-		
+		if (getMap() == null)
+			return;
+
 		if (Math.random() > 0.6)
 			jumpTimer.isOver();
 
-		double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
+		double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed,
+				Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
 		getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
-		
-		if(getBody().getBody() != null)
+
+		if (getBody().getBody() != null)
 			getBody().getBody().setGravityScale(6);
-		
+
 		isOnGround = false;
-		
-		if(!jumpTimer.isProcessing() || (jumpTimer.inProcess && jumpTimer.getValue() > 0.2) ) {
-			for(int i=0; i<4; i++) {
+
+		if (!jumpTimer.isProcessing() || (jumpTimer.inProcess && jumpTimer.getValue() > 0.2)) {
+			for (int i = 0; i < 4; i++) {
 				Vec2f start = getWorldPos().clone();
-				if(i == 0 || i == 3)
+				if (i == 0 || i == 3)
 					start.y += .7;
 				else
 					start.y += 1;
 				start.x -= .4;
-				start.x += i*.2;
+				start.x += i * .2;
 
 				Vec2f end = start.clone();
 				end.y += .1;
@@ -275,7 +311,7 @@ public class Character extends RigidBodyContainer {
 				getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
-		
+
 		if (isOnGround)
 			jumpTimer.reset();
 
@@ -301,7 +337,7 @@ public class Character extends RigidBodyContainer {
 			skeleton.setLookRight(lookRight);
 		}
 
-		//Kill character when out of bounds
+		// Kill character when out of bounds
 		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 
@@ -323,42 +359,46 @@ public class Character extends RigidBodyContainer {
 	public Vec2f getSpawn() {
 		return spawn;
 	}
-	
+
 	RayCastCallback GroundRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
-			//Ignore sensors
-			if(fixture.isSensor()) return -1;
-			
-			//Ignore anything the character doesn't collide with
-			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
-			
+			// Ignore sensors
+			if (fixture.isSensor())
+				return -1;
+
+			// Ignore anything the character doesn't collide with
+			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
+				return -1;
+
 			isOnGround = true;
 			return fraction;
 		}
 	};
-	
+
 	private HashMap<Spatial, Float> punchHit = new HashMap<>();
 	/** Farthest blocking entity hit by the punch */
 	private float punchRayFraction = 0;
 	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
-			//Ignore sensors
-			if(fixture.isSensor()) return -1;
-			
-			//We hit something that isn't self
-			if(fixture.getUserData() instanceof Spatial && fixture.getUserData() != this) {
-				if(punchHit.containsKey(fixture.getUserData())) {
-					if(punchHit.get(fixture.getUserData()) > fraction)
+			// Ignore sensors
+			if (fixture.isSensor())
+				return -1;
+
+			// We hit something that isn't self
+			if (fixture.getUserData() instanceof Spatial && fixture.getUserData() != this) {
+				if (punchHit.containsKey(fixture.getUserData())) {
+					if (punchHit.get(fixture.getUserData()) > fraction)
 						punchHit.put((Spatial) fixture.getUserData(), fraction);
 				} else {
 					punchHit.put((Spatial) fixture.getUserData(), fraction);
 				}
 			}
-			
-			//Ignore anything the character doesn't collide with
-			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
+
+			// Ignore anything the character doesn't collide with
+			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
+				return -1;
 
 			punchRayFraction = Math.max(punchRayFraction, fraction);
 			return fraction;
