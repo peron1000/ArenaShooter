@@ -234,6 +234,9 @@ public class Character extends RigidBodyContainer {
 
 	private void death(DamageInfo deathCause) {
 		// TODO: Effects
+//		if(deathCause.dmgType == DamageType.EXPLOSION)
+		((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
+		
 		health = 0;
 		dropItem();
 		if (controller != null)

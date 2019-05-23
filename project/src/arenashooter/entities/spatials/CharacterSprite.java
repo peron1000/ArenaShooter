@@ -5,6 +5,9 @@ import java.io.File;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Map;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
@@ -110,6 +113,32 @@ public class CharacterSprite extends Spatial {
 
 	private void land() {
 
+	}
+	
+	public void explode(Vec2f impulse) {
+		//Head
+		RigidBody rb = new RigidBody(new ShapeDisk(.35), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		RigidBodyContainer rbc = new RigidBodyContainer(head.getWorldPos(), rb);
+		rbc.attachToParent(getMap(), rbc.genName());
+		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
+		head.attachToParent(rbc, "head");
+		head.rotationFromParent = true;
+		
+		//HandL
+		rb = new RigidBody(new ShapeDisk(.1), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rbc = new RigidBodyContainer(handL.getWorldPos(), rb);
+		rbc.attachToParent(getMap(), rbc.genName());
+		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
+		handL.attachToParent(rbc, "handL");
+		handL.rotationFromParent = true;
+		
+		//HandR
+		rb = new RigidBody(new ShapeDisk(.1), handR.getWorldPos(), handR.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rbc = new RigidBodyContainer(handR.getWorldPos(), rb);
+		rbc.attachToParent(getMap(), rbc.genName());
+		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
+		handR.attachToParent(rbc, "handR");
+		handR.rotationFromParent = true;
 	}
 
 	@Override
