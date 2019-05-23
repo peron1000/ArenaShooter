@@ -23,7 +23,7 @@ public class Intro extends GameState {
 	public void update(double delta) {
 		current.step(delta);
 		if(Input.actionJustPressed(Device.KEYBOARD, Action.UI_OK)||Input.actionJustPressed(Device.CONTROLLER01, Action.UI_OK)) {
-			Entity bgm = current.getChildren().get("bgm");
+			Entity bgm = current.getChild("bgm");
 			if(bgm instanceof Music) ((Music)bgm).stop();
 			
 			GameMaster.gm.requestNextState(new Param(), "data/mapXML/empty.xml");
