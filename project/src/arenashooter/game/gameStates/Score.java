@@ -100,7 +100,7 @@ public class Score extends GameState {
 				menu.addUiElement(but, 3);
 				but.setPos(new Vec2f(-30, 41));				
 			} else if (Input.actionJustReleased(controller.getDevice(), Action.DROP_ITEM)) {
-				GameMaster.gm.requestNextState(new Param(), GameMaster.mapEmpty);
+				GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_BACK)) {
 				Texture tex = Texture.loadTexture("data/sprites/interface/Button_B_Activated.png");
 				tex.setFilter(false);

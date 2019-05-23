@@ -13,7 +13,7 @@ import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.MapChooser;
-import arenashooter.game.gameStates.Param;
+import arenashooter.game.gameStates.Config;
 import arenashooter.game.gameStates.Score;
 import arenashooter.game.gameStates.Start;
 
@@ -42,7 +42,7 @@ public class GameMaster {
 			} else if (current instanceof CharacterChooser) { // Character chooser
 			} else if (current instanceof MapChooser) { // Map chooser
 			} else if (current instanceof Intro) { // Intro movie
-			} else if(current instanceof Param) {
+			} else if(current instanceof Config) {
 			} else if(current instanceof Game) {
 			} else if(current instanceof Score) {
 				goBackTo((Class<GameState>) nextState.getClass());

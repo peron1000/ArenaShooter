@@ -26,7 +26,7 @@ public class Intro extends GameState {
 			Entity bgm = current.getChild("bgm");
 			if(bgm instanceof Music) ((Music)bgm).stop();
 			
-			GameMaster.gm.requestNextState(new Param(), "data/mapXML/empty.xml");
+			GameMaster.gm.requestNextState(new Config(), "data/mapXML/empty.xml");
 		}
 	}
 

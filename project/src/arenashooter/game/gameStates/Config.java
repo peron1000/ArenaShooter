@@ -21,7 +21,7 @@ import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
-public class Param extends GameState {
+public class Config extends GameState {
 
 	private GameParam gameParam;
 	private MenuSelectionV<Button> menuParam = new MenuSelectionV<Button>(10);
@@ -32,7 +32,7 @@ public class Param extends GameState {
 	private ArrayList<File> maps = new ArrayList<>();
 	private InputListener inputs = new InputListener();
 
-	public Param() {
+	public Config() {
 		super(1);
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
