@@ -10,14 +10,12 @@ import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.Collider;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.SoundEffect;
 
 public abstract class Item extends Spatial {
 
-	protected Vec2f vel = new Vec2f();
-	Collider collider;
+	private Vec2f vel = new Vec2f();
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
 	public String name = "";
@@ -148,7 +146,7 @@ public abstract class Item extends Spatial {
 	}
 
 	public void setVel(Vec2f vel) {
-		this.vel = vel;
+		vel.set(vel);
 	}
 
 	/**
@@ -158,7 +156,7 @@ public abstract class Item extends Spatial {
 		return (Sprite) getChildren().get("Item_Sprite");
 	}
 
-	/** Set the size of the Sprite by default **/
+	/** Set the size of the Sprite from its texture size **/
 	protected void setSizeOfSprite() {
 		Sprite sprite = getSprite();
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.035, sprite.getTexture().getHeight()*.035);

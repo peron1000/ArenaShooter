@@ -175,10 +175,9 @@ public class Entity {
 	 * This will be called during the opaque pass or the transparency pass if
 	 * drawAsTransparent()
 	 */
-	public void draw() {
-	}
+	public void draw() { }
 
 	public String genName() {
-		return String.valueOf(System.nanoTime());
+		return String.valueOf(toString()+System.nanoTime());
 	}
 }
