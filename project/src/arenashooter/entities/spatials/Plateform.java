@@ -9,11 +9,8 @@ public class Plateform extends Spatial {
 	
 	public Plateform(Vec2f position, Vec2f extent) {
 		super(position);
-		Collider coll = new Collider(this.parentPosition, extent);
-		coll.extent = extent;
-		coll.attachToParent(this, "collider");
 		
-		//TODO: passer sprite & rgb
+		//TODO: pass a mesh
 		Sprite spr = new Sprite(position);
 		spr.size = new Vec2f(extent.x*2, extent.y*2);
 		spr.attachToParent(this, "sprite");
