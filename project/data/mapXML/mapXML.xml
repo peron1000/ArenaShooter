@@ -235,22 +235,22 @@
 			<vecteur x="20" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-15" y="-.5" z="0" />
+					<vecteur use="position" x="-15" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-5" y="-.5" z="0" />
+					<vecteur use="position" x="-5" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="5" y="-.5" z="0" />
+					<vecteur use="position" x="5" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="15" y="-.5" z="0" />
+					<vecteur use="position" x="15" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
@@ -262,22 +262,22 @@
 			<vecteur x="20" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-15" y="-.5" z="0" />
+					<vecteur use="position" x="-15" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-5" y="-.5" z="0" />
+					<vecteur use="position" x="-5" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="5" y="-.5" z="0" />
+					<vecteur use="position" x="5" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="15" y="-.5" z="0" />
+					<vecteur use="position" x="15" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
@@ -289,7 +289,7 @@
 			<vecteur x="5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="0" y="-.5" z="0" />
+					<vecteur use="position" x="0" y="-.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0.1246747" w="0.99219766" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
