@@ -85,7 +85,7 @@ public class Game extends GameState {
 	}
 
 	private void newRound() {
-		current = mapsToShuffle.get(currentRound%mapsToShuffle.size());
+		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
 		endRound.reset();
 		chooseWinner.reset();
 		for (Controller controller : GameMaster.gm.controllers) {
@@ -100,12 +100,19 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)
-				| Input.actionJustPressed(Device.CONTROLLER01, Action.UI_PAUSE)) {
+		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
 			if (menu == null)
 				menu = new MenuPause(10);
 			else
 				menu = null;
+		}
+		for (Controller controller : GameMaster.gm.controllers) {
+			if (Input.actionJustPressed(controller.getDevice(), Action.UI_PAUSE)) {
+				if (menu == null)
+					menu = new MenuPause(10);
+				else
+					menu = null;
+			}
 		}
 		if (menu != null) {
 			menu.update(d);
@@ -148,10 +155,11 @@ public class Game extends GameState {
 			// map.step(d);
 		}
 	}
+
 	@Override
 	public void draw() {
 		super.draw();
-		if(menu != null) {
+		if (menu != null) {
 			menu.draw();
 		}
 	}
