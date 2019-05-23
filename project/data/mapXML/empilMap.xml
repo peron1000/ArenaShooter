@@ -4,6 +4,19 @@
 	<information>
 		<spawn spawnperso="true" cooldown="2">
 			<vecteur x="-5" y="-12" />
+		</spawn>
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="-15" y="-12" />
+		</spawn>
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="5" y="-12" />
+		</spawn>
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="15" y="-12" />
+		</spawn>
+		
+		<spawn spawnperso="true" cooldown="2">
+			<vecteur x="-5" y="-30" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
@@ -46,16 +59,16 @@
 				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
 			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-					<vecteur use="position" x="0" y="1" z="0" />
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x=".5" y=".5" z=".5" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
 		</spawn>
 
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="15" y="-12" />
+			<vecteur x="15" y="-30" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
@@ -106,16 +119,16 @@
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
 			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-					<vecteur use="position" x="0" y="1" z="0" />
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x=".5" y=".5" z=".5" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
 		</spawn>
 		
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="-15" y="-12" />
+			<vecteur x="-15" y="-30" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
@@ -166,15 +179,15 @@
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
 			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-					<vecteur use="position" x="0" y="1" z="0" />
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x=".5" y=".5" z=".5" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
 		</spawn>
 		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="5" y="-12" />
+			<vecteur x="5" y="-30" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
@@ -225,10 +238,10 @@
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
 			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-					<vecteur use="position" x="0" y="1" z="0" />
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x=".5" y=".5" z=".5" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
 		</spawn>
@@ -247,26 +260,11 @@
 
 	<entities>
 		<static>
-			<vecteur x="-5" y="0" use="position" />
-			<vecteur x="20" y="0.25" use="extent" />
+			<vecteur x="-15" y="0" use="position" />
+			<vecteur x="1" y="0.25" use="extent" />
 			<entities>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-15" y="-.5" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
-				</mesh>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-5" y="-.5" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
-				</mesh>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="5" y="-.5" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
-				</mesh>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="15" y="-.5" z="0" />
+				<mesh src="data/meshes/catwalk/catwalk_2.obj">
+					<vecteur use="position" x="0" y="-0.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
@@ -274,31 +272,41 @@
 		</static>
 
 		<static>
-			<vecteur x="-20" y="0" use="position" />
-			<vecteur x="20" y="0.25" use="extent" />
+			<vecteur x="-5" y="0" use="position" />
+			<vecteur x="1" y="0.25" use="extent" />
 			<entities>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-15" y="-.5" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
-				</mesh>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="-5" y="-.5" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
-				</mesh>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="5" y="-.5" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
-				</mesh>
-				<mesh src="data/meshes/catwalk/catwalk_10.obj">
-					<vecteur use="position" x="15" y="-.5" z="0" />
+				<mesh src="data/meshes/catwalk/catwalk_2.obj">
+					<vecteur use="position" x="0" y="-0.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
 		</static>
+
+		<static>
+			<vecteur x="5" y="0" use="position" />
+			<vecteur x="1" y="0.25" use="extent" />
+			<entities>
+				<mesh src="data/meshes/catwalk/catwalk_2.obj">
+					<vecteur use="position" x="0" y="-0.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</static>
+		
+		<static>
+			<vecteur x="15" y="0" use="position" />
+			<vecteur x="1" y="0.25" use="extent" />
+			<entities>
+				<mesh src="data/meshes/catwalk/catwalk_2.obj">
+					<vecteur use="position" x="0" y="-0.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</static>
+		
 		<rigid>
 			<vecteur x="5" y="-8" use="position" />
 			<vecteur x="1" y="1" use="extent" />
