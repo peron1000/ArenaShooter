@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import arenashooter.engine.graphics.Window;
 
 public class Entity {
-
-	private Entity parent;
+	private Map map = null;
+	private Entity parent = null;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
 	private HashMap<String, Entity> children = new HashMap<String, Entity>();
@@ -40,22 +40,25 @@ public class Entity {
 		
 		//Trying to attach the entity to its current parent, nothing to do
 		if(newParent == parent) return null;
+		
+		//Reset map
+		map = null;
 
 		// Detach this from current parent
 		if (parent != null)
 			parent.children.remove(this.name);
 
 		// Remove previously attached entity with that name
-		Entity e = newParent.children.get(name);
-		if (e != null)
-			e.detach();
+		Entity previousChild = newParent.children.get(name);
+		if (previousChild != null)
+			previousChild.detach();
 
 		// Attach to new parent
 		this.name = name;
 		newParent.children.put(name, this);
 		this.parent = newParent;
 
-		return e;
+		return previousChild;
 	}
 
 	/**
@@ -65,6 +68,7 @@ public class Entity {
 		if (parent != null)
 			parent.children.remove(name);
 		parent = null;
+		map = null;
 		name = "";
 	}
 
@@ -91,25 +95,23 @@ public class Entity {
 	/**
 	 * @return Map containing this entity or self if this is the Map
 	 */
-	public Map getMap() { // TODO: Replace this with something cleaner
+	public Map getMap() { //TODO: test
+		if(map != null) return map;
+		
 		if (this instanceof Map)
-			return (Map) this;
+			map = (Map)this;
 
 		Entity current = parent;
 		while (current != null && !(current instanceof Map))
 			current = current.parent;
 
 		if (current instanceof Map)
-			return (Map) current;
+			map = (Map)current;
 		else
-			return null;
+			map = null;
+		
+		return map;
 	}
-
-	// /**
-	// * Attempts to enable or disable transparency for this entity
-	// * @param value
-	// */
-	// public void setTransparency(boolean value) {};
 
 	/**
 	 * @return should this entity be drawn during transparency pass
