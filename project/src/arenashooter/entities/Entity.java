@@ -72,12 +72,28 @@ public class Entity {
 		name = "";
 	}
 
+	/**
+	 * @return this Entity's parent (null if not attached)
+	 */
 	public Entity getParent() {
 		return parent;
 	}
 
-	public HashMap<String, Entity> getChildren() {
-		return children;
+	/**
+	 * Get the entire children map. 
+	 * If you intend to use this for get(), you should use getChild() instead.
+	 * @return this Entity's children map (name->child)
+	 */
+	public HashMap<String, Entity> getChildren() { return children; }
+	
+	/**
+	 * Get a child Entity from its name.
+	 * <br/> This is a shortcut for getChildren().get(<i>name</i>).
+	 * @param name
+	 * @return child Entity attached as <i>name</i> or null if none
+	 */
+	public Entity getChild(String name) {
+		return children.get(name);
 	}
 
 	/**

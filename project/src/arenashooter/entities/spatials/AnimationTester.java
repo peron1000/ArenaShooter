@@ -26,7 +26,7 @@ public class AnimationTester extends Spatial implements IAnimated {
 	public void step(double d) {
 		anim.step(d);
 		
-		Entity mesh = getChildren().get("mesh");
+		Entity mesh = getChild("mesh");
 		if( mesh instanceof Mesh ) {
 			((Mesh)mesh).localPosition.set(anim.getTrackVec3f("pos"));
 			Quat.fromAngle(anim.getTrackD("rot"), ((Mesh)mesh).localRotation);

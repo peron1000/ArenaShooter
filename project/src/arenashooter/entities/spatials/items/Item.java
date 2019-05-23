@@ -153,7 +153,7 @@ public abstract class Item extends Spatial {
 	 * @return Sprite of item
 	 */
 	public Sprite getSprite() {
-		return (Sprite) getChildren().get("Item_Sprite");
+		return (Sprite) getChild("Item_Sprite");
 	}
 
 	/** Set the size of the Sprite from its texture size **/

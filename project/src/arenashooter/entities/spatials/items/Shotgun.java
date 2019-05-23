@@ -107,12 +107,12 @@ public class Shotgun extends Gun {
 						}
 					}
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
+					flash.attachToParent(getChild("particle_container"), "particles_flash");
 					break;
 
 				case 1:
 					flash = new Particles(bulletPos, "data/particles/flash_02.xml");
-					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
+					flash.attachToParent(getChild("particle_container"), "particles_flash");
 
 					for (int i = 0; i < multiShot; i++) {
 						CircleBullet bull = new CircleBullet(bulletPos,
@@ -140,7 +140,7 @@ public class Shotgun extends Gun {
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
+					flash.attachToParent(getChild("particle_container"), "particles_flash");
 
 					break;
 				}
@@ -152,7 +152,7 @@ public class Shotgun extends Gun {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
 				}
 
-				((SoundEffect) getChildren().get("snd_Bang")).play();
+				((SoundEffect) getChild("snd_Bang")).play();
 
 				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -163,7 +163,7 @@ public class Shotgun extends Gun {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.029f);
 			} else {
-				((SoundEffect) getChildren().get("snd_NoAmmo")).play();
+				((SoundEffect) getChild("snd_NoAmmo")).play();
 			}
 
 		}

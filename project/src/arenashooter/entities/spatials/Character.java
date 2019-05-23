@@ -89,7 +89,7 @@ public class Character extends RigidBodyContainer {
 			getBody().applyImpulse(new Vec2f(0, -jumpForce));
 			jumpTimer.reset();
 			jumpTimer.setProcessing(true);
-			((SoundEffect) getChildren().get("snd_Jump")).play();
+			((SoundEffect) getChild("snd_Jump")).play();
 		}
 	}
 
@@ -123,7 +123,7 @@ public class Character extends RigidBodyContainer {
 		} else if (attack.isOver()) {
 			attack.restart();
 
-			CharacterSprite skeleton = ((CharacterSprite) getChildren().get("skeleton"));
+			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			if (skeleton != null)
 				skeleton.punch(aimInput);
 			
@@ -170,7 +170,7 @@ public class Character extends RigidBodyContainer {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				Entity soundPickup = arme.getChildren().get("sound_pickup");
+				Entity soundPickup = arme.getChild("sound_pickup");
 				if(soundPickup instanceof SoundEffect) ((SoundEffect)soundPickup).play();
 			}
 		}
@@ -178,18 +178,18 @@ public class Character extends RigidBodyContainer {
 
 	public void dropItem() {
 		attackStop();
-		if (getChildren().containsKey("Item_Weapon")) {
-			Entity arme = getChildren().get("Item_Weapon");
+		
+		Entity item = getChild("Item_Weapon");
+		if (item != null) {
+			if (item instanceof Usable)
+				((Usable) item).setVel(new Vec2f());
 
-			if (arme instanceof Usable)
-				((Usable) arme).setVel(new Vec2f());
-
-			arme.attachToParent(this.getParent(), arme.genName());
+			item.attachToParent(this.getParent(), item.genName());
 		}
 	}
 
 	public Usable getWeapon() {
-		Entity e = getChildren().get("Item_Weapon");
+		Entity e = getChild("Item_Weapon");
 		if (e instanceof Usable)
 			return (Usable) e;
 		else
@@ -292,7 +292,7 @@ public class Character extends RigidBodyContainer {
 			aimInput = Math.PI;
 		}
 
-		CharacterSprite skeleton = ((CharacterSprite) getChildren().get("skeleton"));
+		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
 		}

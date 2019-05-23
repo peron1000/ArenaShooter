@@ -157,12 +157,12 @@ public class Gun extends Usable {
 					if (isEquipped())
 						bul.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
+					flash.attachToParent(getChild("particle_container"), "particles_flash");
 					break;
 
 				case 1:
 					flash = new Particles(bulletPos, "data/particles/flash_02.xml");
-					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
+					flash.attachToParent(getChild("particle_container"), "particles_flash");
 
 					CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
 					CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
@@ -182,7 +182,7 @@ public class Gun extends Usable {
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
-					flash.attachToParent(getChildren().get("particle_container"), "particles_flash");
+					flash.attachToParent(getChild("particle_container"), "particles_flash");
 
 					break;
 				}
@@ -197,7 +197,7 @@ public class Gun extends Usable {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				((SoundEffect) getChildren().get("snd_Bang")).play();
+				((SoundEffect) getChild("snd_Bang")).play();
 
 				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -208,7 +208,7 @@ public class Gun extends Usable {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.028f);
 			} else {
-				((SoundEffect) getChildren().get("snd_NoAmmo")).play();
+				((SoundEffect) getChild("snd_NoAmmo")).play();
 			}
 
 		}

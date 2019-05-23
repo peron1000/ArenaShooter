@@ -54,7 +54,7 @@ public class Bullet extends Projectile {
 			detach();
 		}
 		
-		((Spatial) getChildren().get("bul_Sprite")).rotation = vel.angle();
+		((Spatial) getChild("bul_Sprite")).rotation = vel.angle();
 
 		super.step(d);
 	}

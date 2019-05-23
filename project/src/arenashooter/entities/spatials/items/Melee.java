@@ -40,9 +40,9 @@ public class Melee extends Usable {
 
 	@Override
 	public void attackStop() {
-		if( getChildren().get("anim_attack_01") instanceof AnimMelee ) {
-			((AnimMelee)getChildren().get("anim_attack_01")).stopAnim();
-			getChildren().get("anim_attack_01").detach();
+		if( getChild("anim_attack_01") instanceof AnimMelee ) {
+			((AnimMelee)getChild("anim_attack_01")).stopAnim();
+			getChild("anim_attack_01").detach();
 		}
 		
 	} 
