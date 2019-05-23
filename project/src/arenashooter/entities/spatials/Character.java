@@ -246,7 +246,8 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public void step(double d) {
-
+		if(getMap() == null) return;
+		
 		if (Math.random() > 0.6)
 			jumpTimer.isOver();
 
@@ -271,8 +272,7 @@ public class Character extends RigidBodyContainer {
 				Vec2f end = start.clone();
 				end.y += .1;
 
-				if(getMap() != null)
-					getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
+				getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
 		
