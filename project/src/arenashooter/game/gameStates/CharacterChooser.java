@@ -179,7 +179,7 @@ private void removeController(Device device) {
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(current, c.genName());
-				number.attachToParent (c.getChild("body"), "Player_Number");
+				number.attachToParent(c.getChild("body"), "Player_Number");
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
 				controller.info.previousClass();
 				Vec2f pos = sprites.get(controller).parentPosition;
