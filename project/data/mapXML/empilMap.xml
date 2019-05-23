@@ -261,48 +261,48 @@
 	<entities>
 		<static>
 			<vecteur x="-15" y="0" use="position" />
-			<vecteur x="1" y="0.25" use="extent" />
+			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
 					<vecteur use="position" x="0" y="-0.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
+					<vecteur use="scale" x=".5" y="1" z="1" />
 				</mesh>
 			</entities>
 		</static>
 
 		<static>
 			<vecteur x="-5" y="0" use="position" />
-			<vecteur x="1" y="0.25" use="extent" />
+			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
 					<vecteur use="position" x="0" y="-0.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
+					<vecteur use="scale" x=".5" y="1" z="1" />
 				</mesh>
 			</entities>
 		</static>
 
 		<static>
 			<vecteur x="5" y="0" use="position" />
-			<vecteur x="1" y="0.25" use="extent" />
+			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
 					<vecteur use="position" x="0" y="-0.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
+					<vecteur use="scale" x=".5" y="1" z="1" />
 				</mesh>
 			</entities>
 		</static>
 		
 		<static>
 			<vecteur x="15" y="0" use="position" />
-			<vecteur x="1" y="0.25" use="extent" />
+			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
 					<vecteur use="position" x="0" y="-0.25" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-					<vecteur use="scale" x="1" y="1" z="1" />
+					<vecteur use="scale" x=".5" y="1" z="1" />
 				</mesh>
 			</entities>
 		</static>
