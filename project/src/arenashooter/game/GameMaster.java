@@ -1,11 +1,8 @@
 package arenashooter.game;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Stack;
 
-import arenashooter.entities.Entity;
 import arenashooter.entities.Arena;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.Game;
@@ -26,7 +23,7 @@ public class GameMaster {
 
 	public static final GameMaster gm = new GameMaster();
 
-	public static final String mapEmpty = "data/mapXML/empty.xml";
+	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
 
 	private GameMaster() {
 		// Constructor untouchable

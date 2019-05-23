@@ -126,7 +126,7 @@ public class Game extends GameState {
 					currentRound++;
 					newRound();
 				} else {
-					GameMaster.gm.requestNextState(new Score(), "data/mapXML/empty.xml");
+					GameMaster.gm.requestNextState(new Score(), "data/mapXML/menu_empty.xml");
 				}
 			}
 

@@ -3,6 +3,7 @@ package arenashooter.game.gameStates;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -202,12 +203,18 @@ public class Config extends GameState {
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
-			if (folderContent[i].getName().endsWith(".xml")) {
+			if (folderContent[i].getName().endsWith(".xml") && !folderContent[i].getName().startsWith("menu_")) {
 				maps.add(folderContent[i]);
 			}
 		}
 
 		Collections.sort(maps);
+		maps.sort(new Comparator<File>() {
+			@Override
+			public int compare(File o1, File o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
 
 		int y = 0, i = 0, nbElemH = 7;
 		for (File file : maps) {

@@ -100,6 +100,6 @@ public class Loading extends GameState {
 	
 	public void stopLoading() {
 		next.init();
-		GameMaster.gm.requestNextState(next,"data/mapXML/empty.xml");
+		GameMaster.gm.requestNextState(next,"data/mapXML/menu_empty.xml");
 	}
 }
