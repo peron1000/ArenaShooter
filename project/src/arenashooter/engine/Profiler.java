@@ -10,12 +10,15 @@ public final class Profiler {
 	private Profiler() {}
 	
 	/** Is profiler enabled */
-	public static boolean enabled = false;
+	private static boolean enabled = false;
 	
 	private static final double NANOTOMILLI = 0.000001;
 	
 	/** Draw calls counter, should be incremented at every call to glDrawElements */
 	public static int drawCalls = 0;
+	
+	/** Sub-steps counter, should be incremented by Main at each sub-step */
+	public static int subSteps = 0;
 	
 	//
 	//Timers
@@ -32,12 +35,19 @@ public final class Profiler {
 	private static long[] counters = new long[9];
 	private static boolean[] running = new boolean[9];
 	
+	public static void toggle() {
+		enabled = !enabled;
+		if(enabled)
+			beginFrame();
+	}
+	
 	/**
-	 * Reset all the counters and timers
+	 * Reset all counters and timers
 	 */
 	public static void beginFrame() {
 		if(!enabled) return;
 		drawCalls = 0;
+		subSteps = 0;
 		for(int i=0; i<times.length; i++) {
 			times[i] = 0;
 			running[i] = false;
@@ -55,6 +65,7 @@ public final class Profiler {
 		System.out.println("-Frame: "+(float)((times[RENDER]+times[STEP])*NANOTOMILLI)+"ms");
 		
 		System.out.println(" |-Step:..."+(float)(times[STEP]*NANOTOMILLI)+"ms");
+		System.out.println(" | |-Sub-steps:...."+subSteps);
 		System.out.println(" | |-Physic:......."+(float)(times[PHYSIC]*NANOTOMILLI)+"ms");
 		System.out.println(" |");
 		System.out.println(" |-Render:."+(float)(times[RENDER]*NANOTOMILLI)+"ms");

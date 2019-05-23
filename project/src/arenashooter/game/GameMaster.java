@@ -3,6 +3,7 @@ package arenashooter.game;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import arenashooter.engine.Profiler;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
@@ -37,9 +38,10 @@ public class GameMaster {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void action(InputActionEvent event) {
-				if(event.getAction() == ActionTest.DEBUG_SHOW_COLLISION && event.getActionState() == ActionState.JUST_PRESSED) {
+				if(event.getAction() == ActionTest.DEBUG_SHOW_COLLISION && event.getActionState() == ActionState.JUST_PRESSED)
 					Main.drawCollisions = !Main.drawCollisions;
-				}
+				if(event.getAction() == ActionTest.DEBUG_TOGGLE_PROFILER && event.getActionState() == ActionState.JUST_PRESSED)
+					Profiler.toggle();
 			}
 		});
 	}

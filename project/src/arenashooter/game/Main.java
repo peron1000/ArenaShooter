@@ -59,11 +59,13 @@ public class Main {
 			while(remaining > tickLength) {
 				Window.beginFrame();
 				gameMaster.update(tickLength);
+				Profiler.subSteps++;
 				remaining -= tickLength;
 			}
 			if(remaining > 0) {
 				Window.beginFrame();
 				gameMaster.update(remaining);
+				Profiler.subSteps++;
 			}
 			Profiler.endTimer(Profiler.STEP);
 			
