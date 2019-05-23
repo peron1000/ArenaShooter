@@ -122,6 +122,7 @@ public class CharacterSprite extends Spatial {
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		head.attachToParent(rbc, "head");
+		head.localPosition.set(0, 0);
 		head.rotationFromParent = true;
 		
 		//HandL
@@ -130,6 +131,7 @@ public class CharacterSprite extends Spatial {
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		handL.attachToParent(rbc, "handL");
+		handL.localPosition.set(0, 0);
 		handL.rotationFromParent = true;
 		
 		//HandR
@@ -138,6 +140,7 @@ public class CharacterSprite extends Spatial {
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		handR.attachToParent(rbc, "handR");
+		handR.localPosition.set(0, 0);
 		handR.rotationFromParent = true;
 	}
 

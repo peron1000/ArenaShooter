@@ -86,6 +86,18 @@ public class Vec2f {
 		x = other.x;
 		y = other.y;
 	}
+	
+	/**
+	 * <i>This</i> becomes (x, y) and return <i>this</i>
+	 * @param x
+	 * @param y
+	 * @return <i>this</i> (modified)
+	 */
+	public Vec2f set(double x, double y) {
+		this.x = (float)x;
+		this.y = (float)y;
+		return this;
+	}
 
 	/**
 	 * Add two vectors together. <i>This</i> becomes <i>this</i>+v
