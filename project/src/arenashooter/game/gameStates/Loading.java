@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.MapXmlReader;
 import arenashooter.entities.Entity;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
@@ -27,7 +27,7 @@ public class Loading extends GameState {
 	}
 
 	public void init() {
-		current = new Map();
+		current = new Arena();
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
 

@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
@@ -154,7 +154,7 @@ public class CharacterSprite extends Spatial {
 			lookAngle = ((Character)getParent()).aimInput;
 			isOnGround = ((Character) getParent()).isOnGround;
 			moveSpeed = ((Character) getParent()).getLinearVelocity().x;
-		} else if (getParent() instanceof Map) {
+		} else if (getParent() instanceof Arena) {
 			lookAngle = 0;
 			isOnGround = true;
 			moveSpeed = 10;
@@ -178,7 +178,7 @@ public class CharacterSprite extends Spatial {
 		footCos = Utils.lerpD(1, footCos, Math.min(Math.abs(moveSpeed) / 5, 1));
 
 		stepTimer.step(d * Math.abs(moveSpeed) / 5);
-		if (!(getParent() instanceof Map)) { // TODO: Temp stuff for loading screen anim
+		if (!(getParent() instanceof Arena)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
 				sndStep.play(parentPosition);
 				stepTimer.restart();

@@ -13,7 +13,7 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuPause;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.Controller;
@@ -24,7 +24,7 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
-	private ArrayList<Map> mapsToShuffle = new ArrayList<Map>();
+	private ArrayList<Arena> mapsToShuffle = new ArrayList<Arena>();
 
 	Menu menu;
 	int currentRound = 1;
@@ -71,7 +71,7 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
-		for (Map map : maps) {
+		for (Arena map : maps) {
 			mapsToShuffle.add(map);
 		}
 		Collections.shuffle(mapsToShuffle);

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Stack;
 
 import arenashooter.entities.Entity;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.GameState;
@@ -76,7 +76,7 @@ public class GameMaster {
 		requestPreviousState();
 	}
 	
-	public Map getMap() {
+	public Arena getMap() {
 		return current.getMap();
 	}
 

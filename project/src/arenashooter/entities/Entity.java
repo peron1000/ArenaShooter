@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import arenashooter.engine.graphics.Window;
 
 public class Entity {
-	private Map map = null;
+	private Arena map = null;
 	private Entity parent = null;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
@@ -111,18 +111,18 @@ public class Entity {
 	/**
 	 * @return Map containing this entity or self if this is the Map
 	 */
-	public Map getMap() { //TODO: test
+	public Arena getMap() { //TODO: test
 		if(map != null) return map;
 		
-		if (this instanceof Map)
-			map = (Map)this;
+		if (this instanceof Arena)
+			map = (Arena)this;
 
 		Entity current = parent;
-		while (current != null && !(current instanceof Map))
+		while (current != null && !(current instanceof Arena))
 			current = current.parent;
 
-		if (current instanceof Map)
-			map = (Map)current;
+		if (current instanceof Arena)
+			map = (Arena)current;
 		else
 			map = null;
 		

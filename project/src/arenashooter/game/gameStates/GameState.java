@@ -3,12 +3,12 @@ package arenashooter.game.gameStates;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
 
 public abstract class GameState {
-	protected Map[] maps;
-	protected Map current;
+	protected Arena[] maps;
+	protected Arena current;
 
 	public GameState(int nbMap) {
 		if(nbMap < 1) {
@@ -16,9 +16,9 @@ public abstract class GameState {
 			e.printStackTrace();
 			nbMap = 1;
 		}
-		maps = new Map[nbMap];
+		maps = new Arena[nbMap];
 		for (int i = 0; i < maps.length; i++) {
-			maps[i] = new Map();
+			maps[i] = new Arena();
 		}
 		current = maps[0];
 	}
@@ -41,7 +41,7 @@ public abstract class GameState {
 		Window.endTransparency(); // Make sure to end transparency
 	}
 
-	public Map getMap() {
+	public Arena getMap() {
 		return current;
 	}
 }

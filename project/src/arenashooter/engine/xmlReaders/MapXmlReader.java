@@ -18,7 +18,7 @@ import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Entity;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Plateform;
@@ -79,7 +79,7 @@ public class MapXmlReader extends XmlReader {
 		return array;
 	}
 
-	public void load(Map map) {
+	public void load(Arena map) {
 		Loading.loading.update(.01667);
 		loadInformation(getFirstElementByName("information", root), map);
 		Loading.loading.update(.01667);
@@ -88,7 +88,7 @@ public class MapXmlReader extends XmlReader {
 		done = true;
 	}
 
-	private void loadInformation(Element information, Map map) {
+	private void loadInformation(Element information, Arena map) {
 		loadGravity(getFirstElementByName("gravity", information), map);
 		loadSky(getFirstElementByName("sky", information), map);
 		loadCameraBound(getFirstElementByName("cameraBound", information), map);
@@ -102,7 +102,7 @@ public class MapXmlReader extends XmlReader {
 		map.spawnperso = spawnerChars;
 	}
 
-	private void loadSpawns(Element spawn, Map map) {
+	private void loadSpawns(Element spawn, Arena map) {
 
 		XmlVecteur vec = loadVecteur(getFirstElementByName("vecteur", spawn));
 		double cooldown = 0;
@@ -371,7 +371,7 @@ public class MapXmlReader extends XmlReader {
 		return new XmlVecteur(vecteur);
 	}
 
-	private void loadCameraBound(Element cameraBound, Map map) {
+	private void loadCameraBound(Element cameraBound, Arena map) {
 		double w = 0, x = 0, y = 0, z = 0;
 		if (cameraBound.hasAttribute("x")) {
 			x = Double.parseDouble(cameraBound.getAttribute("x"));
@@ -396,7 +396,7 @@ public class MapXmlReader extends XmlReader {
 		map.cameraBounds = new Vec4f(x, y, z, w);
 	}
 
-	private void loadSky(Element sky, Map map) {
+	private void loadSky(Element sky, Arena map) {
 		List<Element> vecteurs = getListElementByName("vecteur", sky);
 		Vec3f top = new Vec3f(), bottom = new Vec3f();
 		int nbVec = 2;
@@ -424,7 +424,7 @@ public class MapXmlReader extends XmlReader {
 
 	}
 
-	private void loadGravity(Element gravity, Map map) {
+	private void loadGravity(Element gravity, Arena map) {
 		XmlVecteur vec = new XmlVecteur(getFirstElementByName("vecteur", gravity));
 		map.gravity = new Vec2f(vec.x, vec.y);
 	}

@@ -12,7 +12,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Map;
+import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Projectile;
 import arenashooter.entities.spatials.Spatial;
 
@@ -21,13 +21,13 @@ public class PhysicWorld {
 	private World world;
 	
 	/** Map represented by this simulation */
-	private Map map;
+	private Arena map;
 	
 	private MyContactListener contactListener = new MyContactListener();
 	
 	private LinkedList<PhysicBody> toDestroy = new LinkedList<>(), toCreate = new LinkedList<>();
 	
-	public PhysicWorld(Map map) {
+	public PhysicWorld(Arena map) {
 		this.map = map;
 		
 		world = new World(map.gravity.toB2Vec());

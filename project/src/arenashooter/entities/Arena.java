@@ -9,7 +9,7 @@ import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.Main;
 
-public class Map extends Entity {
+public class Arena extends Entity {
 	/** All spawn points (items and characters) */
 	public ArrayList<Vec2f> spawn;
 	/** Character spawn points */
@@ -31,7 +31,7 @@ public class Map extends Entity {
 
 	Timer spawnWeapon = new Timer(4);
 
-	public Map() {
+	public Arena() {
 		physic = new PhysicWorld(this);
 	}
 
