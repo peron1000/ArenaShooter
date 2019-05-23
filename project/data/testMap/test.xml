@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+	<information>
+		<spawn cooldown="10.0" spawnperso="true">
+			<gun animPath="" attackSound="Bang1" bulletSpeed="1.9"
+				bulletType="0" cannonLength="0.2" cooldown="1.0" damage="1.0"
+				name="lol" noAmmoSound="no_ammo_01"
+				pathSprite="data/weapons/Minigun_1.png" proba="1" recoil="2.6"
+				soundPickup="GunCock_02" soundWarmup="warmup_minigun_01"
+				thrust="0.5" uses="30" warmup="35.0" weight="1" />
+		</spawn>
+	</information>
+	<entities />
+</map>
