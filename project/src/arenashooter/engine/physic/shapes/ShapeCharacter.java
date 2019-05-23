@@ -16,12 +16,14 @@ public class ShapeCharacter extends PhysicShape {
 	
 	public ShapeCharacter() {
 		Vec2[] vertices = {
-				new Vec2( -.5f, -1),
-				new Vec2(  .5f, -1),
-				new Vec2(  .5f, .55f),
-				new Vec2( .05f, 1),
-				new Vec2(-.05f, 1),
-				new Vec2( -.5f, .55f)
+				new Vec2( -.5f, -.48f), //0
+				new Vec2(    0, -1),    //1
+				new Vec2(  .5f, -.48f), //2
+				new Vec2(  .5f, -1),    //3
+				new Vec2(  .5f, .55f),  //4
+				new Vec2( .05f, 1),     //5
+				new Vec2(-.05f, 1),     //6
+				new Vec2( -.5f, .55f)   //7
 		};
 		
 		b2Shape = new PolygonShape();
@@ -35,8 +37,10 @@ public class ShapeCharacter extends PhysicShape {
 		int[] modelIndices = {
 				0, 1, 2, 
 				1, 2, 3,
-				2, 3, 5,
-				3, 4, 5
+				2, 3, 4,
+				3, 4, 5,
+				4, 5, 6,
+				6, 7, 0
 		};
 		model = new Model(modelData, modelIndices);
 	}
