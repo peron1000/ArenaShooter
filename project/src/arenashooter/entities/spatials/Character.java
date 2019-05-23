@@ -134,7 +134,7 @@ public class Character extends RigidBodyContainer {
 			punchEnd.add(getWorldPos());
 			
 			punchHit.clear();
-			punchRayFraction = 1;
+			punchRayFraction = 0;
 			
 			getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
 			for(Entry<Spatial, Float> entry : punchHit.entrySet()) {
@@ -271,7 +271,8 @@ public class Character extends RigidBodyContainer {
 				Vec2f end = start.clone();
 				end.y += .1;
 
-				getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
+				if(getMap() != null)
+					getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
 		
@@ -337,9 +338,9 @@ public class Character extends RigidBodyContainer {
 		}
 	};
 	
-	HashMap<Spatial, Float> punchHit = new HashMap<>();
+	private HashMap<Spatial, Float> punchHit = new HashMap<>();
 	/** Farthest blocking entity hit by the punch */
-	float punchRayFraction = 1;
+	private float punchRayFraction = 0;
 	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {

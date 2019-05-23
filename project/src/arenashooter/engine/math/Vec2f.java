@@ -274,6 +274,18 @@ public class Vec2f {
 	public static double dot(Vec2f a, Vec2f b) {
 		return a.x * b.x + a.y * b.y;
 	}
+	
+	/**
+	 * Get direction from a vector to another
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public static double direction(Vec2f from, Vec2f to) {
+		double x = to.x - from.x;
+		double y = to.y - from.y;
+		return Math.atan2(y, x);
+	}
 
 	/**
 	 * Rotate a vector by a given angle (in radians)

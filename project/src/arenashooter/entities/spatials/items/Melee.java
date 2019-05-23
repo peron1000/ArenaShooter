@@ -1,14 +1,24 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map.Entry;
+
+import org.jbox2d.callbacks.RayCastCallback;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Fixture;
+
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.Collider;
+import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
 
 public class Melee extends Usable {
 	protected Timer fireRate = null;
-	Collider collider;
 	protected float damage = 10f;
 
 	protected AnimMelee animmelee = null;
@@ -16,7 +26,15 @@ public class Melee extends Usable {
 	protected Sprite sprite = null;
 	
 	protected Timer timerWarmup = null;
-
+	
+	//Damage dealing
+	private Spatial bladeBot,bladeTop;
+	private HashMap<Spatial, Float> hitEntities = new HashMap<>();
+	private HashSet<Spatial> damagedEntities = new HashSet<>();
+	private Vec2f lastBladeBot, lastBladeTop;
+	private boolean dealingDamage = false;
+	private float bladeRayFraction = 1;
+	
 	public Melee(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage, double size) {
@@ -24,6 +42,13 @@ public class Melee extends Usable {
 				warmupDuration, soundWarmup, attackSound);
 		
 		this.animmelee = new AnimMelee(new Vec2f(), this);
+		
+		//TODO: Read these values per-weapon
+		bladeBot = new Spatial();
+		bladeBot.attachToParent(getSprite(), "blade_bot");
+		bladeTop = new Spatial();
+		bladeTop.attachToParent(getSprite(), "blade_top");
+		bladeTop.localPosition.set(.5, 0);
 	}
 
 	@Override
@@ -36,6 +61,9 @@ public class Melee extends Usable {
 	public void attackStart() {
 		animmelee.attachToParent(this, "anim_attack_01");
 		animmelee.playAnim();
+		
+		//TODO: Remove this
+		startDamage();
 	}
 
 	@Override
@@ -45,6 +73,8 @@ public class Melee extends Usable {
 			getChild("anim_attack_01").detach();
 		}
 		
+		//TODO: Remove this
+		stopDamage();
 	} 
 
 	@Override
@@ -57,6 +87,52 @@ public class Melee extends Usable {
 			}
 		}
 	}
+	
+	private void startDamage() {
+		dealingDamage = true;
+		lastBladeBot = null;
+		lastBladeTop = null;
+		damagedEntities.clear();
+	}
+	
+	private void stopDamage() {
+		dealingDamage = false;
+	}
+	
+	@Override
+	public void step(double d) {
+		super.step(d);
+		
+		if(dealingDamage) {
+			if(lastBladeBot == null || lastBladeTop == null) {
+				lastBladeBot = bladeBot.getWorldPos().clone();
+				lastBladeTop = bladeTop.getWorldPos().clone();
+			} else {
+				hitEntities.clear();
+				bladeRayFraction = 1;
+				
+				//Top raycast
+				getMap().physic.getB2World().raycast(DamageRaycastCallback, lastBladeBot.toB2Vec(), bladeBot.getWorldPos().toB2Vec());
+				
+				//Bottom raycast
+				getMap().physic.getB2World().raycast(DamageRaycastCallback, lastBladeTop.toB2Vec(), bladeTop.getWorldPos().toB2Vec());
+				
+				DamageInfo dmgInfo = new DamageInfo(damage, DamageType.MELEE, Vec2f.fromAngle(Vec2f.direction(lastBladeTop, bladeTop.getWorldPos())), getCharacter());
+				
+				//Damage all newly detected entities
+				for(Entry<Spatial, Float> entry : hitEntities.entrySet()) {
+					if(entry.getValue() <= bladeRayFraction && !damagedEntities.contains(entry.getKey())) {
+						entry.getKey().takeDamage(dmgInfo);
+						damagedEntities.add(entry.getKey());
+					}
+				}
+				
+				//Update blade points
+				lastBladeBot.set( bladeBot.getWorldPos() );
+				lastBladeTop.set( bladeTop.getWorldPos() );
+			}
+		}
+	}
 
 	@Override
 	public Melee clone(Vec2f position) {
@@ -65,4 +141,28 @@ public class Melee extends Usable {
 		};
 		return clone;
 	}
+	
+	RayCastCallback DamageRaycastCallback = new RayCastCallback() {
+		@Override
+		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			//Ignore sensors
+			if(fixture.isSensor()) return -1;
+			
+			//We hit something that isn't owning character
+			if(fixture.getUserData() instanceof Spatial && fixture.getUserData() != getCharacter()) {
+				if(hitEntities.containsKey(fixture.getUserData())) {
+					if(hitEntities.get(fixture.getUserData()) > fraction)
+						hitEntities.put((Spatial) fixture.getUserData(), fraction);
+				} else {
+					hitEntities.put((Spatial) fixture.getUserData(), fraction);
+				}
+			}
+			
+			//Ignore anything the character doesn't collide with
+			if((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0) return -1;
+
+			bladeRayFraction = Math.max(bladeRayFraction, fraction);
+			return fraction;
+		}
+	};
 }
