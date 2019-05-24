@@ -122,6 +122,7 @@ public class Config extends GameState {
 	@Override
 	public void init() {
 		gameParam = new GameParam();
+		GameParam.maps.clear();
 
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu.png");
 		texture1.setFilter(false);
