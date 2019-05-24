@@ -14,6 +14,9 @@ public class Mesh extends Spatial3 {
 	private Model[] models;
 	private Material[] materials;
 	
+	/** Does this sprite require transparency */
+	public boolean useTransparency = false;
+	
 	private int timeMs = 0;
 	
 	public Vec3f scale;
@@ -53,12 +56,20 @@ public class Mesh extends Spatial3 {
 		return new Mesh(position, rotation, scale, new Model[] {Model.loadQuad()}, new Material[] {material});
 	}
 	
+	public Material getMaterial(int id) {
+		if(id < 0 || id >= materials.length) return null;
+		return materials[id];
+	}
+	
 	@Override
 	public void step(double d) {
 		timeMs += d*1000;
 		
 		super.step(d);
 	}
+	
+	@Override
+	public boolean drawAsTransparent(){ return useTransparency; }
 	
 	@Override
 	public void draw() {

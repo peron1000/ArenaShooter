@@ -55,6 +55,20 @@ public class Vec3f {
 		y = other.y;
 		z = other.z;
 	}
+	
+	/**
+	 * <i>This</i> becomes (x, y, z) and is returned
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return <i>this</i> (modified)
+	 */
+	public Vec3f set(double x, double y, double z) {
+		this.x = (float)x;
+		this.y = (float)y;
+		this.z = (float)z;
+		return this;
+	}
 
 	/**
 	 * Add two vectors together.
