@@ -96,7 +96,7 @@ public final class Utils {
 	 * @param f
 	 * @return
 	 */
-	public static double lerpAngle( double a, double b, double f ) { //TODO: Test when a and b are PI/2 radians apart!!!
+	public static double lerpAngle( double a, double b, double f ) {
 //		if( Math.abs(a-b) >= Math.PI ) {
 //			if(a>b)
 //				a = normalizeAngle(a) - PI2;
@@ -105,6 +105,10 @@ public final class Utils {
 //		}
 //		
 //		return lerpD(a, b, f);
+		
+		//Special case for a PI/2 difference
+		if( Math.abs(normalizeAngle(a)+PI2 - normalizeAngle(b)) < .01) a+=.01;
+		
 		double cos = (1-f)*Math.cos(a) + f*Math.cos(b);
 		double sin = (1-f)*Math.sin(a) + f*Math.sin(b);
 		return Math.atan2(sin, cos);
