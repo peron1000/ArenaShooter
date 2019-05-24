@@ -37,7 +37,7 @@ public class MusicSource implements AudioSourceI {
 		
 		source = alGenSources();
 		
-		Audio.printError("Audio - Error creating source for "+path);
+		Audio.printError("Cannot create source for "+path);
 		
 		alSourcei( source, AL_BUFFER, sound.getBuffer() );
 		

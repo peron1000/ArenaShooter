@@ -46,7 +46,7 @@ public class SoundBuffer {
 				
 				int buffer = alGenBuffers();
 				
-				if(Audio.printError("Audio - Error creating buffer for "+path) != AL10.AL_NO_ERROR)
+				if(Audio.printError("Cannot create buffer for "+path) != AL10.AL_NO_ERROR)
 					Audio.cleanAll();
 				
 				alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());

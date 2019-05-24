@@ -51,7 +51,7 @@ public class SoundSourceSingle implements AudioSourceI {
 		
 		source = alGenSources();
 
-		if(Audio.printError("Audio - Error creating source for "+path) != AL10.AL_NO_ERROR)
+		if(Audio.printError("Cannot create source for "+path) != AL10.AL_NO_ERROR)
 			Audio.cleanAll();
 
 		//Link the source to the buffer

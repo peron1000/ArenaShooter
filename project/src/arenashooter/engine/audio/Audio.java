@@ -145,7 +145,7 @@ public final class Audio {
 		int error = AL10.alGetError();
 		
 		if(error != AL10.AL_NO_ERROR) {
-			if(additionnalMsg != null) log.info(additionnalMsg+": "+AL10.alGetString(error));
+			if(additionnalMsg != null) log.error(additionnalMsg+": "+AL10.alGetString(error));
 			else log.error( AL10.alGetString(error) );
 		}
 		
