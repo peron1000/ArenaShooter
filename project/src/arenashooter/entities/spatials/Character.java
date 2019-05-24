@@ -68,7 +68,7 @@ public class Character extends RigidBodyContainer {
 
 		attackCooldown.attachToParent(this, "attack timer");
 		jumpTimer.attachToParent(this, "jump Timer");
-		attackCooldown.attachToParent(this, "attack Combo Hold");
+		holdCombo.attachToParent(this, "attack Combo Hold");
 
 		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
