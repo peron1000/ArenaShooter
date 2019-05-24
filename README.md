@@ -1,3 +1,4 @@
+![Game logo](/web/res/logo.png)
 # Super Blep
 A fun little 2D local-multiplayer game
 https://peron1000.github.io/ArenaShooter/
