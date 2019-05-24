@@ -5,15 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.input.InputActionEvent;
+import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.input.Action;
+import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.Menu;
+import arenashooter.entities.Entity;
+import arenashooter.entities.Music;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.Sprite;
@@ -32,36 +38,86 @@ public class CharacterChooser extends GameState {
 	private double nextSpriteX = firstX;
 	private final double charOffset = 2;
 	Menu menu = new Menu(6);
-	
+	private InputListener inputs = new InputListener();
+
 	public CharacterChooser() {
 		super(1);
+		inputs.actions.add(new EventListener<InputActionEvent>() {
+			@Override
+			public void action(InputActionEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getActionState() == ActionState.JUST_PRESSED) {
+					switch (event.getAction()) {
+					case UI_CONTINUE:
+						GameMaster.gm.controllers.clear();
+						for (Controller cont : controllers.values()) {
+							GameMaster.gm.controllers.add(cont);
+						}
+						Object[] variable = GameParam.maps.toArray();
+						String[] chosenMaps = new String[variable.length];
+						for (int i = 0; i < variable.length; i++) {
+							chosenMaps[i] = (String) variable[i];
+						}
+						GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
+						break;
+
+					case UI_OK:
+						addController(event.getDevice());
+						break;
+
+					case UI_BACK:
+						if (!event.getDevice().equals(Device.KEYBOARD)) {
+							removeController(event.getDevice());
+						} else {
+							GameMaster.gm.requestPreviousState();
+						}
+						break;
+//					case UI_DOWN:
+//						controller.info.previousSkin();
+//						Vec2f pos = sprites.get(controller).parentPosition;
+//						Sprite number = (Sprite) sprites.get(controller).getChild("body").getChild("Player_Number");
+//						sprites.get(controller).detach();
+//						CharacterSprite c = new CharacterSprite(pos, controller.info);
+//						sprites.put(controller, c);
+//						c.attachToParent(current, c.genName());
+//						number.attachToParent(c.getChild("body"), "Player_Number");
+//						break;
+					default:
+						break;
+					}
+
+				}
+			}
+		});
 	}
 
 	public Collection<Controller> getControllers() {
 		return controllers.values();
 	}
-	
-	private void addController(Device device) {		
+
+	private void addController(Device device) {
 		Controller newController = new Controller(device);
 		newController.playerNumber = pileOrdreJoueur.size();
 		controllers.put(device, newController);
 		pileOrdreJoueur.push(newController);
-		
+
 		GameMaster.gm.controllers.add(newController);
 		CharacterSprite caracSprite = new CharacterSprite(new Vec2f(nextSpriteX, 0), newController.info);
-		caracSprite.attachToParent(current, "PlayerSprite_"+pileOrdreJoueur.size());
+		caracSprite.attachToParent(current, "PlayerSprite_" + pileOrdreJoueur.size());
 		sprites.put(newController, caracSprite);
-		Sprite newNumber = new Sprite(new Vec2f(), "data/sprites/interface/Player_" + (pileOrdreJoueur.size()) +"_Arrow.png");
+		Sprite newNumber = new Sprite(new Vec2f(),
+				"data/sprites/interface/Player_" + (pileOrdreJoueur.size()) + "_Arrow.png");
 		newNumber.getTexture().setFilter(false);
-		newNumber.attachToParent (current.getChild( "PlayerSprite_"+pileOrdreJoueur.size()).getChild("body"), "Player_Number");
+		newNumber.attachToParent(current.getChild("PlayerSprite_" + pileOrdreJoueur.size()).getChild("body"),
+				"Player_Number");
 		newNumber.localPosition = new Vec2f(0, -2);
-		
+
 		nextSpriteX += charOffset;
 		updatePlayersNumber();
 	}
-	
-private void removeController(Device device) {
-		current.getChild("PlayerSprite_"+pileOrdreJoueur.size()).getChild("body").getChild("Player_Number").detach();
+
+	private void removeController(Device device) {
+		current.getChild("PlayerSprite_" + pileOrdreJoueur.size()).getChild("body").getChild("Player_Number").detach();
 
 		CharacterSprite sp = sprites.get(controllers.get(device));
 
@@ -95,13 +151,14 @@ private void removeController(Device device) {
 		}
 		nextSpriteX -= charOffset;
 	}
-	
+
 	/**
-	 * Update player number in each controller and reposition character numbers on screen
+	 * Update player number in each controller and reposition character numbers on
+	 * screen
 	 */
 	private void updatePlayersNumber() {
-		
-		for(int i = 0 ; i< pileOrdreJoueur.size() ; i++) {
+
+		for (int i = 0; i < pileOrdreJoueur.size(); i++) {
 			Controller current = pileOrdreJoueur.get(i);
 			current.playerNumber = i;
 //			
@@ -115,16 +172,16 @@ private void removeController(Device device) {
 //			playerNb.setPos( imagePos );
 		}
 	}
-	
+
 	@Override
 	public void init() {
 		super.init();
-		
+
 		Texture fondMenuTex = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
 		fondMenuTex.setFilter(false);
 //		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1, 1, 1, 1));
 //		menu.setBackground(bg);
-		
+
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(current, "Text_Select");
@@ -140,8 +197,8 @@ private void removeController(Device device) {
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press Start to continue");
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
 		textEnt4.attachToParent(current, "Text_touch2");
-		
-		//Set camera
+
+		// Set camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
 		current.attachToParent(cam, "camera");
@@ -152,17 +209,7 @@ private void removeController(Device device) {
 
 	@Override
 	public void update(double delta) {
-		for (Device device : Device.values()) {
-			if (Input.actionPressed(device, Action.JUMP) && !controllers.keySet().contains(device)) {
-				addController(device);
-			}
-			// TODO : remove controller when UI_BACK is pressed
-			if (Input.actionPressed(device, Action.UI_BACK) && controllers.keySet().contains(device)
-					&& !device.equals(Device.KEYBOARD)) {
-				removeController(device);
-			}
-
-		}
+		inputs.step(delta);
 
 		// Update controllers
 		for (Controller controller : controllers.values()) {
@@ -186,7 +233,7 @@ private void removeController(Device device) {
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(current, c.genName());
-				number.attachToParent (c.getChild("body"), "Player_Number");
+				number.attachToParent(c.getChild("body"), "Player_Number");
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_UP)) {
 				controller.info.nextSkin();
 				Vec2f pos = sprites.get(controller).parentPosition;
@@ -195,7 +242,7 @@ private void removeController(Device device) {
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(current, c.genName());
-				number.attachToParent (c.getChild("body"), "Player_Number");
+				number.attachToParent(c.getChild("body"), "Player_Number");
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_DOWN)) {
 				controller.info.previousSkin();
 				Vec2f pos = sprites.get(controller).parentPosition;
@@ -204,29 +251,14 @@ private void removeController(Device device) {
 				CharacterSprite c = new CharacterSprite(pos, controller.info);
 				sprites.put(controller, c);
 				c.attachToParent(current, c.genName());
-				number.attachToParent (c.getChild("body"), "Player_Number");
+				number.attachToParent(c.getChild("body"), "Player_Number");
 			}
-			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_CONTINUE)) {
-				GameMaster.gm.controllers.clear();
-				for (Controller cont : controllers.values()) {
-					GameMaster.gm.controllers.add(cont);
-				}
-				Object[] variable = GameParam.maps.toArray();
-				String[] chosenMaps = new String[variable.length];
-				for (int i = 0; i < variable.length; i++) {
-					chosenMaps[i] = (String) variable[i];
-				}
-				GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
-			} else if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
-				GameMaster.gm.requestPreviousState();
-			}
-		}
 
+		}
 
 		super.update(delta);
 		menu.update(delta);
 	}
-	
 
 	public void draw() {
 
