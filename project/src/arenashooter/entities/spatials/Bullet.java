@@ -10,7 +10,7 @@ import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class Bullet extends Projectile {
 
-	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/Ptou.ogg", 8, .8f, 1.2f, true);
+	private static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/Ptou.ogg", 8, .8f, 1.2f, true);
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
 		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));

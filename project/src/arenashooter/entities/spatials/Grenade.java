@@ -1,6 +1,5 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
