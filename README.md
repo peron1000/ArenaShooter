@@ -1,14 +1,24 @@
-# ArenaShooter
+# Super Blep
+A fun little 2D local-multiplayer game
 https://peron1000.github.io/ArenaShooter/
 
-Le but sera de créer un jeu vidéo développé en Java.
-   On pourra jouer en multijoueur sur une même machine dans une fenêtre non divisée. Le jeu sera un genre de "Arena Shooter" : Un jeu en 2D dans lequel les joueurs contrôleront avec une manette de jeu et/ou clavier/souris leurs avatars dans une arène avec pour but d'être le dernier en vie.
-   L'arène sera constituée de plateformes, d'objets (caisses, barils), d'équipements (armes, armures) et de pièges (plateformes mouvantes, piques, bombes).
-   Avant de lancer une partie, les joueurs peuvent choisir leur personnage et changer son apparence.
+## Installing a release
+Grab a release on our [Github pages](https://peron1000.github.io/ArenaShooter/#download).
+Unzip it and launch `Super Blep.jar` as an executable jar.
 
-L'objectif final est d'obtenir un jeu qui soit amusant à jouer même en tant que développeur.
+### Prerequisites
+A Windows, GNU/Linux or Mac, and Java 8+ runtime environment
 
-Si cette première partie est finalisée, nous envisagerons l'ajout des fonctionnalités suivantes :
-- Différents modes de jeu
-- Plusieurs arènes
-- Éditeur de cartes
+## Building from source
+The game is an Eclipse project found in the `/project directory`.
+Export the project as a runnable jar and place the `/project/data` directory next to it.
+
+## Libraries
+Libraries are bundled with the project and can be found in `/project/lib`.
+We are currently using:
+* [LWJGL 3](https://www.lwjgl.org/)
+* [JBox-2D](https://github.com/jbox2d/jbox2d)
+* [Log4j 2](https://logging.apache.org/log4j/2.x/)
+
+## License
+**TODO**
