@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.audio.SoundSourceMulti;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 
 public class Explosion extends Spatial {
@@ -16,6 +17,8 @@ public class Explosion extends Spatial {
 		particles.attachToParent(getMap(), "particles");
 		
 		sndExplosion.play(getWorldPos());
+		
+		Window.getCamera().setCameraShake(3);
 		
 		super.step(d);
 		
