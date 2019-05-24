@@ -13,6 +13,8 @@ import arenashooter.engine.math.Utils;
 public class Main {
 	private static final int minFrametimeMilli = 8;
 	
+	public static final String version = "0.0.1";
+	
 	/** Maximum duration of a step, longer steps will be broken down into sub-steps */
 	private static double tickLength = 1/150d;
 	
@@ -25,7 +27,7 @@ public class Main {
 	public static final Logger log = LogManager.getLogger("Main");
 	
 	public static void main(String[] args) {
-		log.info("Starting Super Blep...");
+		log.info("Starting Super Blep version "+version);
 		
 		ConfigManager.init();
 		Audio.init();

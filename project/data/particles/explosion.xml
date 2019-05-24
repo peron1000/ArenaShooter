@@ -8,7 +8,7 @@
 	<vec4 x=".1" w="0" z=".1" y="1" use="colorEnd"/>
 	</emitter>
 
-	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="2" lifetimeMax="5" rate="15" velocityMin="10" velocityMax="20" gravityScale="1">
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="4" lifetimeMax="6" rate="15" velocityMin="15" velocityMax="40" gravityScale="3">
 	<basic sizeInitial=".9" sizeEnd="0"></basic>
 	<texture filtered="false" src="data/particles/shell_01.png"/>
 	<vec4 x="1" w="1" z="1" y="1" use="colorStart"/>
