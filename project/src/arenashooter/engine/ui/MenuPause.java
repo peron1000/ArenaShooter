@@ -94,9 +94,9 @@ public class MenuPause extends MenuSelectionV<Label> {
 			@Override
 			public void make() {
 				try {
-					Robot robot = new Robot();
-					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
-//					active = new BooleanProperty(false);
+//					Robot robot = new Robot();
+//					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
+					active = new BooleanProperty(false);
 					System.out.println("op1 : Resume");
 				} catch (Exception ex) {
 					System.out.println("fail pause");
