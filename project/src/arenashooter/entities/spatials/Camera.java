@@ -34,9 +34,9 @@ public class Camera extends Spatial3 {
 	@Override
 	public void step(double d) {
 		//Camera shake
-		float shakeX = (float) (Math.sin(1.48*time)*shakeIntensity);
-		float shakeY = (float) (Math.cos(1.36*time)*shakeIntensity);
-		float shakeZ = (float) (Math.sin(1.55*time+.1)*shakeIntensity);
+		float shakeX = (float) (Math.sin(120.48*time)*shakeIntensity);
+		float shakeY = (float) (Math.cos(110.36*time)*shakeIntensity);
+		float shakeZ = (float) (Math.sin(100.55*time+.1)*shakeIntensity);
 		shakeIntensity = Utils.lerpF(shakeIntensity, 0, Math.min( 1, 7*d ));
 		time += d;
 		
