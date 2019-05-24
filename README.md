@@ -7,7 +7,7 @@ Grab a release on our [Github pages](https://peron1000.github.io/ArenaShooter/#d
 Unzip it and launch `Super Blep.jar` as an executable jar.
 
 ### Prerequisites
-A Windows, GNU/Linux or Mac, and Java 8+ runtime environment
+Windows, GNU/Linux or Mac, and a Java 8+ runtime environment
 
 ## Building from source
 The game is an Eclipse project found in the [`/project`](/project)  directory.
