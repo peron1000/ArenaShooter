@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
 <particleSystem>
-	<emitter angleMin="0" angleMax="3.14" delay="0" duration="0" lifetimeMin=".05" lifetimeMax=".1" rate="1" velocityMin="0" velocityMax="0" gravityScale="0">
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin=".05" lifetimeMax=".1" rate="1" velocityMin="0" velocityMax="0" gravityScale="0">
 	<basic sizeInitial="2" sizeEnd="8"></basic>
 	<texture filtered="true" src="data/particles/flash_02.png"/>
 	<vec4 x="1" w="1" z="1" y="1" use="colorStart"/>

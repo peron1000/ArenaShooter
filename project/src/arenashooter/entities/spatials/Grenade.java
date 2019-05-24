@@ -41,7 +41,8 @@ public class Grenade extends Projectile {
 
 	public void step(double d) {
 		if(grenadeTimer.isOver()) {
-			System.out.println("Kaboom"); //TODO: Create explosion
+			Explosion explosion = new Explosion(getWorldPos());
+			explosion.attachToParent(getMap(), explosion.genName());
 			detach();
 		}
 		

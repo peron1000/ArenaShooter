@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
+<particleSystem>
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="1" lifetimeMax="1.2" rate="1" velocityMin="0" velocityMax="0" gravityScale="0">
+	<basic sizeInitial="3" sizeEnd="18"></basic>
+	<texture filtered="true" src="data/particles/flash_01.png"/>
+	<vec4 x="2" w="1" z="2" y="2" use="colorStart"/>
+	<vec4 x=".1" w="0" z=".1" y="1" use="colorEnd"/>
+	</emitter>
+
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="2" lifetimeMax="5" rate="15" velocityMin="10" velocityMax="20" gravityScale="1">
+	<basic sizeInitial=".9" sizeEnd="0"></basic>
+	<texture filtered="false" src="data/particles/shell_01.png"/>
+	<vec4 x="1" w="1" z="1" y="1" use="colorStart"/>
+	<vec4 x=".5" w="0" z=".4" y=".4" use="colorEnd"/>
+	</emitter>
+</particleSystem>
