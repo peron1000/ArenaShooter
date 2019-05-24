@@ -22,6 +22,11 @@ public abstract class UiSimpleElementNavigable extends UiElement {
 	}
 	
 	@Override
+	public void unSelec() {
+		// Nothing
+	}
+	
+	@Override
 	public void downAction() {
 		owner.exit.action(new MenuExitEvent(Side.Down));
 	}

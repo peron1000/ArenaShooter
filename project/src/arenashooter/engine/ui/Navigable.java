@@ -12,4 +12,6 @@ public interface Navigable {
 	public void selectAction();
 	
 	public boolean isSelected();
+	
+	public void unSelec();
 }

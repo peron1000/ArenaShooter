@@ -5,11 +5,12 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.util.CircleList;
 
-public class ScrollerH<E extends Enum<E>> extends UiActionable {
+public class ScrollerHTitle<E extends Enum<E>> extends UiActionable {
 	private Vec4f colorOnUnSelect = new Vec4f(1, 1, 1, 1);
 	private Vec4f colorOnSelect = new Vec4f(1, 1, 0, 1);
 	private CircleList<E> list = new CircleList<>();
 	private Label label;
+	private String title;
 	private Trigger arm = new Trigger() {
 
 		@Override
@@ -18,13 +19,14 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 		}
 	};
 
-	public ScrollerH(double rot, Vec2f scale, E[] enumValues) {
+	public ScrollerHTitle(double rot, Vec2f scale,String title , E[] enumValues) {
 		super(rot, scale);
+		this.title = title+" : ";
 		label = new Label(0, scale, "");
 		for (E e : enumValues) {
 			list.add(e);
 		}
-		label.setText(get().name());
+		label.setText(this.title+get().name());
 	}
 
 	public void add(E e) {
@@ -73,13 +75,13 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 	@Override
 	public void rightAction() {
 		list.next();
-		label.setText(get().name());
+		label.setText(title+get().name());
 	}
 
 	@Override
 	public void leftAction() {
 		list.previous();
-		label.setText(get().name());
+		label.setText(title+get().name());
 	}
 
 	@Override

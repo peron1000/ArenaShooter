@@ -1,6 +1,6 @@
 package arenashooter.engine.ui;
 
-import java.util.LinkedList;
+import java.util.Stack;
 
 import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
@@ -17,14 +17,14 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	private float ecartement = 5;
 	private Vec2f positionRef;
 	private int index = 0;
-	private LinkedList<E> elements = new LinkedList<>();
+	private Stack<E> elements = new Stack<>();
 	public BooleanProperty active = new BooleanProperty(true);
 
-	public MenuSelectionV(int maxLayout, float x, float y, Vec2f scaleSelec , String pathTextureSelec) {
+	public MenuSelectionV(int maxLayout, float x, float y, Vec2f scaleSelec, String pathTextureSelec) {
 		super(maxLayout);
 		Texture t = Texture.loadTexture(pathTextureSelec);
 		t.setFilter(false);
-		selec = new UiImage(0, scaleSelec,t , new Vec4f(1, 1, 1, 1));
+		selec = new UiImage(0, scaleSelec, t, new Vec4f(1, 1, 1, 1));
 		selec.visible = true;
 		Vec2f pos = new Vec2f(x, y);
 		positionRef = pos.clone();
@@ -40,7 +40,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 			}
 		});
 	}
-	
+
 	public void setEcartement(float e) {
 		ecartement = e;
 	}
@@ -58,37 +58,51 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		addUiElement(element, layout);
 		element.setPos(newPosition);
 		element.visible = true;
+		restart();
 	}
 
 	public void removeElementInListOfChoices(E element) {
 		if (elements.contains(element)) {
 			elements.remove(element);
 			if (element.getPos().x == selec.getPos().x && element.getPos().y == selec.getPos().y) {
-				selec.setPos(elements.getLast().getPos());
+				selec.setPos(elements.peek().getPos());
 			}
 			element.visible = false;
 			removeUiElement(element);
+			for (int i = 0; i < elements.size(); i++) {
+				E e = elements.get(i);
+				Vec2f newPosition = new Vec2f(positionRef.x, positionRef.y + ecartement * i);
+				e.setPos(newPosition);
+			}
 		}
 	}
 
 	public void down() {
-		index++;
-		if (index >= elements.size()) {
-			index = 0;
+		if (getTarget().isSelected()) {
+			getTarget().unSelec();
+		} else {
+			index++;
+			if (index >= elements.size()) {
+				index = 0;
+			}
+			majSelecPosition();
 		}
-		majSelecPosition();
 	}
 
 	public void up() {
-		index--;
-		if (index < 0) {
-			index = elements.size() - 1;
+		if (getTarget().isSelected()) {
+			getTarget().unSelec();
+		} else {
+			index--;
+			if (index < 0) {
+				index = elements.size() - 1;
+			}
+			majSelecPosition();
 		}
-		majSelecPosition();
 	}
 
 	public void right() {
-		if(getTarget().isSelected()) {
+		if (getTarget().isSelected()) {
 			getTarget().rightAction();
 		} else {
 			exit.action(new MenuExitEvent(Side.Right));
@@ -96,7 +110,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public void left() {
-		if(getTarget().isSelected()) {
+		if (getTarget().isSelected()) {
 			getTarget().leftAction();
 		} else {
 			exit.action(new MenuExitEvent(Side.Left));
@@ -140,7 +154,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		index = 0;
 		E e = elements.get(index);
 		if (e != null) {
-			selec.setPosLerp(e.getPos() , 5);
+			selec.setPosLerp(e.getPos(), 5);
 		}
 	}
 
