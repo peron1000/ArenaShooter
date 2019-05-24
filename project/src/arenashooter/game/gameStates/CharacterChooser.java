@@ -206,7 +206,7 @@ private void removeController(Device device) {
 				c.attachToParent(current, c.genName());
 				number.attachToParent (c.getChild("body"), "Player_Number");
 			}
-			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_OK)) {
+			else if (Input.actionJustPressed(controller.getDevice(), Action.UI_CONTINUE)) {
 				GameMaster.gm.controllers.clear();
 				for (Controller cont : controllers.values()) {
 					GameMaster.gm.controllers.add(cont);

@@ -148,9 +148,11 @@ public final class Input {
 				actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS);
 				actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS);
 				
-				actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS);
+				actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS);
 				actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS);
 				
+				actions[Action.UI_PAUSE.id][i] = getActionState(actions[Action.UI_BACK.id][i], glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS);
+				actions[Action.UI_CONTINUE.id][i] = getActionState(actions[Action.UI_CONTINUE.id][i], glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS);
 				actions[Action.UI_NathanTest.id][i] = getActionState(actions[Action.UI_NathanTest.id][i], glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS);
 
 			} else if( glfwJoystickIsGamepad(i) ) { //Gamepad
@@ -184,11 +186,12 @@ public final class Input {
 					actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_UP) == GLFW_PRESS);
 					actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_DOWN) == GLFW_PRESS);
 
-					actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS);
+					actions[Action.UI_OK.id][i] = getActionState(actions[Action.UI_OK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
 					actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
 					
-					actions[Action.UI_PAUSE.id][i] = getActionState(actions[Action.UI_PAUSE.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS);
-
+					//actions[Action.UI_PAUSE.id][i] = getActionState(actions[Action.UI_PAUSE.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS);
+					actions[Action.UI_CONTINUE.id][i] = getActionState(actions[Action.UI_CONTINUE.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS);
+					
 				}
 
 			} else { //Non-gamepad joystick
