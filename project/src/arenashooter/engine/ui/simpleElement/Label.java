@@ -44,11 +44,6 @@ public class Label extends UiSimpleElementNavigable {
 	}
 	
 	@Override
-	public void setPos(Vec2f pos) {
-		super.setPos(new Vec2f(pos.x, pos.y-(getScale().y*0.07)));
-	}
-
-	@Override
 	public void draw() {
 		material.setParamTex("distanceField", text.getFont().getTexture());
 		material.model = Mat4f.transform(getPos(), rotation, getScale());

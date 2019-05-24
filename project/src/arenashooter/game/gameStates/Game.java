@@ -5,8 +5,12 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import arenashooter.engine.audio.Audio;
+import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.input.InputActionEvent;
+import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Action;
+import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
@@ -26,11 +30,12 @@ public class Game extends GameState {
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
 	private ArrayList<Arena> mapsToShuffle = new ArrayList<Arena>();
 
-	Menu menu;
+	MenuPause menu;
 	int currentRound = 1;
 	private final GameMode gameMode = GameParam.getGameMode();
 	private final int nbRounds = GameParam.getRound();
 	private final boolean teams = GameParam.getTeam();
+	private InputListener inputs = new InputListener();
 
 	// Les teams sont pour l'instant au nombre de 2. On pourra changer
 	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
@@ -67,6 +72,24 @@ public class Game extends GameState {
 
 	public Game(int nbMap) {
 		super(nbMap);
+		menu = new MenuPause(0, 0);
+		menu.active.setValue(false);
+		inputs.actions.add(new EventListener<InputActionEvent>() {
+
+			@Override
+			public void action(InputActionEvent event) {
+				if (event.getActionState() == ActionState.JUST_PRESSED) {
+					switch (event.getAction()) {
+					case UI_PAUSE:
+						menu.active.setValue(!menu.active.getValue());
+						break;
+
+					default:
+						break;
+					}
+				}
+			}
+		});
 	}
 
 	@Override
@@ -100,67 +123,51 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		if (Input.actionJustPressed(Device.KEYBOARD, Action.UI_BACK)) {
-//			if (menu == null)
-//				menu = new MenuPause(10);
-//			else
-//				menu = null;
-		}
-		for (Controller controller : GameMaster.gm.controllers) {
-			if (Input.actionJustPressed(controller.getDevice(), Action.UI_PAUSE)) {
-//				if (menu == null)
-//					menu = new MenuPause(10);
-//				else
-//					menu = null;
-//			}
+		if (menu.active.getValue()) {
+			menu.update(d);
+			return;
+		} else {
+
+			if (oneLeft && !chooseWinner.inProcess) {
+				chooseWinner.setProcessing(true);
 			}
-			if (menu != null) {
-				menu.update(d);
-				menu.draw();
-				return;
-			} else {
-
-				if (oneLeft && !chooseWinner.inProcess) {
-					chooseWinner.setProcessing(true);
-				}
-				chooseWinner.step(d);
-				if (chooseWinner.isOver() && !endRound.inProcess) {
-					endRound.setProcessing(true);
-				}
-				endRound.step(d);
-				if (endRound.isOver()) {
-					if (currentRound < nbRounds) {
-						currentRound++;
-						newRound();
-					} else {
-						GameMaster.gm.requestNextState(new Score(), "data/mapXML/menu_empty.xml");
-					}
-				}
-
-				if (Window.getCamera() != null) {
-					Window.getCamera().center(players, null, d);
-					// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera,
-					// c'est du bousin
-					// bounds and uncomment this
-					Audio.setListener(Window.getCamera().getWorldPos(), Window.getCamera().getWorldRot());
-				} else
-					Audio.setListener(new Vec3f(), Quat.fromAngle(0));
-
-				// Update controllers
-				for (Controller controller1 : GameMaster.gm.controllers)
-					controller1.step(d);
-
-				super.update(d);
-
-				// map.step(d);
+			chooseWinner.step(d);
+			if (chooseWinner.isOver() && !endRound.inProcess) {
+				endRound.setProcessing(true);
 			}
+			endRound.step(d);
+			if (endRound.isOver()) {
+				if (currentRound < nbRounds) {
+					currentRound++;
+					newRound();
+				} else {
+					GameMaster.gm.requestNextState(new Score(), "data/mapXML/menu_empty.xml");
+				}
+			}
+
+			if (Window.getCamera() != null) {
+				Window.getCamera().center(players, null, d);
+				// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera,
+				// c'est du bousin
+				// bounds and uncomment this
+				Audio.setListener(Window.getCamera().getWorldPos(), Window.getCamera().getWorldRot());
+			} else
+				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
+
+			// Update controllers
+			for (Controller controller1 : GameMaster.gm.controllers)
+				controller1.step(d);
+
+			super.update(d);
+
 		}
+		inputs.step(d);
 	}
 
 	@Override
 	public void draw() {
 		super.draw();
-		if (menu != null) {
+		if (menu.active.getValue()) {
 			menu.draw();
 		}
 	}

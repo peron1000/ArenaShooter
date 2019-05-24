@@ -18,7 +18,6 @@ import arenashooter.game.gameStates.Intro;
 
 public class MenuPause extends MenuSelectionV<Label> {
 
-	private UiImage selec;
 	private Label op1, op2, op3, op4;
 	private boolean activated = false;
 
@@ -33,12 +32,14 @@ public class MenuPause extends MenuSelectionV<Label> {
 				elems.put(Integer.valueOf(i), new LinkedList<>());
 			}
 		}
-		final float scale = 27f;
-
+		final float scale = 24;
+		setPositionRef(new Vec2f(getPosition().x, getPosition().y-12.5));
+		setEcartement(10);
 		Rectangle rec = new Rectangle(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
 		setBackground(rec);
 		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
 		addUiElement(pause, 0);
+		pause.setPos(new Vec2f(x, y-27));
 
 		op1 = new Label(0, new Vec2f(scale), "Resume");
 		addElementInListOfChoices(op1, 1);
@@ -91,12 +92,6 @@ public class MenuPause extends MenuSelectionV<Label> {
 		});
 
 		op3.visible = false;
-		setEcartement(10);
-		this.setPositionRef(new Vec2f(0, -15));
-		pause.setPos(new Vec2f(0, -27));
-		selec.setPos(op1.getPos());
-		selec.setScale(new Vec2f(scale, 9.5f));
-
 	}
 
 	@Override

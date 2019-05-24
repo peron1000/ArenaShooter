@@ -25,11 +25,11 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		Texture t = Texture.loadTexture(pathTextureSelec);
 		t.setFilter(false);
 		selec = new UiImage(0, scaleSelec,t , new Vec4f(1, 1, 1, 1));
-		selec.visible = false;
+		selec.visible = true;
 		Vec2f pos = new Vec2f(x, y);
 		positionRef = pos.clone();
 		setPosition(pos);
-		setImageSelec(selec, maxLayout - 1);
+		setImageSelec(selec, 2);
 		active.listener.add(new EventListener<NewValueEvent<Boolean>>() {
 
 			@Override
@@ -131,7 +131,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	@Override
 	public void update(double delta) {
 		for (E uiElement : elements) {
-			uiElement.visible = active.getValue();
+			uiElement.visible = true;
 		}
 		super.update(delta);
 	}
@@ -140,7 +140,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		index = 0;
 		E e = elements.get(index);
 		if (e != null) {
-			selec.setPos(e.getPos());
+			selec.setPosLerp(e.getPos() , 5);
 		}
 	}
 

@@ -25,10 +25,9 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Config extends GameState {
 
 	private GameParam gameParam;
-	private MenuSelectionV<Button> menuParam = new MenuSelectionV<>(10, -50, -30, new Vec2f(60, 10),
+	private MenuSelectionV<Button> menuParam = new MenuSelectionV<>(10, 0, 0, new Vec2f(65, 10),
 			"data/sprites/interface/Selector.png");
 	private MenuSelection<UiImage> menuMap = new MenuSelection<>(10);
-	private UiImage selec;
 	private Button param1, param2, param3, param4;
 	private boolean activated = false;
 	private ArrayList<File> maps = new ArrayList<>();
@@ -193,10 +192,8 @@ public class Config extends GameState {
 		param3.visible = false;
 		param4.visible = false;
 
-		selec = new UiImage(0, new Vec2f(65, 10), texture2, new Vec4f(1, 1, 1, 1));
+		menuParam.setPositionRef(new Vec2f(-57, -37.5));
 		menuParam.setEcartement(8);
-		menuParam.setImageSelec(selec, 2);
-		menuParam.setPosition(new Vec2f(-57, -40));
 		menuParam.addElementInListOfChoices(param1, 1);
 		menuParam.addElementInListOfChoices(param2, 1);
 
@@ -204,7 +201,7 @@ public class Config extends GameState {
 		menuMap.setEcartementX(14);
 		menuMap.setEcartementY(14);
 		menuMap.setImageSelec(new UiImage(0, new Vec2f(15), texture2, new Vec4f(1, 1, 1, 1)), 3);
-		menuMap.setPosition(new Vec2f(-9, -30));
+		menuMap.setPosition(new Vec2f(-5, -15));
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
