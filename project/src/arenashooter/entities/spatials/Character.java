@@ -20,6 +20,7 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.Controller;
+import arenashooter.game.Main;
 
 public class Character extends RigidBodyContainer {
 
@@ -67,6 +68,7 @@ public class Character extends RigidBodyContainer {
 
 		attackCooldown.attachToParent(this, "attack timer");
 		jumpTimer.attachToParent(this, "jump Timer");
+		attackCooldown.attachToParent(this, "attack Combo Hold");
 
 		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
@@ -133,11 +135,11 @@ public class Character extends RigidBodyContainer {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
 			attackCooldown.restart();
-//			if (holdCombo.isOver()) {
-//				holdCombo.restart();
-//				attackCombo = 0;
-//			}
-//			attackCombo++;
+			if (holdCombo.isOver()) {
+				attackCombo = 0;
+			}
+			holdCombo.restart();
+			attackCombo++;
 
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			if (skeleton != null)
@@ -154,23 +156,26 @@ public class Character extends RigidBodyContainer {
 
 			getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
 			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
-				if (entry.getValue() <= punchRayFraction)
+				if (entry.getValue() <= punchRayFraction) {
+					Main.log.info("I dealt damage");
 					entry.getKey().takeDamage(punchDmgInfo);
+				}
 			}
 			if(!punchHit.isEmpty()) {
-//				switch(attackCombo) {
-//				case 1:
-//				((SoundEffect)getChild("snd_Punch_Hit")).play();
-//				break;
-//				case 2:
-//				((SoundEffect)getChild("snd_Punch_Hit2")).play();
-//				break;
-//				case 3:
+				switch(attackCombo) {
+				case 1:
+				((SoundEffect)getChild("snd_Punch_Hit")).play();
+				break;
+				case 2:
+				((SoundEffect)getChild("snd_Punch_Hit2")).play();
+				break;
+				case 3:
 				((SoundEffect)getChild("snd_Punch_Hit3")).play();
-//				break;
-//				default:
-//					break;
-//				}
+				attackCombo = 0;
+				break;
+				default:
+					break;
+				}
 			}
 		}
 
@@ -238,6 +243,7 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
+		Main.log.info("I took damage");
 		// Force death if character fell out of bounds or was killed for a non-gameplay
 		// reason
 		if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {

@@ -5,16 +5,14 @@ import java.util.HashMap;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
-public abstract class UiElement {
-	public UiElement left = null, right = null, up = null, down = null;
-
+public abstract class UiElement implements Navigable {
 	private HashMap<String, Trigger> actions = new HashMap<>();
 
 	private Vec2f pos, scale, rePos, reScale;
 	public double rotation;
 	public boolean visible = true;
-	Menu owner = null;
-	int layout = -1;
+	protected Menu owner = null;
+	protected int layout = -1;
 	private double lerp = 2.5;
 
 	public UiElement(double rot, Vec2f scale) {
@@ -28,7 +26,7 @@ public abstract class UiElement {
 		pos.set(Vec2f.lerp(pos, rePos, Utils.clampD(delta * lerp, 0, 1)));
 	}
 
-	protected abstract void draw();
+	public abstract void draw();
 
 	public Vec2f getPos() {
 		return pos;
@@ -80,12 +78,4 @@ public abstract class UiElement {
 	public void removeAction(String name) {
 		actions.remove(name);
 	}
-
-	public void ui_Pointation(UiElement up, UiElement down, UiElement right, UiElement left) {
-		this.up = up;
-		this.down = down;
-		this.right = right;
-		this.left = left;
-	}
-
 }

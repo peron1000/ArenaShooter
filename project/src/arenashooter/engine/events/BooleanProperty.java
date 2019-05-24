@@ -11,6 +11,13 @@ public class BooleanProperty extends Observable {
 	private boolean value = true;
 	public LinkedList<EventListener<NewValueEvent<Boolean>>> listener = new LinkedList<>();
 	
+	public BooleanProperty() {
+	}
+	
+	public BooleanProperty(boolean start) {
+		value = start;
+	}
+	
 	/**
 	 * @param newValue
 	 * Change the value of the property and launch the events associated

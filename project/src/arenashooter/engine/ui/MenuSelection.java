@@ -10,6 +10,7 @@ import arenashooter.engine.events.NewValueEvent;
 import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.events.menus.MenuExitEvent.Side;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.ui.simpleElement.UiImage;
 
 public class MenuSelection<E extends UiElement> extends Menu {
 

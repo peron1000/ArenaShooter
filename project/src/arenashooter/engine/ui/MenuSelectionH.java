@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.ui.simpleElement.UiImage;
 
 public class MenuSelectionH<Element extends UiElement> extends Menu {
 	private UiImage selec;
