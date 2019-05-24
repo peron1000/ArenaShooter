@@ -8,10 +8,18 @@ public class Explosion extends Spatial {
 
 	public Explosion(Vec2f position) {
 		super(position);
-		Particles particles = new Particles(position, "data/particles/explosion.xml");
-		particles.attachToParent(this, "particles");
+	}
+	
+	@Override
+	public void step(double d) {
+		Particles particles = new Particles(getWorldPos(), "data/particles/explosion.xml");
+		particles.attachToParent(getMap(), "particles");
 		
 		sndExplosion.play(getWorldPos());
+		
+		super.step(d);
+		
+		detach();
 	}
 
 }
