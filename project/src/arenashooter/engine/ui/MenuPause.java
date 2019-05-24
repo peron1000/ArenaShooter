@@ -4,6 +4,8 @@ import java.awt.Robot;
 import java.util.LinkedList;
 
 import org.apache.logging.log4j.core.util.Log4jThread;
+
+import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -58,8 +60,9 @@ public class MenuPause extends MenuSelectionV<Label> {
 			@Override
 			public void make() {
 				try {
-					Robot robot = new Robot();
-					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
+//					Robot robot = new Robot();
+//					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
+					active =  new BooleanProperty(false);
 					System.out.println("op1 : Resume");
 				} catch (Exception ex) {
 					System.out.println("fail pause");
@@ -96,7 +99,6 @@ public class MenuPause extends MenuSelectionV<Label> {
 
 	@Override
 	public void update(double delta) {
-
 		// Detect controls
 		for (Controller controller : GameMaster.gm.controllers) {
 			if (Input.actionJustPressed(controller.getDevice(), Action.UI_UP)) {
@@ -115,9 +117,14 @@ public class MenuPause extends MenuSelectionV<Label> {
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.JUMP)) {
 				this.getTarget().lunchAction("ok");
 			}
+			 else if (Input.actionJustPressed(controller.getDevice(), Action.UI_PAUSE)) {
+					active =  new BooleanProperty(false);
+					//System.out.println("uipause");
+				}
 		}
-
 		super.update(delta);
+		
+
 
 	}
 
