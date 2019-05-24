@@ -23,7 +23,7 @@ public class Button extends UiSimpleElementNavigable {
 	
 	@Override
 	public void setPos(Vec2f pos) {
-		label.setPos(new Vec2f(pos.x, pos.y-(getScale().y*0.37)));
+		label.setPos(pos);
 		rect.setPos(pos);
 		super.setPos(pos);
 	}
