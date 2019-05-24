@@ -3,8 +3,8 @@ package arenashooter.entities.spatials;
 import java.util.ArrayList;
 import java.util.List;
 
-import arenashooter.engine.Tuple;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.util.Tuple;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.GameMaster;

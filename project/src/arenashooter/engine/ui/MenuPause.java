@@ -4,29 +4,26 @@ import java.awt.Robot;
 import java.util.LinkedList;
 
 import org.apache.logging.log4j.core.util.Log4jThread;
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.ui.simpleElement.Label;
+import arenashooter.engine.ui.simpleElement.Rectangle;
+import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
-import arenashooter.game.gameStates.CharacterChooser;
-import arenashooter.game.gameStates.Config;
-import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.Intro;
-import arenashooter.game.gameStates.Start;
-import arenashooter.game.gameStates.engineParam.GameParam;
 
-public class MenuPause extends MenuSelectionV<UiElement> {
+public class MenuPause extends MenuSelectionV<Label> {
 
 	private UiImage selec;
 	private Label op1, op2, op3, op4;
 	private boolean activated = false;
 
-	public MenuPause(int maxLayout) {
-		super(maxLayout);
+	public MenuPause(float x , float y) {
+		super(5 , x , y ,new Vec2f(30 ,10), "data/sprites/interface/Selector.png");
 		if (maxLayout < 3) {
 			Exception e = new Exception("Max layout trop petit");
 			e.printStackTrace();
@@ -38,10 +35,6 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 		}
 		final float scale = 27f;
 
-		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
-		texture2.setFilter(false);
-		selec = new UiImage(0, new Vec2f(45, 18), texture2, new Vec4f(1, 1, 1, 1));
-		setImageSelec(selec, 2);
 		Rectangle rec = new Rectangle(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
 		setBackground(rec);
 		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
@@ -98,9 +91,8 @@ public class MenuPause extends MenuSelectionV<UiElement> {
 		});
 
 		op3.visible = false;
-		this.ecartement = 10;
+		setEcartement(10);
 		this.setPositionRef(new Vec2f(0, -15));
-		// this.focus = op1;
 		pause.setPos(new Vec2f(0, -27));
 		selec.setPos(op1.getPos());
 		selec.setScale(new Vec2f(scale, 9.5f));

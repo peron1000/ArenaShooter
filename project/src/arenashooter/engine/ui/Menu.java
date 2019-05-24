@@ -3,6 +3,8 @@ package arenashooter.engine.ui;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 
@@ -10,6 +12,13 @@ public class Menu {
 	protected HashMap<Integer, LinkedList<UiElement>> elems = new HashMap<>();
 	protected final int maxLayout;
 	private Vec2f position = new Vec2f();
+	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
+
+		@Override
+		public void action(MenuExitEvent e) {
+			// Nothing
+		}
+	};
 
 	public Menu(int maxLayout) {
 		if (maxLayout < 2) {
@@ -25,41 +34,11 @@ public class Menu {
 	}
 	
 	public void setPosition(Vec2f newPosition) {
-		position = newPosition.clone();
+		position.set(newPosition);
 	}
 	
 	public Vec2f getPosition() {
 		return position;
-	}
-
-	public UiElement focus = null;
-
-	public void focusUp() {
-		if (focus == null)
-			return;
-		if (focus.up != null)
-			focus = focus.up;
-	}
-
-	public void focusDown() {
-		if (focus == null)
-			return;
-		if (focus.down != null)
-			focus = focus.down;
-	}
-
-	public void focusRight() {
-		if (focus == null)
-			return;
-		if (focus.right != null)
-			focus = focus.right;
-	}
-
-	public void focusLeft() {
-		if (focus == null)
-			return;
-		if (focus.left != null)
-			focus = focus.left;
 	}
 
 	public void update(double delta) {
@@ -94,9 +73,6 @@ public class Menu {
 	}
 	
 	public void removeUiElement(UiElement element) {
-//		for (int i = 0; i < maxLayout; i++) {
-//			elems.remove(Integer.valueOf(i), element);
-//		}
 		elems.get(element.layout).remove(element);
 		element.layout = -1;
 		element.owner = null;

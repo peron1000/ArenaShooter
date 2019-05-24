@@ -1,4 +1,4 @@
-package arenashooter.engine.ui;
+package arenashooter.engine.ui.simpleElement;
 
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Main;
 
-public class Label extends UiElement {
+public class Label extends UiSimpleElementNavigable {
 	private Material material;
 	private Text text;
 	
@@ -42,9 +42,14 @@ public class Label extends UiElement {
 	public void setShadowColor(Vec4f value) {
 		material.setParamVec4f("shadowColor", value);
 	}
+	
+	@Override
+	public void setPos(Vec2f pos) {
+		super.setPos(new Vec2f(pos.x, pos.y-(getScale().y*0.07)));
+	}
 
 	@Override
-	protected void draw() {
+	public void draw() {
 		material.setParamTex("distanceField", text.getFont().getTexture());
 		material.model = Mat4f.transform(getPos(), rotation, getScale());
 		material.proj = Window.projOrtho;

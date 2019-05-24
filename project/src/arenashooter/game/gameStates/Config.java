@@ -13,11 +13,11 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Button;
 import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.engine.ui.UiImage;
+import arenashooter.engine.ui.simpleElement.Button;
+import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -25,7 +25,8 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Config extends GameState {
 
 	private GameParam gameParam;
-	private MenuSelectionV<Button> menuParam = new MenuSelectionV<Button>(10);
+	private MenuSelectionV<Button> menuParam = new MenuSelectionV<>(10, -50, -30, new Vec2f(60, 10),
+			"data/sprites/interface/Selector.png");
 	private MenuSelection<UiImage> menuMap = new MenuSelection<>(10);
 	private UiImage selec;
 	private Button param1, param2, param3, param4;
@@ -111,7 +112,7 @@ public class Config extends GameState {
 						GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
 					}
 					break;
-				
+
 				default:
 					break;
 				}
@@ -193,13 +194,11 @@ public class Config extends GameState {
 		param4.visible = false;
 
 		selec = new UiImage(0, new Vec2f(65, 10), texture2, new Vec4f(1, 1, 1, 1));
-		menuParam.ecartement = 8;
+		menuParam.setEcartement(8);
 		menuParam.setImageSelec(selec, 2);
 		menuParam.setPosition(new Vec2f(-57, -40));
 		menuParam.addElementInListOfChoices(param1, 1);
 		menuParam.addElementInListOfChoices(param2, 1);
-
-		menuParam.focus = param1;
 
 		// test
 		menuMap.setEcartementX(14);

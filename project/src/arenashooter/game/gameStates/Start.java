@@ -9,7 +9,7 @@ public class Start extends GameState {
 
 	@Override
 	public void update(double delta) {
-		GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_empty.xml");
+		GameMaster.gm.requestNextState(new Editor(), "data/mapXML/menu_empty.xml");
 	}
 
 }

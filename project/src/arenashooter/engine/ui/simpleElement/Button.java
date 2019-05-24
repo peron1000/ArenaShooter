@@ -1,9 +1,10 @@
-package arenashooter.engine.ui;
+package arenashooter.engine.ui.simpleElement;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.ui.Trigger;
 
-public class Button extends UiElement {
+public class Button extends UiSimpleElementNavigable {
 	private Rectangle rect;
 	private Label label;
 	private Trigger arm = new Trigger() {
@@ -28,7 +29,7 @@ public class Button extends UiElement {
 	}
 
 	@Override
-	protected void draw() {
+	public void draw() {
 		if (visible) {
 			rect.draw();
 			label.draw();
