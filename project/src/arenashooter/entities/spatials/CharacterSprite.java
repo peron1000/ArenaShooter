@@ -131,7 +131,7 @@ public class CharacterSprite extends Spatial {
 		rbc.attachToParent(getMap(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		body.attachToParent(rbc, "body");
-		body.localPosition.set(-.1, 0);
+		body.localPosition.set(-.1, -.5);
 		body.rotationFromParent = true;
 		
 		//HandL
