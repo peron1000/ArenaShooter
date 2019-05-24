@@ -23,7 +23,7 @@ import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Main;
 
-public class Test extends Arena{
+public class AnimIntro extends Arena{
 	double time = 0;
 	
 	private Sky sky;
@@ -34,6 +34,9 @@ public class Test extends Arena{
 	
 	private TextSpatial pressStart;
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
+	
+	private TextSpatial versionText;
+	private AnimTrackDouble versionThickness;
 	
 	private AnimTrackDouble sceneOpacityA;
 	
@@ -53,7 +56,7 @@ public class Test extends Arena{
 	private SoundSourceSingle sndPunch;
 	private boolean punched = false;
 	
-	public Test() {
+	public AnimIntro() {
 		skyBot = new Vec3f(.9, .9, 1);
 		skyTop = new Vec3f(.8, .8, 1);
 		sky = new Sky(skyBot, skyTop);
@@ -84,7 +87,18 @@ public class Test extends Arena{
 		//PRESS START text
 		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
 		pressStart = new TextSpatial(new Vec3f(0, 325, 100), new Vec3f(500), txt);
-		pressStart.attachToParent(this, "text");
+		pressStart.attachToParent(this, "textPressStart");
+		
+		//Version text
+		txt = new Text(Main.font, TextAlignH.LEFT, "v"+Main.version);
+		versionText = new TextSpatial(new Vec3f(24, 7.5, -30), new Vec3f(20), txt);
+		versionText.attachToParent(cam, "textVersion");
+		versionText.setColor(new Vec4f(.35, .35, .35, 1));
+		HashMap<Double, Double> textThickness = new HashMap<>();
+		textThickness.put(0d, 0d);
+		textThickness.put(11d, 0d);
+		textThickness.put(12d, .25);
+		versionThickness = new AnimTrackDouble(textThickness);
 		
 		//BG
 		bg.size = new Vec2f(3000);
@@ -271,6 +285,8 @@ public class Test extends Arena{
 		//Text
 		pressStart.setColor( Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d) );
 		pressStart.setThickness( Utils.lerpF(.2f, .42f, (1+Math.sin(time*8))/2d) );
+		
+		versionText.setThickness( versionThickness.valueAt(time).floatValue() );
 		
 		if(!punched && time >= 4f) {
 			sndPunch.play();

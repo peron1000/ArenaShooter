@@ -39,6 +39,9 @@ public class StaticBodyContainer extends Spatial {
 	}
 	
 	@Override
+	/**
+	 * Detach from current parent and destroy physic body
+	 */
 	public void detach() {
 		if(body != null) body.removeFromWorld();
 		needsPhysWorld = true;

@@ -1,6 +1,6 @@
 package arenashooter.game.gameStates;
 
-import arenashooter.engine.animation.Test;
+import arenashooter.engine.animation.AnimIntro;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -16,7 +16,7 @@ public class Intro extends GameState {
 	@Override
 	public void init() {
 		super.init();
-		current = new Test();
+		current = new AnimIntro();
 	}
 
 	@Override
