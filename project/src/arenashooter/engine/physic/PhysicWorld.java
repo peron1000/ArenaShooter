@@ -12,6 +12,8 @@ import org.jbox2d.dynamics.contacts.Contact;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.bodies.PhysicBody;
+import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Projectile;
 import arenashooter.entities.spatials.Spatial;
@@ -79,7 +81,7 @@ public class PhysicWorld {
 		bodyDef.position.set(pos.x, pos.y*-1);
 
 		Body body = world.createBody(bodyDef);
-		body.createFixture(shape.b2Shape, 0);
+		body.createFixture(shape.getB2Shape(), 0);
 	}
 	
 	public Contact getContacts() {

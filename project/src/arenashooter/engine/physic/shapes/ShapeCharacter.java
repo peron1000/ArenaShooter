@@ -8,7 +8,6 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.PhysicShape;
 
 public class ShapeCharacter extends PhysicShape {
 	private Model model;

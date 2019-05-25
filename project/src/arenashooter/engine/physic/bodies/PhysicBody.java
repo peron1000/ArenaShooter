@@ -1,10 +1,13 @@
-package arenashooter.engine.physic;
+package arenashooter.engine.physic.bodies;
 
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.PhysicWorld;
+import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.entities.spatials.Spatial;
 
 public abstract class PhysicBody {
@@ -58,8 +61,9 @@ public abstract class PhysicBody {
 	/**
 	 *  Create this body
 	 * <br/><b>Do not call this during physic step!</b>
+	 * <br/>Only call this from PhysicWorld, otherwise use addToWorld()!
 	 */
-	protected abstract Body create();
+	public abstract Body create();
 	
 	/**
 	 * Mark this body for destruction
@@ -72,8 +76,9 @@ public abstract class PhysicBody {
 	/**
 	 * Destroy this body
 	 * <br/><b>Do not call this during physic step!</b>
+	 * <br/>Only call this from PhysicWorld, otherwise use removeFromWorld()!
 	 */
-	protected void destroy() {
+	public void destroy() {
 		if(world == null) return;
 		if(body != null) {
 			world.getB2World().destroyBody(body);

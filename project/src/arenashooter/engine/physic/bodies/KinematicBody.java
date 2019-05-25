@@ -7,8 +7,7 @@ import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
-import arenashooter.engine.physic.PhysicBody;
-import arenashooter.engine.physic.PhysicShape;
+import arenashooter.engine.physic.shapes.PhysicShape;
 
 /**
  * Simple physics object with custom movement

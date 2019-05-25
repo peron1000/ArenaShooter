@@ -1,4 +1,4 @@
-package arenashooter.engine.physic;
+package arenashooter.engine.physic.shapes;
 
 import org.jbox2d.collision.shapes.Shape;
 
