@@ -29,24 +29,24 @@ public enum Device {
 	public final int id;
 	private static final float deadZone = 0.3f;
 	
-	private TreeMap<ActionTest, ActionState> actions = new TreeMap<>();
-	private TreeMap<AxisTest, Float> axis = new TreeMap<>();
+	private TreeMap<ActionV2, ActionState> actions = new TreeMap<>();
+	private TreeMap<AxisV2, Float> axis = new TreeMap<>();
 	
 	private Device( int id ) {
 		this.id = id;
-		for (ActionTest a : ActionTest.values()) {
+		for (ActionV2 a : ActionV2.values()) {
 			actions.put(a, ActionState.RELEASED);
 		}
-		for (AxisTest a : AxisTest.values()) {
+		for (AxisV2 a : AxisV2.values()) {
 			axis.put(a, Float.valueOf(0f));
 		}
 	}
 	
-	public ActionState getActionState(ActionTest a) {
+	public ActionState getActionState(ActionV2 a) {
 		return actions.getOrDefault(a, ActionState.RELEASED);
 	}
 	
-	public float getAxisFloat(AxisTest a) {
+	public float getAxisFloat(AxisV2 a) {
 		return axis.getOrDefault(a, Float.valueOf(0f)).floatValue();
 	}
 	
@@ -67,8 +67,8 @@ public enum Device {
 	
 	public void update(long window , GLFWGamepadState gamePad) {
 		if(this == Device.KEYBOARD) {
-			for (ActionTest a : actions.keySet()) {
-				boolean isPressed = a.isKeyPressed(window);
+			for (ActionV2 a : actions.keySet()) {
+				boolean isPressed = a.keyboardInput(window);
 				ActionState nouveau = getActionState(actions.get(a), isPressed);
 				actions.put(a, nouveau);
 			}
@@ -76,14 +76,14 @@ public enum Device {
 			if(glfwGetGamepadState(id, gamePad)) {
 				
 				// Actions
-				for (ActionTest a : actions.keySet()) {
-					boolean isPressed = a.isButtonPressed(gamePad);
+				for (ActionV2 a : actions.keySet()) {
+					boolean isPressed = a.gamepadInput(gamePad);
 					ActionState nouveau = getActionState(actions.get(a), isPressed);
 					actions.put(a, nouveau);
 				}
 				
 				// Axis
-				for (AxisTest a : axis.keySet()) {
+				for (AxisV2 a : axis.keySet()) {
 					float f = a.getFloat(gamePad);
 					if(Math.abs(f) >= deadZone) {
 						axis.put(a, Float.valueOf(f));

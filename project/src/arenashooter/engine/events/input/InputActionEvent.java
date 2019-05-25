@@ -2,7 +2,7 @@ package arenashooter.engine.events.input;
 
 import arenashooter.engine.events.Event;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.input.ActionTest;
+import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.input.Device;
 
 /**
@@ -12,10 +12,10 @@ import arenashooter.engine.input.Device;
 public class InputActionEvent extends Event {
 	
 	private final Device device;
-	private final ActionTest action;
+	private final ActionV2 action;
 	private final ActionState actionState;
 
-	public InputActionEvent(Device device , ActionTest action , ActionState actionState) {
+	public InputActionEvent(Device device , ActionV2 action , ActionState actionState) {
 		this.action = action;
 		this.actionState = actionState;
 		this.device = device;
@@ -25,7 +25,7 @@ public class InputActionEvent extends Event {
 		return device;
 	}
 
-	public ActionTest getAction() {
+	public ActionV2 getAction() {
 		return action;
 	}
 

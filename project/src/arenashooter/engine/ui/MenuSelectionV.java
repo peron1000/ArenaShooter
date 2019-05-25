@@ -78,27 +78,19 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public void down() {
-		if (getTarget().isSelected()) {
-			getTarget().unSelec();
-		} else {
-			index++;
-			if (index >= elements.size()) {
-				index = 0;
-			}
-			majSelecPosition();
+		index++;
+		if (index >= elements.size()) {
+			index = 0;
 		}
+		majSelecPosition();
 	}
 
 	public void up() {
-		if (getTarget().isSelected()) {
-			getTarget().unSelec();
-		} else {
-			index--;
-			if (index < 0) {
-				index = elements.size() - 1;
-			}
-			majSelecPosition();
+		index--;
+		if (index < 0) {
+			index = elements.size() - 1;
 		}
+		majSelecPosition();
 	}
 
 	public void right() {

@@ -93,5 +93,10 @@ public class Button extends UiActionable {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void selectAction() {
+		arm();
+	}
 
 }

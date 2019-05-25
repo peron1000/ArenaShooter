@@ -1,7 +1,7 @@
 package arenashooter.engine.events.input;
 
 import arenashooter.engine.events.Event;
-import arenashooter.engine.input.AxisTest;
+import arenashooter.engine.input.AxisV2;
 import arenashooter.engine.input.Device;
 
 /**
@@ -10,10 +10,10 @@ import arenashooter.engine.input.Device;
  */
 public class InputAxisEvent extends Event {
 	private Device device;
-	private AxisTest axis;
+	private AxisV2 axis;
 	private float value;
 	
-	public InputAxisEvent(Device device , AxisTest axis , float value) {
+	public InputAxisEvent(Device device , AxisV2 axis , float value) {
 		this.axis = axis;
 		this.device = device;
 		this.value = value;
@@ -23,7 +23,7 @@ public class InputAxisEvent extends Event {
 		return device;
 	}
 
-	public AxisTest getAxis() {
+	public AxisV2 getAxis() {
 		return axis;
 	}
 

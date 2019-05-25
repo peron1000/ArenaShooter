@@ -11,7 +11,7 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.input.ActionTest;
+import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;

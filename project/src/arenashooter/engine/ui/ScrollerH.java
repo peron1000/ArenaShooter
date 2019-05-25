@@ -10,6 +10,8 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 	private Vec4f colorOnSelect = new Vec4f(1, 1, 0, 1);
 	private CircleList<E> list = new CircleList<>();
 	private Label label;
+	private String title = "";
+	private boolean alwaysScrollable = false;
 	private Trigger arm = new Trigger() {
 
 		@Override
@@ -73,13 +75,13 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 	@Override
 	public void rightAction() {
 		list.next();
-		label.setText(get().name());
+		label.setText(title+get().name());
 	}
 
 	@Override
 	public void leftAction() {
 		list.previous();
-		label.setText(get().name());
+		label.setText(title+get().name());
 	}
 
 	@Override
@@ -96,5 +98,35 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 	public void unSelec() {
 		label.setColor(colorOnUnSelect);
 		super.unSelec();
+	}
+	
+	public void setTitle(String title) {
+		this.title = title+" : ";
+		label.setText(this.title+get().name());
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void removeTitle() {
+		title = "";
+	}
+	
+	@Override
+	public boolean isSelected() {
+		if(alwaysScrollable) {
+			return true;
+		} else {
+			return super.isSelected();
+		}
+	}
+
+	public boolean isAlwaysScrollable() {
+		return alwaysScrollable;
+	}
+
+	public void setAlwaysScrollable(boolean alwaysScrollable) {
+		this.alwaysScrollable = alwaysScrollable;
 	}
 }
