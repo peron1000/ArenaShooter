@@ -7,7 +7,7 @@ import org.lwjgl.glfw.GLFWGamepadState;
 /**
  * Input axes
  */
-public enum AxisTest {
+public enum AxisV2 {
 	MOVE_X {
 
 		@Override

@@ -7,16 +7,16 @@ import org.lwjgl.glfw.GLFWGamepadState;
 /**
  * Input actions
  */
-public enum ActionTest {
+public enum ActionV2 {
 	JUMP {
 
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS;
 		}
 
@@ -24,49 +24,49 @@ public enum ActionTest {
 	ATTACK {
 
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			boolean x = glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS;
 			boolean mouse = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 			return x || mouse;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) == GLFW_PRESS;
 		}
 	},
 	GET_ITEM {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_X) == GLFW_PRESS;
 		}
 	},
 	DROP_ITEM {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS;
 		}
 	},
 	UI_LEFT {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			boolean q = glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS;
 			boolean left = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
 			return q || left;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_LEFT_X) <= -0.3f;
 			boolean s = gamePad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS;
 			return p || s;
@@ -74,14 +74,14 @@ public enum ActionTest {
 	},
 	UI_RIGHT {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			boolean d = glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS;
 			boolean right = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
 			return d || right;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_LEFT_X) >= 0.3f;
 			boolean s = gamePad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS;
 			return p || s;
@@ -89,14 +89,14 @@ public enum ActionTest {
 	},
 	UI_UP {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			boolean z = glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS;
 			boolean up = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
 			return z || up;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y) <= -0.3f;
 			boolean s = gamePad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_UP) == GLFW_PRESS;
 			return p || s;
@@ -104,14 +104,14 @@ public enum ActionTest {
 	},
 	UI_DOWN {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			boolean s = glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS;
 			boolean down = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
 			return s || down;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y) >= 0.3f;
 			boolean s = gamePad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_DOWN) == GLFW_PRESS;
 			return p || s;
@@ -119,71 +119,71 @@ public enum ActionTest {
 	},
 	UI_OK{
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS;
 		}
 	},
 	UI_BACK {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS;
 		}
 	},
 	UI_PAUSE{
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS;
 		}
 	},
 	UI_CONTINUE {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS;
 		}
 
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS;
 		}
 	},
 	DEBUG_SHOW_COLLISION {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS;
 		}
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return false;
 		}
 	},
 	DEBUG_TOGGLE_PROFILER {
 		@Override
-		public boolean isKeyPressed(long window) {
+		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS;
 		}
 		@Override
-		public boolean isButtonPressed(GLFWGamepadState gamePad) {
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return false;
 		}
 	}
 ;
 
-	public abstract boolean isKeyPressed(long window);
+	public abstract boolean keyboardInput(long window);
 
-	public abstract boolean isButtonPressed(GLFWGamepadState gamePad);
+	public abstract boolean gamepadInput(GLFWGamepadState gamePad);
 }
