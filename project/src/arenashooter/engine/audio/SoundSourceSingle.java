@@ -55,7 +55,7 @@ public class SoundSourceSingle implements AudioSourceI {
 			Audio.cleanAll();
 
 		//Link the source to the buffer
-		alSourcei( source, AL_BUFFER, sound.getBuffer() );
+		alSourcei( source, AL_BUFFER, sound.getBufferId() );
 
 		//Spatialization
 		if( spatialized ) {

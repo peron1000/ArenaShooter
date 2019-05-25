@@ -170,13 +170,13 @@ public class MapXmlReader extends XmlReader {
 		String name = usableTimer.getAttribute("name");
 		int weight = Integer.parseInt(usableTimer.getAttribute("weight"));
 		String pathSprite = usableTimer.getAttribute("pathSprite");
-		String soundPickup = usableTimer.getAttribute("soundPickup");
 		double cooldown = Double.parseDouble(usableTimer.getAttribute("cooldown"));
 		int duration = Integer.parseInt(usableTimer.getAttribute("duration"));
 		String animPath = usableTimer.getAttribute("animPath");
 		double warmup = Double.parseDouble(usableTimer.getAttribute("warmupDuration"));
 		String soundWarmup = usableTimer.getAttribute("soundWarmup");
-		String attackSound = usableTimer.getAttribute("bangSound");
+		String soundPickup = "data/sound/"+usableTimer.getAttribute("soundPickup")+".ogg";
+		String attackSound = "data/sound/"+usableTimer.getAttribute("bangSound")+".ogg";
 
 		// Vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", usableTimer);
@@ -206,13 +206,13 @@ public class MapXmlReader extends XmlReader {
 		String name = melee.getAttribute("name");
 		int weight = Integer.parseInt(melee.getAttribute("weight"));
 		String pathSprite = melee.getAttribute("pathSprite");
-		String soundPickup = melee.getAttribute("soundPickup");
 		double cooldown = Double.parseDouble(melee.getAttribute("cooldown"));
 		int uses = Integer.parseInt(melee.getAttribute("uses"));
 		String animPath = melee.getAttribute("animPath");
 		double warmup = Double.parseDouble(melee.getAttribute("warmupDuration"));
+		String soundPickup = "data/sound/"+melee.getAttribute("soundPickup")+".ogg";
 		String soundWarmup = melee.getAttribute("soundWarmup");
-		String attackSound = melee.getAttribute("bangSound");
+		String attackSound = "data/sound/"+melee.getAttribute("bangSound")+".ogg";
 		float damage = Float.parseFloat(melee.getAttribute("damage"));
 		double size = Double.parseDouble(melee.getAttribute("size"));
 
@@ -244,14 +244,14 @@ public class MapXmlReader extends XmlReader {
 		String name = gun.getAttribute("name");
 		int weight = Integer.parseInt(gun.getAttribute("weight"));
 		String pathSprite = gun.getAttribute("pathSprite");
-		String soundPickup = gun.getAttribute("soundPickup");
 		double cooldown = Double.parseDouble(gun.getAttribute("cooldown"));
 		int uses = Integer.parseInt(gun.getAttribute("uses"));
 		String animPath = gun.getAttribute("animPath");
 		double warmup = Double.parseDouble(gun.getAttribute("warmupDuration"));
+		String soundPickup = "data/sound/"+gun.getAttribute("soundPickup")+".ogg";
 		String soundWarmup = gun.getAttribute("soundWarmup");
-		String attackSound = gun.getAttribute("bangSound");
-		String noAmmoSound = gun.getAttribute("noAmmoSound");
+		String attackSound = "data/sound/"+gun.getAttribute("bangSound")+".ogg";
+		String noAmmoSound = "data/sound/"+gun.getAttribute("noAmmoSound")+".ogg";
 		float damage = Float.parseFloat(gun.getAttribute("damage"));
 		double size = Double.parseDouble(gun.getAttribute("size"));
 		int bulletType = Integer.parseInt(gun.getAttribute("bulletType"));
@@ -289,14 +289,14 @@ public class MapXmlReader extends XmlReader {
 		String name = shotgun.getAttribute("name");
 		int weight = Integer.parseInt(shotgun.getAttribute("weight"));
 		String pathSprite = shotgun.getAttribute("pathSprite");
-		String soundPickup = shotgun.getAttribute("soundPickup");
 		double cooldown = Double.parseDouble(shotgun.getAttribute("cooldown"));
 		int uses = Integer.parseInt(shotgun.getAttribute("uses"));
 		String animPath = shotgun.getAttribute("animPath");
 		double warmup = Double.parseDouble(shotgun.getAttribute("warmupDuration"));
+		String soundPickup = "data/sound/"+shotgun.getAttribute("soundPickup")+".ogg";
 		String soundWarmup = shotgun.getAttribute("soundWarmup");
-		String attackSound = shotgun.getAttribute("bangSound");
-		String noAmmoSound = shotgun.getAttribute("noAmmoSound");
+		String attackSound = "data/sound/"+shotgun.getAttribute("bangSound")+".ogg";
+		String noAmmoSound = "data/sound/"+shotgun.getAttribute("noAmmoSound")+".ogg";
 		float damage = Float.parseFloat(shotgun.getAttribute("damage"));
 		double size = Double.parseDouble(shotgun.getAttribute("size"));
 		int bulletType = Integer.parseInt(shotgun.getAttribute("bulletType"));
@@ -336,13 +336,13 @@ public class MapXmlReader extends XmlReader {
 		String name = usable.getAttribute("name");
 		int weight = Integer.parseInt(usable.getAttribute("weight"));
 		String pathSprite = usable.getAttribute("pathSprite");
-		String soundPickup = usable.getAttribute("soundPickup");
 		double cooldown = Double.parseDouble(usable.getAttribute("cooldown"));
 		int uses = Integer.parseInt(usable.getAttribute("uses"));
 		String animPath = usable.getAttribute("animPath");
 		double warmup = Double.parseDouble(usable.getAttribute("warmupDuration"));
+		String soundPickup = "data/sound/"+usable.getAttribute("soundPickup")+".ogg";
 		String soundWarmup = usable.getAttribute("soundWarmup");
-		String attackSound = usable.getAttribute("bangSound");
+		String attackSound = "data/sound/"+usable.getAttribute("bangSound")+".ogg";
 
 		// Vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", usable);

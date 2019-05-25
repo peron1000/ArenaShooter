@@ -60,7 +60,7 @@ public class SoundSourceMulti implements AudioSourceI {
 				Audio.cleanAll();
 			
 			//Link the source to the buffer
-			alSourcei( source[i], AL_BUFFER, sound.getBuffer() );
+			alSourcei( source[i], AL_BUFFER, sound.getBufferId() );
 			
 			//Spatialization
 			if( spatialized ) {

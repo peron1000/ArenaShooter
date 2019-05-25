@@ -11,7 +11,6 @@ import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.RigidBodyContainer;
-import arenashooter.entities.spatials.SoundEffect;
 
 public abstract class Item extends Spatial {
 
@@ -21,7 +20,7 @@ public abstract class Item extends Spatial {
 	public String name = "";
 	protected double weight = 0;
 	protected String pathSprite = ""; 
-	protected String soundPickup = "";
+	public String soundPickup = "";
 	
 	private RigidBodyContainer rigidBody;
 	
@@ -37,9 +36,6 @@ public abstract class Item extends Spatial {
 		Sprite sprite = new Sprite(position, pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
 		
-		SoundEffect pickup = new SoundEffect(parentPosition, "data/sound/"+soundPickup+".ogg", 1);
-		pickup.attachToParent(this, "sound_pickup");
-
 		setSizeOfSprite();
 
 		this.name = name;

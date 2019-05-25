@@ -39,7 +39,7 @@ public class MusicSource implements AudioSourceI {
 		
 		Audio.printError("Cannot create source for "+path);
 		
-		alSourcei( source, AL_BUFFER, sound.getBuffer() );
+		alSourcei( source, AL_BUFFER, sound.getBufferId() );
 		
 		//Stick this sound to the listener to prevent spatialization
 		alSourcei( source, AL_SOURCE_RELATIVE, AL_TRUE );

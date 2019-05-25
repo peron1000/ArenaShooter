@@ -9,6 +9,7 @@ import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.audio.Audio;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -205,9 +206,7 @@ public class Character extends RigidBodyContainer {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				Entity soundPickup = arme.getChild("sound_pickup");
-				if (soundPickup instanceof SoundEffect)
-					((SoundEffect) soundPickup).play();
+				Audio.playSound2D(arme.soundPickup, 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			}
 		}
 	}

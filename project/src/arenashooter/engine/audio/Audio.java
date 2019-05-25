@@ -16,8 +16,11 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +33,7 @@ import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALUtil;
 
 import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
 /**
@@ -38,8 +42,9 @@ import arenashooter.engine.math.Vec3f;
 public final class Audio {
 	private static long device, context;
 	
-	private static Map<String, BufferEntry> sounds = new HashMap<String, BufferEntry>();
-	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
+	private static Map<String, BufferEntry> sounds = new HashMap<>();
+	private static List<SourceEntry> sources = new ArrayList<>();
+	private static Set<SourceV2> autoDestroySources = new HashSet<>();
 	
 	public static final Logger log = LogManager.getLogger("Audio");
 	
@@ -92,6 +97,18 @@ public final class Audio {
 	}
 	
 	/**
+	 * This does not need to be called at every sub-step
+	 */
+	public static void update() {
+		//Clean-up sources
+		List<SourceV2> toDestroy = autoDestroySources.stream().filter(p -> !p.isPlaying()).collect(Collectors.toList());
+		for( SourceV2 source : toDestroy ) {
+				source.destroy();
+				autoDestroySources.remove(source);
+		}
+	}
+	
+	/**
 	 * Set the listener ("ears") to a specific location/rotation
 	 * @param loc
 	 * @param rot
@@ -112,6 +129,48 @@ public final class Audio {
 		listenerRot.flip();
 		
 		alListenerfv( AL_ORIENTATION, listenerRot );
+	}
+	
+	/**
+	 * Play a sound (non-spatialized)
+	 * @param file
+	 * @param volume
+	 * @param pitch
+	 */
+	public static void playSound(String file, float volume, float pitch) {
+		if(file == null || file.isEmpty()) return;
+		SourceV2 source = new SourceV2();
+		
+		source.setBuffer(SoundBuffer.loadSound(file));
+		source.setPitch(pitch);
+		source.setVolume(volume);
+		
+		source.play();
+		
+		//TODO: add to global sources collection
+		autoDestroySources.add(source);
+	}
+	
+	/**
+	 * Play a sound (spatialized)
+	 * @param file
+	 * @param volume
+	 * @param pitch
+	 * @param position
+	 */
+	public static void playSound2D(String file, float volume, float pitch, Vec2f position) {
+		if(file == null || file.isEmpty()) return;
+		SourceV2 source = new SourceV2();
+		
+		source.setBuffer(SoundBuffer.loadSound(file));
+		source.setPitch(pitch);
+		source.setVolume(volume);
+		source.setPosition(position);
+		
+		source.play();
+		
+		//TODO: add to global sources collection
+		autoDestroySources.add(source);
 	}
 	
 	private static void printInitInfo(ALCCapabilities deviceCapabilities) {
@@ -230,7 +289,7 @@ public final class Audio {
 		WeakReference<SoundBuffer> sound;
 		
 		BufferEntry(String file, SoundBuffer sound) {
-			buffer = sound.getBuffer();
+			buffer = sound.getBufferId();
 			this.file = file;
 			this.sound = new WeakReference<SoundBuffer>(sound);
 		}

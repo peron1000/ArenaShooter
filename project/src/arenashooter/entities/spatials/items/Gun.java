@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -21,8 +22,7 @@ public class Gun extends Usable {
 	protected float bulletSpeed = 1;
 	protected float damage = 0f;
 	protected double warmupDuration = 0;
-	protected String bangSound = "";
-	protected String noAmmoSound = "";
+	protected String soundNoAmmo = "";
 	protected double size = 0;
 	protected Timer timerCooldown = null;
 
@@ -47,8 +47,8 @@ public class Gun extends Usable {
 	 * @param animPath
 	 * @param warmupDuration
 	 * @param soundWarmup
-	 * @param bangSound
-	 * @param noAmmoSound
+	 * @param soundFire
+	 * @param soundNoAmmo
 	 * @param bulletType
 	 * @param bulletSpeed
 	 * @param damage
@@ -59,11 +59,11 @@ public class Gun extends Usable {
 	 */
 	public Gun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
-			String bangSound, String noAmmoSound, int bulletType, float bulletSpeed, float damage, double cannonLength,
+			String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage, double cannonLength,
 			double recoil, double thrust, double size) {
 		
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
-				warmupDuration, soundWarmup, bangSound);
+				warmupDuration, soundWarmup, soundFire);
 
 		this.nbAmmo = uses;
 		this.bulletType = bulletType;
@@ -73,13 +73,8 @@ public class Gun extends Usable {
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
 		this.warmupDuration = warmupDuration;
-		this.bangSound = bangSound;
-		this.noAmmoSound = noAmmoSound;
+		this.soundNoAmmo = soundNoAmmo;
 		this.size = size;
-
-		SoundEffect attack = new SoundEffect(new Vec2f(), "data/sound/" + bangSound + ".ogg", 2, 0.85f, 1.15f);
-		attack.setVolume(0.25f);
-		attack.attachToParent(this, "snd_Bang");
 
 		if(soundWarmup == null || soundWarmup.isEmpty()) {
 			sndWarmup = null;
@@ -103,9 +98,9 @@ public class Gun extends Usable {
 		this.timerCooldown.setValue(fireRate);
 		this.timerCooldown.attachToParent(this, "timer_cooldown");
 
-		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
-		noAmmo.setVolume(0.25f);
-		noAmmo.attachToParent(this, "snd_NoAmmo");
+//		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
+//		noAmmo.setVolume(0.25f);
+//		noAmmo.attachToParent(this, "snd_NoAmmo");
 
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
@@ -205,7 +200,7 @@ public class Gun extends Usable {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				((SoundEffect) getChild("snd_Bang")).play();
+				Audio.playSound2D(soundFire, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 
 				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -216,7 +211,7 @@ public class Gun extends Usable {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.028f);
 			} else {
-				((SoundEffect) getChild("snd_NoAmmo")).play();
+				Audio.playSound2D(soundNoAmmo, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			}
 
 		}
@@ -233,7 +228,7 @@ public class Gun extends Usable {
 	
 	@Override
 	public Gun clone(Vec2f position) {
-		Gun gun = new Gun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+		Gun gun = new Gun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;
 	}
 }

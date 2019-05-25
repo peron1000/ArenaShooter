@@ -21,10 +21,10 @@ import static org.lwjgl.stb.STBVorbis.*;
  * Container for OpenAL buffer
  */
 public class SoundBuffer {
-	private int buffer;
+	private int bufferId;
 
 	private SoundBuffer(int buffer) {
-		this.buffer = buffer;
+		this.bufferId = buffer;
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class SoundBuffer {
 		return snd;
 	}
 	
-	protected int getBuffer() { return buffer; }
+	protected int getBufferId() { return bufferId; }
 	
 	private static ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
 		ByteBuffer vorbis;

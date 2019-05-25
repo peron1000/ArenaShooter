@@ -77,6 +77,8 @@ public class Main {
 			Window.endFrame();
 			Profiler.endTimer(Profiler.RENDER);
 			
+			Audio.update();
+			
 			//FPS counter
 			fpsFrames++;
 			if(fpsFrames >= 10 && (currentFrame-fpsTime)>=250 ) {

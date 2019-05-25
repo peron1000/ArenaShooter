@@ -1,6 +1,6 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.audio.SoundSourceMulti;
+import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
@@ -11,8 +11,6 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Explosion extends Spatial {
-	private static SoundSourceMulti sndExplosion = new SoundSourceMulti("data/sound/explosion_01.ogg", 8, .8f, 1.2f, true);
-
 	private double time = 0;
 	
 	public Explosion(Vec2f position) {
@@ -43,7 +41,7 @@ public class Explosion extends Spatial {
 			Particles particles = new Particles(getWorldPos(), "data/particles/explosion.xml");
 			particles.attachToParent(getMap(), "particles");
 
-			sndExplosion.play(getWorldPos());
+			Audio.playSound2D("data/sound/explosion_01.ogg", 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			
 			Window.getCamera().setCameraShake(3);
 		}

@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials.items;
 
+import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -8,7 +9,6 @@ import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
-import arenashooter.entities.spatials.SoundEffect;
 
 public class Shotgun extends Gun {
 	private int multiShot = 10;
@@ -28,7 +28,7 @@ public class Shotgun extends Gun {
 	 * @param animPath
 	 * @param warmupDuration
 	 * @param soundWarmup
-	 * @param bangSound
+	 * @param soundFire
 	 * @param noAmmoSound
 	 * @param multiShot
 	 * @param dispersion
@@ -42,11 +42,11 @@ public class Shotgun extends Gun {
 	 */
 	public Shotgun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
-			String bangSound, String noAmmoSound, int multiShot, double dispersion, int bulletType, float bulletSpeed,
+			String soundFire, String noAmmoSound, int multiShot, double dispersion, int bulletType, float bulletSpeed,
 			float damage, double cannonLength, double recoil, double thrust, double size) {
 
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
-				warmupDuration, soundWarmup, bangSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength,
+				warmupDuration, soundWarmup, soundFire, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength,
 				recoil, thrust, size);
 		this.multiShot = multiShot;
 		this.dispersion = dispersion;
@@ -152,7 +152,7 @@ public class Shotgun extends Gun {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
 				}
 
-				((SoundEffect) getChild("snd_Bang")).play();
+				Audio.playSound2D(soundFire, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 
 				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -163,7 +163,7 @@ public class Shotgun extends Gun {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.029f);
 			} else {
-				((SoundEffect) getChild("snd_NoAmmo")).play();
+				Audio.playSound2D(soundNoAmmo, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			}
 
 		}
@@ -176,7 +176,7 @@ public class Shotgun extends Gun {
 	@Override
 	public Shotgun clone(Vec2f position) {
 		Shotgun gun = new Shotgun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup,
-				fireRate, uses, animPath, warmupDuration, soundWarmup, bangSound, noAmmoSound, multiShot, dispersion,
+				fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, multiShot, dispersion,
 				bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;
 	}
