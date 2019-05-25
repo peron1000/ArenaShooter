@@ -11,6 +11,8 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -121,7 +123,11 @@ public class PhysicWorld {
 
 		@Override
 		public void postSolve(Contact contact, ContactImpulse impulse) {
-			// TODO Auto-generated method stub
+//			if(impulse.normalImpulses[0] > .7f) {
+//				System.out.println(impulse.normalImpulses[0]);
+//				float volume = Math.min(1, (impulse.normalImpulses[0]-.5f)*.1f);
+//				Audio.playSound2D("data/sound/explosion_01.ogg", volume, Utils.lerpF(.8f, 1.2f, Math.random()), new Vec2f(contact.getManifold().localPoint));
+//			}
 		}
 		
 	}

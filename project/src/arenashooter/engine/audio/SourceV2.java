@@ -37,6 +37,11 @@ public class SourceV2 {
 
 		if(Audio.printError("Cannot create source") != AL10.AL_NO_ERROR)
 			Audio.cleanAll();
+		
+		alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
+		alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_TRUE );
+		alSourcef( sourceId, AL11.AL_REFERENCE_DISTANCE, 0 );
+		alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, 0 );
 	}
 	
 	void destroy() { alDeleteSources(sourceId); }
