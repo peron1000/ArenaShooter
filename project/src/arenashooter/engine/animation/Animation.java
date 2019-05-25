@@ -4,6 +4,7 @@ import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
@@ -103,7 +104,7 @@ public class Animation {
 		if(animData.tracksD.containsKey(track)) 
 			return animData.tracksD.get(track).valueAt(time);
 		else {
-			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0.0)");
+			Window.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0.0)");
 			return 0.0;
 		}
 	}
@@ -117,7 +118,7 @@ public class Animation {
 		if(animData.tracksT.containsKey(track))
 			return animData.tracksT.get(track).valueAt(time);
 		else {
-			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default texture");
+			Window.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default texture");
 			return Texture.default_tex;
 		}
 	}
@@ -131,7 +132,7 @@ public class Animation {
 		if(animData.tracksVec2f.containsKey(track)) 
 			return animData.tracksVec2f.get(track).valueAt(time);
 		else {
-			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0)");
+			Window.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0)");
 			return new Vec2f();
 		}
 	}
@@ -145,7 +146,7 @@ public class Animation {
 		if(animData.tracksVec3f.containsKey(track)) 
 			return animData.tracksVec3f.get(track).valueAt(time);
 		else {
-			System.err.println("Animation - Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0, 0)");
+			Window.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0, 0)");
 			return new Vec3f();
 		}
 	}

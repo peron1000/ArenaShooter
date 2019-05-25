@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioSourceI;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.audio.SoundSourceSingle;
@@ -36,7 +37,7 @@ public class SoundEffect extends Spatial {
 		if( maxPlays < 0 )
 			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, true);
 		else if( maxPlays == 0 ) {
-			System.err.println("Audio - Invalid maxPlays value (0), defaulting to 1 (for +"+path+")");
+			Audio.log.error("Invalid maxPlays value (0), defaulting to 1 (for +"+path+")");
 			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, false);
 		} else if( maxPlays == 1 )
 			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, false);

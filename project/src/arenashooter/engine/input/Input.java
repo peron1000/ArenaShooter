@@ -15,6 +15,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWGamepadState;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.game.Main;
 
 public final class Input {
 	public static Vec2f mousePos = new Vec2f();
@@ -59,13 +60,13 @@ public final class Input {
 			String line = "";
 			while( (line = reader.readLine()) != null )
 					if(!glfwUpdateGamepadMappings(line))
-						System.err.println("Error reading gamepad mapping: "+line);
+						Main.log.error("Error reading gamepad mapping: "+line);
 		
 			reader.close();
 			inReader.close();
 			in.close();
 		} catch(Exception e) {
-			System.err.println("Can't load gamepad mappings!");
+			Main.log.error("Cannot load gamepad mappings!");
 		}
 	}
 
@@ -286,6 +287,6 @@ public final class Input {
 		String res = "Controller " + id + " axis :";
 		for (int i = 0; i < joyAxis[id].capacity(); i++)
 			res += "\n " + i + " : " + joyAxis[id].get(i);
-		System.out.println(res);
+		Main.log.debug(res);
 	}
 }

@@ -41,7 +41,7 @@ public final class Audio {
 	private static Map<String, BufferEntry> sounds = new HashMap<String, BufferEntry>();
 	private static List<SourceEntry> sources = new ArrayList<SourceEntry>();
 	
-	protected static Logger log = LogManager.getLogger("Audio");
+	public static final Logger log = LogManager.getLogger("Audio");
 	
 	private static FloatBuffer listenerRot;
 
@@ -54,18 +54,21 @@ public final class Audio {
 	public static void init() {
 		log.info("Initializing");
 		
+		//Get default device
 		device = alcOpenDevice( (ByteBuffer)null );
 		
 		if( device == NULL ) {
-			throw new IllegalStateException("Audio - Failed to open the default device !");
+			log.fatal("Failed to open default device");
 		}
 		
+		//Create device capabilities
 		ALCCapabilities deviceCapabilities = ALC.createCapabilities(device);
 		
 		if( !deviceCapabilities.OpenALC10 ) {
-			throw new IllegalStateException("Audio - Failed to create device capabilities !");
+			log.fatal("Failed to create device capabilities");
 		}
 
+		//Create context
 		context = alcCreateContext( device, (IntBuffer)null );
 		alcSetThreadContext(context);
 		AL.createCapabilities(deviceCapabilities);
@@ -154,7 +157,7 @@ public final class Audio {
 	
 	protected static void registerSound(String file, SoundBuffer sound) {
 		BufferEntry newEntry = new BufferEntry(file, sound);
-		if(sounds.get(file) != null && sounds.get(file).sound.get() != null) System.err.println("Audio - Sound already registered !");
+		if(sounds.get(file) != null && sounds.get(file).sound.get() != null) log.error("Sound already registered: "+file);
 		sounds.put(file, newEntry);
 	}
 	

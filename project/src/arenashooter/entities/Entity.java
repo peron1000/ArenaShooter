@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.game.Main;
 
 public class Entity {
 	private Arena map = null;
@@ -34,7 +35,7 @@ public class Entity {
 	 */
 	public Entity attachToParent(Entity newParent, String name) {
 		if (this == newParent) {
-			System.err.println("Trying to attach an entity to itself!"); //TODO: Move this to log
+			Main.log.warn("Trying to attach an entity to itself!");
 			return null;
 		}
 		

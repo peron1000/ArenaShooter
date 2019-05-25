@@ -10,6 +10,8 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import arenashooter.game.Main;
+
 public final class FileUtils {
 	//This class cannot be instantiated
 	private FileUtils() {}
@@ -35,7 +37,7 @@ public final class FileUtils {
 			inReader.close();
 			in.close();
 		} catch(Exception e) {
-			System.err.println("Can't read file: "+path);
+			Main.log.error("Cannot read file: "+path);
 		}
 		
 		return res;
@@ -59,7 +61,7 @@ public final class FileUtils {
 			
 			in.close();
 		} catch (Exception e) {
-			System.err.println( "Cannot load file : "+path );
+			Main.log.error( "Cannot load file : "+path );
 			e.printStackTrace();
 			return null;
 		}
