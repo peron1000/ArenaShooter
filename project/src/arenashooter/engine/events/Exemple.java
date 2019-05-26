@@ -6,7 +6,7 @@ public class Exemple {
 		EventListener<NewValueEvent<Integer>> lis = new EventListener<NewValueEvent<Integer>>() {
 			
 			@Override
-			public void action(NewValueEvent<Integer> event) {
+			public void launch(NewValueEvent<Integer> event) {
 				System.out.println("Old value : "+event.getOldValue()+" -> new value : "+event.getNewValue());
 			}
 		};

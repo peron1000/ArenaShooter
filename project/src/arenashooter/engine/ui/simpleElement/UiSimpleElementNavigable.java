@@ -28,22 +28,22 @@ public abstract class UiSimpleElementNavigable extends UiElement {
 	
 	@Override
 	public void downAction() {
-		owner.exit.action(new MenuExitEvent(Side.Down));
+		owner.exit.launch(new MenuExitEvent(Side.Down));
 	}
 
 	@Override
 	public void leftAction() {
-		owner.exit.action(new MenuExitEvent(Side.Left));
+		owner.exit.launch(new MenuExitEvent(Side.Left));
 	}
 
 	@Override
 	public void rightAction() {
-		owner.exit.action(new MenuExitEvent(Side.Right));
+		owner.exit.launch(new MenuExitEvent(Side.Right));
 	}
 
 	@Override
 	public void upAction() {
-		owner.exit.action(new MenuExitEvent(Side.Up));
+		owner.exit.launch(new MenuExitEvent(Side.Up));
 	}
 
 }

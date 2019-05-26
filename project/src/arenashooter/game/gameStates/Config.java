@@ -38,7 +38,7 @@ public class Config extends GameState {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
-			public void action(InputActionEvent e) {
+			public void launch(InputActionEvent e) {
 				switch (e.getAction()) {
 				case UI_RIGHT:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
@@ -249,7 +249,7 @@ public class Config extends GameState {
 		menuParam.exit = new EventListener<MenuExitEvent>() {
 
 			@Override
-			public void action(MenuExitEvent e) {
+			public void launch(MenuExitEvent e) {
 				switch (e.getSide()) {
 				case Down:
 				case Up:
@@ -267,7 +267,7 @@ public class Config extends GameState {
 		menuMap.exit = new EventListener<MenuExitEvent>() {
 
 			@Override
-			public void action(MenuExitEvent e) {
+			public void launch(MenuExitEvent e) {
 				switch (e.getSide()) {
 				case Down:
 				case Up:

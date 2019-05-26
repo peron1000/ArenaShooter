@@ -30,7 +30,7 @@ public class InputListener {
 					ActionState state = device.getActionState(action);
 					if(state != ActionState.RELEASED) {
 						InputActionEvent e = new InputActionEvent(device, action, state);
-						actions.forEach(a -> a.action(e));
+						actions.forEach(a -> a.launch(e));
 					}
 				}
 			}
@@ -38,7 +38,7 @@ public class InputListener {
 				for (AxisV2 axi : AxisV2.values()) {
 					float f = device.getAxisFloat(axi);
 					InputAxisEvent event = new InputAxisEvent(device, axi, f);
-					axis.forEach(a -> a.action(event));
+					axis.forEach(a -> a.launch(event));
 				}
 			}
 		}

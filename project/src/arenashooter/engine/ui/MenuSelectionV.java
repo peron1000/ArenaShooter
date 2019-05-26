@@ -15,7 +15,7 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 public class MenuSelectionV<E extends UiElement> extends Menu {
 	private UiImage selec;
 	private float ecartement = 5;
-	private Vec2f positionRef;
+	private Vec2f positionRef = new Vec2f();
 	private int index = 0;
 	private Stack<E> elements = new Stack<>();
 	public BooleanProperty active = new BooleanProperty(true);
@@ -27,13 +27,12 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		selec = new UiImage(0, scaleSelec, t, new Vec4f(1, 1, 1, 1));
 		selec.visible = true;
 		Vec2f pos = new Vec2f(x, y);
-		positionRef = pos.clone();
 		setPosition(pos);
 		setImageSelec(selec, 2);
 		active.listener.add(new EventListener<NewValueEvent<Boolean>>() {
 
 			@Override
-			public void action(NewValueEvent<Boolean> e) {
+			public void launch(NewValueEvent<Boolean> e) {
 				if (selec != null) {
 					selec.visible = e.getNewValue();
 				}
@@ -55,7 +54,6 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		if (!elements.contains(element)) {
 			elements.add(element);
 		}
-		addUiElement(element, layout);
 		element.setPos(newPosition);
 		element.visible = true;
 		restart();
@@ -68,27 +66,35 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 				selec.setPos(elements.peek().getPos());
 			}
 			element.visible = false;
-			removeUiElement(element);
-			for (int i = 0; i < elements.size(); i++) {
-				E e = elements.get(i);
-				Vec2f newPosition = new Vec2f(positionRef.x, positionRef.y + ecartement * i);
-				e.setPos(newPosition);
-			}
 		}
 	}
 
 	public void down() {
+		int save = index;
 		index++;
 		if (index >= elements.size()) {
 			index = 0;
+		}
+		while(index != save && !getTarget().visible) {
+			index++;
+			if (index >= elements.size()) {
+				index = 0;
+			}
 		}
 		majSelecPosition();
 	}
 
 	public void up() {
+		int save = index;
 		index--;
 		if (index < 0) {
 			index = elements.size() - 1;
+		}
+		while(index != save && !getTarget().visible) {
+			index--;
+			if (index < 0) {
+				index = elements.size() - 1;
+			}
 		}
 		majSelecPosition();
 	}
@@ -97,7 +103,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		if (getTarget().isSelected()) {
 			getTarget().rightAction();
 		} else {
-			exit.action(new MenuExitEvent(Side.Right));
+			exit.launch(new MenuExitEvent(Side.Right));
 		}
 	}
 
@@ -105,12 +111,12 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		if (getTarget().isSelected()) {
 			getTarget().leftAction();
 		} else {
-			exit.action(new MenuExitEvent(Side.Left));
+			exit.launch(new MenuExitEvent(Side.Left));
 		}
 	}
 
 	public void setPositionRef(Vec2f position) {
-		positionRef = position;
+		positionRef.set(position);
 		for (int i = 0; i < elements.size(); i++) {
 			E element = elements.get(i);
 			element.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
@@ -123,7 +129,14 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		super.setPosition(newPosition);
 		setPositionRef(Vec2f.add(positionRef, dif));
 	}
-
+	
+	@Override
+	public void setPositionLerp(Vec2f position) {
+		Vec2f dif = Vec2f.subtract(position, getPosition());
+		positionRef.set(Vec2f.add(positionRef, dif));
+		super.setPositionLerp(position);
+	}
+	
 	public void setImageSelec(UiImage image, int layout) {
 		addUiElement(image, layout);
 		selec = image;
@@ -132,14 +145,6 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 
 	public E getTarget() {
 		return elements.get(index);
-	}
-
-	@Override
-	public void update(double delta) {
-		for (E uiElement : elements) {
-			uiElement.visible = true;
-		}
-		super.update(delta);
 	}
 
 	public void restart() {
@@ -152,5 +157,28 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 
 	protected void majSelecPosition() {
 		selec.setPosLerp(getTarget().getPos(), 40);
+	}
+	
+	@Override
+	public void draw() {
+		for (E e : elements) {
+			if(e.visible) {
+				e.draw();
+			}
+		}
+		super.draw();
+	}
+	
+	@Override
+	public void update(double delta) {
+		int i =0;
+		for (E e : elements) {
+			if(e.visible) {
+				e.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement*i));
+				i++;
+			}
+			e.update(delta);
+		}
+		super.update(delta);
 	}
 }

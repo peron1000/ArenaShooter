@@ -77,7 +77,7 @@ public class Game extends GameState {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
-			public void action(InputActionEvent event) {
+			public void launch(InputActionEvent event) {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_PAUSE:

@@ -54,6 +54,12 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 		label.setPos(pos);
 		super.setPos(pos);
 	}
+	
+	@Override
+	public void setPosLerp(Vec2f pos, double lerp) {
+		label.setPosLerp(pos, lerp);
+		super.setPosLerp(pos, lerp);
+	}
 
 	@Override
 	public void draw() {
@@ -62,6 +68,11 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 		}
 	}
 
+	@Override
+	protected void update(double delta) {
+		label.update(delta);
+		super.update(delta);
+	}
 	@Override
 	public void upAction() {
 		// Ntohing

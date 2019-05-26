@@ -42,7 +42,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
-			public void action(InputActionEvent event) {
+			public void launch(InputActionEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {

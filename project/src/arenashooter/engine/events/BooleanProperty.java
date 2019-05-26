@@ -25,7 +25,7 @@ public class BooleanProperty extends Observable {
 	public void setValue(boolean newValue) {
 		value = newValue;
 		for (EventListener<NewValueEvent<Boolean>> event : listener) {
-			event.action(new NewValueEvent<>(!newValue, newValue));
+			event.launch(new NewValueEvent<>(!newValue, newValue));
 		}
 	}
 	

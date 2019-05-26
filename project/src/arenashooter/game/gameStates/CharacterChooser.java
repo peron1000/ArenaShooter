@@ -44,7 +44,7 @@ public class CharacterChooser extends GameState {
 		super(1);
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
-			public void action(InputActionEvent event) {
+			public void launch(InputActionEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {

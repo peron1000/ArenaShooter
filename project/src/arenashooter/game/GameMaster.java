@@ -37,7 +37,7 @@ public class GameMaster {
 	private GameMaster() {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
-			public void action(InputActionEvent event) {
+			public void launch(InputActionEvent event) {
 				if(event.getAction() == ActionV2.DEBUG_SHOW_COLLISION && event.getActionState() == ActionState.JUST_PRESSED)
 					Main.drawCollisions = !Main.drawCollisions;
 				if(event.getAction() == ActionV2.DEBUG_TOGGLE_PROFILER && event.getActionState() == ActionState.JUST_PRESSED)

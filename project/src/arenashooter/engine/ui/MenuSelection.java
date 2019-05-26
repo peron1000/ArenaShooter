@@ -23,7 +23,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
 		
 		@Override
-		public void action(MenuExitEvent e) {
+		public void launch(MenuExitEvent e) {
 			// Nothing
 		}
 	};
@@ -60,7 +60,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		active.listener.add(new EventListener<NewValueEvent<Boolean>>() {
 
 			@Override
-			public void action(NewValueEvent<Boolean> e) {
+			public void launch(NewValueEvent<Boolean> e) {
 				if(selec != null) {
 					selec.visible = e.getNewValue();
 				}
@@ -115,7 +115,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		x++;
 		if (x == c.size()) {
 			x = 0;
-			exit.action(new MenuExitEvent(Side.Right));
+			exit.launch(new MenuExitEvent(Side.Right));
 		}
 		majSelecPosition();
 	}
@@ -126,7 +126,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		x--;
 		if (x < 0) {
 			x = c.size() - 1;
-			exit.action(new MenuExitEvent(Side.Left));
+			exit.launch(new MenuExitEvent(Side.Left));
 		}
 		majSelecPosition();
 	}
@@ -137,7 +137,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		y--;
 		if (y < 0) {
 			y = c.size() - 1;
-			exit.action(new MenuExitEvent(Side.Up));
+			exit.launch(new MenuExitEvent(Side.Up));
 		}
 		majSelecPosition();
 	}
@@ -148,7 +148,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		y++;
 		if (y == c.size()) {
 			y = 0;
-			exit.action(new MenuExitEvent(Side.Down));
+			exit.launch(new MenuExitEvent(Side.Down));
 		}
 		majSelecPosition();
 	}

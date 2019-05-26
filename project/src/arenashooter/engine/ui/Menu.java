@@ -2,20 +2,23 @@ package arenashooter.engine.ui;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.function.Consumer;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
 public class Menu {
 	protected HashMap<Integer, LinkedList<UiElement>> elems = new HashMap<>();
 	protected final int maxLayout;
-	private Vec2f position = new Vec2f();
+	protected double lerp = 10;
+	private Vec2f position = new Vec2f() , positionLerp = new Vec2f();
 	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
 
 		@Override
-		public void action(MenuExitEvent e) {
+		public void launch(MenuExitEvent e) {
 			// Nothing
 		}
 	};
@@ -35,6 +38,14 @@ public class Menu {
 	
 	public void setPosition(Vec2f newPosition) {
 		position.set(newPosition);
+		positionLerp.set(position);
+		foreach(e -> e.setPos(position));
+	}
+	
+	public void setPositionLerp(Vec2f position) {
+		positionLerp.set(position);
+		Vec2f dif = Vec2f.subtract(position, getPosition());
+		foreach( t->t.setPosLerp(Vec2f.add(t.getPos(), dif) , lerp));
 	}
 	
 	public Vec2f getPosition() {
@@ -42,11 +53,8 @@ public class Menu {
 	}
 
 	public void update(double delta) {
-		for (LinkedList<UiElement> elem : elems.values()) {
-			for (UiElement uiElement : elem) {
-				uiElement.update(delta);
-			}
-		}
+		foreach(e -> e.update(delta));
+		position.set(Vec2f.lerp(position, positionLerp, Utils.clampD(delta * lerp, 0, 1)));
 	}
 
 	public void setBackground(UiElement background) {
@@ -77,6 +85,14 @@ public class Menu {
 		element.layout = -1;
 		element.owner = null;
 		
+	}
+	
+	protected void foreach(Consumer<UiElement> cons) {
+		for (LinkedList<UiElement> elem : elems.values()) {
+			for (UiElement uiElement : elem) {
+				cons.accept(uiElement);
+			}
+		}
 	}
 
 	public void draw() {

@@ -24,7 +24,7 @@ public class Observable<T> extends java.util.Observable {
 
 	public void setValue(T value) {
 		for (EventListener<NewValueEvent<T>> eventListener : listener) {
-			eventListener.action(new NewValueEvent<>(this.value, value));
+			eventListener.launch(new NewValueEvent<>(this.value, value));
 		}
 		this.value = value;
 	}
