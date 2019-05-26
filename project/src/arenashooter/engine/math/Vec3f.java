@@ -85,11 +85,13 @@ public class Vec3f {
 	 * Multiplies the vector.
 	 * This becomes this*a
 	 * @param a
+	 * @return <i>this</i> (modified)
 	 */
-	public void multiply( float a ) {
+	public Vec3f multiply( float a ) {
 		x *= a;
 		y *= a;
 		z *= a;
+		return this;
 	}
 	
 	/**
