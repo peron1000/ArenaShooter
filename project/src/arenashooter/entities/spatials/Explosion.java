@@ -86,7 +86,7 @@ public class Explosion extends Spatial {
 	public void step(double d) {
 		super.step(d);
 
-		float rayLength = (float)(radius*time*2);
+		float rayLength = (float)(radius*time*8);
 		if(rayLength <= radius) {
 			touched.clear();
 			for( float i = 0; i<Math.PI*2; i+=.1f ) {
