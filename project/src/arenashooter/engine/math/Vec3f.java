@@ -188,6 +188,39 @@ public class Vec3f {
 		return res;
 	}
 	
+	/**
+	 * Converts a hue-saturation-value color to rgb. Input values are all normalized (0-1 range).
+	 * <br/> Result is stored in <i>target</i>
+	 * @param h hue
+	 * @param s saturation
+	 * @param v value
+	 * @param target
+	 * @return (r, g, b) stored in <i>target</i>
+	 */
+	public static Vec3f hsvToRgb(float h, float s, float v, Vec3f target) { //TODO: test
+		if(s == 0) return new Vec3f(v); //No saturation, return value
+		int i = (int)(h*6);
+		float f = (h*6f)-i;
+		float p = v*(1f-s);
+		float q = v*(1f-s*f);
+		float t = v*(1f-s*(1f-f));
+		i %= 6;
+		switch(i) {
+		case 0:
+			return new Vec3f(v, t, p);
+		case 1:
+			return new Vec3f(q, v, p);
+		case 2:
+			return new Vec3f(p, v, t);
+		case 3:
+			return new Vec3f(p, q, v);
+		case 4:
+			return new Vec3f(t, p, v);
+		default:
+			return new Vec3f(v, p, q);
+		}
+	}
+	
 	public static Vec3f lerp( Vec3f a, Vec3f b, double f ) {
 		return new Vec3f( Utils.lerpF(a.x, b.x, f),
 						  Utils.lerpF(a.y, b.y, f),
