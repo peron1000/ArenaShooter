@@ -62,26 +62,30 @@ public class CharacterChooser extends GameState {
 						break;
 
 					case UI_OK:
-						addController(event.getDevice());
+						if (controllers.get(event.getDevice()) == null)
+							addController(event.getDevice());
 						break;
 
 					case UI_BACK:
 						if (!event.getDevice().equals(Device.KEYBOARD)) {
-							removeController(event.getDevice());
+							if(controllers.get(event.getDevice()) != null) {
+								removeController(event.getDevice());
+							}
 						} else {
 							GameMaster.gm.requestPreviousState();
 						}
 						break;
-//					case UI_DOWN:
-//						controller.info.previousSkin();
-//						Vec2f pos = sprites.get(controller).parentPosition;
-//						Sprite number = (Sprite) sprites.get(controller).getChild("body").getChild("Player_Number");
-//						sprites.get(controller).detach();
-//						CharacterSprite c = new CharacterSprite(pos, controller.info);
-//						sprites.put(controller, c);
-//						c.attachToParent(current, c.genName());
-//						number.attachToParent(c.getChild("body"), "Player_Number");
-//						break;
+					// case UI_DOWN:
+					// controller.info.previousSkin();
+					// Vec2f pos = sprites.get(controller).parentPosition;
+					// Sprite number = (Sprite)
+					// sprites.get(controller).getChild("body").getChild("Player_Number");
+					// sprites.get(controller).detach();
+					// CharacterSprite c = new CharacterSprite(pos, controller.info);
+					// sprites.put(controller, c);
+					// c.attachToParent(current, c.genName());
+					// number.attachToParent(c.getChild("body"), "Player_Number");
+					// break;
 					default:
 						break;
 					}
@@ -112,20 +116,27 @@ public class CharacterChooser extends GameState {
 				"Player_Number");
 		newNumber.localPosition = new Vec2f(0, -2);
 
+		Main.log.info("CharacterSprite added at coordinates x = "+ nextSpriteX);
+		Main.log.info("Player Number : " + controllers.get(device).playerNumber);
+		
 		nextSpriteX += charOffset;
 		updatePlayersNumber();
 	}
 
 	private void removeController(Device device) {
-		current.getChild("PlayerSprite_" + pileOrdreJoueur.size()).getChild("body").getChild("Player_Number").detach();
+		
+		Main.log.info("Before\nCharacterChooser.controllers.size() : " + controllers.size());
+		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
+		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
+		Main.log.info("GameMaster.gm.controllers.size()"+GameMaster.gm.controllers.size());
 
 		CharacterSprite sp = sprites.get(controllers.get(device));
-
-		sprites.get((controllers.get(device))).detach();
+		sp.detach();
 		sprites.remove((controllers.get(device)));
 		pileOrdreJoueur.remove(controllers.get(device).playerNumber);
-		updatePlayersNumber();
+		GameMaster.gm.controllers.remove(controllers.get(device));
 		controllers.remove(device);
+		updatePlayersNumber();
 		// i -= charOffset;
 
 		// replacement des persos après suppr
@@ -140,16 +151,14 @@ public class CharacterChooser extends GameState {
 					jj -= charOffset;
 					Vec2f pos = new Vec2f(jj, 0);
 					value.parentPosition.set(pos);
-					// value.destroy();
-					// Vec2f pos = new Vec2f(jj, 0);
-					// sprites.remove(key);
-					// CharacterSprite c = new CharacterSprite(pos, key.getCharInfo());
-					// sprites.put(key, c);
-					// c.attachToParent(map, c.genName());
 				}
 			}
 		}
 		nextSpriteX -= charOffset;
+		Main.log.info("After\nCharacterChooser.controllers.size() : " + controllers.size());
+		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
+		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
+		Main.log.info("GameMaster.gm.controllers.size()"+GameMaster.gm.controllers.size());
 	}
 
 	/**
@@ -159,17 +168,15 @@ public class CharacterChooser extends GameState {
 	private void updatePlayersNumber() {
 
 		for (int i = 0; i < pileOrdreJoueur.size(); i++) {
-			Controller current = pileOrdreJoueur.get(i);
-			current.playerNumber = i;
-//			
-//			Texture tex = Texture.loadTexture("data/sprites/interface/Player_" + (i+1) +"_Arrow.png");
-//			tex.setFilter(false);
-//			UiImage playerNb = new UiImage(0, new Vec2f(10, 10), tex, new Vec4f(1, 1, 1, 1));
-//
-//			Vec2f imagePos = sprites.get(current).getWorldPos();
-//			imagePos.y += 1.5;
-//			imagePos = Vec2f.worldToScreen(imagePos);
-//			playerNb.setPos( imagePos );
+			Controller currentController = pileOrdreJoueur.get(i);
+			currentController.playerNumber = i;
+			
+			Sprite number = new Sprite(new Vec2f(),
+					"data/sprites/interface/Player_" + (currentController.playerNumber+1) + "_Arrow.png");
+			number.attachToParent(sprites.get(currentController).getChild("body"),
+					"Player_Number");
+			number.localPosition = new Vec2f(0, -2);
+			sprites.get(currentController).attachToParent(current, "PlayerSprite_" + currentController.playerNumber);
 		}
 	}
 
@@ -179,8 +186,9 @@ public class CharacterChooser extends GameState {
 
 		Texture fondMenuTex = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
 		fondMenuTex.setFilter(false);
-//		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1, 1, 1, 1));
-//		menu.setBackground(bg);
+		// UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1,
+		// 1, 1, 1));
+		// menu.setBackground(bg);
 
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);

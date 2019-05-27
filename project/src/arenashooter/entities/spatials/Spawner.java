@@ -84,6 +84,6 @@ public class Spawner extends Spatial {
 		if (currentItem == null)
 			return true;
 
-		return !currentItem.getWorldPos().equals(getWorldPos(), .5f);
+		return !currentItem.getWorldPos().equals(getWorldPos(), 1f);
 	}
 }
