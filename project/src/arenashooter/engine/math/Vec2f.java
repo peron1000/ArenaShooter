@@ -286,6 +286,32 @@ public class Vec2f {
 		double y = to.y - from.y;
 		return Math.atan2(y, x);
 	}
+	
+	/**
+	 * Get distance between two vectors
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static double distance(Vec2f a, Vec2f b) {
+		float x = b.x-a.x;
+		float y = b.y-a.y;
+		
+		return Math.sqrt( (x*x) + (y*y) );
+	}
+	
+	/**
+	 * Get squared distance between two vectors. This is cheaper than distance() because it avoids a square root
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static double distanceSquared(Vec2f a, Vec2f b) {
+		float x = b.x-a.x;
+		float y = b.y-a.y;
+		
+		return (x*x) + (y*y);
+	}
 
 	/**
 	 * Rotate a vector by a given angle (in radians)
