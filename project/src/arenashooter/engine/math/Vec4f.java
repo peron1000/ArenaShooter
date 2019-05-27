@@ -13,7 +13,7 @@ public class Vec4f {
 	public Vec4f() {}
 	
 	/**
-	 * Creates a (x, y, z, w) vector
+	 * Creates a (x, y, z, w) vector (rgba for a color)
 	 * @param x
 	 * @param y
 	 * @param z
@@ -27,7 +27,7 @@ public class Vec4f {
 	}
 	
 	/**
-	 * Creates a (x, y, z, w) vector from doubles (values will be casted to float)
+	 * Creates a (x, y, z, w) vector (rgba for a color from doubles (values will be casted to float)
 	 * @param x
 	 * @param y
 	 * @param z

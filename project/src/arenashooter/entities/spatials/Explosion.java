@@ -16,7 +16,6 @@ public class Explosion extends Spatial {
 	private ArrayList<Mesh> meshesBits = new ArrayList<>();
 	private ArrayList<Float> bitsScales = new ArrayList<>();
 	
-	
 	public Explosion(Vec2f position) {
 		super(position);
 		
@@ -47,6 +46,7 @@ public class Explosion extends Spatial {
 			Mesh newBit = new Mesh(new Vec3f(), new Quat(temp.x, temp.y, temp.z, temp.w), new Vec3f(.1f), "data/meshes/explosion/explosion_bit.obj");
 			meshesBits.add(newBit);
 			newBit.rotationFromParent = false;
+			newBit.getMaterial(0).setParamVec4f("baseColor", new Vec4f(2, 1.714, .290, 1));
 			newBit.attachToParent(this, "bit_"+i);
 		}
 	}
@@ -83,11 +83,12 @@ public class Explosion extends Spatial {
 			((Mesh)getChild("shockwave_mesh")).getMaterial(0).setParamVec4f("baseColorMod", Vec4f.lerp(color, new Vec4f(.976, .367, .161, 0), time*time));
 		}
 		
-		double oneMinusScaleTime = 1-Utils.clampD(time*2, 0, 1);
+		double oneMinusScaleTime = 1-Utils.clampD(time*3, 0, 1);
 		for(int i=0; i<meshesBits.size(); i++) {
-			float pos = Utils.lerpF(0, -10, time*2);
+			float pos = Utils.lerpF(-25, 0, oneMinusScaleTime);
 			meshesBits.get(i).localPosition.set( meshesBits.get(i).getWorldRot().forward().multiply(pos) );
-			float scale = Utils.lerpF(.1f, bitsScales.get(i), 1-(oneMinusScaleTime*oneMinusScaleTime));
+//			float scale = Utils.lerpF(bitsScales.get(i), .1f, oneMinusScaleTime);
+			float scale = bitsScales.get(i);
 			meshesBits.get(i).scale.set(bitsScales.get(i)*oneMinusScaleTime, bitsScales.get(i)*oneMinusScaleTime, scale);
 		}
 		
