@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -40,7 +42,7 @@ public class Grenade extends Projectile {
 
 	public void step(double d) {
 		if(grenadeTimer.isOver()) {
-			Explosion explosion = new Explosion(getWorldPos());
+			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(150, DamageType.EXPLOSION, new Vec2f(), shooter), 40);
 			explosion.attachToParent(getMap(), explosion.genName());
 			detach();
 		}

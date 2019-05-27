@@ -113,10 +113,12 @@ public class Vec2f {
 	 * Multiplies the vector. <i>This</i> becomes <i>this</i>*a
 	 * 
 	 * @param a
+	 * @return <i>this</i> (modified)
 	 */
-	public void multiply(float a) {
+	public Vec2f multiply(float a) {
 		x *= a;
 		y *= a;
+		return this;
 	}
 
 	/**
@@ -189,6 +191,10 @@ public class Vec2f {
 
 	public static Vec2f fromAngle(double angle) {
 		return new Vec2f(Math.cos(angle), Math.sin(angle));
+	}
+	
+	public static Vec2f fromAngle(double angle, Vec2f target) {
+		return target.set(Math.cos(angle), Math.sin(angle));
 	}
 
 	/**

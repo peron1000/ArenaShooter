@@ -11,8 +11,6 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.audio.Audio;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -100,7 +98,6 @@ public class PhysicWorld {
 					if( (contact.getFixtureA().getUserData()) instanceof Projectile ) {
 						((Projectile)contact.getFixtureA().getUserData()).impact((Spatial) contact.getFixtureB().getUserData());
 					}
-					
 					//B is a projectile
 					if( (contact.getFixtureB().getUserData()) instanceof Projectile ) {
 						((Projectile)contact.getFixtureB().getUserData()).impact((Spatial) contact.getFixtureA().getUserData());

@@ -1,5 +1,6 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.DamageInfo;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
@@ -9,15 +10,31 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.CollisionFlags;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+
+import org.jbox2d.callbacks.RayCastCallback;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Fixture;
 
 public class Explosion extends Spatial {
 	private double time = 0;
 	private ArrayList<Mesh> meshesBits = new ArrayList<>();
 	private ArrayList<Float> bitsScales = new ArrayList<>();
 	
-	public Explosion(Vec2f position) {
+	private HashSet<Spatial> damaged = new HashSet<>();
+	private DamageInfo dmgInfo;
+	
+	private float radius;
+	
+	public Explosion(Vec2f position, DamageInfo dmgInfo, float radius) {
 		super(position);
+		
+		this.dmgInfo = dmgInfo.clone();
+
+		this.radius = radius;
 		
 		Material shockwaveMat = new Material("data/shaders/sprite_simple");
 		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
@@ -55,10 +72,34 @@ public class Explosion extends Spatial {
 		return new Vec4f( (Math.random()-.5)*2, (Math.random()-.5)*2, (Math.random()-.5)*2, (Math.random()-.5)*2 );
 	}
 	
+	private void affect(Spatial target) {
+		double distance = Vec2f.distanceSquared(getWorldPos(), target.getWorldPos());
+		Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), target.getWorldPos()));
+		
+		float damage = (float)(dmgInfo.damage/(distance+1));
+		
+		DamageInfo dmg = new DamageInfo(damage, dmgInfo.dmgType, direction, dmgInfo.instigator);
+		target.takeDamage(dmg);
+	}
+	
 	@Override
 	public void step(double d) {
 		super.step(d);
-		
+
+		float rayLength = (float)(radius*time*2);
+		if(rayLength <= radius) {
+			touched.clear();
+			for( float i = 0; i<Math.PI*2; i+=.1f ) {
+				raycast(i, rayLength);
+			}
+			for(Spatial spatial : touched) {
+				if(!damaged.contains(spatial)) {
+					damaged.add(spatial);
+					affect(spatial);
+				}
+			}
+		}
+
 		if(time <= 0) {
 			Particles particles = new Particles(getWorldPos(), "data/particles/explosion.xml");
 			particles.attachToParent(getMap(), "particles");
@@ -93,5 +134,33 @@ public class Explosion extends Spatial {
 		}
 		
 	}
+	
+	private Vec2f raycastEnd = new Vec2f();
+	private void raycast(double angle, float length) {
+		Vec2f.fromAngle(angle, raycastEnd);
+		raycastEnd.multiply(length);
+		raycastEnd.add(getWorldPos());
+		
+		getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
+	}
 
+	private HashSet<Spatial> touched = new HashSet<>();
+	/** Farthest blocking entity hit by the punch */
+	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
+		@Override
+		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			//Ignore sensors
+			if(fixture.isSensor())
+				return -1;
+			
+			if((fixture.getFilterData().categoryBits & CollisionFlags.EXPLOSION.maskBits) == 0)
+				return -1;
+
+			//We hit something that isn't self
+			if(fixture.getUserData() instanceof Spatial && fixture.getUserData() != this)
+				touched.add((Spatial) fixture.getUserData());
+
+			return fraction;
+		}
+	};
 }
