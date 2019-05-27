@@ -198,7 +198,7 @@ public class Vec3f {
 	 * @return (r, g, b) stored in <i>target</i>
 	 */
 	public static Vec3f hsvToRgb(float h, float s, float v, Vec3f target) { //TODO: test
-		if(s == 0) return new Vec3f(v); //No saturation, return value
+		if(s == 0) return target.set(v, v, v); //No saturation, return value
 		int i = (int)(h*6);
 		float f = (h*6f)-i;
 		float p = v*(1f-s);
@@ -207,17 +207,17 @@ public class Vec3f {
 		i %= 6;
 		switch(i) {
 		case 0:
-			return new Vec3f(v, t, p);
+			return target.set(v, t, p);
 		case 1:
-			return new Vec3f(q, v, p);
+			return target.set(q, v, p);
 		case 2:
-			return new Vec3f(p, v, t);
+			return target.set(p, v, t);
 		case 3:
-			return new Vec3f(p, q, v);
+			return target.set(p, q, v);
 		case 4:
-			return new Vec3f(t, p, v);
+			return target.set(t, p, v);
 		default:
-			return new Vec3f(v, p, q);
+			return target.set(v, p, q);
 		}
 	}
 	
