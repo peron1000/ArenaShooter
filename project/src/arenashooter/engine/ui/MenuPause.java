@@ -123,7 +123,8 @@ public class MenuPause extends MenuSelectionV<Label> {
 				GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
 			}
 		});
-		op3.visible = false;
+	//  op2.visible = false;
+	//	op3.visible = false;
 	}
 
 	@Override
