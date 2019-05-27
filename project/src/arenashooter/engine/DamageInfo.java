@@ -25,5 +25,10 @@ public class DamageInfo {
 		this.direction = direction.clone();
 		this.instigator = instigator;
 	}
+	
+	@Override
+	public DamageInfo clone() {
+		return new DamageInfo(damage, dmgType, direction, instigator);
+	}
 
 }
