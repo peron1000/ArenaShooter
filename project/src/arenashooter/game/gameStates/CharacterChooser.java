@@ -48,6 +48,52 @@ public class CharacterChooser extends GameState {
 				// TODO Auto-generated method stub
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
+					case UI_UP:
+						controllers.get(event.getDevice()).info.nextSkin();
+						Vec2f posu = sprites.get(controllers.get(event.getDevice())).parentPosition;
+						Sprite numberu = (Sprite) sprites.get(controllers.get(event.getDevice())).getChild("body")
+								.getChild("Player_Number");
+						sprites.get(controllers.get(event.getDevice())).detach();
+						CharacterSprite cu = new CharacterSprite(posu, controllers.get(event.getDevice()).info);
+						sprites.put(controllers.get(event.getDevice()), cu);
+						cu.attachToParent(current, cu.genName());
+						numberu.attachToParent(cu.getChild("body"), "Player_Number");
+
+						break;
+					case UI_DOWN:
+						controllers.get(event.getDevice()).info.previousSkin();
+						Vec2f posd = sprites.get(controllers.get(event.getDevice())).parentPosition;
+						Sprite numberd = (Sprite) sprites.get(controllers.get(event.getDevice())).getChild("body")
+								.getChild("Player_Number");
+						sprites.get(controllers.get(event.getDevice())).detach();
+						CharacterSprite cd = new CharacterSprite(posd, controllers.get(event.getDevice()).info);
+						sprites.put(controllers.get(event.getDevice()), cd);
+						cd.attachToParent(current, cd.genName());
+						numberd.attachToParent(cd.getChild("body"), "Player_Number");
+						break;
+					case UI_RIGHT:
+						controllers.get(event.getDevice()).info.nextClass();
+						Vec2f posr = sprites.get(controllers.get(event.getDevice())).parentPosition;
+						Sprite numberr = (Sprite) sprites.get(controllers.get(event.getDevice())).getChild("body")
+								.getChild("Player_Number");
+						sprites.get(controllers.get(event.getDevice())).detach();
+						CharacterSprite cr = new CharacterSprite(posr, controllers.get(event.getDevice()).info);
+						sprites.put(controllers.get(event.getDevice()), cr);
+						cr.attachToParent(current, cr.genName());
+						numberr.attachToParent(cr.getChild("body"), "Player_Number");
+						break;
+
+					case UI_LEFT:
+						controllers.get(event.getDevice()).info.previousClass();
+						Vec2f posl = sprites.get(controllers.get(event.getDevice())).parentPosition;
+						Sprite numberl = (Sprite) sprites.get(controllers.get(event.getDevice())).getChild("body")
+								.getChild("Player_Number");
+						sprites.get(controllers.get(event.getDevice())).detach();
+						CharacterSprite cl = new CharacterSprite(posl, controllers.get(event.getDevice()).info);
+						sprites.put(controllers.get(event.getDevice()), cl);
+						cl.attachToParent(current, cl.genName());
+						numberl.attachToParent(cl.getChild("body"), "Player_Number");
+						break;
 					case UI_CONTINUE:
 						GameMaster.gm.controllers.clear();
 						for (Controller cont : controllers.values()) {
@@ -62,30 +108,25 @@ public class CharacterChooser extends GameState {
 						break;
 
 					case UI_OK:
-						if (controllers.get(event.getDevice()) == null)
+						// if (controllers.get(event.getDevice()) == null)
+						if (!controllers.keySet().contains(event.getDevice())) {
 							addController(event.getDevice());
+						}
+
 						break;
 
 					case UI_BACK:
 						if (!event.getDevice().equals(Device.KEYBOARD)) {
-							if(controllers.get(event.getDevice()) != null) {
+							// if (controllers.get(event.getDevice()) != null)
+							if (controllers.keySet().contains(event.getDevice())) {
+
 								removeController(event.getDevice());
 							}
 						} else {
 							GameMaster.gm.requestPreviousState();
 						}
 						break;
-					// case UI_DOWN:
-					// controller.info.previousSkin();
-					// Vec2f pos = sprites.get(controller).parentPosition;
-					// Sprite number = (Sprite)
-					// sprites.get(controller).getChild("body").getChild("Player_Number");
-					// sprites.get(controller).detach();
-					// CharacterSprite c = new CharacterSprite(pos, controller.info);
-					// sprites.put(controller, c);
-					// c.attachToParent(current, c.genName());
-					// number.attachToParent(c.getChild("body"), "Player_Number");
-					// break;
+
 					default:
 						break;
 					}
@@ -116,19 +157,19 @@ public class CharacterChooser extends GameState {
 				"Player_Number");
 		newNumber.localPosition = new Vec2f(0, -2);
 
-		Main.log.info("CharacterSprite added at coordinates x = "+ nextSpriteX);
+		Main.log.info("CharacterSprite added at coordinates x = " + nextSpriteX);
 		Main.log.info("Player Number : " + controllers.get(device).playerNumber);
-		
+
 		nextSpriteX += charOffset;
 		updatePlayersNumber();
 	}
 
 	private void removeController(Device device) {
-		
+
 		Main.log.info("Before\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
-		Main.log.info("GameMaster.gm.controllers.size()"+GameMaster.gm.controllers.size());
+		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.gm.controllers.size());
 
 		CharacterSprite sp = sprites.get(controllers.get(device));
 		sp.detach();
@@ -158,7 +199,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("After\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
-		Main.log.info("GameMaster.gm.controllers.size()"+GameMaster.gm.controllers.size());
+		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.gm.controllers.size());
 	}
 
 	/**
@@ -170,11 +211,10 @@ public class CharacterChooser extends GameState {
 		for (int i = 0; i < pileOrdreJoueur.size(); i++) {
 			Controller currentController = pileOrdreJoueur.get(i);
 			currentController.playerNumber = i;
-			
+
 			Sprite number = new Sprite(new Vec2f(),
-					"data/sprites/interface/Player_" + (currentController.playerNumber+1) + "_Arrow.png");
-			number.attachToParent(sprites.get(currentController).getChild("body"),
-					"Player_Number");
+					"data/sprites/interface/Player_" + (currentController.playerNumber + 1) + "_Arrow.png");
+			number.attachToParent(sprites.get(currentController).getChild("body"), "Player_Number");
 			number.localPosition = new Vec2f(0, -2);
 			sprites.get(currentController).attachToParent(current, "PlayerSprite_" + currentController.playerNumber);
 		}
@@ -218,54 +258,9 @@ public class CharacterChooser extends GameState {
 	@Override
 	public void update(double delta) {
 		inputs.step(delta);
-
-		// Update controllers
-		for (Controller controller : controllers.values()) {
-			controller.step(delta);
-
-			// Temp sprite changing
-			if (Input.actionJustPressed(controller.getDevice(), Action.UI_RIGHT)) {
-				controller.info.nextClass();
-				Vec2f pos = sprites.get(controller).parentPosition;
-				Sprite number = (Sprite) sprites.get(controller).getChild("body").getChild("Player_Number");
-				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.info);
-				sprites.put(controller, c);
-				c.attachToParent(current, c.genName());
-				number.attachToParent(c.getChild("body"), "Player_Number");
-			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_LEFT)) {
-				controller.info.previousClass();
-				Vec2f pos = sprites.get(controller).parentPosition;
-				Sprite number = (Sprite) sprites.get(controller).getChild("body").getChild("Player_Number");
-				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.info);
-				sprites.put(controller, c);
-				c.attachToParent(current, c.genName());
-				number.attachToParent(c.getChild("body"), "Player_Number");
-			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_UP)) {
-				controller.info.nextSkin();
-				Vec2f pos = sprites.get(controller).parentPosition;
-				Sprite number = (Sprite) sprites.get(controller).getChild("body").getChild("Player_Number");
-				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.info);
-				sprites.put(controller, c);
-				c.attachToParent(current, c.genName());
-				number.attachToParent(c.getChild("body"), "Player_Number");
-			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_DOWN)) {
-				controller.info.previousSkin();
-				Vec2f pos = sprites.get(controller).parentPosition;
-				Sprite number = (Sprite) sprites.get(controller).getChild("body").getChild("Player_Number");
-				sprites.get(controller).detach();
-				CharacterSprite c = new CharacterSprite(pos, controller.info);
-				sprites.put(controller, c);
-				c.attachToParent(current, c.genName());
-				number.attachToParent(c.getChild("body"), "Player_Number");
-			}
-
-		}
-
 		super.update(delta);
 		menu.update(delta);
+
 	}
 
 	public void draw() {
