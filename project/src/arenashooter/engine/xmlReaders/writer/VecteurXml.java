@@ -11,12 +11,16 @@ public class VecteurXml extends AbstractElement{
 	
 	public VecteurXml(Document doc, Element elementParent) {
 		super(doc, elementParent);
+		this.doc = doc;
 	}
 	
 	public void addVecteur(String use , float...fs) {
 		Element vec = doc.createElement("vecteur");
+		elementParent.appendChild(vec);
 		if(use != "") {
 			vec.setAttribute("use", use);
+		} else {
+			//vec.setAttribute("", null);
 		}
 		for (int i = 0; i < fs.length; i++) {
 			String f = Float.toString(fs[i]);
@@ -33,7 +37,6 @@ public class VecteurXml extends AbstractElement{
 			case 3:
 				vec.setAttribute("w", f);
 				break;
-
 			default:
 				break;
 			}

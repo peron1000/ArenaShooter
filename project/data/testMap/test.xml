@@ -2,12 +2,17 @@
 <map>
 	<information>
 		<spawn cooldown="10.0" spawnperso="true">
-			<gun animPath="" attackSound="Bang1" bulletSpeed="1.9"
-				bulletType="0" cannonLength="0.2" cooldown="1.0" damage="1.0"
-				name="lol" noAmmoSound="no_ammo_01"
-				pathSprite="data/weapons/Minigun_1.png" proba="1" recoil="2.6"
-				soundPickup="GunCock_02" soundWarmup="warmup_minigun_01"
-				thrust="0.5" uses="30" warmup="35.0" weight="1" />
+			<vecteur x="0.0" y="0.0" />
+			<gun animPath="" attackSound="" bulletSpeed="0.0" bulletType="0"
+				cannonLength="0.0" cooldown="0.0" damage="0.0" name=""
+				noAmmoSound="" pathSprite="" proba="0" recoil="0.0" soundPickup=""
+				soundWarmup="" thrust="0.0" uses="0" warmup="0.0" weight="0">
+				<vecteur x="0.0" y="0.0" />
+			</gun>
+			<plateform>
+				<vecteur use="position" x="0.0" y="0.0" />
+				<vecteur use="extent" x="0.0" y="0.0" />
+			</plateform>
 		</spawn>
 	</information>
 	<entities />

@@ -11,30 +11,53 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.lwjgl.system.Platform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.items.Gun;
+import arenashooter.game.GameMaster;
 
 public class MapXmlWriter {
 	Element gun;
+	public static final MapXmlWriter writer = new MapXmlWriter();
 
-	public static void loadGun(Gun gunar, Document doc, Element spawn) {
-		Element gun = doc.createElement("gun");
-		spawn.appendChild(gun);
+	private MapXmlWriter() {
+
 	}
-	
-//	public static void loadPlatform(Document doc, Element entities, float xpos, float ypos, float xext, float yext) {
-//		Element plateforme = doc.createElement("plateform");
-//		entities.appendChild(plateforme);
-//		VecteurXml vecteurPlateforme = new VecteurXml(doc, plateforme);
-//		vecteurPlateforme.addVecteur("position", xpos , ypos);
-//		vecteurPlateforme.addVecteur("extent", xext , yext);
-//		for (Element e : vecteurPlateforme.getVecteurs()) {
-//			plateforme.appendChild(e);
-//		}
-//	}
-	
+
+	public static void writerMap(Arena arena, String name, Document doc) {
+		// TODO : Creation / instantiation file
+
+		// TODO : creation Arena dans Xml
+		Element map = doc.createElement("map");
+		doc.appendChild(map);
+
+		Element info = doc.createElement("information");
+		map.appendChild(info);
+
+		Element entities = doc.createElement("entities");
+		map.appendChild(entities);
+
+		loadChildren(arena, map);
+	}
+
+	private static void loadChildren(Entity parent, Element parentBalise) {
+		for (String str : parent.getChildren().keySet()) {
+			Entity child = parent.getChildren().get(str);
+			if (child instanceof Plateform) {
+				Plateform p = (Plateform) child;
+//				PlateformXml balise = new PlateformXml(doc, elementParent)
+//				p.loadPlatform();
+			}
+		}
+	}
+
 	public static void main(String argv[]) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -47,26 +70,15 @@ public class MapXmlWriter {
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			File file = new File("data/testMap");
-			if(!file.exists()) {
+			if (!file.exists()) {
 				file.mkdirs();
 			}
-			StreamResult result = new StreamResult(new File("data/testMap/"+line+".xml"));
+			StreamResult result = new StreamResult(new File("data/testMap/" + line + ".xml"));
 			
-//root elements
-			Element map = doc.createElement("map");
-			doc.appendChild(map);
-//staff elements
-			Element info = doc.createElement("information");
-			map.appendChild(info);
-
-			Element entities = doc.createElement("entities");
-			map.appendChild(entities);
-			
-			//loadPlatform(doc, entities, 0f, 8f, 1f, 2f);
-
-			SpawnXml spawn = new SpawnXml(doc, info, true, 10);
-			
-			spawn.addGun();
+			// Creation of the test arena
+			Arena arena = new Arena();
+			Plateform plat = new Plateform(new Vec2f(), new Vec2f());
+			arena.attachToParent(plat, "platTest");
 
 			transformer.transform(source, result);
 			System.out.println("File saved!");
