@@ -1,0 +1,91 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+archivesBaseName = 'SuperBlep'
+version = '1.0-SNAPSHOT' 
+
+import org.gradle.internal.os.OperatingSystem
+
+def mainClassName = 'arenashooter.game.Main'
+project.ext.lwjglVersion = "3.2.0"
+
+switch (OperatingSystem.current()) {
+	case OperatingSystem.LINUX:
+		def osArch = System.getProperty("os.arch")
+		project.ext.lwjglNatives = osArch.startsWith("arm") || osArch.startsWith("aarch64")
+			? "natives-linux-${osArch.contains("64") || osArch.startsWith("armv8") ? "arm64" : "arm32"}"
+			: "natives-linux"
+		break
+	case OperatingSystem.MAC_OS:
+		project.ext.lwjglNatives = "natives-macos"
+		break
+	case OperatingSystem.WINDOWS:
+		project.ext.lwjglNatives = "natives-windows"
+		break
+}
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+  main {
+    java {
+     srcDirs = ["src"]
+    }
+  }
+}
+
+task fatJar(type: Jar) {
+  description 'Creates a runnable jar for this OS and copy game data next to it.'
+  manifest {
+    attributes 'Main-Class': "$mainClassName"
+  }
+
+  // Copy data folder (exclude Blender and Gimp project files)
+  copy {
+    from 'data'
+    into 'build/libs/data'
+    exclude '**/*.blend'
+    exclude '**/*.blend1'
+    exclude '**/*.xcf'
+  }
+  
+  classifier = project.ext.lwjglNatives
+  from {
+    configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+  with jar
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': "$mainClassName"
+  }
+  from {
+    configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+dependencies {
+  // Log4J 2
+  //compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+  //compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+  implementation 'org.apache.logging.log4j:log4j-api:2.11.1'
+  implementation 'org.apache.logging.log4j:log4j-core:2.11.1'
+  
+  // LWJGL 3
+  implementation "org.lwjgl:lwjgl:$lwjglVersion"
+  implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
+  implementation "org.lwjgl:lwjgl-openal:$lwjglVersion"
+  implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
+  implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
+  runtime "org.lwjgl:lwjgl:$lwjglVersion:$lwjglNatives"
+  runtime "org.lwjgl:lwjgl-glfw:$lwjglVersion:$lwjglNatives"
+  runtime "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
+  runtime "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
+  runtime "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
+  
+  // JBox-2d
+  compile files('lib/jbox-2d/jbox2d-library.jar')
+} 

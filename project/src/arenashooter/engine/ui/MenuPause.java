@@ -3,8 +3,6 @@ package arenashooter.engine.ui;
 import java.awt.Robot;
 import java.util.LinkedList;
 
-import org.apache.logging.log4j.core.util.Log4jThread;
-
 import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -100,7 +98,6 @@ public class MenuPause extends MenuSelectionV<Label> {
 					System.out.println("op1 : Resume");
 				} catch (Exception ex) {
 					System.out.println("fail pause");
-					Log4jThread.getDefaultUncaughtExceptionHandler();
 				}
 			}
 		});
