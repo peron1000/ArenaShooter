@@ -55,7 +55,7 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	/**
-	 * @param name   balise recherchÃ©e
+	 * @param name   balise recherchée
 	 * @param parent balise du parent
 	 * @return Le premier Element correspondant au name parmi les enfants de parent
 	 */
@@ -175,8 +175,9 @@ public class MapXmlReader extends XmlReader {
 		String animPath = usableTimer.getAttribute("animPath");
 		double warmup = Double.parseDouble(usableTimer.getAttribute("warmupDuration"));
 		String soundWarmup = usableTimer.getAttribute("soundWarmup");
-		String soundPickup = "data/sound/"+usableTimer.getAttribute("soundPickup")+".ogg";
-		String attackSound = "data/sound/"+usableTimer.getAttribute("bangSound")+".ogg";
+		if(!soundWarmup.isEmpty()) soundWarmup = preloadSound("data/sound/"+soundWarmup+".ogg");
+		String soundPickup = preloadSound("data/sound/"+usableTimer.getAttribute("soundPickup")+".ogg");
+		String soundAttack = preloadSound("data/sound/"+usableTimer.getAttribute("bangSound")+".ogg");
 
 		// Vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", usableTimer);
@@ -197,7 +198,7 @@ public class MapXmlReader extends XmlReader {
 			}
 		}
 		UsableTimer u = new UsableTimer(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown,
-				duration, animPath, warmup, soundWarmup, attackSound);
+				duration, animPath, warmup, soundWarmup, soundAttack);
 		spawner.addItem(u, Integer.parseInt(usableTimer.getAttribute("proba")));
 	}
 
@@ -210,9 +211,10 @@ public class MapXmlReader extends XmlReader {
 		int uses = Integer.parseInt(melee.getAttribute("uses"));
 		String animPath = melee.getAttribute("animPath");
 		double warmup = Double.parseDouble(melee.getAttribute("warmupDuration"));
-		String soundPickup = "data/sound/"+melee.getAttribute("soundPickup")+".ogg";
+		String soundPickup = preloadSound("data/sound/"+melee.getAttribute("soundPickup")+".ogg");
 		String soundWarmup = melee.getAttribute("soundWarmup");
-		String attackSound = "data/sound/"+melee.getAttribute("bangSound")+".ogg";
+		if(!soundWarmup.isEmpty()) soundWarmup = preloadSound("data/sound/"+soundWarmup+".ogg");
+		String attackSound = preloadSound("data/sound/"+melee.getAttribute("bangSound")+".ogg");
 		float damage = Float.parseFloat(melee.getAttribute("damage"));
 		double size = Double.parseDouble(melee.getAttribute("size"));
 
@@ -248,10 +250,11 @@ public class MapXmlReader extends XmlReader {
 		int uses = Integer.parseInt(gun.getAttribute("uses"));
 		String animPath = gun.getAttribute("animPath");
 		double warmup = Double.parseDouble(gun.getAttribute("warmupDuration"));
-		String soundPickup = "data/sound/"+gun.getAttribute("soundPickup")+".ogg";
+		String soundPickup = preloadSound("data/sound/"+gun.getAttribute("soundPickup")+".ogg");
 		String soundWarmup = gun.getAttribute("soundWarmup");
-		String attackSound = "data/sound/"+gun.getAttribute("bangSound")+".ogg";
-		String noAmmoSound = "data/sound/"+gun.getAttribute("noAmmoSound")+".ogg";
+		if(!soundWarmup.isEmpty()) soundWarmup = preloadSound("data/sound/"+soundWarmup+".ogg");
+		String soundAttack = preloadSound("data/sound/"+gun.getAttribute("bangSound")+".ogg");
+		String soundNoAmmo = preloadSound("data/sound/"+gun.getAttribute("noAmmoSound")+".ogg");
 		float damage = Float.parseFloat(gun.getAttribute("damage"));
 		double size = Double.parseDouble(gun.getAttribute("size"));
 		int bulletType = Integer.parseInt(gun.getAttribute("bulletType"));
@@ -279,7 +282,7 @@ public class MapXmlReader extends XmlReader {
 			}
 		}
 		Gun u = new Gun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
-				warmup, soundWarmup, attackSound, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength, recoil,
+				warmup, soundWarmup, soundAttack, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil,
 				thrust, size);
 		spawner.addItem(u, Integer.parseInt(gun.getAttribute("proba")));
 	}
@@ -293,10 +296,11 @@ public class MapXmlReader extends XmlReader {
 		int uses = Integer.parseInt(shotgun.getAttribute("uses"));
 		String animPath = shotgun.getAttribute("animPath");
 		double warmup = Double.parseDouble(shotgun.getAttribute("warmupDuration"));
-		String soundPickup = "data/sound/"+shotgun.getAttribute("soundPickup")+".ogg";
+		String soundPickup = preloadSound("data/sound/"+shotgun.getAttribute("soundPickup")+".ogg");
 		String soundWarmup = shotgun.getAttribute("soundWarmup");
-		String attackSound = "data/sound/"+shotgun.getAttribute("bangSound")+".ogg";
-		String noAmmoSound = "data/sound/"+shotgun.getAttribute("noAmmoSound")+".ogg";
+		if(!soundWarmup.isEmpty()) soundWarmup = preloadSound("data/sound/"+soundWarmup+".ogg");
+		String soundAttack = preloadSound("data/sound/"+shotgun.getAttribute("bangSound")+".ogg");
+		String soundNoAmmo = preloadSound("data/sound/"+shotgun.getAttribute("noAmmoSound")+".ogg");
 		float damage = Float.parseFloat(shotgun.getAttribute("damage"));
 		double size = Double.parseDouble(shotgun.getAttribute("size"));
 		int bulletType = Integer.parseInt(shotgun.getAttribute("bulletType"));
@@ -326,7 +330,7 @@ public class MapXmlReader extends XmlReader {
 			}
 		}
 		Shotgun u = new Shotgun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
-				animPath, warmup, soundWarmup, attackSound, noAmmoSound, multiShot, dispersion, bulletType, bulletSpeed,
+				animPath, warmup, soundWarmup, soundAttack, soundNoAmmo, multiShot, dispersion, bulletType, bulletSpeed,
 				damage, cannonLength, recoil, thrust, size);
 		spawner.addItem(u, Integer.parseInt(shotgun.getAttribute("proba")));
 	}
@@ -340,9 +344,10 @@ public class MapXmlReader extends XmlReader {
 		int uses = Integer.parseInt(usable.getAttribute("uses"));
 		String animPath = usable.getAttribute("animPath");
 		double warmup = Double.parseDouble(usable.getAttribute("warmupDuration"));
-		String soundPickup = "data/sound/"+usable.getAttribute("soundPickup")+".ogg";
+		String soundPickup = preloadSound("data/sound/"+usable.getAttribute("soundPickup")+".ogg");
 		String soundWarmup = usable.getAttribute("soundWarmup");
-		String attackSound = "data/sound/"+usable.getAttribute("bangSound")+".ogg";
+		if(!soundWarmup.isEmpty()) soundWarmup = preloadSound("data/sound/"+soundWarmup+".ogg");
+		String soundAttack = preloadSound("data/sound/"+usable.getAttribute("bangSound")+".ogg");
 
 		// Vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", usable);
@@ -363,7 +368,7 @@ public class MapXmlReader extends XmlReader {
 			}
 		}
 		Usable u = new Usable(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
-				animPath, warmup, soundWarmup, attackSound);
+				animPath, warmup, soundWarmup, soundAttack);
 		spawner.addItem(u, Integer.parseInt(usable.getAttribute("proba")));
 	}
 
@@ -474,7 +479,7 @@ public class MapXmlReader extends XmlReader {
 		Vec3f scale = new Vec3f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Text dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
+			System.err.println("Text element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -487,7 +492,7 @@ public class MapXmlReader extends XmlReader {
 					break;
 
 				default:
-					System.err.println("Vecteur dans Text mal dÃ©fini");
+					System.err.println("Invalid vector in Text element");
 					break;
 				}
 			}
@@ -521,7 +526,7 @@ public class MapXmlReader extends XmlReader {
 		Vec4f rotation = new Vec4f();
 		int nbVec = 3;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Mesh dans XML ne possÃ¨de pas " + nbVec + " vecteurs [src="
+			System.err.println("Mesh element needs " + nbVec + " vectors [src="
 					+ mesh.getAttribute("src") + "]");
 			System.out.println(vecteurs.size());
 		} else {
@@ -538,7 +543,7 @@ public class MapXmlReader extends XmlReader {
 					rotation = new Vec4f(vec.x, vec.y, vec.z, vec.w);
 					break;
 				default:
-					System.err.println("Vecteur dans Mesh mal dÃ©fini");
+					System.err.println("Invalid vector in Mesh element");
 					break;
 				}
 			}
@@ -566,7 +571,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Plateform dans XML ne possède pas " + nbVec + " vecteurs");
+			System.err.println("Platform element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -578,7 +583,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Vecteur dans Plateform mal défini");
+					System.err.println("Invalid vector in Platform element");
 					break;
 				}
 			}
@@ -605,7 +610,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Plateform dans XML ne possède pas " + nbVec + " vecteurs");
+			System.err.println("RigidBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -617,7 +622,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Vecteur dans Caisse mal défini");
+					System.err.println("Invalid vector in RigidBody element");
 					break;
 				}
 			}
@@ -668,7 +673,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("StaticBody element should have " + nbVec + " vectors");
+			System.err.println("StaticBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVecteur vec = loadVecteur(vecteur);
@@ -680,7 +685,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Invalid vector definition in StaticBody");
+					System.err.println("Invalid vector in StaticBody element");
 					break;
 				}
 			}

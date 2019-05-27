@@ -10,6 +10,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import arenashooter.engine.audio.SoundBuffer;
+
 public abstract class XmlReader {
 	private final static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -42,5 +44,15 @@ public abstract class XmlReader {
 			e.printStackTrace();
 		}
 		root = document.getDocumentElement();
+	}
+	
+	/**
+	 * Preload a sound from a file path
+	 * @param path
+	 * @return path (unchanged)
+	 */
+	protected static String preloadSound(String path) {
+		SoundBuffer.loadSound(path);
+		return path;
 	}
 }

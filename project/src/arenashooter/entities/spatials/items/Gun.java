@@ -79,7 +79,7 @@ public class Gun extends Usable {
 		if(soundWarmup == null || soundWarmup.isEmpty()) {
 			sndWarmup = null;
 		} else {
-			sndWarmup = new SoundEffect(new Vec2f(), "data/sound/" + soundWarmup + ".ogg", -1, 1, 1);
+			sndWarmup = new SoundEffect(new Vec2f(), soundWarmup, -1, 1, 1);
 			sndWarmup.setVolume(0);
 			sndWarmup.play();
 			sndWarmup.attachToParent(this, "snd_Warmup");
@@ -98,7 +98,7 @@ public class Gun extends Usable {
 		this.timerCooldown.setValue(fireRate);
 		this.timerCooldown.attachToParent(this, "timer_cooldown");
 
-//		SoundEffect noAmmo = new SoundEffect(this.parentPosition, "data/sound/" + noAmmoSound + ".ogg", 1, 0.85f, 1.15f);
+//		SoundEffect noAmmo = new SoundEffect(this.parentPosition, noAmmoSound, 1, 0.85f, 1.15f);
 //		noAmmo.setVolume(0.25f);
 //		noAmmo.attachToParent(this, "snd_NoAmmo");
 

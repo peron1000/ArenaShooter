@@ -49,6 +49,8 @@ public class StaticBodyContainer extends Spatial {
 		super.detach();
 	}
 	
+	public StaticBody getBody() { return body; }
+	
 	@Override
 	public Vec2f getWorldPos() {
 		return body.getPosition();
