@@ -139,9 +139,16 @@ public final class Audio {
 	 */
 	public static void playSound(String file, float volume, float pitch) {
 		if(file == null || file.isEmpty()) return;
+		
+		SoundBuffer buf = SoundBuffer.loadSound(file);
+		if(buf == null) {
+			log.error("Cannot play sound \""+file+"\"");
+			return;
+		}
+		
 		SourceV2 source = new SourceV2();
 		
-		source.setBuffer(SoundBuffer.loadSound(file));
+		source.setBuffer(buf);
 		source.setPitch(pitch);
 		source.setVolume(volume);
 		
@@ -160,9 +167,16 @@ public final class Audio {
 	 */
 	public static void playSound2D(String file, float volume, float pitch, Vec2f position) {
 		if(file == null || file.isEmpty()) return;
+		
+		SoundBuffer buf = SoundBuffer.loadSound(file);
+		if(buf == null) {
+			log.error("Cannot play sound \""+file+"\"");
+			return;
+		}
+		
 		SourceV2 source = new SourceV2();
 		
-		source.setBuffer(SoundBuffer.loadSound(file));
+		source.setBuffer(buf);
 		source.setPitch(pitch);
 		source.setVolume(volume);
 		source.setPosition(position);
