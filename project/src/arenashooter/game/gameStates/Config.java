@@ -13,6 +13,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuSelection;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.Trigger;
@@ -25,6 +26,7 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Config extends GameState {
 
 	private GameParam gameParam;
+	private Menu menuBg = new Menu(2);
 	private MenuSelectionV<Button> menuParam = new MenuSelectionV<>(10, 0, 0, new Vec2f(65, 10),
 			"data/sprites/interface/Selector.png");
 	private MenuSelection<UiImage> menuMap = new MenuSelection<>(10);
@@ -131,7 +133,7 @@ public class Config extends GameState {
 		texture2.setFilter(false);
 
 		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
-		menuParam.setBackground(bg);
+		menuBg.setBackground(bg);
 
 		final float scaleY = 5.5f, scaleX = 50f;
 		param1 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringGameMode());
@@ -303,6 +305,7 @@ public class Config extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
+		menuBg.draw();
 		menuParam.draw();
 		menuMap.draw();
 	}

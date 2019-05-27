@@ -51,7 +51,7 @@ public class Editor extends GameState {
 			public void make() {
 				Vec2f position = new Vec2f(70, -1), extent = new Vec2f(20, 0.25);
 
-				Mesh mesh = new Mesh(new Vec3f(-15, 0.5, 0), new Quat(0, 0, 0, 1), new Vec3f(100),
+				Mesh mesh = new Mesh(new Vec3f(-15, -100, -800), new Quat(0, 0, 0, 1), new Vec3f(100),
 						"data/meshes/catwalk/catwalk_10.obj");
 				mesh.attachToParent(current, "test");
 

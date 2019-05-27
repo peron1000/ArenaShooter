@@ -28,6 +28,13 @@ public class Button extends UiActionable {
 		rect.setPos(pos);
 		super.setPos(pos);
 	}
+	
+	@Override
+	public void setPosLerp(Vec2f pos, double lerp) {
+		label.setPosLerp(pos, lerp);
+		rect.setPosLerp(pos, lerp);
+		super.setPosLerp(pos, lerp);
+	}
 
 	@Override
 	public void draw() {
@@ -36,7 +43,7 @@ public class Button extends UiActionable {
 			label.draw();
 		}
 	}
-
+	
 	public void setText(String newString) {
 		label.setText(newString);
 	}
@@ -72,26 +79,22 @@ public class Button extends UiActionable {
 
 	@Override
 	public void upAction() {
-		// TODO Auto-generated method stub
-		
+		// Nothing
 	}
 
 	@Override
 	public void downAction() {
-		// TODO Auto-generated method stub
-		
+		// Nothing
 	}
 
 	@Override
 	public void rightAction() {
-		// TODO Auto-generated method stub
-		
+		// Nothing
 	}
 
 	@Override
 	public void leftAction() {
-		// TODO Auto-generated method stub
-		
+		// Nothing
 	}
 	
 	@Override

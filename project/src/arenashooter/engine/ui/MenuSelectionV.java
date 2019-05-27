@@ -174,7 +174,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		int i =0;
 		for (E e : elements) {
 			if(e.visible) {
-				e.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement*i));
+				e.setPosLerp(new Vec2f(positionRef.x, positionRef.y + ecartement*i), lerp);
 				i++;
 			}
 			e.update(delta);
