@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 archivesBaseName = 'SuperBlep'
-version = '1.0-SNAPSHOT' 
+version = '0.0.1-SNAPSHOT' 
 
 import org.gradle.internal.os.OperatingSystem
 
@@ -73,6 +73,7 @@ jar {
 }
 
 task zipGame(type: Zip) {
+  description 'Creates a runnable jar and copy game data next to it, then zip it to the distribution directory.'
   dependsOn fatJar
   from 'build/libs/'
   include '*.jar' //Include jar
