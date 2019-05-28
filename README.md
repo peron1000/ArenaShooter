@@ -11,11 +11,10 @@ Unzip it and launch `Super Blep.jar` as an executable jar.
 Windows, GNU/Linux or Mac, and a Java 8+ runtime environment
 
 ## Building from source
-The game is an Eclipse project found in the [`/project`](/project)  directory.
-Export the project as a runnable jar and place the [`/project/data`](/project/data) directory next to it.
+Run `gradlew fatJar` from the [`/project`](/project) directory to produce a build into [`/project/build/libs`](/project/build/libs). We are still working on cleaning Gradle scripts.
 
 ## Libraries
-Libraries are bundled with the project and can be found in [`/project/lib`](/project/lib).
+We are using Gradle to manage dependencies (libraries are are also available in [`/project/lib`](/project/lib)).
 We are currently using:
 * [LWJGL 3](https://www.lwjgl.org/) (GLFW, OpenGL, OpenAL, STB)
 * [JBox-2D](https://github.com/jbox2d/jbox2d)
