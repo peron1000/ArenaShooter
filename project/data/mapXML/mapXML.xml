@@ -421,35 +421,95 @@
 		</rigid>
 		
 		
-		<rigid name="pinned_crate_01">
-			<vecteur x="6" y="2" use="position" />
-			<vecteur x=".5" y=".5" use="extent" />
+		<rigid name="pinned_crate_01" density=".5">
+			<vecteur x="7" y="-19" use="position" />
+			<vecteur x=".5" y="1" use="extent" />
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
-					<vecteur use="scale" x="1" y="1" z="1" />
+					<vecteur use="scale" x="1" y="2" z="1" />
 				</mesh>
 			</entities>
 		</rigid>
-		<rigid name="pinned_crate_02">
-			<vecteur x="7" y="3" use="position" />
-			<vecteur x=".5" y=".5" use="extent" />
+		<rigid name="pinned_crate_02" density=".5">
+			<vecteur x="7" y="-17" use="position" />
+			<vecteur x=".5" y="1" use="extent" />
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
-					<vecteur use="scale" x="1" y="1" z="1" />
+					<vecteur use="scale" x="1" y="2" z="1" />
 				</mesh>
 			</entities>
 		</rigid>
-		<jointPin bodyA="pinned_crate_01" bodyB="pinned_crate_02">
-			<vecteur use="anchorA" x=".5" y=".5"/>
-			<vecteur use="anchorB" x="-.5" y="-.5"/>
+		<rigid name="pinned_crate_03" density=".5">
+			<vecteur x="7" y="-15" use="position" />
+			<vecteur x=".5" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="1" y="2" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid name="pinned_crate_04" density=".5">
+			<vecteur x="7" y="-13" use="position" />
+			<vecteur x=".5" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="1" y="2" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid name="pinned_crate_05" density=".5">
+			<vecteur x="7" y="-11" use="position" />
+			<vecteur x=".5" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="1" y="2" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
+		<rigid name="pinned_crate_06" density=".5">
+			<vecteur x="7" y="-9" use="position" />
+			<vecteur x=".5" y="1" use="extent" />
+			<entities>
+				<mesh src="data/meshes/crate/crate_01.obj">
+					<vecteur use="position" x="0" y="0" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="scale" x="1" y="2" z="1" />
+				</mesh>
+			</entities>
+		</rigid>
+		<jointPin bodyA="large_platform" bodyB="pinned_crate_01">
+			<vecteur use="anchorA" x="7" y="-20"/>
+			<vecteur use="anchorB" x="0" y="-1"/>
 		</jointPin>
-		<jointPin bodyA="pinned_crate_01" bodyB="large_platform">
-			<vecteur use="anchorA" x="-.5" y="-.5"/>
-			<vecteur use="anchorB" x="7" y="0"/>
+		<jointPin bodyA="pinned_crate_01" bodyB="pinned_crate_02">
+			<vecteur use="anchorA" x="0" y="1"/>
+			<vecteur use="anchorB" x="0" y="-1"/>
+		</jointPin>
+		<jointPin bodyA="pinned_crate_02" bodyB="pinned_crate_03">
+			<vecteur use="anchorA" x="0" y="1"/>
+			<vecteur use="anchorB" x="0" y="-1"/>
+		</jointPin>
+		<jointPin bodyA="pinned_crate_03" bodyB="pinned_crate_04">
+			<vecteur use="anchorA" x="0" y="1"/>
+			<vecteur use="anchorB" x="0" y="-1"/>
+		</jointPin>
+		<jointPin bodyA="pinned_crate_04" bodyB="pinned_crate_05">
+			<vecteur use="anchorA" x="0" y="1"/>
+			<vecteur use="anchorB" x="0" y="-1"/>
+		</jointPin>
+		<jointPin bodyA="pinned_crate_05" bodyB="pinned_crate_06">
+			<vecteur use="anchorA" x="0" y="1"/>
+			<vecteur use="anchorB" x="0" y="-1"/>
 		</jointPin>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">

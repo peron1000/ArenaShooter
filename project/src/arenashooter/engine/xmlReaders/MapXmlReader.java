@@ -450,7 +450,7 @@ public class MapXmlReader extends XmlReader {
 		for (Element plateform : plateforms)
 			loadPlateform(plateform, parent);
 
-		// caisse
+		// Rigid Bodies
 		List<Element> rigids = getListElementByName("rigid", entities);
 		for (Element rigid : rigids)
 			loadRigid(rigid, parent);
@@ -613,7 +613,7 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadRigid(Element rigid, Entity parent) {
-		// vecteurs
+		//Vectors
 		List<Element> vecteurs = getListElementByName("vecteur", rigid);
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
