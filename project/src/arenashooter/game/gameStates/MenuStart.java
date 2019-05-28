@@ -52,6 +52,10 @@ public class MenuStart extends GameState {
 		
 		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 45));
 		menustart.setEcartement(7f);
+		button1.setScaleText(new Vec2f(27f));
+		button2.setScaleText(scale);
+		button3.setScaleText(scale);
+		button4.setScaleText(scale);
 		
 		button1.setColorFond(new Vec4f(0, 1, 1, 1));
 		button2.setColorFond(new Vec4f(1, 0, 1, 1));
