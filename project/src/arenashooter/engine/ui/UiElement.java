@@ -10,7 +10,7 @@ public abstract class UiElement implements Navigable {
 
 	private Vec2f pos, scale, rePos, reScale;
 	public double rotation;
-	public boolean visible = true;
+	boolean visible = true;
 	protected Menu owner = null;
 	protected int layout = -1;
 	private double lerp = 2.5;
@@ -21,7 +21,15 @@ public abstract class UiElement implements Navigable {
 		this.reScale = scale.clone();
 	}
 
-	protected void update(double delta) {
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public void update(double delta) {
 		scale.set(Vec2f.lerp(scale, reScale, Utils.clampD(delta * 5, 0, 1)));
 		pos.set(Vec2f.lerp(pos, rePos, Utils.clampD(delta * lerp, 0, 1)));
 	}
@@ -56,6 +64,11 @@ public abstract class UiElement implements Navigable {
 	}
 
 	public void setScale(Vec2f scale) {
+		this.scale.set(scale);
+		this.reScale.set(scale);
+	}
+	
+	public void setScaleLerp(Vec2f scale) {
 		this.reScale.set(scale);
 	}
 

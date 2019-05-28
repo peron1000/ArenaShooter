@@ -19,7 +19,7 @@ public class Button extends UiActionable {
 	public Button(double rot, Vec2f scale, String text) {
 		super(rot, scale);
 		rect = new Rectangle(rot, scale, new Vec4f(0, 0, 0, .8));
-		label = new Label(rot, new Vec2f(scale.x*0.35, scale.y*5), text);
+		label = new Label(rot, new Vec2f(scale.x*3, scale.y*5), text);
 	}
 	
 	@Override
@@ -35,13 +35,27 @@ public class Button extends UiActionable {
 		rect.setPosLerp(pos, lerp);
 		super.setPosLerp(pos, lerp);
 	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		rect.setVisible(visible);
+		label.setVisible(visible);
+		super.setVisible(visible);
+	}
 
 	@Override
 	public void draw() {
-		if (visible) {
+		if (isVisible()) {
 			rect.draw();
 			label.draw();
 		}
+	}
+	
+	@Override
+	public void update(double delta) {
+		label.update(delta);
+		rect.update(delta);
+		super.update(delta);
 	}
 	
 	public void setText(String newString) {
@@ -64,6 +78,13 @@ public class Button extends UiActionable {
 		label.setThickness(thickness);
 	}
 	
+	public void setScaleText(Vec2f scale) {
+		label.setScale(scale);
+	}
+	
+	public void setScaleRect(Vec2f scale) {
+		rect.setScale(scale);
+	}
 	
 	public void setColorFond(Vec4f color) {
 		rect.setColor(color);

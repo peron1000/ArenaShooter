@@ -10,6 +10,7 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
@@ -135,12 +136,16 @@ public class Config extends GameState {
 		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
 		menuBg.setBackground(bg);
 
-		final float scaleY = 5.5f, scaleX = 50f;
+		final float scaleY = 5.5f, scaleX = 55f;
 		param1 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringGameMode());
 		param2 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringRound());
 		param3 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringTeam());
 		param4 = new Button(0, new Vec2f(scaleX, scaleY), "Parametre");
 
+		param1.setScaleText(new Vec2f(25));
+		param2.setScaleText(new Vec2f(28));
+		param3.setScaleText(new Vec2f(28));
+		
 		param1.addAction("right", new Trigger() {
 
 			@Override
@@ -192,8 +197,8 @@ public class Config extends GameState {
 			}
 		});
 
-		param3.visible = false;
-		param4.visible = false;
+		param3.setVisible(false);
+		param4.setVisible(false);
 
 		menuParam.setPositionRef(new Vec2f(-57, -37.5));
 		menuParam.setEcartement(8);
@@ -236,10 +241,10 @@ public class Config extends GameState {
 				public void make() {
 					if (GameParam.maps.contains(file.getPath())) {
 						GameParam.maps.remove(file.getPath());
-						picture.setScale(new Vec2f(6));
+						picture.setScaleLerp(new Vec2f(6));
 					} else {
 						GameParam.maps.add(file.getPath());
-						picture.setScale(new Vec2f(12));
+						picture.setScaleLerp(new Vec2f(12));
 					}
 				}
 			});
@@ -304,10 +309,12 @@ public class Config extends GameState {
 
 	@Override
 	public void draw() {
+		Window.beginUi();
 		super.draw();
 		menuBg.draw();
 		menuParam.draw();
 		menuMap.draw();
+		Window.endUi();
 	}
 
 }

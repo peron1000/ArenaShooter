@@ -22,13 +22,15 @@ public class Rectangle extends UiSimpleElementNavigable {
 
 	@Override
 	public void draw() {
-		material.model = Mat4f.transform(getPos(), rotation, getScale());
-		material.proj = Window.projOrtho;
-		
-		material.bind(model);
-		
-		model.bind();
-		model.draw();
+		if(isVisible()) {
+			material.model = Mat4f.transform(getPos(), rotation, getScale());
+			material.proj = Window.projOrtho;
+			
+			material.bind(model);
+			
+			model.bind();
+			model.draw();
+		}
 	}
 	
 	public void setColor(Vec4f newColor) {

@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
+import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.NewValueEvent;
 import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -15,6 +17,7 @@ public class Menu {
 	protected final int maxLayout;
 	protected double lerp = 10;
 	private Vec2f position = new Vec2f() , positionLerp = new Vec2f();
+	private boolean visible = true;
 	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
 
 		@Override
@@ -52,6 +55,15 @@ public class Menu {
 		return position;
 	}
 
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+		foreach(e -> e.setVisible(visible));
+	}
+
 	public void update(double delta) {
 		foreach(e -> e.update(delta));
 		position.set(Vec2f.lerp(position, positionLerp, Utils.clampD(delta * lerp, 0, 1)));
@@ -62,6 +74,7 @@ public class Menu {
 		bg.add(background);
 		elems.put(Integer.valueOf(0), bg);
 		background.setPos(position);
+		background.setVisible(isVisible());
 	}
 
 	public void addUiElement(UiElement element, int layout) {
@@ -78,13 +91,13 @@ public class Menu {
 		element.owner = this;
 		element.layout = layout;
 		element.setPos(position.clone());
+		element.setVisible(isVisible());
 	}
 	
 	public void removeUiElement(UiElement element) {
 		elems.get(element.layout).remove(element);
 		element.layout = -1;
 		element.owner = null;
-		
 	}
 	
 	protected void foreach(Consumer<UiElement> cons) {
@@ -96,15 +109,13 @@ public class Menu {
 	}
 
 	public void draw() {
-		Window.beginUi();
 		for (int i = 0; i < maxLayout; i++) {
 			LinkedList<UiElement> list = elems.get(Integer.valueOf(i));
 			for (UiElement uiElement : list) {
-				if (uiElement.visible) {
+				if (uiElement.isVisible()) {
 					uiElement.draw();
 				}
 			}
 		}
-		Window.endUi();
 	}
 }

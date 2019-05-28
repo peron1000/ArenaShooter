@@ -21,7 +21,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	private int x = 0, y = 0;
 	public BooleanProperty active = new BooleanProperty();
 	public EventListener<MenuExitEvent> exit = new EventListener<MenuExitEvent>() {
-		
+
 		@Override
 		public void launch(MenuExitEvent e) {
 			// Nothing
@@ -61,8 +61,8 @@ public class MenuSelection<E extends UiElement> extends Menu {
 
 			@Override
 			public void launch(NewValueEvent<Boolean> e) {
-				if(selec != null) {
-					selec.visible = e.getNewValue();
+				if (selec != null) {
+					selec.setVisible(e.getNewValue());
 				}
 			}
 		});
@@ -89,8 +89,8 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		mesElements.put(c, element);
 		addUiElement(element, layout);
 		Vec2f pos = new Vec2f(positionRelative.x + (x * ecartementX), positionRelative.y + (y * ecartementY));
-		element.setPosLerp(pos , 3);
-		element.visible = true;
+		element.setPosLerp(pos, 3);
+		element.setVisible(true);
 		if (mesElements.size() == 1) {
 			majSelecPosition();
 		}
@@ -172,7 +172,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	private void majSelecPosition() {
 		E element = mesElements.get(new Coordonnees(x, y));
 		if (element != null && selec != null) {
-			selec.setPosLerp(element.getPos() , 40);
+			selec.setPosLerp(element.getPos(), 40);
 		}
 	}
 
@@ -184,10 +184,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 
 	@Override
 	public void update(double delta) {
-		if (active.getValue()) {
-			mesElements.values().forEach(v -> v.visible = true);
-		}
-		//selec.setPosLerp(getElemSelec().getPos() , 20);
+		mesElements.values().forEach(v -> v.visible = this.isVisible());
 		super.update(delta);
 	}
 }

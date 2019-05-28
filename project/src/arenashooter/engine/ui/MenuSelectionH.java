@@ -30,7 +30,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 		}
 		addUiElement(element, layout);
 		element.setPos(newPosition);
-		element.visible = true;
+		element.setVisible(true);
 	}
 
 	public void removeElementInListOfChoices(Element element) {
@@ -39,7 +39,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 			if (element.getPos().x == selec.getPos().x && element.getPos().y == selec.getPos().y) {
 				selec.setPos(elements.getLast().getPos());
 			}
-			element.visible = false;
+			element.setVisible(false);
 			removeUiElement(element);
 		}
 	}
@@ -86,12 +86,12 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 	@Override
 	public void update(double delta) {
 		if (elements.isEmpty() || !active) {
-			selec.visible = false;
+			selec.setVisible(false);
 		} else if (active) {
-			selec.visible = true;
+			selec.setVisible(true);
 		}
 		for (Element uiElement : elements) {
-			uiElement.visible = true;
+			uiElement.setVisible(true);
 			uiElement.update(delta);
 		}
 

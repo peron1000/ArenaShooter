@@ -63,13 +63,19 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable {
 
 	@Override
 	public void draw() {
-		if (visible) {
+		if (isVisible()) {
 			label.draw();
 		}
 	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		label.setVisible(visible);
+		super.setVisible(visible);
+	}
 
 	@Override
-	protected void update(double delta) {
+	public void update(double delta) {
 		label.update(delta);
 		super.update(delta);
 	}
