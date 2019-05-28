@@ -73,7 +73,7 @@ public class Game extends GameState {
 	public Game(int nbMap) {
 		super(nbMap);
 		menu = new MenuPause(0, 0);
-		menu.active.setValue(false);
+		menu.selectorVisible = false;
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -81,7 +81,7 @@ public class Game extends GameState {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_PAUSE:
-						menu.active.setValue(!menu.active.getValue());
+						menu.selectorVisible = !menu.selectorVisible;
 						break;
 
 					default:
@@ -123,7 +123,7 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		if (menu.active.getValue()) {
+		if (menu.selectorVisible) {
 			menu.update(d);
 			return;
 		} else {
@@ -167,7 +167,7 @@ public class Game extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
-		if (menu.active.getValue()) {
+		if (menu.selectorVisible) {
 			menu.draw();
 		}
 	}

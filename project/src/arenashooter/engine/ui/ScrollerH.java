@@ -5,7 +5,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.util.CircleList;
 
-public class ScrollerH<E extends Enum<E>> extends UiActionable {
+public class ScrollerH<E extends Enum<E>> extends UiActionable implements Valuable<E> {
 	private Vec4f colorOnUnSelect = new Vec4f(1, 1, 1, 1);
 	private Vec4f colorOnSelect = new Vec4f(1, 1, 0, 1);
 	private CircleList<E> list = new CircleList<>();

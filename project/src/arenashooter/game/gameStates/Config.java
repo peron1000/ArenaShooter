@@ -45,9 +45,9 @@ public class Config extends GameState {
 				switch (e.getAction()) {
 				case UI_RIGHT:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (activated && menuParam.active.getValue()) {
+						if (activated && menuParam.selectorVisible) {
 							menuParam.getTarget().lunchAction("right");
-						} else if (menuParam.active.getValue()) {
+						} else if (menuParam.selectorVisible) {
 							menuParam.right();
 						} else if (menuMap.active.getValue()) {
 							menuMap.right();
@@ -56,9 +56,9 @@ public class Config extends GameState {
 					break;
 				case UI_LEFT:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (activated && menuParam.active.getValue()) {
+						if (activated && menuParam.selectorVisible) {
 							menuParam.getTarget().lunchAction("left");
-						} else if (menuParam.active.getValue()) {
+						} else if (menuParam.selectorVisible) {
 							menuParam.left();
 						} else if (menuMap.active.getValue()) {
 							menuMap.left();
@@ -67,7 +67,7 @@ public class Config extends GameState {
 					break;
 				case UI_UP:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (!activated && menuParam.active.getValue()) {
+						if (!activated && menuParam.selectorVisible) {
 							menuParam.up();
 						} else if (menuMap.active.getValue()) {
 							menuMap.up();
@@ -76,7 +76,7 @@ public class Config extends GameState {
 					break;
 				case UI_DOWN:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (!activated && menuParam.active.getValue()) {
+						if (!activated && menuParam.selectorVisible) {
 							menuParam.down();
 						} else if (menuMap.active.getValue()) {
 							menuMap.down();
@@ -85,7 +85,7 @@ public class Config extends GameState {
 					break;
 				case UI_OK:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (menuParam.active.getValue()) {
+						if (menuParam.selectorVisible) {
 							activated = !activated;
 							if (activated) {
 								menuParam.getTarget().setColorFond(new Vec4f(0.5, 0.5, 0.5, 1));
@@ -264,7 +264,7 @@ public class Config extends GameState {
 				case Right:
 				case Left:
 				default:
-					menuParam.active.setValue(false);
+					menuParam.selectorVisible = false;
 					menuMap.active.setValue(true);
 					menuMap.restart();
 					break;
@@ -282,7 +282,7 @@ public class Config extends GameState {
 				case Right:
 				case Left:
 				default:
-					menuParam.active.setValue(true);
+					menuParam.selectorVisible =true;
 					menuMap.active.setValue(false);
 					menuParam.restart();
 					break;

@@ -41,7 +41,6 @@ public class MenuPause extends MenuSelectionV<Label> {
 
 			@Override
 			public void launch(InputActionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_OK:
@@ -49,10 +48,10 @@ public class MenuPause extends MenuSelectionV<Label> {
 						break;
 
 					case UI_PAUSE:
-						active =  new BooleanProperty(false);
+						selectorVisible =  false;
 						break;
 					case UI_BACK:
-						active =  new BooleanProperty(false);
+						selectorVisible =  false;
 						break;
 					case UI_UP:
 						up();
@@ -94,7 +93,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 				try {
 //					Robot robot = new Robot();
 //					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
-					active = new BooleanProperty(false);
+					selectorVisible = false;
 					System.out.println("op1 : Resume");
 				} catch (Exception ex) {
 					System.out.println("fail pause");

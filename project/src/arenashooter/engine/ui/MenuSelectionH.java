@@ -12,7 +12,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 	private Vec2f positionRef = getPosition();
 	private int index = 0;
 	private LinkedList<Element> elements = new LinkedList<>();
-	public boolean active = true;
+	public boolean selectorVisible = true;
 
 	public MenuSelectionH(int maxLayout) {
 		super(maxLayout);
@@ -85,9 +85,9 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 
 	@Override
 	public void update(double delta) {
-		if (elements.isEmpty() || !active) {
+		if (elements.isEmpty() || !selectorVisible) {
 			selec.setVisible(false);
-		} else if (active) {
+		} else if (selectorVisible) {
 			selec.setVisible(true);
 		}
 		for (Element uiElement : elements) {

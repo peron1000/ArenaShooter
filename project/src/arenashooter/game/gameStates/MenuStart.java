@@ -46,7 +46,7 @@ public class MenuStart extends GameState {
 //		texture2.setFilter(false);
 
 		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(0, 0, 1, 1));
-		menustart.active.setValue(true);
+		menustart.selectorVisible = true;
 
 		menustart.setBackground(bg);
 		bg.setPos(new Vec2f (0));

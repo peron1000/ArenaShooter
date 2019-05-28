@@ -18,7 +18,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	private Vec2f positionRef = new Vec2f();
 	private int index = 0;
 	private Stack<E> elements = new Stack<>();
-	public BooleanProperty active = new BooleanProperty(true);
+	public boolean selectorVisible = true;
 	private boolean loop = true;
 
 	public MenuSelectionV(int maxLayout, float x, float y, Vec2f scaleSelec, String pathTextureSelec) {
@@ -30,15 +30,6 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		Vec2f pos = new Vec2f(x, y);
 		setPosition(pos);
 		setImageSelec(selec, 2);
-		active.listener.add(new EventListener<NewValueEvent<Boolean>>() {
-
-			@Override
-			public void launch(NewValueEvent<Boolean> e) {
-				if (selec != null) {
-					selec.setVisible(e.getNewValue());
-				}
-			}
-		});
 	}
 
 	public void setEcartement(float e) {
@@ -56,7 +47,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 			elements.add(element);
 		}
 		element.setPos(newPosition);
-		element.setVisible(active.getValue());
+		element.setVisible(selectorVisible);
 		restart();
 	}
 
@@ -71,13 +62,13 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public void down() {
-		if(loop) {
+		if (loop) {
 			int save = index;
 			index++;
 			if (index >= elements.size()) {
 				index = 0;
 			}
-			while(index != save && !getTarget().isVisible()) {
+			while (index != save && !getTarget().isVisible()) {
 				index++;
 				if (index >= elements.size()) {
 					index = 0;
@@ -86,14 +77,22 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		} else {
 			index++;
 			if (index >= elements.size()) {
-				index = 0;
+				if (elements.size() == 0) {
+					index = 0;
+				} else {
+					index = elements.size() - 1;
+				}
 				exit.launch(new MenuExitEvent(Side.Down));
 				return;
 			}
-			while(!getTarget().isVisible()) {
+			while (!getTarget().isVisible()) {
 				index++;
 				if (index >= elements.size()) {
-					index = 0;
+					if (elements.size() == 0) {
+						index = 0;
+					} else {
+						index = elements.size() - 1;
+					}
 					exit.launch(new MenuExitEvent(Side.Down));
 					return;
 				}
@@ -103,26 +102,30 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public void up() {
-		if(loop) {
+		if (loop) {
 			int save = index;
 			index--;
 			if (index < 0) {
-				index = elements.size() - 1;
+				if (elements.size() != 0) {
+					index = elements.size() - 1;
+				} else {
+					index = 0;
+				}
 			}
-			while(index != save && !getTarget().isVisible()) {
+			while (index != save && !getTarget().isVisible()) {
 				index--;
 				if (index < 0) {
 					index = elements.size() - 1;
 				}
 			}
-		}  else {
+		} else {
 			index--;
 			if (index < 0) {
 				index = 0;
 				exit.launch(new MenuExitEvent(Side.Up));
 				return;
 			}
-			while(!getTarget().isVisible()) {
+			while (!getTarget().isVisible()) {
 				index--;
 				if (index < 0) {
 					index = 0;
@@ -135,7 +138,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public void right() {
-		if (getTarget().isSelected()) {
+		if (getTarget() != null && getTarget().isSelected()) {
 			getTarget().rightAction();
 		} else {
 			exit.launch(new MenuExitEvent(Side.Right));
@@ -143,7 +146,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public void left() {
-		if (getTarget().isSelected()) {
+		if (getTarget() != null && getTarget().isSelected()) {
 			getTarget().leftAction();
 		} else {
 			exit.launch(new MenuExitEvent(Side.Left));
@@ -164,14 +167,14 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		super.setPosition(newPosition);
 		setPositionRef(Vec2f.add(positionRef, dif));
 	}
-	
+
 	@Override
 	public void setPositionLerp(Vec2f position) {
 		Vec2f dif = Vec2f.subtract(position, getPosition());
 		positionRef.set(Vec2f.add(positionRef, dif));
 		super.setPositionLerp(position);
 	}
-	
+
 	public void setImageSelec(UiImage image, int layout) {
 		addUiElement(image, layout);
 		selec = image;
@@ -179,7 +182,11 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	public E getTarget() {
-		return elements.get(index);
+		if (index < elements.size() && index >= 0) {
+			return elements.get(index);
+		} else {
+			return null;
+		}
 	}
 
 	public void restart() {
@@ -189,7 +196,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 			selec.setPos(e.getPos());
 		}
 	}
-	
+
 	@Override
 	public void setVisible(boolean visible) {
 		for (E e : elements) {
@@ -207,29 +214,38 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	}
 
 	protected void majSelecPosition() {
-		selec.setPosLerp(getTarget().getPos(), 40);
+		E target = getTarget();
+		if (target != null) {
+			selec.setPosLerp(getTarget().getPos(), 40);
+		}
 	}
-	
+
 	@Override
 	public void draw() {
-		super.draw();
-		for (E e : elements) {
-			if(e.isVisible()) {
-				e.draw();
+		if (isVisible()) {
+			super.draw();
+			for (E e : elements) {
+				if (e.isVisible()) {
+					e.draw();
+				}
+			}
+			if (selectorVisible) {
+				selec.draw();
 			}
 		}
 	}
-	
+
 	@Override
 	public void update(double delta) {
-		int i =0;
+		int i = 0;
 		for (E e : elements) {
-			if(e.isVisible()) {
-				e.setPosLerp(new Vec2f(positionRef.x, positionRef.y + ecartement*i), lerp);
+			if (e.isVisible()) {
+				e.setPosLerp(new Vec2f(positionRef.x, positionRef.y + ecartement * i), lerp);
 				i++;
 			}
 			e.update(delta);
 		}
+		selec.setVisible(selectorVisible);
 		super.update(delta);
 	}
 }
