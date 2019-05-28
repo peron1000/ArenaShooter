@@ -6,6 +6,12 @@ version = '1.0-SNAPSHOT'
 import org.gradle.internal.os.OperatingSystem
 
 def mainClassName = 'arenashooter.game.Main'
+
+// Force UTF-8
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 project.ext.lwjglVersion = "3.2.0"
 
 switch (OperatingSystem.current()) {
