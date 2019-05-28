@@ -11,7 +11,7 @@ Unzip it and launch `Super Blep.jar` as an executable jar.
 Windows, GNU/Linux or Mac, and a Java 8+ runtime environment
 
 ## Building from source
-Run `gradlew fatJar` from the [`/project`](/project) directory to produce a build into [`/project/build/libs`](/project/build/libs). We are still working on cleaning Gradle scripts.
+Run `gradlew fatJar` from the [`/project`](/project) directory to produce a build into `/project/build/libs`. We are still working on cleaning Gradle scripts.
 
 ## Libraries
 We are using Gradle to manage dependencies (libraries are are also available in [`/project/lib`](/project/lib)).
