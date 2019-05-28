@@ -50,7 +50,6 @@ task fatJar(type: Jar) {
     exclude '**/*.xcf'
   }
   
-  classifier = project.ext.lwjglNatives
   from {
     configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
@@ -65,6 +64,14 @@ jar {
   from {
     configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
+}
+
+task zipGame(type: Zip) {
+  dependsOn fatJar
+  from 'build/libs/'
+  include '*.jar' //Include jar
+  include 'data/*' //Include data
+  archiveName archivesBaseName+version+classifier+'.zip'
 }
 
 dependencies {
