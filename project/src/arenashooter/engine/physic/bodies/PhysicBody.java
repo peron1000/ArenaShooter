@@ -3,11 +3,13 @@ package arenashooter.engine.physic.bodies;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.joints.JointEdge;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.shapes.PhysicShape;
+import arenashooter.engine.physic.joints.PhysicJoint;
 import arenashooter.entities.spatials.Spatial;
 
 public abstract class PhysicBody {
@@ -52,10 +54,11 @@ public abstract class PhysicBody {
 	 */
 	public void addToWorld(PhysicWorld world) {
 		this.world = world;
-		if(body != null) return;
-		body = create();
-		if(body == null)
-			world.createBody(this);
+		if(body != null) {
+			PhysicWorld.log.warn("Trying to create an already existing body");
+			return;
+		}
+		world.createBody(this);
 	}
 	
 	/**
@@ -69,7 +72,15 @@ public abstract class PhysicBody {
 	 * Mark this body for destruction
 	 */
 	public void removeFromWorld() {
-		if(world == null) return;
+		if(world == null || body == null) return;
+		
+		//Destroy all joints first
+		JointEdge jointE = body.getJointList();
+		while(jointE != null) {
+			((PhysicJoint) jointE.joint.getUserData()).removeFromWorld();
+			jointE = jointE.next;
+		}
+		
 		world.destroyBody(this);
 	}
 	
@@ -83,10 +94,14 @@ public abstract class PhysicBody {
 		if(body != null) {
 			world.getB2World().destroyBody(body);
 			body = null;
+		} else {
+			PhysicWorld.log.warn("Attempting to destroy a body that was never created");
 		}
 		if(fixture != null) {
 			fixture.destroy();
 			fixture = null;
+		} else {
+			PhysicWorld.log.warn("Attempting to destroy a body that was never created");
 		}
 		world = null;
 	}

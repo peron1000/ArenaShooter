@@ -4,7 +4,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import arenashooter.engine.xmlReaders.XmlVecteur;
+import arenashooter.engine.xmlReaders.XmlVector;
 
 public class SpawnXml extends AbstractElement {
 
@@ -35,7 +35,7 @@ public class SpawnXml extends AbstractElement {
 	}
 
 	public void setVecteur(float x, float y) {
-		XmlVecteur vec = new XmlVecteur(spawn);
+		XmlVector vec = new XmlVector(spawn);
 	}
 
 	public void addGun() {
