@@ -31,6 +31,7 @@ import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Shotgun;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.entities.spatials.items.UsableTimer;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.Loading;
 
 public class MapXmlReader extends XmlReader {
@@ -565,7 +566,9 @@ public class MapXmlReader extends XmlReader {
 		}
 	}
 
+	@Deprecated
 	private void loadPlateform(Element plateform, Entity parent) { //TODO: Delete this
+		Main.log.warn("Platform element is deprecated, use static bodies");
 		// vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", plateform);
 		Vec2f position = new Vec2f(), extent = new Vec2f();

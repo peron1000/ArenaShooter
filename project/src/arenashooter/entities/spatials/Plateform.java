@@ -1,22 +1,17 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.CollisionFlags;
-import arenashooter.engine.physic.bodies.StaticBody;
-import arenashooter.engine.physic.shapes.ShapeBox;
 
+@Deprecated
 public class Plateform extends Spatial {
 	
+	@Deprecated
 	public Plateform(Vec2f position, Vec2f extent) {
 		super(position);
-		
-		//TODO: pass a mesh
-		Sprite spr = new Sprite(position);
-		spr.size = new Vec2f(extent.x*2, extent.y*2);
+
+		Sprite spr = new Sprite(position, Texture.default_tex);
+		Vec2f.multiply(extent, 2, spr.size);
 		spr.attachToParent(this, "sprite");
-		
-		StaticBody staticBody = new StaticBody(new ShapeBox(extent), position, rotation, CollisionFlags.LANDSCAPE);
-		StaticBodyContainer staticBodyC = new StaticBodyContainer(position, staticBody);
-		staticBodyC.attachToParent(this, "static body");
 	}
 }
