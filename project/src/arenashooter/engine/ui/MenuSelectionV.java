@@ -212,12 +212,12 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 	
 	@Override
 	public void draw() {
+		super.draw();
 		for (E e : elements) {
 			if(e.isVisible()) {
 				e.draw();
 			}
 		}
-		super.draw();
 	}
 	
 	@Override
