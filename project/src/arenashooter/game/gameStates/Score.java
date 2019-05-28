@@ -1,6 +1,7 @@
 package arenashooter.game.gameStates;
 
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -119,6 +120,8 @@ public class Score extends GameState {
 
 	public void draw() {
 		super.draw();
+		Window.beginUi();
 		menu.draw();
+		Window.endUi();
 	}
 }
