@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
@@ -14,16 +15,19 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.joints.JointPin;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Sky;
+import arenashooter.entities.spatials.KinematicBodyContainer;
 import arenashooter.entities.spatials.Mesh;
-import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
+import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.entities.spatials.items.Gun;
@@ -105,7 +109,7 @@ public class MapXmlReader extends XmlReader {
 
 	private void loadSpawns(Element spawn, Arena map) {
 
-		XmlVecteur vec = loadVecteur(getFirstElementByName("vecteur", spawn));
+		XmlVector vec = loadVecteur(getFirstElementByName("vecteur", spawn));
 		double cooldown = 0;
 		Boolean spawnperso = true;
 
@@ -185,7 +189,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
 		for (Element vecteur : vecteurs) {
-			XmlVecteur vec = loadVecteur(vecteur);
+			XmlVector vec = loadVecteur(vecteur);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -224,7 +228,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
 		for (Element vecteur : vecteurs) {
-			XmlVecteur vec = loadVecteur(vecteur);
+			XmlVector vec = loadVecteur(vecteur);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -269,7 +273,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
 		for (Element vecteur : vecteurs) {
-			XmlVecteur vec = loadVecteur(vecteur);
+			XmlVector vec = loadVecteur(vecteur);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -317,7 +321,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
 		for (Element vecteur : vecteurs) {
-			XmlVecteur vec = loadVecteur(vecteur);
+			XmlVector vec = loadVecteur(vecteur);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -355,7 +359,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
 		for (Element vecteur : vecteurs) {
-			XmlVecteur vec = loadVecteur(vecteur);
+			XmlVector vec = loadVecteur(vecteur);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -373,8 +377,8 @@ public class MapXmlReader extends XmlReader {
 		spawner.addItem(u, Integer.parseInt(usable.getAttribute("proba")));
 	}
 
-	private XmlVecteur loadVecteur(Element vecteur) {
-		return new XmlVecteur(vecteur);
+	private XmlVector loadVecteur(Element vecteur) {
+		return new XmlVector(vecteur);
 	}
 
 	private void loadCameraBound(Element cameraBound, Arena map) {
@@ -410,7 +414,7 @@ public class MapXmlReader extends XmlReader {
 			System.err.println("Balise Sky dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
 		} else {
 			for (Element vecteur : vecteurs) {
-				XmlVecteur vec = loadVecteur(vecteur);
+				XmlVector vec = loadVecteur(vecteur);
 				switch (vec.use) {
 				case "top":
 					top = new Vec3f(vec.x, vec.y, vec.z);
@@ -431,46 +435,46 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadGravity(Element gravity, Arena map) {
-		XmlVecteur vec = new XmlVecteur(getFirstElementByName("vecteur", gravity));
+		XmlVector vec = new XmlVector(getFirstElementByName("vecteur", gravity));
 		map.gravity = new Vec2f(vec.x, vec.y);
 	}
 
 	private void loadEntities(Element entities, Entity parent) {
 		// entity
 		List<Element> entitys = getListElementByName("entity", entities);
-		for (Element entity : entitys) {
+		for (Element entity : entitys)
 			loadEntity(entity, parent);
-		}
 
 		// plateform //TODO: Remove this
 		List<Element> plateforms = getListElementByName("plateform", entities);
-		for (Element plateform : plateforms) {
+		for (Element plateform : plateforms)
 			loadPlateform(plateform, parent);
-		}
 
 		// caisse
 		List<Element> rigids = getListElementByName("rigid", entities);
-		for (Element rigid : rigids) {
+		for (Element rigid : rigids)
 			loadRigid(rigid, parent);
-		}
 
 		// Static bodies
 		List<Element> statics = getListElementByName("static", entities);
-		for (Element body : statics) {
+		for (Element body : statics)
 			loadStaticBody(body, parent);
-		}
 
 		// mesh
 		List<Element> meshs = getListElementByName("mesh", entities);
-		for (Element mesh : meshs) {
+		for (Element mesh : meshs)
 			loadMesh(mesh, parent);
-		}
 
 		// text
 		List<Element> texts = getListElementByName("text", entities);
-		for (Element text : texts) {
+		for (Element text : texts)
 			loadText(text, parent);
-		}
+		
+		//Physic joints loaded at last
+		// jointPin
+		List<Element> jointPins = getListElementByName("jointPin", entities);
+		for (Element pin : jointPins)
+			loadJointPin(pin, parent);
 	}
 
 	private void loadText(Element text, Entity parent) {
@@ -483,7 +487,7 @@ public class MapXmlReader extends XmlReader {
 			System.err.println("Text element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
-				XmlVecteur vec = loadVecteur(vecteur);
+				XmlVector vec = loadVecteur(vecteur);
 				switch (vec.use) {
 				case "position":
 					position = new Vec3f(vec.x, vec.y, vec.z);
@@ -532,7 +536,7 @@ public class MapXmlReader extends XmlReader {
 			System.out.println(vecteurs.size());
 		} else {
 			for (Element vecteur : vecteurs) {
-				XmlVecteur vec = loadVecteur(vecteur);
+				XmlVector vec = loadVecteur(vecteur);
 				switch (vec.use) {
 				case "position":
 					position = new Vec3f(vec.x, vec.y, vec.z);
@@ -577,7 +581,7 @@ public class MapXmlReader extends XmlReader {
 			System.err.println("Platform element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
-				XmlVecteur vec = loadVecteur(vecteur);
+				XmlVector vec = loadVecteur(vecteur);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -592,8 +596,9 @@ public class MapXmlReader extends XmlReader {
 			}
 		}
 
-		// Plateform
-		Plateform p = new Plateform(position, extent);
+		//Load a sprite
+		Sprite p = new Sprite(position, Texture.default_tex);
+		Vec2f.multiply(extent, 2, p.size);
 		if (plateform.hasAttribute("name")) {
 			p.attachToParent(parent, plateform.getAttribute("name"));
 		} else {
@@ -616,7 +621,7 @@ public class MapXmlReader extends XmlReader {
 			System.err.println("RigidBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
-				XmlVecteur vec = loadVecteur(vecteur);
+				XmlVector vec = loadVecteur(vecteur);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -679,7 +684,7 @@ public class MapXmlReader extends XmlReader {
 			System.err.println("StaticBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
-				XmlVecteur vec = loadVecteur(vecteur);
+				XmlVector vec = loadVecteur(vecteur);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -727,5 +732,71 @@ public class MapXmlReader extends XmlReader {
 		for (Element entities : entitiess) {
 			loadEntities(entities, e);
 		}
+	}
+	
+	/**
+	 * Load a pin joint
+	 * @param joint
+	 * @param parent
+	 */
+	private void loadJointPin(Element joint, Entity parent) {
+		Entity entityA = parent.getChild(joint.getAttribute("bodyA"));
+		Entity entityB = parent.getChild(joint.getAttribute("bodyB"));
+		
+		if(!(entityA instanceof StaticBodyContainer) 
+				&& !(entityA instanceof RigidBodyContainer)
+				&& !(entityA instanceof KinematicBodyContainer)) {
+			Main.log.error("Invalid bodyA attribute in joint definition: \""+joint.getAttribute("bodyA")+"\"");
+			return;
+		}
+		if(!(entityB instanceof StaticBodyContainer)
+				&& !(entityB instanceof RigidBodyContainer)
+				&& !(entityB instanceof KinematicBodyContainer)) {
+			Main.log.error("Invalid bodyB attribute in joint definition: \""+joint.getAttribute("bodyB")+"\"");
+			return;
+		}
+
+		PhysicBody bodyA = null, bodyB = null;
+		if(entityA instanceof RigidBodyContainer)
+			bodyA = ((RigidBodyContainer)entityA).getBody();
+		else if(entityA instanceof StaticBodyContainer)
+			bodyA = ((StaticBodyContainer)entityA).getBody();
+		else
+			bodyA = ((KinematicBodyContainer)entityA).getBody();
+
+		if(entityB instanceof RigidBodyContainer)
+			bodyB = ((RigidBodyContainer)entityB).getBody();
+		else if(entityB instanceof StaticBodyContainer)
+			bodyB = ((StaticBodyContainer)entityB).getBody();
+		else
+			bodyB = ((KinematicBodyContainer)entityB).getBody();
+		
+		List<Element> vectors = getListElementByName("vecteur", joint);
+		Vec2f anchorA = new Vec2f(), anchorB = new Vec2f(), angleLimit = null;
+		if (vectors.size() < 2 || vectors.size() > 3) {
+			System.err.println("JointPin element needs 2 or 3 vectors");
+		} else {
+			for (Element vecteur : vectors) {
+				XmlVector vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "anchorA":
+					anchorA.set(vec.x, vec.y);
+					break;
+				case "anchorB":
+					anchorB.set(vec.x, vec.y);
+					break;
+				case "angleLimit":
+					angleLimit = new Vec2f(vec.x, vec.y);
+					break;
+				default:
+					Main.log.error("Invalid vector in JointPin element");
+					return;
+				}
+			}
+		}
+		
+		JointPin pin = new JointPin(bodyA, bodyB, anchorA, anchorB);
+		if(angleLimit != null) pin.enableLimit(angleLimit.x, angleLimit.y);
+		pin.addToWorld(entityA.getMap().physic);
 	}
 }

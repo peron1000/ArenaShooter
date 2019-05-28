@@ -2,6 +2,8 @@ package arenashooter.engine.physic;
 
 import java.util.LinkedList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.collision.Manifold;
@@ -13,26 +15,30 @@ import org.jbox2d.dynamics.contacts.Contact;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.PhysicBody;
+import arenashooter.engine.physic.joints.PhysicJoint;
 import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Projectile;
 import arenashooter.entities.spatials.Spatial;
 
 public class PhysicWorld {
+	public static final Logger log = LogManager.getLogger("Phys");
+	
 	/** Box-2d world */
 	private World world;
 	
-	/** Map represented by this simulation */
-	private Arena map;
+	/** Arena represented by this simulation */
+	private Arena arena;
 	
 	private MyContactListener contactListener = new MyContactListener();
 	
-	private LinkedList<PhysicBody> toDestroy = new LinkedList<>(), toCreate = new LinkedList<>();
+	private LinkedList<PhysicBody> bToDestroy = new LinkedList<>(), bToCreate = new LinkedList<>();
+	private LinkedList<PhysicJoint> jToDestroy = new LinkedList<>(), jToCreate = new LinkedList<>();
 	
-	public PhysicWorld(Arena map) {
-		this.map = map;
+	public PhysicWorld(Arena arena) {
+		this.arena = arena;
 		
-		world = new World(map.gravity.toB2Vec());
+		world = new World(arena.gravity.toB2Vec());
 		
 		world.setSleepingAllowed(false);
 		
@@ -42,18 +48,28 @@ public class PhysicWorld {
 	public void step(double d) {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
-		world.setGravity(map.gravity.toB2Vec());
+		world.setGravity(arena.gravity.toB2Vec());
 		world.step((float) d, 9, 4);
+
+		//Safely destroy joints after step
+		for(PhysicJoint joint : jToDestroy)
+			joint.destroy();
+		jToDestroy.clear();
 		
 		//Safely destroy bodies after step
-		for(PhysicBody body : toDestroy)
+		for(PhysicBody body : bToDestroy)
 			body.destroy();
-		toDestroy.clear();
+		bToDestroy.clear();
 
 		//Safely create bodies after step
-		for(PhysicBody body : toCreate)
+		for(PhysicBody body : bToCreate)
 			body.create();
-		toCreate.clear();
+		bToCreate.clear();
+		
+		//Safely create joints after step
+		for(PhysicJoint joint : jToCreate)
+			joint.create();
+		jToCreate.clear();
 		
 		Profiler.endTimer(Profiler.PHYSIC);
 	}
@@ -63,7 +79,7 @@ public class PhysicWorld {
 	 * @param body
 	 */
 	public void destroyBody(PhysicBody body) {
-		toDestroy.add(body);
+		bToDestroy.add(body);
 	}
 	
 	/**
@@ -71,7 +87,23 @@ public class PhysicWorld {
 	 * @param body
 	 */
 	public void createBody(PhysicBody body) {
-		toCreate.add(body);
+		bToCreate.add(body);
+	}
+	
+	/**
+	 * Mark a joint for destruction
+	 * @param joint
+	 */
+	public void destroyJoint(PhysicJoint joint) {
+		jToDestroy.add(joint);
+	}
+	
+	/**
+	 * Mark a joint for creation
+	 * @param joint
+	 */
+	public void createJoint(PhysicJoint joint) {
+		jToCreate.add(joint);
 	}
 	
 	public World getB2World() { return world; }

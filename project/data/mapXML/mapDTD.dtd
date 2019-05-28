@@ -14,7 +14,7 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|plateform|rigid|mesh|text|static)*>
+<!ELEMENT entities (entity|plateform|rigid|mesh|text|static|jointPin)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT plateform (vecteur , vecteur, entities?)>
@@ -35,6 +35,9 @@
 <!ATTLIST rigid radius CDATA #IMPLIED>
 <!ATTLIST rigid density CDATA #IMPLIED>
 <!ATTLIST rigid friction CDATA #IMPLIED>
+<!ELEMENT jointPin (vecteur, vecteur, vecteur?)>
+<!ATTLIST jointPin bodyA CDATA #REQUIRED>
+<!ATTLIST jointPin bodyB CDATA #REQUIRED>
 
 <!-- Misc -->
 <!ELEMENT vecteur EMPTY>

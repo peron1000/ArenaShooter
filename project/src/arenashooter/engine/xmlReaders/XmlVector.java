@@ -2,11 +2,11 @@ package arenashooter.engine.xmlReaders;
 
 import org.w3c.dom.Element;
 
-public class XmlVecteur {
+public class XmlVector {
 	public double w = 0.0 ,x = 0.0, y = 0.0, z = 0.0;
 	public String use = "";
 	
-	public XmlVecteur(Element element) {
+	public XmlVector(Element element) {
 		if(element.hasAttribute("x")) {
 			x = Double.parseDouble(element.getAttribute("x"));
 		}
