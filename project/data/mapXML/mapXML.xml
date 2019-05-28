@@ -249,10 +249,62 @@
 	</information>
 
 	<entities>
-		<plateform>
-			<vecteur x="0" y="4" use="position" />
-			<vecteur x="50" y="2" use="extent" />
-		</plateform>
+		<static>
+			<vecteur x="0" y="2.25" use="position" />
+			<vecteur x="50" y="0.25" use="extent" />
+			<entities>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-45" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-35" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-25" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-15" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="-5" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="5" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="15" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="25" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="35" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+				<mesh src="data/meshes/catwalk/catwalk_10.obj">
+					<vecteur use="position" x="45" y="-.25" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="scale" x="1" y="1" z="1" />
+				</mesh>
+			</entities>
+		</static>
 		
 <!-- 		<rigid> -->
 <!-- 			<vecteur x="0" y="-10" use="position" /> -->
