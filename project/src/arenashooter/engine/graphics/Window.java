@@ -3,6 +3,11 @@ package arenashooter.engine.graphics;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,16 +33,20 @@ import static org.lwjgl.opengl.GL30.glGenFramebuffers;
 import static org.lwjgl.opengl.GL30.glGenRenderbuffers;
 import static org.lwjgl.opengl.GL30.glRenderbufferStorage;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWVidMode.Buffer;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.util.Tuple;
 import arenashooter.entities.spatials.Camera;
 
 /**
@@ -167,7 +176,7 @@ public final class Window {
 
 		//Create projection matrix
 		createProjectionMatrix();
-
+		
 		//Show the window
 		glfwShowWindow(window);
 	}
@@ -308,6 +317,38 @@ public final class Window {
 	public static int getWidth() { return width; }
 
 	public static int getHeight() { return height; }
+	
+	/**
+	 * Get all available resolutions for primary monitor
+	 * @return a list of int[] in {width, height} format
+	 */
+	public static List<int[]> getAvailableResolutions() {
+		Buffer modes = glfwGetVideoModes(glfwGetPrimaryMonitor());
+		
+		ArrayList<int[]> temp = new ArrayList<>();
+		
+		for ( int i = 0; i < modes.capacity(); i++ ) {
+			modes.position(i);
+			int w = modes.width();
+			int h = modes.height();
+			temp.add(new int[] {w, h});
+		}
+
+		ArrayList<int[]> res = new ArrayList<>();
+		
+		for(int[] reso : temp) {
+			boolean duplicate = false;
+			for(int[] reso2 : res) {
+				if(Arrays.equals(reso2, reso)) {
+					duplicate = true;
+					break;
+				}
+			}
+			if(!duplicate) res.add(reso);
+		}
+		
+		return res;
+	}
 	
 	/**
 	 * Get screen aspect ratio (width/height)
