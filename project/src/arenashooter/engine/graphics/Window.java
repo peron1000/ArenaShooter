@@ -5,6 +5,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -320,33 +321,45 @@ public final class Window {
 	
 	/**
 	 * Get all available resolutions for primary monitor
-	 * @return a list of int[] in {width, height} format
+	 * @return sorted list of int[] in {width, height} format
 	 */
 	public static List<int[]> getAvailableResolutions() {
 		Buffer modes = glfwGetVideoModes(glfwGetPrimaryMonitor());
-		
-		ArrayList<int[]> temp = new ArrayList<>();
+
+		ArrayList<int[]> res = new ArrayList<>();
 		
 		for ( int i = 0; i < modes.capacity(); i++ ) {
 			modes.position(i);
 			int w = modes.width();
 			int h = modes.height();
-			temp.add(new int[] {w, h});
-		}
-
-		ArrayList<int[]> res = new ArrayList<>();
-		
-		for(int[] reso : temp) {
+			
 			boolean duplicate = false;
-			for(int[] reso2 : res) {
-				if(Arrays.equals(reso2, reso)) {
+			for(int[] tempReso : res) {
+				if(tempReso[0] == w && tempReso[1] == h) {
 					duplicate = true;
 					break;
 				}
 			}
-			if(!duplicate) res.add(reso);
+			
+			if(!duplicate)
+				res.add(new int[] {w, h});
 		}
 		
+		res.sort( new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				if(o1[0] > o2[0])
+					return 1;
+				if(o1[0] < o2[0])
+					return -1;
+				if(o1[1] > o2[1])
+					return 1;
+				if(o1[1] < o2[1])
+					return -1;
+				return 0;
+			}
+		});
+
 		return res;
 	}
 	
