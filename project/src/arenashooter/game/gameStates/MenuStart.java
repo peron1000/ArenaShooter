@@ -4,6 +4,7 @@ import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -90,8 +91,7 @@ public class MenuStart extends GameState {
 
 			@Override
 			public void make() {
-				//TODO
-				GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_empty.xml");
+				GameMaster.gm.requestNextState(new MenuOption(), "data/mapXML/menu_empty.xml");
 			}
 		});
 		button4.setOnArm(new Trigger() {
@@ -152,7 +152,9 @@ public class MenuStart extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
+		Window.beginUi();
 		menustart.draw();
+		Window.endUi();
 	}
 
 }
