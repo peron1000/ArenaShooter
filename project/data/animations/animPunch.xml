@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animation SYSTEM "animationDTD.dtd" >
+<animation length="0.2" loop="false">
+
+	<trackT name="AnimTrackPunch1">
+		<keyframeT time="0.0" value = "data/sprites/swooshes/swoosh_1_1.png" />
+		<keyframeT time="0.08" value = "data/sprites/swooshes/swoosh_1_2.png" />
+		<keyframeT time="0.15" value = "data/sprites/swooshes/swoosh_1_3.png" />
+	</trackT>
+
+</animation>

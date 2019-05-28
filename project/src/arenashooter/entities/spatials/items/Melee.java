@@ -21,7 +21,7 @@ public class Melee extends Usable {
 	protected Timer fireRate = null;
 	protected float damage = 10f;
 
-	protected AnimMelee animmelee = null;
+	protected AnimMelee animMelee = null;
 
 	protected Sprite sprite = null;
 	
@@ -41,7 +41,7 @@ public class Melee extends Usable {
 		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
 		
-		this.animmelee = new AnimMelee(new Vec2f(), this);
+		this.animMelee = new AnimMelee(new Vec2f(), this);
 		
 		//TODO: Read these values per-weapon
 		bladeBot = new Spatial();
@@ -53,14 +53,14 @@ public class Melee extends Usable {
 
 	@Override
 	public void detach() {
-		animmelee.stopAnim();
+		animMelee.stopAnim();
 		super.detach();
 	}
 	
 	@Override
 	public void attackStart() {
-		animmelee.attachToParent(this, "anim_attack_01");
-		animmelee.playAnim();
+		animMelee.attachToParent(this, "anim_attack_01");
+		animMelee.playAnim();
 		
 		//TODO: Remove this
 		startDamage();

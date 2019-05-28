@@ -1,7 +1,10 @@
 package arenashooter.entities.spatials;
 
 import java.io.File;
+import java.net.PortUnreachableException;
 
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -12,11 +15,13 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
+import arenashooter.game.Main;
 
 public class CharacterSprite extends Spatial {
 
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
+	private Sprite punchSprite = new Sprite(new Vec2f());
 
 	private static SoundSourceMulti sndStep, sndPunch;
 
@@ -26,6 +31,9 @@ public class CharacterSprite extends Spatial {
 	private boolean lookRight = true;
 
 	private boolean handLOnWeap = false, handROnWeap = false;
+	
+	private AnimationData punchAnim = AnimationData.loadAnim("data/animations/animPunch.xml");
+	private Animation currentAnim = null;
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
@@ -99,12 +107,18 @@ public class CharacterSprite extends Spatial {
 		handR.getTexture().setFilter(false);
 		handR.rotationFromParent = false;
 		handR.attachToParent(this, "handR");
+		
+		
+		punchSprite.attachToParent(this, "Swoosh");
+		punchSprite.size.set(0, 0);
 	}
 
 	public void punch(double direction) {
 		Vec2f.rotate(new Vec2f(1.5, 0), direction, handR.localPosition);
 		handR.rotation = direction;
 		sndPunch.play(parentPosition);
+		currentAnim = new Animation(punchAnim);
+		currentAnim.play();
 	}
 
 	public void setLookRight(boolean lookRight) {
@@ -157,6 +171,20 @@ public class CharacterSprite extends Spatial {
 	public void step(double d) {
 		super.step(d);
 
+		if(currentAnim != null) {
+			currentAnim.step(d);
+			if(currentAnim.isPlaying()) {
+				punchSprite.flipY = lookRight;
+				punchSprite.setTexture(currentAnim.getTrackTex("AnimTrackPunch1"));
+				punchSprite.size.set(2, 2);
+				punchSprite.localPosition.set(1.5, 0);
+				Vec2f.rotate(punchSprite.localPosition, lookAngle);
+				punchSprite.rotation = lookAngle;
+				punchSprite.getTexture().setFilter(false);
+			}else
+				punchSprite.size.set(0, 0);
+		}
+		
 		wasOnGround = isOnGround;
 
 		if (getParent() instanceof Character) {
