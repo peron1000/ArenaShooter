@@ -72,6 +72,9 @@ public class Animation {
 	 */
 	public void step(double delta) {
 		if(playing) {
+			if(!animData.loop && time >= animData.length)
+				playing = false;
+			
 			double oldTime = time;
 			time += delta*playSpeed;
 			
