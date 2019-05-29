@@ -5,6 +5,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import arenashooter.engine.xmlReaders.XmlVector;
+import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Spawner;
 
 public class SpawnXml extends AbstractElement {
 
@@ -12,8 +14,9 @@ public class SpawnXml extends AbstractElement {
 	float x = 0f;
 	float y = 0f;
 
-	public SpawnXml(Document doc, Element elementParent, boolean spawnperso, double Cooldown) {
+	public SpawnXml(Document doc, Entity map , Element elementParent, boolean spawnperso, double Cooldown) {
 		super(doc, elementParent);
+		System.out.println("ll");
 		spawn = doc.createElement("spawn");
 		elementParent.appendChild(spawn);
 
@@ -31,7 +34,13 @@ public class SpawnXml extends AbstractElement {
 			spawn.appendChild(e);
 		}
 		
-		//creation du mesh
+		loadChildren(map, elementParent);
+	}
+	
+	protected static void loadChildren(Entity parent, Element parentBalise) {
+//		for (String str : parent.getChildren().keySet()) {
+//			Entity child = parent.getChildren().get(str);
+//		}
 	}
 
 	public void setVecteur(float x, float y) {
@@ -40,10 +49,6 @@ public class SpawnXml extends AbstractElement {
 
 	public void addGun() {
 		GunXml gun = new GunXml(doc, spawn);
-	}
-	
-	public void addPlatform() {
-		PlateformXml platform = new PlateformXml(doc, spawn);
 	}
 	
 	public void addMesh() {

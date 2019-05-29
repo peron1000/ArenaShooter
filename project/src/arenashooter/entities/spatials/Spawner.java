@@ -18,11 +18,20 @@ public class Spawner extends Spatial {
 	private double probaTotal = 0;
 	/** Last spawned item */
 	private Item currentItem = null;
+	/** Timer of respawn*/
+	private double cooldown = 0;
 
 	public Spawner(Vec2f position, double cooldown) {
 		super(position);
 		this.timerWarmup = new Timer(cooldown);
 		timerWarmup.attachToParent(this, "timer_spawn");
+	}
+
+	/**
+	 * @return the cooldown
+	 */
+	public double getCooldown() {
+		return cooldown;
 	}
 
 	/**

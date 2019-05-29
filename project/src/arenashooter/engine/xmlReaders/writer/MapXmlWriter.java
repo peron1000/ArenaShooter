@@ -20,13 +20,14 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Plateform;
+import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
 
 public class MapXmlWriter {
-	Element gun;
 	public static final MapXmlWriter writer = new MapXmlWriter();
-
+	static Document doc;
+	private static Element info;
 	private MapXmlWriter() {
 
 	}
@@ -45,16 +46,20 @@ public class MapXmlWriter {
 		map.appendChild(entities);
 
 		loadChildren(arena, map);
+		
+		// Accesseurs :
 	}
 
 	private static void loadChildren(Entity parent, Element parentBalise) {
 		for (String str : parent.getChildren().keySet()) {
+			System.out.println("cp");
 			Entity child = parent.getChildren().get(str);
-			if (child instanceof Plateform) {
-				Plateform p = (Plateform) child;
-//				PlateformXml balise = new PlateformXml(doc, elementParent)
-//				p.loadPlatform();
+			if (child instanceof Spawner) {
+				System.out.println("lol");
+				Spawner p = (Spawner) child;
+				SpawnXml p1 = new SpawnXml(doc, parent, info, true, p.getCooldown());
 			}
+			//else if(child instanceof )
 		}
 	}
 
@@ -77,8 +82,10 @@ public class MapXmlWriter {
 			
 			// Creation of the test arena
 			Arena arena = new Arena();
-			Plateform plat = new Plateform(new Vec2f(), new Vec2f());
-			arena.attachToParent(plat, "platTest");
+			MapXmlWriter.writerMap(arena, "test", doc);
+			
+			Spawner p = new Spawner(new Vec2f(), 0);
+			p.attachToParent(arena, "p");
 
 			transformer.transform(source, result);
 			System.out.println("File saved!");
