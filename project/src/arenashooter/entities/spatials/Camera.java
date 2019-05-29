@@ -123,8 +123,6 @@ public class Camera extends Spatial3 {
 
 		targetLoc.x = Utils.clampF(targetLoc.x, getLowerX(basePos, targetLoc.z), getUpperX(basePos, targetLoc.z));
 		targetLoc.y = Utils.clampF(targetLoc.y, getLowerY(basePos, targetLoc.z), getUpperY(basePos, targetLoc.z));
-		System.out.println("Y: "+targetLoc.y);
-	}
 	
 	float getHorizontalFov() {
 		return (float)( 2*Math.atan(Math.tan(getFOV()/2)*(1/Window.getRatio())) );
@@ -143,7 +141,7 @@ public class Camera extends Spatial3 {
 		float leftVecLen = (float)( (basePos.z-z)/Math.cos(-getHorizontalFov()/2) );
 
 		Vec2f leftVec = Vec2f.fromAngle(-getFOV()/2).multiply(leftVecLen);
-		System.out.println("Left: "+leftVec.y);
+
 		return basePos.y - leftVec.y;
 	}
 	
@@ -151,7 +149,6 @@ public class Camera extends Spatial3 {
 		float topVecLen = (float)( (basePos.z-z)/Math.cos(getFOV()/2) );
 
 		Vec2f topVec = Vec2f.fromAngle(getFOV()/2).multiply(topVecLen);
-		System.out.println("Top "+topVec.y);
 		
 		return basePos.y - topVec.y;
 	}
@@ -160,7 +157,7 @@ public class Camera extends Spatial3 {
 		float botVecLen = (float)( (basePos.z-z)/Math.cos(-getFOV()/2) );
 
 		Vec2f botVec = Vec2f.fromAngle(-getFOV()/2).multiply(botVecLen);
-		System.out.println("Bot: "+botVec.y);
+
 		return basePos.y - botVec.y;
 	}
 }
