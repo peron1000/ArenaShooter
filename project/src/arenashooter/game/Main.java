@@ -26,6 +26,11 @@ public class Main {
 	
 	public static final Logger log = LogManager.getLogger("Main");
 	
+	private static boolean requestclose = false;
+	public static void Reqclose(){
+		requestclose = true;
+	}
+	
 	public static void main(String[] args) {
 		log.info("Starting Super Blep version "+version);
 		
@@ -45,7 +50,7 @@ public class Main {
 		int fpsFrames = 0;
 		long fpsTime = lastFrame;
 		
-		while( !Window.requestClose() ) {
+		while( !Window.requestClose() && !requestclose) {
 			
 			currentFrame = System.currentTimeMillis();
 			
