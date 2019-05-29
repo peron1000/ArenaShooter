@@ -96,6 +96,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadInformation(Element information, Arena map) {
 		loadGravity(getFirstElementByName("gravity", information), map);
 		loadSky(getFirstElementByName("sky", information), map);
+		loadCameraBasePos(getFirstElementByName("cameraPos", information), map);
 		loadCameraBound(getFirstElementByName("cameraBound", information), map);
 
 		// Load spawns
@@ -404,6 +405,26 @@ public class MapXmlReader extends XmlReader {
 			System.err.println("W dans camera Bound non renseignÃ©");
 		}
 		map.cameraBounds = new Vec4f(x, y, z, w);
+	}
+	
+	private void loadCameraBasePos(Element cameraPos, Arena map) {
+		double x = 0, y = 0, z = 0;
+		if (cameraPos.hasAttribute("x")) {
+			x = Double.parseDouble(cameraPos.getAttribute("x"));
+		} else {
+			System.err.println("Missing x coordinate in camera base position");
+		}
+		if (cameraPos.hasAttribute("y")) {
+			y = Double.parseDouble(cameraPos.getAttribute("y"));
+		} else {
+			System.err.println("Missing y coordinate in camera base position");
+		}
+		if (cameraPos.hasAttribute("z")) {
+			z = Double.parseDouble(cameraPos.getAttribute("z"));
+		} else {
+			System.err.println("Missing z coordinate in camera base position");
+		}
+		map.cameraBasePos.set(x, y, z);
 	}
 
 	private void loadSky(Element sky, Arena map) {

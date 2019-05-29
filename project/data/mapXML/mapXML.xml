@@ -240,6 +240,7 @@
 			<vecteur x="0" y="9.807" />
 		</gravity>
 
+		<cameraPos x="0" y="0" z="20" />
 		<cameraBound w="100" x="-500" y="-100" z="500" />
 
 		<sky>

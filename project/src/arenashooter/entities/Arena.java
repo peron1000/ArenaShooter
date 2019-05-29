@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.entities.spatials.items.Item;
@@ -28,6 +29,7 @@ public class Arena extends Entity {
 	
 	/** World bounds (min x, min y, max x, max y) */
 	public Vec4f cameraBounds;
+	public Vec3f cameraBasePos = new Vec3f(0, 0, 8);
 
 	Timer spawnWeapon = new Timer(4);
 

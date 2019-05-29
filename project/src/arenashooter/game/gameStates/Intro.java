@@ -1,14 +1,10 @@
 package arenashooter.game.gameStates;
 
 import arenashooter.engine.animation.AnimIntro;
-import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Music;
 import arenashooter.game.GameMaster;
