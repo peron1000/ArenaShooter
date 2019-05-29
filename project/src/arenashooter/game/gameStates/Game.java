@@ -132,7 +132,7 @@ public class Game extends GameState {
 			}
 			endRound.step(d);
 			if (endRound.isOver()) {
-				if (currentRound < nbRounds) {
+				if (currentRound < nbRounds || nbRounds == -1) {
 					currentRound++;
 					newRound();
 				} else {

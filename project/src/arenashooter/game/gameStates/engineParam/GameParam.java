@@ -30,7 +30,7 @@ public class GameParam {
 	}
 
 	// Rounds
-	private static ParamElement<Integer> nbRound = new ParamElement<Integer>("Round(s)", 1, 2, 3, 4, 5, -1) {
+	private static ParamElement<Integer> nbRound = new ParamElement<Integer>("Round(s)", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, -1) {
 
 		@Override
 		String getStringValue() {
