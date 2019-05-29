@@ -169,10 +169,10 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	}
 
 	@Override
-	public void setPositionLerp(Vec2f position) {
+	public void setPositionLerp(Vec2f position , double lerp) {
 		Vec2f dif = Vec2f.subtract(position, getPosition());
 		positionRef.set(Vec2f.add(positionRef, dif));
-		super.setPositionLerp(position);
+		super.setPositionLerp(position , lerp);
 	}
 
 	public void setImageSelec(UiImage image, int layout) {
@@ -216,7 +216,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	protected void majSelecPosition() {
 		E target = getTarget();
 		if (target != null) {
-			selec.setPosLerp(getTarget().getPos(), 40);
+			selec.setPositionLerp(getTarget().getPos() , 40);
 		}
 	}
 
@@ -240,7 +240,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 		int i = 0;
 		for (E e : elements) {
 			if (e.isVisible()) {
-				e.setPosLerp(new Vec2f(positionRef.x, positionRef.y + ecartement * i), lerp);
+				e.setPositionLerp(new Vec2f(positionRef.x, positionRef.y + ecartement * i) , 20);
 				i++;
 			}
 			e.update(delta);

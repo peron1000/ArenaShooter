@@ -56,11 +56,11 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 			}
 			getMenuCurrent().update(delta);
 			if (onTitle) {
-				selec.setPosLerp(title.getPos(), lerp);
+				selec.setPositionLerp(title.getPos(), 40);
 			} else {
 				UiElement e = getMenuCurrent().getTarget();
 				if (e != null) {
-					selec.setPosLerp(e.getPos(), lerp);
+					selec.setPositionLerp(e.getPos(), 40);
 				}
 			}
 			selec.update(delta);
@@ -79,7 +79,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 			}
 		}
 	}
-	
+
 	public void setScaleTitle(Vec2f scale) {
 		title.setScale(scale);
 	}
@@ -91,14 +91,14 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		title.setPos(Vec2f.add(title.getPos(), dif));
 		super.setPosition(newPosition);
 	}
-	
+
 	@Override
-	public void setPositionLerp(Vec2f position) {
+	public void setPositionLerp(Vec2f position , double lerp) {
 		Vec2f dif = Vec2f.subtract(position, getPosition());
 		for (MenuSelectionV<UiActionable> menu : menus.values()) {
-			menu.setPositionLerp(Vec2f.add(menu.getPosition(), dif));
+			menu.setPositionLerp(Vec2f.add(menu.getPosition(), dif) , lerp);
 		}
-		super.setPositionLerp(position);
+		super.setPositionLerp(position , lerp);
 	}
 
 	public void setPositionRef(Vec2f position) {
@@ -122,7 +122,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 			onTitle = false;
 			UiElement target = getMenuCurrent().getTarget();
 			if (target != null) {
-				selec.setPosLerp(target.getPos(), lerp);
+				selec.setPositionLerp(target.getPos() , 40);
 			}
 		} else {
 			getMenuCurrent().downAction();

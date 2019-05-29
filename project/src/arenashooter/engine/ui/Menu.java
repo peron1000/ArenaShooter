@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
-import arenashooter.engine.events.NewValueEvent;
 import arenashooter.engine.events.menus.MenuExitEvent;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
@@ -45,10 +42,11 @@ public class Menu {
 		foreach(e -> e.setPos(position));
 	}
 	
-	public void setPositionLerp(Vec2f position) {
+	public void setPositionLerp(Vec2f position , double lerp) {
+		this.lerp = lerp;
 		positionLerp.set(position);
 		Vec2f dif = Vec2f.subtract(position, getPosition());
-		foreach( t->t.setPosLerp(Vec2f.add(t.getPos(), dif) , lerp));
+		foreach( t->t.setPositionLerp(Vec2f.add(t.getPos(), dif) , lerp));
 	}
 	
 	public Vec2f getPosition() {

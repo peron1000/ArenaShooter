@@ -32,4 +32,5 @@ public class UiImage extends UiSimpleElementNavigable {
 		model.bind();
 		model.draw();
 	}
+
 }

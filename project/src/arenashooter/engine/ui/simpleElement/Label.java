@@ -11,11 +11,13 @@ import arenashooter.game.Main;
 public class Label extends UiSimpleElementNavigable {
 	private Material material;
 	private Text text;
+	private String txtMem = "";
 
 	public Label(double rot, Vec2f scale, String text) {
 		super(rot, scale);
 		this.text = new Text(Main.font, Text.TextAlignH.CENTER, text);
 		this.material = new Material("data/shaders/ui/ui_text_distance_field");
+		txtMem = text;
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, 1, 1));
@@ -25,6 +27,11 @@ public class Label extends UiSimpleElementNavigable {
 
 	public void setText(String newText) {
 		this.text = new Text(text.getFont(), Text.TextAlignH.CENTER, newText);
+		txtMem = newText;
+	}
+	
+	public String getText() {
+		return txtMem;
 	}
 
 	public void setThickness(float value) {

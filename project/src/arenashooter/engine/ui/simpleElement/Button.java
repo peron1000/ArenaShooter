@@ -30,10 +30,10 @@ public class Button extends UiActionable {
 	}
 	
 	@Override
-	public void setPosLerp(Vec2f pos, double lerp) {
-		label.setPosLerp(pos, lerp);
-		rect.setPosLerp(pos, lerp);
-		super.setPosLerp(pos, lerp);
+	public void setPositionLerp(Vec2f pos , double lerp) {
+		label.setPositionLerp(pos , lerp);
+		rect.setPositionLerp(pos , lerp);
+		super.setPositionLerp(pos , lerp);
 	}
 	
 	@Override
