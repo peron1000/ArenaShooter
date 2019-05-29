@@ -149,7 +149,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 
 	@Override
 	public void selectAction() {
-		if (!onTitle) {
+		if (!onTitle && getTarget() != null) {
 			getTarget().selectAction();
 		}
 	}

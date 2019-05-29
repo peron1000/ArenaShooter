@@ -127,7 +127,8 @@ public class Editor extends GameState {
 		setEntity.addUiElement(setEntityLabel, 1);
 		setEntity.setPosition(forVisible);
 		setEntity.addElementInListOfChoices(setEntityScroller, 1);
-		setEntityLabel.setPos(new Vec2f(forVisible.x, -40));
+		setEntity.setPositionRef(new Vec2f(forVisible.x, -32));
+		setEntityLabel.setPos(new Vec2f(forVisible.x, -43));
 		setEntityLabel.setScale(new Vec2f(20));
 		setEntityScroller.setAlwaysScrollable(true);
 

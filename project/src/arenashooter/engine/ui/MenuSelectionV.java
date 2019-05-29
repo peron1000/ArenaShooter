@@ -159,6 +159,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 			E element = elements.get(i);
 			element.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
 		}
+		majSelecPosition();
 	}
 
 	@Override
