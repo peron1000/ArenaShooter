@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.Fixture;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.audio.Audio;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -262,8 +263,8 @@ public class Character extends RigidBodyContainer {
 	@Override
 	public float takeDamage(DamageInfo info) {
 		Main.log.info("I took damage");
-		// Force death if character fell out of bounds or was killed for a non-gameplay
-		// reason
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS)
+		//Force death if character fell out of bounds or was killed for a non-gameplay reason
 		if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
 			death(info);
 			return health;
@@ -295,6 +296,12 @@ public class Character extends RigidBodyContainer {
 		// if(deathCause.dmgType == DamageType.EXPLOSION)
 		((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
 
+		if(health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
+			Window.getCamera().setCameraShake(1);
+			//TODO: Improve random sound
+			Audio.playSound2D("data/sound/crush_0"+((int)(Math.random()*5)+1)+".ogg", 1, 1, getWorldPos());
+		}
+		
 		health = 0;
 		dropItem();
 		if (controller != null)

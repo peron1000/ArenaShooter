@@ -78,33 +78,35 @@ public class Camera extends Spatial3 {
 	/**
 	 * Move the camera target to fit all the targets in the view
 	 * @param players
-	 * @param bounds world camera bounds (min x, min y, max x, max y), null if none
+	 * @param basePos base camera position used to restrict movement
 	 * @param d delta time
 	 */
 	public void center( ArrayList<Character> players, Vec3f basePos, double d ) { //TODO: Improve bounds support
 		if(players.size() == 0 ) return;
 		
-		Vec2f boundsX = new Vec2f(players.get(0).getWorldPos().x, players.get(0).getWorldPos().x);
-		Vec2f boundsY = new Vec2f(players.get(0).getWorldPos().y, players.get(0).getWorldPos().y);
+		float boundsXL = players.get(0).getWorldPos().x; //-x
+		float boundsXR = players.get(0).getWorldPos().x; //+x
+		float boundsYU = players.get(0).getWorldPos().y; //-u
+		float boundsYD = players.get(0).getWorldPos().y; //+y
 		
 		for( int i=1; i<players.size(); i++ ) {
-			boundsX.x = Math.min(boundsX.x, players.get(i).getWorldPos().x);
-			boundsX.y = Math.max(boundsX.y, players.get(i).getWorldPos().x);
+			boundsXL = Math.min(boundsXL, players.get(i).getWorldPos().x);
+			boundsXR = Math.max(boundsXR, players.get(i).getWorldPos().x);
 
-			boundsY.x = Math.min(boundsY.x, players.get(i).getWorldPos().y);
-			boundsY.y = Math.max(boundsY.y, players.get(i).getWorldPos().y);
+			boundsYU = Math.min(boundsYU, players.get(i).getWorldPos().y);
+			boundsYD = Math.max(boundsYD, players.get(i).getWorldPos().y);
 		}
 		
-		boundsX.x = Math.max(boundsX.x, getLowerX(basePos, 0));
-		boundsX.y = Math.max(boundsX.y, getUpperX(basePos, 0));
-		boundsY.x = Math.max(boundsY.x, getLowerY(basePos, 0));
-		boundsY.y = Math.max(boundsY.y, getUpperY(basePos, 0));
+		boundsXL = Math.max(boundsXL, getLowerX(basePos, 0));
+		boundsXR = Math.min(boundsXR, getUpperX(basePos, 0));
+		boundsYU = Math.max(boundsYU, getLowerY(basePos, 0));
+		boundsYD = Math.min(boundsYD, getUpperY(basePos, 0));
 
-		float boundsW = Math.max(0, boundsX.y - boundsX.x) + margin.x;
-		float boundsH = Math.max(0, boundsY.y - boundsY.x) + margin.y;
+		float boundsW = Math.max(0, boundsXL - boundsXR) + margin.x;
+		float boundsH = Math.max(0, boundsYU - boundsYD) + margin.y;
 		
-		targetLoc.x = Utils.lerpF(boundsX.x, boundsX.y, .5f);
-		targetLoc.y = Utils.lerpF(boundsY.x, boundsY.y, .5f);
+		targetLoc.x = Utils.lerpF(boundsXL, boundsXR, .5f);
+		targetLoc.y = Utils.lerpF(boundsYU, boundsYD, .5f);
 		
 		float newZ;
 		if( boundsW/boundsH > Window.getRatio() ) { //TODO: Test with different window sizes and aspects
@@ -133,7 +135,6 @@ public class Camera extends Spatial3 {
 		float rightVecLen = (float)( (basePos.z-z)/Math.cos(getHorizontalFov()/2) );
 
 		Vec2f rightVec = Vec2f.fromAngle(getFOV()/2).multiply(rightVecLen);
-		System.out.println("Right "+rightVec.y);
 		
 		return basePos.x - rightVec.x;
 	}
