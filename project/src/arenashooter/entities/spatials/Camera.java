@@ -81,32 +81,45 @@ public class Camera extends Spatial3 {
 	 * @param basePos base camera position used to restrict movement
 	 * @param d delta time
 	 */
-	public void center( ArrayList<Character> players, Vec3f basePos, double d ) { //TODO: Improve bounds support
-		if(players.size() == 0 ) return;
-		
-		float boundsXL = players.get(0).getWorldPos().x; //-x
-		float boundsXR = players.get(0).getWorldPos().x; //+x
-		float boundsYU = players.get(0).getWorldPos().y; //-u
-		float boundsYD = players.get(0).getWorldPos().y; //+y
-		
-		for( int i=1; i<players.size(); i++ ) {
-			boundsXL = Math.min(boundsXL, players.get(i).getWorldPos().x);
-			boundsXR = Math.max(boundsXR, players.get(i).getWorldPos().x);
-
-			boundsYU = Math.min(boundsYU, players.get(i).getWorldPos().y);
-			boundsYD = Math.max(boundsYD, players.get(i).getWorldPos().y);
+	public void center( ArrayList<Character> centerTargets, Vec3f basePos, double d ) { //TODO: Improve bounds support
+		if(centerTargets.size() == 0 ) {
+			targetLoc.set(basePos);
+			return;
 		}
 		
+		float boundsXL = centerTargets.get(0).getWorldPos().x; //-x
+		float boundsXR = centerTargets.get(0).getWorldPos().x; //+x
+		float boundsYU = centerTargets.get(0).getWorldPos().y; //-u
+		float boundsYD = centerTargets.get(0).getWorldPos().y; //+y
+		
+		//Rectangle including all characters
+		for( int i=1; i<centerTargets.size(); i++ ) {
+			boundsXL = Math.min(boundsXL, centerTargets.get(i).getWorldPos().x);
+			boundsXR = Math.max(boundsXR, centerTargets.get(i).getWorldPos().x);
+
+			boundsYU = Math.min(boundsYU, centerTargets.get(i).getWorldPos().y);
+			boundsYD = Math.max(boundsYD, centerTargets.get(i).getWorldPos().y);
+		}
+
+		//Add margin to rectangle
+		boundsXL -= margin.x;
+		boundsXR += margin.x;
+		boundsYU -= margin.y;
+		boundsYD += margin.y;
+		
+		//Clamp rectangle to camera bounds
 		boundsXL = Math.max(boundsXL, getLowerX(basePos, 0));
 		boundsXR = Math.min(boundsXR, getUpperX(basePos, 0));
 		boundsYU = Math.max(boundsYU, getLowerY(basePos, 0));
 		boundsYD = Math.min(boundsYD, getUpperY(basePos, 0));
 		
+		//Set camera target to the center of the rectangle
 		targetLoc.x = Utils.lerpF(boundsXL, boundsXR, .5f);
 		targetLoc.y = Utils.lerpF(boundsYU, boundsYD, .5f);
 		
-		float boundsW = Math.max(0, boundsXL - boundsXR) + margin.x;
-		float boundsH = Math.max(0, boundsYU - boundsYD) + margin.y;
+		//Get rectangle size
+		float boundsW = Math.max(0, boundsXR - boundsXL);
+		float boundsH = Math.max(0, boundsYD - boundsYU);
 		
 		float newZ;
 		if( boundsW/boundsH > Window.getRatio() ) { //TODO: Test with different window sizes and aspects

@@ -240,7 +240,7 @@
 			<vecteur x="0" y="9.807" />
 		</gravity>
 
-		<cameraPos x="0" y="-15" z="175" />
+		<cameraPos x="0" y="-15" z="100" />
 		
 		<killBounds minX="-200" minY="-100" maxX="200" maxY="20" />
 
