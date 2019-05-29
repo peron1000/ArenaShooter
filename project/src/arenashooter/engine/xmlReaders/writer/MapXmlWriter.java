@@ -19,7 +19,6 @@ import org.w3c.dom.Element;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
-import arenashooter.entities.spatials.Plateform;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
