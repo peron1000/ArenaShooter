@@ -93,7 +93,7 @@ public class Shotgun extends Gun {
 															(Math.random()>=0.5 ? 1 : -1)* rand * dispersion)),
 													1 + Math.random() / 4),
 									damage);
-							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
+							bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) getParent());
 						} else {
@@ -101,7 +101,7 @@ public class Shotgun extends Gun {
 									Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed,1.2), (Math.random() - 0.5) * 0.5 * dispersion)),
 											1 + Math.random() / 4),
 									damage);
-							bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
+							bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) getParent());
 						}
@@ -128,15 +128,15 @@ public class Shotgun extends Gun {
 							bull.shooter = ((Character) getParent());
 							bull2.shooter = ((Character) getParent());
 						}
-						bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
-						bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
+						bull.attachToParent(getArena(), ("bullet_" + bull.genName()));
+						bull2.attachToParent(getArena(), ("bullet_" + bull2.genName()));
 					}
 					break;
 
 				default:
 
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
-					bul1.attachToParent(getMap(), ("bullet_" + bul1.genName()));
+					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");

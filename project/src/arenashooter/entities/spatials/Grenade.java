@@ -43,7 +43,7 @@ public class Grenade extends Projectile {
 	public void step(double d) {
 		if(grenadeTimer.isOver()) {
 			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(150, DamageType.EXPLOSION, new Vec2f(), shooter), 40);
-			explosion.attachToParent(getMap(), explosion.genName());
+			explosion.attachToParent(getArena(), explosion.genName());
 			detach();
 		}
 		

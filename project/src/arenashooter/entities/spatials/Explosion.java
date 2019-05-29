@@ -102,7 +102,7 @@ public class Explosion extends Spatial {
 
 		if(time <= 0) {
 			Particles particles = new Particles(getWorldPos(), "data/particles/explosion.xml");
-			particles.attachToParent(getMap(), "particles");
+			particles.attachToParent(getArena(), "particles");
 
 			Audio.playSound2D("data/sound/explosion_01.ogg", 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			
@@ -141,7 +141,7 @@ public class Explosion extends Spatial {
 		raycastEnd.multiply(length);
 		raycastEnd.add(getWorldPos());
 		
-		getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
+		getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
 	}
 
 	private HashSet<Spatial> touched = new HashSet<>();

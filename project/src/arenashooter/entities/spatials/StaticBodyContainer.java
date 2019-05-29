@@ -30,8 +30,8 @@ public class StaticBodyContainer extends Spatial {
 		
 		Entity prev = super.attachToParent(newParent, name);
 		
-		if(getMap() != null) {
-			body.addToWorld(getMap().physic);
+		if(getArena() != null) {
+			body.addToWorld(getArena().physic);
 			needsPhysWorld = false;
 		}
 		
@@ -64,8 +64,8 @@ public class StaticBodyContainer extends Spatial {
 		}
 		
 		if(needsPhysWorld) {
-			if(getMap() != null) {
-				body.addToWorld(getMap().physic);
+			if(getArena() != null) {
+				body.addToWorld(getArena().physic);
 				needsPhysWorld = false;
 			}
 		} else {

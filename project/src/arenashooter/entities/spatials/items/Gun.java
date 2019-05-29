@@ -149,7 +149,7 @@ public class Gun extends Usable {
 				switch (bulletType) {
 				case 0:
 					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
-					bul.attachToParent(getMap(), ("bullet_" + bul.genName()));
+					bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 					if (isEquipped())
 						bul.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
@@ -167,13 +167,13 @@ public class Gun extends Usable {
 						bull.shooter = ((Character) getParent());
 						bull2.shooter = ((Character) getParent());
 					}
-					bull.attachToParent(getMap(), ("bullet_" + bull.genName()));
-					bull2.attachToParent(getMap(), ("bullet_" + bull2.genName()));
+					bull.attachToParent(getArena(), ("bullet_" + bull.genName()));
+					bull2.attachToParent(getArena(), ("bullet_" + bull2.genName()));
 					break;
 					
 				case 2:
 					Grenade bul2 = new Grenade(bulletPos, bulSpeed, damage);
-					bul2.attachToParent(getMap(), ("grenade_" + bul2.genName()));
+					bul2.attachToParent(getArena(), ("grenade_" + bul2.genName()));
 					if (isEquipped())
 						bul2.shooter = ((Character) getParent());
 //					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
@@ -182,7 +182,7 @@ public class Gun extends Usable {
 
 				default:
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
-					bul1.attachToParent(getMap(), ("bullet_" + bul1.genName()));
+					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
 					flash = new Particles(bulletPos, "data/particles/flash_01.xml");

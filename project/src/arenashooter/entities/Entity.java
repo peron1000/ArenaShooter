@@ -9,7 +9,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.game.Main;
 
 public class Entity {
-	private Arena map = null;
+	private Arena arena = null;
 	private Entity parent = null;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
@@ -41,9 +41,6 @@ public class Entity {
 		
 		//Trying to attach the entity to its current parent, nothing to do
 		if(newParent == parent) return null;
-		
-		//Reset map
-		map = null;
 
 		// Detach this from current parent
 		if (parent != null)
@@ -69,7 +66,7 @@ public class Entity {
 		if (parent != null)
 			parent.children.remove(name);
 		parent = null;
-		map = null;
+		arena = null;
 		name = "";
 	}
 
@@ -110,24 +107,24 @@ public class Entity {
 	}
 
 	/**
-	 * @return Map containing this entity or self if this is the Map
+	 * @return Arena containing this entity or self if this is the Arena
 	 */
-	public Arena getMap() { //TODO: test
-		if(map != null) return map;
-		
-		if (this instanceof Arena)
-			map = (Arena)this;
+	public Arena getArena() { //TODO: test
+//		if(arena != null) return arena;
+//		
+//		if (this instanceof Arena)
+//			arena = (Arena)this;
 
 		Entity current = parent;
 		while (current != null && !(current instanceof Arena))
 			current = current.parent;
 
 		if (current instanceof Arena)
-			map = (Arena)current;
+			arena = (Arena)current;
 		else
-			map = null;
+			arena = null;
 		
-		return map;
+		return arena;
 	}
 
 	/**

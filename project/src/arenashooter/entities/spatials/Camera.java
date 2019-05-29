@@ -101,12 +101,12 @@ public class Camera extends Spatial3 {
 		boundsXR = Math.min(boundsXR, getUpperX(basePos, 0));
 		boundsYU = Math.max(boundsYU, getLowerY(basePos, 0));
 		boundsYD = Math.min(boundsYD, getUpperY(basePos, 0));
-
-		float boundsW = Math.max(0, boundsXL - boundsXR) + margin.x;
-		float boundsH = Math.max(0, boundsYU - boundsYD) + margin.y;
 		
 		targetLoc.x = Utils.lerpF(boundsXL, boundsXR, .5f);
 		targetLoc.y = Utils.lerpF(boundsYU, boundsYD, .5f);
+		
+		float boundsW = Math.max(0, boundsXL - boundsXR) + margin.x;
+		float boundsH = Math.max(0, boundsYU - boundsYD) + margin.y;
 		
 		float newZ;
 		if( boundsW/boundsH > Window.getRatio() ) { //TODO: Test with different window sizes and aspects

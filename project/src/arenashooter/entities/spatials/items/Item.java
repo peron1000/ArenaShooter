@@ -119,8 +119,8 @@ public abstract class Item extends Spatial {
 		}
 
 		//Destroy when out of bounds
-		if (getMap() != null && (getWorldPos().x < getMap().killBound.x || getWorldPos().x > getMap().killBound.z
-				|| getWorldPos().y < getMap().killBound.y || getWorldPos().y > getMap().killBound.w))
+		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
+				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		// SpriteFlip

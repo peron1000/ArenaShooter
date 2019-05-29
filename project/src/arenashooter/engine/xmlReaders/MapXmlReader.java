@@ -818,6 +818,6 @@ public class MapXmlReader extends XmlReader {
 		
 		JointPin pin = new JointPin(bodyA, bodyB, anchorA, anchorB);
 		if(angleLimit != null) pin.enableLimit(angleLimit.x, angleLimit.y);
-		pin.addToWorld(entityA.getMap().physic);
+		pin.addToWorld(entityA.getArena().physic);
 	}
 }

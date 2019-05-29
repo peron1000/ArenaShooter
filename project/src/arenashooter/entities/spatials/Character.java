@@ -175,7 +175,7 @@ public class Character extends RigidBodyContainer {
 			punchHit.clear();
 			punchRayFraction = 0;
 
-			getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
+			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
 			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
 				if (entry.getValue() <= punchRayFraction) {
 					Main.log.info("I dealt damage");
@@ -214,7 +214,7 @@ public class Character extends RigidBodyContainer {
 		boolean hasWeapon = getWeapon() != null;
 
 		if (!hasWeapon) {
-			for (Entity e : getMap().getChildren().values()) { // TODO: Remove this
+			for (Entity e : getArena().getChildren().values()) { // TODO: Remove this
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
 					float xDiff = Math.abs(getWorldPos().x - usable.getWorldPos().x);
@@ -311,7 +311,7 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public void step(double d) {
-		if (getMap() == null)
+		if (getArena() == null)
 			return;
 
 		if (Math.random() > 0.6)
@@ -339,7 +339,7 @@ public class Character extends RigidBodyContainer {
 				Vec2f end = start.clone();
 				end.y += .1;
 
-				getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
+				getArena().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
 
