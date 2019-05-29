@@ -127,7 +127,7 @@ public class Camera extends Spatial3 {
 		} else {
 			newZ = zoomMin+(350/(800/boundsH));
 		}
-		System.out.println(newZ);
+		
 		//Slow zoom-in
 		if( newZ < targetLoc.z )
 			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(1, 1.3*d) );
