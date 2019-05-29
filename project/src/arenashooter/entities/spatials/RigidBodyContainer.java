@@ -26,8 +26,8 @@ public class RigidBodyContainer extends Spatial {
 		
 		Entity prev = super.attachToParent(newParent, name);
 		
-		if(getMap() != null) {
-			body.addToWorld(getMap().physic);
+		if(getArena() != null) {
+			body.addToWorld(getArena().physic);
 			needsPhysWorld = false;
 		}
 		
@@ -103,8 +103,8 @@ public class RigidBodyContainer extends Spatial {
 		}
 		
 		if(needsPhysWorld) {
-			if(getMap() != null) {
-				body.addToWorld(getMap().physic);
+			if(getArena() != null) {
+				body.addToWorld(getArena().physic);
 				needsPhysWorld = false;
 			}
 		} else {
@@ -113,7 +113,8 @@ public class RigidBodyContainer extends Spatial {
 		}
 		
 		//Destroy when out of bounds
-		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
+		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
+				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		super.step(d);

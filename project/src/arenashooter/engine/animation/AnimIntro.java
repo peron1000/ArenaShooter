@@ -73,7 +73,7 @@ public class AnimIntro extends Arena{
 		sndPunch.setVolume(.48f);
 		
 		//Camera
-		Camera cam = new Camera(new Vec3f());
+		Camera cam = new Camera(new Vec3f(0, 0, 850));
 		cam.setFOV(90);
 		cam.interpolate = false;
 		cam.attachToParent(this, "camera");

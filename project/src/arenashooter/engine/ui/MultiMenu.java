@@ -112,7 +112,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 	@Override
 	public void upAction() {
 		if (!onTitle) {
-			getMenuCurrent().up();
+			getMenuCurrent().upAction();
 		}
 	}
 
@@ -125,7 +125,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 				selec.setPosLerp(target.getPos(), lerp);
 			}
 		} else {
-			getMenuCurrent().down();
+			getMenuCurrent().downAction();
 		}
 	}
 
@@ -134,7 +134,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		if (onTitle) {
 			title.rightAction();
 		} else {
-			getMenuCurrent().right();
+			getMenuCurrent().rightAction();
 		}
 	}
 
@@ -143,7 +143,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		if (onTitle) {
 			title.leftAction();
 		} else {
-			getMenuCurrent().left();
+			getMenuCurrent().leftAction();
 		}
 	}
 

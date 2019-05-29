@@ -112,16 +112,16 @@ public class MenuOption extends GameState {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_LEFT:
-						menustart.left();
+						menustart.leftAction();
 						break;
 					case UI_RIGHT:
-						menustart.right();
+						menustart.rightAction();
 						break;
 					case UI_UP:
-						menustart.up();
+						menustart.upAction();
 						break;
 					case UI_DOWN:
-						menustart.down();
+						menustart.downAction();
 						break;
 					case UI_OK:
 					case UI_CONTINUE:

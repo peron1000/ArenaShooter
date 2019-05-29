@@ -3,14 +3,16 @@
 <!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
-<!ELEMENT information (spawn+ , gravity , cameraBound , sky)>
+<!ELEMENT information (spawn+ , gravity , cameraPos, killBounds , sky)>
 <!ELEMENT spawn (vecteur,(usable | gun | melee |shotgun| usabletimer)*,entities?)>
 <!ATTLIST spawn spawnperso (false|true) "true"
 		        cooldown CDATA #REQUIRED>
 
 <!ELEMENT gravity (vecteur)>
-<!ELEMENT cameraBound EMPTY>
-<!ATTLIST cameraBound x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED w CDATA #REQUIRED>
+<!ELEMENT cameraPos EMPTY>
+<!ATTLIST cameraPos x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED>
+<!ELEMENT killBounds EMPTY>
+<!ATTLIST killBounds minX CDATA #REQUIRED minY CDATA #REQUIRED maxX CDATA #REQUIRED maxY CDATA #REQUIRED>
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.entities.spatials.items.Item;
@@ -26,8 +27,11 @@ public class Arena extends Entity {
 	/** All items currently on the map */
 	public ArrayList<Item> items = new ArrayList<>();
 	
-	/** World bounds (min x, min y, max x, max y) */
-	public Vec4f cameraBounds;
+	/** Kill every Spatial that touches these bounds (min X, min Y, max X, max Y) */
+	public Vec4f killBound = new Vec4f(100, 100, 100, 100);
+	
+	/** Base camera position, camera movement will be restricted into this field of view */
+	public Vec3f cameraBasePos = new Vec3f(0, 0, 8);
 
 	Timer spawnWeapon = new Timer(4);
 

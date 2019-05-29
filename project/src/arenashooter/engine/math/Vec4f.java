@@ -39,6 +39,23 @@ public class Vec4f {
 		this.z = (float)z;
 		this.w = (float)w;
 	}
+	
+
+	/**
+	 * <i>This</i> becomes (x, y, z, w) and return <i>this</i>
+	 * @param x
+	 * @param y
+	 * @paraw z
+	 * @paraw w
+	 * @return <i>this</i> (modified)
+	 */
+	public Vec4f set(double x, double y, double z, double w) {
+		this.x = (float)x;
+		this.y = (float)y;
+		this.z = (float)z;
+		this.w = (float)w;
+		return this;
+	}
 
 	/**
 	 * Add two vectors together.

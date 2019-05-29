@@ -10,7 +10,9 @@
 			<vecteur x="0" y="9.807" />
 		</gravity>
 
-		<cameraBound w="1000" x="-5000" y="-1000" z="5000" />
+		<cameraPos x="0" y="0" z="8" />
+		
+		<killBounds minX="-1000" minY="-1000" maxX="1000" maxY="1000" />
 
 		<sky>
 			<vecteur x="0" y="0" z="0" use="bottom" />

@@ -84,6 +84,8 @@ public class SoundEffect extends Spatial {
 
 	@Override
 	public void step(double d) {
+		if(getArena() == null) sound.stop();
+		
 		if( sound instanceof SoundSourceMulti )
 			((SoundSourceMulti)sound).setPositions( parentPosition );
 		else if( sound instanceof SoundSourceSingle )

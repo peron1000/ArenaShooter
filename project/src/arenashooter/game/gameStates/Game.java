@@ -8,14 +8,9 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuPause;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
@@ -137,7 +132,7 @@ public class Game extends GameState {
 			}
 			endRound.step(d);
 			if (endRound.isOver()) {
-				if (currentRound < nbRounds) {
+				if (currentRound < nbRounds || nbRounds == -1) {
 					currentRound++;
 					newRound();
 				} else {
@@ -145,12 +140,9 @@ public class Game extends GameState {
 				}
 			}
 
-			if (Window.getCamera() != null) {
-				Window.getCamera().center(players, null, d);
-				// Window.getCamera().center(players, map.cameraBounds, d); //TODO: Fix camera,
-				// c'est du bousin
-				// bounds and uncomment this
-				Audio.setListener(Window.getCamera().getWorldPos(), Window.getCamera().getWorldRot());
+			if (getCamera() != null) {
+				getCamera().center(players, current.cameraBasePos, d);
+				Audio.setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
 			} else
 				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
 

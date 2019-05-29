@@ -119,7 +119,8 @@ public abstract class Item extends Spatial {
 		}
 
 		//Destroy when out of bounds
-		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
+		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
+				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		// SpriteFlip

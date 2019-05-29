@@ -14,4 +14,8 @@ public interface Navigable {
 	public boolean isSelected();
 	
 	public void unSelec();
+	
+	public void update(double delta);
+	
+	public void draw();
 }

@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.Fixture;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.audio.Audio;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -39,21 +40,25 @@ public class Character extends RigidBodyContainer {
 
 	// Movement stats
 	public double maxSpeed = 18;
+	/**
+	 * The Character is jumping
+	 */
+	public boolean jumpi;
+	private double jumpForce = 16;
+	private double parachuteForce = 8.5;
+	private Timer jumpTimer = new Timer(0.5);
 
 	// Combat stats
 	/** Melee attack cooldown */
-	private Timer attackCooldown = new Timer(0.3);
+	private Timer attackCooldown = new Timer(0.25);
 	private int attackCombo = 0;
 	private Timer holdCombo = new Timer(1);
 	private float range = 2;
-
 	/**
-	 * The character is jumping
+	 * 
+	 * The Character has already punched mid-air
 	 */
-	public boolean jumpi;
-	private double jumpForce = 25;
-	private double parachuteForce = 8.5;
-	private Timer jumpTimer = new Timer(0.5);
+	boolean punchi = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position, new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
@@ -81,11 +86,11 @@ public class Character extends RigidBodyContainer {
 		SoundEffect punchHitSound = new SoundEffect(this.getWorldPos(), "data/sound/snd_Punch_Hit2.ogg", 1);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
-		
+
 		SoundEffect punchHitSound2 = new SoundEffect(this.getWorldPos(), "data/sound/slap.ogg", 1);
 		punchHitSound2.setVolume(.7f);
 		punchHitSound2.attachToParent(this, "snd_Punch_Hit2");
-		
+
 		SoundEffect punchHitSound3 = new SoundEffect(this.getWorldPos(), "data/sound/BangIonGun2.ogg", 1);
 		punchHitSound3.setVolume(.7f);
 		punchHitSound3.attachToParent(this, "snd_Punch_Hit3");
@@ -135,6 +140,9 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
+			getBody().applyImpulse((Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput)));
+			punchi = true;
+
 			attackCooldown.restart();
 			if (holdCombo.isOver()) {
 				attackCombo = 0;
@@ -144,7 +152,19 @@ public class Character extends RigidBodyContainer {
 
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			if (skeleton != null)
-				skeleton.punch(aimInput);
+				switch (attackCombo) {
+				case 1:
+					skeleton.punch(1, aimInput);
+					break;
+				case 2 :
+					skeleton.punch(2, aimInput);
+					break;
+				case 3 :
+					skeleton.punch(3, aimInput);
+					break;
+				default:
+					break;
+				}
 
 			DamageInfo punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 
@@ -155,25 +175,25 @@ public class Character extends RigidBodyContainer {
 			punchHit.clear();
 			punchRayFraction = 0;
 
-			getMap().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
+			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
 			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
 				if (entry.getValue() <= punchRayFraction) {
 					Main.log.info("I dealt damage");
 					entry.getKey().takeDamage(punchDmgInfo);
 				}
 			}
-			if(!punchHit.isEmpty()) {
-				switch(attackCombo) {
+			if (!punchHit.isEmpty()) {
+				switch (attackCombo) {
 				case 1:
-				((SoundEffect)getChild("snd_Punch_Hit")).play();
-				break;
+					((SoundEffect) getChild("snd_Punch_Hit")).play();
+					break;
 				case 2:
-				((SoundEffect)getChild("snd_Punch_Hit2")).play();
-				break;
+					((SoundEffect) getChild("snd_Punch_Hit2")).play();
+					break;
 				case 3:
-				((SoundEffect)getChild("snd_Punch_Hit3")).play();
-				attackCombo = 0;
-				break;
+					((SoundEffect) getChild("snd_Punch_Hit3")).play();
+					attackCombo = 0;
+					break;
 				default:
 					break;
 				}
@@ -194,7 +214,7 @@ public class Character extends RigidBodyContainer {
 		boolean hasWeapon = getWeapon() != null;
 
 		if (!hasWeapon) {
-			for (Entity e : getMap().getChildren().values()) { // TODO: Remove this
+			for (Entity e : getArena().getChildren().values()) { // TODO: Remove this
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
 					float xDiff = Math.abs(getWorldPos().x - usable.getWorldPos().x);
@@ -243,8 +263,8 @@ public class Character extends RigidBodyContainer {
 	@Override
 	public float takeDamage(DamageInfo info) {
 		Main.log.info("I took damage");
-		// Force death if character fell out of bounds or was killed for a non-gameplay
-		// reason
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS)
+		//Force death if character fell out of bounds or was killed for a non-gameplay reason
 		if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
 			death(info);
 			return health;
@@ -276,6 +296,12 @@ public class Character extends RigidBodyContainer {
 		// if(deathCause.dmgType == DamageType.EXPLOSION)
 		((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
 
+		if(health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
+			Window.getCamera().setCameraShake(1);
+			//TODO: Improve random sound
+			Audio.playSound2D("data/sound/crush_0"+((int)(Math.random()*5)+1)+".ogg", 1, 1, getWorldPos());
+		}
+		
 		health = 0;
 		dropItem();
 		if (controller != null)
@@ -285,7 +311,7 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public void step(double d) {
-		if (getMap() == null)
+		if (getArena() == null)
 			return;
 
 		if (Math.random() > 0.6)
@@ -313,7 +339,7 @@ public class Character extends RigidBodyContainer {
 				Vec2f end = start.clone();
 				end.y += .1;
 
-				getMap().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
+				getArena().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
 
@@ -377,6 +403,7 @@ public class Character extends RigidBodyContainer {
 				return -1;
 
 			isOnGround = true;
+			punchi = false;
 			return fraction;
 		}
 	};

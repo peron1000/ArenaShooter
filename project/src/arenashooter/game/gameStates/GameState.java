@@ -23,12 +23,19 @@ public abstract class GameState {
 		current = maps[0];
 	}
 
+	/**
+	 * Call this once the map is ready
+	 */
 	public void init() {
 		// Camera
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
-		Camera cam = new Camera(new Vec3f(0, 0, 850));
+		Camera cam = new Camera(current.cameraBasePos);
 		cam.attachToParent(current, "camera");
 		Window.setCamera(cam);
+	}
+	
+	public Camera getCamera() {
+		return (Camera) current.getChild("camera");
 	}
 
 	public void update(double delta) {
