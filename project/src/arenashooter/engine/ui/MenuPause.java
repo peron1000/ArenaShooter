@@ -20,6 +20,7 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.Intro;
+import arenashooter.game.gameStates.MenuStart;
 
 public class MenuPause extends MenuSelectionV<Label> {
 
@@ -84,7 +85,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 		op3 = new Label(0, new Vec2f(scale), "Option");
 		addElementInListOfChoices(op3, 1);
 
-		op4 = new Label(0, new Vec2f(scale), "Quit : Alt+f4");
+		op4 = new Label(0, new Vec2f(scale), "Back to Menu");
 		addElementInListOfChoices(op4, 1);
 		
 		op1.addAction("ok", new Trigger() {
@@ -116,7 +117,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 			@Override
 			public void make() {
 				System.out.println("op4 : quit");
-				GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
+				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
 			}
 		});
 	//  op2.visible = false;

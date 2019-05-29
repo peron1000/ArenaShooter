@@ -89,7 +89,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		mesElements.put(c, element);
 		addUiElement(element, layout);
 		Vec2f pos = new Vec2f(positionRelative.x + (x * ecartementX), positionRelative.y + (y * ecartementY));
-		element.setPosLerp(pos, 3);
+		element.setPositionLerp(pos , 10);
 		element.setVisible(true);
 		if (mesElements.size() == 1) {
 			majSelecPosition();
@@ -172,7 +172,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	private void majSelecPosition() {
 		E element = mesElements.get(new Coordonnees(x, y));
 		if (element != null && selec != null) {
-			selec.setPosLerp(element.getPos(), 40);
+			selec.setPositionLerp(element.getPos() , 40);
 		}
 	}
 

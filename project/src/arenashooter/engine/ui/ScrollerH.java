@@ -56,9 +56,9 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable implements Valuab
 	}
 	
 	@Override
-	public void setPosLerp(Vec2f pos, double lerp) {
-		label.setPosLerp(pos, lerp);
-		super.setPosLerp(pos, lerp);
+	public void setPositionLerp(Vec2f position , double lerp) {
+		label.setPositionLerp(position , lerp);
+		super.setPositionLerp(position , lerp);
 	}
 
 	@Override

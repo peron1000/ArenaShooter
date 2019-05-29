@@ -180,6 +180,57 @@ public enum ActionV2 {
 		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return false;
 		}
+	},
+	UI_DOWN2 {
+		@Override
+		public boolean keyboardInput(long window) {
+			return glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y) >= 0.3f;
+			return p;
+		}
+	},
+	UI_UP2 {
+		@Override
+		public boolean keyboardInput(long window) {
+			boolean z = glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS;
+			return z;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y) <= -0.3f;
+			return p;
+		}
+	},
+	UI_RIGHT2 {
+		@Override
+		public boolean keyboardInput(long window) {
+			boolean d = glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS;
+			return d;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X) >= 0.3f;
+			return p;
+		}
+	},
+	UI_LEFT2 {
+		@Override
+		public boolean keyboardInput(long window) {
+			boolean q = glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS;
+			return q;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X) <= -0.3f;
+			return p;
+		}
 	}
 ;
 

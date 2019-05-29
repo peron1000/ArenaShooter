@@ -17,14 +17,18 @@ import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
 import arenashooter.engine.ui.Navigable;
+import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.Rectangle;
+import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
+import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.editorEnum.Prime;
+import arenashooter.game.gameStates.editorEnum.SetMesh;
 
 public class Editor extends GameState {
 
@@ -57,7 +61,15 @@ public class Editor extends GameState {
 	/* Bg Menu */
 	private Menu bg = new Menu(2);
 
+	/* Menu Set entity */
+	private MenuSelectionV<UiActionable> setEntity = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
+			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
+	private Label setEntityLabel = new Label(0, new Vec2f(15), "Empty");
+	private ScrollerH<SetMesh> setEntityScroller = new ScrollerH<>(0, new Vec2f(35, 25), SetMesh.values());
+
 	private Stack<Navigable> stackMenu = new Stack<>();
+
+	private LinkedList<Mesh> meshList = new LinkedList<>();
 
 	public Editor() {
 		super(1);
@@ -69,6 +81,13 @@ public class Editor extends GameState {
 		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
 		save.setScaleText(new Vec2f(20));
 		Button quit = new Button(0, scale, "Quit");
+		quit.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+			}
+		});
 		quit.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
 		quit.setScaleText(new Vec2f(20));
 		saveQuitMenu.addElementInListOfChoices(save, 1);
@@ -79,9 +98,6 @@ public class Editor extends GameState {
 		Button entity = new Button(0, scale, "entity");
 		entity.setScaleText(new Vec2f(scaleText));
 		addMenu.addElementInListOfChoices(entity, 1);
-		Button plateform = new Button(0, scale, "plateform");
-		plateform.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(plateform, 1);
 		Button rigid = new Button(0, scale, "rigid");
 		rigid.setScaleText(new Vec2f(scaleText));
 		addMenu.addElementInListOfChoices(rigid, 1);
@@ -105,7 +121,16 @@ public class Editor extends GameState {
 		meshMenuConstruction();
 
 		/* Set Menu */
-		setMenu.addElementInListOfChoices(new Button(0, new Vec2f(15, 5), "set entity"), 1);
+		setMenu.setEcartement(6);
+
+		/* set entity menu */
+		setEntity.addUiElement(setEntityLabel, 1);
+		setEntity.setPosition(forVisible);
+		setEntity.addElementInListOfChoices(setEntityScroller, 1);
+		setEntity.setPositionRef(new Vec2f(forVisible.x, -32));
+		setEntityLabel.setPos(new Vec2f(forVisible.x, -43));
+		setEntityLabel.setScale(new Vec2f(20));
+		setEntityScroller.setAlwaysScrollable(true);
 
 		/* Main Menu */
 		Rectangle bg = new Rectangle(0, new Vec2f(50, 150), new Vec4f(0.5, 0.5, 0.5, 0.2));
@@ -159,6 +184,90 @@ public class Editor extends GameState {
 					default:
 						break;
 					}
+				} else if (event.getActionState() == ActionState.PRESSED) {
+					if (stackMenu.peek() == setEntity) {
+						final double scaleSpeed = 0.005 , positionSpeed = 0.02;
+						switch (event.getAction()) {
+						case UI_DOWN2:
+							Entity e = current.getChild(setEntityLabel.getText());
+							if (meshList.contains(e)) {
+								Mesh m = (Mesh) e;
+								switch (setEntityScroller.get()) {
+								case POSITION:
+									m.localPosition.add(new Vec3f(0, positionSpeed, 0));
+									break;
+								case SCALE:
+									m.scale.add(new Vec3f(0, -scaleSpeed, 0));
+									break;
+								case ROTATION:
+									m.localRotation.rotate(new Vec3f(0, 0.1, 0));
+									break;
+								default:
+									break;
+								}
+							}
+							break;
+						case UI_UP2:
+							e = current.getChild(setEntityLabel.getText());
+							if (meshList.contains(e)) {
+								Mesh m = (Mesh) e;
+								switch (setEntityScroller.get()) {
+								case POSITION:
+									m.localPosition.add(new Vec3f(0, -positionSpeed, 0));
+									break;
+								case SCALE:
+									m.scale.add(new Vec3f(0, scaleSpeed, 0));
+									break;
+								case ROTATION:
+									m.localRotation.rotate(new Vec3f(0, -0.1, 0));
+									break;
+								default:
+									break;
+								}
+							}
+							break;
+						case UI_LEFT2:
+							e = current.getChild(setEntityLabel.getText());
+							if (meshList.contains(e)) {
+								Mesh m = (Mesh) e;
+								switch (setEntityScroller.get()) {
+								case POSITION:
+									m.localPosition.add(new Vec3f(-positionSpeed, 0, 0));
+									break;
+								case SCALE:
+									m.scale.add(new Vec3f(-scaleSpeed, 0, 0));
+									break;
+								case ROTATION:
+									m.localRotation.rotate(new Vec3f(-0.1, 0, 0));
+									break;
+								default:
+									break;
+								}
+							}
+							break;
+						case UI_RIGHT2:
+							e = current.getChild(setEntityLabel.getText());
+							if (meshList.contains(e)) {
+								Mesh m = (Mesh) e;
+								switch (setEntityScroller.get()) {
+								case POSITION:
+									m.localPosition.add(new Vec3f(positionSpeed, 0, 0));
+									break;
+								case SCALE:
+									m.scale.add(new Vec3f(scaleSpeed, 0, 0));
+									break;
+								case ROTATION:
+									m.localRotation.rotate(new Vec3f(0.1, 0, 0));
+									break;
+								default:
+									break;
+								}
+							}
+							break;
+						default:
+							break;
+						}
+					}
 				}
 			}
 		});
@@ -169,30 +278,44 @@ public class Editor extends GameState {
 		File root = new File("data");
 		LinkedList<File> m = new LinkedList<>();
 		m.addAll(allMesh(root));
-		
+
 		for (File file : m) {
 			String name = file.getName();
-			Button b = new Button(0, new Vec2f(30, 5.5), name.substring(0, name.length()-4));
+			Button b = new Button(0, new Vec2f(30, 5.5), name.substring(0, name.length() - 4));
 			meshMenu.addElementInListOfChoices(b, 1);
 			b.setScaleText(new Vec2f(20));
 			b.setOnArm(new Trigger() {
-				
+
 				@Override
 				public void make() {
 					String replace = file.getPath().replace('\\', '/');
 					Mesh mesh = new Mesh(new Vec3f(), replace);
-					mesh.attachToParent(current, "monpremiermesh");
+					String name = mesh.genName();
+					mesh.attachToParent(current, name);
+					meshList.add(mesh);
+					Button b = new Button(0, new Vec2f(30, 5.5), name);
+					b.setScaleText(new Vec2f(15));
+					setMenu.addElementInListOfChoices(b, 1);
+					b.setOnArm(new Trigger() {
+
+						@Override
+						public void make() {
+							setEntityLabel.setText(name);
+							stackMenu.push(setEntity);
+						}
+					});
+					b.arm();
 				}
 			});
 		}
 	}
-	
-	private LinkedList<File> allMesh(File parent){
+
+	private LinkedList<File> allMesh(File parent) {
 		LinkedList<File> mesh = new LinkedList<>();
 		for (File file : parent.listFiles()) {
-			if(file.getName().endsWith(".obj")) {
+			if (file.getName().endsWith(".obj")) {
 				mesh.add(file);
-			} else if(file.isDirectory()) {
+			} else if (file.isDirectory()) {
 				mesh.addAll(allMesh(file));
 			}
 		}
@@ -207,11 +330,11 @@ public class Editor extends GameState {
 
 	private void setPrimeVisible(boolean visible) {
 		if (visible) {
-			bg.setPositionLerp(forVisible);
-			multiMenu.setPositionLerp(forVisible);
+			bg.setPositionLerp(forVisible, 40);
+			stackMenu.peek().setPositionLerp(forVisible, 30);
 		} else {
-			bg.setPositionLerp(forNotVisible);
-			multiMenu.setPositionLerp(forNotVisible);
+			bg.setPositionLerp(forNotVisible, 30);
+			stackMenu.peek().setPositionLerp(forNotVisible, 40);
 		}
 		primeVisible = visible;
 	}

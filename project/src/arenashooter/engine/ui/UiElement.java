@@ -50,7 +50,7 @@ public abstract class UiElement implements Navigable {
 		}
 	}
 
-	public void setPosLerp(Vec2f pos, double lerp) {
+	public void setPositionLerp(Vec2f pos , double lerp) {
 		if (this.pos == null) {
 			this.pos = pos.clone();
 			this.rePos = pos.clone();
