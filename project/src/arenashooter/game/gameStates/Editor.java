@@ -1,5 +1,8 @@
 package arenashooter.game.gameStates;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.LinkedList;
 import java.util.Stack;
 
 import arenashooter.engine.events.EventListener;
@@ -8,6 +11,7 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuSelectionV;
@@ -19,6 +23,7 @@ import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.game.gameStates.editorEnum.Prime;
 
 public class Editor extends GameState {
@@ -46,7 +51,7 @@ public class Editor extends GameState {
 			new Vec2f(30, 10));
 
 	/* Sub add menu */
-	private MenuSelectionV<UiActionable> subAddMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
+	private MenuSelectionV<UiActionable> meshMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
 			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
 
 	/* Bg Menu */
@@ -94,9 +99,10 @@ public class Editor extends GameState {
 		addMenu.addElementInListOfChoices(jointPin, 1);
 		addMenu.setEcartement(8);
 
-		/* Sub add menu */
-		subAddMenu.addUiElement(new Label(0, scale, "New Mesh"), 1);
-		subAddMenu.selectorVisible = false;
+		/* Mesh menu */
+		meshMenu.setPositionRef(new Vec2f(forVisible.x, -40));
+		meshMenu.setEcartement(6);
+		meshMenuConstruction();
 
 		/* Set Menu */
 		setMenu.addElementInListOfChoices(new Button(0, new Vec2f(15, 5), "set entity"), 1);
@@ -117,7 +123,7 @@ public class Editor extends GameState {
 
 			@Override
 			public void make() {
-				stackMenu.push(subAddMenu);
+				stackMenu.push(meshMenu);
 			}
 		});
 
@@ -157,6 +163,40 @@ public class Editor extends GameState {
 			}
 		});
 
+	}
+
+	private void meshMenuConstruction() {
+		File root = new File("data");
+		LinkedList<File> m = new LinkedList<>();
+		m.addAll(allMesh(root));
+		
+		for (File file : m) {
+			String name = file.getName();
+			Button b = new Button(0, new Vec2f(30, 5.5), name.substring(0, name.length()-4));
+			meshMenu.addElementInListOfChoices(b, 1);
+			b.setScaleText(new Vec2f(20));
+			b.setOnArm(new Trigger() {
+				
+				@Override
+				public void make() {
+					String replace = file.getPath().replace('\\', '/');
+					Mesh mesh = new Mesh(new Vec3f(), replace);
+					mesh.attachToParent(current, "monpremiermesh");
+				}
+			});
+		}
+	}
+	
+	private LinkedList<File> allMesh(File parent){
+		LinkedList<File> mesh = new LinkedList<>();
+		for (File file : parent.listFiles()) {
+			if(file.getName().endsWith(".obj")) {
+				mesh.add(file);
+			} else if(file.isDirectory()) {
+				mesh.addAll(allMesh(file));
+			}
+		}
+		return mesh;
 	}
 
 	@Override
