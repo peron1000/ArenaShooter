@@ -26,9 +26,11 @@ public class MenuStart extends GameState {
 	/* MenuStart Menu */
 	private Vec2f forVisible = new Vec2f(0, 25);
 	private MenuSelectionV<UiActionable> menustart = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
-			new Vec2f(20, 6), "data/sprites/interface/Selector_Ajustable_4.png");
-	private final Vec2f scale = new Vec2f(15);
-	private Button button1 = new Button(0, new Vec2f(50, 5.5), "ArenaShooter : SuperBlep");
+			new Vec2f(75, 12), "data/sprites/interface/Selector.png");
+	//Selector_Ajustable_4
+	
+	private final Vec2f scale = new Vec2f(37f);
+	private Button button1 = new Button(0, new Vec2f(50, 5.5), "Play");
 	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Editor Map");
 	private Button button3 = new Button(0, new Vec2f(50, 5.5), "Option");
 	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Quit");
@@ -45,33 +47,45 @@ public class MenuStart extends GameState {
 //		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 //		texture2.setFilter(false);
 
-		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(0, 0, 1, 1));
-		menustart.selectorVisible = true;
+		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
+		
 
 		menustart.setBackground(bg);
 		bg.setPos(new Vec2f (0));
 		
-		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 45));
-		menustart.setEcartement(7f);
-		button1.setScaleText(new Vec2f(27f));
-		button2.setScaleText(scale);
+		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y-15));
+		menustart.setEcartement(10f);
+		button1.setScaleText(scale);
+		button2.setScaleText(scale);		 
 		button3.setScaleText(scale);
 		button4.setScaleText(scale);
 		
-		button1.setColorFond(new Vec4f(0, 1, 1, 1));
-		button2.setColorFond(new Vec4f(1, 0, 1, 1));
-		button3.setColorFond(new Vec4f(1, 1, 0, 1));
-		button4.setColorFond(new Vec4f(0.25, 0.75, 0.25, 1));
+		button1.setColorFond(new Vec4f(0, 1, 1, 0));
+		button2.setColorFond(new Vec4f(1, 0, 1, 0));
+		button3.setColorFond(new Vec4f(1, 1, 0, 0));
+		button4.setColorFond(new Vec4f(1, 1, 0, 0));
+		//button4.setColorFond(new Vec4f(0.25, 0.75, 0.25, 1));
+		//button1.setColorText(new Vec4f(0, 0, 0, 1));
 		
-		menustart.addElementInListOfChoices(button1, 2);
-		menustart.addElementInListOfChoices(button2, 5);
-		menustart.addElementInListOfChoices(button3, 7);
-		menustart.addElementInListOfChoices(button4, 1);
+		//Label a = new Label(0, new Vec2f(57f), "ArenaShooter : SuperBlep");
+		//a.setScale(new Vec2f(57f));
+		//a.setColor(new Vec4f(0.95, 0, 0.15, 1));
+		//menustart.addUiElement(a, 2);
+		//a.setPos(new Vec2f(0,-40));
 		
-
+		menustart.addElementInListOfChoices(button1, 3);
+		menustart.addElementInListOfChoices(button2, 3);
+		menustart.addElementInListOfChoices(button3, 3);
+		menustart.addElementInListOfChoices(button4, 3);
 		
 		
-		
+		/*Logo*/
+		Texture SuperLogo = Texture.loadTexture("data/Logo.png");
+		SuperLogo.setFilter(false);
+		UiImage Logo = new UiImage(0, new Vec2f(SuperLogo.getWidth() /6, SuperLogo.getHeight() / 6), SuperLogo,
+				new Vec4f(1, 1, 1, 1));
+		menustart.addUiElement(Logo, 1);
+		Logo.setPos(new Vec2f(0, -20));
 		
 		button1.setOnArm(new Trigger() {
 
