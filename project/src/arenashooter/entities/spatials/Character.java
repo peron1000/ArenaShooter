@@ -191,10 +191,10 @@ public class Character extends RigidBodyContainer {
 					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					break;
 				case 2:
-					((SoundEffect) getChild("snd_Punch_Hit2")).play();
+					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					break;
 				case 3:
-					((SoundEffect) getChild("snd_Punch_Hit3")).play();
+					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					attackCombo = 0;
 					break;
 				default:
