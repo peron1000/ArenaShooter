@@ -31,7 +31,7 @@ public class MenuStart extends GameState {
 	
 	private final Vec2f scale = new Vec2f(37f);
 	private Button button1 = new Button(0, new Vec2f(50, 5.5), "Play");
-	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Editor Map");
+	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Map Editor");
 	private Button button3 = new Button(0, new Vec2f(50, 5.5), "Option");
 	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Quit");
 
@@ -85,7 +85,7 @@ public class MenuStart extends GameState {
 		UiImage Logo = new UiImage(0, new Vec2f(SuperLogo.getWidth() /6, SuperLogo.getHeight() / 6), SuperLogo,
 				new Vec4f(1, 1, 1, 1));
 		menustart.addUiElement(Logo, 1);
-		Logo.setPos(new Vec2f(0, -20));
+		Logo.setPos(new Vec2f(-2.25, -25.5));
 		
 		button1.setOnArm(new Trigger() {
 
