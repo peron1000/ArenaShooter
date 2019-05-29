@@ -80,7 +80,7 @@ public class MenuStart extends GameState {
 		
 		
 		/*Logo*/
-		Texture SuperLogo = Texture.loadTexture("data/Logo.png");
+		Texture SuperLogo = Texture.loadTexture("data/logo.png");
 		SuperLogo.setFilter(false);
 		UiImage Logo = new UiImage(0, new Vec2f(SuperLogo.getWidth() /6, SuperLogo.getHeight() / 6), SuperLogo,
 				new Vec4f(1, 1, 1, 1));
