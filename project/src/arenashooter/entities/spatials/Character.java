@@ -39,21 +39,25 @@ public class Character extends RigidBodyContainer {
 
 	// Movement stats
 	public double maxSpeed = 18;
+	/**
+	 * The Character is jumping
+	 */
+	public boolean jumpi;
+	private double jumpForce = 16;
+	private double parachuteForce = 8.5;
+	private Timer jumpTimer = new Timer(0.5);
 
 	// Combat stats
 	/** Melee attack cooldown */
-	private Timer attackCooldown = new Timer(0.3);
+	private Timer attackCooldown = new Timer(0.25);
 	private int attackCombo = 0;
 	private Timer holdCombo = new Timer(1);
 	private float range = 2;
-
 	/**
-	 * The character is jumping
+	 * 
+	 * The Character has already punched mid-air
 	 */
-	public boolean jumpi;
-	private double jumpForce = 25;
-	private double parachuteForce = 8.5;
-	private Timer jumpTimer = new Timer(0.5);
+	boolean punchi = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(position, new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
@@ -81,11 +85,11 @@ public class Character extends RigidBodyContainer {
 		SoundEffect punchHitSound = new SoundEffect(this.getWorldPos(), "data/sound/snd_Punch_Hit2.ogg", 1);
 		punchHitSound.setVolume(.7f);
 		punchHitSound.attachToParent(this, "snd_Punch_Hit");
-		
+
 		SoundEffect punchHitSound2 = new SoundEffect(this.getWorldPos(), "data/sound/slap.ogg", 1);
 		punchHitSound2.setVolume(.7f);
 		punchHitSound2.attachToParent(this, "snd_Punch_Hit2");
-		
+
 		SoundEffect punchHitSound3 = new SoundEffect(this.getWorldPos(), "data/sound/BangIonGun2.ogg", 1);
 		punchHitSound3.setVolume(.7f);
 		punchHitSound3.attachToParent(this, "snd_Punch_Hit3");
@@ -135,6 +139,9 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
+			getBody().applyImpulse((Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput)));
+			punchi = true;
+
 			attackCooldown.restart();
 			if (holdCombo.isOver()) {
 				attackCombo = 0;
@@ -144,7 +151,19 @@ public class Character extends RigidBodyContainer {
 
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			if (skeleton != null)
-				skeleton.punch(aimInput);
+				switch (attackCombo) {
+				case 1:
+					skeleton.punch(1, aimInput);
+					break;
+				case 2 :
+					skeleton.punch(2, aimInput);
+					break;
+				case 3 :
+					skeleton.punch(3, aimInput);
+					break;
+				default:
+					break;
+				}
 
 			DamageInfo punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 
@@ -162,18 +181,18 @@ public class Character extends RigidBodyContainer {
 					entry.getKey().takeDamage(punchDmgInfo);
 				}
 			}
-			if(!punchHit.isEmpty()) {
-				switch(attackCombo) {
+			if (!punchHit.isEmpty()) {
+				switch (attackCombo) {
 				case 1:
-				((SoundEffect)getChild("snd_Punch_Hit")).play();
-				break;
+					((SoundEffect) getChild("snd_Punch_Hit")).play();
+					break;
 				case 2:
-				((SoundEffect)getChild("snd_Punch_Hit2")).play();
-				break;
+					((SoundEffect) getChild("snd_Punch_Hit2")).play();
+					break;
 				case 3:
-				((SoundEffect)getChild("snd_Punch_Hit3")).play();
-				attackCombo = 0;
-				break;
+					((SoundEffect) getChild("snd_Punch_Hit3")).play();
+					attackCombo = 0;
+					break;
 				default:
 					break;
 				}
@@ -377,6 +396,7 @@ public class Character extends RigidBodyContainer {
 				return -1;
 
 			isOnGround = true;
+			punchi = false;
 			return fraction;
 		}
 	};
