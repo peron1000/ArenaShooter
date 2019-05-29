@@ -26,7 +26,7 @@ public class MenuStart extends GameState {
 	/* MenuStart Menu */
 	private Vec2f forVisible = new Vec2f(0, 25);
 	private MenuSelectionV<UiActionable> menustart = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
-			new Vec2f(75, 12), "data/sprites/interface/Selector.png");
+			new Vec2f(100, 12), "data/sprites/interface/Selector_MainMenu_tr.png");
 	//Selector_Ajustable_4
 	
 	private final Vec2f scale = new Vec2f(37f);
@@ -43,7 +43,7 @@ public class MenuStart extends GameState {
 		
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
 		texture1.setFilter(false);
-
+	
 //		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 //		texture2.setFilter(false);
 
