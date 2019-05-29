@@ -140,6 +140,7 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
+			Main.log.info("I punched...");
 			Vec2f impulse = Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput);
 			if (impulse.y < 0)
 				impulse.y /= 4;
@@ -147,7 +148,7 @@ public class Character extends RigidBodyContainer {
 			punchi = true;
 
 			attackCooldown.restart();
-			if (holdCombo.isOver()) {
+			if (holdCombo.isOver() || attackCombo >= 3) {
 				attackCombo = 0;
 			}
 			holdCombo.restart();
@@ -181,7 +182,7 @@ public class Character extends RigidBodyContainer {
 			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
 			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
 				if (entry.getValue() <= punchRayFraction) {
-					Main.log.info("I dealt damage");
+					Main.log.info("... and dealt damage");
 					entry.getKey().takeDamage(punchDmgInfo);
 				}
 			}
@@ -195,7 +196,6 @@ public class Character extends RigidBodyContainer {
 					break;
 				case 3:
 					((SoundEffect) getChild("snd_Punch_Hit")).play();
-					attackCombo = 0;
 					break;
 				default:
 					break;
@@ -433,7 +433,7 @@ public class Character extends RigidBodyContainer {
 			}
 
 			// Ignore anything the character doesn't collide with
-			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
+			if ((fixture.getFilterData().categoryBits) == 0)
 				return -1;
 
 			punchRayFraction = Math.max(punchRayFraction, fraction);
