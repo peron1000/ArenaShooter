@@ -97,7 +97,7 @@ public class MapXmlReader extends XmlReader {
 		loadGravity(getFirstElementByName("gravity", information), map);
 		loadSky(getFirstElementByName("sky", information), map);
 		loadCameraBasePos(getFirstElementByName("cameraPos", information), map);
-		loadCameraBound(getFirstElementByName("cameraBound", information), map);
+		loadKillBounds(getFirstElementByName("killBounds", information), map);
 
 		// Load spawns
 		List<Element> listSpawn = getListElementByName("spawn", information);
@@ -382,29 +382,29 @@ public class MapXmlReader extends XmlReader {
 		return new XmlVector(vecteur);
 	}
 
-	private void loadCameraBound(Element cameraBound, Arena map) {
-		double w = 0, x = 0, y = 0, z = 0;
-		if (cameraBound.hasAttribute("x")) {
-			x = Double.parseDouble(cameraBound.getAttribute("x"));
+	private void loadKillBounds(Element killBounds, Arena map) {
+		double minX = 0, minY = 0, maxX = 0, maxY = 0;
+		if (killBounds.hasAttribute("minX")) {
+			minX = Double.parseDouble(killBounds.getAttribute("minX"));
 		} else {
-			System.err.println("X dans camera Bound non renseignÃ©");
+			System.err.println("Missing min X value in kill bounds");
 		}
-		if (cameraBound.hasAttribute("y")) {
-			y = Double.parseDouble(cameraBound.getAttribute("y"));
+		if (killBounds.hasAttribute("minY")) {
+			minY = Double.parseDouble(killBounds.getAttribute("minY"));
 		} else {
-			System.err.println("Y dans camera Bound non renseignÃ©");
+			System.err.println("Missing min Y value in kill bounds");
 		}
-		if (cameraBound.hasAttribute("z")) {
-			z = Double.parseDouble(cameraBound.getAttribute("z"));
+		if (killBounds.hasAttribute("maxX")) {
+			maxX = Double.parseDouble(killBounds.getAttribute("maxX"));
 		} else {
-			System.err.println("Z dans camera Bound non renseignÃ©");
+			System.err.println("Missing max X value in kill bounds");
 		}
-		if (cameraBound.hasAttribute("w")) {
-			w = Double.parseDouble(cameraBound.getAttribute("w"));
+		if (killBounds.hasAttribute("maxY")) {
+			maxY = Double.parseDouble(killBounds.getAttribute("maxY"));
 		} else {
-			System.err.println("W dans camera Bound non renseignÃ©");
+			System.err.println("Missing max Y value in kill bounds");
 		}
-		map.cameraBounds = new Vec4f(x, y, z, w);
+		map.killBound.set(minX, minY, maxX, maxY);
 	}
 	
 	private void loadCameraBasePos(Element cameraPos, Arena map) {

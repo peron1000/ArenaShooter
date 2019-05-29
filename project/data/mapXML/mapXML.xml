@@ -241,7 +241,8 @@
 		</gravity>
 
 		<cameraPos x="0" y="0" z="20" />
-		<cameraBound w="100" x="-500" y="-100" z="500" />
+		
+		<killBounds minX="-200" minY="-100" maxX="200" maxY="300" />
 
 		<sky>
 			<vecteur x="0.659" y="0.835" z="0.996" use="bottom" />

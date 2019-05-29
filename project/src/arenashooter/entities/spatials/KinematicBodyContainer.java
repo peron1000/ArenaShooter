@@ -97,7 +97,8 @@ public class KinematicBodyContainer extends Spatial {
 		}
 		
 		//Destroy when out of bounds
-		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
+		if (getMap() != null && (getWorldPos().x < getMap().killBound.x || getWorldPos().x > getMap().killBound.z
+				|| getWorldPos().y < getMap().killBound.y || getWorldPos().y > getMap().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 		
 		super.step(d);
