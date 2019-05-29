@@ -54,10 +54,10 @@ public class MenuPause extends MenuSelectionV<Label> {
 						selectorVisible =  false;
 						break;
 					case UI_UP:
-						up();
+						upAction();
 						break;
 					case UI_DOWN:
-						down();
+						downAction();
 						break;
 					default:
 						break;

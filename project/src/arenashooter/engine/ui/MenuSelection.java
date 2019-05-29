@@ -109,7 +109,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void right() {
+	public void rightAction() {
 		Set<MenuSelection<E>.Coordonnees> c = new TreeSet<>(mesElements.keySet());
 		c.removeIf(e -> e.y != this.y);
 		x++;
@@ -120,7 +120,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void left() {
+	public void leftAction() {
 		Set<MenuSelection<E>.Coordonnees> c = new TreeSet<>(mesElements.keySet());
 		c.removeIf(e -> e.y != this.y);
 		x--;
@@ -131,7 +131,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void up() {
+	public void upAction() {
 		Set<MenuSelection<E>.Coordonnees> c = new TreeSet<>(mesElements.keySet());
 		c.removeIf(e -> e.x != this.x);
 		y--;
@@ -142,7 +142,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void down() {
+	public void downAction() {
 		Set<MenuSelection<E>.Coordonnees> c = new TreeSet<>(mesElements.keySet());
 		c.removeIf(e -> e.x != this.x);
 		y++;

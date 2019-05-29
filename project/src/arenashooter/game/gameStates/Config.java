@@ -48,9 +48,9 @@ public class Config extends GameState {
 						if (activated && menuParam.selectorVisible) {
 							menuParam.getTarget().lunchAction("right");
 						} else if (menuParam.selectorVisible) {
-							menuParam.right();
+							menuParam.rightAction();
 						} else if (menuMap.active.getValue()) {
-							menuMap.right();
+							menuMap.rightAction();
 						}
 					}
 					break;
@@ -59,27 +59,27 @@ public class Config extends GameState {
 						if (activated && menuParam.selectorVisible) {
 							menuParam.getTarget().lunchAction("left");
 						} else if (menuParam.selectorVisible) {
-							menuParam.left();
+							menuParam.leftAction();
 						} else if (menuMap.active.getValue()) {
-							menuMap.left();
+							menuMap.leftAction();
 						}
 					}
 					break;
 				case UI_UP:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (!activated && menuParam.selectorVisible) {
-							menuParam.up();
+							menuParam.upAction();
 						} else if (menuMap.active.getValue()) {
-							menuMap.up();
+							menuMap.upAction();
 						}
 					}
 					break;
 				case UI_DOWN:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
 						if (!activated && menuParam.selectorVisible) {
-							menuParam.down();
+							menuParam.downAction();
 						} else if (menuMap.active.getValue()) {
-							menuMap.down();
+							menuMap.downAction();
 						}
 					}
 					break;

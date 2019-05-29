@@ -12,7 +12,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
-public class MenuSelectionV<E extends UiElement> extends Menu {
+public class MenuSelectionV<E extends UiElement> extends Menu implements Navigable {
 	private UiImage selec;
 	private float ecartement = 5;
 	private Vec2f positionRef = new Vec2f();
@@ -61,7 +61,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		}
 	}
 
-	public void down() {
+	public void downAction() {
 		if (loop) {
 			int save = index;
 			index++;
@@ -101,7 +101,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void up() {
+	public void upAction() {
 		if (loop) {
 			int save = index;
 			index--;
@@ -137,7 +137,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		majSelecPosition();
 	}
 
-	public void right() {
+	public void rightAction() {
 		if (getTarget() != null && getTarget().isSelected()) {
 			getTarget().rightAction();
 		} else {
@@ -145,7 +145,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		}
 	}
 
-	public void left() {
+	public void leftAction() {
 		if (getTarget() != null && getTarget().isSelected()) {
 			getTarget().leftAction();
 		} else {
@@ -247,5 +247,20 @@ public class MenuSelectionV<E extends UiElement> extends Menu {
 		}
 		selec.setVisible(selectorVisible);
 		super.update(delta);
+	}
+
+	@Override
+	public void selectAction() {
+		getTarget().selectAction();
+	}
+
+	@Override
+	public boolean isSelected() {
+		return getTarget().isSelected();
+	}
+
+	@Override
+	public void unSelec() {
+		getTarget().unSelec();
 	}
 }
