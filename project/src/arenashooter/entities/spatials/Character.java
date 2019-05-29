@@ -140,7 +140,10 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
-			getBody().applyImpulse((Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput)));
+			Vec2f impulse = Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput);
+			if (impulse.y < 0)
+				impulse.y /= 4;
+			getBody().applyImpulse(impulse);
 			punchi = true;
 
 			attackCooldown.restart();
@@ -156,10 +159,10 @@ public class Character extends RigidBodyContainer {
 				case 1:
 					skeleton.punch(1, aimInput);
 					break;
-				case 2 :
+				case 2:
 					skeleton.punch(2, aimInput);
 					break;
-				case 3 :
+				case 3:
 					skeleton.punch(3, aimInput);
 					break;
 				default:
@@ -263,12 +266,13 @@ public class Character extends RigidBodyContainer {
 	@Override
 	public float takeDamage(DamageInfo info) {
 		Main.log.info("I took damage");
-		if(info.dmgType == DamageType.OUT_OF_BOUNDS)
-		//Force death if character fell out of bounds or was killed for a non-gameplay reason
-		if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
-			death(info);
-			return health;
-		}
+		if (info.dmgType == DamageType.OUT_OF_BOUNDS)
+			// Force death if character fell out of bounds or was killed for a non-gameplay
+			// reason
+			if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
+				death(info);
+				return health;
+			}
 
 		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
 
@@ -296,12 +300,12 @@ public class Character extends RigidBodyContainer {
 		// if(deathCause.dmgType == DamageType.EXPLOSION)
 		((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
 
-		if(health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
+		if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
 			Window.getCamera().setCameraShake(1);
-			//TODO: Improve random sound
-			Audio.playSound2D("data/sound/crush_0"+((int)(Math.random()*5)+1)+".ogg", 1, 1, getWorldPos());
+			// TODO: Improve random sound
+			Audio.playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", 1, 1, getWorldPos());
 		}
-		
+
 		health = 0;
 		dropItem();
 		if (controller != null)

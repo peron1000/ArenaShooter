@@ -25,7 +25,7 @@ public class Grenade extends Projectile {
 		rotation = vel.angle();
 
 		Sprite sprite = new Sprite(getWorldPos(), "data/sprites/grenade_01.png");
-		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
+		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.004, sprite.getTexture().getHeight()*.004);
 		sprite.rotation = rotation;
 		sprite.getTexture().setFilter(false);
 		sprite.rotationFromParent = true;
