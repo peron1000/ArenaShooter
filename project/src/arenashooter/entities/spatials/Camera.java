@@ -123,6 +123,7 @@ public class Camera extends Spatial3 {
 
 		targetLoc.x = Utils.clampF(targetLoc.x, getLowerX(basePos, targetLoc.z), getUpperX(basePos, targetLoc.z));
 		targetLoc.y = Utils.clampF(targetLoc.y, getLowerY(basePos, targetLoc.z), getUpperY(basePos, targetLoc.z));
+	}
 	
 	float getHorizontalFov() {
 		return (float)( 2*Math.atan(Math.tan(getFOV()/2)*(1/Window.getRatio())) );
