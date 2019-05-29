@@ -12,8 +12,8 @@ public class Camera extends Spatial3 {
 	/** View matrix (updated at every step) */
 	public Mat4f viewMatrix = Mat4f.identity();
 	private Vec3f targetLoc;
-	private Vec2f margin = new Vec2f(12, 8);
-	private float zoomMin = 12;
+	private Vec2f margin = new Vec2f(5, 5);
+	private float zoomMin = 25;
 	
 	/** Vertical field of view */
 	private float fov = 55;
@@ -82,14 +82,14 @@ public class Camera extends Spatial3 {
 	 * @param d delta time
 	 */
 	public void center( ArrayList<Character> centerTargets, Vec3f basePos, double d ) { //TODO: Improve bounds support
-		if(centerTargets.size() == 0 ) {
+		if(centerTargets == null || centerTargets.isEmpty() ) {
 			targetLoc.set(basePos);
 			return;
 		}
 		
 		float boundsXL = centerTargets.get(0).getWorldPos().x; //-x
 		float boundsXR = centerTargets.get(0).getWorldPos().x; //+x
-		float boundsYU = centerTargets.get(0).getWorldPos().y; //-u
+		float boundsYU = centerTargets.get(0).getWorldPos().y; //-y
 		float boundsYD = centerTargets.get(0).getWorldPos().y; //+y
 		
 		//Rectangle including all characters
@@ -123,14 +123,14 @@ public class Camera extends Spatial3 {
 		
 		float newZ;
 		if( boundsW/boundsH > Window.getRatio() ) { //TODO: Test with different window sizes and aspects
-			newZ = zoomMin+Utils.clampF(350/((800*Window.getRatio())/boundsW), zoomMin, basePos.z);
+			newZ = zoomMin+(350/((800*Window.getRatio())/boundsW));
 		} else {
-			newZ = zoomMin+Utils.clampF(350/(800/boundsH), zoomMin, basePos.z);
+			newZ = zoomMin+(350/(800/boundsH));
 		}
-		
+		System.out.println(newZ);
 		//Slow zoom-in
 		if( newZ < targetLoc.z )
-			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(1, 1.5*d) );
+			targetLoc.z = Utils.lerpF(targetLoc.z, newZ, Math.min(1, 1.3*d) );
 		else
 			targetLoc.z = newZ;
 		
@@ -147,17 +147,17 @@ public class Camera extends Spatial3 {
 	float getUpperX(Vec3f basePos, float z) {
 		float rightVecLen = (float)( (basePos.z-z)/Math.cos(getHorizontalFov()/2) );
 
-		Vec2f rightVec = Vec2f.fromAngle(getFOV()/2).multiply(rightVecLen);
+		Vec2f rightVec = Vec2f.fromAngle(getHorizontalFov()/2).multiply(rightVecLen);
 		
-		return basePos.x - rightVec.x;
+		return basePos.x - rightVec.y;
 	}
 	
 	float getLowerX(Vec3f basePos, float z) {
 		float leftVecLen = (float)( (basePos.z-z)/Math.cos(-getHorizontalFov()/2) );
 
-		Vec2f leftVec = Vec2f.fromAngle(-getFOV()/2).multiply(leftVecLen);
+		Vec2f leftVec =Vec2f.fromAngle(-getHorizontalFov()/2).multiply(leftVecLen);
 
-		return basePos.y - leftVec.y;
+		return basePos.x - leftVec.y;
 	}
 	
 	float getUpperY(Vec3f basePos, float z) {
