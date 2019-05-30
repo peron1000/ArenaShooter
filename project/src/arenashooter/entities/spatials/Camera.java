@@ -147,32 +147,32 @@ public class Camera extends Spatial3 {
 	float getUpperX(Vec3f basePos, float z) {
 		float rightVecLen = (float)( (basePos.z-z)/Math.cos(getHorizontalFov()/2) );
 
-		Vec2f rightVec = Vec2f.fromAngle(getHorizontalFov()/2).multiply(rightVecLen);
+		float y = (float) (Math.sin(getHorizontalFov()/2)*rightVecLen);
 		
-		return basePos.x - rightVec.y;
+		return basePos.x - y;
 	}
 	
 	float getLowerX(Vec3f basePos, float z) {
 		float leftVecLen = (float)( (basePos.z-z)/Math.cos(-getHorizontalFov()/2) );
 
-		Vec2f leftVec =Vec2f.fromAngle(-getHorizontalFov()/2).multiply(leftVecLen);
+		float y = (float) (Math.sin(-getHorizontalFov()/2)*leftVecLen);
 
-		return basePos.x - leftVec.y;
+		return basePos.x - y;
 	}
 	
 	float getUpperY(Vec3f basePos, float z) {
 		float topVecLen = (float)( (basePos.z-z)/Math.cos(getFOV()/2) );
 
-		Vec2f topVec = Vec2f.fromAngle(getFOV()/2).multiply(topVecLen);
+		float y = (float) (Math.sin(getFOV()/2)*topVecLen);
 		
-		return basePos.y - topVec.y;
+		return basePos.y - y;
 	}
 	
 	float getLowerY(Vec3f basePos, float z) {
 		float botVecLen = (float)( (basePos.z-z)/Math.cos(-getFOV()/2) );
 
-		Vec2f botVec = Vec2f.fromAngle(-getFOV()/2).multiply(botVecLen);
+		float y = (float) (Math.sin(-getFOV()/2)*botVecLen);
 
-		return basePos.y - botVec.y;
+		return basePos.y - y;
 	}
 }
