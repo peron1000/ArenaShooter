@@ -77,7 +77,7 @@ task zipGame(type: Zip) {
   dependsOn fatJar
   from 'build/libs/'
   include '*.jar' //Include jar
-  include 'data/*' //Include data
+  include 'data/**' //Include data
   archiveName archivesBaseName+version+classifier+'.zip'
 }
 
