@@ -64,6 +64,16 @@ public class Spatial3 extends Entity {
 		return Quat.multiply(parentRotation, localRotation, worldRotation);
 	}
 	
+	public void addLocalPositionSelfAndChildren(Vec3f add) {
+		localPosition.add(add);
+		for (Entity child : getChildren().values()) {
+			if(child instanceof Spatial3) {
+				Spatial3 s = (Spatial3) child;
+				s.addLocalPositionSelfAndChildren(add);
+			}
+		}
+	}
+	
 	/**
 	 * Update children, transmit position to every Spatial3 child.
 	 */

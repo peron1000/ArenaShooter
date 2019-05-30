@@ -103,6 +103,9 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable implements Valuab
 
 	@Override
 	public void selectAction() {
+		if(alwaysScrollable) {
+			arm();
+		}
 		if(isSelected()) {
 			label.setColor(colorOnUnSelect);
 		} else {

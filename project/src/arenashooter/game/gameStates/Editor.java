@@ -1,7 +1,6 @@
 package arenashooter.game.gameStates;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -10,6 +9,7 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -29,6 +29,7 @@ import arenashooter.entities.spatials.Mesh;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.editorEnum.Prime;
 import arenashooter.game.gameStates.editorEnum.SetMesh;
+import arenashooter.game.gameStates.editorEnum.TypeEntites;
 
 public class Editor extends GameState {
 
@@ -62,11 +63,13 @@ public class Editor extends GameState {
 	private Menu bg = new Menu(2);
 
 	/* Menu Set entity */
-	private MenuSelectionV<UiActionable> setEntity = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
+	private MenuSelectionV<UiActionable> setEntityMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
 			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
-	private Label setEntityLabel = new Label(0, new Vec2f(15), "Empty");
+	private Label setEntityName = new Label(0, new Vec2f(20), "Empty"),
+			setEntityParent = new Label(0, new Vec2f(20), "Empty");
 	private ScrollerH<SetMesh> setEntityScroller = new ScrollerH<>(0, new Vec2f(35, 25), SetMesh.values());
-
+	private Stack<Entity> setEntityStack = new Stack<>();
+	
 	private Stack<Navigable> stackMenu = new Stack<>();
 
 	private LinkedList<Mesh> meshList = new LinkedList<>();
@@ -82,7 +85,7 @@ public class Editor extends GameState {
 		save.setScaleText(new Vec2f(20));
 		Button quit = new Button(0, scale, "Quit");
 		quit.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
 				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
@@ -122,15 +125,31 @@ public class Editor extends GameState {
 
 		/* Set Menu */
 		setMenu.setEcartement(6);
-
+		
 		/* set entity menu */
-		setEntity.addUiElement(setEntityLabel, 1);
-		setEntity.setPosition(forVisible);
-		setEntity.addElementInListOfChoices(setEntityScroller, 1);
-		setEntity.setPositionRef(new Vec2f(forVisible.x, -32));
-		setEntityLabel.setPos(new Vec2f(forVisible.x, -43));
-		setEntityLabel.setScale(new Vec2f(20));
+		setEntityMenu.addUiElement(setEntityName, 1);
+		setEntityMenu.addUiElement(setEntityParent, 1);
+		setEntityMenu.setPosition(forVisible);
+		setEntityMenu.addElementInListOfChoices(setEntityScroller, 1);
+		setEntityMenu.setPositionRef(new Vec2f(forVisible.x, -21));
+		setEntityMenu.setEcartement(10);
+		setEntityName.setPos(new Vec2f(forVisible.x, -43));
+		setEntityParent.setPos(new Vec2f(forVisible.x, -32));
 		setEntityScroller.setAlwaysScrollable(true);
+		ScrollerH<TypeEntites> newChild = new ScrollerH<>(0, new Vec2f(30), TypeEntites.values());
+		newChild.setAlwaysScrollable(true);
+		newChild.setTitle("New Child");
+		newChild.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				Entity newParent = setEntityStack.peek().getChild(setEntityName.getText());
+				setEntityStack.push(newParent);
+				stackMenu.push(meshMenu);
+			}
+		});
+		setEntityMenu.addElementInListOfChoices(newChild, 1);
+		setEntityStack.push(current);
 
 		/* Main Menu */
 		Rectangle bg = new Rectangle(0, new Vec2f(50, 150), new Vec4f(0.5, 0.5, 0.5, 0.2));
@@ -178,6 +197,13 @@ public class Editor extends GameState {
 						break;
 					case UI_BACK:
 						if (stackMenu.size() > 1) {
+							if(stackMenu.peek() == setEntityMenu) {
+								Entity entity = setEntityStack.peek();
+								if(entity != current) {
+									bindEntity(entity);
+									setEntityStack.pop();
+								}
+							}
 							stackMenu.pop();
 						}
 						break;
@@ -185,22 +211,22 @@ public class Editor extends GameState {
 						break;
 					}
 				} else if (event.getActionState() == ActionState.PRESSED) {
-					if (stackMenu.peek() == setEntity) {
-						final double scaleSpeed = 0.005 , positionSpeed = 0.02;
+					if (stackMenu.peek() == setEntityMenu) {
+						final double scaleSpeed = 0.005, positionSpeed = 0.02;
 						switch (event.getAction()) {
 						case UI_DOWN2:
-							Entity e = current.getChild(setEntityLabel.getText());
+							Entity e = setEntityStack.peek().getChild(setEntityName.getText());
 							if (meshList.contains(e)) {
 								Mesh m = (Mesh) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.localPosition.add(new Vec3f(0, positionSpeed, 0));
+									m.addLocalPositionSelfAndChildren(new Vec3f(0, positionSpeed, 0));
 									break;
 								case SCALE:
 									m.scale.add(new Vec3f(0, -scaleSpeed, 0));
 									break;
 								case ROTATION:
-									m.localRotation.rotate(new Vec3f(0, 0.1, 0));
+									m.localRotation.rotate(new Vec3f(0, 1, 0));
 									break;
 								default:
 									break;
@@ -208,18 +234,18 @@ public class Editor extends GameState {
 							}
 							break;
 						case UI_UP2:
-							e = current.getChild(setEntityLabel.getText());
+							e = setEntityStack.peek().getChild(setEntityName.getText());
 							if (meshList.contains(e)) {
 								Mesh m = (Mesh) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.localPosition.add(new Vec3f(0, -positionSpeed, 0));
+									m.addLocalPositionSelfAndChildren(new Vec3f(0, -positionSpeed, 0));
 									break;
 								case SCALE:
 									m.scale.add(new Vec3f(0, scaleSpeed, 0));
 									break;
 								case ROTATION:
-									m.localRotation.rotate(new Vec3f(0, -0.1, 0));
+									m.localRotation.rotate(new Vec3f(0, 1, 1));
 									break;
 								default:
 									break;
@@ -227,18 +253,18 @@ public class Editor extends GameState {
 							}
 							break;
 						case UI_LEFT2:
-							e = current.getChild(setEntityLabel.getText());
+							e = setEntityStack.peek().getChild(setEntityName.getText());
 							if (meshList.contains(e)) {
 								Mesh m = (Mesh) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.localPosition.add(new Vec3f(-positionSpeed, 0, 0));
+									m.addLocalPositionSelfAndChildren(new Vec3f(-positionSpeed, 0, 0));
 									break;
 								case SCALE:
 									m.scale.add(new Vec3f(-scaleSpeed, 0, 0));
 									break;
 								case ROTATION:
-									m.localRotation.rotate(new Vec3f(-0.1, 0, 0));
+									m.localRotation.rotate(new Vec3f(1, 0, 0));
 									break;
 								default:
 									break;
@@ -246,18 +272,18 @@ public class Editor extends GameState {
 							}
 							break;
 						case UI_RIGHT2:
-							e = current.getChild(setEntityLabel.getText());
+							e = setEntityStack.peek().getChild(setEntityName.getText());
 							if (meshList.contains(e)) {
 								Mesh m = (Mesh) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.localPosition.add(new Vec3f(positionSpeed, 0, 0));
+									m.addLocalPositionSelfAndChildren(new Vec3f(positionSpeed, 0, 0));
 									break;
 								case SCALE:
 									m.scale.add(new Vec3f(scaleSpeed, 0, 0));
 									break;
 								case ROTATION:
-									m.localRotation.rotate(new Vec3f(0.1, 0, 0));
+									m.localRotation.set(new Quat(1, 1, 1, 0));
 									break;
 								default:
 									break;
@@ -291,7 +317,7 @@ public class Editor extends GameState {
 					String replace = file.getPath().replace('\\', '/');
 					Mesh mesh = new Mesh(new Vec3f(), replace);
 					String name = mesh.genName();
-					mesh.attachToParent(current, name);
+					mesh.attachToParent(setEntityStack.peek(), name);
 					meshList.add(mesh);
 					Button b = new Button(0, new Vec2f(30, 5.5), name);
 					b.setScaleText(new Vec2f(15));
@@ -300,13 +326,35 @@ public class Editor extends GameState {
 
 						@Override
 						public void make() {
-							setEntityLabel.setText(name);
-							stackMenu.push(setEntity);
+							bindEntity(mesh);
+							if(setEntityStack.peek() != mesh.getParent()) {
+								setEntityStack.push(mesh.getParent());
+							}
+							stackMenu.push(setEntityMenu);
 						}
 					});
 					b.arm();
 				}
 			});
+		}
+	}
+	
+	private void bindEntity(Entity entity) {
+		Entity parent = entity.getParent();
+		for (String name : parent.getChildren().keySet()) {
+			if(parent.getChild(name) == entity) {
+				setEntityName.setText(name);
+			}
+		}
+		if(parent == current) {
+			setEntityParent.setText("Parent : Map");
+		} else {
+			Entity superParent = parent.getParent();
+			for (String name : superParent.getChildren().keySet()) {
+				if(superParent.getChild(name) == parent) {
+					setEntityParent.setText("Parent : "+name);
+				}
+			}
 		}
 	}
 
@@ -342,7 +390,6 @@ public class Editor extends GameState {
 	@Override
 	public void update(double delta) {
 		inputs.step(delta);
-		// TODO : Ajouter les entites au setMenu
 		stackMenu.peek().update(delta);
 		bg.update(delta);
 	}
