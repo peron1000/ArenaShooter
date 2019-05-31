@@ -107,7 +107,8 @@ public class Material {
 		ParamType type = shader.getUniformType(name);
 		if( type == expected ) return true;
 		
-		Window.log.error("Type check error: uniform \""+name+"\" is "+type+", expected "+expected);
+		if(expected != ParamType.INT && !name.equals("time")) //Don't print an error for the time value
+			Window.log.error("Type check error: uniform \""+name+"\" is "+type+", expected "+expected);
 		return false;
 	}
 	
