@@ -12,6 +12,7 @@ public class Label extends UiSimpleElementNavigable {
 	private Material material;
 	private Text text;
 	private String txtMem = "";
+	private Mat4f modelM = new Mat4f();
 
 	public Label(double rot, Vec2f scale, String text) {
 		super(rot, scale);
@@ -53,8 +54,7 @@ public class Label extends UiSimpleElementNavigable {
 	@Override
 	public void draw() {
 		material.setParamTex("distanceField", text.getFont().getTexture());
-		material.model = Mat4f.transform(Vec2f.subtract(getPos(), new Vec2f(0, getScale().y * 0.07)), rotation,
-				getScale());
+		material.model = Mat4f.transform(Vec2f.subtract(getPos(), new Vec2f(0, getScale().y * 0.07)), rotation, getScale(), modelM);
 		material.proj = Window.projOrtho;
 		material.bind(text.getModel());
 

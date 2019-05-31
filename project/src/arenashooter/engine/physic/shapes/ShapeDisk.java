@@ -30,12 +30,13 @@ public class ShapeDisk extends PhysicShape {
 	
 	private static final Model disk = Model.loadDisk(16);
 	private static final Shader shader = Shader.loadShader("data/shaders/debug_color");
+	private Mat4f modelM;
 	@Override
 	public void debugDraw(Vec2f pos, double rot) {
 		shader.bind();
 		
 		//Create matrices
-		Mat4f modelM = Mat4f.transform(pos, rot, new Vec2f( radius*2 ));
+		Mat4f.transform(pos, rot, new Vec2f( radius*2 ), modelM);
 		shader.setUniformM4("model", modelM);
 		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);

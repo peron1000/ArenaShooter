@@ -11,6 +11,7 @@ import arenashooter.engine.math.Vec4f;
 public class UiImage extends UiSimpleElementNavigable {
 	private static Model model;
 	private Material material;
+	private Mat4f modelM = new Mat4f();
 
 	public UiImage(double rot, Vec2f scale, Texture texture, Vec4f color) {
 		super(rot, scale);
@@ -24,7 +25,7 @@ public class UiImage extends UiSimpleElementNavigable {
 	
 	@Override
 	public void draw() {
-		material.model = Mat4f.transform(getPos(), rotation, getScale());
+		material.model = Mat4f.transform(getPos(), rotation, getScale(), modelM);
 		material.proj = Window.projOrtho;
 		
 		material.bind(model);

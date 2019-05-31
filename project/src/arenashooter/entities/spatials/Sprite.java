@@ -14,6 +14,7 @@ public class Sprite extends Spatial {
 	public Material material;
 	private static Model model;
 	public Vec2f size = new Vec2f(1, 1);
+	private Mat4f modelM = new Mat4f();
 	
 	/** Does this sprite require transparency */
 	public boolean useTransparency = false;
@@ -53,7 +54,7 @@ public class Sprite extends Spatial {
 		//Create matrices
 		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
 		
-		material.model = Mat4f.transform(getWorldPos(), rotation, scale);
+		material.model = Mat4f.transform(getWorldPos(), rotation, scale, modelM);
 		material.view = Window.getView();
 		material.proj = Window.proj;
 		material.bind(model);

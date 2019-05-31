@@ -13,6 +13,7 @@ public class LoadingFloor extends Spatial {
 	private static final Material material;
 	private static final Model model;
 	static private final Vec2f size = new Vec2f(1.28, 2.56);
+	private Mat4f modelM = new Mat4f();
 	
 	private int currentTex;
 	private double timer = 0;
@@ -56,7 +57,7 @@ public class LoadingFloor extends Spatial {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		material.setParamTex("baseColor", tex[currentTex]);
-		material.model = Mat4f.transform(parentPosition, rotation, size);
+		material.model = Mat4f.transform(parentPosition, rotation, size, modelM);
 		material.view = Window.getView();
 		material.proj = Window.proj;
 		material.bind(model);

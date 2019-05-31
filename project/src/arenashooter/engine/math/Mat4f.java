@@ -224,18 +224,30 @@ public class Mat4f {
 		Mat4f res = new Mat4f();
 		mul(translation(loc), rotation(rot), res);
 		mul(res, scale(scale), res);
-//		res = mul(mul(translation(loc), rotation(rot)), scale(scale));
 		return res;
 	}
 	
 	/**
-	 * Create a transform matrix for a 2D object
+	 * Create a transform matrix for a 2D object, creates a new object
 	 * @param loc
 	 * @param rot
 	 * @param scale
 	 * @return
 	 */
 	public static Mat4f transform( Vec2f loc, double rot, Vec2f scale ) {
+		return transform( loc, rot, scale, new Mat4f() );
+	}
+	
+	/**
+	 * Create a transform matrix for a 2D object and stores the result in <i>target</i>
+	 * <br/> Avoids object creation
+	 * @param loc
+	 * @param rot
+	 * @param scale
+	 * @param target
+	 * @return <i>target</i> (modified)
+	 */
+	public static Mat4f transform( Vec2f loc, double rot, Vec2f scale, Mat4f target ) {
 		double w = Math.cos(rot/2);
 		double z = Math.sin(rot/2);
 		
@@ -243,22 +255,28 @@ public class Mat4f {
 		double zz = z * z;
 		double zw2 = 2*(z * w);
         
-        Mat4f res = new Mat4f();
-        
         //First column
-        res.val[0][0] = (float)((ww - zz)*scale.x);
-        res.val[0][1] = (float)(zw2*scale.x);
+        target.val[0][0] = (float)((ww - zz)*scale.x);
+        target.val[0][1] = (float)(zw2*scale.x);
+        target.val[0][2] = 0;
+        target.val[0][3] = 0;
 		//Second column
-        res.val[1][0] = (float)(-zw2*scale.y);
-        res.val[1][1] = (float)((-zz + ww)*scale.y);
+        target.val[1][0] = (float)(-zw2*scale.y);
+        target.val[1][1] = (float)((-zz + ww)*scale.y);
+        target.val[1][2] = 0;
+        target.val[1][3] = 0;
 		//Third column
-        res.val[2][2] = (float)(zz + ww);
+        target.val[2][0] = 0;
+        target.val[2][1] = 0;
+        target.val[2][2] = (float)(zz + ww);
+        target.val[2][3] = 0;
         //Fourth column
-        res.val[3][0] = loc.x;
-        res.val[3][1] = loc.y;
-        res.val[3][3] = 1;
+        target.val[3][0] = loc.x;
+        target.val[3][1] = loc.y;
+        target.val[3][2] = 0;
+        target.val[3][3] = 1;
         
-		return res;
+		return target;
 	}
 	
 	/**

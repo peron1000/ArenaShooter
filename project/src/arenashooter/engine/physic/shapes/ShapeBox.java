@@ -28,12 +28,13 @@ public class ShapeBox extends PhysicShape {
 
 	private static final Model quad = Model.loadQuad();
 	private static final Shader shader = Shader.loadShader("data/shaders/debug_color");
+	private Mat4f modelM = new Mat4f();
 	@Override
 	public void debugDraw(Vec2f pos, double rot) {
 		shader.bind();
 		
 		//Create matrices
-		Mat4f modelM = Mat4f.transform(pos, rot, Vec2f.multiply( extent, 2 ));
+		Mat4f.transform(pos, rot, Vec2f.multiply( extent, 2 ), modelM);
 		shader.setUniformM4("model", modelM);
 		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
