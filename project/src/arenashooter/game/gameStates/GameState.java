@@ -2,7 +2,6 @@ package arenashooter.game.gameStates;
 
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
 
@@ -12,7 +11,7 @@ public abstract class GameState {
 
 	public GameState(int nbMap) {
 		if(nbMap < 1) {
-			Exception e = new Exception("Nombre de Map insuffisant (inferieur a 1)");
+			Exception e = new Exception("Not enough arenas selected (at least one required)");
 			e.printStackTrace();
 			nbMap = 1;
 		}

@@ -3,7 +3,6 @@ package arenashooter.game.gameStates;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Action;
-import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;

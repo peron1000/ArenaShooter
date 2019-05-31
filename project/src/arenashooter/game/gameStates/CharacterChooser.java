@@ -102,6 +102,12 @@ public class CharacterChooser extends GameState {
 						}
 						break;
 					case UI_CONTINUE:
+						//Device needs to have a controller to start the game
+						if( !controllers.containsKey(event.getDevice()) ) {
+							Main.log.warn(event.getDevice()+" tried to start the game but doesn't have a controller");
+							break;
+						}
+						
 						GameMaster.gm.controllers.clear();
 						for (Controller cont : controllers.values()) {
 							GameMaster.gm.controllers.add(cont);
@@ -259,7 +265,8 @@ public class CharacterChooser extends GameState {
 		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
 
-		addController(Device.KEYBOARD);
+		//Add a controller for keyboard
+//		addController(Device.KEYBOARD);
 	}
 
 	@Override
