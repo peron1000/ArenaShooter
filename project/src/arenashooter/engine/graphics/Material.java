@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import arenashooter.engine.graphics.Shader.ParamType;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -35,7 +36,13 @@ public class Material {
 		Set<String> uniforms = shader.getUniformNames();
 		
 		for(String name : uniforms) {
-			switch(shader.getUniformType(name)) {
+			ParamType type = shader.getUniformType(name);
+			if(type == null) {
+				Window.log.error("No uniform named \""+name+"\"");
+				continue;
+			}
+			
+			switch(type) {
 			case INT:
 				setParamI(name, shader.defaultsParamsI.get(name).intValue());
 				break;
@@ -51,11 +58,8 @@ public class Material {
 			case VEC4F:
 				setParamVec4f(name, shader.defaultsParamsVec4f.get(name).clone());
 				break;
-			case MAT4F:
-				Window.log.debug("No default value for shader parameter "+name+" (type MAT4F)");
-				break;
-			case TEXTURE2D:
-				Window.log.debug("No default value for shader parameter "+name+" (type TEXTURE2D)");
+			default:
+				Window.log.debug("No default value for shader parameter "+name+" (type "+type+")");
 				break;
 			}
 		}
@@ -93,52 +97,78 @@ public class Material {
 		}
 	}
 	
+	/**
+	 * Check if the type of a parameter corresponds an expected type. If not, log a type check error
+	 * @param name parameter name
+	 * @param expected expected type
+	 * @return if the parameter type matches the expected type
+	 */
+	private boolean checkType(String name, ParamType expected) {
+		ParamType type = shader.getUniformType(name);
+		if( type == expected ) return true;
+		
+		Window.log.error("Type check error: uniform \""+name+"\" is "+type+", expected "+expected);
+		return false;
+	}
+	
 	public int getParamI(String name) {
+		checkType(name, ParamType.INT);
 		return paramsI.get(name);
 	}
 
 	public void setParamI(String name, int value) {
-		paramsI.put(name, value);
+		if(checkType(name, ParamType.INT))
+			paramsI.put(name, value);
 	}
 	
 	public float getParamF(String name) {
+		checkType(name, ParamType.FLOAT);
 		return paramsF.get(name);
 	}
 
 	public void setParamF(String name, float value) {
-		paramsF.put(name, value);
+		if(checkType(name, ParamType.FLOAT))
+			paramsF.put(name, value);
 	}
 	
 	public Vec2f getParamVec2f(String name) {
+		checkType(name, ParamType.VEC2F);
 		return paramsVec2f.get(name);
 	}
 	
 	public void setParamVec2f(String name, Vec2f value) {
-		paramsVec2f.put(name, value);
+		if(checkType(name, ParamType.VEC2F))
+			paramsVec2f.put(name, value);
 	}
 	
 	public Vec3f getParamVec3f(String name) {
+		checkType(name, ParamType.VEC3F);
 		return paramsVec3f.get(name);
 	}
 
 	public void setParamVec3f(String name, Vec3f value) {
-		paramsVec3f.put(name, value);
+		if(checkType(name, ParamType.VEC3F))
+			paramsVec3f.put(name, value);
 	}
 	
 	public Vec4f getParamVec4f(String name) {
+		checkType(name, ParamType.VEC4F);
 		return paramsVec4f.get(name);
 	}
 
 	public void setParamVec4f(String name, Vec4f value) {
-		paramsVec4f.put(name, value);
+		if(checkType(name, ParamType.VEC4F))
+			paramsVec4f.put(name, value);
 	}
 	
 	public Texture getParamTex(String name) {
+		checkType(name, ParamType.TEXTURE2D);
 		return paramsTex.get(name);
 	}
 
 	public void setParamTex(String name, Texture value) {
-		paramsTex.put(name, value);
+		if(checkType(name, ParamType.TEXTURE2D))
+			paramsTex.put(name, value);
 	}
 	
 	@Override
@@ -147,12 +177,24 @@ public class Material {
 		res.model = model.clone();
 		res.view = view.clone();
 		res.proj = proj.clone();
-		res.paramsI = new HashMap<>(paramsI);
-		res.paramsF = new HashMap<>(paramsF);
+		
+		for(Entry<String, Integer> entry : paramsI.entrySet())
+			res.paramsI.put(entry.getKey(), entry.getValue().intValue());
+		
+		for(Entry<String, Float> entry : paramsF.entrySet())
+			res.paramsF.put(entry.getKey(), entry.getValue().floatValue());
+		
+		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet())
+			res.paramsVec2f.put(entry.getKey(), entry.getValue().clone());
+		
+		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet())
+			res.paramsVec3f.put(entry.getKey(), entry.getValue().clone());
+		
+		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
+			res.paramsVec4f.put(entry.getKey(), entry.getValue().clone());
+		
 		res.paramsTex = new HashMap<>(paramsTex);
-		res.paramsVec2f = new HashMap<>(paramsVec2f);
-		res.paramsVec3f = new HashMap<>(paramsVec3f);
-		res.paramsVec4f = new HashMap<>(paramsVec4f);
+		
 		return res;
 	}
 }
