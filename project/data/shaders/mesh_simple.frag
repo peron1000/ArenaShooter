@@ -13,6 +13,7 @@ in struct Light {
 } light;
 
 //Uniforms
+uniform float editorFilter = 0.0;
 uniform sampler2D baseColor;
 uniform vec4 baseColorMod = vec4(1.0, 1.0, 1.0, 1.0);
 
@@ -45,5 +46,8 @@ void main() {
     FragmentColor = mix(FragmentColor, fogColor, fogAmount);
 
     //FragmentColor = vec4( (normalCamSpace+1.0)/2.0, 1.0 ); //Normal viewer
+    
+    //Editor filter
+    FragmentColor = mix(FragmentColor, vec4(vec3(1.0, 0.964, .839), FragmentColor.a), editorFilter );
 }
 
