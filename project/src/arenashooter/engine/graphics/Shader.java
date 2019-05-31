@@ -2,7 +2,12 @@ package arenashooter.engine.graphics;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.nio.IntBuffer;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import org.lwjgl.BufferUtils;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Mat4f;
@@ -11,6 +16,10 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
 public class Shader {
+	public enum ParamType {
+		INT, FLOAT, VEC2F, VEC3F, VEC4F, MAT4F, TEXTURE2D;
+	}
+	
 	private static HashMap<String, Shader> cache = new HashMap<>();
 	private static HashMap<String, Integer> cacheVertex = new HashMap<>();
 	private static HashMap<String, Integer> cacheFragment = new HashMap<>();
@@ -18,7 +27,13 @@ public class Shader {
 	/** Currently bound shader program */
 	private static int boundShader = 0;
 	
-	private HashMap<String, Integer> uniforms = new HashMap<>();
+	private Map<String, Integer> uniforms;
+	private ParamType[] uniformTypes;
+	HashMap<String, Integer> defaultsParamsI = new HashMap<>();
+	HashMap<String, Float> defaultsParamsF = new HashMap<>();
+	HashMap<String, Vec2f> defaultsParamsVec2f = new HashMap<>();
+	HashMap<String, Vec3f> defaultsParamsVec3f = new HashMap<>();
+	HashMap<String, Vec4f> defaultsParamsVec4f = new HashMap<>();
 	
 	private int vertex, fragment, program;
 	/** Does this shader require transparency? */
@@ -28,6 +43,7 @@ public class Shader {
 		this.vertex = vertex;
 		this.fragment = fragment;
 		this.program = program;
+		scanUniforms();
 	}
 	
 	/**
@@ -101,7 +117,87 @@ public class Shader {
 		return new Shader(vertex, fragment, program);
 	}
 	
+	/**
+	 * Create a Map of all uniforms available in this shader and load their default values
+	 */
+	private void scanUniforms() {
+		IntBuffer countB = BufferUtils.createIntBuffer(1);
+		glGetProgramiv(program, GL_ACTIVE_UNIFORMS, countB);
+		int count = countB.get(0);
+		
+		uniforms = new HashMap<>();
+		uniformTypes = new ParamType[count];
+
+		IntBuffer sizeB = BufferUtils.createIntBuffer(1);
+		IntBuffer typeB = BufferUtils.createIntBuffer(1);
+		for(int i = 0; i < count; i++) {
+			String name = glGetActiveUniform(program, i, sizeB, typeB);
+		    
+		    uniforms.put(name, i);
+		    
+		    ParamType type;
+		    switch(typeB.get(0)) {
+		    case GL_INT:
+		    	type = ParamType.INT;
+		    	defaultsParamsI.put(name, glGetUniformi(program, i));
+		    	break;
+		    case GL_FLOAT:
+		    	type = ParamType.FLOAT;
+		    	defaultsParamsF.put(name, glGetUniformf(program, i));
+		    	break;
+		    case GL_FLOAT_VEC2:
+		    	type = ParamType.VEC2F;
+		    	float[] vec2 = new float[2];
+		    	glGetUniformfv(program, i, vec2);
+		    	defaultsParamsVec2f.put(name, new Vec2f(vec2[0], vec2[1]));
+		    	break;
+		    case GL_FLOAT_VEC3:
+		    	type = ParamType.VEC3F;
+		    	float[] vec3 = new float[3];
+		    	glGetUniformfv(program, i, vec3);
+		    	defaultsParamsVec3f.put(name, new Vec3f(vec3[0], vec3[1], vec3[2]));
+		    	break;
+		    case GL_FLOAT_VEC4:
+		    	type = ParamType.VEC4F;
+		    	float[] vec4 = new float[4];
+		    	glGetUniformfv(program, i, vec4);
+		    	defaultsParamsVec4f.put(name, new Vec4f(vec4[0], vec4[1], vec4[2], vec4[3]));
+		    	break;
+		    case GL_FLOAT_MAT4: //No default values
+		    	type = ParamType.MAT4F;
+		    	break;
+		    case GL_SAMPLER_2D: //No default values
+		    	type = ParamType.TEXTURE2D;
+		    	break;
+		    default:
+		    	Window.log.error("Unsuported uniform type for \""+name+"\"");
+		    	type = null;
+		    	break;
+		    }
+		    uniformTypes[i] = type;
+
+		    if(type != null) {
+		    	Window.log.debug("Shader uniform "+i+": \""+name+"\": "+type);
+		    }
+		}
+	}
+	
 	public int getAttribLocation(String name) { return glGetAttribLocation(program, name); }
+	
+	/**
+	 * @return a Set of all available uniform names
+	 */
+	public Set<String> getUniformNames() { return uniforms.keySet(); }
+	
+	/**
+	 * Get the type of a uniform, of null if invalid name
+	 * @param name
+	 * @return
+	 */
+	public ParamType getUniformType(String name) {
+		if(getUniformLocation(name) < 0) return null;
+		return uniformTypes[getUniformLocation(name)];
+	}
 	
 	private int getUniformLocation(String name) {
 		if(uniforms.containsKey(name))

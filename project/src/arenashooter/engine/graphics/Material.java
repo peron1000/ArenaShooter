@@ -2,6 +2,7 @@ package arenashooter.engine.graphics;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
@@ -24,6 +25,40 @@ public class Material {
 	public Material(String shaderPath) {
 		this.shaderPath = shaderPath;
 		this.shader = Shader.loadShader(shaderPath);
+		loadDefaults();
+	}
+	
+	/**
+	 * Copy default values from shader
+	 */
+	private void loadDefaults() {
+		Set<String> uniforms = shader.getUniformNames();
+		
+		for(String name : uniforms) {
+			switch(shader.getUniformType(name)) {
+			case INT:
+				setParamI(name, shader.defaultsParamsI.get(name).intValue());
+				break;
+			case FLOAT:
+				setParamF(name, shader.defaultsParamsF.get(name).floatValue());
+				break;
+			case VEC2F:
+				setParamVec2f(name, shader.defaultsParamsVec2f.get(name).clone());
+				break;
+			case VEC3F:
+				setParamVec3f(name, shader.defaultsParamsVec3f.get(name).clone());
+				break;
+			case VEC4F:
+				setParamVec4f(name, shader.defaultsParamsVec4f.get(name).clone());
+				break;
+			case MAT4F:
+				Window.log.debug("No default value for shader parameter "+name+" (type MAT4F)");
+				break;
+			case TEXTURE2D:
+				Window.log.debug("No default value for shader parameter "+name+" (type TEXTURE2D)");
+				break;
+			}
+		}
 	}
 	
 	public void bind(Model model) {
