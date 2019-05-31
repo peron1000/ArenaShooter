@@ -9,7 +9,10 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.game.Main;
 
 public class Entity {
+	/** Arena containing this */
 	private Arena arena = null;
+	/** Arena value needs to be refreshed */
+	private boolean arenaDirty = true;
 	private Entity parent = null;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
@@ -17,7 +20,7 @@ public class Entity {
 
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
-
+	
 	// Entity comparator based on zIndex
 	protected static Comparator<Entity> comparator = new Comparator<Entity>() {
 		@Override
@@ -56,6 +59,8 @@ public class Entity {
 		newParent.children.put(name, this);
 		this.parent = newParent;
 
+		recursiveAttach(this.parent);
+		
 		return previousChild;
 	}
 
@@ -68,6 +73,19 @@ public class Entity {
 		parent = null;
 		arena = null;
 		name = "";
+		recursiveDetach();
+	}
+	
+	public void recursiveAttach(Entity newParent) {
+		arenaDirty = true;
+		for(Entity e : children.values())
+			e.recursiveAttach(newParent);
+	}
+	
+	public void recursiveDetach() {
+		arenaDirty = true;
+		for(Entity e : children.values())
+			e.recursiveDetach();
 	}
 
 	/**
@@ -110,10 +128,10 @@ public class Entity {
 	 * @return Arena containing this entity or self if this is the Arena
 	 */
 	public Arena getArena() { //TODO: test
-//		if(arena != null) return arena;
-//		
-//		if (this instanceof Arena)
-//			arena = (Arena)this;
+		if(!arenaDirty && arena != null) return arena;
+		
+		if (this instanceof Arena)
+			arena = (Arena)this;
 
 		Entity current = parent;
 		while (current != null && !(current instanceof Arena))
@@ -124,6 +142,7 @@ public class Entity {
 		else
 			arena = null;
 		
+		arenaDirty = false;
 		return arena;
 	}
 

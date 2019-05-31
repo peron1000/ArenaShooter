@@ -5,6 +5,7 @@ import arenashooter.engine.audio.AudioSourceI;
 import arenashooter.engine.audio.SoundSourceMulti;
 import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Entity;
 
 /**
  * Spatial entity containing a sound effect.
@@ -80,6 +81,14 @@ public class SoundEffect extends Spatial {
 	 */
 	public void setVolume(float volume) {
 		sound.setVolume(volume);
+	}
+	
+	@Override
+	public void recursiveDetach() {
+		super.recursiveDetach();
+		
+		if(getArena() == null)
+			sound.stop();
 	}
 
 	@Override
