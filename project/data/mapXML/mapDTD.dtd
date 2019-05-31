@@ -16,11 +16,9 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|plateform|rigid|mesh|text|static|jointPin)*>
+<!ELEMENT entities (entity|rigid|mesh|text|static|jointPin)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
-<!ELEMENT plateform (vecteur , vecteur, entities?)>
-<!ATTLIST plateform name CDATA #IMPLIED>
 <!ELEMENT mesh (vecteur, vecteur, vecteur, entities?)>
 <!ATTLIST mesh name CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>

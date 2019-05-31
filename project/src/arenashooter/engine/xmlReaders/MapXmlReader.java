@@ -7,7 +7,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
@@ -27,7 +26,6 @@ import arenashooter.entities.spatials.KinematicBodyContainer;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.entities.spatials.items.Gun;
@@ -461,15 +459,10 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadEntities(Element entities, Entity parent) {
-		// entity
+		// Entity
 		List<Element> entitys = getListElementByName("entity", entities);
 		for (Element entity : entitys)
 			loadEntity(entity, parent);
-
-		// plateform //TODO: Remove this
-		List<Element> plateforms = getListElementByName("plateform", entities);
-		for (Element plateform : plateforms)
-			loadPlateform(plateform, parent);
 
 		// Rigid Bodies
 		List<Element> rigids = getListElementByName("rigid", entities);
@@ -481,18 +474,18 @@ public class MapXmlReader extends XmlReader {
 		for (Element body : statics)
 			loadStaticBody(body, parent);
 
-		// mesh
+		// Mesh
 		List<Element> meshs = getListElementByName("mesh", entities);
 		for (Element mesh : meshs)
 			loadMesh(mesh, parent);
 
-		// text
+		// Text
 		List<Element> texts = getListElementByName("text", entities);
 		for (Element text : texts)
 			loadText(text, parent);
 		
 		//Physic joints loaded at last
-		// jointPin
+		// JointPin
 		List<Element> jointPins = getListElementByName("jointPin", entities);
 		for (Element pin : jointPins)
 			loadJointPin(pin, parent);
@@ -586,48 +579,6 @@ public class MapXmlReader extends XmlReader {
 
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", mesh);
-		for (Element entities : entitiess) {
-			loadEntities(entities, parent);
-		}
-	}
-
-	@Deprecated
-	private void loadPlateform(Element plateform, Entity parent) { //TODO: Delete this
-		Main.log.warn("Platform element is deprecated, use static bodies");
-		// vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", plateform);
-		Vec2f position = new Vec2f(), extent = new Vec2f();
-		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
-			System.err.println("Platform element needs " + nbVec + " vectors");
-		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
-				switch (vec.use) {
-				case "position":
-					position = new Vec2f(vec.x, vec.y);
-					break;
-				case "extent":
-					extent = new Vec2f(vec.x, vec.y);
-					break;
-				default:
-					System.err.println("Invalid vector in Platform element");
-					break;
-				}
-			}
-		}
-
-		//Load a sprite
-		Sprite p = new Sprite(position, Texture.default_tex);
-		Vec2f.multiply(extent, 2, p.size);
-		if (plateform.hasAttribute("name")) {
-			p.attachToParent(parent, plateform.getAttribute("name"));
-		} else {
-			p.attachToParent(parent, p.genName());
-		}
-
-		// Load children
-		List<Element> entitiess = getListElementByName("entities", plateform);
 		for (Element entities : entitiess) {
 			loadEntities(entities, parent);
 		}

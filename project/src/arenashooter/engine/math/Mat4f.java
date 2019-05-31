@@ -228,17 +228,6 @@ public class Mat4f {
 	}
 	
 	/**
-	 * Create a transform matrix for a 2D object, creates a new object
-	 * @param loc
-	 * @param rot
-	 * @param scale
-	 * @return
-	 */
-	public static Mat4f transform( Vec2f loc, double rot, Vec2f scale ) {
-		return transform( loc, rot, scale, new Mat4f() );
-	}
-	
-	/**
 	 * Create a transform matrix for a 2D object and stores the result in <i>target</i>
 	 * <br/> Avoids object creation
 	 * @param loc
