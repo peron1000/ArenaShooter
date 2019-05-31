@@ -49,8 +49,8 @@ public class MenuPause extends MenuSelectionV<Label> {
 						break;
 
 					case UI_PAUSE:
-						selectorVisible =  false;
-						break;
+//						selectorVisible =  false;
+//						break;
 					case UI_BACK:
 						selectorVisible =  false;
 						break;
@@ -116,7 +116,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 		op4.addAction("ok", new Trigger() {
 			@Override
 			public void make() {
-				System.out.println("op4 : quit");
+				System.out.println("op4 : back to Menu");
 				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
 			}
 		});
