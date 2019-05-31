@@ -117,10 +117,12 @@ public enum ActionV2 {
 			return p || s;
 		}
 	},
-	UI_OK{
+	UI_OK {
 		@Override
 		public boolean keyboardInput(long window) {
-			return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
+			return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS
+					&& (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) != GLFW_PRESS
+							&& glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) != GLFW_PRESS);
 		}
 
 		@Override
@@ -139,7 +141,7 @@ public enum ActionV2 {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS;
 		}
 	},
-	UI_PAUSE{
+	UI_PAUSE {
 		@Override
 		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
@@ -166,6 +168,7 @@ public enum ActionV2 {
 		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS;
 		}
+
 		@Override
 		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return false;
@@ -176,6 +179,7 @@ public enum ActionV2 {
 		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS;
 		}
+
 		@Override
 		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return false;
@@ -231,8 +235,31 @@ public enum ActionV2 {
 			boolean p = gamePad.axes(GLFW_GAMEPAD_AXIS_RIGHT_X) <= -0.3f;
 			return p;
 		}
-	}
-;
+	},
+	UI_CANCEL {
+		@Override
+		public boolean keyboardInput(long window) {
+			return glfwGetKey(window, GLFW_KEY_BACKSPACE) == GLFW_PRESS;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_X) == GLFW_PRESS;
+		}
+	},
+	UI_CHANGE {
+		@Override
+		public boolean keyboardInput(long window) {
+			return glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS
+					&& (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS
+							|| glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS);
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS;
+		}
+	};
 
 	public abstract boolean keyboardInput(long window);
 

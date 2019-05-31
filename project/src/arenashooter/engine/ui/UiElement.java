@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec2f;
 public abstract class UiElement implements Navigable {
 	private HashMap<String, Trigger> actions = new HashMap<>();
 
-	private Vec2f pos, scale, rePos, reScale;
+	private Vec2f pos = new Vec2f(), scale, rePos = new Vec2f(), reScale;
 	public double rotation;
 	boolean visible = true;
 	protected Menu owner = null;
