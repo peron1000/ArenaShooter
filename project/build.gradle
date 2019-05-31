@@ -12,6 +12,12 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+// Set Java version
+compileJava   {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
 project.ext.lwjglVersion = "3.2.0"
 
 switch (OperatingSystem.current()) {
