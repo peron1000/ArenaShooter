@@ -137,7 +137,7 @@ public final class Audio {
 	 * @param volume
 	 * @param pitch
 	 */
-	public static void playSound(String file, float volume, float pitch) {
+	public static void playSound(String file, AudioChannel channel, float volume, float pitch) {
 		if(file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);
@@ -146,7 +146,7 @@ public final class Audio {
 			return;
 		}
 		
-		SourceV2 source = new SourceV2();
+		SourceV2 source = new SourceV2(channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -165,7 +165,7 @@ public final class Audio {
 	 * @param pitch
 	 * @param position
 	 */
-	public static void playSound2D(String file, float volume, float pitch, Vec2f position) {
+	public static void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2f position) {
 		if(file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);
@@ -174,7 +174,7 @@ public final class Audio {
 			return;
 		}
 		
-		SourceV2 source = new SourceV2();
+		SourceV2 source = new SourceV2(channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);

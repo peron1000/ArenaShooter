@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -200,7 +201,7 @@ public class Gun extends Usable {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				Audio.playSound2D(soundFire, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 
 				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -211,7 +212,7 @@ public class Gun extends Usable {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.028f);
 			} else {
-				Audio.playSound2D(soundNoAmmo, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			}
 
 		}

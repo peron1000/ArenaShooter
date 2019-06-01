@@ -32,7 +32,10 @@ public class SourceV2 {
 	private float volume = 1, pitch = 1;
 	private boolean looping = false;
 	
-	SourceV2() {
+	private AudioChannel channel;
+	
+	SourceV2(AudioChannel channel) {
+		this.channel = channel;
 		this.sourceId = alGenSources();
 
 		if(Audio.printError("Cannot create source") != AL10.AL_NO_ERROR)
@@ -86,7 +89,7 @@ public class SourceV2 {
 	
 	public void setVolume(float newVolume) {
 		volume = newVolume;
-		alSourcef(sourceId, AL_GAIN, newVolume);
+		alSourcef(sourceId, AL_GAIN, newVolume*channel.volume);
 	}
 	
 	public float getPitch() { return pitch; }
