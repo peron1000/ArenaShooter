@@ -111,7 +111,7 @@ public class Config extends GameState {
 					break;
 				case UI_BACK:
 					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						GameMaster.gm.requestNextState(new Intro(), GameMaster.mapEmpty);
+						GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
 					}
 					break;
 
