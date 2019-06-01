@@ -15,6 +15,8 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Menu;
+import arenashooter.engine.ui.MenuOption2;
+import arenashooter.engine.ui.MenuPause;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.Trigger;
@@ -42,10 +44,13 @@ public class MenuStart extends GameState {
 
 	private InputListener inputs = new InputListener();
 	private Camera cam;
-
+	private MenuOption2 menu;
 	public MenuStart() {
 		super(1);
 
+		menu = new MenuOption2();
+		menu.selectorVisible = false;
+		
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
 		texture1.setFilter(false);
 
@@ -53,10 +58,10 @@ public class MenuStart extends GameState {
 //		texture2.setFilter(false);
 
 		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
-
+		
 		menustart.setBackground(bg);
 		bg.setPos(new Vec2f(0));
-
+		
 		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 15));
 		menustart.setEcartement(10f);
 		button1.setScaleText(scale);
@@ -108,7 +113,9 @@ public class MenuStart extends GameState {
 
 			@Override
 			public void make() {
-				GameMaster.gm.requestNextState(new MenuOption(), "data/mapXML/menu_empty.xml");
+				menu.selectorVisible = !menu.selectorVisible;
+				System.out.println("option");
+				//GameMaster.gm.requestNextState(new MenuOption(), "data/mapXML/menu_empty.xml");
 			}
 		});
 		button4.setOnArm(new Trigger() {
@@ -116,7 +123,7 @@ public class MenuStart extends GameState {
 			@Override
 			public void make() {
 				// GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_empty.xml");
-				Robot robot;
+//				Robot robot;
 //				try {
 				/* Robot qui émule Alt+f4 */
 //					robot = new Robot();
@@ -179,7 +186,12 @@ public class MenuStart extends GameState {
 	@Override
 	public void update(double delta) {
 		menustart.update(delta);
-		inputs.step(delta);
+		if(menu.selectorVisible) {
+			menu.update(delta);
+		}
+		else{
+			inputs.step(delta);
+		}
 		super.update(delta);
 	}
 
@@ -188,6 +200,9 @@ public class MenuStart extends GameState {
 		super.draw();
 		Window.beginUi();
 		menustart.draw();
+		if (menu.selectorVisible) {
+		menu.draw();
+		}
 		Window.endUi();
 	}
 
