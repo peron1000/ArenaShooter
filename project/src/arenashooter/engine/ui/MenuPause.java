@@ -26,6 +26,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 
 	private Label op1, op2, op3, op4;
 	private InputListener inputs = new InputListener();
+	private MenuOption2 menup;
 
 	public MenuPause(float x, float y) {
 		super(5, x, y, new Vec2f(30, 10), "data/sprites/interface/Selector.png");
@@ -38,6 +39,8 @@ public class MenuPause extends MenuSelectionV<Label> {
 				elems.put(Integer.valueOf(i), new LinkedList<>());
 			}
 		}
+		menup = new MenuOption2();
+		menup.selectorVisible = false;
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -52,7 +55,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 //						selectorVisible =  false;
 //						break;
 					case UI_BACK:
-						selectorVisible =  false;
+						selectorVisible = false;
 						break;
 					case UI_UP:
 						upAction();
@@ -87,18 +90,18 @@ public class MenuPause extends MenuSelectionV<Label> {
 
 		op4 = new Label(0, new Vec2f(scale), "Back to Menu");
 		addElementInListOfChoices(op4, 1);
-		
+
 		op1.addAction("ok", new Trigger() {
 			@Override
 			public void make() {
-				try {
+				// try {
 //					Robot robot = new Robot();
 //					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
-					selectorVisible = false;
-					System.out.println("op1 : Resume");
-				} catch (Exception ex) {
-					System.out.println("fail pause");
-				}
+				selectorVisible = false;
+				System.out.println("op1 : Resume");
+//				} catch (Exception ex) {
+//					System.out.println("fail pause");
+//				}
 			}
 		});
 		op2.addAction("ok", new Trigger() {
@@ -111,6 +114,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 			@Override
 			public void make() {
 				System.out.println("op3 : Option");
+				menup.selectorVisible = !menup.selectorVisible;
 			}
 		});
 		op4.addAction("ok", new Trigger() {
@@ -120,15 +124,21 @@ public class MenuPause extends MenuSelectionV<Label> {
 				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
 			}
 		});
-	//  op2.visible = false;
-	//	op3.visible = false;
+		// op2.visible = false;
+		// op3.visible = false;
 	}
 
 	@Override
 	public void update(double delta) {
 		// Detect controls
-		inputs.step(delta);
-		
-		super.update(delta);
+		if (!menup.selectorVisible) {
+			super.update(delta);
+			inputs.step(delta);
+
+		} else {
+			menup.update(delta);
+			menup.draw();
+		}
+
 	}
 }
