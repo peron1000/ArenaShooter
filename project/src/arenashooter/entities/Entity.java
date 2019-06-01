@@ -76,13 +76,13 @@ public class Entity {
 		recursiveDetach();
 	}
 	
-	public void recursiveAttach(Entity newParent) {
+	protected void recursiveAttach(Entity newParent) {
 		arenaDirty = true;
 		for(Entity e : children.values())
 			e.recursiveAttach(newParent);
 	}
 	
-	public void recursiveDetach() {
+	protected void recursiveDetach() {
 		arenaDirty = true;
 		for(Entity e : children.values())
 			e.recursiveDetach();
