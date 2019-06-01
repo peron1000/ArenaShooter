@@ -79,22 +79,6 @@ public class Character extends RigidBodyContainer {
 
 		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
-
-		SoundEffect jumpSound = new SoundEffect(this.getWorldPos(), "data/sound/jump.ogg", 1);
-		jumpSound.setVolume(.7f);
-		jumpSound.attachToParent(this, "snd_Jump");
-
-		SoundEffect punchHitSound = new SoundEffect(this.getWorldPos(), "data/sound/snd_Punch_Hit2.ogg", 1);
-		punchHitSound.setVolume(.7f);
-		punchHitSound.attachToParent(this, "snd_Punch_Hit");
-
-		SoundEffect punchHitSound2 = new SoundEffect(this.getWorldPos(), "data/sound/slap.ogg", 1);
-		punchHitSound2.setVolume(.7f);
-		punchHitSound2.attachToParent(this, "snd_Punch_Hit2");
-
-		SoundEffect punchHitSound3 = new SoundEffect(this.getWorldPos(), "data/sound/BangIonGun2.ogg", 1);
-		punchHitSound3.setVolume(.7f);
-		punchHitSound3.attachToParent(this, "snd_Punch_Hit3");
 	}
 
 	public void jump() {
@@ -108,7 +92,7 @@ public class Character extends RigidBodyContainer {
 			getBody().applyImpulse(new Vec2f(0, -jumpForce));
 			jumpTimer.reset();
 			jumpTimer.setProcessing(true);
-			((SoundEffect) getChild("snd_Jump")).play();
+			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()), getWorldPos());
 		}
 	}
 
@@ -190,12 +174,14 @@ public class Character extends RigidBodyContainer {
 			if (!punchHit.isEmpty()) {
 				switch (attackCombo) {
 				case 1:
-					((SoundEffect) getChild("snd_Punch_Hit")).play();
+					Audio.playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f, 1, getWorldPos());
 					break;
 				case 2:
+					Audio.playSound2D("data/sound/slap.ogg", AudioChannel.SFX, .7f, 1, getWorldPos());
 					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					break;
 				case 3:
+					Audio.playSound2D("data/sound/BangIonGun2.ogg", AudioChannel.SFX, .7f, 1, getWorldPos());
 					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					break;
 				default:
