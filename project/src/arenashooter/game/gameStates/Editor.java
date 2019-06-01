@@ -1,8 +1,10 @@
 package arenashooter.game.gameStates;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.TreeMap;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -18,6 +20,7 @@ import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
 import arenashooter.engine.ui.Navigable;
 import arenashooter.engine.ui.ScrollerH;
+import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
@@ -71,6 +74,9 @@ public class Editor extends GameState {
 	private Stack<Entity> setEntityStack = new Stack<>();
 	
 	private Stack<Navigable> stackMenu = new Stack<>();
+	private HashMap<Entity, Button> mapEntityButton = new HashMap<>();
+	
+	private TextInput textInput = new TextInput();
 
 	private LinkedList<Mesh> meshList = new LinkedList<>();
 
@@ -150,6 +156,17 @@ public class Editor extends GameState {
 		});
 		setEntityMenu.addElementInListOfChoices(newChild, 1);
 		setEntityStack.push(current);
+		Button renameEntity = new Button(0, scale, "Rename Entity");
+		renameEntity.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				textInput.reset();
+				textInput.setPos(renameEntity.getPos());
+				stackMenu.push(textInput);
+			}
+		});
+		setEntityMenu.addElementInListOfChoices(renameEntity, 1);
 
 		/* Main Menu */
 		Rectangle bg = new Rectangle(0, new Vec2f(50, 150), new Vec4f(0.5, 0.5, 0.5, 0.2));
@@ -193,7 +210,17 @@ public class Editor extends GameState {
 						stackMenu.peek().selectAction();
 						break;
 					case UI_CONTINUE:
-						setPrimeVisible(!primeVisible);
+						if(stackMenu.peek() == textInput) {
+							stackMenu.pop();
+							Entity parent = setEntityStack.peek();
+							Entity e = parent.getChild(setEntityName.getText());
+							e.detach();
+							e.attachToParent(parent, textInput.getText());
+							bindEntity(e);
+							mapEntityButton.get(e).setText(textInput.getText());
+						} else {
+							setPrimeVisible(!primeVisible);
+						}
 						break;
 					case UI_BACK:
 						if (stackMenu.size() > 1) {
@@ -205,6 +232,16 @@ public class Editor extends GameState {
 								}
 							}
 							stackMenu.pop();
+						}
+						break;
+					case UI_CHANGE:
+						if(stackMenu.peek() == textInput) {
+							textInput.changeType();
+						}
+						break;
+					case UI_CANCEL:
+						if(stackMenu.peek() == textInput) {
+							textInput.cancelChar();
 						}
 						break;
 					default:
@@ -320,6 +357,7 @@ public class Editor extends GameState {
 					mesh.attachToParent(setEntityStack.peek(), name);
 					meshList.add(mesh);
 					Button b = new Button(0, new Vec2f(30, 5.5), name);
+					mapEntityButton.put(mesh, b);
 					b.setScaleText(new Vec2f(15));
 					setMenu.addElementInListOfChoices(b, 1);
 					b.setOnArm(new Trigger() {
@@ -369,6 +407,10 @@ public class Editor extends GameState {
 		}
 		return mesh;
 	}
+	
+	private Entity getEntityOnSetting() {
+		return setEntityStack.peek().getChild(setEntityName.getText());
+	}
 
 	@Override
 	public void init() {
@@ -392,6 +434,14 @@ public class Editor extends GameState {
 		inputs.step(delta);
 		stackMenu.peek().update(delta);
 		bg.update(delta);
+		for (Mesh mesh : meshList) {
+			if(mesh == getEntityOnSetting() && stackMenu.peek() == setEntityMenu) {
+				mesh.setEditorTarget(true);
+			} else {
+				mesh.setEditorTarget(false);
+			}
+			mesh.step(delta);
+		}
 	}
 
 	@Override

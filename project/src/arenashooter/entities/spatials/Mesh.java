@@ -19,7 +19,10 @@ public class Mesh extends Spatial3 {
 	
 	private int timeMs = 0;
 	
+	private boolean isEditorTarget =false;
+	
 	public Vec3f scale;
+	private double time;
 	
 	public Mesh(Vec3f position, String modelPath) {
 		this(position, new Quat(), new Vec3f(1), modelPath);
@@ -52,6 +55,14 @@ public class Mesh extends Spatial3 {
 		this.materials = materials;
 	}
 	
+	public void setEditorTarget(boolean isEditorTarget) {
+		this.isEditorTarget = isEditorTarget;
+	}
+	
+	public boolean isEditorTarget() {
+		return isEditorTarget;
+	}
+	
 	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
 		return new Mesh(position, rotation, scale, new Model[] {Model.loadQuad()}, new Material[] {material});
 	}
@@ -64,7 +75,16 @@ public class Mesh extends Spatial3 {
 	@Override
 	public void step(double d) {
 		timeMs += d*1000;
-		
+		time += d;
+		if(isEditorTarget) {
+			for (Material material : materials) {
+				material.setParamF("editorFilter", (float) (Math.sin(time)+0.5/2));
+			}
+		} else {
+			for (Material material : materials) {
+				material.setParamF("editorFilter", 0);
+			}
+		}
 		super.step(d);
 	}
 	

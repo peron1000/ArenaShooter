@@ -214,7 +214,7 @@ public class TextInput extends UiElement {
 		word.add(newChar);
 		Vec2f goalScale = background.getScale().clone(), goalPos = background.getPos().clone(),
 				goalInput = input.getPos().clone();
-		goalScale.x += getMovement();
+		goalScale.x += getMovement()+1;
 		goalPos.x += getMovement() / 2;
 		goalInput.x += getMovement();
 		background.setScaleLerp(goalScale);
@@ -223,7 +223,7 @@ public class TextInput extends UiElement {
 	}
 
 	private double getMovement() {
-		return getScale().x * 0.48;
+		return getScale().x * 0.55;
 	}
 
 	@Override
@@ -276,6 +276,11 @@ public class TextInput extends UiElement {
 		word.clear();
 		c = 'A';
 		index = 0;
+		background.setScale(getScale().clone());
+		background.setPos(getPos());
+		input.setText(String.valueOf(c));
+		input.setPos(getPos());
+		type = Type.UPPERCASE;
 	}
 
 	public void changeType() {
