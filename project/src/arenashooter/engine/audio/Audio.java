@@ -42,6 +42,8 @@ import arenashooter.engine.math.Vec3f;
 public final class Audio {
 	private static long device, context;
 	
+	private static float mainVolume = 1; //TODO: Use this too
+	
 	private static Map<String, BufferEntry> sounds = new HashMap<>();
 	private static List<SourceEntry> sources = new ArrayList<>();
 	private static Set<SourceV2> autoDestroySources = new HashSet<>();
@@ -134,11 +136,12 @@ public final class Audio {
 	/**
 	 * Play a sound (non-spatialized)
 	 * @param file
+	 * @param channel
 	 * @param volume
 	 * @param pitch
 	 */
 	public static void playSound(String file, AudioChannel channel, float volume, float pitch) {
-		if(file == null || file.isEmpty()) return;
+		if(channel.volume <= 0 || volume <= 0 || file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);
 		if(buf == null) {
@@ -161,12 +164,13 @@ public final class Audio {
 	/**
 	 * Play a sound (spatialized)
 	 * @param file
+	 * @param channel
 	 * @param volume
 	 * @param pitch
 	 * @param position
 	 */
 	public static void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2f position) {
-		if(file == null || file.isEmpty()) return;
+		if(channel.volume <= 0 || volume <= 0 ||  file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);
 		if(buf == null) {
@@ -185,6 +189,13 @@ public final class Audio {
 		
 		//TODO: add to global sources collection
 		autoDestroySources.add(source);
+	}
+	
+	public float getChannelVolume(AudioChannel channel) { return channel.volume; }
+	
+	public void setChannelVolume(AudioChannel channel, float newVolume) {
+		channel.volume = Math.max(0, newVolume);
+		//TODO: Update volume for every source on that channel
 	}
 	
 	private static void printInitInfo(ALCCapabilities deviceCapabilities) {
