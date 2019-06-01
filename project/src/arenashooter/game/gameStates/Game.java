@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.MusicSource;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
@@ -31,6 +32,8 @@ public class Game extends GameState {
 	private final int nbRounds = GameParam.getRound();
 	private final boolean teams = GameParam.getTeam();
 	private InputListener inputs = new InputListener();
+	
+	private static MusicSource music;
 
 	// Les teams sont pour l'instant au nombre de 2. On pourra changer
 	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
@@ -85,6 +88,9 @@ public class Game extends GameState {
 				}
 			}
 		});
+		
+		music = new MusicSource("data/music/Super_blep_serious_fight.ogg", true);
+		music.setVolume(.5f);
 	}
 
 	@Override
@@ -95,6 +101,7 @@ public class Game extends GameState {
 		Collections.shuffle(mapsToShuffle);
 		current = mapsToShuffle.get(0);
 		newRound();
+//		music.play();
 	}
 
 	public void characterDeath(Controller controller, Character character) {
@@ -136,6 +143,7 @@ public class Game extends GameState {
 					currentRound++;
 					newRound();
 				} else {
+					music.stop();
 					GameMaster.gm.requestNextState(new Score(), "data/mapXML/menu_empty.xml");
 				}
 			}
