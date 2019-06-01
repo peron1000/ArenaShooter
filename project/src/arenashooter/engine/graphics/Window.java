@@ -4,10 +4,8 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +32,6 @@ import static org.lwjgl.opengl.GL30.glGenFramebuffers;
 import static org.lwjgl.opengl.GL30.glGenRenderbuffers;
 import static org.lwjgl.opengl.GL30.glRenderbufferStorage;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -45,9 +42,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.util.Tuple;
 import arenashooter.entities.spatials.Camera;
 
 /**
@@ -332,6 +327,8 @@ public final class Window {
 			modes.position(i);
 			int w = modes.width();
 			int h = modes.height();
+			
+			if(w < WIDTH_MIN || h < HEIGHT_MIN) continue; //Skip resolutions inferior to the minimum
 			
 			boolean duplicate = false;
 			for(int[] tempReso : res) {
