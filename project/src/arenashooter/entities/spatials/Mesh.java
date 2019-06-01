@@ -78,7 +78,7 @@ public class Mesh extends Spatial3 {
 		time += d;
 		if(isEditorTarget) {
 			for (Material material : materials) {
-				material.setParamF("editorFilter", (float) (Math.sin(time)+0.5/2));
+				material.setParamF("editorFilter", (float) ((Math.sin(time)+0.5)/2));
 			}
 		} else {
 			for (Material material : materials) {
