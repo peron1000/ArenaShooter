@@ -53,6 +53,7 @@ public class Character extends RigidBodyContainer {
 	/** Melee attack cooldown */
 	private Timer attackCooldown = new Timer(0.25);
 	private int attackCombo = 0;
+	private Timer chargePunch = new Timer(0.75);
 	private Timer holdCombo = new Timer(1);
 	private float range = 2;
 	/**
@@ -74,6 +75,7 @@ public class Character extends RigidBodyContainer {
 		rotation = 0;
 
 		attackCooldown.attachToParent(this, "attack timer");
+		chargePunch.attachToParent(this, "powerpunch charging");
 		jumpTimer.attachToParent(this, "jump Timer");
 		holdCombo.attachToParent(this, "attack Combo Hold");
 
@@ -125,7 +127,16 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
-			Main.log.info("I punched...");
+			chargePunch.setProcessing(true);
+		}
+	}
+
+	public void attackStop() {
+		if (getWeapon() != null) {
+			getWeapon().attackStop();
+		}else {
+			chargePunch.reset();
+			
 			Vec2f impulse = Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput);
 			if (impulse.y < 0)
 				impulse.y /= 4;
@@ -167,7 +178,6 @@ public class Character extends RigidBodyContainer {
 			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
 			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
 				if (entry.getValue() <= punchRayFraction) {
-					Main.log.info("... and dealt damage");
 					entry.getKey().takeDamage(punchDmgInfo);
 				}
 			}
@@ -186,13 +196,6 @@ public class Character extends RigidBodyContainer {
 					break;
 				}
 			}
-		}
-
-	}
-
-	public void attackStop() {
-		if (getWeapon() != null) {
-			getWeapon().attackStop();
 		}
 	}
 
