@@ -1,11 +1,11 @@
 package arenashooter.entities.spatials;
 
 import java.io.File;
-import java.net.PortUnreachableException;
 
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
-import arenashooter.engine.audio.SoundSourceMulti;
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -15,15 +15,12 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
-import arenashooter.game.Main;
 
 public class CharacterSprite extends Spatial {
 
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
 	private Sprite punchSprite = new Sprite(new Vec2f());
-
-	private static SoundSourceMulti sndStep, sndPunch;
 
 	private double lookAngle = 0;
 	private float moveSpeed = 0;
@@ -40,13 +37,6 @@ public class CharacterSprite extends Spatial {
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
 	private double movementTime = 0;
-
-	static {
-		sndStep = new SoundSourceMulti("data/sound/step_01.ogg", 5, .8f, 1.2f, true);
-		sndStep.setVolume(.2f);
-		sndPunch = new SoundSourceMulti("data/sound/woosh_01.ogg", 5, .8f, 1.2f, true);
-		sndPunch.setVolume(.7f);
-	}
 
 	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
@@ -118,7 +108,7 @@ public class CharacterSprite extends Spatial {
 	public void punch(int swoosh, double direction) {
 		Vec2f.rotate(new Vec2f(1.5, 0), direction, handR.localPosition);
 		handR.rotation = direction;
-		sndPunch.play(parentPosition);
+		Audio.playSound2D("data/sound/woosh_01.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		switch(swoosh) {
 		case 1:
 			currentPunchAnim = new Animation(punchAnim1);
@@ -231,7 +221,7 @@ public class CharacterSprite extends Spatial {
 		stepTimer.step(d * Math.abs(moveSpeed) / 5);
 		if (!(getParent() instanceof Arena)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
-				sndStep.play(parentPosition);
+				Audio.playSound2D("data/sound/step_01.ogg", AudioChannel.SFX, .2f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 				stepTimer.restart();
 			}
 		}

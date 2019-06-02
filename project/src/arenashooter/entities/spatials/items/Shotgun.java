@@ -2,7 +2,6 @@ package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -64,8 +63,7 @@ public class Shotgun extends Gun {
 				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d * 2.5);
 			}
 			sndWarmup.setVolume(sndChargeVol);
-			if (sndWarmup.getSound() instanceof SoundSourceSingle)
-				((SoundSourceSingle) sndWarmup.getSound()).setPitch(sndChargePitch);
+			sndWarmup.setPitch(sndChargePitch);
 		}
 
 		// Spawn projectile

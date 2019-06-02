@@ -1,63 +1,79 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.audio.Audio;
-import arenashooter.engine.audio.AudioSourceI;
-import arenashooter.engine.audio.SoundSourceMulti;
-import arenashooter.engine.audio.SoundSourceSingle;
+import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.audio.SourceV2;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.entities.Entity;
 
 /**
  * Spatial entity containing a sound effect.
  * The sound is always moved to this entity's location
  */
 public class SoundEffect extends Spatial {
-	private AudioSourceI sound;
+	private SourceV2 source = null;
+	
+	private final String path;
+	private float volume, pitch;
+	private boolean looping;
+	private final AudioChannel channel;
 
 	/**
 	 * Create a new spatialized sound effect
 	 * @param position initial location of the sound
 	 * @param path audio file
-	 * @param maxPlays maximum simultaneous plays of this sound ()
+	 * @param channel
 	 */
-	public SoundEffect( Vec2f position, String path, int maxPlays ) {
-		this(position, path, maxPlays, 1, 1);
+	public SoundEffect( Vec2f position, String path, AudioChannel channel ) {
+		this(position, path, channel, 1, 1, 1, false);
+	}
+	
+	/**
+	 * Create a new spatialized sound effect
+	 * @param position initial location of the sound
+	 * @param path audio file
+	 * @param channel
+	 * @param volume
+	 */
+	public SoundEffect( Vec2f position, String path, AudioChannel channel, float volume ) {
+		this(position, path, channel, volume, 1, 1, false);
 	}
 	
 	/**
 	 * Create a new spatialized sound effect with random pitch
 	 * @param position initial location of the sound
 	 * @param path audio file
-	 * @param maxPlays maximum simultaneous plays of this sound (-1 for a looping sound)
+	 * @param channel
+	 * @param volume
 	 * @param pitchMin minimum pitch
 	 * @param pitchMax maximum pitch
+	 * @param looping
 	 */
-	public SoundEffect( Vec2f position, String path, int maxPlays, float pitchMin, float pitchMax ) {
+	public SoundEffect( Vec2f position, String path, AudioChannel channel, float volume, float pitchMin, float pitchMax, boolean looping ) {
 		super(position);
 		
-		if( maxPlays < 0 )
-			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, true);
-		else if( maxPlays == 0 ) {
-			Audio.log.error("Invalid maxPlays value (0), defaulting to 1 (for +"+path+")");
-			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, false);
-		} else if( maxPlays == 1 )
-			sound = new SoundSourceSingle(path, pitchMin, pitchMax, true, false);
-		else
-			sound = new SoundSourceMulti(path, maxPlays, pitchMin, pitchMax, true);
-		
-		if( sound instanceof SoundSourceMulti )
-			((SoundSourceMulti)sound).setPositions( this.parentPosition );
-		else if( sound instanceof SoundSourceSingle )
-			((SoundSourceSingle)sound).setPosition( this.parentPosition );
+		this.path = path;
+		this.pitch = Utils.lerpF(pitchMin, pitchMax, Math.random());
+		this.volume = volume;
+		this.looping = looping;
+		this.channel = channel;
 	}
-	
-	public AudioSourceI getSound() { return sound; }
 	
 	/**
 	 * Play this sound using a new source or by replacing the oldest one
 	 */
 	public void play() {
-		sound.play();
+		if(getArena() == null) {
+			Audio.log.warn("Sound "+path+" isn't attached in world and won't be played");
+			return;
+		}
+		if(source == null)
+			createSource();
+		if(source != null) {
+			source.play();
+			if(!source.isPlaying()) //TODO: Fix this
+				Audio.log.error("Despite having a valid source, \""+path+"\" is not playing");
+		}
 	}
 	
 	/**
@@ -65,14 +81,16 @@ public class SoundEffect extends Spatial {
 	 * @return at least one source of this sound is playing
 	 */
 	public boolean isPlaying() {
-		return sound.isPlaying();
+		if(source == null) return false;
+		return source.isPlaying();
 	}
 	
 	/**
 	 * Stop all sources of this sound
 	 */
 	public void stop() {
-		sound.stop();
+		if(source != null)
+			source.stop();
 	}
 	
 	/**
@@ -80,26 +98,52 @@ public class SoundEffect extends Spatial {
 	 * @param volume new volume multiplier
 	 */
 	public void setVolume(float volume) {
-		sound.setVolume(volume);
+		this.volume = volume;
+		if(source != null)
+			source.setVolume(volume);
+	}
+	
+	public float getPitch() { return pitch; }
+	
+	public void setPitch(float newPitch) {
+		pitch = newPitch;
+		if(source != null)
+			source.setPitch(newPitch);
 	}
 	
 	@Override
-	public void recursiveDetach() {
+	protected void recursiveDetach() {
 		super.recursiveDetach();
 		
-		if(getArena() == null)
-			sound.stop();
+		destroySource();
+	}
+	
+	private void createSource() {
+		if(source != null) destroySource();
+		source = Audio.createSource(path, channel);
+		if(source == null) return;
+		source.setPitch(pitch);
+		source.setVolume(volume);
+		source.setLooping(looping);
+		source.setPosition2D(getWorldPos());
+	}
+	
+	/**
+	 * Destroy source and set it to null
+	 */
+	private void destroySource() {
+		if(source == null) return;
+		source.destroy();
+		source = null;
 	}
 
 	@Override
 	public void step(double d) {
-		if(getArena() == null) sound.stop();
-		
-		if( sound instanceof SoundSourceMulti )
-			((SoundSourceMulti)sound).setPositions( parentPosition );
-		else if( sound instanceof SoundSourceSingle )
-			((SoundSourceSingle)sound).setPosition( parentPosition );
-
 		super.step(d);
+		
+		if(getArena() == null) destroySource();
+		
+		if(source != null)
+			source.setPosition2D(getWorldPos());
 	}
 }

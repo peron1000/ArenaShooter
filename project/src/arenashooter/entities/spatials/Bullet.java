@@ -2,15 +2,15 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.audio.SoundSourceMulti;
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class Bullet extends Projectile {
-
-	private static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/Ptou.ogg", 8, .8f, 1.2f, true);
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
 		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
@@ -29,8 +29,6 @@ public class Bullet extends Projectile {
 		sprite.getTexture().setFilter(false);
 		sprite.rotationFromParent = false;
 		sprite.attachToParent(this, "bul_Sprite");
-
-		sndImpact.setVolume(.15f);
 	}
 
 	@Override
@@ -39,7 +37,7 @@ public class Bullet extends Projectile {
 		
 		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), shooter));
 		
-		sndImpact.play(getWorldPos());
+		Audio.playSound2D("data/sound/Ptou.ogg", AudioChannel.SFX, .15f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		
 		detach();
 	}

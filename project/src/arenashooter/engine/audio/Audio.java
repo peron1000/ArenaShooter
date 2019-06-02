@@ -42,10 +42,11 @@ import arenashooter.engine.math.Vec3f;
 public final class Audio {
 	private static long device, context;
 	
-	private static float mainVolume = 1; //TODO: Use this too
+	private static float mainVolume = 1;
 	
 	private static Map<String, BufferEntry> sounds = new HashMap<>();
 	private static List<SourceEntry> sources = new ArrayList<>();
+	private static Set<SourceV2> sourcesV2 = new HashSet<>();
 	private static Set<SourceV2> autoDestroySources = new HashSet<>();
 	
 	public static final Logger log = LogManager.getLogger("Audio");
@@ -105,9 +106,17 @@ public final class Audio {
 		//Clean-up sources
 		List<SourceV2> toDestroy = autoDestroySources.stream().filter(p -> !p.isPlaying()).collect(Collectors.toList());
 		for( SourceV2 source : toDestroy ) {
-				source.destroy();
-				autoDestroySources.remove(source);
+			source.destroy();
+			autoDestroySources.remove(source);
 		}
+	}
+	
+	/**
+	 * Remove a source from collection
+	 * @param source
+	 */
+	static void unregisterSource(SourceV2 source) {
+		sourcesV2.remove(source);
 	}
 	
 	/**
@@ -156,8 +165,9 @@ public final class Audio {
 		source.setVolume(volume);
 		
 		source.play();
-		
-		//TODO: add to global sources collection
+
+		//Add source to collections
+		sourcesV2.add(source);
 		autoDestroySources.add(source);
 	}
 	
@@ -183,19 +193,58 @@ public final class Audio {
 		source.setBuffer(buf);
 		source.setPitch(pitch);
 		source.setVolume(volume);
-		source.setPosition(position);
+		source.setPosition2D(position);
 		
 		source.play();
 		
-		//TODO: add to global sources collection
+		//Add source to collections
+		sourcesV2.add(source);
 		autoDestroySources.add(source);
 	}
 	
-	public float getChannelVolume(AudioChannel channel) { return channel.volume; }
+	/**
+	 * Create a new source
+	 * @param file
+	 * @param channel
+	 * @return Source or null
+	 */
+	public static SourceV2 createSource(String file, AudioChannel channel) {
+		if(file == null || file.isEmpty()) return null;
+		
+		SoundBuffer buf = SoundBuffer.loadSound(file);
+		if(buf == null) {
+			log.error("Cannot load sound \""+file+"\"");
+			return null;
+		}
+		
+		SourceV2 source = new SourceV2(channel);
+
+		source.updateVolume();
+		
+		//Add source to collection
+		sourcesV2.add(source);
+		
+		return source;
+	}
 	
-	public void setChannelVolume(AudioChannel channel, float newVolume) {
+	public static float getMainVolume() { return mainVolume; }
+	
+	public static void setMainVolume(float newVolume) {
+		mainVolume = newVolume;
+		
+		for(SourceV2 source : sourcesV2)
+			source.updateVolume();
+	}
+	
+	public static float getChannelVolume(AudioChannel channel) { return channel.volume; }
+	
+	public static void setChannelVolume(AudioChannel channel, float newVolume) {
 		channel.volume = Math.max(0, newVolume);
-		//TODO: Update volume for every source on that channel
+
+		for(SourceV2 source : sourcesV2) {
+			if(source.getChannel() == channel)
+				source.updateVolume();
+		}
 	}
 	
 	private static void printInitInfo(ALCCapabilities deviceCapabilities) {

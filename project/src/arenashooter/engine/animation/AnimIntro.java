@@ -6,7 +6,8 @@ import arenashooter.engine.animation.tracks.AnimTrackDouble;
 import arenashooter.engine.animation.tracks.AnimTrackTexture;
 import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
-import arenashooter.engine.audio.SoundSourceSingle;
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
@@ -53,7 +54,6 @@ public class AnimIntro extends Arena{
 	private AnimTrackTexture catAT, foxAT;
 	private AnimTrackVec3f camA;
 	
-	private SoundSourceSingle sndPunch;
 	private boolean punched = false;
 	
 	public AnimIntro() {
@@ -67,10 +67,6 @@ public class AnimIntro extends Arena{
 		bgm.attachToParent(this, "bgm");
 		bgm.setVolume(.2f);
 		bgm.play();
-		
-		//Sound
-		sndPunch = new SoundSourceSingle("data/sound/slap.ogg", 1, 1, false, false);
-		sndPunch.setVolume(.48f);
 		
 		//Camera
 		Camera cam = new Camera(new Vec3f(0, 0, 850));
@@ -289,7 +285,7 @@ public class AnimIntro extends Arena{
 		versionText.setThickness( versionThickness.valueAt(time).floatValue() );
 		
 		if(!punched && time >= 4f) {
-			sndPunch.play();
+			Audio.playSound("data/sound/slap.ogg", AudioChannel.UI, .48f, 1);
 			Window.getCamera().setCameraShake(3f);
 			punched = true;
 		}

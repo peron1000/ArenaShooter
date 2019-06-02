@@ -2,7 +2,6 @@ package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.audio.SoundSourceSingle;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -80,9 +79,7 @@ public class Gun extends Usable {
 		if(soundWarmup == null || soundWarmup.isEmpty()) {
 			sndWarmup = null;
 		} else {
-			sndWarmup = new SoundEffect(new Vec2f(), soundWarmup, -1, 1, 1);
-			sndWarmup.setVolume(0);
-			sndWarmup.play();
+			sndWarmup = new SoundEffect(new Vec2f(), soundWarmup, AudioChannel.SFX, 0, 1, 1, true);
 			sndWarmup.attachToParent(this, "snd_Warmup");
 		}
 		
@@ -99,10 +96,6 @@ public class Gun extends Usable {
 		this.timerCooldown.setValue(fireRate);
 		this.timerCooldown.attachToParent(this, "timer_cooldown");
 
-//		SoundEffect noAmmo = new SoundEffect(this.parentPosition, noAmmoSound, 1, 0.85f, 1.15f);
-//		noAmmo.setVolume(0.25f);
-//		noAmmo.attachToParent(this, "snd_NoAmmo");
-
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
 	}
@@ -110,6 +103,8 @@ public class Gun extends Usable {
 	@Override
 	public void attackStart() {
 		timerWarmup.setIncreasing(true);
+		if(sndWarmup != null && !sndWarmup.isPlaying())
+			sndWarmup.play();
 	}
 
 	@Override
@@ -121,15 +116,14 @@ public class Gun extends Usable {
 	public void step(double d) {
 		if (sndWarmup != null) {
 			if (timerWarmup.isIncreasing()) {
-				sndChargeVol = Utils.lerpF(sndChargeVol, 0.20f, d * 15);
+				sndChargeVol = Utils.lerpF(sndChargeVol, 0.2f, d * 15);
 				sndChargePitch = Utils.lerpF(sndChargePitch, 3.5f, d * 4.5);
 			} else {
 				sndChargeVol = Utils.lerpF(sndChargeVol, 0, d * .04);
 				sndChargePitch = Utils.lerpF(sndChargePitch, .01f, d * 2.5);
 			}
 			sndWarmup.setVolume(sndChargeVol);
-			if (sndWarmup.getSound() instanceof SoundSourceSingle)
-				((SoundSourceSingle) sndWarmup.getSound()).setPitch(sndChargePitch);
+			sndWarmup.setPitch(sndChargePitch);
 		}
 		
 		//Spawn projectile

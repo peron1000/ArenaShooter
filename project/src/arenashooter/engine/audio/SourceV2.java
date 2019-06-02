@@ -32,7 +32,7 @@ public class SourceV2 {
 	private float volume = 1, pitch = 1;
 	private boolean looping = false;
 	
-	private AudioChannel channel;
+	private final AudioChannel channel;
 	
 	SourceV2(AudioChannel channel) {
 		this.channel = channel;
@@ -47,7 +47,13 @@ public class SourceV2 {
 		alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, 0 );
 	}
 	
-	void destroy() { alDeleteSources(sourceId); }
+	/**
+	 * Destroy this source and unregister it from Audio manager
+	 */
+	public void destroy() {
+		alDeleteSources(sourceId);
+		Audio.unregisterSource(this);
+	}
 	
 	public boolean isPlaying() { return alGetSourcei(sourceId, AL_SOURCE_STATE) == AL_PLAYING; }
 	
@@ -57,7 +63,7 @@ public class SourceV2 {
 	
 	public void stop() { alSourceStop(sourceId); }
 	
-	public void setPosition(Vec2f position) {
+	public void setPosition2D(Vec2f position) {
 		if(position == null) {
 			alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
 			alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_TRUE );
@@ -71,7 +77,7 @@ public class SourceV2 {
 		}
 	}
 	
-	public void setPosition(Vec3f position) {
+	public void setPosition3D(Vec3f position) {
 		if(position == null) {
 			alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
 			alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_TRUE );
@@ -85,11 +91,17 @@ public class SourceV2 {
 		}
 	}
 	
+	public AudioChannel getChannel() { return channel; }
+	
 	public float getVolume() { return volume; }
 	
 	public void setVolume(float newVolume) {
 		volume = newVolume;
-		alSourcef(sourceId, AL_GAIN, newVolume*channel.volume);
+		updateVolume();
+	}
+	
+	protected void updateVolume() {
+		alSourcef(sourceId, AL_GAIN, volume*channel.volume*Audio.getMainVolume());
 	}
 	
 	public float getPitch() { return pitch; }

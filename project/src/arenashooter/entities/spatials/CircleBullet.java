@@ -2,7 +2,9 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.audio.SoundSourceMulti;
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -18,8 +20,6 @@ public class CircleBullet extends Projectile {
 	private Vec2f finalVel = new Vec2f();
 	private static float frequency = 45, amplitude = 10;
 	
-	static SoundSourceMulti sndImpact = new SoundSourceMulti("data/sound/slap.ogg", 8, .8f, 1.2f, true);
-
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
 		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
 		
@@ -41,8 +41,6 @@ public class CircleBullet extends Projectile {
 		sprite.useTransparency = true;
 		sprite.rotationFromParent = false;
 		sprite.attachToParent(this, "bul_Sprite");
-
-		sndImpact.setVolume(.15f);
 	}
 
 	@Override
@@ -51,7 +49,7 @@ public class CircleBullet extends Projectile {
 		
 		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, direction, shooter));
 		
-		sndImpact.play(getWorldPos());
+		Audio.playSound2D("data/sound/slap.ogg", AudioChannel.SFX, .15f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		
 		detach();
 	}
