@@ -208,7 +208,7 @@ public final class Audio {
 	 * @param channel
 	 * @return Source or null
 	 */
-	public static SoundSource createSource(String file, AudioChannel channel) {
+	public static SoundSource createSource(String file, AudioChannel channel, float volume, float pitch) {
 		if(file == null || file.isEmpty()) return null;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);
@@ -219,7 +219,9 @@ public final class Audio {
 		
 		SoundSource source = new SoundSource(channel);
 
-		source.updateVolume();
+		source.setBuffer(buf);
+		source.setPitch(pitch);
+		source.setVolume(volume);
 		
 		//Add source to collection
 		sources.add(source);

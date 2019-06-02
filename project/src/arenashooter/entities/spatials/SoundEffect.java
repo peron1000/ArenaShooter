@@ -71,7 +71,7 @@ public class SoundEffect extends Spatial {
 			createSource();
 		if(source != null) {
 			source.play();
-			if(!source.isPlaying()) //TODO: Fix this
+			if(!source.isPlaying())
 				Audio.log.error("Despite having a valid source, \""+path+"\" is not playing");
 		}
 	}
@@ -120,10 +120,8 @@ public class SoundEffect extends Spatial {
 	
 	private void createSource() {
 		if(source != null) destroySource();
-		source = Audio.createSource(path, channel);
+		source = Audio.createSource(path, channel, volume, pitch);
 		if(source == null) return;
-		source.setPitch(pitch);
-		source.setVolume(volume);
 		source.setLooping(looping);
 		source.setPosition2D(getWorldPos());
 	}
