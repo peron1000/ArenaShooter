@@ -39,7 +39,7 @@ public class SoundSource {
 		this.sourceId = alGenSources();
 
 		if(Audio.printError("Cannot create source") != AL10.AL_NO_ERROR)
-			Audio.cleanAll();
+			Audio.cleanBuffers();
 		
 		alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
 		alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_TRUE );

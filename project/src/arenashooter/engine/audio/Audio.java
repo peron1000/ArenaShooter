@@ -1,7 +1,6 @@
 package arenashooter.engine.audio;
 
 import static org.lwjgl.openal.AL10.alDeleteBuffers;
-import static org.lwjgl.openal.AL10.alDeleteSources;
 import static org.lwjgl.openal.AL10.alListener3f;
 import static org.lwjgl.openal.AL10.alListenerfv;
 import static org.lwjgl.openal.AL10.AL_POSITION;
@@ -45,7 +44,6 @@ public final class Audio {
 	private static float mainVolume = 1;
 	
 	private static Map<String, BufferEntry> buffers = new HashMap<>();
-	private static List<SourceEntry> sourcesOld = new ArrayList<>();
 	private static Set<SoundSource> sources = new HashSet<>();
 	private static Set<SoundSource> autoDestroySources = new HashSet<>();
 	
@@ -296,11 +294,6 @@ public final class Audio {
 		buffers.put(file, newEntry);
 	}
 	
-	@Deprecated
-	protected static void registerPlayer( MusicSource musicSource ) {
-		sourcesOld.add( new SourceEntry(musicSource) );
-	}
-	
 	/**
 	 * Get a sound from a filename if it is already loaded and available
 	 * @param file
@@ -311,25 +304,6 @@ public final class Audio {
 		if( entry != null && entry.sound.get() != null )
 			return entry.sound.get();
 		return null;
-	}
-	
-	/**
-	 * Remove unused sound players from memory
-	 */
-	public static void cleanPlayers() {
-		log.info("Cleaning players...");
-		
-		int sourcesRemoved = 0;
-		for( int i=sourcesOld.size()-1; i>=0; i-- ) {
-			if( sourcesOld.get(i).sound.get() == null ) {
-				alDeleteSources( sourcesOld.get(i).sources);
-				Audio.printError("Audio - Error deleting source(s)");
-				sourcesOld.remove(i);
-				sourcesRemoved++;
-			}
-		}
-		
-		log.info("Cleaned up "+sourcesRemoved+" sources.");
 	}
 	
 	/**
@@ -352,14 +326,6 @@ public final class Audio {
 		log.info("Cleaned up "+toRemove.size()+" buffers.");
 	}
 	
-	/**
-	 * Clean memory (buffers and sources)
-	 */
-	public static void cleanAll() {
-		cleanBuffers();
-		cleanPlayers();
-	}
-	
 	private static class BufferEntry {
 		int buffer;
 		String file;
@@ -369,16 +335,6 @@ public final class Audio {
 			buffer = sound.getBufferId();
 			this.file = file;
 			this.sound = new WeakReference<SoundBuffer>(sound);
-		}
-	}
-	
-	private static class SourceEntry {
-		int sources[];
-		WeakReference<MusicSource> sound;
-		
-		SourceEntry(MusicSource musicSource) {
-			this.sources = musicSource.getSources();
-			this.sound = new WeakReference<MusicSource>(musicSource);
 		}
 	}
 }

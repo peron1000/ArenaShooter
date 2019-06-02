@@ -17,7 +17,6 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Arena;
-import arenashooter.entities.Music;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Sprite;
@@ -63,10 +62,6 @@ public class AnimIntro extends Arena{
 		sky.attachToParent(this, "sky");
 		
 		//Music
-		Music bgm = new Music("data/sprites/intro/sf2_title_cps-1.ogg", false);
-		bgm.attachToParent(this, "bgm");
-		bgm.setVolume(.2f);
-		bgm.play();
 		
 		//Camera
 		Camera cam = new Camera(new Vec3f(0, 0, 850));
