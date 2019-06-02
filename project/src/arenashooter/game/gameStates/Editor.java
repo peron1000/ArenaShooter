@@ -3,9 +3,10 @@ package arenashooter.game.gameStates;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
-import java.util.TreeMap;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
@@ -396,16 +397,8 @@ public class Editor extends GameState {
 		}
 	}
 
-	private LinkedList<File> allMesh(File parent) {
-		LinkedList<File> mesh = new LinkedList<>();
-		for (File file : parent.listFiles()) {
-			if (file.getName().endsWith(".obj")) {
-				mesh.add(file);
-			} else if (file.isDirectory()) {
-				mesh.addAll(allMesh(file));
-			}
-		}
-		return mesh;
+	private List<File> allMesh(File parent) {
+		return FileUtils.listFilesByType(parent, ".obj");
 	}
 	
 	private Entity getEntityOnSetting() {

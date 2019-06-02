@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 
@@ -75,6 +78,36 @@ public final class FileUtils {
 		res.flip();
 		
 		return res;
+	}
+	
+	/**
+	 * Get a list of all files ending with a specific String
+	 * @param parent directory used as root
+	 * @param endsWith only files ending with this will be returned
+	 * @return list of all matches (sorted by path)
+	 */
+	public static List<File> listFilesByType(File parent, String endsWith) {
+		List<File> mesh = listFilesByTypeAux(parent, endsWith);
+		
+		mesh.sort(new Comparator<File>() {
+			@Override
+			public int compare(File o1, File o2) {
+				return o1.compareTo(o2);
+			}
+		});
+		
+		return mesh;
+	}
+	
+	private static List<File> listFilesByTypeAux(File parent, String endsWith) {
+		LinkedList<File> mesh = new LinkedList<>();
+		for (File file : parent.listFiles()) {
+			if (file.isDirectory())
+				mesh.addAll(listFilesByTypeAux(file, endsWith));
+			else if (file.getName().endsWith(endsWith))
+				mesh.add(file);
+		}
+		return mesh;
 	}
 	
 }
