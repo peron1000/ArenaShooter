@@ -44,10 +44,10 @@ public final class Audio {
 	
 	private static float mainVolume = 1;
 	
-	private static Map<String, BufferEntry> sounds = new HashMap<>();
-	private static List<SourceEntry> sources = new ArrayList<>();
-	private static Set<SourceV2> sourcesV2 = new HashSet<>();
-	private static Set<SourceV2> autoDestroySources = new HashSet<>();
+	private static Map<String, BufferEntry> buffers = new HashMap<>();
+	private static List<SourceEntry> sourcesOld = new ArrayList<>();
+	private static Set<SoundSource> sources = new HashSet<>();
+	private static Set<SoundSource> autoDestroySources = new HashSet<>();
 	
 	public static final Logger log = LogManager.getLogger("Audio");
 	
@@ -104,8 +104,8 @@ public final class Audio {
 	 */
 	public static void update() {
 		//Clean-up sources
-		List<SourceV2> toDestroy = autoDestroySources.stream().filter(p -> !p.isPlaying()).collect(Collectors.toList());
-		for( SourceV2 source : toDestroy ) {
+		List<SoundSource> toDestroy = autoDestroySources.stream().filter(p -> !p.isPlaying()).collect(Collectors.toList());
+		for( SoundSource source : toDestroy ) {
 			source.destroy();
 			autoDestroySources.remove(source);
 		}
@@ -115,8 +115,8 @@ public final class Audio {
 	 * Remove a source from collection
 	 * @param source
 	 */
-	static void unregisterSource(SourceV2 source) {
-		sourcesV2.remove(source);
+	static void unregisterSource(SoundSource source) {
+		sources.remove(source);
 	}
 	
 	/**
@@ -158,7 +158,7 @@ public final class Audio {
 			return;
 		}
 		
-		SourceV2 source = new SourceV2(channel);
+		SoundSource source = new SoundSource(channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -167,7 +167,7 @@ public final class Audio {
 		source.play();
 
 		//Add source to collections
-		sourcesV2.add(source);
+		sources.add(source);
 		autoDestroySources.add(source);
 	}
 	
@@ -188,7 +188,7 @@ public final class Audio {
 			return;
 		}
 		
-		SourceV2 source = new SourceV2(channel);
+		SoundSource source = new SoundSource(channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -198,7 +198,7 @@ public final class Audio {
 		source.play();
 		
 		//Add source to collections
-		sourcesV2.add(source);
+		sources.add(source);
 		autoDestroySources.add(source);
 	}
 	
@@ -208,7 +208,7 @@ public final class Audio {
 	 * @param channel
 	 * @return Source or null
 	 */
-	public static SourceV2 createSource(String file, AudioChannel channel) {
+	public static SoundSource createSource(String file, AudioChannel channel) {
 		if(file == null || file.isEmpty()) return null;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);
@@ -217,12 +217,12 @@ public final class Audio {
 			return null;
 		}
 		
-		SourceV2 source = new SourceV2(channel);
+		SoundSource source = new SoundSource(channel);
 
 		source.updateVolume();
 		
 		//Add source to collection
-		sourcesV2.add(source);
+		sources.add(source);
 		
 		return source;
 	}
@@ -232,7 +232,7 @@ public final class Audio {
 	public static void setMainVolume(float newVolume) {
 		mainVolume = newVolume;
 		
-		for(SourceV2 source : sourcesV2)
+		for(SoundSource source : sources)
 			source.updateVolume();
 	}
 	
@@ -241,7 +241,7 @@ public final class Audio {
 	public static void setChannelVolume(AudioChannel channel, float newVolume) {
 		channel.volume = Math.max(0, newVolume);
 
-		for(SourceV2 source : sourcesV2) {
+		for(SoundSource source : sources) {
 			if(source.getChannel() == channel)
 				source.updateVolume();
 		}
@@ -290,13 +290,13 @@ public final class Audio {
 	
 	protected static void registerSound(String file, SoundBuffer sound) {
 		BufferEntry newEntry = new BufferEntry(file, sound);
-		if(sounds.get(file) != null && sounds.get(file).sound.get() != null) log.error("Sound already registered: "+file);
-		sounds.put(file, newEntry);
+		if(buffers.get(file) != null && buffers.get(file).sound.get() != null) log.error("Sound already registered: "+file);
+		buffers.put(file, newEntry);
 	}
 	
 	@Deprecated
 	protected static void registerPlayer( MusicSource musicSource ) {
-		sources.add( new SourceEntry(musicSource) );
+		sourcesOld.add( new SourceEntry(musicSource) );
 	}
 	
 	/**
@@ -305,7 +305,7 @@ public final class Audio {
 	 * @return the Sound, null if not loaded
 	 */
 	protected static SoundBuffer getSound(String file) {
-		BufferEntry entry = sounds.get(file);
+		BufferEntry entry = buffers.get(file);
 		if( entry != null && entry.sound.get() != null )
 			return entry.sound.get();
 		return null;
@@ -318,11 +318,11 @@ public final class Audio {
 		log.info("Cleaning players...");
 		
 		int sourcesRemoved = 0;
-		for( int i=sources.size()-1; i>=0; i-- ) {
-			if( sources.get(i).sound.get() == null ) {
-				alDeleteSources( sources.get(i).sources);
+		for( int i=sourcesOld.size()-1; i>=0; i-- ) {
+			if( sourcesOld.get(i).sound.get() == null ) {
+				alDeleteSources( sourcesOld.get(i).sources);
 				Audio.printError("Audio - Error deleting source(s)");
-				sources.remove(i);
+				sourcesOld.remove(i);
 				sourcesRemoved++;
 			}
 		}
@@ -337,7 +337,7 @@ public final class Audio {
 		log.info("Cleaning buffers...");
 		
 		ArrayList<String> toRemove = new ArrayList<String>(0);
-		for ( BufferEntry entry : sounds.values() ) {
+		for ( BufferEntry entry : buffers.values() ) {
 		    if( entry.sound.get() == null ) {
 		    	toRemove.add(entry.file);
 				alDeleteBuffers(entry.buffer);
@@ -345,7 +345,7 @@ public final class Audio {
 		}
 		
 		for( String s : toRemove )
-			sounds.remove(s);
+			buffers.remove(s);
 		
 		log.info("Cleaned up "+toRemove.size()+" buffers.");
 	}

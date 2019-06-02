@@ -26,7 +26,7 @@ import org.lwjgl.openal.AL11;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
-public class SourceV2 {
+public class SoundSource {
 	private final int sourceId;
 	
 	private float volume = 1, pitch = 1;
@@ -34,7 +34,7 @@ public class SourceV2 {
 	
 	private final AudioChannel channel;
 	
-	SourceV2(AudioChannel channel) {
+	SoundSource(AudioChannel channel) {
 		this.channel = channel;
 		this.sourceId = alGenSources();
 

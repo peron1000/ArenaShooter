@@ -2,7 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.audio.SourceV2;
+import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
@@ -11,7 +11,7 @@ import arenashooter.engine.math.Vec2f;
  * The sound is always moved to this entity's location
  */
 public class SoundEffect extends Spatial {
-	private SourceV2 source = null;
+	private SoundSource source = null;
 	
 	private final String path;
 	private float volume, pitch;
