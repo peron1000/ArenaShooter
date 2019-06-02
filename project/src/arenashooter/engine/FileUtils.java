@@ -87,27 +87,30 @@ public final class FileUtils {
 	 * @return list of all matches (sorted by path)
 	 */
 	public static List<File> listFilesByType(File parent, String endsWith) {
-		List<File> mesh = listFilesByTypeAux(parent, endsWith);
+		List<File> res = listFilesByTypeAux(parent, endsWith);
 		
-		mesh.sort(new Comparator<File>() {
+		res.sort(new Comparator<File>() {
 			@Override
 			public int compare(File o1, File o2) {
 				return o1.compareTo(o2);
 			}
 		});
 		
-		return mesh;
+		return res;
 	}
 	
+	/**
+	 * Auxiliary method for listFilesByType()
+	 */
 	private static List<File> listFilesByTypeAux(File parent, String endsWith) {
-		LinkedList<File> mesh = new LinkedList<>();
+		LinkedList<File> res = new LinkedList<>();
 		for (File file : parent.listFiles()) {
 			if (file.isDirectory())
-				mesh.addAll(listFilesByTypeAux(file, endsWith));
+				res.addAll(listFilesByTypeAux(file, endsWith));
 			else if (file.getName().endsWith(endsWith))
-				mesh.add(file);
+				res.add(file);
 		}
-		return mesh;
+		return res;
 	}
 	
 }
