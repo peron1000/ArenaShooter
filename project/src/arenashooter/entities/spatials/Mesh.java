@@ -75,7 +75,11 @@ public class Mesh extends Spatial3 {
 	@Override
 	public void step(double d) {
 		timeMs += d*1000;
-		time += d;
+		super.step(d);
+	}
+	
+	public void stepEditor(double delta) {
+		time += delta;
 		if(isEditorTarget) {
 			for (Material material : materials) {
 				material.setParamF("editorFilter", (float) (Math.sin(time)+0.5/2));
@@ -85,7 +89,6 @@ public class Mesh extends Spatial3 {
 				material.setParamF("editorFilter", 0);
 			}
 		}
-		super.step(d);
 	}
 	
 	@Override

@@ -440,7 +440,7 @@ public class Editor extends GameState {
 			} else {
 				mesh.setEditorTarget(false);
 			}
-			mesh.step(delta);
+			mesh.stepEditor(delta);
 		}
 	}
 
