@@ -20,7 +20,8 @@ import static org.lwjgl.openal.AL10.alGetSourcei;
  * Object used to manage a sound with multiple sources. 
  * When playing, a new source is automatically chosen. 
  */
-public class MusicSource implements AudioSourceI {
+@Deprecated
+public class MusicSource {
 	private SoundBuffer sound;
 	private int source;
 	private boolean looping = false;
@@ -52,7 +53,6 @@ public class MusicSource implements AudioSourceI {
 	/**
 	 * Play this sound using a new source or by replacing the oldest one
 	 */
-	@Override
 	public void play() {
 		if( sound == null ) return;
 		alSourcePlay(source);
@@ -61,7 +61,6 @@ public class MusicSource implements AudioSourceI {
 	/**
 	 * Stop this sound
 	 */
-	@Override
 	public void stop() {
 		if( sound == null ) return;
 		alSourceStop(source);
@@ -78,7 +77,6 @@ public class MusicSource implements AudioSourceI {
 	/**
 	 * Is this sound playing
 	 */
-	@Override
 	public boolean isPlaying() {
 		if( sound == null ) return false;
 		return alGetSourcei(source, AL_SOURCE_STATE) == AL_PLAYING;
@@ -88,7 +86,6 @@ public class MusicSource implements AudioSourceI {
 	 * Set volume multiplier for the source
 	 * @param volume new volume multiplier
 	 */
-	@Override
 	public void setVolume(float volume) {
 		alSourcef( source, AL_GAIN, volume);
 	}
@@ -102,7 +99,6 @@ public class MusicSource implements AudioSourceI {
 		alSourcei(source, AL_LOOPING,  looping ? AL_TRUE : AL_FALSE);
 	}
 	
-	@Override
 	public int[] getSources() { return new int[] {source}; }
 	
 }

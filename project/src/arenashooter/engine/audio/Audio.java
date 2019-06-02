@@ -294,8 +294,9 @@ public final class Audio {
 		sounds.put(file, newEntry);
 	}
 	
-	protected static void registerPlayer( AudioSourceI player ) {
-		sources.add( new SourceEntry(player) );
+	@Deprecated
+	protected static void registerPlayer( MusicSource musicSource ) {
+		sources.add( new SourceEntry(musicSource) );
 	}
 	
 	/**
@@ -371,11 +372,11 @@ public final class Audio {
 	
 	private static class SourceEntry {
 		int sources[];
-		WeakReference<AudioSourceI> sound;
+		WeakReference<MusicSource> sound;
 		
-		SourceEntry(AudioSourceI player) {
-			this.sources = player.getSources();
-			this.sound = new WeakReference<AudioSourceI>(player);
+		SourceEntry(MusicSource musicSource) {
+			this.sources = musicSource.getSources();
+			this.sound = new WeakReference<MusicSource>(musicSource);
 		}
 	}
 }

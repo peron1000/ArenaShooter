@@ -185,6 +185,10 @@ public class Gun extends Usable {
 					break;
 				}
 				
+				SoundEffect temp = new SoundEffect(new Vec2f(), "data/sound/Ptou.ogg", AudioChannel.SFX);
+				temp.attachToParent(this, "ptou");
+				temp.play();
+				
 				//Recoil
 				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
