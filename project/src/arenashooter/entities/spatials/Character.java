@@ -178,11 +178,9 @@ public class Character extends RigidBodyContainer {
 					break;
 				case 2:
 					Audio.playSound2D("data/sound/slap.ogg", AudioChannel.SFX, .7f, 1, getWorldPos());
-					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					break;
 				case 3:
 					Audio.playSound2D("data/sound/BangIonGun2.ogg", AudioChannel.SFX, .7f, 1, getWorldPos());
-					((SoundEffect) getChild("snd_Punch_Hit")).play();
 					break;
 				default:
 					break;
