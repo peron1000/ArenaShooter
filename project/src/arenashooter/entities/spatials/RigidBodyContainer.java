@@ -72,6 +72,11 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	public Vec2f getWorldPos() {
 		return body.getPosition();
 	}
+	
+	@Override
+	public double getWorldRot() {
+		return body.getRotation();
+	}
 
 	/**
 	 * @return linear velocity at center of mass
@@ -139,7 +144,7 @@ public class RigidBodyContainer extends Spatial implements Editable {
 
 	@Override
 	public void draw() {
-		if (Main.drawCollisions)
+		if (Main.drawCollisions || editorTarget)
 			body.debugDraw();
 
 		super.draw();
@@ -157,7 +162,6 @@ public class RigidBodyContainer extends Spatial implements Editable {
 
 	@Override
 	public void addPosition(Vec2f position) {
-		body.getPosition().add(position);
 		localPosition.x += position.x;
 		localPosition.y += position.y;
 		for (Entity child : getChildren().values()) {
@@ -166,11 +170,12 @@ public class RigidBodyContainer extends Spatial implements Editable {
 				editable.addPosition(position);
 			}
 		}
-
+		body.setPosition(getWorldPos());
 	}
 
 	@Override
 	public void addScale(Vec2f extent) {
+		
 	}
 
 	@Override

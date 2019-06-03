@@ -62,6 +62,11 @@ public class KinematicBodyContainer extends Spatial {
 		return body.getPosition();
 	}
 	
+	@Override
+	public double getWorldRot() {
+		return body.getRotation();
+	}
+	
 	/**
 	 * @return linear velocity at center of mass
 	 */

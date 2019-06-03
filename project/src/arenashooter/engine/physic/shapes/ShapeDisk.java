@@ -7,14 +7,14 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.PhysicWorld;
 
 public class ShapeDisk extends PhysicShape {
 	private double radius;
 	
 	public ShapeDisk(double radius) {
 		b2Shape = new CircleShape();
-		b2Shape.setRadius((float) radius);
-		this.radius = radius;
+		setRadius(radius);
 	}
 	
 	public double getRadius() { return radius; }
@@ -24,8 +24,8 @@ public class ShapeDisk extends PhysicShape {
 	 * @param extent
 	 */
 	public void setRadius(double newRadius) {
-		this.radius = newRadius;
-		b2Shape.setRadius((float) newRadius);
+		this.radius = Math.max(newRadius, PhysicWorld.MIN_BODY_SIZE);
+		b2Shape.setRadius((float) this.radius);
 	}
 	
 	private static final Model disk = Model.loadDisk(16);
@@ -47,11 +47,5 @@ public class ShapeDisk extends PhysicShape {
 
 		disk.bind();
 		disk.draw(true);
-	}
-
-	@Override
-	public void resize(Vec2f extent) {
-		// TODO Auto-generated method stub
-		
 	}
 }
