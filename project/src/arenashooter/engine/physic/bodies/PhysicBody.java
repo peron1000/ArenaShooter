@@ -30,6 +30,14 @@ public abstract class PhysicBody {
 
 		bodyDef = new BodyDef();
 	}
+	
+//	/**
+//	 * Does this body exists in the simulation
+//	 * @return
+//	 */
+//	public boolean existsInWorld() {
+//		return world != null && body != null && fixture != null;
+//	}
 
 	/**
 	 * Set user data for this body
@@ -53,6 +61,16 @@ public abstract class PhysicBody {
 	 */
 	public PhysicShape getShape() {
 		return shape;
+	}
+
+	/**
+	 * Set shape (recreates the body)
+	 * <br/><b>Do not use this during gameplay, only at construction or in editor</b>
+	 * @param newShape
+	 */
+	public void setShape(PhysicShape newShape) {
+		this.shape = newShape;
+		recreate();
 	}
 
 	/**
@@ -157,25 +175,48 @@ public abstract class PhysicBody {
 			body.setActive(active);
 	}
 
-	/**
-	 * Set rotation (only works before body creation)
-	 * 
-	 * @param angle
-	 */
-	public void setRotation(float angle) {
-		bodyDef.setAngle(angle);
-	}
-
 	public Vec2f getPosition() {
 		if (body == null)
 			return new Vec2f(bodyDef.getPosition());
 		return new Vec2f(body.getPosition());
+	}
+	
+	/**
+	 * Set position (recreates the body)
+	 * <br/><b>Do not use this during gameplay, only at construction or in editor</b>
+	 * @param position
+	 */
+	public void setPosition(Vec2f position) {
+		bodyDef.setPosition(position.toB2Vec());
+		
+		recreate();
 	}
 
 	public float getRotation() {
 		if (body == null)
 			return bodyDef.getAngle();
 		return body.getAngle();
+	}
+
+	/**
+	 * Set rotation (recreates the body)
+	 * <br/><b>Do not use this during gameplay, only at construction or in editor</b>
+	 * @param angle
+	 */
+	public void setRotation(float angle) {
+		bodyDef.setAngle(angle);
+		
+		recreate();
+	}
+	
+	/**
+	 * Recreates this body if it previously existed, useful for modifying transform after creation
+	 */
+	protected void recreate() {
+		if(world == null) return;
+		PhysicWorld oldWorld = world;
+		removeFromWorld();
+		addToWorld(oldWorld);
 	}
 
 	public void debugDraw() {
