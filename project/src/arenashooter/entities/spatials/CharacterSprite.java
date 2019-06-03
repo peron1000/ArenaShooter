@@ -1,11 +1,13 @@
 package arenashooter.entities.spatials;
 
+import java.awt.TexturePaint;
 import java.io.File;
 
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -21,23 +23,33 @@ public class CharacterSprite extends Spatial {
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
 	private Sprite punchSprite = new Sprite(new Vec2f());
+	private Sprite chargeSprite = new Sprite(new Vec2f());
 
 	private double lookAngle = 0;
 	private float moveSpeed = 0;
 	private boolean wasOnGround = false, isOnGround = false;
 	private boolean lookRight = true;
+	public boolean charging;
+	public boolean charged;
 
 	private boolean handLOnWeap = false, handROnWeap = false;
 	
 	private AnimationData punchAnim1 = AnimationData.loadAnim("data/animations/animPunch_1.xml");
 	private AnimationData punchAnim2 = AnimationData.loadAnim("data/animations/animPunch_2.xml");
 	private AnimationData punchAnim3 = AnimationData.loadAnim("data/animations/animPunch_3.xml");
+	private AnimationData superPunch = AnimationData.loadAnim("data/animations/animSuperPunch.xml");
 	private Animation currentPunchAnim = null;
+	private Texture charge1 = Texture.loadTexture("data/sprites/swooshes/Tching_tr.png");
+	private Texture charge2 = Texture.loadTexture("data/sprites/swooshes/Tching.png");
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
 	private double movementTime = 0;
+	private double sinTime;//Used for rescaling chargePunch Sprite.
 
+	
+	
+	
 	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
 		folder = "data/sprites/characters/"+charInfo.getSkin();
@@ -103,6 +115,10 @@ public class CharacterSprite extends Spatial {
 		
 		punchSprite.attachToParent(this, "Swoosh");
 		punchSprite.size.set(0, 0);
+		
+		chargeSprite.attachToParent(this, "Charge");
+		chargeSprite.size.set(0, 0);
+		chargeSprite.zIndex = getZIndex()+1;
 	}
 
 	public void punch(int swoosh, double direction) {
@@ -119,10 +135,19 @@ public class CharacterSprite extends Spatial {
 		case 3 :
 			currentPunchAnim = new Animation(punchAnim3);
 			break;
+		case -1 :
+			currentPunchAnim = new Animation(superPunch);
+			break;
 		default :
 		break;
 		}
 		currentPunchAnim.play();
+	}
+	
+	public void stopCharge() {
+		chargeSprite.size.set(0, 0);
+		charging = false;
+		charged = false;
 	}
 
 	public void setLookRight(boolean lookRight) {
@@ -130,7 +155,6 @@ public class CharacterSprite extends Spatial {
 	}
 
 	private void land() {
-
 	}
 	
 	public void explode(Vec2f impulse) {
@@ -174,20 +198,6 @@ public class CharacterSprite extends Spatial {
 	@Override
 	public void step(double d) {
 		super.step(d);
-
-		if(currentPunchAnim != null) {
-			currentPunchAnim.step(d);
-			if(currentPunchAnim.isPlaying()) {
-				punchSprite.flipY = !lookRight;
-				punchSprite.setTexture(currentPunchAnim.getTrackTex("AnimTrackPunch1"));
-				punchSprite.size.set(2, 2);
-				punchSprite.localPosition.set(1.5, 0.3);
-				Vec2f.rotate(punchSprite.localPosition, lookAngle);
-				punchSprite.rotation = lookAngle;
-				punchSprite.getTexture().setFilter(false);
-			}else
-				punchSprite.size.set(0, 0);
-		}
 		
 		wasOnGround = isOnGround;
 
@@ -205,7 +215,34 @@ public class CharacterSprite extends Spatial {
 			land();
 
 		movementTime += d * Math.abs(moveSpeed);
+		sinTime += d*16;
 
+		if(charging) {
+			if (charged) {
+				chargeSprite.setTexture(charge2);
+			} else {
+				chargeSprite.setTexture(charge1);
+				chargeSprite.useTransparency = true;
+			}
+			chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07+Math.sin(sinTime)/6, chargeSprite.getTexture().getWidth()*0.07+Math.sin(sinTime)/6);
+			chargeSprite.localPosition.set((lookRight? 0.25 : -0.25), 0.2);
+			chargeSprite.getTexture().setFilter(false);
+		}
+		
+		if(currentPunchAnim != null) {
+			currentPunchAnim.step(d);
+			if(currentPunchAnim.isPlaying()) {
+				punchSprite.flipY = !lookRight;
+				punchSprite.setTexture(currentPunchAnim.getTrackTex("AnimTrackPunch1"));
+				punchSprite.size.set(2, 2);
+				punchSprite.localPosition.set(1.5, 0.3);
+				Vec2f.rotate(punchSprite.localPosition, lookAngle);
+				punchSprite.rotation = lookAngle;
+				punchSprite.getTexture().setFilter(false);
+			}else
+				punchSprite.size.set(0, 0);
+		}
+		
 		body.flipX = !lookRight;
 		head.flipX = !lookRight;
 		footL.flipX = !lookRight;

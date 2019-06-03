@@ -54,8 +54,12 @@ public class Character extends RigidBodyContainer {
 	private Timer attackCooldown = new Timer(0.2);
 	private int attackCombo = 0;
 	private Timer chargePunch = new Timer(0.5);
+	/**
+	 * For now, this boolean is used fo visuals and Sounds only.
+	 */
+	boolean charged = false;
 	private Timer holdCombo = new Timer(1);
-	private float range = 4;
+	private float range = 3;
 	/**
 	 * 
 	 * The Character has already punched mid-air
@@ -136,9 +140,10 @@ public class Character extends RigidBodyContainer {
 	public void attackStop() {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
-		} else if (attackCooldown.isOver()) {
-
+		} else if (chargePunch.isProcessing()) {
+			
 			boolean superPoing = chargePunch.isOver();
+			chargePunch.reset();
 			Vec2f impulse;
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			DamageInfo punchDmgInfo;
@@ -146,7 +151,7 @@ public class Character extends RigidBodyContainer {
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage*2, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
-				skeleton.punch(1, aimInput);
+				skeleton.punch(-1, aimInput);
 			} else {
 				impulse = Vec2f.rotate(new Vec2f((!punchi ? 25 : 12), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
@@ -173,6 +178,7 @@ public class Character extends RigidBodyContainer {
 			punchi = true;
 			attackCooldown.restart();
 			holdCombo.restart();
+			skeleton.stopCharge();
 
 			Vec2f punchEnd = Vec2f.fromAngle(aimInput);
 			punchEnd.multiply(range);
@@ -190,20 +196,25 @@ public class Character extends RigidBodyContainer {
 			if (!punchHit.isEmpty()) {
 				float randomPitch = (float) (1+(Math.random()-0.5)*0.2);
 				if (superPoing) {
-					Audio.playSound2D("data/sound/SuperPunch.ogg", AudioChannel.SFX, 2f*randomPitch, 1, getWorldPos());
+					Audio.playSound2D("data/sound/SuperPunch.ogg", AudioChannel.SFX, 2f, 1*randomPitch, getWorldPos());
 				} else {
-					Audio.playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f*randomPitch, 1, getWorldPos());
+					Audio.playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f, 1*randomPitch, getWorldPos());
 					
 				}
 			}
 		}
-		chargePunch.reset();
 		if(attackCombo >=3) {
 			attackCombo = 0;
 		}
 	}
 
 	public void getItem() {
+		chargePunch.reset();
+		holdCombo.restart();
+		if(getChild("skeleton") != null) {
+		((CharacterSprite) getChild("skeleton")).stopCharge();
+		}
+		
 		Item arme = null;
 
 		boolean hasWeapon = getWeapon() != null;
@@ -364,6 +375,11 @@ public class Character extends RigidBodyContainer {
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
+			skeleton.charging = chargePunch.isProcessing();
+			if(!skeleton.charged && chargePunch.isOver()) {
+				skeleton.charged = true;
+				Audio.playSound2D("data/sound/Souing.ogg", AudioChannel.SFX, 0.7f, 1.5f, getWorldPos());
+			}
 		}
 
 		// Kill character when out of bounds
