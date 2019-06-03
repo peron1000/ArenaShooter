@@ -3,6 +3,7 @@ package arenashooter.entities.spatials;
 import java.awt.TexturePaint;
 import java.io.File;
 
+import arenashooter.engine.DamageInfo;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.audio.Audio;
@@ -24,6 +25,7 @@ public class CharacterSprite extends Spatial {
 	private Sprite body, head, footL, footR, handL, handR;
 	private Sprite punchSprite = new Sprite(new Vec2f());
 	private Sprite chargeSprite = new Sprite(new Vec2f());
+	private String particlesBlood = "data/particles/blood.xml";
 
 	private double lookAngle = 0;
 	private float moveSpeed = 0;
@@ -47,9 +49,6 @@ public class CharacterSprite extends Spatial {
 	private double movementTime = 0;
 	private double sinTime;//Used for rescaling chargePunch Sprite.
 
-	
-	
-	
 	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
 		super(position);
 		folder = "data/sprites/characters/"+charInfo.getSkin();
@@ -112,7 +111,6 @@ public class CharacterSprite extends Spatial {
 		handR.rotationFromParent = false;
 		handR.attachToParent(this, "handR");
 		
-		
 		punchSprite.attachToParent(this, "Swoosh");
 		punchSprite.size.set(0, 0);
 		
@@ -142,6 +140,13 @@ public class CharacterSprite extends Spatial {
 		break;
 		}
 		currentPunchAnim.play();
+	}
+	
+	
+	public void damageEffects(DamageInfo info) {
+		Particles blood = new Particles(new Vec2f(), particlesBlood);
+		blood.selfDestruct = true;
+		blood.attachToParent(this, blood.genName());
 	}
 	
 	public void stopCharge() {
@@ -193,6 +198,10 @@ public class CharacterSprite extends Spatial {
 		handR.attachToParent(rbc, "handR");
 		handR.localPosition.set(0, 0);
 		handR.rotationFromParent = true;
+
+		Particles blood = new Particles(new Vec2f(), particlesBlood);
+		blood.selfDestruct = true;
+		blood.attachToParent(this, blood.genName());
 	}
 
 	@Override
@@ -224,7 +233,7 @@ public class CharacterSprite extends Spatial {
 				chargeSprite.setTexture(charge1);
 				chargeSprite.useTransparency = true;
 			}
-			chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07+Math.sin(sinTime)/6, chargeSprite.getTexture().getWidth()*0.07+Math.sin(sinTime)/6);
+			chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07+Math.sin(sinTime)/4, chargeSprite.getTexture().getWidth()*0.07+Math.sin(sinTime)/4);
 			chargeSprite.localPosition.set((lookRight? 0.25 : -0.25), 0.2);
 			chargeSprite.getTexture().setFilter(false);
 		}

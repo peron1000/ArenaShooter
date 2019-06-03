@@ -269,7 +269,6 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		Main.log.info("I took damage");
 		if (info.dmgType == DamageType.OUT_OF_BOUNDS)
 			// Force death if character fell out of bounds or was killed for a non-gameplay
 			// reason
@@ -277,8 +276,10 @@ public class Character extends RigidBodyContainer {
 				death(info);
 				return health;
 			}
+		
+		((CharacterSprite) getChild("skeleton")).damageEffects(info);
 
-		float res = Math.min(info.damage, health);// ? Ajouter Commentaire
+		float res = Math.min(info.damage, health);
 
 		applyImpulse(Vec2f.multiply(info.direction, info.damage));
 		// float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage)))
