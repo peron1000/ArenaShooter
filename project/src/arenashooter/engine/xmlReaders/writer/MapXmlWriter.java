@@ -29,7 +29,7 @@ public class MapXmlWriter {
 
 	}
 
-	public static void writerMap(Arena arena, String name, Document doc) {
+	public static void writerMap(Arena arena, String name) {
 		// TODO : Creation / instantiation file
 
 		// TODO : creation Arena dans Xml
@@ -92,8 +92,6 @@ public class MapXmlWriter {
 			
 			// Creation of the test arena
 			Arena arena = new Arena();
-			MapXmlWriter.writerMap(arena, "test", doc);
-			
 			Mesh mesh = new Mesh(new Vec3f(), "data/meshes/item_pickup/weapon_pickup.obj");
 			mesh.attachToParent(arena, "meshTest");
 
