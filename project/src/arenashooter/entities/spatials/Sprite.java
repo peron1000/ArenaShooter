@@ -30,6 +30,12 @@ public class Sprite extends Spatial {
 		useTransparency = texture.transparency;
 	}
 	
+	public Sprite(Vec2f position, Material material) {
+		super(position);
+		if(model == null) model = Model.loadQuad();
+		this.material = material;
+	}
+	
 	public Sprite(Vec2f position, String texture) {
 		this(position, Texture.loadTexture(texture));
 	}

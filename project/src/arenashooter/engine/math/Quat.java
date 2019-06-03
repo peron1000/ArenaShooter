@@ -234,10 +234,15 @@ public class Quat {
 	 * @return <i>target</i> (modified)
 	 */
 	public static Quat multiply(Quat q1, Quat q2, Quat target) {
-		target.x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
-		target.y = q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x;
-		target.z = q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w;
-		target.w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
+		float x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
+		float y = q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x;
+		float z = q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w;
+		float w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
+		
+		target.x = x;
+		target.y = y;
+		target.z = z;
+		target.w = w;
 		
 		return target;
 	}

@@ -12,16 +12,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.lwjgl.system.Platform;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Spawner;
-import arenashooter.entities.spatials.items.Gun;
-import arenashooter.game.GameMaster;
 
 public class MapXmlWriter {
 	public static final MapXmlWriter writer = new MapXmlWriter();
@@ -31,7 +29,7 @@ public class MapXmlWriter {
 
 	}
 
-	public static void writerMap(Arena arena, String name, Document doc) {
+	public static void writerMap(Arena arena, String name) {
 		// TODO : Creation / instantiation file
 
 		// TODO : creation Arena dans Xml
@@ -50,15 +48,28 @@ public class MapXmlWriter {
 	}
 
 	private static void loadChildren(Entity parent, Element parentBalise) {
+
+		Element info = doc.createElement("information");
+		parentBalise.appendChild(info);
+
+		Element entities = doc.createElement("entities");
+		parentBalise.appendChild(entities);
+		
 		for (String str : parent.getChildren().keySet()) {
 			System.out.println("cp");
 			Entity child = parent.getChildren().get(str);
-			if (child instanceof Spawner) {
-				System.out.println("lol");
-				Spawner p = (Spawner) child;
-				SpawnXml p1 = new SpawnXml(doc, parent, info, true, p.getCooldown());
+//			if (child instanceof Spawner) {
+//				System.out.println("lol");
+//				Spawner p = (Spawner) child;
+//				SpawnXml p1 = new SpawnXml(doc, parent, info, true, p.getCooldown());
+//			}
+			if (child instanceof Mesh) {
+				Mesh p = (Mesh) child;
+				MeshXml p1 = new MeshXml(doc, entities);
+				p1.xPosition = p.parentPosition.x;
+				p1.yPosition = p.parentPosition.y;
+				p1.zPosition = p.parentPosition.z;
 			}
-			//else if(child instanceof )
 		}
 	}
 
@@ -81,10 +92,8 @@ public class MapXmlWriter {
 			
 			// Creation of the test arena
 			Arena arena = new Arena();
-			MapXmlWriter.writerMap(arena, "test", doc);
-			
-			Spawner p = new Spawner(new Vec2f(), 0);
-			p.attachToParent(arena, "p");
+			Mesh mesh = new Mesh(new Vec3f(), "data/meshes/item_pickup/weapon_pickup.obj");
+			mesh.attachToParent(arena, "meshTest");
 
 			transformer.transform(source, result);
 			System.out.println("File saved!");

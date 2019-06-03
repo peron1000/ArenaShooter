@@ -7,6 +7,7 @@ import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
@@ -39,8 +40,20 @@ public class MenuPause extends MenuSelectionV<Label> {
 				elems.put(Integer.valueOf(i), new LinkedList<>());
 			}
 		}
+		/*menu option*/
 		menup = new MenuOption2();
 		menup.selectorVisible = false;
+		
+		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
+		texture1.setFilter(false);
+		
+		UiImage bg = new UiImage(0, new Vec2f(100, 25), texture1, new Vec4f(1, 1, 1, 1));
+		menup.setBackground(bg);
+		
+		bg.setPos(new Vec2f(0, -10));
+		
+		
+		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -130,15 +143,23 @@ public class MenuPause extends MenuSelectionV<Label> {
 
 	@Override
 	public void update(double delta) {
+
+		super.update(delta);
 		// Detect controls
 		if (!menup.selectorVisible) {
-			super.update(delta);
 			inputs.step(delta);
-
 		} else {
 			menup.update(delta);
-			menup.draw();
 		}
 
 	}
+
+	@Override
+	public void draw() {
+		super.draw();
+		if (menup.selectorVisible) {
+			menup.draw();
+		}
+	}
+
 }
