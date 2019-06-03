@@ -17,7 +17,9 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
@@ -304,7 +306,25 @@ public class Editor extends GameState {
 			@Override
 			public void make() {
 				// TODO Auto-generated method stub
+				RigidBody body = new RigidBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1,
+						0.8f);
+				RigidBodyContainer rigidBody = new RigidBodyContainer(new Vec2f(), body);
+				String name = rigidBody.genName();
+				rigidBody.attachToParent(getCurrentParent(), name);
+				allEditable.add(rigidBody);
+				Button entity = new Button(0, new Vec2f(10), name);
+				mapEntityButton.put(rigidBody, entity);
+				entity.setScale(new Vec2f(15));
+				setMenu.addElementInListOfChoices(entity, 1);
+				entity.setOnArm(new Trigger() {
 
+					@Override
+					public void make() {
+						bindEntity(rigidBody);
+						stackMenu.push(setEntityMenu);
+					}
+				});
+				entity.arm();
 			}
 		});
 	}
@@ -440,6 +460,31 @@ public class Editor extends GameState {
 			@Override
 			public void make() {
 				StaticBodyContainer staticBody = new StaticBodyContainer(new Vec2f(), new Vec2f(1), 0);
+				String name = staticBody.genName();
+				staticBody.attachToParent(getCurrentParent(), name);
+				staticBody.getBody().setUserData(staticBody);
+				staticBody.getBody().create();
+				allEditable.add(staticBody);
+				Button entity = new Button(0, scale, name);
+				mapEntityButton.put(staticBody, entity);
+				setMenu.addElementInListOfChoices(entity, 1);
+				entity.setOnArm(new Trigger() {
+
+					@Override
+					public void make() {
+						bindEntity(staticBody);
+						stackMenu.push(setEntityMenu);
+					}
+				});
+				entity.arm();
+			}
+		});
+		shapeDisk.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				StaticBody body = new StaticBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.LANDSCAPE);
+				StaticBodyContainer staticBody = new StaticBodyContainer(new Vec2f(), body);
 				String name = staticBody.genName();
 				staticBody.attachToParent(getCurrentParent(), name);
 				staticBody.getBody().setUserData(staticBody);

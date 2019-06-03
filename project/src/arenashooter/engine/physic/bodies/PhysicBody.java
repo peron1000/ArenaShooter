@@ -70,7 +70,8 @@ public abstract class PhysicBody {
 	 */
 	public void setShape(PhysicShape newShape) {
 		this.shape = newShape;
-		recreate();
+		
+		recreateBody();
 	}
 
 	/**
@@ -189,7 +190,7 @@ public abstract class PhysicBody {
 	public void setPosition(Vec2f position) {
 		bodyDef.setPosition(position.toB2Vec());
 		
-		recreate();
+		recreateBody();
 	}
 
 	public float getRotation() {
@@ -206,19 +207,17 @@ public abstract class PhysicBody {
 	public void setRotation(float angle) {
 		bodyDef.setAngle(angle);
 		
-		recreate();
+		recreateBody();
 	}
 	
-	/**
-	 * Recreates this body if it previously existed, useful for modifying transform after creation
-	 */
-	protected void recreate() {
+	private void recreateBody() {
 		if(world == null) return;
 		PhysicWorld oldWorld = world;
-		removeFromWorld();
-		addToWorld(oldWorld);
+		destroy();
+		world = oldWorld;
+		create();
 	}
-
+	
 	public void debugDraw() {
 		if (body != null) {
 			shape.debugDraw(getPosition(), getRotation());

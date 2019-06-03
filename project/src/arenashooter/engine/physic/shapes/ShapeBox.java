@@ -7,14 +7,18 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.PhysicWorld;
 
 public class ShapeBox extends PhysicShape {
-	private Vec2f extent;
+	private Vec2f extent = new Vec2f();
 	
 	public ShapeBox(Vec2f extent) {
-		this.extent = extent.clone();
 		b2Shape = new PolygonShape();
-		((PolygonShape)b2Shape).setAsBox(extent.x, extent.y);
+		resize(extent);
+	}
+	
+	public Vec2f getExtent() {
+		return extent.clone();
 	}
 	
 	/**
@@ -23,6 +27,8 @@ public class ShapeBox extends PhysicShape {
 	 */
 	public void resize(Vec2f extent) {
 		this.extent.set(extent);
+		this.extent.x = (float) Math.max(this.extent.x, PhysicWorld.MIN_BODY_SIZE);
+		this.extent.y = (float) Math.max(this.extent.y, PhysicWorld.MIN_BODY_SIZE);
 		((PolygonShape)b2Shape).setAsBox(this.extent.x, this.extent.y);
 	}
 

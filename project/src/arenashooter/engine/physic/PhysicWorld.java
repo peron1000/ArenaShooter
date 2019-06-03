@@ -24,6 +24,8 @@ import arenashooter.entities.spatials.Spatial;
 public class PhysicWorld {
 	public static final Logger log = LogManager.getLogger("Phys");
 	
+	public static final float MIN_BODY_SIZE = .05f;
+	
 	/** Box-2d world */
 	private World world;
 	

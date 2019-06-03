@@ -68,9 +68,4 @@ public class ShapeCharacter extends PhysicShape {
 		model.bind();
 		model.draw(true);
 	}
-	@Override
-	public void resize(Vec2f extent) {
-		// TODO Auto-generated method stub
-		
-	}
 }
