@@ -39,7 +39,6 @@ import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.game.GameMaster;
-import arenashooter.game.Main;
 import arenashooter.game.gameStates.editorEnum.Prime;
 import arenashooter.game.gameStates.editorEnum.SetMesh;
 import arenashooter.game.gameStates.editorEnum.TypeEntites;
@@ -48,6 +47,8 @@ public class Editor extends GameState {
 
 	private Vec2f forVisible = new Vec2f(-64, 0), forNotVisible = new Vec2f(-110, 0);
 	private boolean primeVisible = true;
+
+	private String fileName = "NewArena";
 
 	/* Save-quit Menu */
 	private MenuSelectionV<UiActionable> saveQuitMenu = new MenuSelectionV<>(5, 0, 0, new Vec2f(30, 10),
@@ -94,8 +95,6 @@ public class Editor extends GameState {
 
 	public Editor() {
 		super(1);
-
-		Main.drawCollisions = true;
 
 		/* Save-Quit Menu */
 		saveQuitMenuConstruction();
@@ -147,12 +146,16 @@ public class Editor extends GameState {
 					case UI_CONTINUE:
 						if (stackMenu.peek() == textInput) {
 							stackMenu.pop();
-							Entity parent = setEntityStack.peek();
-							Entity e = parent.getChild(setEntityName.getText());
-							e.detach();
-							e.attachToParent(parent, textInput.getText());
-							bindEntity(e);
-							mapEntityButton.get(e).setText(textInput.getText());
+							if (stackMenu.peek() == setEntityMenu) {
+								Entity parent = setEntityStack.peek();
+								Entity e = parent.getChild(setEntityName.getText());
+								e.detach();
+								e.attachToParent(parent, textInput.getText());
+								bindEntity(e);
+								mapEntityButton.get(e).setText(textInput.getText());
+							} else if(stackMenu.peek() == multiMenu && multiMenu.getMenuCurrent() == saveQuitMenu) {
+								fileName = textInput.getText();
+							}
 						} else {
 							setPrimeVisible(!primeVisible);
 						}
@@ -166,8 +169,8 @@ public class Editor extends GameState {
 									setEntityStack.pop();
 								}
 							}
-							if(stackMenu.peek() != textInput) {
-								while(stackMenu.peek() != multiMenu) {
+							if (stackMenu.peek() != textInput) {
+								while (stackMenu.peek() != multiMenu) {
 									stackMenu.pop();
 								}
 							} else {
@@ -313,8 +316,7 @@ public class Editor extends GameState {
 			@Override
 			public void make() {
 				// TODO Auto-generated method stub
-				RigidBody body = new RigidBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1,
-						0.8f);
+				RigidBody body = new RigidBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f);
 				RigidBodyContainer rigidBody = new RigidBodyContainer(new Vec2f(), body);
 				String name = rigidBody.genName();
 				rigidBody.attachToParent(getCurrentParent(), name);
@@ -435,15 +437,23 @@ public class Editor extends GameState {
 
 	private void saveQuitMenuConstruction() {
 		saveQuitMenu.setEcartement(8);
-		Button save = new Button(0, scale, "Save");
+		Button save = new Button(0, scale, "Save"), rename = new Button(0, scale, "Rename File");
 		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
 		save.setScaleText(new Vec2f(20));
 		save.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
-				// TODO Auto-generated method stub
-				MapXmlWriter.writerMap(current, "testMap");
+				MapXmlWriter.writerMap(current, fileName);
+			}
+		});
+		rename.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
+		rename.setScaleText(new Vec2f(20));
+		rename.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				stackMenu.push(textInput);
 			}
 		});
 		Button quit = new Button(0, scale, "Quit");
@@ -457,6 +467,7 @@ public class Editor extends GameState {
 		quit.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
 		quit.setScaleText(new Vec2f(20));
 		saveQuitMenu.addElementInListOfChoices(save, 1);
+		saveQuitMenu.addElementInListOfChoices(rename, 1);
 		saveQuitMenu.addElementInListOfChoices(quit, 1);
 	}
 
@@ -495,7 +506,7 @@ public class Editor extends GameState {
 			}
 		});
 		shapeDisk.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
 				StaticBody body = new StaticBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.LANDSCAPE);
