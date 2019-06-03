@@ -22,7 +22,6 @@ public class Mesh extends Spatial3 {
 	private boolean isEditorTarget =false;
 	
 	public Vec3f scale;
-	private double time;
 	
 	public Mesh(Vec3f position, String modelPath) {
 		this(position, new Quat(), new Vec3f(1), modelPath);
@@ -75,16 +74,6 @@ public class Mesh extends Spatial3 {
 	@Override
 	public void step(double d) {
 		timeMs += d*1000;
-		time += d;
-		if(isEditorTarget) {
-			for (Material material : materials) {
-				material.setParamF("editorFilter", (float) (Math.sin(time)+0.5/2));
-			}
-		} else {
-			for (Material material : materials) {
-				material.setParamF("editorFilter", 0);
-			}
-		}
 		super.step(d);
 	}
 	
@@ -96,6 +85,13 @@ public class Mesh extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 		
 		for( int i=0; i<models.length; i++ ) {
+			
+			if(isEditorTarget) {
+				materials[i].setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis()*0.006)+1)/2f);
+			} else {
+				materials[i].setParamF("editorFilter", 0);
+			}
+			
 			materials[i].model = Mat4f.transform(getWorldPos(), localRotation, scale);
 			materials[i].view = Window.getView();
 			materials[i].proj = Window.proj;
