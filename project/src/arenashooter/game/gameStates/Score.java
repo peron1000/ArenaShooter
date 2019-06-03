@@ -9,6 +9,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -16,6 +17,7 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 public class Score extends GameState {
 
 	private Menu menu = new Menu(5);
+	private Menu menuscore = new Menu(5);
 
 	public Score() {
 		super(1);
@@ -70,6 +72,62 @@ public class Score extends GameState {
 		labelYInfo.setPos(new Vec2f(-30, 43));
 		labelBInfo.setPos(new Vec2f(7, 43));
 
+		/* Shows score */
+		int kill = 0, death = 0, ratio = 0;
+		int x = 0, y = -40;
+		Controller Winner = null, PlayerKiller=null, TheDeath=null;
+		menuscore.setPosition(new Vec2f(x, y));
+
+		for (Controller controller : GameMaster.gm.controllers) {
+			if (controller.kills >= kill) {
+				PlayerKiller = controller;
+			}
+			if (controller.deaths >= kill) {
+				TheDeath = controller;
+			}
+			if(Winner!=null) {
+				if (controller.roundsWon >= Winner.roundsWon) {
+					Winner = controller;
+				}
+			}
+			else {
+				Winner = controller;		
+			}
+
+		}
+		kill = Winner.kills;
+		death = Winner.deaths;
+
+		if (death > 0) {
+			ratio = kill / death;
+		} else {
+			ratio = 1;
+		}
+		/*pl winner*/
+		Texture txw1 = Texture.loadTexture("data/sprites/interface/Player_" + (Winner.playerNumber + 1) + "_Arrow.png");
+		UiImage winnerp = new UiImage(0, new Vec2f(txw1.getWidth()*2,txw1.getHeight()*2),txw1 , new Vec4f(1, 1, 1, 1));
+		menuscore.addUiElement(winnerp, 4);
+		winnerp.setPos(new Vec2f(0, 0));
+
+		Label p1 = new Label(0, new Vec2f(25, 25), "The winner : Player "+Winner.playerNumber + " : kill(s) : " + kill + " | death(s) : "
+				+ death + " |" + " Ratio k/d : " + ratio);
+		p1.setVisible(true);
+		menuscore.addUiElement(p1, 4);
+		p1.setPos(new Vec2f(x, y));
+		y += 6;
+		
+		Label p2 = new Label(0, new Vec2f(25, 25), "The Player_Killer : Player "+PlayerKiller.playerNumber + " : kill(s) : " + kill + " | death(s) : "
+				+ death + " |" + " Ratio k/d : " + ratio);
+		p2.setVisible(true);
+		menuscore.addUiElement(p2, 4);
+		p2.setPos(new Vec2f(x, y));
+		y += 6;
+		Label p3 = new Label(0, new Vec2f(25, 25), "The DEATH : Player "+TheDeath.playerNumber + " : kill(s) : " + kill + " | death(s) : "
+				+ death + " |" + " Ratio k/d : " + ratio);
+		p3.setVisible(true);
+		menuscore.addUiElement(p3, 4);
+		p3.setPos(new Vec2f(x, y));
+
 		super.init();
 	}
 
@@ -98,7 +156,7 @@ public class Score extends GameState {
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex,
 						new Vec4f(1, 1, 1, 1));
 				menu.addUiElement(but, 3);
-				but.setPos(new Vec2f(-30, 41));				
+				but.setPos(new Vec2f(-30, 41));
 			} else if (Input.actionJustReleased(controller.getDevice(), Action.DROP_ITEM)) {
 				GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_BACK)) {
@@ -121,6 +179,7 @@ public class Score extends GameState {
 		super.draw();
 		Window.beginUi();
 		menu.draw();
+		menuscore.draw();
 		Window.endUi();
 	}
 }
