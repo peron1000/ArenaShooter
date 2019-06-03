@@ -17,8 +17,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.GameMaster;
@@ -83,8 +85,8 @@ public class MapXmlWriter {
 			Arena arena = new Arena();
 			MapXmlWriter.writerMap(arena, "test", doc);
 			
-			Spawner p = new Spawner(new Vec2f(), 0);
-			p.attachToParent(arena, "p");
+			Mesh mesh = new Mesh(new Vec3f(), "data/meshes/item_pickup/weapon_pickup.obj");
+			mesh.attachToParent(arena, "meshTest");
 
 			transformer.transform(source, result);
 			System.out.println("File saved!");
