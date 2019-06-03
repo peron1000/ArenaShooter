@@ -31,6 +31,7 @@ import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.Rectangle;
+import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Editable;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
@@ -165,7 +166,13 @@ public class Editor extends GameState {
 									setEntityStack.pop();
 								}
 							}
-							stackMenu.pop();
+							if(stackMenu.peek() != textInput) {
+								while(stackMenu.peek() != multiMenu) {
+									stackMenu.pop();
+								}
+							} else {
+								stackMenu.pop();
+							}
 						}
 						break;
 					case UI_CHANGE:
@@ -431,6 +438,14 @@ public class Editor extends GameState {
 		Button save = new Button(0, scale, "Save");
 		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
 		save.setScaleText(new Vec2f(20));
+		save.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				// TODO Auto-generated method stub
+				MapXmlWriter.writerMap(current, "testMap");
+			}
+		});
 		Button quit = new Button(0, scale, "Quit");
 		quit.setOnArm(new Trigger() {
 
