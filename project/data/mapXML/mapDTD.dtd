@@ -16,7 +16,7 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|rigid|mesh|text|static|jointPin)*>
+<!ELEMENT entities (entity|rigid|mesh|text|static|kinematic|jointPin)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT mesh (vecteur, vecteur, vecteur, entities?)>
@@ -26,9 +26,15 @@
 <!ATTLIST text name CDATA #IMPLIED>
 <!ATTLIST text content CDATA #REQUIRED>
 <!ATTLIST text font CDATA #REQUIRED>
-<!ELEMENT static (vecteur, vecteur, entities?)>
+<!ELEMENT static (vecteur, vecteur?, entities?)>
 <!ATTLIST static name CDATA #IMPLIED>
 <!ATTLIST static rotation CDATA #IMPLIED>
+<!ATTLIST rigid radius CDATA #IMPLIED>
+<!ELEMENT kinematic (vecteur, vecteur?, entities?)>
+<!ATTLIST kinematic name CDATA #IMPLIED>
+<!ATTLIST kinematic animation CDATA #IMPLIED>
+<!ATTLIST kinematic rotation CDATA #IMPLIED>
+<!ATTLIST rigid radius CDATA #IMPLIED>
 <!ELEMENT rigid (vecteur, vecteur?, entities?)>
 <!ATTLIST rigid name CDATA #IMPLIED>
 <!ATTLIST rigid rotation CDATA #IMPLIED>

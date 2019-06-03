@@ -7,6 +7,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
@@ -14,6 +16,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.joints.JointPin;
@@ -469,6 +472,11 @@ public class MapXmlReader extends XmlReader {
 		for (Element rigid : rigids)
 			loadRigid(rigid, parent);
 
+		// Kinematic bodies
+		List<Element> kinematics = getListElementByName("kinematic", entities);
+		for (Element body : kinematics)
+			loadKinematicBody(body, parent);
+
 		// Static bodies
 		List<Element> statics = getListElementByName("static", entities);
 		for (Element body : statics)
@@ -684,6 +692,60 @@ public class MapXmlReader extends XmlReader {
 			e.attachToParent(parent, entity.getAttribute("name"));
 		else
 			e.attachToParent(parent, e.genName());
+
+		// Load children
+		List<Element> entitiess = getListElementByName("entities", entity);
+		for (Element entities : entitiess)
+			loadEntities(entities, e);
+	}
+	
+	private void loadKinematicBody(Element entity, Entity parent) { // TODO: Add support for circular kinematic bodies
+		// Read position and extent values
+		List<Element> vecteurs = getListElementByName("vecteur", entity);
+		Vec2f position = new Vec2f(), extent = new Vec2f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			System.err.println("KinematicBody element needs " + nbVec + " vectors");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVector vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec2f(vec.x, vec.y);
+					break;
+				case "extent":
+					extent = new Vec2f(vec.x, vec.y);
+					break;
+				default:
+					System.err.println("Invalid vector in KinematicBody element");
+					break;
+				}
+			}
+		}
+
+		// Read optional rotation
+		double rotation = 0.0;
+		if (entity.hasAttribute("rotation"))
+			rotation = Double.parseDouble(entity.getAttribute("rotation"));
+
+		KinematicBody body = new KinematicBody(new ShapeBox(extent), position, rotation, CollisionFlags.ARENA_KINEMATIC, 1);
+		
+		// Create entity
+		KinematicBodyContainer e = new KinematicBodyContainer(position, body);
+
+		// Attach new entity
+		if (entity.hasAttribute("name"))
+			e.attachToParent(parent, entity.getAttribute("name"));
+		else
+			e.attachToParent(parent, e.genName());
+		
+		//Load animation
+		if(entity.hasAttribute("animation")) {
+			AnimationData animData = AnimationData.loadAnim(entity.getAttribute("animation"));
+			e.ignoreKillBounds = true;
+			e.setAnim(new Animation(animData));
+			e.playAnim();
+		}
 
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", entity);

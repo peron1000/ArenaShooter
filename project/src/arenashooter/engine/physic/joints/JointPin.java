@@ -34,6 +34,7 @@ public class JointPin extends PhysicJoint {
 		jointDef.localAnchorA.set(anchorA.toB2Vec());
 		jointDef.localAnchorB.set(anchorB.toB2Vec());
 		jointDef.collideConnected = false;
+		jointDef.userData = this;
 		
 		joint = (RevoluteJoint) world.getB2World().createJoint(jointDef);
 	}

@@ -13,6 +13,8 @@ public class Spatial extends Entity {
 	public Vec2f localPosition;
 	/** World space position */
 	private Vec2f worldPosition = new Vec2f();
+	
+	public boolean ignoreKillBounds = false;
 
 	/** World space Parent rotation */
 	public double parentRotation = 0;

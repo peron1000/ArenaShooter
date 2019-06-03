@@ -1,6 +1,5 @@
 package arenashooter.entities.spatials;
 
-import java.awt.TexturePaint;
 import java.io.File;
 
 import arenashooter.engine.DamageInfo;
@@ -164,7 +163,7 @@ public class CharacterSprite extends Spatial {
 	
 	public void explode(Vec2f impulse) {
 		//Head
-		RigidBody rb = new RigidBody(new ShapeDisk(.45), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		RigidBody rb = new RigidBody(new ShapeDisk(.45), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORPSE, .9f, .9f);
 		RigidBodyContainer rbc = new RigidBodyContainer(head.getWorldPos(), rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
@@ -173,7 +172,7 @@ public class CharacterSprite extends Spatial {
 		head.rotationFromParent = true;
 
 		//Body
-		rb = new RigidBody(new ShapeDisk(.45), body.getWorldPos(), body.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rb = new RigidBody(new ShapeDisk(.45), body.getWorldPos(), body.getWorldRot(), CollisionFlags.CORPSE, .9f, .9f);
 		rbc = new RigidBodyContainer(body.getWorldPos(), rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
@@ -182,7 +181,7 @@ public class CharacterSprite extends Spatial {
 		body.rotationFromParent = true;
 		
 		//HandL
-		rb = new RigidBody(new ShapeDisk(.15), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rb = new RigidBody(new ShapeDisk(.15), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORPSE, .9f, .9f);
 		rbc = new RigidBodyContainer(handL.getWorldPos(), rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
@@ -191,7 +190,7 @@ public class CharacterSprite extends Spatial {
 		handL.rotationFromParent = true;
 		
 		//HandR
-		rb = new RigidBody(new ShapeDisk(.15), handR.getWorldPos(), handR.getWorldRot(), CollisionFlags.CORSPE, .9f, .9f);
+		rb = new RigidBody(new ShapeDisk(.15), handR.getWorldPos(), handR.getWorldRot(), CollisionFlags.CORPSE, .9f, .9f);
 		rbc = new RigidBodyContainer(handR.getWorldPos(), rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );

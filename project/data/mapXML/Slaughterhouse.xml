@@ -332,8 +332,8 @@
 			<vecteur x="1" y="8.16644" use="extent" />
 		</static>
 
-		<rigid>
-			<vecteur x="5" y="-0.1" use="position" />
+		<kinematic animation="data/animations/animSlaughterhouse01.xml">
+			<vecteur x="-40.0" y="-1.0" use="position" />
 			<vecteur x="1" y="1" use="extent" />
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
@@ -342,7 +342,7 @@
 					<vecteur use="scale" x="2" y="2" z="2" />
 				</mesh>
 			</entities>
-		</rigid>
+		</kinematic>
 
 		<rigid>
 			<vecteur x="15" y="-0.1" use="position" />

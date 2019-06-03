@@ -22,7 +22,7 @@ public class Mesh extends Spatial3 implements Editable {
 	
 	private int timeMs = 0;
 	
-	private boolean isEditorTarget =false;
+	private boolean isEditorTarget = false;
 	
 	public Vec3f scale;
 	

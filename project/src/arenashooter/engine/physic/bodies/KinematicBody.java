@@ -34,14 +34,21 @@ public class KinematicBody extends PhysicBody {
 	/**
 	 * @return linear velocity at center of mass
 	 */
-	public Vec2f getLinearVelocity() { return linearVelocity.set(body.getLinearVelocity()); }
+	public Vec2f getLinearVelocity() {
+		if(body == null)
+			return linearVelocity.set(bodyDef.getLinearVelocity());
+		else
+			return linearVelocity.set(body.getLinearVelocity());
+	}
 	
 	/**
 	 * Set linear velocity at center of mass
 	 * @param newVelocity
 	 */
 	public void setLinearVelocity(Vec2f newVelocity) {
-		body.setLinearVelocity(newVelocity.toB2Vec());
+		bodyDef.setLinearVelocity(newVelocity.toB2Vec());
+		if(body != null)
+			body.setLinearVelocity(newVelocity.toB2Vec());
 	}
 
 	/**

@@ -23,7 +23,6 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.Controller;
-import arenashooter.game.Main;
 
 public class Character extends RigidBodyContainer {
 
@@ -269,13 +268,19 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		if (info.dmgType == DamageType.OUT_OF_BOUNDS)
-			// Force death if character fell out of bounds or was killed for a non-gameplay
-			// reason
-			if (info.dmgType == DamageType.MISC_ONE_SHOT || info.dmgType == DamageType.OUT_OF_BOUNDS) {
+		//Force death if character fell out of bounds or was killed for a non-gameplay reason
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS) {
+			if(ignoreKillBounds)
+				return 0;
+			else {
 				death(info);
 				return health;
 			}
+		}
+		if (info.dmgType == DamageType.MISC_ONE_SHOT) {
+			death(info);
+			return health;
+		}
 		
 		((CharacterSprite) getChild("skeleton")).damageEffects(info);
 

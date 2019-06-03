@@ -62,8 +62,12 @@ public class RigidBodyContainer extends Spatial implements Editable {
 		applyImpulse(Vec2f.multiply(info.direction, info.damage));
 
 		// Destroy when out of bounds
-		if (info.dmgType == DamageType.OUT_OF_BOUNDS)
-			detach();
+		if(info.dmgType == DamageType.OUT_OF_BOUNDS) {
+			if(ignoreKillBounds)
+				return 0;
+			else
+				detach();
+		}
 
 		return 0;
 	}
