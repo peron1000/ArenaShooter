@@ -7,9 +7,12 @@ import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Editable;
+import arenashooter.entities.Entity;
 
-public class Mesh extends Spatial3 {
+public class Mesh extends Spatial3 implements Editable {
 
 	private Model[] models;
 	private Material[] materials;
@@ -65,6 +68,9 @@ public class Mesh extends Spatial3 {
 	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
 		return new Mesh(position, rotation, scale, new Model[] {Model.loadQuad()}, new Material[] {material});
 	}
+	public static Mesh disk(Vec3f position, Quat rotation, Vec3f scale, Material material) {
+		return new Mesh(position, rotation, scale, new Model[] {Model.loadDisk(16)}, new Material[] {material});
+	}
 	
 	public Material getMaterial(int id) {
 		if(id < 0 || id >= materials.length) return null;
@@ -108,4 +114,28 @@ public class Mesh extends Spatial3 {
 		
 		super.draw();
 	}
+
+	@Override
+	public void addPosition(Vec2f position) {
+		localPosition.x += position.x;
+		localPosition.y += position.y;
+		for (Entity child : getChildren().values()) {
+			if(child instanceof Editable) {
+				Editable editable = (Editable) child;
+				editable.addPosition(position);
+			}
+		}
+	}
+	
+	@Override
+	public void addScale(Vec2f extent) {
+		scale.x += extent.x;
+		scale.y += extent.y;
+	}
+
+	@Override
+	public void addRotation(double angle) {
+		Quat.multiply(localRotation, Quat.fromAngle(angle), localRotation);
+	}
+
 }

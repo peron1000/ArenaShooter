@@ -12,10 +12,12 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
@@ -27,10 +29,14 @@ import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.Rectangle;
+import arenashooter.entities.Editable;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
+import arenashooter.entities.spatials.RigidBodyContainer;
+import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.editorEnum.Prime;
 import arenashooter.game.gameStates.editorEnum.SetMesh;
 import arenashooter.game.gameStates.editorEnum.TypeEntites;
@@ -60,8 +66,8 @@ public class Editor extends GameState {
 			new Vec2f(30, 10));
 
 	/* Sub add menu */
-	private MenuSelectionV<UiActionable> meshMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
-			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
+	private MenuSelectionV<UiActionable> meshMenu = new MenuSelectionV<>(), staticMenu = new MenuSelectionV<>(),
+			rigidMenu = new MenuSelectionV<>();
 
 	/* Bg Menu */
 	private Menu bg = new Menu(2);
@@ -73,121 +79,46 @@ public class Editor extends GameState {
 			setEntityParent = new Label(0, new Vec2f(20), "Empty");
 	private ScrollerH<SetMesh> setEntityScroller = new ScrollerH<>(0, new Vec2f(35, 25), SetMesh.values());
 	private Stack<Entity> setEntityStack = new Stack<>();
-	
+
 	private Stack<Navigable> stackMenu = new Stack<>();
 	private HashMap<Entity, Button> mapEntityButton = new HashMap<>();
-	
+
 	private TextInput textInput = new TextInput();
 
-	private LinkedList<Mesh> meshList = new LinkedList<>();
+	private LinkedList<Editable> allEditable = new LinkedList<>();
+
+	private final Vec2f scale = new Vec2f(15, 5);
 
 	public Editor() {
 		super(1);
-		final Vec2f scale = new Vec2f(15, 5);
+
+		Main.drawCollisions = true;
 
 		/* Save-Quit Menu */
-		saveQuitMenu.setEcartement(8);
-		Button save = new Button(0, scale, "Save");
-		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
-		save.setScaleText(new Vec2f(20));
-		Button quit = new Button(0, scale, "Quit");
-		quit.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
-			}
-		});
-		quit.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
-		quit.setScaleText(new Vec2f(20));
-		saveQuitMenu.addElementInListOfChoices(save, 1);
-		saveQuitMenu.addElementInListOfChoices(quit, 1);
+		saveQuitMenuConstruction();
 
 		/* Add Menu */
-		final float scaleText = 20f;
-		Button entity = new Button(0, scale, "entity");
-		entity.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(entity, 1);
-		Button rigid = new Button(0, scale, "rigid");
-		rigid.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(rigid, 1);
-		Button mesh = new Button(0, scale, "mesh");
-		mesh.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(mesh, 1);
-		Button text = new Button(0, scale, "text");
-		text.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(text, 1);
-		Button statiq = new Button(0, scale, "static");
-		statiq.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(statiq, 1);
-		Button jointPin = new Button(0, scale, "jointPin");
-		jointPin.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(jointPin, 1);
-		addMenu.setEcartement(8);
+		addMenuConstruction();
 
 		/* Mesh menu */
-		meshMenu.setPositionRef(new Vec2f(forVisible.x, -40));
-		meshMenu.setEcartement(6);
 		meshMenuConstruction();
+
+		/* Static Menu */
+		staticMenuConstruction();
+
+		/* Rigid */
+		rigidMenuConstruction();
 
 		/* Set Menu */
 		setMenu.setEcartement(6);
-		
-		/* set entity menu */
-		setEntityMenu.addUiElement(setEntityName, 1);
-		setEntityMenu.addUiElement(setEntityParent, 1);
-		setEntityMenu.setPosition(forVisible);
-		setEntityMenu.addElementInListOfChoices(setEntityScroller, 1);
-		setEntityMenu.setPositionRef(new Vec2f(forVisible.x, -21));
-		setEntityMenu.setEcartement(10);
-		setEntityName.setPos(new Vec2f(forVisible.x, -43));
-		setEntityParent.setPos(new Vec2f(forVisible.x, -32));
-		setEntityScroller.setAlwaysScrollable(true);
-		ScrollerH<TypeEntites> newChild = new ScrollerH<>(0, new Vec2f(30), TypeEntites.values());
-		newChild.setAlwaysScrollable(true);
-		newChild.setTitle("New Child");
-		newChild.setOnArm(new Trigger() {
 
-			@Override
-			public void make() {
-				Entity newParent = setEntityStack.peek().getChild(setEntityName.getText());
-				setEntityStack.push(newParent);
-				stackMenu.push(meshMenu);
-			}
-		});
-		setEntityMenu.addElementInListOfChoices(newChild, 1);
-		setEntityStack.push(current);
-		Button renameEntity = new Button(0, scale, "Rename Entity");
-		renameEntity.setOnArm(new Trigger() {
-			
-			@Override
-			public void make() {
-				textInput.reset();
-				textInput.setPos(renameEntity.getPos());
-				stackMenu.push(textInput);
-			}
-		});
-		setEntityMenu.addElementInListOfChoices(renameEntity, 1);
+		/* set entity menu */
+		setEntityMenuConstruction();
 
 		/* Main Menu */
-		Rectangle bg = new Rectangle(0, new Vec2f(50, 150), new Vec4f(0.5, 0.5, 0.5, 0.2));
-		this.bg.setBackground(bg);
-		this.bg.setPosition(forVisible);
-		multiMenu.addMenu(setMenu, Prime.Set);
-		multiMenu.addMenu(addMenu, Prime.Add);
-		multiMenu.addMenu(saveQuitMenu, Prime.Exit);
-		multiMenu.setPosition(forVisible);
-		multiMenu.setPositionRef(new Vec2f(forVisible.x, -30));
+		mainMenuConstruction();
 
 		stackMenu.push(multiMenu);
-
-		mesh.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				stackMenu.push(meshMenu);
-			}
-		});
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
@@ -211,7 +142,7 @@ public class Editor extends GameState {
 						stackMenu.peek().selectAction();
 						break;
 					case UI_CONTINUE:
-						if(stackMenu.peek() == textInput) {
+						if (stackMenu.peek() == textInput) {
 							stackMenu.pop();
 							Entity parent = setEntityStack.peek();
 							Entity e = parent.getChild(setEntityName.getText());
@@ -225,9 +156,9 @@ public class Editor extends GameState {
 						break;
 					case UI_BACK:
 						if (stackMenu.size() > 1) {
-							if(stackMenu.peek() == setEntityMenu) {
+							if (stackMenu.peek() == setEntityMenu) {
 								Entity entity = setEntityStack.peek();
-								if(entity != current) {
+								if (entity != current) {
 									bindEntity(entity);
 									setEntityStack.pop();
 								}
@@ -236,12 +167,12 @@ public class Editor extends GameState {
 						}
 						break;
 					case UI_CHANGE:
-						if(stackMenu.peek() == textInput) {
+						if (stackMenu.peek() == textInput) {
 							textInput.changeType();
 						}
 						break;
 					case UI_CANCEL:
-						if(stackMenu.peek() == textInput) {
+						if (stackMenu.peek() == textInput) {
 							textInput.cancelChar();
 						}
 						break;
@@ -251,20 +182,20 @@ public class Editor extends GameState {
 				} else if (event.getActionState() == ActionState.PRESSED) {
 					if (stackMenu.peek() == setEntityMenu) {
 						final double scaleSpeed = 0.005, positionSpeed = 0.02;
+						Entity e = getEntityOnSetting();
 						switch (event.getAction()) {
 						case UI_DOWN2:
-							Entity e = setEntityStack.peek().getChild(setEntityName.getText());
-							if (meshList.contains(e)) {
-								Mesh m = (Mesh) e;
+							if (e instanceof Editable) {
+								Editable editable = (Editable) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.addLocalPositionSelfAndChildren(new Vec3f(0, positionSpeed, 0));
+									editable.addPosition(new Vec2f(0, positionSpeed));
 									break;
 								case SCALE:
-									m.scale.add(new Vec3f(0, -scaleSpeed, 0));
+									editable.addScale(new Vec2f(0, -scaleSpeed));
 									break;
 								case ROTATION:
-									m.localRotation.rotate(new Vec3f(0, 1, 0));
+									editable.addRotation(.1);
 									break;
 								default:
 									break;
@@ -272,18 +203,17 @@ public class Editor extends GameState {
 							}
 							break;
 						case UI_UP2:
-							e = setEntityStack.peek().getChild(setEntityName.getText());
-							if (meshList.contains(e)) {
-								Mesh m = (Mesh) e;
+							if (e instanceof Editable) {
+								Editable editable = (Editable) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.addLocalPositionSelfAndChildren(new Vec3f(0, -positionSpeed, 0));
+									editable.addPosition(new Vec2f(0, -positionSpeed));
 									break;
 								case SCALE:
-									m.scale.add(new Vec3f(0, scaleSpeed, 0));
+									editable.addScale(new Vec2f(0, scaleSpeed));
 									break;
 								case ROTATION:
-									m.localRotation.rotate(new Vec3f(0, 1, 1));
+									editable.addRotation(-0.1);
 									break;
 								default:
 									break;
@@ -291,18 +221,14 @@ public class Editor extends GameState {
 							}
 							break;
 						case UI_LEFT2:
-							e = setEntityStack.peek().getChild(setEntityName.getText());
-							if (meshList.contains(e)) {
-								Mesh m = (Mesh) e;
+							if (e instanceof Editable) {
+								Editable editable = (Editable) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.addLocalPositionSelfAndChildren(new Vec3f(-positionSpeed, 0, 0));
+									editable.addPosition(new Vec2f(-positionSpeed, 0));
 									break;
 								case SCALE:
-									m.scale.add(new Vec3f(-scaleSpeed, 0, 0));
-									break;
-								case ROTATION:
-									m.localRotation.rotate(new Vec3f(1, 0, 0));
+									editable.addScale(new Vec2f(-scaleSpeed, 0));
 									break;
 								default:
 									break;
@@ -310,18 +236,14 @@ public class Editor extends GameState {
 							}
 							break;
 						case UI_RIGHT2:
-							e = setEntityStack.peek().getChild(setEntityName.getText());
-							if (meshList.contains(e)) {
-								Mesh m = (Mesh) e;
+							if (e instanceof Editable) {
+								Editable editable = (Editable) e;
 								switch (setEntityScroller.get()) {
 								case POSITION:
-									m.addLocalPositionSelfAndChildren(new Vec3f(positionSpeed, 0, 0));
+									editable.addPosition(new Vec2f(positionSpeed, 0));
 									break;
 								case SCALE:
-									m.scale.add(new Vec3f(scaleSpeed, 0, 0));
-									break;
-								case ROTATION:
-									m.localRotation.set(new Quat(1, 1, 1, 0));
+									editable.addScale(new Vec2f(scaleSpeed, 0));
 									break;
 								default:
 									break;
@@ -338,7 +260,211 @@ public class Editor extends GameState {
 
 	}
 
+	private void rigidMenuConstruction() {
+		rigidMenu.setPosition(new Vec2f(forVisible.x, -40));
+		Label title = new Label(0, new Vec2f(30), "Rigid Options");
+		rigidMenu.addUiElement(title, 1);
+		rigidMenu.setPositionRef(new Vec2f(forVisible.x, -10));
+		rigidMenu.setLoop(false);
+		rigidMenu.setEcartement(10);
+
+		Button box = new Button(0, new Vec2f(15, 5), "Box");
+		rigidMenu.addElementInListOfChoices(box, 1);
+		box.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				// TODO Auto-generated method stub
+				RigidBody body = new RigidBody(new ShapeBox(new Vec2f(1)), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1,
+						0.8f);
+				RigidBodyContainer rigidBody = new RigidBodyContainer(new Vec2f(), body);
+				String name = rigidBody.genName();
+				rigidBody.attachToParent(getCurrentParent(), name);
+				allEditable.add(rigidBody);
+				Button entity = new Button(0, new Vec2f(10), name);
+				mapEntityButton.put(rigidBody, entity);
+				entity.setScale(new Vec2f(15));
+				setMenu.addElementInListOfChoices(entity, 1);
+				entity.setOnArm(new Trigger() {
+
+					@Override
+					public void make() {
+						bindEntity(rigidBody);
+						stackMenu.push(setEntityMenu);
+					}
+				});
+				entity.arm();
+			}
+		});
+
+		Button disk = new Button(0, new Vec2f(15, 5), "Disk");
+		rigidMenu.addElementInListOfChoices(disk, 1);
+		disk.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
+
+	private void mainMenuConstruction() {
+		Rectangle bg = new Rectangle(0, new Vec2f(50, 150), new Vec4f(0.5, 0.5, 0.5, 0.2));
+		this.bg.setBackground(bg);
+		this.bg.setPosition(forVisible);
+		multiMenu.addMenu(setMenu, Prime.Set);
+		multiMenu.addMenu(addMenu, Prime.Add);
+		multiMenu.addMenu(saveQuitMenu, Prime.Exit);
+		multiMenu.setPosition(forVisible);
+		multiMenu.setPositionRef(new Vec2f(forVisible.x, -30));
+	}
+
+	private void setEntityMenuConstruction() {
+		setEntityMenu.addUiElement(setEntityName, 1);
+		setEntityMenu.addUiElement(setEntityParent, 1);
+		setEntityMenu.setPosition(forVisible);
+		setEntityMenu.addElementInListOfChoices(setEntityScroller, 1);
+		setEntityMenu.setPositionRef(new Vec2f(forVisible.x, -21));
+		setEntityMenu.setEcartement(10);
+		setEntityName.setPos(new Vec2f(forVisible.x, -43));
+		setEntityParent.setPos(new Vec2f(forVisible.x, -32));
+		setEntityScroller.setAlwaysScrollable(true);
+		ScrollerH<TypeEntites> newChild = new ScrollerH<>(0, new Vec2f(30), TypeEntites.values());
+		newChild.setAlwaysScrollable(true);
+		newChild.setTitle("New Child");
+		newChild.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				Entity newParent = getCurrentParent().getChild(setEntityName.getText());
+				setEntityStack.push(newParent);
+				stackMenu.push(meshMenu);
+			}
+		});
+		setEntityMenu.addElementInListOfChoices(newChild, 1);
+		setEntityStack.push(current);
+		Button renameEntity = new Button(0, scale, "Rename Entity");
+		renameEntity.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				textInput.reset();
+				textInput.setPos(renameEntity.getPos());
+				stackMenu.push(textInput);
+			}
+		});
+		setEntityMenu.addElementInListOfChoices(renameEntity, 1);
+
+	}
+
+	private void addMenuConstruction() {
+		final float scaleText = 20f;
+		Button entity = new Button(0, scale, "entity");
+		entity.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(entity, 1);
+		Button rigid = new Button(0, scale, "rigid");
+		rigid.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(rigid, 1);
+		Button mesh = new Button(0, scale, "mesh");
+		mesh.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(mesh, 1);
+		Button text = new Button(0, scale, "text");
+		text.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(text, 1);
+		Button statiq = new Button(0, scale, "static");
+		statiq.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(statiq, 1);
+		Button jointPin = new Button(0, scale, "jointPin");
+		jointPin.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(jointPin, 1);
+		addMenu.setEcartement(8);
+
+		// Triggers
+		mesh.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				stackMenu.push(meshMenu);
+			}
+		});
+
+		statiq.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				stackMenu.push(staticMenu);
+			}
+		});
+
+		rigid.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				stackMenu.push(rigidMenu);
+			}
+		});
+	}
+
+	private void saveQuitMenuConstruction() {
+		saveQuitMenu.setEcartement(8);
+		Button save = new Button(0, scale, "Save");
+		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
+		save.setScaleText(new Vec2f(20));
+		Button quit = new Button(0, scale, "Quit");
+		quit.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+			}
+		});
+		quit.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
+		quit.setScaleText(new Vec2f(20));
+		saveQuitMenu.addElementInListOfChoices(save, 1);
+		saveQuitMenu.addElementInListOfChoices(quit, 1);
+	}
+
+	private void staticMenuConstruction() {
+		Label titleStaticMenu = new Label(0, new Vec2f(30), "Choose the shape");
+		Button shapeBox = new Button(0, scale, "Box"), shapeDisk = new Button(0, scale, "Disk");
+		staticMenu.addUiElement(titleStaticMenu, 1);
+		staticMenu.setPositionRef(new Vec2f(forVisible.x, -10));
+		staticMenu.setEcartement(10);
+		staticMenu.addElementInListOfChoices(shapeBox, 1);
+		staticMenu.addElementInListOfChoices(shapeDisk, 1);
+
+		// Triggers
+		shapeBox.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				StaticBodyContainer staticBody = new StaticBodyContainer(new Vec2f(), new Vec2f(1), 0);
+				String name = staticBody.genName();
+				staticBody.attachToParent(getCurrentParent(), name);
+				staticBody.getBody().setUserData(staticBody);
+				staticBody.getBody().create();
+				allEditable.add(staticBody);
+				Button entity = new Button(0, scale, name);
+				mapEntityButton.put(staticBody, entity);
+				setMenu.addElementInListOfChoices(entity, 1);
+				entity.setOnArm(new Trigger() {
+
+					@Override
+					public void make() {
+						bindEntity(staticBody);
+						stackMenu.push(setEntityMenu);
+					}
+				});
+				entity.arm();
+			}
+		});
+	}
+
 	private void meshMenuConstruction() {
+		meshMenu.setPositionRef(new Vec2f(forVisible.x, -40));
+		meshMenu.setEcartement(6);
+
 		File root = new File("data");
 		LinkedList<File> m = new LinkedList<>();
 		m.addAll(allMesh(root));
@@ -355,8 +481,8 @@ public class Editor extends GameState {
 					String replace = file.getPath().replace('\\', '/');
 					Mesh mesh = new Mesh(new Vec3f(), replace);
 					String name = mesh.genName();
-					mesh.attachToParent(setEntityStack.peek(), name);
-					meshList.add(mesh);
+					mesh.attachToParent(getCurrentParent(), name);
+					allEditable.add(mesh);
 					Button b = new Button(0, new Vec2f(30, 5.5), name);
 					mapEntityButton.put(mesh, b);
 					b.setScaleText(new Vec2f(15));
@@ -366,9 +492,6 @@ public class Editor extends GameState {
 						@Override
 						public void make() {
 							bindEntity(mesh);
-							if(setEntityStack.peek() != mesh.getParent()) {
-								setEntityStack.push(mesh.getParent());
-							}
 							stackMenu.push(setEntityMenu);
 						}
 					});
@@ -377,32 +500,39 @@ public class Editor extends GameState {
 			});
 		}
 	}
-	
+
 	private void bindEntity(Entity entity) {
 		Entity parent = entity.getParent();
 		for (String name : parent.getChildren().keySet()) {
-			if(parent.getChild(name) == entity) {
+			if (parent.getChild(name) == entity) {
 				setEntityName.setText(name);
 			}
 		}
-		if(parent == current) {
-			setEntityParent.setText("Parent : Map");
+		if (parent == current) {
+			setEntityParent.setText("Parent : Arena");
 		} else {
 			Entity superParent = parent.getParent();
 			for (String name : superParent.getChildren().keySet()) {
-				if(superParent.getChild(name) == parent) {
-					setEntityParent.setText("Parent : "+name);
+				if (superParent.getChild(name) == parent) {
+					setEntityParent.setText("Parent : " + name);
 				}
 			}
+		}
+		if (getCurrentParent() != entity.getParent()) {
+			setEntityStack.push(entity.getParent());
 		}
 	}
 
 	private List<File> allMesh(File parent) {
 		return FileUtils.listFilesByType(parent, ".obj");
 	}
-	
+
 	private Entity getEntityOnSetting() {
-		return setEntityStack.peek().getChild(setEntityName.getText());
+		return getCurrentParent().getChild(setEntityName.getText());
+	}
+
+	private Entity getCurrentParent() {
+		return setEntityStack.peek();
 	}
 
 	@Override
@@ -427,11 +557,11 @@ public class Editor extends GameState {
 		inputs.step(delta);
 		stackMenu.peek().update(delta);
 		bg.update(delta);
-		for (Mesh mesh : meshList) {
-			if(mesh == getEntityOnSetting() && stackMenu.peek() == setEntityMenu) {
-				mesh.setEditorTarget(true);
+		for (Editable editable : allEditable) {
+			if (editable == getEntityOnSetting() && stackMenu.peek() == setEntityMenu) {
+				editable.setEditorTarget(true);
 			} else {
-				mesh.setEditorTarget(false);
+				editable.setEditorTarget(false);
 			}
 		}
 	}

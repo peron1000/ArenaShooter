@@ -31,6 +31,10 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 		setPosition(pos);
 		setImageSelec(selec, 2);
 	}
+	
+	public MenuSelectionV() {
+		this(3 , 0 , 0 , new Vec2f(30 , 10) , "data/sprites/interface/Selector.png");
+	}
 
 	public void setEcartement(float e) {
 		ecartement = e;

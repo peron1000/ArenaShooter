@@ -10,4 +10,5 @@ public abstract class PhysicShape {
 	public Shape getB2Shape() { return b2Shape; }
 	
 	public abstract void debugDraw(Vec2f pos, double rot);
+	public abstract void resize(Vec2f extent);
 }

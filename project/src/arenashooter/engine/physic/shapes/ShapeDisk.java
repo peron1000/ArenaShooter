@@ -48,4 +48,10 @@ public class ShapeDisk extends PhysicShape {
 		disk.bind();
 		disk.draw(true);
 	}
+
+	@Override
+	public void resize(Vec2f extent) {
+		// TODO Auto-generated method stub
+		
+	}
 }
