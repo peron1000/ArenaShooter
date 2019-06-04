@@ -33,7 +33,7 @@ public class Game extends GameState {
 	private final int nbRounds = GameParam.getRound();
 	private final boolean teams = GameParam.getTeam();
 	private InputListener inputs = new InputListener();
-	
+
 	private static SoundSource bgm;
 
 	// Les teams sont pour l'instant au nombre de 2. On pourra changer
@@ -43,7 +43,7 @@ public class Game extends GameState {
 	HashSet<Controller> team2 = new HashSet<Controller>();
 	Timer roundTimer;
 	private boolean oneLeft;
-
+	private Controller thewinner = null;
 	/**
 	 * Time to count before deciding who wins, or if it's a draw if the last one
 	 * dies before the timer expires
@@ -61,19 +61,22 @@ public class Game extends GameState {
 	 */
 	private void evalOneLeft() {
 		int aliveChars = 0;
-		Controller c =null;
+		Controller c = null;
 		for (Controller controller : GameMaster.gm.controllers) {
 			if (!controller.hasDeadChar()) {
 				aliveChars++;
-				c=controller;
+				c = controller;
 			}
 		}
 		if (aliveChars <= 1) {
-			if(c!=null) {
-			c.roundsWon++;}
+			if (c != null) {
+				thewinner = c;
+				c.roundsWon++;
+			}
 			oneLeft = true;
+		}
 	}
-	}
+
 	public Game(int nbMap) {
 		super(nbMap);
 		menu = new MenuPause(0, 0);
@@ -94,8 +97,8 @@ public class Game extends GameState {
 				}
 			}
 		});
-		
-		if(bgm != null) {
+
+		if (bgm != null) {
 			bgm.destroy();
 			bgm = null;
 		}
@@ -152,7 +155,9 @@ public class Game extends GameState {
 				if (currentRound < nbRounds || nbRounds == -1) {
 					currentRound++;
 					for (Controller player : GameMaster.gm.controllers) {
-						characterDeath(player, player.getCharacter());
+						if (thewinner != player && thewinner != null) {
+							characterDeath(player, player.getCharacter());
+						}
 					}
 					newRound();
 				} else {
