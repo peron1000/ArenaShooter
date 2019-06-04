@@ -21,7 +21,7 @@ public class Controller {
 	public int playerNumber;
 	public int team = 1;
 	boolean deadChar = false;
-	
+
 	/**
 	 * Stats for Score
 	 */
@@ -31,8 +31,7 @@ public class Controller {
 	public int flagCatch = 0;
 	public int flagCapture = 0;
 	public int flagRetrieve = 0;
-	
-	
+
 	public boolean hasDeadChar() {
 		return deadChar;
 	}
@@ -57,8 +56,16 @@ public class Controller {
 		return character;
 	}
 
-	public void death() {
+	public void death(DamageInfo deathCause) {
 		deadChar = true;
+
+		// Update scores
+		deaths++;
+		if (deathCause.instigator instanceof Character) {
+			if (((Character) deathCause.instigator).controller != null) {
+				((Character) deathCause.instigator).controller.kills++;
+			}
+		}
 		if (GameMaster.current instanceof Game) {
 			((Game) GameMaster.current).characterDeath(this, character);
 		}
@@ -87,9 +94,9 @@ public class Controller {
 
 				if (Input.actionJustPressed(device, Action.JUMP))
 					character.jump();
-				else if(Input.actionPressed(device, Action.JUMP)) {
+				else if (Input.actionPressed(device, Action.JUMP)) {
 					character.planer();
-				} else if(character.jumpi) {
+				} else if (character.jumpi) {
 					character.jumpStop();
 				}
 				if (Input.actionJustPressed(device, Action.ATTACK))

@@ -320,7 +320,7 @@ public class Character extends RigidBodyContainer {
 		health = 0;
 		dropItem();
 		if (controller != null)
-			controller.death();
+			controller.death(deathCause);
 		detach();
 	}
 

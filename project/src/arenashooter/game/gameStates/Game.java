@@ -61,14 +61,19 @@ public class Game extends GameState {
 	 */
 	private void evalOneLeft() {
 		int aliveChars = 0;
+		Controller c =null;
 		for (Controller controller : GameMaster.gm.controllers) {
-			if (!controller.hasDeadChar())
+			if (!controller.hasDeadChar()) {
 				aliveChars++;
+				c=controller;
+			}
 		}
-		if (aliveChars <= 1)
+		if (aliveChars <= 1) {
+			if(c!=null) {
+			c.roundsWon++;}
 			oneLeft = true;
 	}
-
+	}
 	public Game(int nbMap) {
 		super(nbMap);
 		menu = new MenuPause(0, 0);

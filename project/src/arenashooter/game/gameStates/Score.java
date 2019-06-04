@@ -74,16 +74,16 @@ public class Score extends GameState {
 		labelBInfo.setPos(new Vec2f(7, 43));
 
 		/* Shows score */
-		int kill = 0, death = 0, ratio = 0;
+		int kill = 0, death = 0;
+		Double ratio = 0.0;
 		int x = 0, y = -40;
 		Controller Winner = null, PlayerKiller = null, TheDeath = null;
 		menuscore.setPosition(new Vec2f(x, y));
-
 		for (Controller controller : GameMaster.gm.controllers) {
 			if (controller.kills >= kill) {
 				PlayerKiller = controller;
 			}
-			if (controller.deaths >= kill) {
+			if (controller.deaths >= death) {
 				TheDeath = controller;
 			}
 			if (Winner != null) {
@@ -95,14 +95,31 @@ public class Score extends GameState {
 			}
 
 		}
+
+		int killk = PlayerKiller.kills, deathk = PlayerKiller.deaths,
+
+				killd = TheDeath.kills, deathd = TheDeath.deaths;
+
 		kill = Winner.kills;
 		death = Winner.deaths;
+		double ratiod, ratiok;
 
 		if (death > 0) {
-			ratio = kill / death;
+			ratio = (double) (kill / death);
 		} else {
-			ratio = 1;
+			ratio = 1.0;
 		}
+		if (deathk > 0) {
+			ratiok = (double) (killk / deathk);
+		} else {
+			ratiok = 1.0;
+		}
+		if (deathd > 0) {
+			ratiod = (double) (killd / deathd);
+		} else {
+			ratiod = 1.0;
+		}
+		//int ww = Winner.playerNumber + 1, kk = +1, dd = -1;
 		/* pl winner */
 		Texture txw1 = Texture.loadTexture("data/sprites/interface/Player_" + (Winner.playerNumber + 1) + "_Arrow.png");
 		UiImage winnerp = new UiImage(0, new Vec2f(txw1.getWidth() * 2, txw1.getHeight() * 2), txw1,
@@ -110,21 +127,21 @@ public class Score extends GameState {
 		menuscore.addUiElement(winnerp, 4);
 		winnerp.setPos(new Vec2f(0, 0));
 
-		Label p1 = new Label(0, new Vec2f(25, 25), "The winner : Player " + Winner.playerNumber + " : kill(s) : " + kill
-				+ " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
+		Label p1 = new Label(0, new Vec2f(25, 25), "The winner : Player " + (Winner.playerNumber + 1) + " : kill(s) : "
+				+ kill + " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
 		p1.setVisible(true);
 		menuscore.addUiElement(p1, 4);
 		p1.setPos(new Vec2f(x, y));
 		y += 6;
 
-		Label p2 = new Label(0, new Vec2f(25, 25), "The Player_Killer : Player " + PlayerKiller.playerNumber
-				+ " : kill(s) : " + kill + " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
+		Label p2 = new Label(0, new Vec2f(25, 25), "The Player_Killer : Player " + (PlayerKiller.playerNumber + 1)
+				+ " : kill(s) : " + killk + " | death(s) : " + deathk + " |" + " Ratio k/d : " + ratiok);
 		p2.setVisible(true);
 		menuscore.addUiElement(p2, 4);
 		p2.setPos(new Vec2f(x, y));
 		y += 6;
-		Label p3 = new Label(0, new Vec2f(25, 25), "The DEATH : Player " + TheDeath.playerNumber + " : kill(s) : "
-				+ kill + " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
+		Label p3 = new Label(0, new Vec2f(25, 25), "The DEATH : Player " + (TheDeath.playerNumber + 1) + " : kill(s) : "
+				+ killd + " | death(s) : " + deathd + " |" + " Ratio k/d : " + ratiod);
 		p3.setVisible(true);
 		menuscore.addUiElement(p3, 4);
 		p3.setPos(new Vec2f(x, y));
@@ -142,15 +159,25 @@ public class Score extends GameState {
 		// menuscore.addUiElement(winnerpsp, 4);
 		// winnerpsp.setPos(new Vec2f(0, 0));
 
-		arenashooter.entities.spatials.Character w = Winner.createNewCharacter(new Vec2f(0, -5));
-		w.attachToParent(getMap(), "zzz1");
+//		arenashooter.entities.spatials.Character w = Winner.createNewCharacter(new Vec2f(0, -5));
+//		w.attachToParent(getMap(), "zzz1");
+//
+//		arenashooter.entities.spatials.Character k = Winner.createNewCharacter(new Vec2f(-2, -4));
+//		k.attachToParent(getMap(), "zzz2");
+//
+//		arenashooter.entities.spatials.Character d = Winner.createNewCharacter(new Vec2f(2, -3));
+//		d.attachToParent(getMap(), "zzz3");
 
-		arenashooter.entities.spatials.Character k = Winner.createNewCharacter(new Vec2f(-2, -4));
-		k.attachToParent(getMap(), "zzz2");
+		// CharacterSprite caracSprite = new CharacterSprite(new Vec2f(0, 0),
+		// Winner.info);
+		// caracSprite.attachToParent(current, "PlayerSprite_" + Winner.playerNumber+1);
 
-		arenashooter.entities.spatials.Character d = Winner.createNewCharacter(new Vec2f(2, -3));
-		d.attachToParent(getMap(), "zzz3");
-		
+		Texture txw2 = Texture.loadTexture("data/sprites/characters/" + Winner.info.getSkin() + "/head.png");
+		UiImage winnerp2 = new UiImage(0, new Vec2f(txw2.getWidth() / 2, txw2.getHeight() / 2), txw2,
+				new Vec4f(1, 1, 1, 1));
+		menuscore.addUiElement(winnerp2, 4);
+		winnerp2.setPos(new Vec2f(-49, -32));
+
 		super.init();
 	}
 
@@ -199,10 +226,10 @@ public class Score extends GameState {
 	}
 
 	public void draw() {
+		super.draw();
 		Window.beginUi();
 		menu.draw();
 		menuscore.draw();
-		super.draw();
 		Window.endUi();
 	}
 }
