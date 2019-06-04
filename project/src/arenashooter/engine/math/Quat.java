@@ -80,6 +80,44 @@ public class Quat {
     	
     	return target;
     }
+
+    /**
+     * Extract euler angles (yaw, pitch, roll) from <i>this</i>
+	 * <br/> Creates an object
+     * <br/>Uses <a href="http://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm">this page</a>
+     * @return (pitch, yaw, roll)
+     */
+    public Vec3f toEuler() {
+    	return toEuler(new Vec3f());
+    }
+    
+    /**
+     * Extract euler angles (yaw, pitch, roll) from <i>this</i>
+	 * <br/> Avoids object creation
+     * <br/>Uses <a href="http://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm">this page</a>
+     * @param target
+     * @return <i>target</i> (modified)
+     */
+    public Vec3f toEuler(Vec3f target) { //TODO: Test
+    	double test = x*y + z*w;
+    	if (test > 0.499) { //Singularity at north pole
+    		target.x = (float)(2 * Math.atan2(x ,w));
+    		target.y = 0;
+    		target.y = (float)(Math.PI/2);
+    		return target;
+    	}
+    	if (test < -0.499) { //Singularity at south pole
+    		target.x = (float)(-2 * Math.atan2(x, w));
+    		target.y = 0;
+    		target.z = (float)(-Math.PI/2);
+    		return target;
+    	}
+
+    	target.x = (float) Math.atan2(2*y*w-2*x*z , 1 - 2*y*y - 2*z*z);
+    	target.y = (float) Math.atan2(2*x*w-2*y*z , 1 - 2*x*x - 2*z*z);
+    	target.z = (float) Math.asin(2*x*y + 2*z*w);
+    	return target;
+    }
     
     /**
      * Copies the values from <i>other</i> into <i>this</i> and return it
