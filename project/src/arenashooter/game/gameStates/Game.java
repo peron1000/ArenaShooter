@@ -146,6 +146,9 @@ public class Game extends GameState {
 			if (endRound.isOver()) {
 				if (currentRound < nbRounds || nbRounds == -1) {
 					currentRound++;
+					for (Controller player : GameMaster.gm.controllers) {
+						characterDeath(player, player.getCharacter());
+					}
 					newRound();
 				} else {
 					bgm.stop();
