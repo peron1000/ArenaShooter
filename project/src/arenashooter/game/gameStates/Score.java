@@ -9,6 +9,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
@@ -75,7 +76,7 @@ public class Score extends GameState {
 		/* Shows score */
 		int kill = 0, death = 0, ratio = 0;
 		int x = 0, y = -40;
-		Controller Winner = null, PlayerKiller=null, TheDeath=null;
+		Controller Winner = null, PlayerKiller = null, TheDeath = null;
 		menuscore.setPosition(new Vec2f(x, y));
 
 		for (Controller controller : GameMaster.gm.controllers) {
@@ -85,13 +86,12 @@ public class Score extends GameState {
 			if (controller.deaths >= kill) {
 				TheDeath = controller;
 			}
-			if(Winner!=null) {
+			if (Winner != null) {
 				if (controller.roundsWon >= Winner.roundsWon) {
 					Winner = controller;
 				}
-			}
-			else {
-				Winner = controller;		
+			} else {
+				Winner = controller;
 			}
 
 		}
@@ -103,31 +103,54 @@ public class Score extends GameState {
 		} else {
 			ratio = 1;
 		}
-		/*pl winner*/
+		/* pl winner */
 		Texture txw1 = Texture.loadTexture("data/sprites/interface/Player_" + (Winner.playerNumber + 1) + "_Arrow.png");
-		UiImage winnerp = new UiImage(0, new Vec2f(txw1.getWidth()*2,txw1.getHeight()*2),txw1 , new Vec4f(1, 1, 1, 1));
+		UiImage winnerp = new UiImage(0, new Vec2f(txw1.getWidth() * 2, txw1.getHeight() * 2), txw1,
+				new Vec4f(1, 1, 1, 1));
 		menuscore.addUiElement(winnerp, 4);
 		winnerp.setPos(new Vec2f(0, 0));
 
-		Label p1 = new Label(0, new Vec2f(25, 25), "The winner : Player "+Winner.playerNumber + " : kill(s) : " + kill + " | death(s) : "
-				+ death + " |" + " Ratio k/d : " + ratio);
+		Label p1 = new Label(0, new Vec2f(25, 25), "The winner : Player " + Winner.playerNumber + " : kill(s) : " + kill
+				+ " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
 		p1.setVisible(true);
 		menuscore.addUiElement(p1, 4);
 		p1.setPos(new Vec2f(x, y));
 		y += 6;
-		
-		Label p2 = new Label(0, new Vec2f(25, 25), "The Player_Killer : Player "+PlayerKiller.playerNumber + " : kill(s) : " + kill + " | death(s) : "
-				+ death + " |" + " Ratio k/d : " + ratio);
+
+		Label p2 = new Label(0, new Vec2f(25, 25), "The Player_Killer : Player " + PlayerKiller.playerNumber
+				+ " : kill(s) : " + kill + " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
 		p2.setVisible(true);
 		menuscore.addUiElement(p2, 4);
 		p2.setPos(new Vec2f(x, y));
 		y += 6;
-		Label p3 = new Label(0, new Vec2f(25, 25), "The DEATH : Player "+TheDeath.playerNumber + " : kill(s) : " + kill + " | death(s) : "
-				+ death + " |" + " Ratio k/d : " + ratio);
+		Label p3 = new Label(0, new Vec2f(25, 25), "The DEATH : Player " + TheDeath.playerNumber + " : kill(s) : "
+				+ kill + " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
 		p3.setVisible(true);
 		menuscore.addUiElement(p3, 4);
 		p3.setPos(new Vec2f(x, y));
 
+//		CharacterSprite caracSprite = new CharacterSprite(new Vec2f(0, 0), Winner.info);
+//		caracSprite.attachToParent(current, "PlayerSprite_" + Winner.playerNumber+1);
+//		Label newNumber = new Label(0,new Vec2f(),
+//				"data/sprites/interface/Player_" + (Winner.playerNumber+1) + "_Arrow.png");
+
+//		CharacterSprite caracSprite = new CharacterSprite(new Vec2f(0, 0), Winner.info);
+//		caracSprite.attachToParent(getMap(), "aaa");
+//		//Texture txw2 = Texture.loadTexture(Winner.info.getSkin());
+		// UiImage winnerpsp = new UiImage(0, new
+		// Vec2f(txw2.getWidth()*2,txw2.getHeight()*2),txw2 , new Vec4f(1, 1, 1, 1));
+		// menuscore.addUiElement(winnerpsp, 4);
+		// winnerpsp.setPos(new Vec2f(0, 0));
+
+		arenashooter.entities.spatials.Character w = Winner.createNewCharacter(new Vec2f(0, -5));
+		w.attachToParent(getMap(), "zzz1");
+
+		arenashooter.entities.spatials.Character k = Winner.createNewCharacter(new Vec2f(-2, -4));
+		k.attachToParent(getMap(), "zzz2");
+
+		arenashooter.entities.spatials.Character d = Winner.createNewCharacter(new Vec2f(2, -3));
+		d.attachToParent(getMap(), "zzz3");
+		
 		super.init();
 	}
 
@@ -176,10 +199,10 @@ public class Score extends GameState {
 	}
 
 	public void draw() {
-		super.draw();
 		Window.beginUi();
 		menu.draw();
 		menuscore.draw();
+		super.draw();
 		Window.endUi();
 	}
 }
