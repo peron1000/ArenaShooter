@@ -14,7 +14,6 @@ import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.PhysicBody;
@@ -36,7 +35,6 @@ import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Shotgun;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.entities.spatials.items.UsableTimer;
-import arenashooter.game.Main;
 import arenashooter.game.gameStates.Loading;
 
 public class MapXmlReader extends XmlReader {
@@ -550,7 +548,7 @@ public class MapXmlReader extends XmlReader {
 		// vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", mesh);
 		Vec3f position = new Vec3f(), scale = new Vec3f();
-		Vec4f rotation = new Vec4f();
+		Quat rotation = new Quat();
 		int nbVec = 3;
 		if (vecteurs.size() != nbVec) {
 			System.err.println("Mesh element needs " + nbVec + " vectors [src="
@@ -567,7 +565,7 @@ public class MapXmlReader extends XmlReader {
 					scale = new Vec3f(vec.x, vec.y, vec.z);
 					break;
 				case "rotation":
-					rotation = new Vec4f(vec.x, vec.y, vec.z, vec.w);
+					rotation = readRotation(vecteur);
 					break;
 				default:
 					System.err.println("Invalid vector in Mesh element");
@@ -578,7 +576,7 @@ public class MapXmlReader extends XmlReader {
 
 		// Mesh
 		String modelPath = mesh.getAttribute("src");
-		Mesh m = new Mesh(position, new Quat(rotation.x, rotation.y, rotation.z, rotation.w), scale, modelPath);
+		Mesh m = new Mesh(position, rotation, scale, modelPath);
 		if (mesh.hasAttribute("name")) {
 			m.attachToParent(parent, mesh.getAttribute("name"));
 		} else {
@@ -780,13 +778,13 @@ public class MapXmlReader extends XmlReader {
 		if(!(entityA instanceof StaticBodyContainer) 
 				&& !(entityA instanceof RigidBodyContainer)
 				&& !(entityA instanceof KinematicBodyContainer)) {
-			Main.log.error("Invalid bodyA attribute in joint definition: \""+joint.getAttribute("bodyA")+"\"");
+			log.error("Invalid bodyA attribute in joint definition: \""+joint.getAttribute("bodyA")+"\"");
 			return;
 		}
 		if(!(entityB instanceof StaticBodyContainer)
 				&& !(entityB instanceof RigidBodyContainer)
 				&& !(entityB instanceof KinematicBodyContainer)) {
-			Main.log.error("Invalid bodyB attribute in joint definition: \""+joint.getAttribute("bodyB")+"\"");
+			log.error("Invalid bodyB attribute in joint definition: \""+joint.getAttribute("bodyB")+"\"");
 			return;
 		}
 
@@ -823,7 +821,7 @@ public class MapXmlReader extends XmlReader {
 					angleLimit = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					Main.log.error("Invalid vector in JointPin element");
+					log.error("Invalid vector in JointPin element");
 					return;
 				}
 			}

@@ -43,12 +43,7 @@ public class Quat {
 	 * @return new Quat containing the result
 	 */
 	public static Quat fromAngle( double angle ) {
-		Quat res = new Quat();
-		
-		res.w = (float)Math.cos(angle/2);
-		res.z = (float)Math.sin(angle/2);
-		
-		return res;
+		return fromAngle(angle, new Quat());
 	}
 	
 	/**
@@ -66,6 +61,25 @@ public class Quat {
 		
 		return target;
 	}
+    
+    public static Quat fromEuler(double yaw, double pitch, double roll) {
+    	return fromEuler(yaw, pitch, roll, new Quat());
+    }
+    
+    public static Quat fromEuler(double yaw, double pitch, double roll, Quat target) { //TODO: test
+    	double c1 = Math.cos(yaw/2);
+    	double c3 = Math.cos(pitch/2);
+    	double c2 = Math.cos(roll/2);
+    	double s1 = Math.sin(yaw/2);
+    	double s3 = Math.sin(pitch/2);
+    	double s2 = Math.sin(roll/2);
+    	target.w = (float)(c1*c2*c3 - s1*s2*s3);
+    	target.x = (float)(s1*s2*c3 + c1*c2*s3);
+    	target.y = (float)(s1*c2*c3 + c1*s2*s3);
+    	target.z = (float)(c1*s2*c3 - s1*c2*s3);
+    	
+    	return target;
+    }
     
     /**
      * Copies the values from <i>other</i> into <i>this</i> and return it

@@ -311,7 +311,7 @@
 	<entities>
 		<mesh src="data/meshes/slaughterhouse/slaughterhouse.obj"> <!-- Background -->
 			<vecteur use="position" x="0" y="0" z="0" />
-			<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+			<vecteur use="rotation" x="0" y="0" z="0" />
 			<vecteur use="scale" x="1" y="1" z="1" />
 		</mesh>
 
@@ -338,7 +338,7 @@
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="2" y="2" z="2" />
 				</mesh>
 			</entities>
@@ -350,7 +350,7 @@
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="2" y="2" z="2" />
 				</mesh>
 			</entities>
@@ -362,7 +362,7 @@
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="2" y="2" z="2" />
 				</mesh>
 			</entities>
@@ -374,7 +374,7 @@
 			<entities>
 				<mesh src="data/meshes/crate/crate_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="2" y="2" z="2" />
 				</mesh>
 			</entities>
