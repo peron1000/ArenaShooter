@@ -18,28 +18,35 @@ public class UiImage extends UiSimpleElementNavigable {
 		material.setParamTex("image", texture);
 		material.setParamVec4f("color", color.clone());
 	}
-	
+
 	public UiImage(double rot, Vec2f scale, Material material) {
 		super(rot, scale);
-		
-		if(model == null) model = Model.loadQuad();
+
+		if (model == null)
+			model = Model.loadQuad();
 
 		this.material = material;
 	}
-	
-	public Material getMaterial() { return material; }
-	
-	public void setMaterial(Material material) { this.material = material; }
-	
+
+	public Material getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(Material material) {
+		this.material = material;
+	}
+
 	@Override
 	public void draw() {
-		material.model = Mat4f.transform(getPosition(), rotation, getScale(), modelM);
-		material.proj = Window.projOrtho;
-		
-		material.bind(model);
-		
-		model.bind();
-		model.draw();
+		if (isVisible()) {
+			material.model = Mat4f.transform(getPosition(), rotation, getScale(), modelM);
+			material.proj = Window.projOrtho;
+
+			material.bind(model);
+
+			model.bind();
+			model.draw();
+		}
 	}
 
 }

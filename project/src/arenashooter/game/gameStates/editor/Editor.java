@@ -136,8 +136,14 @@ public class Editor extends GameState {
 						currentMenu = mainMenu;
 						break;
 					case UI_CHANGE:
+						if(currentMenu instanceof EntityEditor) {
+							((EntityEditor) currentMenu).changeAction();
+						}
 						break;
 					case UI_CANCEL:
+						if(currentMenu instanceof EntityEditor) {
+							((EntityEditor) currentMenu).cancelAction();
+						}
 						break;
 					default:
 						break;

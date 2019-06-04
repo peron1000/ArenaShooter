@@ -1,5 +1,7 @@
 package arenashooter.game.gameStates.editor;
 
+import java.util.HashMap;
+
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.MenuSelectionV;
@@ -30,6 +32,8 @@ class MainMenu implements Navigable {
 	private Vec2f buttonScale = new Vec2f(15, 5);
 
 	private Editor editor;
+	
+	private HashMap<Entity, Button> entityToButton = new HashMap<>();
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -100,11 +104,12 @@ class MainMenu implements Navigable {
 					entity.attachToParent(arenaConstruction, entityName);
 					Button toSetMenu = new Button(0, buttonScale, entityName);
 					setMenu.addElementInListOfChoices(toSetMenu, 1);
+					entityToButton.put(entity, toSetMenu);
 					toSetMenu.setOnArm(new Trigger() {
 						
 						@Override
 						public void make() {
-							editor.setCurrentMenu(new EntityEditor(entity, type));
+							editor.setCurrentMenu(new EntityEditor(entity, type , MainMenu.this));
 						}
 					});
 					toSetMenu.arm();
@@ -124,6 +129,13 @@ class MainMenu implements Navigable {
 
 		addMenu.setEcartement(8);
 
+	}
+	
+	void setButtonName(Entity entity, String name) {
+		Button button = entityToButton.get(entity);
+		if(button != null) {
+			button.setText(name);
+		}
 	}
 
 	@Override

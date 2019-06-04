@@ -21,7 +21,7 @@ public class TextInput extends UiElement {
 	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1, 1, 1, 1);
 	private Type type = Type.UPPERCASE;
 	private Trigger trigger = new Trigger() {
-		
+
 		@Override
 		public void make() {
 			// Nothing
@@ -119,13 +119,13 @@ public class TextInput extends UiElement {
 			}
 			break;
 		case NUM:
-			if (c!= '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8'
+			if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8'
 					&& c != '9') {
 				c = '9';
 			}
 			break;
 		case SPECIAL:
-			if(c != '_' && c != '`') {
+			if (c != '_' && c != '`') {
 				c = '`';
 			}
 			break;
@@ -148,6 +148,12 @@ public class TextInput extends UiElement {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean continueAction() {
+		trigger.make();
+		return true;
+	}
 
 	private char increase(char c) {
 		c++;
@@ -163,13 +169,13 @@ public class TextInput extends UiElement {
 			}
 			break;
 		case NUM:
-			if (c!= '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8'
+			if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8'
 					&& c != '9') {
 				c = '0';
 			}
 			break;
 		case SPECIAL:
-			if(c != '_' && c != '`') {
+			if (c != '_' && c != '`') {
 				c = '_';
 			}
 			break;
@@ -217,7 +223,7 @@ public class TextInput extends UiElement {
 
 	private void addNewChar() {
 		Label newChar;
-		if(c == '_') {
+		if (c == '_') {
 			newChar = new Label(0, getScale().clone().multiply(labelProportion), String.valueOf(' '));
 		} else {
 			newChar = new Label(0, getScale().clone().multiply(labelProportion), String.valueOf(c));
@@ -226,7 +232,7 @@ public class TextInput extends UiElement {
 		word.add(newChar);
 		Vec2f goalScale = background.getScale().clone(), goalPos = background.getPosition().clone(),
 				goalInput = input.getPosition().clone();
-		goalScale.x += getMovement()+1;
+		goalScale.x += getMovement() + 1;
 		goalPos.x += getMovement() / 2;
 		goalInput.x += getMovement();
 		background.setScaleLerp(goalScale);
@@ -251,11 +257,13 @@ public class TextInput extends UiElement {
 
 	@Override
 	public void draw() {
-		background.draw();
-		for (Label label : word) {
-			label.draw();
+		if (visible) {
+			background.draw();
+			for (Label label : word) {
+				label.draw();
+			}
+			input.draw();
 		}
-		input.draw();
 	}
 
 	@Override
@@ -320,11 +328,11 @@ public class TextInput extends UiElement {
 		}
 		input.setText(String.valueOf(c));
 	}
-	
+
 	public void setOnFinish(Trigger t) {
 		trigger = t;
 	}
-	
+
 	public void launchFinishTrigger() {
 		trigger.make();
 	}
