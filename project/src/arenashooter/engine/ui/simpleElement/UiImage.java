@@ -12,6 +12,11 @@ public class UiImage extends UiSimpleElementNavigable {
 	private static Model model;
 	private Material material;
 	private Mat4f modelM = new Mat4f();
+	
+	public UiImage(double rot, Vec2f scale, Texture texture) {
+		this(rot, scale, new Material("data/shaders/ui/ui_image"));
+		material.setParamTex("image", texture);
+	}
 
 	public UiImage(double rot, Vec2f scale, Texture texture, Vec4f color) {
 		this(rot, scale, new Material("data/shaders/ui/ui_image"));

@@ -1,7 +1,10 @@
 package arenashooter.game;
 
+import java.io.File;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
@@ -54,6 +57,19 @@ public class Controller {
 
 	public Character getCharacter() {
 		return character;
+	}
+	
+	public CharacterInfo getCharInfo() { return info; }
+	
+	public Texture getPortrait() {
+		Texture portrait;
+		String path = "data/sprites/characters/"+info.getSkin();
+		if(new File(path+"/head.png").exists())
+			portrait = Texture.loadTexture(path+"/head.png");
+		else
+			portrait = Texture.loadTexture(path+"/head_tr.png");
+		portrait.setFilter(false);
+		return portrait;
 	}
 
 	public void death(DamageInfo deathCause) {
