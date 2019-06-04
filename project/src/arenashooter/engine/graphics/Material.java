@@ -37,8 +37,9 @@ public class Material {
 		
 		for(String name : uniforms) {
 			ParamType type = shader.getUniformType(name);
-			if(type == null && !name.equals("time")) { //Don't warn about missing time
-				Window.log.error("No uniform named \""+name+"\" in "+shaderPath);
+			if(type == null) {
+				if(!name.equals("time")) //Don't warn about missing time
+					Window.log.error("No uniform named \""+name+"\" in "+shaderPath);
 				continue;
 			}
 			
