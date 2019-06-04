@@ -54,11 +54,11 @@ public class Character extends RigidBodyContainer {
 	private int attackCombo = 0;
 	private Timer chargePunch = new Timer(0.5);
 	/**
-	 * For now, this boolean is used fo visuals and Sounds only.
+	 * For now, this boolean is used for visuals and Sounds only.
 	 */
 	boolean charged = false;
 	private Timer holdCombo = new Timer(1);
-	private float range = 3;
+	private float range = 2.5f;
 	private float hitWidth = 120;
 	/**
 	 * 
@@ -72,7 +72,7 @@ public class Character extends RigidBodyContainer {
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
 
-		healthMax = 40;
+		healthMax = 50;
 		health = healthMax;
 		spawn = position;
 
@@ -141,7 +141,7 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
 		} else if (chargePunch.isProcessing()) {
-			
+
 			boolean superPoing = chargePunch.isOver();
 			chargePunch.reset();
 			Vec2f impulse;
@@ -150,7 +150,7 @@ public class Character extends RigidBodyContainer {
 
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput);
-				punchDmgInfo = new DamageInfo(defaultDamage*2, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
+				punchDmgInfo = new DamageInfo(defaultDamage * 2, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 				skeleton.punch(-1, aimInput);
 			} else {
 				impulse = Vec2f.rotate(new Vec2f((!punchi ? 25 : 12), 0), aimInput);
@@ -180,24 +180,25 @@ public class Character extends RigidBodyContainer {
 			holdCombo.restart();
 			skeleton.stopCharge();
 
-//			Vec2f punchEnd = Vec2f.fromAngle(aimInput);
-//			punchEnd.multiply(range);
-//			punchEnd.add(getWorldPos());
-			
+			// Vec2f punchEnd = Vec2f.fromAngle(aimInput);
+			// punchEnd.multiply(range);
+			// punchEnd.add(getWorldPos());
+
 			Punch ponch = new Punch(localPosition, punchDmgInfo, hitWidth, range, superPoing);
 			ponch.attachToParent(this, "punch_" + genName());
-			
-//			punchHit.clear();
-//			punchRayFraction = 0;
-//
-//			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
-//			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
-//				if (entry.getValue() <= punchRayFraction) {
-//					entry.getKey().takeDamage(punchDmgInfo);
-//				}
-//			}
 
-			if(attackCombo >=3) {
+			// punchHit.clear();
+			// punchRayFraction = 0;
+			//
+			// getArena().physic.getB2World().raycast(PunchRaycastCallback,
+			// getWorldPos().toB2Vec(), punchEnd.toB2Vec());
+			// for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
+			// if (entry.getValue() <= punchRayFraction) {
+			// entry.getKey().takeDamage(punchDmgInfo);
+			// }
+			// }
+
+			if (attackCombo >= 3) {
 				attackCombo = 0;
 			}
 		}
@@ -206,10 +207,10 @@ public class Character extends RigidBodyContainer {
 	public void getItem() {
 		chargePunch.reset();
 		holdCombo.restart();
-		if(getChild("skeleton") != null) {
-		((CharacterSprite) getChild("skeleton")).stopCharge();
+		if (getChild("skeleton") != null) {
+			((CharacterSprite) getChild("skeleton")).stopCharge();
 		}
-		
+
 		Item arme = null;
 
 		boolean hasWeapon = getWeapon() != null;
@@ -241,7 +242,8 @@ public class Character extends RigidBodyContainer {
 			if (item instanceof Usable)
 				((Usable) item).setVel(new Vec2f());
 
-			item.attachToParent(getArena(), item.genName());
+			if (getArena() != null)
+				item.attachToParent(getArena(), item.genName());
 		}
 	}
 
@@ -264,9 +266,10 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		//Force death if character fell out of bounds or was killed for a non-gameplay reason
-		if(info.dmgType == DamageType.OUT_OF_BOUNDS) {
-			if(ignoreKillBounds)
+		// Force death if character fell out of bounds or was killed for a non-gameplay
+		// reason
+		if (info.dmgType == DamageType.OUT_OF_BOUNDS) {
+			if (ignoreKillBounds)
 				return 0;
 			else {
 				death(info);
@@ -277,7 +280,7 @@ public class Character extends RigidBodyContainer {
 			death(info);
 			return health;
 		}
-		
+
 		((CharacterSprite) getChild("skeleton")).damageEffects(info);
 
 		float res = Math.min(info.damage, health);
@@ -378,7 +381,7 @@ public class Character extends RigidBodyContainer {
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
 			skeleton.charging = chargePunch.isProcessing();
-			if(!skeleton.charged && chargePunch.isOver()) {
+			if (!skeleton.charged && chargePunch.isOver()) {
 				skeleton.charged = true;
 				Audio.playSound2D("data/sound/Souing.ogg", AudioChannel.SFX, 0.7f, 1.5f, getWorldPos());
 			}

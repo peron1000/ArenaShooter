@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import arenashooter.engine.DamageInfo;
+import arenashooter.engine.DamageType;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
@@ -13,6 +15,7 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.MenuPause;
 import arenashooter.entities.Arena;
@@ -156,8 +159,9 @@ public class Game extends GameState {
 				if (currentRound < nbRounds || nbRounds == -1) {
 					currentRound++;
 					for (Controller player : GameMaster.gm.controllers) {
-						if (player.getCharacter() != null)
-							player.getCharacter().detach();
+						if (player.getCharacter() != null) {
+							player.getCharacter().takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), null));
+						}
 					}
 					newRound();
 				} else {
