@@ -275,8 +275,8 @@ public class CharacterChooser extends GameState {
 
 	@Override
 	public void update(double delta) {
-		inputs.step(delta);
 		super.update(delta);
+		inputs.step(delta);
 		menu.update(delta);
 	}
 
