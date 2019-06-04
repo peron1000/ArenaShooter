@@ -50,7 +50,7 @@ public class Entity {
 			parent.children.remove(this.name);
 
 		// Remove previously attached entity with that name
-		Entity previousChild = newParent.children.get(name);
+		Entity previousChild = newParent.getChild(name);
 		if (previousChild != null)
 			previousChild.detach();
 

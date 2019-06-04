@@ -59,6 +59,7 @@ public class Character extends RigidBodyContainer {
 	boolean charged = false;
 	private Timer holdCombo = new Timer(1);
 	private float range = 3;
+	private float hitWidth = 120;
 	/**
 	 * 
 	 * The Character has already punched mid-air
@@ -179,31 +180,26 @@ public class Character extends RigidBodyContainer {
 			holdCombo.restart();
 			skeleton.stopCharge();
 
-			Vec2f punchEnd = Vec2f.fromAngle(aimInput);
-			punchEnd.multiply(range);
-			punchEnd.add(getWorldPos());
+//			Vec2f punchEnd = Vec2f.fromAngle(aimInput);
+//			punchEnd.multiply(range);
+//			punchEnd.add(getWorldPos());
+			
+			Punch ponch = new Punch(localPosition, punchDmgInfo, hitWidth, range, superPoing);
+			ponch.attachToParent(this, "punch_" + genName());
+			
+//			punchHit.clear();
+//			punchRayFraction = 0;
+//
+//			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
+//			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
+//				if (entry.getValue() <= punchRayFraction) {
+//					entry.getKey().takeDamage(punchDmgInfo);
+//				}
+//			}
 
-			punchHit.clear();
-			punchRayFraction = 0;
-
-			getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), punchEnd.toB2Vec());
-			for (Entry<Spatial, Float> entry : punchHit.entrySet()) {
-				if (entry.getValue() <= punchRayFraction) {
-					entry.getKey().takeDamage(punchDmgInfo);
-				}
+			if(attackCombo >=3) {
+				attackCombo = 0;
 			}
-			if (!punchHit.isEmpty()) {
-				float randomPitch = (float) (1+(Math.random()-0.5)*0.2);
-				if (superPoing) {
-					Audio.playSound2D("data/sound/SuperPunch.ogg", AudioChannel.SFX, 2f, 1*randomPitch, getWorldPos());
-				} else {
-					Audio.playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f, 1*randomPitch, getWorldPos());
-					
-				}
-			}
-		}
-		if(attackCombo >=3) {
-			attackCombo = 0;
 		}
 	}
 
@@ -245,7 +241,7 @@ public class Character extends RigidBodyContainer {
 			if (item instanceof Usable)
 				((Usable) item).setVel(new Vec2f());
 
-			item.attachToParent(this.getParent(), item.genName());
+			item.attachToParent(getArena(), item.genName());
 		}
 	}
 

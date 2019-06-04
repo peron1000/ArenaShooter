@@ -8,6 +8,7 @@ import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Timer;
+import arenashooter.game.Main;
 
 public class Grenade extends Projectile {
 
@@ -43,7 +44,7 @@ public class Grenade extends Projectile {
 
 	public void step(double d) {
 		if(grenadeTimer.isOver()) {
-			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(150, DamageType.EXPLOSION, new Vec2f(), shooter), 40);
+			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(150, DamageType.EXPLOSION, new Vec2f(), shooter), 20);
 			explosion.attachToParent(getArena(), explosion.genName());
 			detach();
 		}

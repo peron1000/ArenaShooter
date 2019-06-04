@@ -162,7 +162,7 @@ public final class Input {
 
 				if(glfwGetGamepadState(i, currentGamepad)) {
 
-					actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0);
+					actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0 || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_X) == GLFW_PRESS);
 
 					if (Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X)) >= deadzone || Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y)) >= deadzone) {
 						axes[Axis.MOVE_X.id][i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
@@ -178,7 +178,7 @@ public final class Input {
 						axes[Axis.AIM_Y.id][i] = axes[Axis.MOVE_Y.id][i];
 					}
 
-					actions[Action.JUMP.id][i] = getActionState(actions[Action.JUMP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS);
+					actions[Action.JUMP.id][i] = getActionState(actions[Action.JUMP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_LEFT_BUMPER) == GLFW_PRESS  || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_LEFT_THUMB) == GLFW_PRESS);
 					actions[Action.GET_ITEM.id][i] = getActionState(actions[Action.GET_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
 					actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
 

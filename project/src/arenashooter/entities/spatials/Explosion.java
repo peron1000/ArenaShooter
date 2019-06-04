@@ -110,7 +110,7 @@ public class Explosion extends Spatial {
 			Window.getCamera().setCameraShake(3);
 		}
 		
-		if(time >= 1) detach();
+		if(time >= .5) detach();
 		time += d*.5;
 		
 		double oneMinusTime = 1-time;
