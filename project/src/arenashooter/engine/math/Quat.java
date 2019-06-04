@@ -163,18 +163,12 @@ public class Quat {
     }
 	
 	/**
-	 * Rotate a vector by this quaternion
+	 * Rotate a vector by this quaternion. Original vector is not modified
 	 * @param source vector to rotate
-	 * @return rotated vector
+	 * @return rotated vector as new object
 	 */
-	public Vec3f rotate( Vec3f source ) { //TODO: Test
-		float[][] r = Mat4f.rotation(this).val;
-		
-		float x = r[0][0]*source.x + r[1][0]*source.y + r[2][0]*source.z;
-		float y = r[0][1]*source.x + r[1][1]*source.y + r[2][1]*source.z;
-		float z = r[0][2]*source.x + r[1][2]*source.y + r[2][2]*source.z;
-		
-		return new Vec3f(x, y, z);
+	public Vec3f rotate( Vec3f source ) {
+		return rotate(source, new Vec3f());
 	}
 	
 	/**
@@ -187,9 +181,11 @@ public class Quat {
 	public Vec3f rotate( Vec3f source, Vec3f target ) { //TODO: Test
 		float[][] r = Mat4f.rotation(this).val;
 		
-		target.x = r[0][0]*source.x + r[1][0]*source.y + r[2][0]*source.z;
-		target.y = r[0][1]*source.x + r[1][1]*source.y + r[2][1]*source.z;
-		target.z = r[0][2]*source.x + r[1][2]*source.y + r[2][2]*source.z;
+		float sx = source.x, sy = source.y, sz = source.z;
+		
+		target.x = r[0][0]*sx + r[1][0]*sy + r[2][0]*sz;
+		target.y = r[0][1]*sx + r[1][1]*sy + r[2][1]*sz;
+		target.z = r[0][2]*sx + r[1][2]*sy + r[2][2]*sz;
 		
 		return target;
 	}
@@ -198,7 +194,7 @@ public class Quat {
 	 * Get a unit vector pointing in the direction of this quaternion
 	 * @return (0, 0, 1) rotated by this quaternion
 	 */
-	public Vec3f forward() { //TODO: Test
+	public Vec3f forward() {
 		double ww = w * w;
         double xx = x * x;
         double yy = y * y;
@@ -258,7 +254,7 @@ public class Quat {
 	}
 	
 	/**
-	 * Conjugate this
+	 * Conjugate this (negate x, y, and z)
 	 */
     public void conjugate() {
         x = -x;
@@ -298,14 +294,7 @@ public class Quat {
 	 * @return result as new object
 	 */
 	public static Quat multiply(Quat q1, Quat q2) {
-		Quat res = new Quat();
-		
-		res.x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
-		res.y = q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x;
-		res.z = q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w;
-		res.w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
-		
-		return res;
+		return multiply(q1, q1, new Quat());
 	}
 	
 	/**
