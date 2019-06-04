@@ -8,6 +8,7 @@ import arenashooter.engine.ui.Navigable;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
+import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.game.GameMaster;
@@ -15,7 +16,7 @@ import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.editorEnum.Prime;
 
 public class MainMenu implements Navigable {
-
+	
 	// Save & Quit variables
 	private Arena arenaConstruction;
 	private String fileName = "NewArena";
@@ -26,8 +27,12 @@ public class MainMenu implements Navigable {
 	private MultiMenu<Prime> mainMenu = new MultiMenu<>(5, Prime.values(), "data/sprites/interface/Selector.png",
 			new Vec2f(30, 10));
 	private Vec2f buttonScale = new Vec2f(15, 5);
+	
+	private Editor editor;
 
-	public MainMenu(Arena toConstruct) {
+	public MainMenu(Arena toConstruct , Editor editor) {
+		this.editor = editor;
+		
 		mainMenu.setPosition(new Vec2f(Editor.forVisible, -40));
 		mainMenu.addMenu(addMenu, Prime.Add);
 		mainMenu.addMenu(setMenu, Prime.Set);
@@ -36,7 +41,7 @@ public class MainMenu implements Navigable {
 		arenaConstruction = toConstruct;
 
 		saveQuitMenuConstruction();
-		
+
 		addMenuConstruction();
 	}
 
@@ -80,7 +85,8 @@ public class MainMenu implements Navigable {
 		final float scaleText = 20f;
 		Button entity = new Button(0, buttonScale, "entity"), rigid = new Button(0, buttonScale, "rigid"),
 				mesh = new Button(0, buttonScale, "mesh"), text = new Button(0, buttonScale, "text"),
-				statiq = new Button(0, buttonScale, "static"), jointPin = new Button(0, buttonScale, "jointPin");
+				statiq = new Button(0, buttonScale, "static"), jointPin = new Button(0, buttonScale, "jointPin"),
+				annimation = new Button(0, buttonScale, "Annimation");
 		entity.setScaleText(new Vec2f(scaleText));
 		addMenu.addElementInListOfChoices(entity, 1);
 		rigid.setScaleText(new Vec2f(scaleText));
@@ -93,6 +99,8 @@ public class MainMenu implements Navigable {
 		addMenu.addElementInListOfChoices(statiq, 1);
 		jointPin.setScaleText(new Vec2f(scaleText));
 		addMenu.addElementInListOfChoices(jointPin, 1);
+		annimation.setScaleText(new Vec2f(scaleText));
+		addMenu.addElementInListOfChoices(annimation, 1);
 		addMenu.setEcartement(8);
 
 		// Triggers
@@ -124,6 +132,13 @@ public class MainMenu implements Navigable {
 			@Override
 			public void make() {
 				// TODO
+			}
+		});
+		annimation.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				editor.setCurrentMenu(editor.animEditor);
 			}
 		});
 	}
