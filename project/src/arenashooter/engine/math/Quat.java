@@ -61,11 +61,42 @@ public class Quat {
 		
 		return target;
 	}
-    
+
+    /**
+     * Converts a rotation in euler angles to a quaternion
+	 * <br/> Creates a new object
+     * @param yaw
+     * @param pitch
+     * @param roll
+     * @param target
+     * @return new quaternion
+     */
     public static Quat fromEuler(double yaw, double pitch, double roll) {
     	return fromEuler(yaw, pitch, roll, new Quat());
     }
     
+
+    /**
+     * Converts a rotation in euler angles to a quaternion, stores the result in <i>target</i>
+	 * <br/> Avoids object creation
+     * @param euler (yaw, pitch, roll)
+     * @param target
+     * @return <i>target</i> (modified)
+     */
+    public static Quat fromEuler(Vec3f euler, Quat target) {
+    	return fromEuler(euler.x, euler.y, euler.z, target);
+    }
+    
+    /**
+     * Converts a rotation in euler angles to a quaternion, stores the result in <i>target</i>
+	 * <br/> Avoids object creation
+     * <br/>Uses <a href="http://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm">this page</a>
+     * @param yaw
+     * @param pitch
+     * @param roll
+     * @param target
+     * @return <i>target</i> (modified)
+     */
     public static Quat fromEuler(double yaw, double pitch, double roll, Quat target) { //TODO: test
     	double c1 = Math.cos(yaw/2);
     	double c3 = Math.cos(pitch/2);
@@ -84,7 +115,6 @@ public class Quat {
     /**
      * Extract euler angles (yaw, pitch, roll) from <i>this</i>
 	 * <br/> Creates an object
-     * <br/>Uses <a href="http://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm">this page</a>
      * @return (pitch, yaw, roll)
      */
     public Vec3f toEuler() {
@@ -92,7 +122,7 @@ public class Quat {
     }
     
     /**
-     * Extract euler angles (yaw, pitch, roll) from <i>this</i>
+     * Extract euler angles (yaw, pitch, roll) from <i>this</i> and stores the result in <i>target</i>
 	 * <br/> Avoids object creation
      * <br/>Uses <a href="http://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm">this page</a>
      * @param target
