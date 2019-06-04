@@ -32,7 +32,7 @@
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
@@ -84,7 +84,7 @@
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
@@ -144,7 +144,7 @@
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
@@ -203,7 +203,7 @@
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="1.6" thrust="2.00" size="64" proba="1">
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />

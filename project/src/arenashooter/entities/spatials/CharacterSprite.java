@@ -40,8 +40,8 @@ public class CharacterSprite extends Spatial {
 	private AnimationData punchAnim3 = AnimationData.loadAnim("data/animations/animPunch_3.xml");
 	private AnimationData superPunch = AnimationData.loadAnim("data/animations/animSuperPunch.xml");
 	private Animation currentPunchAnim = null;
-	private Texture charge1 = Texture.loadTexture("data/sprites/swooshes/Tching_tr.png");
-	private Texture charge2 = Texture.loadTexture("data/sprites/swooshes/Tching.png");
+	private Texture charge1 = Texture.loadTexture("data/sprites/swooshes/Tching1.png");
+	private Texture charge2 = Texture.loadTexture("data/sprites/swooshes/Tching2.png");
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 
@@ -230,7 +230,6 @@ public class CharacterSprite extends Spatial {
 				chargeSprite.setTexture(charge2);
 			} else {
 				chargeSprite.setTexture(charge1);
-				chargeSprite.useTransparency = true;
 			}
 			chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07+Math.sin(sinTime)/4, chargeSprite.getTexture().getWidth()*0.07+Math.sin(sinTime)/4);
 			chargeSprite.localPosition.set((lookRight? 0.25 : -0.25), 0.2);
