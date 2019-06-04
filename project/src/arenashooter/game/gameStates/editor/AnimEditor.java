@@ -34,19 +34,19 @@ public class AnimEditor implements Navigable {
 		elems.add(bg);
 		
 		Rectangle mainPanel = new Rectangle(0, new Vec2f(screenWidth(), 30), new Vec4f(0, 0, 0, .8));
-		mainPanel.setPos(new Vec2f(0, 35));
+		mainPanel.setPosition(new Vec2f(0, 35));
 		elems.add(mainPanel);
 		
 		lblTimeCurrent = new Label(0, new Vec2f(25), "Time: ", Text.TextAlignH.LEFT);
-		lblTimeCurrent.setPos(new Vec2f(screenLeft()+2, 50-3));
+		lblTimeCurrent.setPosition(new Vec2f(screenLeft()+2, 50-3));
 		elems.add(lblTimeCurrent);
 		
 		lblTimeLength = new Label(0, new Vec2f(25), "Length: ", Text.TextAlignH.LEFT);
-		lblTimeLength.setPos(new Vec2f(screenLeft()+32, 50-3));
+		lblTimeLength.setPosition(new Vec2f(screenLeft()+32, 50-3));
 		elems.add(lblTimeLength);
 		
 		timeline = new AnimEditorTimeline(0, new Vec2f(screenWidth()-25, 20));
-		timeline.setPos(new Vec2f(11, 32));
+		timeline.setPosition(new Vec2f(11, 32));
 		elems.add(timeline);
 	}
 	
@@ -57,38 +57,32 @@ public class AnimEditor implements Navigable {
 	private float screenRight() { return screenWidth()/2; }
 
 	@Override
-	public void upAction() {
-		// TODO Auto-generated method stub
-
+	public boolean upAction() {
+		return false;
 	}
 
 	@Override
-	public void downAction() {
-		// TODO Auto-generated method stub
-
+	public boolean downAction() {
+		return false;
 	}
 
 	@Override
-	public void rightAction() {
-		// TODO Auto-generated method stub
-
+	public boolean rightAction() {
+		return false;
 	}
 
 	@Override
-	public void leftAction() {
-		// TODO Auto-generated method stub
-
+	public boolean leftAction() {
+		return false;
 	}
 
 	@Override
-	public void selectAction() {
-		// TODO Auto-generated method stub
-
+	public boolean selectAction() {
+		return false;
 	}
 
 	@Override
 	public boolean isSelected() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -117,6 +111,23 @@ public class AnimEditor implements Navigable {
 	public void setPositionLerp(Vec2f position, double lerp) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean continueAction() {
+		return false;
+	}
+
+	@Override
+	public void setPosition(Vec2f newPosition) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vec2f getPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

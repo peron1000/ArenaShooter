@@ -61,7 +61,7 @@ public class MenuStart extends GameState {
 		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
 		
 		menustart.setBackground(bg);
-		bg.setPos(new Vec2f(0));
+		bg.setPosition(new Vec2f(0));
 		
 		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 15));
 		menustart.setEcartement(10f);
@@ -94,7 +94,7 @@ public class MenuStart extends GameState {
 		UiImage Logo = new UiImage(0, new Vec2f(SuperLogo.getWidth() / 6, SuperLogo.getHeight() / 6), SuperLogo,
 				new Vec4f(1, 1, 1, 1));
 		menustart.addUiElement(Logo, 1);
-		Logo.setPos(new Vec2f(-2.25, -25.5));
+		Logo.setPosition(new Vec2f(-2.25, -25.5));
 
 		button1.setOnArm(new Trigger() {
 

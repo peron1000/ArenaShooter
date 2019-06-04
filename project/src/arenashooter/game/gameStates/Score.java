@@ -48,9 +48,9 @@ public class Score extends GameState {
 		menu.addUiElement(butA, 2);
 		menu.addUiElement(butY, 2);
 		menu.addUiElement(butB, 2);
-		butA.setPos(new Vec2f(-67, 41));
-		butY.setPos(new Vec2f(-30, 41));
-		butB.setPos(new Vec2f(7, 41));
+		butA.setPosition(new Vec2f(-67, 41));
+		butY.setPosition(new Vec2f(-30, 41));
+		butB.setPosition(new Vec2f(7, 41));
 
 		Label labelA = new Label(0, new Vec2f(25, 25), "Rematch"), labelY = new Label(0, new Vec2f(25, 25), "New Game"),
 				labelB = new Label(0, new Vec2f(25, 25), "Back to Menu"),
@@ -66,12 +66,12 @@ public class Score extends GameState {
 		menu.addUiElement(labelAInfo, 4);
 		menu.addUiElement(labelYInfo, 4);
 		menu.addUiElement(labelBInfo, 4);
-		labelA.setPos(new Vec2f(-67, 40));
-		labelY.setPos(new Vec2f(-30, 40));
-		labelB.setPos(new Vec2f(7, 40));
-		labelAInfo.setPos(new Vec2f(-67, 43));
-		labelYInfo.setPos(new Vec2f(-30, 43));
-		labelBInfo.setPos(new Vec2f(7, 43));
+		labelA.setPosition(new Vec2f(-67, 40));
+		labelY.setPosition(new Vec2f(-30, 40));
+		labelB.setPosition(new Vec2f(7, 40));
+		labelAInfo.setPosition(new Vec2f(-67, 43));
+		labelYInfo.setPosition(new Vec2f(-30, 43));
+		labelBInfo.setPosition(new Vec2f(7, 43));
 
 		/* Shows score */
 		int kill = 0, death = 0;
@@ -125,26 +125,26 @@ public class Score extends GameState {
 		UiImage winnerp = new UiImage(0, new Vec2f(txw1.getWidth() * 2, txw1.getHeight() * 2), txw1,
 				new Vec4f(1, 1, 1, 1));
 		menuscore.addUiElement(winnerp, 4);
-		winnerp.setPos(new Vec2f(0, 0));
+		winnerp.setPosition(new Vec2f(0, 0));
 
 		Label p1 = new Label(0, new Vec2f(25, 25), "The winner : Player " + (Winner.playerNumber + 1) + " : kill(s) : "
 				+ kill + " | death(s) : " + death + " |" + " Ratio k/d : " + ratio);
 		p1.setVisible(true);
 		menuscore.addUiElement(p1, 4);
-		p1.setPos(new Vec2f(x, y));
+		p1.setPosition(new Vec2f(x, y));
 		y += 6;
 
 		Label p2 = new Label(0, new Vec2f(25, 25), "The Player_Killer : Player " + (PlayerKiller.playerNumber + 1)
 				+ " : kill(s) : " + killk + " | death(s) : " + deathk + " |" + " Ratio k/d : " + ratiok);
 		p2.setVisible(true);
 		menuscore.addUiElement(p2, 4);
-		p2.setPos(new Vec2f(x, y));
+		p2.setPosition(new Vec2f(x, y));
 		y += 6;
 		Label p3 = new Label(0, new Vec2f(25, 25), "The DEATH : Player " + (TheDeath.playerNumber + 1) + " : kill(s) : "
 				+ killd + " | death(s) : " + deathd + " |" + " Ratio k/d : " + ratiod);
 		p3.setVisible(true);
 		menuscore.addUiElement(p3, 4);
-		p3.setPos(new Vec2f(x, y));
+		p3.setPosition(new Vec2f(x, y));
 
 //		CharacterSprite caracSprite = new CharacterSprite(new Vec2f(0, 0), Winner.info);
 //		caracSprite.attachToParent(current, "PlayerSprite_" + Winner.playerNumber+1);
@@ -176,7 +176,7 @@ public class Score extends GameState {
 		UiImage winnerp2 = new UiImage(0, new Vec2f(txw2.getWidth() / 2, txw2.getHeight() / 2), txw2,
 				new Vec4f(1, 1, 1, 1));
 		menuscore.addUiElement(winnerp2, 4);
-		winnerp2.setPos(new Vec2f(-49, -32));
+		winnerp2.setPosition(new Vec2f(-49, -32));
 
 		super.init();
 	}
@@ -192,7 +192,7 @@ public class Score extends GameState {
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex,
 						new Vec4f(1, 1, 1, 1));
 				menu.addUiElement(but, 3);
-				but.setPos(new Vec2f(-67, 41));
+				but.setPosition(new Vec2f(-67, 41));
 			} else if (Input.actionJustReleased(controller.getDevice(), Action.JUMP)) {
 				Object[] variable = GameParam.maps.toArray();
 				String[] chosenMaps = new String[variable.length];
@@ -206,7 +206,7 @@ public class Score extends GameState {
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex,
 						new Vec4f(1, 1, 1, 1));
 				menu.addUiElement(but, 3);
-				but.setPos(new Vec2f(-30, 41));
+				but.setPosition(new Vec2f(-30, 41));
 			} else if (Input.actionJustReleased(controller.getDevice(), Action.DROP_ITEM)) {
 				GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
 			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_BACK)) {
@@ -215,7 +215,7 @@ public class Score extends GameState {
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex,
 						new Vec4f(1, 1, 1, 1));
 				menu.addUiElement(but, 3);
-				but.setPos(new Vec2f(7, 41));
+				but.setPosition(new Vec2f(7, 41));
 			} else if (Input.actionJustReleased(controller.getDevice(), Action.UI_BACK)) {
 				GameMaster.gm.requestNextState(new Start(), GameMaster.mapEmpty);
 			}

@@ -8,15 +8,16 @@ import arenashooter.engine.ui.Navigable;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
-import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.editorEnum.Prime;
+import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
 
-public class MainMenu implements Navigable {
-	
+class MainMenu implements Navigable {
+
 	// Save & Quit variables
 	private Arena arenaConstruction;
 	private String fileName = "NewArena";
@@ -27,12 +28,12 @@ public class MainMenu implements Navigable {
 	private MultiMenu<Prime> mainMenu = new MultiMenu<>(5, Prime.values(), "data/sprites/interface/Selector.png",
 			new Vec2f(30, 10));
 	private Vec2f buttonScale = new Vec2f(15, 5);
-	
+
 	private Editor editor;
 
-	public MainMenu(Arena toConstruct , Editor editor) {
+	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
-		
+
 		mainMenu.setPosition(new Vec2f(Editor.forVisible, -40));
 		mainMenu.addMenu(addMenu, Prime.Add);
 		mainMenu.addMenu(setMenu, Prime.Set);
@@ -83,89 +84,71 @@ public class MainMenu implements Navigable {
 
 	private void addMenuConstruction() {
 		final float scaleText = 20f;
-		Button entity = new Button(0, buttonScale, "entity"), rigid = new Button(0, buttonScale, "rigid"),
-				mesh = new Button(0, buttonScale, "mesh"), text = new Button(0, buttonScale, "text"),
-				statiq = new Button(0, buttonScale, "static"), jointPin = new Button(0, buttonScale, "jointPin"),
-				annimation = new Button(0, buttonScale, "Annimation");
-		entity.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(entity, 1);
-		rigid.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(rigid, 1);
-		mesh.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(mesh, 1);
-		text.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(text, 1);
-		statiq.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(statiq, 1);
-		jointPin.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(jointPin, 1);
-		annimation.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(annimation, 1);
-		addMenu.setEcartement(8);
+		for (TypeEntites type : TypeEntites.values()) {
+			char first = type.name().charAt(0);
+			String name = type.name().substring(1).toLowerCase();
 
-		// Triggers
-		mesh.setOnArm(new Trigger() {
+			Button button = new Button(0, buttonScale, first + name);
+			addMenu.addElementInListOfChoices(button, 1);
+			button.setScaleText(new Vec2f(scaleText));
+			button.setOnArm(new Trigger() {
 
-			@Override
-			public void make() {
-				// TODO
-			}
-		});
+				@Override
+				public void make() {
+					Entity entity = new Entity();
+					String entityName = entity.genName();
+					entity.attachToParent(arenaConstruction, entityName);
+					Button toSetMenu = new Button(0, buttonScale, entityName);
+					setMenu.addElementInListOfChoices(toSetMenu, 1);
+					toSetMenu.setOnArm(new Trigger() {
+						
+						@Override
+						public void make() {
+							editor.setCurrentMenu(new EntityEditor(entity, type));
+						}
+					});
+					toSetMenu.arm();
+				}
+			});
+		}
+		Button animation = new Button(0, buttonScale, "Animation");
+		addMenu.addElementInListOfChoices(animation, 1);
+		animation.setScaleText(new Vec2f(scaleText));
+		animation.setOnArm(new Trigger() {
 
-		statiq.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				// TODO
-			}
-		});
-
-		rigid.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				// TODO
-			}
-		});
-		text.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				// TODO
-			}
-		});
-		annimation.setOnArm(new Trigger() {
-			
 			@Override
 			public void make() {
 				editor.setCurrentMenu(editor.animEditor);
 			}
 		});
+
+		addMenu.setEcartement(8);
+
 	}
 
 	@Override
-	public void upAction() {
-		mainMenu.upAction();
+	public boolean upAction() {
+		return mainMenu.upAction();
 	}
 
 	@Override
-	public void downAction() {
-		mainMenu.downAction();
+	public boolean downAction() {
+		return mainMenu.downAction();
 	}
 
 	@Override
-	public void rightAction() {
-		mainMenu.rightAction();
+	public boolean rightAction() {
+		return mainMenu.rightAction();
 	}
 
 	@Override
-	public void leftAction() {
-		mainMenu.leftAction();
+	public boolean leftAction() {
+		return mainMenu.leftAction();
 	}
 
 	@Override
-	public void selectAction() {
-		mainMenu.selectAction();
+	public boolean selectAction() {
+		return mainMenu.selectAction();
 	}
 
 	@Override
@@ -193,6 +176,23 @@ public class MainMenu implements Navigable {
 		Vec2f dif = Vec2f.subtract(position, this.position);
 		this.position.add(dif);
 		mainMenu.setPositionLerp(Vec2f.add(mainMenu.getPosition(), dif), lerp);
+	}
+
+	@Override
+	public void setPosition(Vec2f newPosition) {
+		Vec2f dif = Vec2f.subtract(position, this.position);
+		this.position.add(dif);
+		mainMenu.setPosition(Vec2f.add(mainMenu.getPosition(), dif));
+	}
+
+	@Override
+	public Vec2f getPosition() {
+		return position;
+	}
+
+	@Override
+	public boolean continueAction() {
+		return false;
 	}
 
 }

@@ -58,7 +58,7 @@ public class Label extends UiSimpleElementNavigable {
 	@Override
 	public void draw() {
 		material.setParamTex("distanceField", text.getFont().getTexture());
-		material.model = Mat4f.transform(Vec2f.subtract(getPos(), new Vec2f(0, getScale().y * 0.07)), rotation, getScale(), modelM);
+		material.model = Mat4f.transform(Vec2f.subtract(getPosition(), new Vec2f(0, getScale().y * 0.07)), rotation, getScale(), modelM);
 		material.proj = Window.projOrtho;
 		material.bind(text.getModel());
 

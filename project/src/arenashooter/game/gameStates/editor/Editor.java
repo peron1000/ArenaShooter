@@ -90,7 +90,9 @@ public class Editor extends GameState {
 
 	private LinkedList<Editable> allEditable = new LinkedList<>();
 	
-	private Navigable currentMenu = new MainMenu(current , this);
+	private MainMenu mainMenu = new MainMenu(current, this);
+	
+	private Navigable currentMenu = mainMenu;
 	
 	AnimEditor animEditor = new AnimEditor();
 
@@ -102,7 +104,7 @@ public class Editor extends GameState {
 	public Editor() {
 		super(1);
 		
-		background.setPos(new Vec2f(forVisible, 0));
+		background.setPosition(new Vec2f(forVisible, 0));
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
@@ -126,10 +128,12 @@ public class Editor extends GameState {
 						currentMenu.selectAction();
 						break;
 					case UI_CONTINUE:
-						setMenuVisible(!menuVisible);
+						if(!currentMenu.continueAction()) {
+							setMenuVisible(!menuVisible);
+						}
 						break;
 					case UI_BACK:
-						
+						currentMenu = mainMenu;
 						break;
 					case UI_CHANGE:
 						break;

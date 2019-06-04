@@ -50,9 +50,9 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable implements Valuab
 	}
 
 	@Override
-	public void setPos(Vec2f pos) {
-		label.setPos(pos);
-		super.setPos(pos);
+	public void setPosition(Vec2f pos) {
+		label.setPosition(pos);
+		super.setPosition(pos);
 	}
 	
 	@Override
@@ -79,30 +79,23 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable implements Valuab
 		label.update(delta);
 		super.update(delta);
 	}
-	@Override
-	public void upAction() {
-		// Ntohing
-	}
 
 	@Override
-	public void downAction() {
-		// Nothing
-	}
-
-	@Override
-	public void rightAction() {
+	public boolean rightAction() {
 		list.next();
 		label.setText(title+get().name());
+		return true;
 	}
 
 	@Override
-	public void leftAction() {
+	public boolean leftAction() {
 		list.previous();
 		label.setText(title+get().name());
+		return true;
 	}
 
 	@Override
-	public void selectAction() {
+	public boolean selectAction() {
 		if(alwaysScrollable) {
 			arm();
 		}
@@ -111,7 +104,7 @@ public class ScrollerH<E extends Enum<E>> extends UiActionable implements Valuab
 		} else {
 			label.setColor(colorOnSelect);
 		}
-		super.selectAction();
+		return true;
 	}
 	
 	@Override

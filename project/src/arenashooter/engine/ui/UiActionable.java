@@ -15,8 +15,9 @@ public abstract class UiActionable extends UiElement implements Actionable {
 	}
 	
 	@Override
-	public void selectAction() {
+	public boolean selectAction() {
 		selected = !selected;
+		return true;
 	}
 	
 	@Override

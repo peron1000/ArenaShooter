@@ -23,10 +23,10 @@ public class Button extends UiActionable {
 	}
 	
 	@Override
-	public void setPos(Vec2f pos) {
-		label.setPos(pos);
-		rect.setPos(pos);
-		super.setPos(pos);
+	public void setPosition(Vec2f pos) {
+		label.setPosition(pos);
+		rect.setPosition(pos);
+		super.setPosition(pos);
 	}
 	
 	@Override
@@ -99,28 +99,9 @@ public class Button extends UiActionable {
 	}
 
 	@Override
-	public void upAction() {
-		// Nothing
-	}
-
-	@Override
-	public void downAction() {
-		// Nothing
-	}
-
-	@Override
-	public void rightAction() {
-		// Nothing
-	}
-
-	@Override
-	public void leftAction() {
-		// Nothing
-	}
-	
-	@Override
-	public void selectAction() {
+	public boolean selectAction() {
 		arm();
+		return true;
 	}
 
 }

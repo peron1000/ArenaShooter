@@ -14,39 +14,9 @@ public class AnimEditorTimeline extends UiElement {
 	}
 	
 	@Override
-	public void setPos(Vec2f pos) {
-		bg.setPos(pos);
-		super.setPos(pos);
-	}
-
-	@Override
-	public void upAction() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void downAction() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void rightAction() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void leftAction() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void selectAction() {
-		// TODO Auto-generated method stub
-
+	public void setPosition(Vec2f pos) {
+		bg.setPosition(pos);
+		super.setPosition(pos);
 	}
 
 	@Override

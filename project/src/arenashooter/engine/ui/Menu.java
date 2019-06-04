@@ -39,14 +39,14 @@ public class Menu {
 	public void setPosition(Vec2f newPosition) {
 		position.set(newPosition);
 		positionLerp.set(position);
-		foreach(e -> e.setPos(position));
+		foreach(e -> e.setPosition(position));
 	}
 	
 	public void setPositionLerp(Vec2f position , double lerp) {
 		this.lerp = lerp;
 		positionLerp.set(position);
 		Vec2f dif = Vec2f.subtract(position, getPosition());
-		foreach( t->t.setPositionLerp(Vec2f.add(t.getPos(), dif) , lerp));
+		foreach( t->t.setPositionLerp(Vec2f.add(t.getPosition(), dif) , lerp));
 	}
 	
 	public Vec2f getPosition() {
@@ -71,7 +71,7 @@ public class Menu {
 		LinkedList<UiElement> bg = new LinkedList<>();
 		bg.add(background);
 		elems.put(Integer.valueOf(0), bg);
-		background.setPos(position);
+		background.setPosition(position);
 		background.setVisible(isVisible());
 	}
 
@@ -88,7 +88,7 @@ public class Menu {
 		}
 		element.owner = this;
 		element.layout = layout;
-		element.setPos(position.clone());
+		element.setPosition(position.clone());
 		element.setVisible(isVisible());
 	}
 	

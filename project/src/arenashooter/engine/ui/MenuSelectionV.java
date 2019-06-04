@@ -2,9 +2,6 @@ package arenashooter.engine.ui;
 
 import java.util.Stack;
 
-import arenashooter.engine.events.BooleanProperty;
-import arenashooter.engine.events.EventListener;
-import arenashooter.engine.events.NewValueEvent;
 import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.events.menus.MenuExitEvent.Side;
 import arenashooter.engine.graphics.Texture;
@@ -45,12 +42,12 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 			return;
 		Vec2f newPosition = new Vec2f(positionRef.x, positionRef.y + ecartement * elements.size());
 		if (elements.isEmpty()) {
-			selec.setPos(newPosition);
+			selec.setPosition(newPosition);
 		}
 		if (!elements.contains(element)) {
 			elements.add(element);
 		}
-		element.setPos(newPosition);
+		element.setPosition(newPosition);
 		element.setVisible(selectorVisible);
 		restart();
 	}
@@ -58,14 +55,14 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	public void removeElementInListOfChoices(E element) {
 		if (elements.contains(element)) {
 			elements.remove(element);
-			if (element.getPos().x == selec.getPos().x && element.getPos().y == selec.getPos().y) {
-				selec.setPos(elements.peek().getPos());
+			if (element.getPosition().x == selec.getPosition().x && element.getPosition().y == selec.getPosition().y) {
+				selec.setPosition(elements.peek().getPosition());
 			}
 			element.setVisible(false);
 		}
 	}
 
-	public void downAction() {
+	public boolean downAction() {
 		if (loop) {
 			int save = index;
 			index++;
@@ -87,7 +84,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 					index = elements.size() - 1;
 				}
 				exit.launch(new MenuExitEvent(Side.Down));
-				return;
+				return true;
 			}
 			while (!getTarget().isVisible()) {
 				index++;
@@ -98,14 +95,15 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 						index = elements.size() - 1;
 					}
 					exit.launch(new MenuExitEvent(Side.Down));
-					return;
+					return true;
 				}
 			}
 		}
 		majSelecPosition();
+		return true;
 	}
 
-	public void upAction() {
+	public boolean upAction() {
 		if (loop) {
 			int save = index;
 			index--;
@@ -127,41 +125,44 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 			if (index < 0) {
 				index = 0;
 				exit.launch(new MenuExitEvent(Side.Up));
-				return;
+				return true;
 			}
 			while (!getTarget().isVisible()) {
 				index--;
 				if (index < 0) {
 					index = 0;
 					exit.launch(new MenuExitEvent(Side.Up));
-					return;
+					return true;
 				}
 			}
 		}
 		majSelecPosition();
+		return true;
 	}
 
-	public void rightAction() {
+	public boolean rightAction() {
 		if (getTarget() != null && getTarget().isSelected()) {
 			getTarget().rightAction();
 		} else {
 			exit.launch(new MenuExitEvent(Side.Right));
 		}
+		return true;
 	}
 
-	public void leftAction() {
+	public boolean leftAction() {
 		if (getTarget() != null && getTarget().isSelected()) {
 			getTarget().leftAction();
 		} else {
 			exit.launch(new MenuExitEvent(Side.Left));
 		}
+		return true;
 	}
 
 	public void setPositionRef(Vec2f position) {
 		positionRef.set(position);
 		for (int i = 0; i < elements.size(); i++) {
 			E element = elements.get(i);
-			element.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
+			element.setPosition(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
 		}
 		majSelecPosition();
 	}
@@ -183,7 +184,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	public void setImageSelec(UiImage image, int layout) {
 		addUiElement(image, layout);
 		selec = image;
-		selec.setPos(positionRef.clone());
+		selec.setPosition(positionRef.clone());
 	}
 
 	public E getTarget() {
@@ -198,7 +199,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 		index = 0;
 		E e = elements.get(index);
 		if (e != null) {
-			selec.setPos(e.getPos());
+			selec.setPosition(e.getPosition());
 		}
 	}
 
@@ -221,7 +222,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	protected void majSelecPosition() {
 		E target = getTarget();
 		if (target != null) {
-			selec.setPositionLerp(getTarget().getPos() , 40);
+			selec.setPositionLerp(getTarget().getPosition() , 40);
 		}
 	}
 
@@ -255,8 +256,8 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	}
 
 	@Override
-	public void selectAction() {
-		getTarget().selectAction();
+	public boolean selectAction() {
+		return getTarget().selectAction();
 	}
 
 	@Override
@@ -267,5 +268,10 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	@Override
 	public void unSelec() {
 		getTarget().unSelec();
+	}
+
+	@Override
+	public boolean continueAction() {
+		return false;
 	}
 }

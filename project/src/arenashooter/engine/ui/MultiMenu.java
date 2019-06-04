@@ -29,12 +29,12 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		super(maxLayout);
 		title = new ScrollerH<>(0, new Vec2f(50), values);
 		title.setAlwaysScrollable(true);
-		title.setPos(new Vec2f());
+		title.setPosition(new Vec2f());
 		this.addUiElement(title, 1);
 		Texture t = Texture.loadTexture(texturePathSelector);
 		t.setFilter(false);
 		selec = new UiImage(0, scaleSelec, t, new Vec4f(1, 1, 1, 1));
-		selec.setPos(new Vec2f());
+		selec.setPosition(new Vec2f());
 		setPosition(new Vec2f());
 		selectorVisible.listener.add(new EventListener<NewValueEvent<Boolean>>() {
 
@@ -56,11 +56,11 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 			}
 			getMenuCurrent().update(delta);
 			if (onTitle) {
-				selec.setPositionLerp(title.getPos(), 40);
+				selec.setPositionLerp(title.getPosition(), 40);
 			} else {
 				UiElement e = getMenuCurrent().getTarget();
 				if (e != null) {
-					selec.setPositionLerp(e.getPos(), 40);
+					selec.setPositionLerp(e.getPosition(), 40);
 				}
 			}
 			selec.update(delta);
@@ -88,7 +88,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 	public void setPosition(Vec2f newPosition) {
 		Vec2f dif = Vec2f.subtract(newPosition, getPosition());
 		setPositionRef(Vec2f.add(positionRef, dif));
-		title.setPos(Vec2f.add(title.getPos(), dif));
+		title.setPosition(Vec2f.add(title.getPosition(), dif));
 		super.setPosition(newPosition);
 	}
 
@@ -106,52 +106,57 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		for (Menu menu : menus.values()) {
 			menu.setPosition(positionRef);
 		}
-		title.setPos(Vec2f.add(position, new Vec2f(0, -10)));
+		title.setPosition(Vec2f.add(position, new Vec2f(0, -10)));
 	}
 
 	@Override
-	public void upAction() {
+	public boolean upAction() {
 		if (!onTitle) {
 			getMenuCurrent().upAction();
 		}
+		return true;
 	}
 
 	@Override
-	public void downAction() {
+	public boolean downAction() {
 		if (onTitle) {
 			onTitle = false;
 			UiElement target = getMenuCurrent().getTarget();
 			if (target != null) {
-				selec.setPositionLerp(target.getPos() , 40);
+				selec.setPositionLerp(target.getPosition() , 40);
 			}
 		} else {
 			getMenuCurrent().downAction();
 		}
+		return true;
 	}
 
 	@Override
-	public void rightAction() {
+	public boolean rightAction() {
 		if (onTitle) {
 			title.rightAction();
 		} else {
 			getMenuCurrent().rightAction();
 		}
+		return true;
 	}
 
 	@Override
-	public void leftAction() {
+	public boolean leftAction() {
 		if (onTitle) {
 			title.leftAction();
 		} else {
 			getMenuCurrent().leftAction();
 		}
+		return true;
 	}
 
 	@Override
-	public void selectAction() {
+	public boolean  selectAction() {
 		if (!onTitle && getTarget() != null) {
 			getTarget().selectAction();
 		}
+		return true;
 	}
 
 	@Override
@@ -205,6 +210,11 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		} else {
 			return getMenuCurrent().getTarget();
 		}
+	}
+
+	@Override
+	public boolean continueAction() {
+		return false;
 	}
 
 }

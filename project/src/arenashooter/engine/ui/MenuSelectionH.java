@@ -23,21 +23,21 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 			return;
 		Vec2f newPosition = new Vec2f(positionRef.x + ecartement * elements.size(), positionRef.y);
 		if (elements.isEmpty()) {
-			selec.setPos(newPosition);
+			selec.setPosition(newPosition);
 		}
 		if (!elements.contains(element)) {
 			elements.add(element);
 		}
 		addUiElement(element, layout);
-		element.setPos(newPosition);
+		element.setPosition(newPosition);
 		element.setVisible(true);
 	}
 
 	public void removeElementInListOfChoices(Element element) {
 		if (elements.contains(element)) {
 			elements.remove(element);
-			if (element.getPos().x == selec.getPos().x && element.getPos().y == selec.getPos().y) {
-				selec.setPos(elements.getLast().getPos());
+			if (element.getPosition().x == selec.getPosition().x && element.getPosition().y == selec.getPosition().y) {
+				selec.setPosition(elements.getLast().getPosition());
 			}
 			element.setVisible(false);
 			removeUiElement(element);
@@ -62,7 +62,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 		positionRef = position;
 		for (int i = 0; i < elements.size(); i++) {
 			UiElement uiElement = elements.get(i);
-			uiElement.setPos(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
+			uiElement.setPosition(new Vec2f(positionRef.x, positionRef.y + ecartement * i));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 	public void setImageSelec(UiImage image, int layout) {
 		addUiElement(image, layout);
 		selec = image;
-		selec.setPos(positionRef.clone());
+		selec.setPosition(positionRef.clone());
 	}
 
 	public Element getTarget() {
@@ -95,7 +95,7 @@ public class MenuSelectionH<Element extends UiElement> extends Menu {
 			uiElement.update(delta);
 		}
 
-		selec.setPos(Vec2f.lerp(selec.getPos(), elements.get(index).getPos(), Utils.clampD(delta * 20, 0, 1)));
+		selec.setPosition(Vec2f.lerp(selec.getPosition(), elements.get(index).getPosition(), Utils.clampD(delta * 20, 0, 1)));
 		super.update(delta);
 	}
 }

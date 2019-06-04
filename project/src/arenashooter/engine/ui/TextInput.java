@@ -34,8 +34,8 @@ public class TextInput extends UiElement {
 
 	public TextInput() {
 		super(0, defaultSize.clone());
-		background.setPos(new Vec2f());
-		input.setPos(new Vec2f());
+		background.setPosition(new Vec2f());
+		input.setPosition(new Vec2f());
 		input.setColor(new Vec4f(1, 0.1, 0.1, 0.48));
 	}
 
@@ -48,17 +48,17 @@ public class TextInput extends UiElement {
 	}
 
 	@Override
-	public void setPos(Vec2f pos) {
-		Vec2f dif = Vec2f.subtract(pos, getPos());
-		super.setPos(pos);
-		actionOnAll(e -> e.setPos(Vec2f.add(e.getPos(), dif)));
+	public void setPosition(Vec2f pos) {
+		Vec2f dif = Vec2f.subtract(pos, getPosition());
+		super.setPosition(pos);
+		actionOnAll(e -> e.setPosition(Vec2f.add(e.getPosition(), dif)));
 	}
 
 	@Override
 	public void setPositionLerp(Vec2f pos, double lerp) {
-		Vec2f dif = Vec2f.subtract(pos, getPos());
+		Vec2f dif = Vec2f.subtract(pos, getPosition());
 		super.setPositionLerp(pos, lerp);
-		actionOnAll(e -> e.setPositionLerp(Vec2f.add(e.getPos(), dif), 10));
+		actionOnAll(e -> e.setPositionLerp(Vec2f.add(e.getPosition(), dif), 10));
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class TextInput extends UiElement {
 	}
 
 	@Override
-	public void upAction() {
+	public boolean upAction() {
 		if (index == word.size()) {
 			c = decrease(c);
 			input.setText(String.valueOf(c));
@@ -102,6 +102,7 @@ public class TextInput extends UiElement {
 			c = decrease(c);
 			l.setText(String.valueOf(c));
 		}
+		return true;
 	}
 
 	private char decrease(char c) {
@@ -135,7 +136,7 @@ public class TextInput extends UiElement {
 	}
 
 	@Override
-	public void downAction() {
+	public boolean downAction() {
 		if (index == word.size()) {
 			c = increase(c);
 			input.setText(String.valueOf(c));
@@ -145,6 +146,7 @@ public class TextInput extends UiElement {
 			c = increase(c);
 			l.setText(String.valueOf(c));
 		}
+		return true;
 	}
 
 	private char increase(char c) {
@@ -178,7 +180,7 @@ public class TextInput extends UiElement {
 	}
 
 	@Override
-	public void rightAction() {
+	public boolean rightAction() {
 		if (index < word.size()) {
 			word.get(index).setColor(white);
 			index++;
@@ -186,10 +188,11 @@ public class TextInput extends UiElement {
 				word.get(index).setColor(selecColor);
 			}
 		}
+		return true;
 	}
 
 	@Override
-	public void leftAction() {
+	public boolean leftAction() {
 		if (index > 0) {
 			if (index == word.size()) {
 				index--;
@@ -200,14 +203,16 @@ public class TextInput extends UiElement {
 				word.get(index).setColor(selecColor);
 			}
 		}
+		return true;
 	}
 
 	@Override
-	public void selectAction() {
+	public boolean selectAction() {
 		if (index == word.size()) {
 			addNewChar();
 			index = word.size();
 		}
+		return true;
 	}
 
 	private void addNewChar() {
@@ -217,10 +222,10 @@ public class TextInput extends UiElement {
 		} else {
 			newChar = new Label(0, getScale().clone().multiply(labelProportion), String.valueOf(c));
 		}
-		newChar.setPos(input.getPos());
+		newChar.setPosition(input.getPosition());
 		word.add(newChar);
-		Vec2f goalScale = background.getScale().clone(), goalPos = background.getPos().clone(),
-				goalInput = input.getPos().clone();
+		Vec2f goalScale = background.getScale().clone(), goalPos = background.getPosition().clone(),
+				goalInput = input.getPosition().clone();
 		goalScale.x += getMovement()+1;
 		goalPos.x += getMovement() / 2;
 		goalInput.x += getMovement();
@@ -270,8 +275,8 @@ public class TextInput extends UiElement {
 	public void cancelChar() {
 		if (word.size() > 0) {
 			background.setScaleLerp(Vec2f.add(background.getScale(), new Vec2f(-4.25, 0)));
-			background.setPositionLerp(Vec2f.add(background.getPos(), new Vec2f(-2, 0)), 10);
-			input.setPositionLerp(word.get(word.size() - 1).getPos(), 10);
+			background.setPositionLerp(Vec2f.add(background.getPosition(), new Vec2f(-2, 0)), 10);
+			input.setPositionLerp(word.get(word.size() - 1).getPosition(), 10);
 			word.remove(word.size() - 1);
 			if (index > 0 && index == word.size() + 1) {
 				index--;
@@ -284,9 +289,9 @@ public class TextInput extends UiElement {
 		c = 'A';
 		index = 0;
 		background.setScale(getScale().clone());
-		background.setPos(getPos());
+		background.setPosition(getPosition());
 		input.setText(String.valueOf(c));
-		input.setPos(getPos());
+		input.setPosition(getPosition());
 		type = Type.UPPERCASE;
 	}
 

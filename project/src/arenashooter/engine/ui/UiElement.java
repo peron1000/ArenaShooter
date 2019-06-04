@@ -20,7 +20,37 @@ public abstract class UiElement implements Navigable {
 		this.scale = scale.clone();
 		this.reScale = scale.clone();
 	}
+	
+	@Override
+	public boolean continueAction() {
+		return false;
+	}
+	
+	@Override
+	public boolean downAction() {
+		return false;
+	}
 
+	@Override
+	public boolean leftAction() {
+		return false;
+	}
+
+	@Override
+	public boolean rightAction() {
+		return false;
+	}
+	
+	@Override
+	public boolean upAction() {
+		return false;
+	}
+	
+	@Override
+	public boolean selectAction() {
+		return false;
+	}
+	
 	public boolean isVisible() {
 		return visible;
 	}
@@ -36,11 +66,11 @@ public abstract class UiElement implements Navigable {
 
 	public abstract void draw();
 
-	public Vec2f getPos() {
+	public Vec2f getPosition() {
 		return pos;
 	}
 
-	public void setPos(Vec2f pos) {
+	public void setPosition(Vec2f pos) {
 		if (this.pos == null || rePos == null) {
 			this.pos = pos.clone();
 			this.rePos = pos.clone();

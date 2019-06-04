@@ -105,7 +105,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	public void setImageSelec(UiImage image, int layout) {
 		addUiElement(image, layout);
 		selec = image;
-		selec.setPos(positionRelative.clone());
+		selec.setPosition(positionRelative.clone());
 		majSelecPosition();
 	}
 
@@ -172,7 +172,7 @@ public class MenuSelection<E extends UiElement> extends Menu {
 	private void majSelecPosition() {
 		E element = mesElements.get(new Coordonnees(x, y));
 		if (element != null && selec != null) {
-			selec.setPositionLerp(element.getPos() , 40);
+			selec.setPositionLerp(element.getPosition() , 40);
 		}
 	}
 

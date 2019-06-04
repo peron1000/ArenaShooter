@@ -73,7 +73,7 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 		texture1.setFilter(false);
 		UiImage bg = new UiImage(0, new Vec2f(100, 25), texture1, new Vec4f(0, 0, 1, 1));
 		this.setBackground(bg);
-		bg.setPos(new Vec2f(0, -10));
+		bg.setPosition(new Vec2f(0, -10));
 
 		this.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 45));
 		this.setEcartement(9f);

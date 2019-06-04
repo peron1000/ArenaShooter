@@ -63,7 +63,7 @@ public class MenuOption extends GameState {
 		menustart.selectorVisible = true;
 
 		menustart.setBackground(bg);
-		bg.setPos(new Vec2f(0));
+		bg.setPosition(new Vec2f(0));
 
 		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 45));
 		menustart.setEcartement(7f);

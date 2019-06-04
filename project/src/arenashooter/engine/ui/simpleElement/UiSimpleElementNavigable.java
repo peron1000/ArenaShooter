@@ -12,11 +12,6 @@ public abstract class UiSimpleElementNavigable extends UiElement {
 	}
 
 	@Override
-	public void selectAction() {
-		// Nothing
-	}
-
-	@Override
 	public boolean isSelected() {
 		return false;
 	}
@@ -27,23 +22,27 @@ public abstract class UiSimpleElementNavigable extends UiElement {
 	}
 	
 	@Override
-	public void downAction() {
+	public boolean downAction() {
 		owner.exit.launch(new MenuExitEvent(Side.Down));
+		return true;
 	}
 
 	@Override
-	public void leftAction() {
+	public boolean leftAction() {
 		owner.exit.launch(new MenuExitEvent(Side.Left));
+		return true;
 	}
 
 	@Override
-	public void rightAction() {
+	public boolean rightAction() {
 		owner.exit.launch(new MenuExitEvent(Side.Right));
+		return true;
 	}
 
 	@Override
-	public void upAction() {
+	public boolean upAction() {
 		owner.exit.launch(new MenuExitEvent(Side.Up));
+		return true;
 	}
 
 }

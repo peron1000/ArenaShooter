@@ -50,7 +50,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 		UiImage bg = new UiImage(0, new Vec2f(100, 25), texture1, new Vec4f(1, 1, 1, 1));
 		menup.setBackground(bg);
 		
-		bg.setPos(new Vec2f(0, -10));
+		bg.setPosition(new Vec2f(0, -10));
 		
 		
 		
@@ -90,7 +90,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 		setBackground(rec);
 		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
 		addUiElement(pause, 0);
-		pause.setPos(new Vec2f(x, y - 27));
+		pause.setPosition(new Vec2f(x, y - 27));
 
 		op1 = new Label(0, new Vec2f(scale), "Resume");
 		addElementInListOfChoices(op1, 1);

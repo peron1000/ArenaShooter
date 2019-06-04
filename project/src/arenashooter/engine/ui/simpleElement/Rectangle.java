@@ -24,7 +24,7 @@ public class Rectangle extends UiSimpleElementNavigable {
 	@Override
 	public void draw() {
 		if(isVisible()) {
-			material.model = Mat4f.transform(getPos(), rotation, getScale(), modelM);
+			material.model = Mat4f.transform(getPosition(), rotation, getScale(), modelM);
 			material.proj = Window.projOrtho;
 			
 			material.bind(model);
