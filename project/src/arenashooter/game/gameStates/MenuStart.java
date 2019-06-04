@@ -28,6 +28,7 @@ import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
+import arenashooter.game.gameStates.editor.Editor;
 
 public class MenuStart extends GameState {
 	/* MenuStart Menu */

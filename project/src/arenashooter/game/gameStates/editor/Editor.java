@@ -1,4 +1,4 @@
-package arenashooter.game.gameStates;
+package arenashooter.game.gameStates.editor;
 
 import java.io.File;
 import java.util.HashMap;
@@ -39,13 +39,14 @@ import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.game.GameMaster;
-import arenashooter.game.gameStates.editorEnum.Prime;
-import arenashooter.game.gameStates.editorEnum.SetMesh;
-import arenashooter.game.gameStates.editorEnum.TypeEntites;
+import arenashooter.game.gameStates.GameState;
+import arenashooter.game.gameStates.editor.editorEnum.Prime;
+import arenashooter.game.gameStates.editor.editorEnum.SetMesh;
+import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
 
 public class Editor extends GameState {
 
-	private Vec2f forVisible = new Vec2f(-64, 0), forNotVisible = new Vec2f(-110, 0);
+	public static final float forVisible = -64, forNotVisible = -110;
 	private boolean primeVisible = true;
 
 	private String fileName = "NewArena";
@@ -53,15 +54,13 @@ public class Editor extends GameState {
 	/* Save-quit Menu */
 	private MenuSelectionV<UiActionable> saveQuitMenu = new MenuSelectionV<>(5, 0, 0, new Vec2f(30, 10),
 			"data/sprites/interface/Selector.png");
-
-	/* Set Menu */
+/*
 	private MenuSelectionV<UiActionable> setMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
 			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
 
-	/* Add Menu */
 	private MenuSelectionV<UiActionable> addMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
 			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
-
+*/
 	private InputListener inputs = new InputListener();
 	private Camera cam;
 
@@ -71,13 +70,13 @@ public class Editor extends GameState {
 
 	/* Sub add menu */
 	private MenuSelectionV<UiActionable> meshMenu = new MenuSelectionV<>(), staticMenu = new MenuSelectionV<>(),
-			rigidMenu = new MenuSelectionV<>();
+			rigidMenu = new MenuSelectionV<>(), textMenu = new MenuSelectionV<>();
 
 	/* Bg Menu */
 	private Menu bg = new Menu(2);
 
 	/* Menu Set entity */
-	private MenuSelectionV<UiActionable> setEntityMenu = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
+	private MenuSelectionV<UiActionable> setEntityMenu = new MenuSelectionV<>(10, forVisible, 0,
 			new Vec2f(30, 10), "data/sprites/interface/Selector.png");
 	private Label setEntityName = new Label(0, new Vec2f(20), "Empty"),
 			setEntityParent = new Label(0, new Vec2f(20), "Empty");
@@ -90,37 +89,51 @@ public class Editor extends GameState {
 	private TextInput textInput = new TextInput();
 
 	private LinkedList<Editable> allEditable = new LinkedList<>();
+	
+	private Navigable currentMenu = new MainMenu(current);
 
 	private final Vec2f scale = new Vec2f(15, 5);
 
+	/**
+	 * 
+	 */
 	public Editor() {
 		super(1);
 
-		/* Save-Quit Menu */
-		saveQuitMenuConstruction();
+//		/* Save-Quit Menu */
+//		saveQuitMenuConstruction();
+//
+//		/* Add Menu */
+//		addMenuConstruction();
+//
+//		/* Mesh menu */
+//		meshMenuConstruction();
+//
+//		/* Static Menu */
+//		staticMenuConstruction();
+//
+//		/* Rigid */
+//		rigidMenuConstruction();
+//		
+//		/* Text Menu */
+//		textMenuConstruction();
+//
+//		/* Set Menu */
+//		setMenu.setEcartement(6);
+//
+//		/* set entity menu */
+//		setEntityMenuConstruction();
+//
+//		/* Main Menu */
+//		mainMenuConstruction();
+		
+		Rectangle bg = new Rectangle(0, new Vec2f(50, 150), new Vec4f(0.5, 0.5, 0.5, 0.2));
+		this.bg.setBackground(bg);
+		this.bg.setPosition(new Vec2f(forVisible, 0));
 
-		/* Add Menu */
-		addMenuConstruction();
-
-		/* Mesh menu */
-		meshMenuConstruction();
-
-		/* Static Menu */
-		staticMenuConstruction();
-
-		/* Rigid */
-		rigidMenuConstruction();
-
-		/* Set Menu */
-		setMenu.setEcartement(6);
-
-		/* set entity menu */
-		setEntityMenuConstruction();
-
-		/* Main Menu */
-		mainMenuConstruction();
-
-		stackMenu.push(multiMenu);
+		//stackMenu.push(multiMenu);
+		
+		
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
@@ -129,36 +142,37 @@ public class Editor extends GameState {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_LEFT:
-						stackMenu.peek().leftAction();
+						currentMenu.leftAction();
 						break;
 					case UI_RIGHT:
-						stackMenu.peek().rightAction();
+						currentMenu.rightAction();
 						break;
 					case UI_UP:
-						stackMenu.peek().upAction();
+						currentMenu.upAction();
 						break;
 					case UI_DOWN:
-						stackMenu.peek().downAction();
+						currentMenu.downAction();
 						break;
 					case UI_OK:
-						stackMenu.peek().selectAction();
+						currentMenu.selectAction();
 						break;
 					case UI_CONTINUE:
-						if (stackMenu.peek() == textInput) {
-							stackMenu.pop();
-							if (stackMenu.peek() == setEntityMenu) {
-								Entity parent = setEntityStack.peek();
-								Entity e = parent.getChild(setEntityName.getText());
-								e.detach();
-								e.attachToParent(parent, textInput.getText());
-								bindEntity(e);
-								mapEntityButton.get(e).setText(textInput.getText());
-							} else if(stackMenu.peek() == multiMenu && multiMenu.getMenuCurrent() == saveQuitMenu) {
-								fileName = textInput.getText();
-							}
-						} else {
-							setPrimeVisible(!primeVisible);
-						}
+//						if (stackMenu.peek() == textInput) {
+//							stackMenu.pop();
+//							if (stackMenu.peek() == setEntityMenu) {
+//								Entity parent = setEntityStack.peek();
+//								Entity e = parent.getChild(setEntityName.getText());
+//								e.detach();
+//								e.attachToParent(parent, textInput.getText());
+//								bindEntity(e);
+//								mapEntityButton.get(e).setText(textInput.getText());
+//							} else if(stackMenu.peek() == multiMenu && multiMenu.getMenuCurrent() == saveQuitMenu) {
+//								fileName = textInput.getText();
+//							}
+//						} else {
+//							setPrimeVisible(!primeVisible);
+//						}
+						setPrimeVisible(!primeVisible);
 						break;
 					case UI_BACK:
 						if (stackMenu.size() > 1) {
@@ -192,7 +206,7 @@ public class Editor extends GameState {
 						break;
 					}
 				} else if (event.getActionState() == ActionState.PRESSED) {
-					if (stackMenu.peek() == setEntityMenu) {
+					/*if (stackMenu.peek() == setEntityMenu) {
 						final double scaleSpeed = 0.005, positionSpeed = 0.02;
 						Entity e = getEntityOnSetting();
 						switch (event.getAction()) {
@@ -265,11 +279,16 @@ public class Editor extends GameState {
 						default:
 							break;
 						}
-					}
+					}*/
 				}
 			}
 		});
 
+	}
+/*
+	private void textMenuConstruction() {
+		// TODO Auto-generated method stub
+		textMenu.setPosition(new Vec2f(forVisible.x, -40));
 	}
 
 	private void rigidMenuConstruction() {
@@ -277,7 +296,6 @@ public class Editor extends GameState {
 		Label title = new Label(0, new Vec2f(30), "Rigid Options");
 		rigidMenu.addUiElement(title, 1);
 		rigidMenu.setPositionRef(new Vec2f(forVisible.x, -10));
-		rigidMenu.setLoop(false);
 		rigidMenu.setEcartement(10);
 
 		Button box = new Button(0, new Vec2f(15, 5), "Box");
@@ -286,7 +304,6 @@ public class Editor extends GameState {
 
 			@Override
 			public void make() {
-				// TODO Auto-generated method stub
 				RigidBody body = new RigidBody(new ShapeBox(new Vec2f(1)), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1,
 						0.8f);
 				RigidBodyContainer rigidBody = new RigidBodyContainer(new Vec2f(), body);
@@ -315,7 +332,6 @@ public class Editor extends GameState {
 
 			@Override
 			public void make() {
-				// TODO Auto-generated method stub
 				RigidBody body = new RigidBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f);
 				RigidBodyContainer rigidBody = new RigidBodyContainer(new Vec2f(), body);
 				String name = rigidBody.genName();
@@ -387,54 +403,6 @@ public class Editor extends GameState {
 
 	}
 
-	private void addMenuConstruction() {
-		final float scaleText = 20f;
-		Button entity = new Button(0, scale, "entity");
-		entity.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(entity, 1);
-		Button rigid = new Button(0, scale, "rigid");
-		rigid.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(rigid, 1);
-		Button mesh = new Button(0, scale, "mesh");
-		mesh.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(mesh, 1);
-		Button text = new Button(0, scale, "text");
-		text.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(text, 1);
-		Button statiq = new Button(0, scale, "static");
-		statiq.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(statiq, 1);
-		Button jointPin = new Button(0, scale, "jointPin");
-		jointPin.setScaleText(new Vec2f(scaleText));
-		addMenu.addElementInListOfChoices(jointPin, 1);
-		addMenu.setEcartement(8);
-
-		// Triggers
-		mesh.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				stackMenu.push(meshMenu);
-			}
-		});
-
-		statiq.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				stackMenu.push(staticMenu);
-			}
-		});
-
-		rigid.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				stackMenu.push(rigidMenu);
-			}
-		});
-	}
-
 	private void saveQuitMenuConstruction() {
 		saveQuitMenu.setEcartement(8);
 		Button save = new Button(0, scale, "Save"), rename = new Button(0, scale, "Rename File");
@@ -475,6 +443,7 @@ public class Editor extends GameState {
 		Label titleStaticMenu = new Label(0, new Vec2f(30), "Choose the shape");
 		Button shapeBox = new Button(0, scale, "Box"), shapeDisk = new Button(0, scale, "Disk");
 		staticMenu.addUiElement(titleStaticMenu, 1);
+		staticMenu.setPosition(new Vec2f(forVisible.x, -40));
 		staticMenu.setPositionRef(new Vec2f(forVisible.x, -10));
 		staticMenu.setEcartement(10);
 		staticMenu.addElementInListOfChoices(shapeBox, 1);
@@ -570,7 +539,7 @@ public class Editor extends GameState {
 				}
 			});
 		}
-	}
+	}*/
 
 	private void bindEntity(Entity entity) {
 		Entity parent = entity.getParent();
@@ -605,6 +574,10 @@ public class Editor extends GameState {
 	private Entity getCurrentParent() {
 		return setEntityStack.peek();
 	}
+	
+	public void setCurrentMenu(Navigable currentMenu) {
+		this.currentMenu = currentMenu;
+	}
 
 	@Override
 	public void init() {
@@ -614,19 +587,22 @@ public class Editor extends GameState {
 
 	private void setPrimeVisible(boolean visible) {
 		if (visible) {
-			bg.setPositionLerp(forVisible, 40);
-			stackMenu.peek().setPositionLerp(forVisible, 30);
+			bg.setPositionLerp(new Vec2f(forVisible, 0), 40);
+			currentMenu.setPositionLerp(new Vec2f(forVisible, 0), 40);
+			//stackMenu.peek().setPositionLerp(new Vec2f(forVisible, 0), 30);
 		} else {
-			bg.setPositionLerp(forNotVisible, 30);
-			stackMenu.peek().setPositionLerp(forNotVisible, 40);
+			bg.setPositionLerp(new Vec2f(forNotVisible, 0), 30);
+			currentMenu.setPositionLerp(new Vec2f(forNotVisible, 0), 40);
+			//stackMenu.peek().setPositionLerp(new Vec2f(forNotVisible, 0), 40);
 		}
 		primeVisible = visible;
 	}
-
+	
 	@Override
 	public void update(double delta) {
 		inputs.step(delta);
-		stackMenu.peek().update(delta);
+		//stackMenu.peek().update(delta);
+		currentMenu.update(delta);
 		bg.update(delta);
 		for (Editable editable : allEditable) {
 			if (editable == getEntityOnSetting() && stackMenu.peek() == setEntityMenu) {
@@ -639,10 +615,13 @@ public class Editor extends GameState {
 
 	@Override
 	public void draw() {
-		super.draw();
+		for (Editable editable : allEditable) {
+			editable.drawEditor();
+		}
 		Window.beginUi();
 		bg.draw();
-		stackMenu.peek().draw();
+		currentMenu.draw();
+		//stackMenu.peek().draw();
 		Window.endUi();
 	}
 

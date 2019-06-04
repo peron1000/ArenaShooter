@@ -116,7 +116,6 @@ public class StaticBodyContainer extends Spatial implements Editable {
 			} else if (e instanceof Spatial3) {
 				((Spatial3) e).parentPosition.x = getWorldPos().x;
 				((Spatial3) e).parentPosition.y = getWorldPos().y;
-				//TODO: transmit rotation
 			}
 		}
 	}
@@ -133,6 +132,11 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	@Override
 	public void addRotation(double angle) {
 		body.setRotation((float) (getWorldRot()+angle));
+	}
+
+	@Override
+	public void drawEditor() {
+		body.debugDraw();
 	}
 
 }

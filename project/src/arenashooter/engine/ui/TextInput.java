@@ -20,6 +20,13 @@ public class TextInput extends UiElement {
 	int index = 0;
 	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1, 1, 1, 1);
 	private Type type = Type.UPPERCASE;
+	private Trigger trigger = new Trigger() {
+		
+		@Override
+		public void make() {
+			// Nothing
+		}
+	};
 
 	private enum Type {
 		UPPERCASE, LOWERCASE, NUM, SPECIAL;
@@ -307,6 +314,14 @@ public class TextInput extends UiElement {
 			break;
 		}
 		input.setText(String.valueOf(c));
+	}
+	
+	public void setOnFinish(Trigger t) {
+		trigger = t;
+	}
+	
+	public void launchFinishTrigger() {
+		trigger.make();
 	}
 
 }

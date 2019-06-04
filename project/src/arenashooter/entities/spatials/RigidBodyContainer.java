@@ -186,4 +186,9 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	public void addRotation(double angle) {
 	}
 
+	@Override
+	public void drawEditor() {
+		body.debugDraw();
+	}
+
 }

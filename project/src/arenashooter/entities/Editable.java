@@ -8,4 +8,5 @@ public interface Editable {
 	public void addPosition(Vec2f position);
 	public void addScale(Vec2f extent);
 	public void addRotation(double angle);
+	public void drawEditor();
 }
