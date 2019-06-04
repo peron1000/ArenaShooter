@@ -64,7 +64,15 @@ final class ModelObjLoader {
 						faces.clear();
 					}
 					break;
-				case "usemtl": //Change current material
+				case "usemtl": //End current model and change current material
+					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
+						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
+						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+						shaders.add( shaderOverrides.getOrDefault(currentMat, ModelsData.default_shader) );
+						
+						//Clear faces
+						faces.clear();
+					}
 					currentMat = lineParts[1];
 					break;
 				case "v": //Vertex

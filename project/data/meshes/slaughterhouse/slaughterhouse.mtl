@@ -1,16 +1,5 @@
-# Blender MTL File: 'map.blend'
+# Blender MTL File: 'slaughterhouse.blend'
 # Material Count: 7
-
-newmtl Black
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.640000 0.640000 0.640000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-map_Kd tiles_01.png
 
 newmtl Carcass
 Ns 96.078431
@@ -43,7 +32,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd conveyor_moving.png
+map_Kd conveyor_static.png
 
 newmtl Door
 Ns 96.078431
@@ -55,6 +44,17 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd door.png
+
+newmtl Lamp
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd lamp.png
 
 newmtl Tiles
 Ns 96.078431
