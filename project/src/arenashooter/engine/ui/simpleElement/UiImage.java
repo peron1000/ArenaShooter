@@ -14,14 +14,22 @@ public class UiImage extends UiSimpleElementNavigable {
 	private Mat4f modelM = new Mat4f();
 
 	public UiImage(double rot, Vec2f scale, Texture texture, Vec4f color) {
+		this(rot, scale, new Material("data/shaders/ui/ui_image"));
+		material.setParamTex("image", texture);
+		material.setParamVec4f("color", color.clone());
+	}
+	
+	public UiImage(double rot, Vec2f scale, Material material) {
 		super(rot, scale);
 		
 		if(model == null) model = Model.loadQuad();
 
-		this.material = new Material("data/shaders/ui/ui_image");
-		this.material.setParamTex("image", texture);
-		this.material.setParamVec4f("color", color.clone());
+		this.material = material;
 	}
+	
+	public Material getMaterial() { return material; }
+	
+	public void setMaterial(Material material) { this.material = material; }
 	
 	@Override
 	public void draw() {
