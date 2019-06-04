@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import arenashooter.engine.animation.AnimationDataEditable;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Vec2f;
@@ -15,7 +16,8 @@ import arenashooter.engine.ui.simpleElement.Rectangle;
 
 public class AnimEditor implements Navigable {
 	DecimalFormat df = new DecimalFormat("#0.000");
-	double length = 1, currentTime = 0;
+	double currentTime = 0;
+	AnimationDataEditable data;
 	
 	List<UiElement> elems = new ArrayList<>();
 	
@@ -91,7 +93,7 @@ public class AnimEditor implements Navigable {
 	@Override
 	public void update(double delta) {
 		lblTimeCurrent.setText("Time: "+df.format(currentTime));
-		lblTimeLength.setText("Length: "+df.format(length)); //TODO: Only update this when needed
+		lblTimeLength.setText("Length: "+df.format(data.length)); //TODO: Only update this when needed
 		
 		for(UiElement elem : elems)
 			elem.update(delta);

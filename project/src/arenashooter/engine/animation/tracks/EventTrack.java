@@ -2,11 +2,13 @@ package arenashooter.engine.animation.tracks;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
+import arenashooter.engine.math.Vec2f;
 
 public class EventTrack {
 	protected double[] times;
@@ -69,4 +71,12 @@ public class EventTrack {
 		}
 		return times.length-1;
 	}
+	
+	//TODO
+//	public Map<Double, AnimEvent> extractData() {
+//		Map<Double, AnimEvent> keyframes = new HashMap<>();
+//		for(int i=0; i<times.length; i++)
+//			keyframes.put(times[i], (AnimEvent) values[i].clone());
+//		return keyframes;
+//	}
 }

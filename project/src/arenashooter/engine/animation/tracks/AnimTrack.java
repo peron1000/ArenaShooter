@@ -60,4 +60,10 @@ public abstract class AnimTrack<T> {
 		}
 		return times.length-1;
 	}
+	
+	/**
+	 * Create a copy of the keyframes
+	 * @return
+	 */
+	public abstract Map<Double, T> extractData();
 }

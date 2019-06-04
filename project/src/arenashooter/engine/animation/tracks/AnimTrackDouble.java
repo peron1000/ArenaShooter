@@ -1,5 +1,6 @@
 package arenashooter.engine.animation.tracks;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import arenashooter.engine.animation.AnimInterpolation;
@@ -25,6 +26,19 @@ public class AnimTrackDouble extends AnimTrack<Double> {
 		if(f != 0)
 			f = (time-times[prev])/f;
 		return Utils.lerpD((double)values[prev], (double)values[next], f);
+	}
+
+	@Override
+	public Map<Double, Double> extractData() {
+		Map<Double, Double> keyframes = new HashMap<>();
+		for(int i=0; i<times.length; i++)
+			keyframes.put(times[i], ((Double)values[i]).doubleValue());
+		return keyframes;
+	}
+	
+	@Override
+	public AnimTrackDouble clone() {
+		return new AnimTrackDouble(extractData(), interpMode);
 	}
 
 }

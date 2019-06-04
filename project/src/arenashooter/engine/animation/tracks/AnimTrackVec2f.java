@@ -1,5 +1,6 @@
 package arenashooter.engine.animation.tracks;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import arenashooter.engine.animation.AnimInterpolation;
@@ -47,4 +48,16 @@ public class AnimTrackVec2f extends AnimTrack<Vec2f> {
 		}
 	}
 
+	@Override
+	public Map<Double, Vec2f> extractData() {
+		Map<Double, Vec2f> keyframes = new HashMap<>();
+		for(int i=0; i<times.length; i++)
+			keyframes.put(times[i], ((Vec2f)values[i]).clone());
+		return keyframes;
+	}
+
+	@Override
+	public AnimTrackVec2f clone() {
+		return new AnimTrackVec2f(extractData(), interpMode);
+	}
 }
