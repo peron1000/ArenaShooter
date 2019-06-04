@@ -15,8 +15,12 @@ public class Label extends UiSimpleElementNavigable {
 	private Mat4f modelM = new Mat4f();
 
 	public Label(double rot, Vec2f scale, String text) {
+		this(rot, scale, text, Text.TextAlignH.CENTER);
+	}
+	
+	public Label(double rot, Vec2f scale, String text, Text.TextAlignH alignH) {
 		super(rot, scale);
-		this.text = new Text(Main.font, Text.TextAlignH.CENTER, text);
+		this.text = new Text(Main.font, alignH, text);
 		this.material = new Material("data/shaders/ui/ui_text_distance_field");
 		txtMem = text;
 
@@ -27,7 +31,7 @@ public class Label extends UiSimpleElementNavigable {
 	}
 
 	public void setText(String newText) {
-		this.text = new Text(text.getFont(), Text.TextAlignH.CENTER, newText);
+		this.text = new Text(text.getFont(), this.text.getAlignH(), newText);
 		txtMem = newText;
 	}
 	

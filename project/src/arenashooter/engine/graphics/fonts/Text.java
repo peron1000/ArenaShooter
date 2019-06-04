@@ -9,7 +9,7 @@ public class Text {
 	
 	public static enum TextAlignH {	LEFT, RIGHT, CENTER; }
 	
-	private TextAlignH align;
+	private TextAlignH alignH;
 	private Font font;
 	private String text;
 	private float width;
@@ -17,10 +17,12 @@ public class Text {
 
 	public Text(Font font, TextAlignH align, String text) {
 		this.font = font;
-		this.align = align;
+		this.alignH = align;
 		this.text = text;
 		genModel();
 	}
+	
+	public TextAlignH getAlignH() { return alignH; }
 	
 	public Model getModel() { return model; }
 	
@@ -46,9 +48,9 @@ public class Text {
 		int current = 0;
 		float currentX = 0;
 		
-		if(align == TextAlignH.CENTER)
+		if(alignH == TextAlignH.CENTER)
 			currentX = -width/2;
-		else if(align == TextAlignH.RIGHT)
+		else if(alignH == TextAlignH.RIGHT)
 			currentX = -width;
 		
 		for( FontChar fontChar : chars ) {
