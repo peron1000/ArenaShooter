@@ -185,10 +185,10 @@ public class Game extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
-		Window.beginUi();
 		if (menu.selectorVisible) {
+			Window.beginUi();
 			menu.draw();
+			Window.endUi();
 		}
-		Window.endUi();
 	}
 }
