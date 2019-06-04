@@ -9,6 +9,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.ui.AnimEditorTimeline;
 import arenashooter.engine.ui.Navigable;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.Label;
@@ -23,9 +24,12 @@ public class AnimEditor implements Navigable {
 	
 	Label lblTimeCurrent;
 	Label lblTimeLength;
+	AnimEditorTimeline timeline;
 	
 
 	public AnimEditor() {
+		data = new AnimationDataEditable();
+		
 		Rectangle bg = new Rectangle(0, new Vec2f(screenWidth(), 100), new Vec4f(.133, .204, 961, 1));
 		elems.add(bg);
 		
@@ -40,6 +44,10 @@ public class AnimEditor implements Navigable {
 		lblTimeLength = new Label(0, new Vec2f(25), "Length: ", Text.TextAlignH.LEFT);
 		lblTimeLength.setPos(new Vec2f(screenLeft()+32, 50-3));
 		elems.add(lblTimeLength);
+		
+		timeline = new AnimEditorTimeline(0, new Vec2f(screenWidth()-25, 20));
+		timeline.setPos(new Vec2f(11, 32));
+		elems.add(timeline);
 	}
 	
 	private float screenWidth() { return Window.getRatio()*100; }
