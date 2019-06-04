@@ -255,9 +255,13 @@ public class CharacterChooser extends GameState {
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -5, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(current, "Text_touch");
 
-		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press Start to continue");
+		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press Start or Enter to continue");
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
 		textEnt4.attachToParent(current, "Text_touch2");
+		
+		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, "Space Bar to join and Cross or A to join and Round or B to disjoin for controllers");
+		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
+		textEnt5.attachToParent(current, "Text_touch3");
 
 		// Set camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
