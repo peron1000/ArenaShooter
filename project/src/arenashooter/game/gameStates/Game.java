@@ -10,6 +10,7 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
@@ -64,7 +65,6 @@ public class Game extends GameState {
 		Controller c = null;
 		for (Controller controller : GameMaster.gm.controllers) {
 			if (!controller.hasDeadChar()) {
-				
 				aliveChars++;
 				c = controller;
 				}
@@ -185,8 +185,10 @@ public class Game extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
+		Window.beginUi();
 		if (menu.selectorVisible) {
 			menu.draw();
 		}
+		Window.endUi();
 	}
 }
