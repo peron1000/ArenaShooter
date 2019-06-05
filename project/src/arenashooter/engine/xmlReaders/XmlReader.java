@@ -82,7 +82,7 @@ public abstract class XmlReader {
 			log.error("Missing z value in rotation");
 		if(element.hasAttribute("w")) {
 			w = Double.parseDouble(element.getAttribute("w"));
-			return new Quat((float)x, (float)y, (float)z, (float)w);
+			return Quat.normalize(new Quat((float)x, (float)y, (float)z, (float)w));
 		}
 		return Quat.fromEuler(x, y, z);
 	}
