@@ -73,7 +73,7 @@
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
 					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
@@ -145,7 +145,7 @@
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
 					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
@@ -217,7 +217,7 @@
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
 					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
@@ -288,7 +288,7 @@
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
 					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x=".75" y=".75" z=".75" />
 				</mesh>
 			</entities>
