@@ -47,7 +47,7 @@ class EntityEditor implements Navigable {
 			
 			@Override
 			public void make() {
-				mainMenu.typeToButton.get(newChild.get()).arm();
+				mainMenu.newEntity(entity, newChild.get());
 			}
 		});
 		menu.addElementInListOfChoices(newChild, 1);

@@ -50,7 +50,8 @@ class MainMenu implements Navigable {
 	private Editor editor;
 
 	private HashMap<Entity, Button> entityToButton = new HashMap<>();
-	HashMap<TypeEntites, Button> typeToButton = new HashMap<>();
+	private HashMap<TypeEntites, Button> typeToButton = new HashMap<>();
+	private Entity parent;
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -61,6 +62,7 @@ class MainMenu implements Navigable {
 		mainMenu.addMenu(saveQuitMenu, Prime.Exit);
 
 		arenaConstruction = toConstruct;
+		parent = toConstruct;
 
 		saveQuitMenuConstruction();
 
@@ -84,22 +86,23 @@ class MainMenu implements Navigable {
 				@Override
 				public void make() {
 					Mesh mesh = new Mesh(new Vec3f(), file.getPath().replace('\\', '/'));
-					String entityName = mesh.genName();
-					mesh.attachToParent(arenaConstruction, entityName);
-					Button toSetMenu = new Button(0, buttonScale, entityName);
-					setMenu.addElementInListOfChoices(toSetMenu, 1);
-					editor.allEditable.add(mesh);
-					entityToButton.put(mesh, toSetMenu);
-					toSetMenu.setOnArm(new Trigger() {
-
-						@Override
-						public void make() {
-							editor.onSetting = mesh;
-							editor.setCurrentMenu(new EntityEditor(MainMenu.this, mesh, TypeEntites.MESH));
-						}
-					});
-					current = mainMenu;
-					toSetMenu.arm();
+					createNewEntity(mesh, TypeEntites.MESH);
+//					String entityName = mesh.genName();
+//					mesh.attachToParent(parent, entityName);
+//					Button toSetMenu = new Button(0, buttonScale, entityName);
+//					setMenu.addElementInListOfChoices(toSetMenu, 1);
+//					editor.allEditable.add(mesh);
+//					entityToButton.put(mesh, toSetMenu);
+//					toSetMenu.setOnArm(new Trigger() {
+//
+//						@Override
+//						public void make() {
+//							editor.onSetting = mesh;
+//							editor.setCurrentMenu(new EntityEditor(MainMenu.this, mesh, TypeEntites.MESH));
+//						}
+//					});
+//					current = mainMenu;
+//					toSetMenu.arm();
 				}
 			});
 		}
@@ -206,7 +209,7 @@ class MainMenu implements Navigable {
 
 	private void createNewEntity(Entity entity, TypeEntites type) {
 		String entityName = entity.genName();
-		entity.attachToParent(arenaConstruction, entityName);
+		entity.attachToParent(parent, entityName);
 		Button toSetMenu = new Button(0, buttonScale, entityName);
 		setMenu.addElementInListOfChoices(toSetMenu, 1);
 		editor.allEditable.add(entity);
@@ -219,7 +222,14 @@ class MainMenu implements Navigable {
 				editor.setCurrentMenu(new EntityEditor(MainMenu.this, entity, type));
 			}
 		});
+		current = mainMenu;
 		toSetMenu.arm();
+		this.parent = arenaConstruction;
+	}
+	
+	void newEntity(Entity parent , TypeEntites type) {
+		this.parent = parent;
+		typeToButton.get(type).arm();
 	}
 
 	void setButtonName(Entity entity, String name) {
