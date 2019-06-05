@@ -50,6 +50,8 @@ public class MenuPause extends MenuSelectionV<Label> {
 		
 		UiImage bg = new UiImage(0, new Vec2f(100, 75), texture1, new Vec4f(1, 1, 1, 1));
 		menup.setBackground(bg);
+		menup.getMusic().setBackground(bg);
+		menup.getResolution().setBackground(bg);
 		
 		bg.setPosition(new Vec2f(0, 5));
 		
