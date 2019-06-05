@@ -6,7 +6,7 @@ import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 
 public class Button extends UiActionable {
-	private Rectangle rect;
+	private UiImage rect;
 	private Label label;
 	private Trigger arm = new Trigger() {
 		
@@ -18,7 +18,7 @@ public class Button extends UiActionable {
 
 	public Button(double rot, Vec2f scale, String text) {
 		super(rot, scale);
-		rect = new Rectangle(rot, scale, new Vec4f(0, 0, 0, .8));
+		rect = new UiImage(rot, scale, new Vec4f(0, 0, 0, .8));
 		label = new Label(rot, new Vec2f(scale.x*3, scale.y*5), text);
 	}
 	
@@ -87,7 +87,7 @@ public class Button extends UiActionable {
 	}
 	
 	public void setColorFond(Vec4f color) {
-		rect.setColor(color);
+		rect.getMaterial().setParamVec4f("color", color);
 	}
 
 	public void arm() {

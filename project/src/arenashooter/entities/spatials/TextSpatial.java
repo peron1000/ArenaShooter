@@ -3,7 +3,9 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
+import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -33,10 +35,16 @@ public class TextSpatial extends Spatial3 {
 		material.setParamVec4f("baseColor", value);
 	}
 	
-	@Override
-	public void editorAddScale(Vec2f scale) {
-		this.scale.x += scale.x;
-		this.scale.y += scale.y;
+	public void setText(String str) {
+		text = new Text(text.getFont(), text.getAlignH(), str);
+	}
+	
+	public void setAlign(TextAlignH align) {
+		text = new Text(text.getFont(), align, text.getText());
+	}
+	
+	public void setFont(Font font) {
+		text = new Text(font, text.getAlignH(), text.getText());
 	}
 	
 	@Override
@@ -55,5 +63,21 @@ public class TextSpatial extends Spatial3 {
 		Profiler.endTimer(Profiler.MESHES);
 		
 		super.draw();
+	}
+	
+	@Override
+	public void editorDraw() {
+		if (isEditorTarget()) {
+			material.setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
+		} else {
+			material.setParamF("editorFilter", 0);
+		}
+		draw();
+	}
+	
+	@Override
+	public void editorAddScale(Vec2f scale) {
+		this.scale.x += scale.x;
+		this.scale.y += scale.y;
 	}
 }

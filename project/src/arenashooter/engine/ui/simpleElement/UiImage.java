@@ -13,11 +13,35 @@ public class UiImage extends UiSimpleElementNavigable {
 	private Material material;
 	private Mat4f modelM = new Mat4f();
 	
+	/**
+	 * Create a colored rectangle using the ui_rectangle shader
+	 * @param rot
+	 * @param scale
+	 * @param color
+	 */
+	public UiImage(double rot, Vec2f scale, Vec4f color) {
+		this(rot, scale, new Material("data/shaders/ui/ui_rectangle"));
+		material.setParamVec4f("color", color.clone());
+	}
+	
+	/**
+	 * Create a textured rectangle using the ui_image shader
+	 * @param rot
+	 * @param scale
+	 * @param texture
+	 */
 	public UiImage(double rot, Vec2f scale, Texture texture) {
 		this(rot, scale, new Material("data/shaders/ui/ui_image"));
 		material.setParamTex("image", texture);
 	}
 
+	/**
+	 * Create a colored textured rectangle using the ui_image shader
+	 * @param rot
+	 * @param scale
+	 * @param texture
+	 * @param color
+	 */
 	public UiImage(double rot, Vec2f scale, Texture texture, Vec4f color) {
 		this(rot, scale, new Material("data/shaders/ui/ui_image"));
 		material.setParamTex("image", texture);

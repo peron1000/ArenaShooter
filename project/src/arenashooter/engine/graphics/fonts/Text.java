@@ -27,6 +27,10 @@ public class Text {
 	public Model getModel() { return model; }
 	
 	public Font getFont() { return font; }
+	
+	public String getText() {
+		return text;
+	}
 
 	private void genModel() { //TODO: Support multi-lines
 		ArrayList<FontChar> chars = new ArrayList<>(text.length());

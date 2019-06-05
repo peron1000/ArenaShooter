@@ -102,11 +102,9 @@ public abstract class Item extends Spatial {
 			body.setRotation((float)getWorldRot());
 			rigidBody = new RigidBodyContainer(body);
 			rigidBody.attachToParent(this, "rigid_body");
-//			getSprite().attachRot = false;
 		} else if(isEquipped() && rigidBody != null) {
 			rigidBody.detach();
 			rigidBody = null;
-//			getSprite().attachRot = true;
 		}
 	}
 
@@ -127,7 +125,6 @@ public abstract class Item extends Spatial {
 		if (isEquipped()) {
 			setSpriteFlip();
 			setLocalPositionOfSprite();
-//			parentPosition.add(localPosition);
 		}
 		
 		super.step(d);
@@ -168,14 +165,14 @@ public abstract class Item extends Spatial {
 	}
 
 	/**
-	 * Set the local Position of the item Sprite
+	 * Set the local Position of the item Sprite when equipped
 	 */
 	protected void setLocalPositionOfSprite() {
 		if (getCharacter() != null) {
 			if (getCharacter().lookRight) {
-				localPosition = new Vec2f(20, 0);
+				localPosition = new Vec2f(1, 0);
 			} else {
-				localPosition = new Vec2f(-20, 0);
+				localPosition = new Vec2f(-1, 0);
 			}
 		}
 	}

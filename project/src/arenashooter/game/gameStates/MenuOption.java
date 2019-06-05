@@ -6,20 +6,13 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.MenuSelectionV;
-import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
-import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.entities.spatials.Camera;
-import arenashooter.entities.spatials.Mesh;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.MenuStart;
@@ -33,22 +26,13 @@ public class MenuOption extends GameState {
 	private MenuSelectionV<UiActionable> Resolution = new MenuSelectionV<>(5, 0, 0, new Vec2f(30, 10),
 			"data/sprites/interface/Selector.png");
 
-	private int widthinit = Window.getWidth();
-	private int heightint = Window.getHeight();
-
 	private final Vec2f scale = new Vec2f(15);
 
 	private Button button1 = new Button(0, new Vec2f(50, 5.5), "Resolution");
 	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Camera");
-//	private Button button3 = new Button(0, new Vec2f(50, 5.5), "");
 	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Quit");
 
-	private String R1 = widthinit + " x " + heightint;
-	private String R2 = "1920 x 1080";
-	private String R3 = "1280 x 720";
-
 	private InputListener inputs = new InputListener();
-	private Camera cam;
 
 	public MenuOption() {
 		super(1);
@@ -137,12 +121,6 @@ public class MenuOption extends GameState {
 				}
 			}
 		});
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		cam = (Camera) current.getChild("camera");
 	}
 
 	@Override

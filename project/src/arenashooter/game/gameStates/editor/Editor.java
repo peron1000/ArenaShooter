@@ -10,7 +10,7 @@ import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Navigable;
-import arenashooter.engine.ui.simpleElement.Rectangle;
+import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.game.gameStates.GameState;
@@ -19,7 +19,7 @@ public class Editor extends GameState {
 
 	static final float forVisible = -64, forNotVisible = -110;
 
-	private Rectangle background = new Rectangle(0, new Vec2f(50, 150), new Vec4f(.5, .5, .5, .2));
+	private UiImage background = new UiImage(0, new Vec2f(50, 150), new Vec4f(.5, .5, .5, .2));
 
 	private boolean menuVisible = true;
 

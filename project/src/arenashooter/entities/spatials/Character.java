@@ -270,8 +270,12 @@ public class Character extends RigidBodyContainer {
 			if (item instanceof Usable)
 				((Usable) item).setVel(new Vec2f());
 
-			if (getArena() != null)
+			if (getArena() != null) {
+				if(item instanceof Spatial)
+					((Spatial) item).localPosition.set(((Spatial) item).getWorldPos());
 				item.attachToParent(getArena(), item.genName());
+			} else
+				item.detach();
 		}
 	}
 
