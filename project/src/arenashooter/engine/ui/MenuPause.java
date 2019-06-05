@@ -8,6 +8,7 @@ import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;

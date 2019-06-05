@@ -1,9 +1,12 @@
 package arenashooter.engine.ui;
 
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
@@ -35,10 +38,20 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 	private final Vec2f scale = new Vec2f(27f);
 	private int resw = Window.getWidth();
 	private int resh = Window.getHeight();
-
+	private float mv = Audio.getMainVolume();
+	private float mc = Audio.getChannelVolume(AudioChannel.MUSIC);
+	private float msfx = Audio.getChannelVolume(AudioChannel.SFX);
+	private float mui = Audio.getChannelVolume(AudioChannel.UI);
+	private float rescale = Window.getResScale();
+	private String s="1,0";
+	private DecimalFormat df = new DecimalFormat("0.0");
 	private Button button1 = new Button(0, new Vec2f(50, 5.5), "Resolution : " + resw + "x" + resh);
-//	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Camera");
-//	private Button button3 = new Button(0, new Vec2f(50, 5.5), "Credit");
+	private Button button11 = new Button(0, new Vec2f(50, 5.5), "Resolution Scale : " + df.format(rescale));
+	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Main Volume : " + df.format(mv));
+	private Button button3 = new Button(0, new Vec2f(50, 5.5), "MUSIC Volume : " + df.format(mc));
+	private Button button33 = new Button(0, new Vec2f(50, 5.5), "SFX Volume : " + df.format(msfx));
+	private Button button34 = new Button(0, new Vec2f(50, 5.5), "UI Volume : " + df.format(mui));
+	// private Button button35 = new Button(0, new Vec2f(50, 5.5), "Credit");
 	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Back");
 
 	private InputListener inputs = new InputListener();
@@ -51,7 +64,7 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 //		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 //		texture2.setFilter(false);
 
-		/*selector*/
+		/* selector */
 //		Texture texturesl = Texture.loadTexture("data/sprites/interface/SelectorLeft.png");
 //		texturesl.setFilter(false);
 //		UiImage sl = new UiImage(0, new Vec2f(47, 7), texturesl, new Vec4f(1, 1, 1, 1));
@@ -67,34 +80,37 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 //		UiImage selec = new UiImage(0, new Vec2f(47, 7), textureselec, new Vec4f(1, 1, 1, 1));
 //		selec.setVisible(false);
 //		
-		
-		/*background*/
+
+		/* background */
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
 		texture1.setFilter(false);
-		UiImage bg = new UiImage(0, new Vec2f(100, 25), texture1, new Vec4f(0, 0, 1, 1));
+		UiImage bg = new UiImage(0, new Vec2f(100, 75), texture1, new Vec4f(0, 0, 1, 1));
 		this.setBackground(bg);
-		bg.setPosition(new Vec2f(0, -10));
+		bg.setPosition(new Vec2f(0, 5));
 
 		this.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 45));
 		this.setEcartement(9f);
 		button1.setScaleText(new Vec2f(27f));
-	//	button2.setScaleText(scale);
-		// button3.setScaleText(scale);
+		button2.setScaleText(scale);
+		button3.setScaleText(scale);
+		button33.setScaleText(scale);
+		button34.setScaleText(scale);
 		button4.setScaleText(scale);
-
-
+		button11.setScaleText(scale);
 
 		this.addElementInListOfChoices(button1, 2);
-		//this.addElementInListOfChoices(button2, 5);
-		// this.addElementInListOfChoices(button3, 7);
+		this.addElementInListOfChoices(button11, 2);
+		this.addElementInListOfChoices(button2, 5);
+		this.addElementInListOfChoices(button3, 5);
+		this.addElementInListOfChoices(button33, 5);
+		this.addElementInListOfChoices(button34, 5);
 		this.addElementInListOfChoices(button4, 1);
 
 		button1.addAction("right", new Trigger() {
 
 			@Override
 			public void make() {
-			//	setImageSelec(sr, 9);
-				if (res < windsize.size()-1) {
+				if (res < windsize.size() - 1) {
 					res++;
 					resw = windsize.get(res)[0];
 					resh = windsize.get(res)[1];
@@ -103,27 +119,24 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 					resw = windsize.get(res)[0];
 					resh = windsize.get(res)[1];
 				}
-				 button1.setText("Resolution : " + resw + "x" + resh);
+				button1.setText("Resolution : " + resw + "x" + resh);
 			}
 		});
 		button1.addAction("left", new Trigger() {
 
 			@Override
 			public void make() {
-				
-				//setImageSelec(sl, 9);
-				//sl.setVisible(true);
 				if (res > 0) {
 					res--;
 					resw = windsize.get(res)[0];
 					resh = windsize.get(res)[1];
 				} else {
-					res = windsize.size()-1;
+					res = windsize.size() - 1;
 					resw = windsize.get(res)[0];
 					resh = windsize.get(res)[1];
 				}
-				 button1.setText("Resolution : " + resw + "x" + resh);
-				
+				button1.setText("Resolution : " + resw + "x" + resh);
+
 			}
 		});
 		button1.setOnArm(new Trigger() {
@@ -133,19 +146,194 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 				Window.resize(resw, resh);
 			}
 		});
-//		button2.setOnArm(new Trigger() {
-//
-//			@Override
-//			public void make() {
-//			Window.setCamera(new Camera(new Vec3f (1,1,1)));
-//			}
-//		});
+
+		/*Rescale*/
+		button11.addAction("right", new Trigger() {
+
+			@Override
+			public void make() {
+				if (rescale < 2.0f) {
+					rescale = rescale + 0.1f;
+			} else {
+					rescale = 0.5f;
+				}
+				s = df.format(rescale);
+				button11.setText("Rescale : " + s);
+			}
+		});
+		button11.addAction("left", new Trigger() {
+
+			@Override
+			public void make() {
+				if (rescale > 0.505f) {
+					rescale = rescale - 0.1f;
+					
+				} else {
+					rescale = 2.0f;
+				}
+				s = df.format(rescale);
+				button11.setText("Rescale : " + s);
+
+			}
+		});
+		button11.setOnArm(new Trigger() {
+			@Override
+			public void make() {
+				Window.setResScale((float) rescale);
+			}
+		});
+
+		
+		/* Main Volume */
+		button2.addAction("right", new Trigger() {
+
+			@Override
+			public void make() {
+				if (mv < 1.0f) {
+					mv = mv + 0.1f;
+				} else {
+					mv = 0.0f;
+				}
+				s = df.format(mv);
+				button2.setText("Main Volume : " + s);
+			}
+		});
+		button2.addAction("left", new Trigger() {
+
+			@Override
+			public void make() {
+
+				if (mv > 0.05f) {
+					mv = mv - 0.1f;
+				} else {
+					mv = 1.0f;
+				}
+				s =df.format(mv);
+				button2.setText("Main Volume : " + s);
+			}
+		});
+		button2.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				Audio.setMainVolume((float) mv);
+			}
+		});
+
+		// UI, SFX, MUSIC;
+		/* Music */
+		button3.addAction("right", new Trigger() {
+
+			@Override
+			public void make() {
+				if (mc < 1.0f) {
+					mc = mc + 0.1f;
+				} else {
+					mc = 0.0f;
+				}
+				s = df.format(mc);
+				button3.setText("Music Volume : " + s);
+			}
+		});
+		button3.addAction("left", new Trigger() {
+
+			@Override
+			public void make() {
+				if (mc > 0.05f) {
+					mc = mc - 0.1f;
+				} else {
+					mc = 1.0f;
+				}
+				s = df.format(mc);
+				button3.setText("Music Volume : " + s);
+			}
+		});
+		button3.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				Audio.setChannelVolume(AudioChannel.MUSIC, ((float) mc));
+			}
+		});
+		/* SFX */
+		button33.addAction("right", new Trigger() {
+
+			@Override
+			public void make() {
+				if (msfx < 1.0f) {
+					msfx = msfx + 0.1f;
+				} else {
+					msfx = 0.0f;
+				}
+				s = df.format(msfx);
+				button33.setText("SFX Volume : " + s);
+			}
+		});
+		button33.addAction("left", new Trigger() {
+
+			@Override
+			public void make() {
+				if (msfx > 0.05f) {
+					msfx = msfx - 0.1f;
+				} else {
+					msfx = 1.0f;
+				}
+				s = df.format(msfx);
+				button33.setText("SFX Volume : " + s);
+			}
+		});
+		button33.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				Audio.setChannelVolume(AudioChannel.SFX, ((float) msfx));
+			}
+		});
+
+		/* UI */
+		button34.addAction("right", new Trigger() {
+
+			@Override
+			public void make() {
+				if (mui < 1.0) {
+					mui = mui + 0.1f;
+				} else {
+					mui = 0.0f;
+				}
+				s = df.format(mui);
+				button34.setText("UI Volume : " + s);
+			}
+		});
+		button34.addAction("left", new Trigger() {
+
+			@Override
+			public void make() {
+				if (mui > 0.05f) {
+					mui = mui - 0.1f;
+				} else {
+					mui = 1.0f;
+				}
+				s = df.format(mui);
+				button34.setText("UI Volume : " + s);
+			}
+		});
+		button34.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				Audio.setChannelVolume(AudioChannel.UI, ((float) mui));
+			}
+		});
+
+
+		/* Quit */
 		button4.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
 				selectorVisible = false;
-				//GameMaster.gm.requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
+				// GameMaster.gm.requestNextState(new MenuStart(),
+				// "data/mapXML/menu_empty.xml");
 			}
 		});
 
@@ -156,34 +344,31 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_LEFT:
-						if(getTarget().equals(button1)) {
+						if (!getTarget().equals(button4)) {
 							getTarget().lunchAction("left");
-						}else {
+						} else {
 							leftAction();
 						}
 						break;
 					case UI_RIGHT:
-						
-						if(getTarget().equals(button1)) {
+
+						if (!getTarget().equals(button4)) {
 							getTarget().lunchAction("right");
-						}else {
+						} else {
 							rightAction();
 						}
 						break;
 					case UI_UP:
-//							setImageSelec(selec, 9);
-							upAction();
+						upAction();
 						break;
 					case UI_DOWN:
-//						setImageSelec(selec, 9);	 
-						 downAction();
+						downAction();
 						break;
 					case UI_OK:
 					case UI_CONTINUE:
 						getTarget().selectAction();
 						break;
 					case UI_BACK:
-						//GameMaster.gm.requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
 						selectorVisible = false;
 						break;
 
@@ -212,5 +397,4 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 	public void draw() {
 		super.draw();
 	}
-
 }

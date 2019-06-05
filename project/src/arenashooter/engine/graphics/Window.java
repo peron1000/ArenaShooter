@@ -87,7 +87,7 @@ public final class Window {
 	private static int colorRenderBuffer, depthRenderBuffer;
 	//Internal rendering resolution
 	private static int resX, resY;
-	public static float resolutionScale = 1;
+	private static float resolutionScale = 1;
 	
 	//Callbacks
 	private static GLFWErrorCallback callbackError;
@@ -282,6 +282,13 @@ public final class Window {
 		glfwDestroyWindow(window);
 		
 		glfwTerminate();
+	}
+	
+	public static float getResScale() { return resolutionScale; }
+	
+	public static void setResScale(float newScale) {
+		resolutionScale = newScale;
+		resize(width, height);
 	}
 	
 	/**

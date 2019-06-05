@@ -36,8 +36,8 @@ public class Main {
 		
 		ConfigManager.init();
 		Audio.init();
-		Window.resolutionScale = ConfigManager.getFloat("resScale");
 		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), "Super Blep");
+		Window.setResScale(ConfigManager.getFloat("resScale"));
 		Window.setVsync(true);
 		
 		gameMaster = GameMaster.gm;
