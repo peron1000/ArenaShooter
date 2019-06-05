@@ -35,7 +35,7 @@ public class MenuSettings extends MenuSelectionV<UiActionable> {
 
 	public MenuSettings() {
 		super(10, 0, 25, new Vec2f(47, 7), "data/sprites/interface/Selector.png");
-		
+
 		/*menu resolution*/
 		resolution = new MenuSettingsVideo();
 		resolution.selectorVisible = false;
@@ -55,7 +55,7 @@ public class MenuSettings extends MenuSelectionV<UiActionable> {
 		button4.setScaleText(scale);
 		button15.setScaleText(scale);
 		button16.setScaleText(scale);
-		
+
 		this.addElementInListOfChoices(button15, 2);
 		this.addElementInListOfChoices(button16, 2);
 

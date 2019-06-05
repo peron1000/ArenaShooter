@@ -14,28 +14,25 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
-
-
 public class MenuSettingsAudio extends MenuSelectionV<UiActionable> {
 
+	private Vec2f forVisible = new Vec2f(0, 25);
+	private final Vec2f scale = new Vec2f(27f);
+	private DecimalFormat df = new DecimalFormat("0.0");
+	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Back");
+	private InputListener inputs = new InputListener();
+	private float volumeMain = Audio.getMainVolume();
+	private float volumeMusic = Audio.getChannelVolume(AudioChannel.MUSIC);
+	private float volumeSfx = Audio.getChannelVolume(AudioChannel.SFX);
+	private float volumeUi = Audio.getChannelVolume(AudioChannel.UI);
+	private Button button2 = new Button(0, new Vec2f(50, 5.5), "Main Volume : " + df.format(volumeMain));
+	private Button button3 = new Button(0, new Vec2f(50, 5.5), "Music Volume : " + df.format(volumeMusic));
+	private Button button33 = new Button(0, new Vec2f(50, 5.5), "SFX Volume : " + df.format(volumeSfx));
+	private Button button34 = new Button(0, new Vec2f(50, 5.5), "UI Volume : " + df.format(volumeUi));
 
-		private Vec2f forVisible = new Vec2f(0, 25);
-		private final Vec2f scale = new Vec2f(27f);
-		private DecimalFormat df = new DecimalFormat("0.0");
-		private Button button4 = new Button(0, new Vec2f(50, 5.5), "Back");
-		private InputListener inputs = new InputListener();
-		private float volumeMain = Audio.getMainVolume();
-		private float volumeMusic = Audio.getChannelVolume(AudioChannel.MUSIC);
-		private float volumeSfx = Audio.getChannelVolume(AudioChannel.SFX);
-		private float volumeUi = Audio.getChannelVolume(AudioChannel.UI);
-		private Button button2 = new Button(0, new Vec2f(50, 5.5), "Main Volume : " + df.format(volumeMain));
-		private Button button3 = new Button(0, new Vec2f(50, 5.5), "Music Volume : " + df.format(volumeMusic));
-		private Button button33 = new Button(0, new Vec2f(50, 5.5), "SFX Volume : " + df.format(volumeSfx));
-		private Button button34 = new Button(0, new Vec2f(50, 5.5), "UI Volume : " + df.format(volumeUi));
-
-		public MenuSettingsAudio() {
+	public MenuSettingsAudio() {
 		super(10, 0, 25, new Vec2f(47, 7), "data/sprites/interface/Selector.png");
-		
+
 		/* background */
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
 		texture1.setFilter(false);
@@ -45,8 +42,7 @@ public class MenuSettingsAudio extends MenuSelectionV<UiActionable> {
 
 		this.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 45));
 		this.setEcartement(9f);
-	
-	
+
 		button2.setScaleText(scale);
 		button3.setScaleText(scale);
 		button33.setScaleText(scale);
@@ -191,17 +187,17 @@ public class MenuSettingsAudio extends MenuSelectionV<UiActionable> {
 		});
 
 
-			
+
 		/* Quit */
 		button4.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
 				selectorVisible = false;
-				}
+			}
 		});
 
-		
+
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -244,18 +240,18 @@ public class MenuSettingsAudio extends MenuSelectionV<UiActionable> {
 			}
 
 		});
-		
-		}
 
-		@Override
-		public void update(double delta) {
-			inputs.step(delta);
-			super.update(delta);
-		}
+	}
 
-		@Override
-		public void draw() {
-			super.draw();
-		}
-	
+	@Override
+	public void update(double delta) {
+		inputs.step(delta);
+		super.update(delta);
+	}
+
+	@Override
+	public void draw() {
+		super.draw();
+	}
+
 }
