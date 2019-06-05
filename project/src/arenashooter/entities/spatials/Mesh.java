@@ -67,12 +67,6 @@ public class Mesh extends Spatial3 {
 	}
 	
 	@Override
-	public void editorAddScale(Vec2f scale) {
-		this.scale.x += scale.x;
-		this.scale.y += scale.y;
-	}
-	
-	@Override
 	public void step(double d) {
 		timeMs += d * 1000;
 		super.step(d);
@@ -104,6 +98,12 @@ public class Mesh extends Spatial3 {
 		Profiler.endTimer(Profiler.MESHES);
 
 		super.draw();
+	}
+	
+	@Override
+	public void editorAddScale(Vec2f scale) {
+		this.scale.x += scale.x;
+		this.scale.y += scale.y;
 	}
 
 	@Override

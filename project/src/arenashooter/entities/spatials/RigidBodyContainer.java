@@ -4,6 +4,9 @@ import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.PhysicShape;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Editable;
 import arenashooter.entities.Entity;
 import arenashooter.game.Main;
@@ -13,7 +16,7 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	private RigidBody body;
 
 	private boolean needsPhysWorld = true;
-	private boolean init = false, editorTarget = false;
+	private boolean init = false;
 
 	public RigidBodyContainer(RigidBody body) {
 		super();
@@ -143,38 +146,35 @@ public class RigidBodyContainer extends Spatial implements Editable {
 
 	@Override
 	public void draw() {
-		if (Main.drawCollisions || editorTarget)
+		if (Main.drawCollisions)
 			body.debugDraw();
 
 		super.draw();
 	}
 
 	@Override
-	public boolean isEditorTarget() {
-		return editorTarget;
-	}
-
-	@Override
-	public void setEditorTarget(boolean editorTarget) {
-		this.editorTarget = editorTarget;
-	}
-
-	@Override
 	public void editorAddPosition(Vec2f position) {
-		localPosition.x += position.x;
-		localPosition.y += position.y;
+		body.setPosition(Vec2f.add(getWorldPos(), position));
+		
 		for (Entity e : getChildren().values())
 			e.updateAttachment();
-		body.setPosition(getWorldPos());
 	}
 
 	@Override
 	public void editorAddScale(Vec2f extent) {
-		
+		PhysicShape oldShape = body.getShape();
+		if(oldShape instanceof ShapeBox)
+			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
+		if(oldShape instanceof ShapeDisk)
+			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x  ));
 	}
 
 	@Override
 	public void editorAddRotation(double angle) {
+		body.setRotation((float) (getWorldRot()+angle));
+		
+		for (Entity e : getChildren().values())
+			e.updateAttachment();
 	}
 
 	@Override

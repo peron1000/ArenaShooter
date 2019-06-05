@@ -6,6 +6,9 @@ import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.KinematicBody;
+import arenashooter.engine.physic.shapes.PhysicShape;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Entity;
 import arenashooter.game.Main;
 
@@ -167,6 +170,36 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 	public double getAnimSpeed() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void editorAddPosition(Vec2f position) {
+		body.setPosition(Vec2f.add(getWorldPos(), position));
+		
+		for (Entity e : getChildren().values())
+			e.updateAttachment();
+	}
+
+	@Override
+	public void editorAddScale(Vec2f extent) {
+		PhysicShape oldShape = body.getShape();
+		if(oldShape instanceof ShapeBox)
+			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
+		if(oldShape instanceof ShapeDisk)
+			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x  ));
+	}
+
+	@Override
+	public void editorAddRotation(double angle) {
+		body.setRotation((float) (getWorldRot()+angle));
+		
+		for (Entity e : getChildren().values())
+			e.updateAttachment();
+	}
+
+	@Override
+	public void editorDraw() {
+		body.debugDraw();
 	}
 	
 }
