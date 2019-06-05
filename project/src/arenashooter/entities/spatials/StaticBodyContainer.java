@@ -15,7 +15,7 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	private StaticBody body;
 
 	private boolean needsPhysWorld = true;
-	private boolean init = false, isEditorTarget = false;
+	private boolean init = false;
 
 	public StaticBodyContainer(StaticBody body) {
 		super();
@@ -74,14 +74,6 @@ public class StaticBodyContainer extends Spatial implements Editable {
 		return body;
 	}
 
-	public boolean isEditorTarget() {
-		return isEditorTarget;
-	}
-
-	public void setEditorTarget(boolean isEditorTarget) {
-		this.isEditorTarget = isEditorTarget;
-	}
-
 	@Override
 	public Vec2f getWorldPos() {
 		return body.getPosition();
@@ -114,7 +106,7 @@ public class StaticBodyContainer extends Spatial implements Editable {
 
 	@Override
 	public void draw() {
-		if (Main.drawCollisions || isEditorTarget) {
+		if (Main.drawCollisions) {
 			body.debugDraw();
 		}
 
@@ -122,7 +114,7 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	}
 
 	@Override
-	public void addPosition(Vec2f position) {
+	public void editorAddPosition(Vec2f position) {
 		body.setPosition(Vec2f.add(getWorldPos(), position));
 		
 		for (Entity e : getChildren().values())
@@ -130,7 +122,7 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	}
 
 	@Override
-	public void addScale(Vec2f extent) {
+	public void editorAddScale(Vec2f extent) {
 		PhysicShape oldShape = body.getShape();
 		if(oldShape instanceof ShapeBox)
 			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
@@ -139,12 +131,15 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	}
 
 	@Override
-	public void addRotation(double angle) {
+	public void editorAddRotation(double angle) {
 		body.setRotation((float) (getWorldRot()+angle));
+		
+		for (Entity e : getChildren().values())
+			e.updateAttachment();
 	}
 
 	@Override
-	public void drawEditor() {
+	public void editorDraw() {
 		body.debugDraw();
 	}
 

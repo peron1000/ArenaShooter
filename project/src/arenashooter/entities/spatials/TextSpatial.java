@@ -5,6 +5,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
@@ -30,6 +31,12 @@ public class TextSpatial extends Spatial3 {
 	
 	public void setColor(Vec4f value) {
 		material.setParamVec4f("baseColor", value);
+	}
+	
+	@Override
+	public void editorAddScale(Vec2f scale) {
+		this.scale.x += scale.x;
+		this.scale.y += scale.y;
 	}
 	
 	@Override

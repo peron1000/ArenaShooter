@@ -3,6 +3,7 @@ package arenashooter.entities.spatials;
 import java.util.LinkedList;
 
 import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
 
@@ -23,21 +24,25 @@ public class Spatial3 extends Entity {
 	public Quat localRotation = Quat.fromAngle(0);
 	/** World space rotation */
 	private Quat worldRotation = Quat.fromAngle(0);
+	private Vec3f editorLocalRotation = new Vec3f();
 	
 	public Spatial3() {
 		super();
 		this.localPosition = new Vec3f();
+		this.localRotation.toEuler(editorLocalRotation);
 	}
 	
 	public Spatial3(Vec3f localPosition) {
 		super();
 		this.localPosition = localPosition.clone();
+		this.localRotation.toEuler(editorLocalRotation);
 	}
 
 	public Spatial3(Vec3f localPosition, Quat localRotation) {
 		super();
 		this.localPosition = localPosition.clone();
 		this.localRotation.set(localRotation);
+		this.localRotation.toEuler(editorLocalRotation);
 	}
 	
 	@Override
@@ -68,16 +73,23 @@ public class Spatial3 extends Entity {
 		return Quat.multiply(parentRotation, localRotation, worldRotation);
 	}
 	
-	public void addLocalPositionSelfAndChildren(Vec3f add) {
-		localPosition.add(add);
-		for (Entity child : getChildren().values()) {
-			if(child instanceof Spatial3) {
-				Spatial3 s = (Spatial3) child;
-				s.addLocalPositionSelfAndChildren(add);
-			}
-		}
+	@Override
+	public void editorAddPosition(Vec2f position) {
+		localPosition.x += position.x;
+		localPosition.y += position.y;
+		
+		for(Entity e : getChildren().values())
+			e.updateAttachment();
 	}
 	
+	@Override
+	public void editorAddRotation(double angle) {
+		editorLocalRotation.z += angle;
+		Quat.fromEuler(editorLocalRotation, localRotation);
+
+		for(Entity e : getChildren().values())
+			e.updateAttachment();
+	}
 
 	@Override
 	public void updateAttachment() {

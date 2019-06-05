@@ -28,9 +28,70 @@ class EntityEditor implements Navigable {
 	private TextInput textInput = new TextInput();
 
 	public EntityEditor(MainMenu mainMenu , Entity entity , TypeEntites type) {
+		
+		// Make title
 		title = new Label(0, new Vec2f(40), type.name()+" Editor");
 		title.setPosition(new Vec2f(Editor.forVisible, -40));
 		
+		
+		// Make Label for entity name and parent entity name
+		makeLabelsForEntity(entity);
+		
+		makeTextInput(mainMenu , entity);
+
+		menu.setPosition(position);
+		
+		newChild.setTitle("New Child");
+		newChild.setAlwaysScrollable(true);
+		newChild.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				mainMenu.typeToButton.get(newChild.get()).arm();
+			}
+		});
+		menu.addElementInListOfChoices(newChild, 1);
+		
+		modification.setAlwaysScrollable(true);
+		modification.setTitle("Setting");
+		menu.addElementInListOfChoices(modification, 1);
+		
+		Button rename = new Button(0, new Vec2f(10), "Rename Entity");
+		rename.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				onWritting = true;
+				entityNameLabel.setVisible(false);
+				textInput.reset();
+			}
+		});
+		menu.addElementInListOfChoices(rename, 0);
+		menu.setEcartement(8);
+		
+	}
+
+	private void makeTextInput(MainMenu mainMenu, Entity entity) {
+		textInput.setPosition(entityNameLabel.getPosition());
+		textInput.setVisible(false);
+		textInput.setScale(new Vec2f(10));
+		textInput.setOnFinish(new Trigger() {
+
+			@Override
+			public void make() {
+				onWritting = false;
+				Entity parent = entity.getParent();
+				entityNameString = textInput.getText();
+				entity.detach();
+				entity.attachToParent(parent, entityNameString);
+				entityNameLabel.setText("Name : "+entityNameString);
+				entityNameLabel.setVisible(true);
+				mainMenu.setButtonName(entity, entityNameString);
+			}
+		});
+	}
+
+	private void makeLabelsForEntity(Entity entity) {
 		Entity parent = entity.getParent();
 		try {
 			for (String name : parent.getChildren().keySet()) {
@@ -60,58 +121,8 @@ class EntityEditor implements Navigable {
 				this.parent = new Label(0, new Vec2f(30), "Parent : Error");
 			}
 		}
-
 		
 		this.parent.setPosition(new Vec2f(Editor.forVisible, -20));
-
-		textInput.setPosition(entityNameLabel.getPosition());
-		textInput.setVisible(false);
-		textInput.setScale(new Vec2f(10));
-		textInput.setOnFinish(new Trigger() {
-
-			@Override
-			public void make() {
-				onWritting = false;
-				Entity parent = entity.getParent();
-				entityNameString = textInput.getText();
-				entity.detach();
-				entity.attachToParent(parent, entityNameString);
-				entityNameLabel.setText("Name : "+entityNameString);
-				entityNameLabel.setVisible(true);
-				mainMenu.setButtonName(entity, entityNameString);
-			}
-		});
-
-		menu.setPosition(position);
-		
-		modification.setAlwaysScrollable(true);
-		modification.setTitle("Setting");
-		menu.addElementInListOfChoices(modification, 1);
-		
-		newChild.setTitle("New Child");
-		newChild.setAlwaysScrollable(true);
-		newChild.setOnArm(new Trigger() {
-			
-			@Override
-			public void make() {
-				mainMenu.typeToButton.get(newChild.get()).arm();
-			}
-		});
-		menu.addElementInListOfChoices(newChild, 1);
-		
-		Button rename = new Button(0, new Vec2f(10), "Rename Entity");
-		rename.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				onWritting = true;
-				entityNameLabel.setVisible(false);
-				textInput.reset();
-			}
-		});
-		menu.addElementInListOfChoices(rename, 0);
-		menu.setEcartement(8);
-
 	}
 
 	@Override

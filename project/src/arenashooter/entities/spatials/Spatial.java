@@ -64,6 +64,22 @@ public class Spatial extends Entity {
 	}
 	
 	@Override
+	public void editorAddPosition(Vec2f position) {
+		localPosition.add(position);
+		
+		for(Entity e : getChildren().values())
+			e.updateAttachment();
+	}
+	
+	@Override
+	public void editorAddRotation(double angle) {
+		localRotation += angle;
+		
+		for(Entity e : getChildren().values())
+			e.updateAttachment();
+	}
+	
+	@Override
 	public void updateAttachment() {
 		if(getParent() instanceof Spatial) {
 			if(attachRot)

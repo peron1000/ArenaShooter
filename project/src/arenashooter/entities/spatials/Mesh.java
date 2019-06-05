@@ -9,10 +9,8 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Editable;
-import arenashooter.entities.Entity;
 
-public class Mesh extends Spatial3 implements Editable {
+public class Mesh extends Spatial3 {
 
 	private Model[] models;
 	private Material[] materials;
@@ -21,8 +19,6 @@ public class Mesh extends Spatial3 implements Editable {
 	public boolean useTransparency = false;
 
 	private int timeMs = 0;
-
-	private boolean isEditorTarget = false;
 
 	public Vec3f scale;
 
@@ -56,14 +52,6 @@ public class Mesh extends Spatial3 implements Editable {
 		this.materials = materials;
 	}
 
-	public void setEditorTarget(boolean isEditorTarget) {
-		this.isEditorTarget = isEditorTarget;
-	}
-
-	public boolean isEditorTarget() {
-		return isEditorTarget;
-	}
-
 	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
 		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new Material[] { material });
 	}
@@ -77,7 +65,13 @@ public class Mesh extends Spatial3 implements Editable {
 			return null;
 		return materials[id];
 	}
-
+	
+	@Override
+	public void editorAddScale(Vec2f scale) {
+		this.scale.x += scale.x;
+		this.scale.y += scale.y;
+	}
+	
 	@Override
 	public void step(double d) {
 		timeMs += d * 1000;
@@ -94,12 +88,6 @@ public class Mesh extends Spatial3 implements Editable {
 		Profiler.startTimer(Profiler.MESHES);
 
 		for (int i = 0; i < models.length; i++) {
-
-			if (isEditorTarget) {
-				materials[i].setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
-			} else {
-				materials[i].setParamF("editorFilter", 0);
-			}
 
 			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
 			materials[i].view = Window.getView();
@@ -119,33 +107,10 @@ public class Mesh extends Spatial3 implements Editable {
 	}
 
 	@Override
-	public void addPosition(Vec2f position) {
-		localPosition.x += position.x;
-		localPosition.y += position.y;
-		for (Entity child : getChildren().values()) {
-			if (child instanceof Editable) {
-				Editable editable = (Editable) child;
-				editable.addPosition(position);
-			}
-		}
-	}
-
-	@Override
-	public void addScale(Vec2f extent) {
-		scale.x += extent.x;
-		scale.y += extent.y;
-	}
-
-	@Override
-	public void addRotation(double angle) {
-		Quat.multiply(localRotation, Quat.fromAngle(angle), localRotation);
-	}
-
-	@Override
-	public void drawEditor() {
+	public void editorDraw() {
 		for (int i = 0; i < models.length; i++) {
-
-			if (isEditorTarget) {
+			
+			if (isEditorTarget()) {
 				materials[i].setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
 			} else {
 				materials[i].setParamF("editorFilter", 0);

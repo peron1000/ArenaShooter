@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
 
-public class Entity {
+public class Entity implements Editable {
 	/** Arena containing this */
 	private Arena arena = null;
 	/** Arena value needs to be refreshed */
@@ -20,6 +21,8 @@ public class Entity {
 
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
+	
+	private boolean isEditorTarget = false;
 	
 	// Entity comparator based on zIndex
 	protected static Comparator<Entity> comparator = new Comparator<Entity>() {
@@ -219,5 +222,35 @@ public class Entity {
 
 	public String genName() {
 		return String.valueOf(toString()+System.nanoTime());
+	}
+
+	@Override
+	public boolean isEditorTarget() {
+		return isEditorTarget;
+	}
+
+	@Override
+	public void setEditorTarget(boolean editorTarget) {
+		isEditorTarget = editorTarget;
+	}
+
+	@Override
+	public void editorAddPosition(Vec2f position) {
+		// Nothing
+	}
+
+	@Override
+	public void editorAddScale(Vec2f scale) {
+		// Nothing
+	}
+
+	@Override
+	public void editorAddRotation(double angle) {
+		// Nothing
+	}
+
+	@Override
+	public void editorDraw() {
+		draw();
 	}
 }

@@ -160,7 +160,7 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	}
 
 	@Override
-	public void addPosition(Vec2f position) {
+	public void editorAddPosition(Vec2f position) {
 		localPosition.x += position.x;
 		localPosition.y += position.y;
 		for (Entity e : getChildren().values())
@@ -169,16 +169,16 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	}
 
 	@Override
-	public void addScale(Vec2f extent) {
+	public void editorAddScale(Vec2f extent) {
 		
 	}
 
 	@Override
-	public void addRotation(double angle) {
+	public void editorAddRotation(double angle) {
 	}
 
 	@Override
-	public void drawEditor() {
+	public void editorDraw() {
 		body.debugDraw();
 	}
 
