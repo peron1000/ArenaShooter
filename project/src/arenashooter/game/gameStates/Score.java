@@ -150,7 +150,7 @@ public class Score extends GameState {
 		///Bestest player
 		x = 50;
 		//Portrait
-		image = new UiImage(0, new Vec2f(23), survivor.getPortrait());
+		image = new UiImage(0, new Vec2f(23), bestest.getPortrait());
 		image.rotation = .028;
 		menu.addUiElement(image, 4);
 		image.setPosition(new Vec2f(x, -22));
