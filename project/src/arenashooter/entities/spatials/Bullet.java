@@ -13,7 +13,7 @@ import arenashooter.engine.physic.shapes.ShapeDisk;
 public class Bullet extends Projectile {
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
-		super(new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
+		super(new RigidBody(new ShapeDisk(.25), position, vel.angle(), CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
 		getBody().setIsSensor(true);
@@ -21,14 +21,10 @@ public class Bullet extends Projectile {
 		this.vel = vel.clone();
 
 		this.damage = damage;
-//		localRotation = vel.angle();
-//		attachRot = false;
 
 		Sprite sprite = new Sprite(new Vec2f(), "data/sprites/Bullet.png");
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
-//		sprite.localRotation = getWorldRot();
 		sprite.getTexture().setFilter(false);
-//		sprite.attachRot = false;
 		sprite.attachToParent(this, "bul_Sprite");
 	}
 
