@@ -58,16 +58,18 @@ public class Controller {
 	public Character getCharacter() {
 		return character;
 	}
-	
-	public CharacterInfo getCharInfo() { return info; }
-	
+
+	public CharacterInfo getCharInfo() {
+		return info;
+	}
+
 	public Texture getPortrait() {
 		Texture portrait;
-		String path = "data/sprites/characters/"+info.getSkin();
-		if(new File(path+"/head.png").exists())
-			portrait = Texture.loadTexture(path+"/head.png");
+		String path = "data/sprites/characters/" + info.getSkin();
+		if (new File(path + "/head.png").exists())
+			portrait = Texture.loadTexture(path + "/head.png");
 		else
-			portrait = Texture.loadTexture(path+"/head_tr.png");
+			portrait = Texture.loadTexture(path + "/head_tr.png");
 		portrait.setFilter(false);
 		return portrait;
 	}
@@ -115,9 +117,14 @@ public class Controller {
 				} else if (character.jumpi) {
 					character.jumpStop();
 				}
-				if (Input.actionJustPressed(device, Action.ATTACK))
+
+				if (Input.actionJustPressed(device, Action.PARRY)) {
+					character.parryStart();
+				} else if (Input.actionJustReleased(device, Action.PARRY)) {
+					character.parryStop();
+				} else if (Input.actionJustPressed(device, Action.ATTACK)) {
 					character.attackStart();
-				else if (Input.actionJustReleased(device, Action.ATTACK))
+				} else if (Input.actionJustReleased(device, Action.ATTACK))
 					character.attackStop();
 
 				if (Input.actionJustPressed(device, Action.GET_ITEM))

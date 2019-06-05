@@ -52,6 +52,8 @@ public class Character extends RigidBodyContainer {
 	/** Melee attack cooldown */
 	private Timer attackCooldown = new Timer(0.2);
 	private int attackCombo = 0;
+	private Timer parry = new Timer(1.5);
+	private boolean parryCooldown = false;
 	private Timer chargePunch = new Timer(0.5);
 	/**
 	 * For now, this boolean is used for visuals and Sounds only.
@@ -80,9 +82,11 @@ public class Character extends RigidBodyContainer {
 
 		attackCooldown.attachToParent(this, "attack timer");
 		chargePunch.attachToParent(this, "powerpunch charging");
+		chargePunch.setProcessing(false);
 		jumpTimer.attachToParent(this, "jump Timer");
 		holdCombo.attachToParent(this, "attack Combo Hold");
-		chargePunch.setProcessing(false);
+		parry.attachToParent(this, "parry timer");
+		parry.setIncreasing(false);
 
 		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
 		skeleton.attachToParent(this, "skeleton");
@@ -127,6 +131,31 @@ public class Character extends RigidBodyContainer {
 			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x, getLinearVelocity().y / 2));
 			// vel.y = vel.y / 2;
 		}
+	}
+	
+	public void parryStart() {
+		if(getWeapon() == null && !parryCooldown) {
+			((CharacterSprite) getChild("skeleton")).parryStart();
+			parry.setIncreasing(true);
+		}
+	}
+	
+	public void parryStop() {
+		((CharacterSprite) getChild("skeleton")).parryStop();
+		parry.setIncreasing(false);
+	}
+	
+	/**
+	 * 
+	 * @param attackAngle is the angle the attack is directed. For projectiles, relative speed is not taken into account, only absolute speed.  
+	 * @return true if the character is blocking in the direction of the attack.
+	 */
+	public boolean canParryThis(double attackAngle) {
+		return parry.isIncreasing();//L'angle n'est pas encore géré
+	}
+	
+	public boolean isParrying() {
+		return parry.isIncreasing() && !parry.isOver();
 	}
 
 	public void attackStart() {
@@ -328,8 +357,16 @@ public class Character extends RigidBodyContainer {
 		if (getArena() == null)
 			return;
 
-		if (Math.random() > 0.6)
-			jumpTimer.isOver();
+		if (Math.random() > 0.6)//???
+			jumpTimer.isOver();//???
+		
+		if(parry.isOver()) {
+			parryCooldown = true;
+			parryStop();
+		}
+		if(parryCooldown && parry.getValue() < 0.75) {
+			parryCooldown = false;
+		}
 
 		double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed,
 				Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));

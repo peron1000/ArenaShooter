@@ -24,6 +24,7 @@ public class CharacterSprite extends Spatial {
 	private Sprite body, head, footL, footR, handL, handR;
 	private Sprite punchSprite = new Sprite(new Vec2f());
 	private Sprite chargeSprite = new Sprite(new Vec2f());
+	private Sprite parry = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry_Bubble.png");
 	private String particlesBlood = "data/particles/blood.xml";
 
 	private double lookAngle = 0;
@@ -116,8 +117,22 @@ public class CharacterSprite extends Spatial {
 		chargeSprite.attachToParent(this, "Charge");
 		chargeSprite.size.set(0, 0);
 		chargeSprite.zIndex = getZIndex()+1;
+		
+		parry.attachToParent(this, "Parry");
+		parry.useTransparency = true;
+		parry.size.set(0, 0);
+		parry.getTexture().setFilter(false);
+		parry.zIndex = getZIndex()+1;
+	}
+	
+	public void parryStart() {
+		parry.size.set(parry.getTexture().getWidth()*0.04, parry.getTexture().getHeight()*0.04);
 	}
 
+	public void parryStop() {
+		parry.size.set(0, 0);
+	}
+	
 	public void punch(int swoosh, double direction) {
 		Vec2f.rotate(new Vec2f(1.5, 0), direction, handR.localPosition);
 		handR.rotation = direction;

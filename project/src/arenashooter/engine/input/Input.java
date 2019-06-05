@@ -143,6 +143,7 @@ public final class Input {
 				actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS || glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS);
 				actions[Action.GET_ITEM.id][i] = getActionState(actions[Action.GET_ITEM.id][i], glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS);
 				actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS);
+				actions[Action.PARRY.id][i] = getActionState(actions[Action.PARRY.id][i], glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS || glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS);
 				
 				actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS);
 				actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS);
@@ -163,6 +164,7 @@ public final class Input {
 				if(glfwGetGamepadState(i, currentGamepad)) {
 
 					actions[Action.ATTACK.id][i] = getActionState(actions[Action.ATTACK.id][i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER) >= 0 || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_X) == GLFW_PRESS);
+					actions[Action.PARRY.id][i] = getActionState(actions[Action.PARRY.id][i], currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_TRIGGER) >= 0);
 
 					if (Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X)) >= deadzone || Math.abs(currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_Y)) >= deadzone) {
 						axes[Axis.MOVE_X.id][i] = currentGamepad.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
