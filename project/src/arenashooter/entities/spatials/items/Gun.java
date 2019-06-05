@@ -218,7 +218,7 @@ public class Gun extends Usable {
 
 	@Override
 	protected void setLocalPositionOfSprite() {
-		Vec2f.rotate(new Vec2f(.5, 0), getWorldRot(), localPosition);
+		Vec2f.rotate(new Vec2f(1, 0), getWorldRot(), localPosition);
 	}
 	
 	@Override
