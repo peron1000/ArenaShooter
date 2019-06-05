@@ -1,34 +1,24 @@
 package arenashooter.engine.ui;
 
-import java.awt.Robot;
 import java.util.LinkedList;
 
-import arenashooter.engine.events.BooleanProperty;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.Action;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.input.ActionV2;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
-import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
-import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.MenuStart;
 
 public class MenuPause extends MenuSelectionV<Label> {
 
 	private Label op1, op2, op3, op4;
 	private InputListener inputs = new InputListener();
-	private MenuOption2 menup;
+	private MenuSettings menup;
 
 	public MenuPause(float x, float y) {
 		super(5, x, y, new Vec2f(30, 10), "data/sprites/interface/Selector.png");
@@ -42,7 +32,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 			}
 		}
 		/*menu option*/
-		menup = new MenuOption2();
+		menup = new MenuSettings();
 		menup.selectorVisible = false;
 		
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
@@ -89,7 +79,7 @@ public class MenuPause extends MenuSelectionV<Label> {
 		final float scale = 24;
 		setPositionRef(new Vec2f(getPosition().x, getPosition().y - 12.5));
 		setEcartement(10);
-		Rectangle rec = new Rectangle(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
+		UiImage rec = new UiImage(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
 		setBackground(rec);
 		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
 		addUiElement(pause, 0);

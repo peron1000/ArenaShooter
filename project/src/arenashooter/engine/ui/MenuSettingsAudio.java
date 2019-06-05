@@ -16,25 +16,24 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 
 
 
-public class MenuMusic extends MenuSelectionV<UiActionable> {
+public class MenuSettingsAudio extends MenuSelectionV<UiActionable> {
 
 
 		private Vec2f forVisible = new Vec2f(0, 25);
 		private final Vec2f scale = new Vec2f(27f);
-		private String s = "1,0";
 		private DecimalFormat df = new DecimalFormat("0.0");
 		private Button button4 = new Button(0, new Vec2f(50, 5.5), "Back");
 		private InputListener inputs = new InputListener();
-		private float mv = Audio.getMainVolume();
-		private float mc = Audio.getChannelVolume(AudioChannel.MUSIC);
-		private float msfx = Audio.getChannelVolume(AudioChannel.SFX);
-		private float mui = Audio.getChannelVolume(AudioChannel.UI);
-		private Button button2 = new Button(0, new Vec2f(50, 5.5), "Main Volume : " + df.format(mv));
-		private Button button3 = new Button(0, new Vec2f(50, 5.5), "MUSIC Volume : " + df.format(mc));
-		private Button button33 = new Button(0, new Vec2f(50, 5.5), "SFX Volume : " + df.format(msfx));
-		private Button button34 = new Button(0, new Vec2f(50, 5.5), "UI Volume : " + df.format(mui));
+		private float volumeMain = Audio.getMainVolume();
+		private float volumeMusic = Audio.getChannelVolume(AudioChannel.MUSIC);
+		private float volumeSfx = Audio.getChannelVolume(AudioChannel.SFX);
+		private float volumeUi = Audio.getChannelVolume(AudioChannel.UI);
+		private Button button2 = new Button(0, new Vec2f(50, 5.5), "Main Volume : " + df.format(volumeMain));
+		private Button button3 = new Button(0, new Vec2f(50, 5.5), "Music Volume : " + df.format(volumeMusic));
+		private Button button33 = new Button(0, new Vec2f(50, 5.5), "SFX Volume : " + df.format(volumeSfx));
+		private Button button34 = new Button(0, new Vec2f(50, 5.5), "UI Volume : " + df.format(volumeUi));
 
-		public MenuMusic() {
+		public MenuSettingsAudio() {
 		super(10, 0, 25, new Vec2f(47, 7), "data/sprites/interface/Selector.png");
 		
 		/* background */
@@ -63,13 +62,12 @@ public class MenuMusic extends MenuSelectionV<UiActionable> {
 
 			@Override
 			public void make() {
-				if (mv < 1.0f) {
-					mv = mv + 0.1f;
+				if (volumeMain < 1.0f) {
+					volumeMain = volumeMain + 0.1f;
 				} else {
-					mv = 0.0f;
+					volumeMain = 0.0f;
 				}
-				s = df.format(mv);
-				button2.setText("Main Volume : " + s);
+				button2.setText("Main Volume : " + df.format(volumeMain));
 			}
 		});
 		button2.addAction("left", new Trigger() {
@@ -77,20 +75,19 @@ public class MenuMusic extends MenuSelectionV<UiActionable> {
 			@Override
 			public void make() {
 
-				if (mv > 0.05f) {
-					mv = mv - 0.1f;
+				if (volumeMain > 0.05f) {
+					volumeMain = volumeMain - 0.1f;
 				} else {
-					mv = 1.0f;
+					volumeMain = 1.0f;
 				}
-				s =df.format(mv);
-				button2.setText("Main Volume : " + s);
+				button2.setText("Main Volume : " + df.format(volumeMain));
 			}
 		});
 		button2.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
-				Audio.setMainVolume((float) mv);
+				Audio.setMainVolume((float) volumeMain);
 			}
 		});
 
@@ -100,33 +97,31 @@ public class MenuMusic extends MenuSelectionV<UiActionable> {
 
 			@Override
 			public void make() {
-				if (mc < 1.0f) {
-					mc = mc + 0.1f;
+				if (volumeMusic < 1.0f) {
+					volumeMusic = volumeMusic + 0.1f;
 				} else {
-					mc = 0.0f;
+					volumeMusic = 0.0f;
 				}
-				s = df.format(mc);
-				button3.setText("Music Volume : " + s);
+				button3.setText("Music Volume : " + df.format(volumeMusic));
 			}
 		});
 		button3.addAction("left", new Trigger() {
 
 			@Override
 			public void make() {
-				if (mc > 0.05f) {
-					mc = mc - 0.1f;
+				if (volumeMusic > 0.05f) {
+					volumeMusic = volumeMusic - 0.1f;
 				} else {
-					mc = 1.0f;
+					volumeMusic = 1.0f;
 				}
-				s = df.format(mc);
-				button3.setText("Music Volume : " + s);
+				button3.setText("Music Volume : " + df.format(volumeMusic));
 			}
 		});
 		button3.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.MUSIC, ((float) mc));
+				Audio.setChannelVolume(AudioChannel.MUSIC, ((float) volumeMusic));
 			}
 		});
 		/* SFX */
@@ -134,33 +129,31 @@ public class MenuMusic extends MenuSelectionV<UiActionable> {
 
 			@Override
 			public void make() {
-				if (msfx < 1.0f) {
-					msfx = msfx + 0.1f;
+				if (volumeSfx < 1.0f) {
+					volumeSfx = volumeSfx + 0.1f;
 				} else {
-					msfx = 0.0f;
+					volumeSfx = 0.0f;
 				}
-				s = df.format(msfx);
-				button33.setText("SFX Volume : " + s);
+				button33.setText("SFX Volume : " + df.format(volumeSfx));
 			}
 		});
 		button33.addAction("left", new Trigger() {
 
 			@Override
 			public void make() {
-				if (msfx > 0.05f) {
-					msfx = msfx - 0.1f;
+				if (volumeSfx > 0.05f) {
+					volumeSfx = volumeSfx - 0.1f;
 				} else {
-					msfx = 1.0f;
+					volumeSfx = 1.0f;
 				}
-				s = df.format(msfx);
-				button33.setText("SFX Volume : " + s);
+				button33.setText("SFX Volume : " + df.format(volumeSfx));
 			}
 		});
 		button33.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.SFX, ((float) msfx));
+				Audio.setChannelVolume(AudioChannel.SFX, ((float) volumeSfx));
 			}
 		});
 
@@ -169,33 +162,31 @@ public class MenuMusic extends MenuSelectionV<UiActionable> {
 
 			@Override
 			public void make() {
-				if (mui < 1.0) {
-					mui = mui + 0.1f;
+				if (volumeUi < 1.0) {
+					volumeUi = volumeUi + 0.1f;
 				} else {
-					mui = 0.0f;
+					volumeUi = 0.0f;
 				}
-				s = df.format(mui);
-				button34.setText("UI Volume : " + s);
+				button34.setText("UI Volume : " + df.format(volumeUi));
 			}
 		});
 		button34.addAction("left", new Trigger() {
 
 			@Override
 			public void make() {
-				if (mui > 0.05f) {
-					mui = mui - 0.1f;
+				if (volumeUi > 0.05f) {
+					volumeUi = volumeUi - 0.1f;
 				} else {
-					mui = 1.0f;
+					volumeUi = 1.0f;
 				}
-				s = df.format(mui);
-				button34.setText("UI Volume : " + s);
+				button34.setText("UI Volume : " + df.format(volumeUi));
 			}
 		});
 		button34.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.UI, ((float) mui));
+				Audio.setChannelVolume(AudioChannel.UI, ((float) volumeUi));
 			}
 		});
 

@@ -7,13 +7,12 @@ import java.util.Map;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.util.Tuple;
 import arenashooter.game.Main;
 
 public class AnimEditorTimeline extends UiElement {
-	Rectangle bg;
+	UiImage bg;
 	
 	double timeScale = 1;
 	double timeOffset = 0;
@@ -24,7 +23,7 @@ public class AnimEditorTimeline extends UiElement {
 	public AnimEditorTimeline(double rot, Vec2f scale) {
 		super(rot, scale);
 		
-		bg = new Rectangle(rot, scale, new Vec4f(0,0,0, .8f));
+		bg = new UiImage(rot, scale, new Vec4f(0,0,0, .8f));
 	}
 	
 	public double maxVisibleTime() {

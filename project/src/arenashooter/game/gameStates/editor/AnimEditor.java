@@ -13,7 +13,7 @@ import arenashooter.engine.ui.AnimEditorTimeline;
 import arenashooter.engine.ui.Navigable;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.Label;
-import arenashooter.engine.ui.simpleElement.Rectangle;
+import arenashooter.engine.ui.simpleElement.UiImage;
 
 public class AnimEditor implements Navigable {
 	DecimalFormat df = new DecimalFormat("#0.000");
@@ -30,10 +30,10 @@ public class AnimEditor implements Navigable {
 	public AnimEditor() {
 		data = new AnimationDataEditable();
 		
-		Rectangle bg = new Rectangle(0, new Vec2f(screenWidth(), 100), new Vec4f(.133, .204, 961, 1));
+		UiImage bg = new UiImage(0, new Vec2f(screenWidth(), 100), new Vec4f(.133, .204, 961, 1));
 		elems.add(bg);
 		
-		Rectangle mainPanel = new Rectangle(0, new Vec2f(screenWidth(), 30), new Vec4f(0, 0, 0, .8));
+		UiImage mainPanel = new UiImage(0, new Vec2f(screenWidth(), 30), new Vec4f(0, 0, 0, .8));
 		mainPanel.setPosition(new Vec2f(0, 35));
 		elems.add(mainPanel);
 		

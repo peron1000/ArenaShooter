@@ -14,7 +14,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
-public class MenuResolution extends MenuSelectionV<UiActionable> {
+public class MenuSettingsVideo extends MenuSelectionV<UiActionable> {
 
 	private Vec2f forVisible = new Vec2f(0, 25);
 	private final Vec2f scale = new Vec2f(27f);
@@ -30,7 +30,7 @@ public class MenuResolution extends MenuSelectionV<UiActionable> {
 	private List<int[]> windsize = Window.getAvailableResolutions();
 	private int res = 0;
 
-	public MenuResolution() {
+	public MenuSettingsVideo() {
 	super(10, 0, 25, new Vec2f(47, 7), "data/sprites/interface/Selector.png");
 	
 	/* background */

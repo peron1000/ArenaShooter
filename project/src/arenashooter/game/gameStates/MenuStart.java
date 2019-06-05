@@ -1,31 +1,19 @@
 package arenashooter.game.gameStates;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Menu;
-import arenashooter.engine.ui.MenuOption2;
-import arenashooter.engine.ui.MenuPause;
+import arenashooter.engine.ui.MenuSettings;
 import arenashooter.engine.ui.MenuSelectionV;
-import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
-import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.entities.spatials.Camera;
-import arenashooter.entities.spatials.Mesh;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.editor.Editor;
@@ -44,12 +32,11 @@ public class MenuStart extends GameState {
 	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Quit");
 
 	private InputListener inputs = new InputListener();
-	private Camera cam;
-	private MenuOption2 menu;
+	private MenuSettings menu;
 	public MenuStart() {
 		super(1);
 
-		menu = new MenuOption2();
+		menu = new MenuSettings();
 		menu.selectorVisible = false;
 		
 		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
@@ -176,12 +163,6 @@ public class MenuStart extends GameState {
 				}
 			}
 		});
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		cam = (Camera) current.getChild("camera");
 	}
 
 	@Override

@@ -13,35 +13,34 @@ import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
-public class MenuOption2 extends MenuSelectionV<UiActionable> {
-	private MenuResolution resolution;
-	private MenuMusic music;
+public class MenuSettings extends MenuSelectionV<UiActionable> {
+	private MenuSettingsVideo resolution;
+	private MenuSettingsAudio music;
 	/* MenuStart Menu */
 	private Vec2f forVisible = new Vec2f(0, 25);
 	private final Vec2f scale = new Vec2f(27f);
-	public MenuResolution getResolution() {
+	public MenuSettingsVideo getResolution() {
 		return resolution;
 	}
 
-	public MenuMusic getMusic() {
+	public MenuSettingsAudio getMusic() {
 		return music;
 	}
 	//private MultiMenu<optionoption> multi = new MultiMenu<>(10, optionoption.values(), "data/sprites/interface/Selector.png", new Vec2f (30 ,10));
-	private Button button15 = new Button(0, new Vec2f(50, 5.5), "Resolution");
+	private Button button15 = new Button(0, new Vec2f(50, 5.5), "Video");
 	private Button button16 = new Button(0, new Vec2f(50, 5.5), "Audio");
-	// private Button button35 = new Button(0, new Vec2f(50, 5.5), "Credit");
 	private Button button4 = new Button(0, new Vec2f(50, 5.5), "Back");
 
 	private InputListener inputs = new InputListener();
 
-	public MenuOption2() {
+	public MenuSettings() {
 		super(10, 0, 25, new Vec2f(47, 7), "data/sprites/interface/Selector.png");
 		
 		/*menu resolution*/
-		resolution = new MenuResolution();
+		resolution = new MenuSettingsVideo();
 		resolution.selectorVisible = false;
 		/*menu resolution*/
-		music = new MenuMusic();
+		music = new MenuSettingsAudio();
 		music.selectorVisible = false;	
 
 		/* background */
@@ -57,9 +56,6 @@ public class MenuOption2 extends MenuSelectionV<UiActionable> {
 		button15.setScaleText(scale);
 		button16.setScaleText(scale);
 		
-		//multi.addMenu(resolution,optionoption.RESOLUTION);
-		//multi.addMenu(music,MUSIC);
-
 		this.addElementInListOfChoices(button15, 2);
 		this.addElementInListOfChoices(button16, 2);
 
