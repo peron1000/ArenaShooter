@@ -15,7 +15,6 @@ import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Spatial;
-import arenashooter.entities.spatials.Sprite;
 
 public class Melee extends Usable {
 	protected Timer fireRate = null;
@@ -23,8 +22,6 @@ public class Melee extends Usable {
 
 	protected AnimMelee animMelee = null;
 
-	protected Sprite sprite = null;
-	
 	protected Timer timerWarmup = null;
 	
 	//Damage dealing
@@ -42,6 +39,8 @@ public class Melee extends Usable {
 				warmupDuration, soundWarmup, attackSound);
 		
 		this.animMelee = new AnimMelee(new Vec2f(), this);
+
+		getSprite().attachRot = true;
 		
 		//TODO: Read these values per-weapon
 		bladeBot = new Spatial();
