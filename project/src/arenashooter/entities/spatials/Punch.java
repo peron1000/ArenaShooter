@@ -5,12 +5,9 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,8 +17,6 @@ import org.jbox2d.dynamics.Fixture;
 
 public class Punch extends Spatial {
 	private double time = 0;
-	private ArrayList<Mesh> meshesBits = new ArrayList<>();
-	private ArrayList<Float> bitsScales = new ArrayList<>();
 
 	private HashSet<Spatial> damaged = new HashSet<>();
 	private DamageInfo dmgInfo;
@@ -100,6 +95,7 @@ public class Punch extends Spatial {
 		raycastEnd.multiply(length);
 		raycastEnd.add(getWorldPos());
 
+		if(getArena() == null) return;
 		getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
 	}
 
