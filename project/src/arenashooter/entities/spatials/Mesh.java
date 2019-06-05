@@ -35,9 +35,8 @@ public class Mesh extends Spatial3 implements Editable {
 	}
 
 	public Mesh(Vec3f localPosition, Quat localRotation, Vec3f scale, String modelPath) {
-		super(localPosition);
+		super(localPosition, localRotation);
 
-		this.localRotation = localRotation;
 		this.scale = scale.clone();
 
 		ModelsData data = ModelsData.loadModel(modelPath);

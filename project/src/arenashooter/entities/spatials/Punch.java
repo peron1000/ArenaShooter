@@ -30,8 +30,8 @@ public class Punch extends Spatial {
 	private float radius;
 	private float hitWidth;
 
-	public Punch(Vec2f position, DamageInfo dmgInfo, float hitWidth, float radius, boolean superPoing) {
-		super(position);
+	public Punch(Vec2f localPosition, DamageInfo dmgInfo, float hitWidth, float radius, boolean superPoing) {
+		super(localPosition);
 
 		this.dmgInfo = dmgInfo.clone();
 

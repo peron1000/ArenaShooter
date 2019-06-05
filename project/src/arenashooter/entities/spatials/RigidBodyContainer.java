@@ -2,9 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.graphics.Material;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Editable;
 import arenashooter.entities.Entity;
@@ -18,11 +16,8 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	private boolean init = false, editorTarget = false;
 
 	public RigidBodyContainer(RigidBody body) {
-		super(new Vec2f());
+		super();
 		this.body = body;
-		Material material = new Material("data/shaders/color");
-		material.setParamVec4f("baseColor", new Vec4f(1, 0, 0, 1));
-
 	}
 
 	@Override

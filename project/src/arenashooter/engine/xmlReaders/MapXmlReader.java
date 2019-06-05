@@ -676,7 +676,7 @@ public class MapXmlReader extends XmlReader {
 				}
 			}
 		}
-
+		
 		// Read optional rotation
 		double rotation = 0.0;
 		if (entity.hasAttribute("rotation"))

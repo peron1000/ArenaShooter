@@ -21,8 +21,8 @@ public class Sprite extends Spatial {
 	
 	public boolean flipX = false, flipY = false;
 	
-	public Sprite(Vec2f position, Texture texture) {
-		super(position);
+	public Sprite(Vec2f localPosition, Texture texture) {
+		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		material = new Material("data/shaders/sprite_simple");
 		setTexture(texture);
@@ -30,18 +30,18 @@ public class Sprite extends Spatial {
 		useTransparency = texture.transparency;
 	}
 	
-	public Sprite(Vec2f position, Material material) {
-		super(position);
+	public Sprite(Vec2f localPosition, Material material) {
+		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		this.material = material;
 	}
 	
-	public Sprite(Vec2f position, String texture) {
-		this(position, Texture.loadTexture(texture));
+	public Sprite(Vec2f localPosition, String texture) {
+		this(localPosition, Texture.loadTexture(texture));
 	}
 	
-	public Sprite(Vec2f position) {
-		this(position, defaultTex);
+	public Sprite(Vec2f localPosition) {
+		this(localPosition, defaultTex);
 	}
 	
 	public Texture getTexture() { return material.getParamTex("baseColor"); }

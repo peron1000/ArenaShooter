@@ -24,8 +24,8 @@ public class SoundEffect extends Spatial {
 	 * @param path audio file
 	 * @param channel
 	 */
-	public SoundEffect( Vec2f position, String path, AudioChannel channel ) {
-		this(position, path, channel, 1, 1, 1, false);
+	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel ) {
+		this(localPosition, path, channel, 1, 1, 1, false);
 	}
 	
 	/**
@@ -35,8 +35,8 @@ public class SoundEffect extends Spatial {
 	 * @param channel
 	 * @param volume
 	 */
-	public SoundEffect( Vec2f position, String path, AudioChannel channel, float volume ) {
-		this(position, path, channel, volume, 1, 1, false);
+	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel, float volume ) {
+		this(localPosition, path, channel, volume, 1, 1, false);
 	}
 	
 	/**
@@ -49,8 +49,8 @@ public class SoundEffect extends Spatial {
 	 * @param pitchMax maximum pitch
 	 * @param looping
 	 */
-	public SoundEffect( Vec2f position, String path, AudioChannel channel, float volume, float pitchMin, float pitchMax, boolean looping ) {
-		super(position);
+	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel, float volume, float pitchMin, float pitchMax, boolean looping ) {
+		super(localPosition);
 		
 		this.path = path;
 		this.pitch = Utils.lerpF(pitchMin, pitchMax, Math.random());

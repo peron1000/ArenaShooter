@@ -24,9 +24,20 @@ public class Spatial3 extends Entity {
 	/** World space rotation */
 	private Quat worldRotation = Quat.fromAngle(0);
 	
+	public Spatial3() {
+		super();
+		this.localPosition = new Vec3f();
+	}
+	
 	public Spatial3(Vec3f localPosition) {
 		super();
 		this.localPosition = localPosition.clone();
+	}
+
+	public Spatial3(Vec3f localPosition, Quat localRotation) {
+		super();
+		this.localPosition = localPosition.clone();
+		this.localRotation.set(localRotation);
 	}
 	
 	@Override

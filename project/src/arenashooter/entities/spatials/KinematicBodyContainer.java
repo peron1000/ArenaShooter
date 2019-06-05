@@ -19,7 +19,7 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 	private boolean init = false;
 
 	public KinematicBodyContainer(KinematicBody body) {
-		super(new Vec2f());
+		super();
 		this.body = body;
 	}
 	

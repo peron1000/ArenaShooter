@@ -21,8 +21,8 @@ public class Spawner extends Spatial {
 	/** Timer of respawn*/
 	private double cooldown = 0;
 
-	public Spawner(Vec2f position, double cooldown) {
-		super(position);
+	public Spawner(Vec2f localPosition, double cooldown) {
+		super(localPosition);
 		this.timerWarmup = new Timer(cooldown);
 		timerWarmup.attachToParent(this, "timer_spawn");
 	}

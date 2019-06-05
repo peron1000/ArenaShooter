@@ -17,13 +17,29 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	private boolean needsPhysWorld = true;
 	private boolean init = false, isEditorTarget = false;
 
-	public StaticBodyContainer(Vec2f position, StaticBody body) {
-		super(position);
+	public StaticBodyContainer(StaticBody body) {
+		super();
 		this.body = body;
 	}
 
-	public StaticBodyContainer(Vec2f position, Vec2f extent, double rotation) {
-		this(position, new StaticBody(new ShapeBox(extent), position, rotation, CollisionFlags.LANDSCAPE));
+	/**
+	 * Create a static body with a box shape
+	 * @param worldPosition
+	 * @param extent box extent
+	 * @param worldRotation
+	 */
+	public StaticBodyContainer(Vec2f worldPosition, Vec2f extent, double worldRotation) {
+		this(new StaticBody(new ShapeBox(extent), worldPosition, worldRotation, CollisionFlags.LANDSCAPE));
+	}
+	
+	/**
+	 * Create a static body with a disk shape
+	 * @param worldPosition
+	 * @param radius disk radius
+	 * @param worldRotation
+	 */
+	public StaticBodyContainer(Vec2f worldPosition, double radius, double worldRotation) {
+		this(new StaticBody(new ShapeDisk(radius), worldPosition, worldRotation, CollisionFlags.LANDSCAPE));
 	}
 
 	@Override
