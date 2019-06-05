@@ -72,7 +72,6 @@ public class CharacterSprite extends Spatial {
 		head.size = new Vec2f(head.getTexture().getWidth() * .052, head.getTexture().getHeight() * .052);
 		head.getTexture().setFilter(false);
 		head.zIndex = 1;
-		head.attachRot = false;
 		head.attachToParent(this, "head");
 		
 		//Feet
@@ -228,7 +227,7 @@ public class CharacterSprite extends Spatial {
 			lookAngle = ((Character)getParent()).aimInput;
 			isOnGround = ((Character) getParent()).isOnGround;
 			moveSpeed = ((Character) getParent()).getLinearVelocity().x;
-		} else if (getParent() instanceof Arena) {
+		} else {
 			lookAngle = 0;
 			isOnGround = true;
 			moveSpeed = 10;
@@ -258,7 +257,7 @@ public class CharacterSprite extends Spatial {
 				punchSprite.setTexture(currentPunchAnim.getTrackTex("AnimTrackPunch1"));
 				punchSprite.size.set(2, 2);
 				punchSprite.localPosition.set(1.5, 0.3);
-				Vec2f.rotate(punchSprite.localPosition, lookAngle);
+				Vec2f.rotate(punchSprite.localPosition, lookAngle, punchSprite.localPosition);
 				punchSprite.localRotation = lookAngle;
 				punchSprite.getTexture().setFilter(false);
 			}else
