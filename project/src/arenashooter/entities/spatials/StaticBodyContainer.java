@@ -90,7 +90,7 @@ public class StaticBodyContainer extends Spatial implements Editable {
 			}
 		} else {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			localRotation = body.getRotation();
+			localRotation = body.getRotation() - parentRotation;
 		}
 
 		super.step(d);
@@ -109,15 +109,8 @@ public class StaticBodyContainer extends Spatial implements Editable {
 	public void addPosition(Vec2f position) {
 		body.setPosition(Vec2f.add(getWorldPos(), position));
 		
-		for (Entity e : getChildren().values()) {
-			if (e instanceof Spatial) {
-				((Spatial) e).parentPosition.set(getWorldPos());
-				((Spatial) e).parentRotation = getWorldRot();
-			} else if (e instanceof Spatial3) {
-				((Spatial3) e).parentPosition.x = getWorldPos().x;
-				((Spatial3) e).parentPosition.y = getWorldPos().y;
-			}
-		}
+		for (Entity e : getChildren().values())
+			e.updateAttachment();
 	}
 
 	@Override

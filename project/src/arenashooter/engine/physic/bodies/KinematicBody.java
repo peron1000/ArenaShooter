@@ -17,13 +17,13 @@ public class KinematicBody extends PhysicBody {
 	
 	private Vec2f linearVelocity = new Vec2f();
 
-	public KinematicBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags, float density) {
-		super(shape, position, rotation, collFlags);
+	public KinematicBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags, float density) {
+		super(shape, worldPosition, worldRotation, collFlags);
 
 		this.density = density;
 
-		bodyDef.position.set(position.x, position.y);
-		bodyDef.setAngle((float)rotation);
+		bodyDef.position.set(worldPosition.x, worldPosition.y);
+		bodyDef.setAngle((float)worldRotation);
 		bodyDef.setType(BodyType.KINEMATIC);
 	}
 	

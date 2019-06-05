@@ -18,15 +18,15 @@ public class RigidBody extends PhysicBody {
 	
 	private Vec2f linearVelocity = new Vec2f();
 	
-	public RigidBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags, float density, float friction) {
-		super(shape, position, rotation, collFlags);
+	public RigidBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags, float density, float friction) {
+		super(shape, worldPosition, worldRotation, collFlags);
 		
 		this.density = density;
 		this.friction = friction;
 		
 		bodyDef = new BodyDef();
-		bodyDef.setPosition(position.toB2Vec());
-		bodyDef.setAngle((float)rotation);
+		bodyDef.setPosition(worldPosition.toB2Vec());
+		bodyDef.setAngle((float)worldRotation);
 		bodyDef.setType(BodyType.DYNAMIC);
 	}
 	

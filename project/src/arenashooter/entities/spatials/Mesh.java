@@ -26,18 +26,18 @@ public class Mesh extends Spatial3 implements Editable {
 
 	public Vec3f scale;
 
-	public Mesh(Vec3f position, String modelPath) {
-		this(position, new Quat(), new Vec3f(1), modelPath);
+	public Mesh(Vec3f localPosition, String modelPath) {
+		this(localPosition, new Quat(), new Vec3f(1), modelPath);
 	}
 
-	public Mesh(Vec3f position, Quat rotation, String modelPath) {
-		this(position, rotation, new Vec3f(1, 1, 1), modelPath);
+	public Mesh(Vec3f localPosition, Quat localRotation, String modelPath) {
+		this(localPosition, localRotation, new Vec3f(1, 1, 1), modelPath);
 	}
 
-	public Mesh(Vec3f position, Quat rotation, Vec3f scale, String modelPath) {
-		super(position);
+	public Mesh(Vec3f localPosition, Quat localRotation, Vec3f scale, String modelPath) {
+		super(localPosition);
 
-		this.localRotation = rotation;
+		this.localRotation = localRotation;
 		this.scale = scale.clone();
 
 		ModelsData data = ModelsData.loadModel(modelPath);
@@ -102,7 +102,7 @@ public class Mesh extends Spatial3 implements Editable {
 				materials[i].setParamF("editorFilter", 0);
 			}
 
-			materials[i].model = Mat4f.transform(getWorldPos(), localRotation, scale);
+			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
 			materials[i].view = Window.getView();
 			materials[i].proj = Window.proj;
 
@@ -152,7 +152,7 @@ public class Mesh extends Spatial3 implements Editable {
 				materials[i].setParamF("editorFilter", 0);
 			}
 
-			materials[i].model = Mat4f.transform(getWorldPos(), localRotation, scale);
+			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
 			materials[i].view = Window.getView();
 			materials[i].proj = Window.proj;
 

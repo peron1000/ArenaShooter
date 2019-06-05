@@ -14,11 +14,11 @@ import arenashooter.engine.physic.shapes.PhysicShape;
 public class StaticBody extends PhysicBody {
 	float friction = 0.3f, restitution = 0.25f;
 	
-	public StaticBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags) {
-		super(shape, position, rotation, collFlags);
+	public StaticBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags) {
+		super(shape, worldPosition, worldRotation, collFlags);
 
-		bodyDef.setPosition(position.toB2Vec());
-		bodyDef.setAngle((float)rotation);
+		bodyDef.setPosition(worldPosition.toB2Vec());
+		bodyDef.setAngle((float)worldRotation);
 	}
 
 	@Override

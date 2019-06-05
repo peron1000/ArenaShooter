@@ -135,7 +135,7 @@ public class RigidBodyContainer extends Spatial implements Editable {
 			}
 		} else {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			localRotation = body.getRotation();
+			localRotation = body.getRotation() - parentRotation;
 		}
 
 		// Destroy when out of bounds
@@ -168,12 +168,8 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	public void addPosition(Vec2f position) {
 		localPosition.x += position.x;
 		localPosition.y += position.y;
-		for (Entity child : getChildren().values()) {
-			if (child instanceof Editable) {
-				Editable editable = (Editable) child;
-				editable.addPosition(position);
-			}
-		}
+		for (Entity e : getChildren().values())
+			e.updateAttachment();
 		body.setPosition(getWorldPos());
 	}
 

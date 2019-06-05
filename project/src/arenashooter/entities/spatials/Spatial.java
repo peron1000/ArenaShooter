@@ -29,8 +29,8 @@ public class Spatial extends Entity {
 		localPosition = new Vec2f();
 	}
 
-	public Spatial(Vec2f position) {
-		localPosition = position.clone();
+	public Spatial(Vec2f localPosition) {
+		this.localPosition = localPosition.clone();
 	}
 	
 	@Override

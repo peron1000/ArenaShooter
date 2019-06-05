@@ -107,7 +107,7 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 			}
 		} else {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			localRotation = body.getRotation();
+			localRotation = body.getRotation() - parentRotation;
 		}
 		
 		if(currentAnim != null) {

@@ -24,7 +24,7 @@ public abstract class PhysicBody {
 
 	protected PhysicWorld world;
 
-	public PhysicBody(PhysicShape shape, Vec2f position, double rotation, CollisionFlags collFlags) {
+	public PhysicBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags) {
 		this.shape = shape;
 		this.collFlags = collFlags;
 
