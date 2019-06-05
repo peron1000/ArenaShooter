@@ -1,8 +1,12 @@
 package arenashooter.game.gameStates.editor;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
@@ -13,6 +17,7 @@ import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.editorEnum.Prime;
@@ -25,15 +30,18 @@ class MainMenu implements Navigable {
 	private String fileName = "NewArena";
 
 	private Vec2f position = new Vec2f(Editor.forVisible, 0);
+	private Vec2f buttonScale = new Vec2f(15, 5);
+	
 	private MenuSelectionV<UiActionable> addMenu = new MenuSelectionV<>(), setMenu = new MenuSelectionV<>(),
-			saveQuitMenu = new MenuSelectionV<>();
+			saveQuitMenu = new MenuSelectionV<>() , meshChooserMenu = new MenuSelectionV<>();
 	private MultiMenu<Prime> mainMenu = new MultiMenu<>(5, Prime.values(), "data/sprites/interface/Selector.png",
 			new Vec2f(30, 10));
-	private Vec2f buttonScale = new Vec2f(15, 5);
+	private Navigable current = mainMenu;
 
 	private Editor editor;
 	
 	private HashMap<Entity, Button> entityToButton = new HashMap<>();
+	HashMap<TypeEntites, Button> typeToButton = new HashMap<>();
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -48,6 +56,44 @@ class MainMenu implements Navigable {
 		saveQuitMenuConstruction();
 
 		addMenuConstruction();
+		
+		meshChooserMenuConstruction();
+	}
+
+	private void meshChooserMenuConstruction() {
+		meshChooserMenu.setPosition(new Vec2f(Editor.forVisible, -40));
+		meshChooserMenu.setEcartement(6);
+		
+		// mesh buttons
+		File root = new File("data");
+		List<File> list = FileUtils.listFilesByType(root, ".obj");
+		for (File file : list) {
+			Button button = new Button(0, buttonScale, file.getName());
+			meshChooserMenu.addElementInListOfChoices(button, 1);
+			button.setOnArm(new Trigger() {
+				
+				@Override
+				public void make() {
+					Mesh mesh = new Mesh(new Vec3f(), file.getPath().replace('\\', '/'));
+					String entityName = mesh.genName();
+					mesh.attachToParent(arenaConstruction, entityName);
+					Button toSetMenu = new Button(0, buttonScale, entityName);
+					setMenu.addElementInListOfChoices(toSetMenu, 1);
+					editor.allEditable.add(mesh);
+					entityToButton.put(mesh, toSetMenu);
+					toSetMenu.setOnArm(new Trigger() {
+						
+						@Override
+						public void make() {
+							editor.onSetting = mesh;
+							editor.setCurrentMenu(new EntityEditor(MainMenu.this, mesh, TypeEntites.MESH));
+						}
+					});
+					current = mainMenu;
+					toSetMenu.arm();
+				}
+			});
+		}
 	}
 
 	private void saveQuitMenuConstruction() {
@@ -99,23 +145,17 @@ class MainMenu implements Navigable {
 
 				@Override
 				public void make() {
-					Entity entity = new Entity();
-					String entityName = entity.genName();
-					entity.attachToParent(arenaConstruction, entityName);
-					Button toSetMenu = new Button(0, buttonScale, entityName);
-					setMenu.addElementInListOfChoices(toSetMenu, 1);
-					entityToButton.put(entity, toSetMenu);
-					toSetMenu.setOnArm(new Trigger() {
-						
-						@Override
-						public void make() {
-							editor.setCurrentMenu(new EntityEditor(entity, type , MainMenu.this));
-						}
-					});
-					toSetMenu.arm();
+					current = meshChooserMenu;
+					editor.setCurrentMenu(current);
 				}
 			});
+			typeToButton.put(type, button);
 		}
+		
+		Button joinpin = new Button(0, buttonScale, "Joinpin");
+		addMenu.addElementInListOfChoices(joinpin, 1);
+		joinpin.setScaleText(new Vec2f(scaleText));
+		
 		Button animation = new Button(0, buttonScale, "Animation");
 		addMenu.addElementInListOfChoices(animation, 1);
 		animation.setScaleText(new Vec2f(scaleText));
@@ -140,27 +180,27 @@ class MainMenu implements Navigable {
 
 	@Override
 	public boolean upAction() {
-		return mainMenu.upAction();
+		return current.upAction();
 	}
 
 	@Override
 	public boolean downAction() {
-		return mainMenu.downAction();
+		return current.downAction();
 	}
 
 	@Override
 	public boolean rightAction() {
-		return mainMenu.rightAction();
+		return current.rightAction();
 	}
 
 	@Override
 	public boolean leftAction() {
-		return mainMenu.leftAction();
+		return current.leftAction();
 	}
 
 	@Override
 	public boolean selectAction() {
-		return mainMenu.selectAction();
+		return current.selectAction();
 	}
 
 	@Override
@@ -175,12 +215,12 @@ class MainMenu implements Navigable {
 
 	@Override
 	public void update(double delta) {
-		mainMenu.update(delta);
+		current.update(delta);
 	}
 
 	@Override
 	public void draw() {
-		mainMenu.draw();
+		current.draw();
 	}
 
 	@Override
@@ -188,6 +228,7 @@ class MainMenu implements Navigable {
 		Vec2f dif = Vec2f.subtract(position, this.position);
 		this.position.add(dif);
 		mainMenu.setPositionLerp(Vec2f.add(mainMenu.getPosition(), dif), lerp);
+		meshChooserMenu.setPositionLerp(Vec2f.add(meshChooserMenu.getPosition(), dif), lerp);
 	}
 
 	@Override
@@ -195,6 +236,7 @@ class MainMenu implements Navigable {
 		Vec2f dif = Vec2f.subtract(position, this.position);
 		this.position.add(dif);
 		mainMenu.setPosition(Vec2f.add(mainMenu.getPosition(), dif));
+		meshChooserMenu.setPosition(Vec2f.add(meshChooserMenu.getPosition(), dif));
 	}
 
 	@Override
