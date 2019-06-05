@@ -90,7 +90,7 @@ public class StaticBodyContainer extends Spatial implements Editable {
 			}
 		} else {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			rotation = body.getRotation();
+			localRotation = body.getRotation();
 		}
 
 		super.step(d);

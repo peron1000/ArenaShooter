@@ -57,7 +57,7 @@ public class LoadingFloor extends Spatial {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		material.setParamTex("baseColor", tex[currentTex]);
-		material.model = Mat4f.transform(parentPosition, rotation, size, modelM);
+		material.model = Mat4f.transform(getWorldPos(), getWorldRot(), size, modelM);
 		material.view = Window.getView();
 		material.proj = Window.proj;
 		material.bind(model);

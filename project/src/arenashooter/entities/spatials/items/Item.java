@@ -30,10 +30,10 @@ public abstract class Item extends Spatial {
 			String soundPickup) {
 		super(position);
 		
-		rotationFromParent = false;
+		attachRot = false;
 		
 		//Set sprite
-		Sprite sprite = new Sprite(position, pathSprite);
+		Sprite sprite = new Sprite(new Vec2f(), pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
 		
 		setSizeOfSprite();
@@ -100,13 +100,13 @@ public abstract class Item extends Spatial {
 		if(!isEquipped() && rigidBody == null) {
 			RigidBody body = new RigidBody( new ShapeBox(new Vec2f(1, .2)), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1) ;
 			body.setRotation((float)getWorldRot());
-			rigidBody = new RigidBodyContainer(getWorldPos(), body);
+			rigidBody = new RigidBodyContainer(body);
 			rigidBody.attachToParent(this, "rigid_body");
-			getSprite().rotationFromParent = false;
+//			getSprite().attachRot = false;
 		} else if(isEquipped() && rigidBody != null) {
 			rigidBody.detach();
 			rigidBody = null;
-			getSprite().rotationFromParent = true;
+//			getSprite().attachRot = true;
 		}
 	}
 
@@ -115,7 +115,7 @@ public abstract class Item extends Spatial {
 		//Lock transform to rigid body when simulating
 		if(rigidBody != null) {
 			localPosition.set(Vec2f.subtract(rigidBody.getWorldPos(), parentPosition));
-			rotation = rigidBody.getWorldRot();
+			localRotation = rigidBody.getWorldRot();
 		}
 
 		//Destroy when out of bounds
@@ -127,14 +127,14 @@ public abstract class Item extends Spatial {
 		if (isEquipped()) {
 			setSpriteFlip();
 			setLocalPositionOfSprite();
-			parentPosition.add(localPosition);
+//			parentPosition.add(localPosition);
 		}
 		
 		super.step(d);
 		
-		if(rigidBody != null) {
-			getSprite().rotation = rigidBody.getBody().getRotation();
-		}
+//		if(rigidBody != null) {
+//			getSprite().localRotation = rigidBody.getBody().getRotation();
+//		}
 	}
 
 	public Vec2f getVel() {
@@ -171,8 +171,8 @@ public abstract class Item extends Spatial {
 	 * Set the local Position of the item Sprite
 	 */
 	protected void setLocalPositionOfSprite() {
-		if (getParent() instanceof Character) {
-			if (((Character) getParent()).lookRight) {
+		if (getCharacter() != null) {
+			if (getCharacter().lookRight) {
 				localPosition = new Vec2f(20, 0);
 			} else {
 				localPosition = new Vec2f(-20, 0);

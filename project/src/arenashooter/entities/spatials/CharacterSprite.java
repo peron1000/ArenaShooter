@@ -49,15 +49,15 @@ public class CharacterSprite extends Spatial {
 	private double movementTime = 0;
 	private double sinTime;//Used for rescaling chargePunch Sprite.
 
-	public CharacterSprite(Vec2f position, CharacterInfo charInfo) {
-		super(position);
+	public CharacterSprite(CharacterInfo charInfo) {
+		super();
 		folder = "data/sprites/characters/"+charInfo.getSkin();
 
 		File f = new File(folder + "/body.png");
 		if(f.exists() && !f.isDirectory()) { 
-			body = new Sprite(position, folder + "/body.png");
+			body = new Sprite(new Vec2f(), folder + "/body.png");
 		}else if(new File(folder + "/body_tr.png").exists()) {
-			body = new Sprite(position, folder + "/body_tr.png");
+			body = new Sprite(new Vec2f(), folder + "/body_tr.png");
 		}
 		body.size = new Vec2f(body.getTexture().getWidth() * .052, body.getTexture().getHeight() * .052);
 		body.getTexture().setFilter(false);
@@ -65,24 +65,24 @@ public class CharacterSprite extends Spatial {
 		
 		f = new File(folder + "/head.png");
 		if(f.exists() && !f.isDirectory()) { 
-			head = new Sprite(position, folder + "/head.png");
+			head = new Sprite(new Vec2f(), folder + "/head.png");
 		}else if(new File(folder + "/head_tr.png").exists()) {
-			head = new Sprite(position, folder + "/head_tr.png");
+			head = new Sprite(new Vec2f(), folder + "/head_tr.png");
 		}			
 		head.size = new Vec2f(head.getTexture().getWidth() * .052, head.getTexture().getHeight() * .052);
 		head.getTexture().setFilter(false);
 		head.zIndex = 1;
-		head.rotationFromParent = false;
+		head.attachRot = false;
 		head.attachToParent(this, "head");
 		
 		//Feet
 		f = new File(folder + "/foot.png");
 		if(f.exists() && !f.isDirectory()) { 
-			footL = new Sprite(position, folder + "/foot.png");
-			footR = new Sprite(position, folder + "/foot.png");
+			footL = new Sprite(new Vec2f(), folder + "/foot.png");
+			footR = new Sprite(new Vec2f(), folder + "/foot.png");
 		} else if(new File(folder + "/foot_tr.png").exists()) {
-			footL = new Sprite(position, folder + "/foot_tr.png");
-			footR = new Sprite(position, folder + "/foot_tr.png");
+			footL = new Sprite(new Vec2f(), folder + "/foot_tr.png");
+			footR = new Sprite(new Vec2f(), folder + "/foot_tr.png");
 		}			
 		footL.size = new Vec2f(footL.getTexture().getWidth() * .052, footL.getTexture().getHeight() * .052);
 		footL.getTexture().setFilter(false);
@@ -96,19 +96,19 @@ public class CharacterSprite extends Spatial {
 		//Hands
 		f = new File(folder + "/foot.png");
 		if(f.exists() && !f.isDirectory()) { 
-			handL = new Sprite(position, folder + "/hand.png");
-			handR = new Sprite(position, folder + "/hand.png");
+			handL = new Sprite(new Vec2f(), folder + "/hand.png");
+			handR = new Sprite(new Vec2f(), folder + "/hand.png");
 		}else if(new File(folder + "/foot_tr.png").exists()) {
-			handL = new Sprite(position, folder + "/hand_tr.png");
-			handR = new Sprite(position, folder + "/hand_tr.png");
+			handL = new Sprite(new Vec2f(), folder + "/hand_tr.png");
+			handR = new Sprite(new Vec2f(), folder + "/hand_tr.png");
 		}		
 		handL.size = new Vec2f(handL.getTexture().getWidth() * .052, handL.getTexture().getHeight() * .052);
 		handL.getTexture().setFilter(false);
-		handL.rotationFromParent = false;
+		handL.attachRot = false;
 		handL.attachToParent(this, "handL");
 		handR.size = new Vec2f(handR.getTexture().getWidth() * .052, handR.getTexture().getHeight() * .052);
 		handR.getTexture().setFilter(false);
-		handR.rotationFromParent = false;
+		handR.attachRot = false;
 		handR.attachToParent(this, "handR");
 		
 		punchSprite.attachToParent(this, "Swoosh");
@@ -135,7 +135,7 @@ public class CharacterSprite extends Spatial {
 	
 	public void punch(int swoosh, double direction) {
 		Vec2f.rotate(new Vec2f(1.5, 0), direction, handR.localPosition);
-		handR.rotation = direction;
+		handR.localRotation = direction;
 		Audio.playSound2D("data/sound/woosh_01.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		switch(swoosh) {
 		case 1:
@@ -179,39 +179,39 @@ public class CharacterSprite extends Spatial {
 	public void explode(Vec2f impulse) {
 		//Head
 		RigidBody rb = new RigidBody(new ShapeDisk(.45), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORPSE, 2.9f, .9f);
-		RigidBodyContainer rbc = new RigidBodyContainer(head.getWorldPos(), rb);
+		RigidBodyContainer rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		head.attachToParent(rbc, "head");
 		head.localPosition.set(-.1, .19);
-		head.rotationFromParent = true;
+		head.attachRot = true;
 
 		//Body
 		rb = new RigidBody(new ShapeDisk(.45), body.getWorldPos(), body.getWorldRot(), CollisionFlags.CORPSE, 2.9f, .9f);
-		rbc = new RigidBodyContainer(body.getWorldPos(), rb);
+		rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		body.attachToParent(rbc, "body");
 		body.localPosition.set(-.1, -.6);
-		body.rotationFromParent = true;
+		body.attachRot = true;
 		
 		//HandL
 		rb = new RigidBody(new ShapeDisk(.15), handL.getWorldPos(), handL.getWorldRot(), CollisionFlags.CORPSE, 2.9f, .9f);
-		rbc = new RigidBodyContainer(handL.getWorldPos(), rb);
+		rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		handL.attachToParent(rbc, "handL");
 		handL.localPosition.set(0, 0);
-		handL.rotationFromParent = true;
+		handL.attachRot = true;
 		
 		//HandR
 		rb = new RigidBody(new ShapeDisk(.15), handR.getWorldPos(), handR.getWorldRot(), CollisionFlags.CORPSE, 2.9f, .9f);
-		rbc = new RigidBodyContainer(handR.getWorldPos(), rb);
+		rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity( Vec2f.rotate(impulse, Math.random()-.5) );
 		handR.attachToParent(rbc, "handR");
 		handR.localPosition.set(0, 0);
-		handR.rotationFromParent = true;
+		handR.attachRot = true;
 
 		Particles blood = new Particles(new Vec2f(), particlesBlood);
 		blood.selfDestruct = true;
@@ -259,7 +259,7 @@ public class CharacterSprite extends Spatial {
 				punchSprite.size.set(2, 2);
 				punchSprite.localPosition.set(1.5, 0.3);
 				Vec2f.rotate(punchSprite.localPosition, lookAngle);
-				punchSprite.rotation = lookAngle;
+				punchSprite.localRotation = lookAngle;
 				punchSprite.getTexture().setFilter(false);
 			}else
 				punchSprite.size.set(0, 0);
@@ -339,8 +339,8 @@ public class CharacterSprite extends Spatial {
 					handPos.y *= -1;
 				// handL.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos,
 				// weap.rotation)));
-				Vec2f.rotate(handPos, weap.rotation, handL.localPosition);
-				handL.rotation = weap.rotation;
+				Vec2f.rotate(handPos, weap.getWorldRot(), handL.localPosition);
+				handL.localRotation = weap.getWorldRot();
 				handL.flipX = false;
 				handL.flipY = lookRight;
 			} else {
@@ -352,7 +352,7 @@ public class CharacterSprite extends Spatial {
 
 				handL.localPosition.x = Utils.lerpF(handL.localPosition.x, .15f, Math.min(1, d * 9));
 				handL.localPosition.y = Utils.lerpF(handL.localPosition.y, .15f, Math.min(1, d * 9));
-				handL.rotation = 0;
+				handL.localRotation = 0;
 				handL.flipX = !lookRight;
 				handL.flipY = false;
 			}
@@ -369,8 +369,8 @@ public class CharacterSprite extends Spatial {
 					handPos.y *= -1;
 				// handR.localPosition.set(Vec2f.add(weap.localPosition, Vec2f.rotate(handPos,
 				// weap.rotation)));
-				Vec2f.rotate(handPos, weap.rotation, handR.localPosition);
-				handR.rotation = weap.rotation;
+				Vec2f.rotate(handPos, weap.getWorldRot(), handR.localPosition);
+				handR.localRotation = weap.getWorldRot();
 				handR.flipX = false;
 				handR.flipY = lookRight;
 			} else {
@@ -382,7 +382,7 @@ public class CharacterSprite extends Spatial {
 
 				handR.localPosition.x = Utils.lerpF(handR.localPosition.x, .15f, Math.min(1, d * 9));
 				handR.localPosition.y = Utils.lerpF(handR.localPosition.y, .15f, Math.min(1, d * 9));
-				handR.rotation = 0;
+				handR.localRotation = 0;
 				handR.flipX = !lookRight;
 				handR.flipY = false;
 			}

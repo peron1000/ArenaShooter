@@ -13,7 +13,7 @@ import arenashooter.engine.physic.shapes.ShapeDisk;
 public class Bullet extends Projectile {
 
 	public Bullet(Vec2f position, Vec2f vel, float damage) {
-		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
+		super(new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
 		getBody().setIsSensor(true);
@@ -21,13 +21,14 @@ public class Bullet extends Projectile {
 		this.vel = vel.clone();
 
 		this.damage = damage;
-		rotation = vel.angle();
+//		localRotation = vel.angle();
+//		attachRot = false;
 
-		Sprite sprite = new Sprite(getWorldPos(), "data/sprites/Bullet.png");
+		Sprite sprite = new Sprite(new Vec2f(), "data/sprites/Bullet.png");
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
-		sprite.rotation = rotation;
+//		sprite.localRotation = getWorldRot();
 		sprite.getTexture().setFilter(false);
-		sprite.rotationFromParent = false;
+//		sprite.attachRot = false;
 		sprite.attachToParent(this, "bul_Sprite");
 	}
 
@@ -43,7 +44,7 @@ public class Bullet extends Projectile {
 	}
 
 	public void step(double d) {
-		if(getBody().getBody() != null) 
+		if(getBody().getBody() != null)
 			getBody().getBody().setGravityScale(0);
 		
 		getBody().setLinearVelocity(vel);
@@ -52,7 +53,7 @@ public class Bullet extends Projectile {
 			detach();
 		}
 		
-		((Spatial) getChild("bul_Sprite")).rotation = vel.angle();
+//		((Spatial) getChild("bul_Sprite")).localRotation = vel.angle();
 
 		super.step(d);
 	}

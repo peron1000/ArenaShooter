@@ -29,8 +29,8 @@ public class AnimIntro extends Arena{
 	private Sky sky;
 	private Vec3f skyTop, skyBot;
 
-	private Sprite cat = new Sprite(new Vec2f(-360, 300));
-	private Sprite fox = new Sprite(new Vec2f(360, 300));
+	private Sprite cat = new Sprite(new Vec2f());
+	private Sprite fox = new Sprite(new Vec2f());
 	
 	private TextSpatial pressStart;
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
@@ -113,7 +113,7 @@ public class AnimIntro extends Arena{
 		sceneOpacityA = new AnimTrackDouble(opacityMap, AnimInterpolation.LINEAR);
 		
 		//Logo
-		logo = new Sprite(new Vec2f(0, -2000));
+		logo = new Sprite(new Vec2f());
 		logo.getTexture().setFilter(false);
 		logo.attachToParent(this, "logo");
 		logo.zIndex = 1;
@@ -138,8 +138,8 @@ public class AnimIntro extends Arena{
 		logoSizeA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		vecMap = new HashMap<>();
-		vecMap.put(10d, new Vec2f(-50, -18));
-		vecMap.put(11d, new Vec2f(0));
+		vecMap.put(10d, new Vec2f(-50, -2018));
+		vecMap.put(11d, new Vec2f(0, -2000));
 		logoPosA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		//Crowd
@@ -183,8 +183,8 @@ public class AnimIntro extends Arena{
 		
 		//Cat
 		vecMap = new HashMap<>();
-		vecMap.put(4d, new Vec2f(0));
-		vecMap.put(6d, new Vec2f(-400, 400));
+		vecMap.put(4d, new Vec2f(-360, 300));
+		vecMap.put(6d, new Vec2f(-760, 700));
 		catA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		texMap = new HashMap<>();
@@ -236,8 +236,8 @@ public class AnimIntro extends Arena{
 		fox.attachToParent(this, "fox");
 		
 		vecMap = new HashMap<>();
-		vecMap.put(3.8, new Vec2f(0));
-		vecMap.put(4.0, new Vec2f(-100, -25));
+		vecMap.put(3.8, new Vec2f(360, 300));
+		vecMap.put(4.0, new Vec2f(260, 275));
 		foxA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
 		
 		vecMap = new HashMap<>();
@@ -262,7 +262,7 @@ public class AnimIntro extends Arena{
 		
 		logo.setTexture(logoTex.valueAt(time));
 		logo.localPosition.set(logoPosA.valueAt(time));
-		logo.rotation = logoRotA.valueAt(time);
+		logo.localRotation = logoRotA.valueAt(time);
 		logo.size.set(logoSizeA.valueAt(time));
 		
 		Window.getCamera().localPosition = camA.valueAt(time);

@@ -49,7 +49,7 @@ public class Explosion extends Spatial {
 		Vec4f.normalize(temp);
 		
 		Mesh shockwave = Mesh.quad(new Vec3f(), new Quat(temp.x, temp.y, temp.z, temp.w), new Vec3f(1), shockwaveMat);
-		shockwave.rotationFromParent = false;
+		shockwave.attachRot = false;
 		shockwave.useTransparency = true;
 		shockwave.attachToParent(this, "shockwave_mesh");
 		
@@ -63,7 +63,7 @@ public class Explosion extends Spatial {
 			
 			Mesh newBit = new Mesh(new Vec3f(), new Quat(temp.x, temp.y, temp.z, temp.w), new Vec3f(.1f), "data/meshes/explosion/explosion_bit.obj");
 			meshesBits.add(newBit);
-			newBit.rotationFromParent = false;
+			newBit.attachRot = false;
 			newBit.getMaterial(0).setParamVec4f("baseColor", new Vec4f(2, 1.714, .290, 1));
 			newBit.attachToParent(this, "bit_"+i);
 		}

@@ -20,8 +20,8 @@ public class AnimMelee extends Spatial implements IAnimated {
 		setAnim(new Animation(AnimationData.loadAnim("data/animations/animTest2.xml")));
 		this.item = item;
 		this.sprite = item.getSprite();
-		sprite.rotationFromParent = false;
-		rotationFromParent = false;
+		sprite.attachRot = false;
+		attachRot = false;
 	}
 
 	@Override
@@ -32,9 +32,9 @@ public class AnimMelee extends Spatial implements IAnimated {
 
 		Character character = item.getCharacter();
 		if (character != null) {
-			rotation = Utils.lerpAngle(rotation, character.aimInput, Math.min(1, d * 17));
+			localRotation = Utils.lerpAngle(localRotation, character.aimInput, Math.min(1, d * 17));
 			item.localPosition.set(anim.getTrackVec2f("rightPos"));
-			item.rotation = anim.getTrackD("rightRot") + rotation;
+			item.localRotation = anim.getTrackD("rightRot") + getWorldRot();
 			sprite.localPosition = new Vec2f(1.0, 0);
 		}
 

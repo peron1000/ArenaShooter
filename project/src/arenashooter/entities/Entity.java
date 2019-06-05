@@ -87,6 +87,11 @@ public class Entity {
 		for(Entity e : children.values())
 			e.recursiveDetach();
 	}
+	
+	/**
+	 * Update position/rotation according to parent	
+	 */
+	public void updateAttachment() {} //Entities aren't spatials, they don't need that
 
 	/**
 	 * @return this Entity's parent (null if not attached)
@@ -119,8 +124,10 @@ public class Entity {
 		if (!children.isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(children.values());
-			for (Entity e : toUpdate)
+			for (Entity e : toUpdate) {
+				e.updateAttachment();
 				e.step(d);
+			}
 		}
 	}
 

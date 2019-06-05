@@ -6,9 +6,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
-import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Timer;
-import arenashooter.game.Main;
 
 public class Grenade extends Projectile {
 
@@ -17,20 +15,18 @@ public class Grenade extends Projectile {
 	private boolean launched = false;
 
 	public Grenade(Vec2f position, Vec2f vel, float damage) {
-		super(position, new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 1, 1));
+		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
 		
 		this.vel = vel.clone();
 
 		this.damage = damage;
-		rotation = vel.angle();
+//		localRotation = vel.angle();
 
-		Sprite sprite = new Sprite(getWorldPos(), "data/sprites/grenade_01.png");
+		Sprite sprite = new Sprite(new Vec2f(), "data/sprites/grenade_01.png");
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.06, sprite.getTexture().getHeight()*.06);
-		sprite.rotation = rotation;
 		sprite.getTexture().setFilter(false);
-		sprite.rotationFromParent = true;
 		sprite.attachToParent(this, "bul_Sprite");
 
 		grenadeTimer = new Timer(2);

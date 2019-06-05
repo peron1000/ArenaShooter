@@ -12,6 +12,7 @@ public class ParticleSystem {
 	private static HashMap<String, EmitterTemplate[]> cache = new HashMap<>();
 	
 	private List<Emitter> emitters;
+	/** System's world position */
 	public Vec3f position;
 	
 	private ParticleSystem( EmitterTemplate[] data ) {

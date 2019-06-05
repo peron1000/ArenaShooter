@@ -39,12 +39,12 @@ public class Usable extends Item {
 	}
 
 	public void step(double d) {
-		Vec2f targetOffSet = Vec2f.rotate(new Vec2f(0, 0), rotation);
+		Vec2f targetOffSet = Vec2f.rotate(new Vec2f(0, 0), getWorldRot());
 		localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
 		localPosition.y = (float) Utils.lerpD((double) localPosition.y, targetOffSet.y, Math.min(1, d * 55));
 		if (isEquipped()) {
-			rotation = Utils.lerpAngle(rotation, ((Character) getParent()).aimInput, Math.min(1, d * 17));
-			getSprite().rotation = rotation;
+			localRotation = Utils.lerpAngle(localRotation, ((Character) getParent()).aimInput, Math.min(1, d * 17));
+//			getSprite().localRotation = getWorldRot();
 		}
 		super.step(d);
 	}

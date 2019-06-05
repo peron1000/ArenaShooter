@@ -1,7 +1,6 @@
 package arenashooter.entities.spatials;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
@@ -69,7 +68,7 @@ public class Character extends RigidBodyContainer {
 	boolean punchi = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
-		super(position, new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
+		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
 
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
@@ -78,7 +77,7 @@ public class Character extends RigidBodyContainer {
 		health = healthMax;
 		spawn = position;
 
-		rotation = 0;
+		localRotation = 0;
 
 		attackCooldown.attachToParent(this, "attack timer");
 		chargePunch.attachToParent(this, "powerpunch charging");
@@ -88,7 +87,7 @@ public class Character extends RigidBodyContainer {
 		parry.attachToParent(this, "parry timer");
 		parry.setIncreasing(false);
 
-		CharacterSprite skeleton = new CharacterSprite(this.getWorldPos(), charInfo);
+		CharacterSprite skeleton = new CharacterSprite(charInfo);
 		skeleton.attachToParent(this, "skeleton");
 	}
 

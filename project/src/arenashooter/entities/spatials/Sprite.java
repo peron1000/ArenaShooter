@@ -60,7 +60,7 @@ public class Sprite extends Spatial {
 		//Create matrices
 		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
 		
-		material.model = Mat4f.transform(getWorldPos(), rotation, scale, modelM);
+		material.model = Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM);
 		material.view = Window.getView();
 		material.proj = Window.proj;
 		material.bind(model);

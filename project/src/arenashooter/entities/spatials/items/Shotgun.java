@@ -71,7 +71,7 @@ public class Shotgun extends Gun {
 			timerCooldown.restart();
 
 			if (nbAmmo > 0) {
-				Vec2f aim = Vec2f.fromAngle(rotation);
+				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
 				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
 				Vec2f bulletPos = getWorldPos();
@@ -153,11 +153,11 @@ public class Shotgun extends Gun {
 
 				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 
-				Particles shell = new Particles(bulletPos, "data/particles/shell_01.xml");
+				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
 				shell.attachToParent(this, shell.genName());
 
-				rotation += ((Math.random()) - 0.5) * recoil;
+				localRotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
 				Window.getCamera().setCameraShake(.029f);
@@ -167,7 +167,7 @@ public class Shotgun extends Gun {
 
 		}
 
-		getSprite().rotation = rotation;
+//		getSprite().localRotation = getWorldRot();
 
 		super.step(d);
 	}

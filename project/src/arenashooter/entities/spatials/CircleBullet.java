@@ -21,7 +21,7 @@ public class CircleBullet extends Projectile {
 	private static float frequency = 45, amplitude = 10;
 	
 	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
-		super(position, new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
+		super(new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
 		getBody().setIsSensor(true);
@@ -34,12 +34,12 @@ public class CircleBullet extends Projectile {
 
 		this.damage = damage;
 
-		Sprite sprite = new Sprite(getWorldPos(), "data/sprites/Ion_Bullet.png");
+		Sprite sprite = new Sprite(new Vec2f(), "data/sprites/Ion_Bullet.png");
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
-		sprite.rotation = rotation;
+		sprite.localRotation = getWorldRot();
 		sprite.getTexture().setFilter(false);
 		sprite.useTransparency = true;
-		sprite.rotationFromParent = false;
+		sprite.attachRot = false;
 		sprite.attachToParent(this, "bul_Sprite");
 	}
 

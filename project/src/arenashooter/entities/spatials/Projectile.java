@@ -16,8 +16,8 @@ public abstract class Projectile extends RigidBodyContainer {
 			return dude == shooter;
 	}
 
-	public Projectile(Vec2f position, RigidBody body) {
-		super(position, body);
+	public Projectile(RigidBody body) {
+		super(body);
 	}
 
 }

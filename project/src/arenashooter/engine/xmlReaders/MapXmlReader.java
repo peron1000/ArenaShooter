@@ -639,7 +639,7 @@ public class MapXmlReader extends XmlReader {
 			body = new RigidBody(new ShapeBox(extent), position, rotation, flags, density, friction);
 
 		// Rigid
-		RigidBodyContainer p = new RigidBodyContainer(position, body);
+		RigidBodyContainer p = new RigidBodyContainer(body);
 		if (rigid.hasAttribute("name")) {
 			p.attachToParent(parent, rigid.getAttribute("name"));
 		} else {
@@ -729,7 +729,7 @@ public class MapXmlReader extends XmlReader {
 		KinematicBody body = new KinematicBody(new ShapeBox(extent), position, rotation, CollisionFlags.ARENA_KINEMATIC, 1);
 		
 		// Create entity
-		KinematicBodyContainer e = new KinematicBodyContainer(position, body);
+		KinematicBodyContainer e = new KinematicBodyContainer(body);
 
 		// Attach new entity
 		if (entity.hasAttribute("name"))

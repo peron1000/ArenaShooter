@@ -7,22 +7,22 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
 
 public class Spatial3 extends Entity {
+	/** Attach position to parent */
+	public boolean attachPos = true;
+	/** Attach rotation to parent */
+	public boolean attachRot = true;
 	/** World space parent position */
 	public Vec3f parentPosition = new Vec3f();
 	/** Local space position */
 	public Vec3f localPosition;
 	/** World space position */
 	private Vec3f worldPosition = new Vec3f();
-	
 	/** World space parent rotation */
 	public Quat parentRotation = Quat.fromAngle(0);
 	/** Local space rotation */
 	public Quat localRotation = Quat.fromAngle(0);
 	/** World space rotation */
 	private Quat worldRotation = Quat.fromAngle(0);
-
-	/** If true and attached to a Spatial, rotation will be set to parent's rotation on step */
-	public boolean rotationFromParent = true;
 	
 	public Spatial3(Vec3f position) {
 		super();
@@ -39,11 +39,7 @@ public class Spatial3 extends Entity {
 	public Entity attachToParent(Entity newParent, String name) {
 		Entity prev = super.attachToParent(newParent, name);
 		
-		if (newParent instanceof Spatial) {
-			parentPosition.x = ((Spatial) newParent).getWorldPos().x;
-			parentPosition.y = ((Spatial) newParent).getWorldPos().y;
-		} else if (newParent instanceof Spatial3)
-			parentPosition.set(((Spatial3) newParent).getWorldPos());
+		updateAttachment();
 		
 		return prev;
 	}
@@ -53,11 +49,8 @@ public class Spatial3 extends Entity {
 	 * @return parent position + local position
 	 */
 	public Vec3f getWorldPos() {
-		if(rotationFromParent) {
-			parentRotation.rotate(localPosition, worldPosition);
-			return Vec3f.add(parentPosition, worldPosition, worldPosition);
-		} else
-			return Vec3f.add(parentPosition, localPosition, worldPosition);
+		parentRotation.rotate(localPosition, worldPosition);
+		return Vec3f.add(parentPosition, worldPosition, worldPosition);
 	}
 	
 	public Quat getWorldRot() {
@@ -74,28 +67,45 @@ public class Spatial3 extends Entity {
 		}
 	}
 	
+
+	@Override
+	public void updateAttachment() {
+		if(getParent() instanceof Spatial) {
+			if(attachRot)
+				Quat.fromAngle(((Spatial)getParent()).getWorldRot(), parentRotation);
+			else
+				Quat.fromAngle(0, parentRotation);
+			
+			if(attachPos)
+				parentPosition.set(((Spatial)getParent()).getWorldPos().x, ((Spatial)getParent()).getWorldPos().y, 0);
+			else
+				parentPosition.set(0, 0, 0);
+		} else if (getParent() instanceof Spatial3) {
+			if(attachRot)
+				parentRotation.set(((Spatial3)getParent()).getWorldRot());
+			else
+				Quat.fromAngle(0, parentRotation);
+			
+			if(attachPos)
+				parentPosition.set( ((Spatial3)getParent()).getWorldPos() );
+			else
+				parentPosition.set(0, 0, 0);
+		} else {
+			Quat.fromAngle(0, parentRotation);
+			parentPosition.set(0, 0, 0);
+		}
+	}
+	
 	/**
 	 * Update children, transmit position to every Spatial3 child.
 	 */
 	@Override
 	public void step(double d) {
-		if(rotationFromParent && getParent() instanceof Spatial3)
-			localRotation = ((Spatial3)getParent()).localRotation;
-		else if(rotationFromParent && getParent() instanceof Spatial)
-				Quat.fromAngle(((Spatial)getParent()).rotation, localRotation);
-	
 		if(!getChildren().isEmpty()) {
 			LinkedList<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
-				if (e instanceof Spatial3) {
-					((Spatial3) e).parentPosition.set(getWorldPos());
-					((Spatial3) e).parentRotation.set(getWorldRot());
-				} else if (e instanceof Spatial) {
-					((Spatial) e).parentPosition.x = getWorldPos().x;
-					((Spatial) e).parentPosition.y = getWorldPos().y;
-					//TODO: Transmit rotation
-				}
+				e.updateAttachment();
 				e.step(d);
 			}
 		}

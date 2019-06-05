@@ -18,8 +18,8 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 	private boolean needsPhysWorld = true;
 	private boolean init = false;
 
-	public KinematicBodyContainer(Vec2f position, KinematicBody body) {
-		super(position);
+	public KinematicBodyContainer(KinematicBody body) {
+		super(new Vec2f());
 		this.body = body;
 	}
 	
@@ -107,7 +107,7 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 			}
 		} else {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			rotation = body.getRotation();
+			localRotation = body.getRotation();
 		}
 		
 		if(currentAnim != null) {

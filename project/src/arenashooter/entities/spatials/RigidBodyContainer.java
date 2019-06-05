@@ -17,8 +17,8 @@ public class RigidBodyContainer extends Spatial implements Editable {
 	private boolean needsPhysWorld = true;
 	private boolean init = false, editorTarget = false;
 
-	public RigidBodyContainer(Vec2f position, RigidBody body) {
-		super(position);
+	public RigidBodyContainer(RigidBody body) {
+		super(new Vec2f());
 		this.body = body;
 		Material material = new Material("data/shaders/color");
 		material.setParamVec4f("baseColor", new Vec4f(1, 0, 0, 1));
@@ -135,7 +135,7 @@ public class RigidBodyContainer extends Spatial implements Editable {
 			}
 		} else {
 			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			rotation = body.getRotation();
+			localRotation = body.getRotation();
 		}
 
 		// Destroy when out of bounds

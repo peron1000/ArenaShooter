@@ -12,7 +12,7 @@ public class Particles extends Spatial {
 	public Particles(Vec2f position, String path) {
 		super(position);
 		system = ParticleSystem.load(path);
-		system.position = new Vec3f(position.x, position.y, 0);
+		system.position = new Vec3f(getWorldPos().x, getWorldPos().y, 0);
 	}
 	
 	@Override
