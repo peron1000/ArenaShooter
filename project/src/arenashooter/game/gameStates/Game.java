@@ -6,18 +6,22 @@ import java.util.HashSet;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.MenuPause;
+import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
@@ -57,7 +61,10 @@ public class Game extends GameState {
 	/**
 	 * Time before switching to next map. After the winner has been found
 	 */
-	public Timer endRound = new Timer(2);
+	private Timer endRound = new Timer(2);
+	private UiImage counterImage = new UiImage((double) 0, new Vec2f(), Texture.default_tex);
+	private Animation startCounter = null;
+	private AnimationData counterAnimData = AnimationData.loadAnim("data/animations/anim_StartCounter.xml");
 
 	/**
 	 * @author Marin C Evaluates if one character or less is alive. (Trigger this
@@ -70,16 +77,16 @@ public class Game extends GameState {
 			if (!controller.hasDeadChar()) {
 				aliveChars++;
 				c = controller;
-				}
+			}
 		}
 		if (aliveChars <= 1) {
-				if (c != null) {
-					c.roundsWon++;
-				}	
+			if (c != null) {
+				c.roundsWon++;
+			}
 			oneLeft = true;
-			
+
 		}
-		}
+	}
 
 	public Game(int nbMap) {
 		super(nbMap);
@@ -118,7 +125,7 @@ public class Game extends GameState {
 		Collections.shuffle(mapsToShuffle);
 		current = mapsToShuffle.get(0);
 		newRound();
-//		bgm.play();
+		// bgm.play();
 	}
 
 	public void characterDeath(Controller controller, Character character) {
@@ -128,6 +135,8 @@ public class Game extends GameState {
 
 	private void newRound() {
 		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
+		startCounter = new Animation(counterAnimData);
+		startCounter.play();
 		endRound.reset();
 		chooseWinner.reset();
 		for (Controller controller : GameMaster.gm.controllers) {
@@ -145,8 +154,7 @@ public class Game extends GameState {
 		if (menu.selectorVisible) {
 			menu.update(d);
 			return;
-		} else {
-
+		} else if (startCounter == null) {
 			if (oneLeft && !chooseWinner.inProcess) {
 				chooseWinner.setProcessing(true);
 			}
@@ -160,7 +168,8 @@ public class Game extends GameState {
 					currentRound++;
 					for (Controller player : GameMaster.gm.controllers) {
 						if (player.getCharacter() != null) {
-							player.getCharacter().takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), null));
+							player.getCharacter()
+									.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), null));
 						}
 					}
 					newRound();
@@ -182,17 +191,30 @@ public class Game extends GameState {
 
 			super.update(d);
 
+		} else {
+			if (startCounter.isPlaying()) {
+				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
+				double size = startCounter.getTrackD("SizeOfCounterSprite");
+
+				counterImage.getMaterial().setParamTex("baseColor", counterTexture);
+				counterImage.setScale(Vec2f.multiply(counterTexture.getSize(), size));
+				startCounter.step(d);
+			} else {
+				startCounter = null;
+			}
 		}
+
 		inputs.step(d);
 	}
 
 	@Override
 	public void draw() {
 		super.draw();
+		Window.beginUi();
 		if (menu.selectorVisible) {
-			Window.beginUi();
 			menu.draw();
-			Window.endUi();
 		}
+		counterImage.draw();
+		Window.endUi();
 	}
 }

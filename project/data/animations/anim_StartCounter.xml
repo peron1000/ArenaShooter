@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animation SYSTEM "animationDTD.dtd" >
+<animation length="6.0" loop="false">
+
+	<trackT name="CounterSprite">
+		<keyframeT time="2.0" value = "data/sprites/interface/3_Chroma2.png" />
+		<keyframeT time="3.0" value = "data/sprites/interface/2_Chroma2.png" />
+		<keyframeT time="4.0" value = "data/sprites/interface/1_Chroma2.png" />
+		<keyframeT time="5.0" value = "data/sprites/interface/Fight_Chroma2.png" />
+	</trackT>
+	
+		<trackD name="SizeOfCounterSprite" interpolation="cubic">
+		<keyframeT time="2.0" value = "0.02" />
+		<keyframeT time="2.4" value = "0.10" />
+		<keyframeT time="3.0" value = "0.02" />
+		<keyframeT time="3.4" value = "0.10" />	
+		<keyframeT time="4.0" value = "0.02" />
+		<keyframeT time="4.4" value = "0.10" />
+		<keyframeT time="5.0" value = "0.02" />
+		<keyframeT time="5.4" value = "0.10" />
+	</trackT>
+
+</animation>
