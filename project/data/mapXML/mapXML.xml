@@ -10,11 +10,9 @@
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01"
-				bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1.9" recoil="0.2"
-				thrust="2.6" size="64" proba="1">
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.8" y="-.1" />
 				<vecteur use="handPosR" x="0" y="-.28" />
@@ -22,11 +20,9 @@
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1.38" recoil="0.4"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
@@ -34,11 +30,9 @@
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
-				soundWarmup="IonCharge3"
-				bangSound="BangIonGun"
-				noAmmoSound="no_ammo_01" bulletType="1"
-				bulletSpeed="30" damage="1" cannonLength="1.38" recoil="1"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
@@ -46,11 +40,10 @@
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
 				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.18" bulletType="0"
-				bulletSpeed="45" damage="2" cannonLength=".6" recoil="2"
-				thrust="25.00" size="2"  proba="1">
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
 
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
@@ -58,11 +51,9 @@
 			<gun name="grenade_launcher" weight="50"
 				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
 				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="grenade_launcher_01"
-				noAmmoSound="no_ammo_01" bulletType="2"
-				bulletSpeed="30" damage="95" cannonLength="1.38" recoil="1"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="" bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="30" damage="95"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
@@ -75,17 +66,15 @@
 				</mesh>
 			</entities>
 		</spawn>
-		
+
 		<spawn spawnperso="false" cooldown="2">
 			<vecteur x="7" y="1" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01"
-				bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1.9" recoil="0.2"
-				thrust="2.6" size="64" proba="1">
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.8" y="-.1" />
 				<vecteur use="handPosR" x="0" y="-.28" />
@@ -93,11 +82,9 @@
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1.38" recoil="0.4"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
@@ -105,11 +92,9 @@
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
-				soundWarmup="IonCharge3"
-				bangSound="BangIonGun"
-				noAmmoSound="no_ammo_01" bulletType="1"
-				bulletSpeed="30" damage="1" cannonLength="1.38" recoil="1"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".3" />
 				<vecteur use="handPosR" x=".3" y=".1" />
@@ -117,11 +102,10 @@
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
 				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.18" bulletType="0"
-				bulletSpeed="45" damage="2" cannonLength=".6" recoil="2"
-				thrust="25.00" size="2"  proba="1">
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
 
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
@@ -129,11 +113,9 @@
 			<gun name="grenade_launcher" weight="50"
 				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
 				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="grenade_launcher_01"
-				noAmmoSound="no_ammo_01" bulletType="2"
-				bulletSpeed="30" damage="95" cannonLength="1.38" recoil="1"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="" bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="30" damage="95"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
@@ -141,9 +123,16 @@
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" damage="3"
-				bangSound="woosh_01" size="2" proba="100">
-				
+				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="100">
+
+				<vecteur use="handPosL" x="-2" y="0" />
+				<vecteur use="handPosR" x="0" y="0" />
+			</melee>
+			<melee name="Zab" weight="15"
+				pathSprite="data/weapons/ZabSwordofPop2.png" soundPickup="sword_draw_01"
+				cooldown="2.0" uses="350" animPath="" warmupDuration="0.1"
+				soundWarmup="" damage="3" bangSound="woosh_01" size="350" proba="100">
+
 				<vecteur use="handPosL" x="-2" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
@@ -155,17 +144,15 @@
 				</mesh>
 			</entities>
 		</spawn>
-		
+
 		<spawn spawnperso="false" cooldown="5">
 			<vecteur x="0" y="-10" />
 			<gun name="Minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01"
-				bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1.9" recoil="0.2"
-				thrust="2.6" size="64" proba="1">
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.8" y="-.1" />
 				<vecteur use="handPosR" x="0" y="-.28" />
@@ -173,11 +160,9 @@
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0"
-				bulletSpeed="35" damage="1" cannonLength="1.38" recoil="0.4"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="" bangSound="bang_tommy_gun_01"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
@@ -185,11 +170,9 @@
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
-				soundWarmup="IonCharge3"
-				bangSound="BangIonGun"
-				noAmmoSound="no_ammo_01" bulletType="1"
-				bulletSpeed="30" damage="1" cannonLength="1.38" recoil="1"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="IonCharge3" bangSound="BangIonGun"
+				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".3" />
 				<vecteur use="handPosR" x=".3" y=".1" />
@@ -197,11 +180,10 @@
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
 				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="bang_shotgun_01"
-				noAmmoSound="no_ammo_01" multiShot="25" dispersion="0.18" bulletType="0"
-				bulletSpeed="45" damage="2" cannonLength=".6" recoil="2"
-				thrust="25.00" size="2"  proba="1">
+				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
+				proba="1">
 
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
@@ -209,11 +191,9 @@
 			<gun name="grenade_launcher" weight="50"
 				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
 				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
-				soundWarmup=""
-				bangSound="grenade_launcher_01"
-				noAmmoSound="no_ammo_01" bulletType="2"
-				bulletSpeed="30" damage="95" cannonLength="1.38" recoil="1"
-				thrust="2.00" size="64" proba="1">
+				soundWarmup="" bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="30" damage="95"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
 
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
@@ -221,9 +201,8 @@
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" damage="3"
-				bangSound="woosh_01" size="2" proba="1">
-				
+				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
+
 				<vecteur use="handPosL" x="-2" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
@@ -241,7 +220,7 @@
 		</gravity>
 
 		<cameraPos x="0" y="-15" z="100" />
-		
+
 		<killBounds minX="-200" minY="-100" maxX="200" maxY="20" />
 
 		<sky>
@@ -307,19 +286,19 @@
 				</mesh>
 			</entities>
 		</static>
-		
-<!-- 		<rigid> -->
-<!-- 			<vecteur x="0" y="-10" use="position" /> -->
-<!-- 			<vecteur x="5" y="0.25" use="extent" /> -->
-<!-- 			<entities> -->
-<!-- 				<mesh src="data/meshes/catwalk/catwalk_10.obj"> -->
-<!-- 					<vecteur use="position" x="0" y="0" z="0" /> -->
-<!-- 					<vecteur use="rotation" x="0" y="0" z="0" w="1" /> -->
-<!-- 					<vecteur use="scale" x="1" y="1" z="1" /> -->
-<!-- 				</mesh> -->
-<!-- 			</entities> -->
-<!-- 		</rigid> -->
-		
+
+		<!-- <rigid> -->
+		<!-- <vecteur x="0" y="-10" use="position" /> -->
+		<!-- <vecteur x="5" y="0.25" use="extent" /> -->
+		<!-- <entities> -->
+		<!-- <mesh src="data/meshes/catwalk/catwalk_10.obj"> -->
+		<!-- <vecteur use="position" x="0" y="0" z="0" /> -->
+		<!-- <vecteur use="rotation" x="0" y="0" z="0" w="1" /> -->
+		<!-- <vecteur use="scale" x="1" y="1" z="1" /> -->
+		<!-- </mesh> -->
+		<!-- </entities> -->
+		<!-- </rigid> -->
+
 		<static>
 			<vecteur x="70" y="-1" use="position" />
 			<vecteur x="20" y="0.25" use="extent" />
@@ -346,7 +325,7 @@
 				</mesh>
 			</entities>
 		</static>
-		
+
 		<static>
 			<vecteur x="-70" y="-1" use="position" />
 			<vecteur x="20" y="0.25" use="extent" />
@@ -373,19 +352,20 @@
 				</mesh>
 			</entities>
 		</static>
-		
+
 		<static rotation=".25">
 			<vecteur x="-5" y="-3" use="position" />
 			<vecteur x="5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">
 					<vecteur use="position" x="0" y="-.25" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0.1246747" w="0.99219766" />
+					<vecteur use="rotation" x="0" y="0" z="0.1246747"
+						w="0.99219766" />
 					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
 		</static>
-		
+
 		<rigid>
 			<vecteur x="-5" y="-3" use="position" />
 			<vecteur x=".5" y=".5" use="extent" />
@@ -397,7 +377,7 @@
 				</mesh>
 			</entities>
 		</rigid>
-		
+
 		<rigid>
 			<vecteur x="-5" y="-10" use="position" />
 			<vecteur x="1" y=".5" use="extent" />
@@ -409,7 +389,7 @@
 				</mesh>
 			</entities>
 		</rigid>
-		
+
 		<rigid>
 			<vecteur x="-5" y="-15" use="position" />
 			<vecteur x=".5" y=".5" use="extent" />
@@ -421,8 +401,8 @@
 				</mesh>
 			</entities>
 		</rigid>
-		
-		
+
+
 		<rigid name="pinned_crate_01" density=".5">
 			<vecteur x="7" y="-19" use="position" />
 			<vecteur x=".5" y="1" use="extent" />
@@ -490,28 +470,28 @@
 			</entities>
 		</rigid>
 		<jointPin bodyA="large_platform" bodyB="pinned_crate_01">
-			<vecteur use="anchorA" x="7" y="-20"/>
-			<vecteur use="anchorB" x="0" y="-1"/>
+			<vecteur use="anchorA" x="7" y="-20" />
+			<vecteur use="anchorB" x="0" y="-1" />
 		</jointPin>
 		<jointPin bodyA="pinned_crate_01" bodyB="pinned_crate_02">
-			<vecteur use="anchorA" x="0" y="1"/>
-			<vecteur use="anchorB" x="0" y="-1"/>
+			<vecteur use="anchorA" x="0" y="1" />
+			<vecteur use="anchorB" x="0" y="-1" />
 		</jointPin>
 		<jointPin bodyA="pinned_crate_02" bodyB="pinned_crate_03">
-			<vecteur use="anchorA" x="0" y="1"/>
-			<vecteur use="anchorB" x="0" y="-1"/>
+			<vecteur use="anchorA" x="0" y="1" />
+			<vecteur use="anchorB" x="0" y="-1" />
 		</jointPin>
 		<jointPin bodyA="pinned_crate_03" bodyB="pinned_crate_04">
-			<vecteur use="anchorA" x="0" y="1"/>
-			<vecteur use="anchorB" x="0" y="-1"/>
+			<vecteur use="anchorA" x="0" y="1" />
+			<vecteur use="anchorB" x="0" y="-1" />
 		</jointPin>
 		<jointPin bodyA="pinned_crate_04" bodyB="pinned_crate_05">
-			<vecteur use="anchorA" x="0" y="1"/>
-			<vecteur use="anchorB" x="0" y="-1"/>
+			<vecteur use="anchorA" x="0" y="1" />
+			<vecteur use="anchorB" x="0" y="-1" />
 		</jointPin>
 		<jointPin bodyA="pinned_crate_05" bodyB="pinned_crate_06">
-			<vecteur use="anchorA" x="0" y="1"/>
-			<vecteur use="anchorB" x="0" y="-1"/>
+			<vecteur use="anchorA" x="0" y="1" />
+			<vecteur use="anchorB" x="0" y="-1" />
 		</jointPin>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
