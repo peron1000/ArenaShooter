@@ -1,6 +1,7 @@
 package arenashooter.engine.xmlReaders.writer;
 
 import java.io.File;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -55,20 +56,19 @@ public class MapXmlWriter {
 		Element entities = doc.createElement("entities");
 		parentBalise.appendChild(entities);
 		
-		for (String str : parent.getChildren().keySet()) {
+		for (Entry<String, Entity> entry : parent.getChildren().entrySet()) {
 			System.out.println("cp");
-			Entity child = parent.getChildren().get(str);
 //			if (child instanceof Spawner) {
 //				System.out.println("lol");
 //				Spawner p = (Spawner) child;
 //				SpawnXml p1 = new SpawnXml(doc, parent, info, true, p.getCooldown());
 //			}
-			if (child instanceof Mesh) {
-				Mesh p = (Mesh) child;
+			if (entry.getValue() instanceof Mesh) {
+				Mesh p = (Mesh) entry.getValue();
 				MeshXml p1 = new MeshXml(doc, entities);
-				p1.xPosition = p.parentPosition.x;
-				p1.yPosition = p.parentPosition.y;
-				p1.zPosition = p.parentPosition.z;
+				p1.xPosition = p.localPosition.x;
+				p1.yPosition = p.localPosition.y;
+				p1.zPosition = p.localPosition.z;
 			}
 		}
 	}
