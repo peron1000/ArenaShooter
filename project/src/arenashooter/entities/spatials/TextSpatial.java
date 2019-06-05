@@ -34,12 +34,6 @@ public class TextSpatial extends Spatial3 {
 	}
 	
 	@Override
-	public void editorAddScale(Vec2f scale) {
-		this.scale.x += scale.x;
-		this.scale.y += scale.y;
-	}
-	
-	@Override
 	public void draw() {
 		Profiler.startTimer(Profiler.MESHES);
 		
@@ -55,5 +49,21 @@ public class TextSpatial extends Spatial3 {
 		Profiler.endTimer(Profiler.MESHES);
 		
 		super.draw();
+	}
+	
+	@Override
+	public void editorDraw() {
+		if (isEditorTarget()) {
+			material.setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
+		} else {
+			material.setParamF("editorFilter", 0);
+		}
+		draw();
+	}
+	
+	@Override
+	public void editorAddScale(Vec2f scale) {
+		this.scale.x += scale.x;
+		this.scale.y += scale.y;
 	}
 }
