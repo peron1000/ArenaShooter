@@ -12,6 +12,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Navigable;
 import arenashooter.engine.ui.simpleElement.Rectangle;
 import arenashooter.entities.Editable;
+import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.game.gameStates.GameState;
 

@@ -3,7 +3,9 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
+import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -31,6 +33,18 @@ public class TextSpatial extends Spatial3 {
 	
 	public void setColor(Vec4f value) {
 		material.setParamVec4f("baseColor", value);
+	}
+	
+	public void setText(String str) {
+		text = new Text(text.getFont(), text.getAlignH(), str);
+	}
+	
+	public void setAlign(TextAlignH align) {
+		text = new Text(text.getFont(), align, text.getText());
+	}
+	
+	public void setFont(Font font) {
+		text = new Text(font, text.getAlignH(), text.getText());
 	}
 	
 	@Override
