@@ -1,5 +1,7 @@
 package arenashooter.engine.math;
 
+import arenashooter.game.Main;
+
 /**
  * Mutable rotation quaternion
  */
@@ -279,6 +281,11 @@ public class Quat {
 		Quat res = new Quat();
 		
 		double len = q.length();
+		if(Math.abs(len) <= 0.001) {
+			Main.log.warn("Zero-length quaternion, setting it to default value");
+			return new Quat();
+		}
+		
 		res.x = (float) (q.x/len);
 		res.y = (float) (q.y/len);
 		res.z = (float) (q.z/len);
