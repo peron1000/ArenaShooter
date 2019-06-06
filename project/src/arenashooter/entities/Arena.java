@@ -28,7 +28,7 @@ public class Arena extends Entity {
 	public ArrayList<Item> items = new ArrayList<>();
 	
 	/** Kill every Spatial that touches these bounds (min X, min Y, max X, max Y) */
-	public Vec4f killBound = new Vec4f(100, 100, 100, 100);
+	public Vec4f killBound = new Vec4f(-100, -100, 100, 100);
 	
 	/** Base camera position, camera movement will be restricted into this field of view */
 	public Vec3f cameraBasePos = new Vec3f(0, 0, 8);

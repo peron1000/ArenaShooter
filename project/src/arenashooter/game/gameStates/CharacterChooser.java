@@ -244,8 +244,7 @@ public class CharacterChooser extends GameState {
 
 		Texture fondMenuTex = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
 		fondMenuTex.setFilter(false);
-		// UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1,
-		// 1, 1, 1));
+		// UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1));
 		// menu.setBackground(bg);
 
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");

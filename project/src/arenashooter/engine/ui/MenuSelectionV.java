@@ -23,7 +23,7 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 		super(maxLayout);
 		Texture t = Texture.loadTexture(pathTextureSelec);
 		t.setFilter(false);
-		selec = new UiImage(0, scaleSelec, t, new Vec4f(1, 1, 1, 1));
+		selec = new UiImage(0, scaleSelec, t, new Vec4f(1));
 		selec.setVisible(true);
 		Vec2f pos = new Vec2f(x, y);
 		setPosition(pos);

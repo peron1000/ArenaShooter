@@ -92,7 +92,7 @@ public class Config extends GameState {
 								menuParam.getTarget().setColorText(new Vec4f(0, 0, 0, 1));
 							} else {
 								menuParam.getTarget().setColorFond(new Vec4f(0, 0, 0, 1));
-								menuParam.getTarget().setColorText(new Vec4f(1, 1, 1, 1));
+								menuParam.getTarget().setColorText(new Vec4f(1));
 							}
 						} else if (menuMap.active.getValue()) {
 							menuMap.getElemSelec().lunchAction("selec");
@@ -133,7 +133,7 @@ public class Config extends GameState {
 		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
 		texture2.setFilter(false);
 
-		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1, 1, 1, 1));
+		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1));
 		menuBg.setBackground(bg);
 
 		final float scaleY = 5.5f, scaleX = 55f;
@@ -208,7 +208,7 @@ public class Config extends GameState {
 		// test
 		menuMap.setEcartementX(14);
 		menuMap.setEcartementY(14);
-		menuMap.setImageSelec(new UiImage(0, new Vec2f(15), texture2, new Vec4f(1, 1, 1, 1)), 3);
+		menuMap.setImageSelec(new UiImage(0, new Vec2f(15), texture2, new Vec4f(1)), 3);
 		menuMap.setPosition(new Vec2f(-5, -15));
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
@@ -233,7 +233,7 @@ public class Config extends GameState {
 			int x = i % nbElemH;
 			if (x == 0 && i != 0)
 				y++;
-			UiImage picture = new UiImage(0, new Vec2f(6), image, new Vec4f(1, 1, 1, 1));
+			UiImage picture = new UiImage(0, new Vec2f(6), image, new Vec4f(1));
 			menuMap.put(picture, 1, x, y);
 			picture.addAction("selec", new Trigger() {
 

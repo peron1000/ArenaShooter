@@ -23,9 +23,9 @@ public class Label extends UiSimpleElementNavigable {
 		this.material = new Material("data/shaders/ui/ui_text_distance_field");
 
 		setThickness(.3f);
-		setColor(new Vec4f(1, 1, 1, 1));
+		setColor(new Vec4f(1));
 		setShadowThickness(.001f);
-		setShadowColor(new Vec4f(0, 0, 0, 0));
+		setShadowColor(new Vec4f(0));
 	}
 
 	public void setText(String newText) {

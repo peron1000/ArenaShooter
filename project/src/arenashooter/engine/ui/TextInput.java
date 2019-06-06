@@ -18,7 +18,7 @@ public class TextInput extends UiElement {
 	ArrayList<Label> word = new ArrayList<>();
 	private char c = 'A';
 	int index = 0;
-	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1, 1, 1, 1);
+	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1);
 	private Type type = Type.UPPERCASE;
 	private Trigger trigger = new Trigger() {
 

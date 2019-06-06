@@ -33,7 +33,7 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		this.addUiElement(title, 1);
 		Texture t = Texture.loadTexture(texturePathSelector);
 		t.setFilter(false);
-		selec = new UiImage(0, scaleSelec, t, new Vec4f(1, 1, 1, 1));
+		selec = new UiImage(0, scaleSelec, t, new Vec4f(1));
 		selec.setPosition(new Vec2f());
 		setPosition(new Vec2f());
 		selectorVisible.listener.add(new EventListener<NewValueEvent<Boolean>>() {

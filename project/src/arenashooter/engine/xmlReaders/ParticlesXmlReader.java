@@ -37,8 +37,8 @@ public class ParticlesXmlReader extends XmlReader {
 			Node node = emitters.item(i);
 			if(node.getNodeType() == Node.ELEMENT_NODE) {
 				currentEmitter = null;
-				colorStart = new Vec4f(1, 1, 1, 1);
-				colorEnd = new Vec4f(1, 1, 1, 1);
+				colorStart = new Vec4f(1);
+				colorEnd = new Vec4f(1);
 				
 				Element emitter = (Element) node;
 				

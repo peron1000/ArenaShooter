@@ -26,7 +26,7 @@ public class Sprite extends Spatial {
 		if(model == null) model = Model.loadQuad();
 		material = new Material("data/shaders/sprite_simple");
 		setTexture(texture);
-		material.setParamVec4f("baseColorMod", new Vec4f(1, 1, 1, 1));
+		material.setParamVec4f("baseColorMod", new Vec4f(1));
 		useTransparency = texture.transparency;
 	}
 	
