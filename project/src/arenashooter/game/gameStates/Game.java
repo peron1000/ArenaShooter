@@ -31,7 +31,6 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
-import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
@@ -120,7 +119,7 @@ public class Game extends GameState {
 			bgm.destroy();
 			bgm = null;
 		}
-		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .5f, 1);
+		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
 	}
 
@@ -132,7 +131,6 @@ public class Game extends GameState {
 		Collections.shuffle(mapsToShuffle);
 		current = mapsToShuffle.get(0);
 		newRound();
-		// bgm.play();
 	}
 
 	public void characterDeath(Controller controller, Character character) {
@@ -141,6 +139,7 @@ public class Game extends GameState {
 	}
 
 	private void newRound() {
+		bgm.setVolume(.1f);
 		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
@@ -218,6 +217,8 @@ public class Game extends GameState {
 					if(current instanceof AnimEventCustom) {
 						if(((AnimEventCustom)current).data.equals("CanPlayNow")) {
 							canPlay = true;
+							bgm.setVolume(.5f);
+							if(!bgm.isPlaying()) bgm.play();
 						}
 					} else if(current instanceof AnimEventSound) {
 						((AnimEventSound) current).play(null);
