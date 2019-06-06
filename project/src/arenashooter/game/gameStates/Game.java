@@ -3,11 +3,14 @@ package arenashooter.game.gameStates;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Queue;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
+import arenashooter.engine.animation.animevents.AnimEvent;
+import arenashooter.engine.animation.animevents.AnimEventCustom;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
@@ -209,8 +212,13 @@ public class Game extends GameState {
 				counterImage.setScale(0, 0);
 				startCounter = null;
 			} else {
-				if (startCounter.getTrackD("CanPlay") == 1)
-					canPlay = true;
+				Queue<AnimEvent> events = startCounter.getEvents();
+				for(AnimEvent event : events) {
+					if(event instanceof AnimEventCustom) {
+						if(((AnimEventCustom)event).data.equals("CanPlayNow"))
+							canPlay = true;
+					}
+				}
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);

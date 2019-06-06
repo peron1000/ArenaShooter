@@ -2,6 +2,12 @@
 <!DOCTYPE animation SYSTEM "animationDTD.dtd" >
 <animation length="6.0" loop="false">
 
+	<trackEvent>
+		<keyframeEvent time ="5.1">
+			<eventCustom data="batard" />
+		</keyframeEvent>
+	</trackEvent>
+	
 	<trackT name="CounterSprite"> 
 		<keyframeT time="2.0" value = "data/sprites/interface/3_Chroma2.png" />
 		<keyframeT time="3.0" value = "data/sprites/interface/2_Chroma2.png" />
@@ -23,9 +29,6 @@
 		<keyframeD time="5.2" value = "1.4" />
 	</trackD>
 	
-	<trackD name="CanPlay">
-		<keyframeD time ="0.0" value = "0" />
-		<keyframeD time ="5.2" value = "1" />
-	</trackD>
+
 
 </animation>

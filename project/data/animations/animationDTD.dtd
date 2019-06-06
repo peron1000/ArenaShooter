@@ -35,7 +35,7 @@
 
 <!ELEMENT trackEvent (keyframeEvent+)>
 <!ELEMENT keyframeEvent (eventCustom|eventSound)>
-<!ATTLIST keyframeVec3f time CDATA #REQUIRED>
+<!ATTLIST keyframeEvent time CDATA #REQUIRED>
 <!ELEMENT eventCustom EMPTY>
 <!ATTLIST eventCustom data CDATA #REQUIRED>
 <!ELEMENT eventSound EMPTY>
