@@ -33,5 +33,14 @@
 <!ATTLIST keyframeVec3f y CDATA #REQUIRED>
 <!ATTLIST keyframeVec3f z CDATA #REQUIRED>
 
-<!ELEMENT trackEvent EMPTY>
-<!-- TODO -->
+<!ELEMENT trackEvent (keyframeEvent+)>
+<!ELEMENT keyframeEvent (eventCustom|eventSound)>
+<!ATTLIST keyframeVec3f time CDATA #REQUIRED>
+<!ELEMENT eventCustom EMPTY>
+<!ATTLIST eventCustom data CDATA #REQUIRED>
+<!ELEMENT eventSound EMPTY>
+<!ATTLIST eventSound path CDATA #REQUIRED>
+<!ATTLIST eventSound channel (SFX|MUSIC|UI) #REQUIRED>
+<!ATTLIST eventSound volume CDATA #REQUIRED>
+<!ATTLIST eventSound pitch CDATA #REQUIRED>
+<!ATTLIST eventSound localized (true|false) #REQUIRED>

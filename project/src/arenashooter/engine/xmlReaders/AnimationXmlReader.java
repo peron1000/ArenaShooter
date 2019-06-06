@@ -10,11 +10,14 @@ import org.w3c.dom.NodeList;
 import arenashooter.engine.animation.AnimInterpolation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
+import arenashooter.engine.animation.animevents.AnimEventCustom;
+import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.animation.tracks.AnimTrackDouble;
 import arenashooter.engine.animation.tracks.AnimTrackTexture;
 import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
 import arenashooter.engine.animation.tracks.EventTrack;
+import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -206,7 +209,43 @@ public class AnimationXmlReader extends XmlReader {
 	}
 	
 	private static void readTrackEvents(Node node) {
-		//TODO: load events
-		System.out.println("Animation - Loading anim events is not supported yet!");
+		NodeList children = node.getChildNodes();
+		Element current;
+		for( int i=0; i<children.getLength(); i++ ) {
+			if( children.item(i).getNodeType() != Node.ELEMENT_NODE ) continue;
+			current = (Element)children.item(i);
+
+			double time = Double.parseDouble(current.getAttribute("time"));
+			
+			AnimEvent event = null;
+			
+			NodeList currentChildren = current.getChildNodes();
+			Element eventElem;
+			for(int j=0; j<currentChildren.getLength(); j++) {
+				if( children.item(i).getNodeType() != Node.ELEMENT_NODE ) continue;
+				eventElem = (Element)children.item(i);
+				
+				switch(eventElem.getNodeName()) {
+				case "eventCustom":
+					String data = eventElem.getAttribute("data");
+					event = new AnimEventCustom(data);
+					break;
+				case "eventSound":
+					String path = eventElem.getAttribute("path");
+					float volume = Float.parseFloat(eventElem.getAttribute("volume"));
+					float pitch = Float.parseFloat(eventElem.getAttribute("volume"));
+					boolean spatialized = Boolean.parseBoolean(eventElem.getAttribute("spatialized"));
+					AudioChannel channel = AudioChannel.valueOf(eventElem.getAttribute("chanel"));
+					event = new AnimEventSound(path, channel, volume, pitch, spatialized);
+					break;
+				default:
+					log.error("Invalid anim event: "+eventElem.getNodeName());
+					break;
+				}
+			}
+			
+			if(event != null)
+				events.put(time, event);
+		}
 	}
 }

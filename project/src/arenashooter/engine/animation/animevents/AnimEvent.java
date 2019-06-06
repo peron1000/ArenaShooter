@@ -4,6 +4,4 @@ public abstract class AnimEvent {
 
 	public AnimEvent() {
 	}
-
-	abstract void fire();
 }
