@@ -13,6 +13,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
 import arenashooter.engine.ui.Navigable;
@@ -54,6 +55,8 @@ class MainMenu implements Navigable {
 	private HashMap<Entity, Button> entityToButton = new HashMap<>();
 	private HashMap<TypeEntites, Button> typeToButton = new HashMap<>();
 	private Entity parent;
+	private boolean onWritting = false;
+	private DoubleInput doubleInput = new DoubleInput();
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -66,6 +69,8 @@ class MainMenu implements Navigable {
 
 		arenaConstruction = toConstruct;
 		parent = toConstruct;
+		
+		doubleInput.setVisible(false);
 
 		saveQuitMenuConstruction();
 
@@ -77,8 +82,33 @@ class MainMenu implements Navigable {
 	}
 
 	private void arenaInfoMenuConstruction() {
-		// TODO Auto-generated method stub
-		
+		arenaInfo.setPosition(new Vec2f(Editor.forVisible, -40));
+		arenaInfo.setEcartement(6);
+		arenaInfo.setPositionRef(new Vec2f(Editor.forVisible, -30));
+		Button button = new Button(0, buttonScale, "input double");
+		arenaInfo.addElementInListOfChoices(button, 1);
+		button.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				onWritting = true;
+				doubleInput = new DoubleInput();
+				button.setVisible(false);
+				doubleInput.setPosition(button.getPosition());
+				doubleInput.setScale(new Vec2f(10));
+				arenaInfo.addUiElement(doubleInput, 1);
+				doubleInput.setOnFinish(new Trigger() {
+					
+					@Override
+					public void make() {
+						onWritting = false;
+						button.setVisible(true);
+						System.out.println(doubleInput.getDouble());
+						arenaInfo.removeUiElement(doubleInput);
+					}
+				});
+			}
+		});
 	}
 
 	private void meshChooserMenuConstruction() {
@@ -239,26 +269,41 @@ class MainMenu implements Navigable {
 
 	@Override
 	public boolean upAction() {
+		if(onWritting) {
+			return doubleInput.upAction();
+		}
 		return current.upAction();
 	}
 
 	@Override
 	public boolean downAction() {
+		if(onWritting) {
+			return doubleInput.downAction();
+		}
 		return current.downAction();
 	}
 
 	@Override
 	public boolean rightAction() {
+		if(onWritting) {
+			return doubleInput.rightAction();
+		}
 		return current.rightAction();
 	}
 
 	@Override
 	public boolean leftAction() {
+		if(onWritting) {
+			return doubleInput.leftAction();
+		}
 		return current.leftAction();
 	}
 
 	@Override
 	public boolean selectAction() {
+		if(onWritting) {
+			return doubleInput.selectAction();
+		}
 		return current.selectAction();
 	}
 
@@ -305,6 +350,23 @@ class MainMenu implements Navigable {
 
 	@Override
 	public boolean continueAction() {
+		if(onWritting) {
+			return doubleInput.continueAction();
+		}
+		return false;
+	}
+	
+	public boolean changeAction() {
+		if (onWritting) {
+			return doubleInput.changeAction();
+		}
+		return false;
+	}
+
+	public boolean cancelAction() {
+		if (onWritting) {
+			return doubleInput.cancelAction();
+		}
 		return false;
 	}
 

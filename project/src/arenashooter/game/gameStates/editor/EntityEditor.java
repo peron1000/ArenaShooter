@@ -250,16 +250,18 @@ class EntityEditor implements Navigable {
 		c.accept(textInput);
 	}
 
-	public void changeAction() {
+	public boolean changeAction() {
 		if (onWritting) {
-			textInput.changeType();
+			return textInput.changeAction();
 		}
+		return false;
 	}
 
-	public void cancelAction() {
+	public boolean cancelAction() {
 		if (onWritting) {
-			textInput.cancelChar();
+			return textInput.cancelAction();
 		}
+		return false;
 	}
 
 	public SetEditable getModificationType() {

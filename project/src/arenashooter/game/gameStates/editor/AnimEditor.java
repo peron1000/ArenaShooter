@@ -130,4 +130,16 @@ public class AnimEditor implements Navigable {
 		return null;
 	}
 
+	@Override
+	public boolean cancelAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean changeAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

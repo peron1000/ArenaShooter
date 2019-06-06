@@ -51,6 +51,16 @@ public abstract class UiElement implements Navigable {
 		return false;
 	}
 	
+	@Override
+	public boolean cancelAction() {
+		return false;
+	}
+	
+	@Override
+	public boolean changeAction() {
+		return false;
+	}
+	
 	public boolean isVisible() {
 		return visible;
 	}

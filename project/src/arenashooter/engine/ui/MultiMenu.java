@@ -217,4 +217,14 @@ public class MultiMenu<T extends Enum<T>> extends Menu implements Navigable {
 		return false;
 	}
 
+	@Override
+	public boolean cancelAction() {
+		return false;
+	}
+
+	@Override
+	public boolean changeAction() {
+		return false;
+	}
+
 }
