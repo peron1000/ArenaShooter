@@ -22,6 +22,7 @@ import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.StaticBodyContainer;
@@ -67,7 +68,7 @@ class MainMenu implements Navigable {
 		saveQuitMenuConstruction();
 
 		addMenuConstruction();
-
+		
 		meshChooserMenuConstruction();
 	}
 
@@ -87,22 +88,6 @@ class MainMenu implements Navigable {
 				public void make() {
 					Mesh mesh = new Mesh(new Vec3f(), file.getPath().replace('\\', '/'));
 					createNewEntity(mesh, TypeEntites.MESH);
-//					String entityName = mesh.genName();
-//					mesh.attachToParent(parent, entityName);
-//					Button toSetMenu = new Button(0, buttonScale, entityName);
-//					setMenu.addElementInListOfChoices(toSetMenu, 1);
-//					editor.allEditable.add(mesh);
-//					entityToButton.put(mesh, toSetMenu);
-//					toSetMenu.setOnArm(new Trigger() {
-//
-//						@Override
-//						public void make() {
-//							editor.onSetting = mesh;
-//							editor.setCurrentMenu(new EntityEditor(MainMenu.this, mesh, TypeEntites.MESH));
-//						}
-//					});
-//					current = mainMenu;
-//					toSetMenu.arm();
 				}
 			});
 		}
@@ -308,6 +293,20 @@ class MainMenu implements Navigable {
 	@Override
 	public boolean continueAction() {
 		return false;
+	}
+
+	public void constructCamerabutton(Camera cam) {
+		Button toSetMenu = new Button(0, buttonScale, "camera");
+		setMenu.addElementInListOfChoices(toSetMenu, 1);
+		entityToButton.put(cam, toSetMenu);
+		toSetMenu.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				editor.onSetting = cam;
+				editor.setCurrentMenu(new EntityEditor(MainMenu.this, cam, TypeEntites.ENTITY));
+			}
+		});
 	}
 
 }

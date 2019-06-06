@@ -24,7 +24,6 @@ public class Editor extends GameState {
 	private boolean menuVisible = true;
 
 	private InputListener inputs = new InputListener();
-	private Camera cam;
 
 	LinkedList<Editable> allEditable = new LinkedList<>();
 	Editable onSetting = null;
@@ -34,6 +33,8 @@ public class Editor extends GameState {
 	private Navigable currentMenu = mainMenu;
 
 	AnimEditor animEditor = new AnimEditor();
+
+	private Camera cam;
 
 	public Editor() {
 		super(1);
@@ -100,7 +101,7 @@ public class Editor extends GameState {
 							onSetting.editorAddScale(new Vec2f(0, -scaleSpeed));
 							break;
 						case DEEP:
-							// TODO
+							onSetting.editorAddDeep((float) positionSpeed);
 							break;
 						default:
 							break;
@@ -118,7 +119,7 @@ public class Editor extends GameState {
 							onSetting.editorAddScale(new Vec2f(0, scaleSpeed));
 							break;
 						case DEEP:
-							// TODO
+							onSetting.editorAddDeep(-(float) positionSpeed);
 							break;
 						default:
 							break;
@@ -136,7 +137,6 @@ public class Editor extends GameState {
 							onSetting.editorAddScale(new Vec2f(scaleSpeed, 0));
 							break;
 						case DEEP:
-							// TODO
 							break;
 						default:
 							break;
@@ -154,7 +154,6 @@ public class Editor extends GameState {
 							onSetting.editorAddScale(new Vec2f(-scaleSpeed, 0));
 							break;
 						case DEEP:
-							// TODO
 							break;
 						default:
 							break;
@@ -177,6 +176,8 @@ public class Editor extends GameState {
 	public void init() {
 		super.init();
 		cam = (Camera) current.getChild("camera");
+		cam.interpolate = false;
+		mainMenu.constructCamerabutton(cam);
 	}
 
 	private void setMenuVisible(boolean visible) {
@@ -195,6 +196,7 @@ public class Editor extends GameState {
 		inputs.step(delta);
 		background.update(delta);
 		currentMenu.update(delta);
+		cam.step(delta);
 		for (Editable editable : allEditable) {
 			if (onSetting != null && editable == onSetting) {
 				editable.setEditorTarget(true);

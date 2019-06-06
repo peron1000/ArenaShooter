@@ -90,6 +90,11 @@ public class Spatial3 extends Entity {
 		for(Entity e : getChildren().values())
 			e.updateAttachment();
 	}
+	
+	@Override
+	public void editorAddDeep(float deep) {
+		localPosition.z += deep;
+	}
 
 	@Override
 	public void updateAttachment() {

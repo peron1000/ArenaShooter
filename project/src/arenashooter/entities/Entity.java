@@ -253,4 +253,9 @@ public class Entity implements Editable {
 	public void editorDraw() {
 		draw();
 	}
+
+	@Override
+	public void editorAddDeep(float deep) {
+		// Nothing		
+	}
 }
