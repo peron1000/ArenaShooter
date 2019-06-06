@@ -40,7 +40,8 @@ public class ColorPicker extends UiElement {
 		
 		lumiSat.setPosition(new Vec2f(-2.5, 0));
 		
-		hueImg = new UiImage(Math.PI/4, new Vec2f(10, 2), Texture.loadTexture("data/sprites/interface/hue.png"));
+		hueImg = new UiImage(Math.PI/2, new Vec2f(10, 2), Texture.loadTexture("data/sprites/interface/hue.png"));
+		hueImg.setPosition(new Vec2f(10, 0));
 		
 		updateMaterials();
 	}
