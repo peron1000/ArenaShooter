@@ -26,6 +26,10 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	public void setLinearVelocity(Vec2f newVelocity) {
 		body.setLinearVelocity(newVelocity);
 	}
+	
+	public float getAngularVelocity() { return body.getAngularVelocity(); }
+	
+	public void setAngularVelocity(float angularVelocity) { body.setAngularVelocity(angularVelocity); }
 
 	/**
 	 * Apply an impulse at center of mass

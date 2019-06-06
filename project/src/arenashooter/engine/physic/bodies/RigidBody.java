@@ -74,7 +74,7 @@ public class RigidBody extends PhysicBody {
 	 * @return linear velocity at center of mass
 	 */
 	public Vec2f getLinearVelocity() {
-		if(body == null) return new Vec2f();
+		if(body == null) return new Vec2f(bodyDef.linearVelocity);
 		return linearVelocity.set(body.getLinearVelocity());
 	}
 	
@@ -85,6 +85,21 @@ public class RigidBody extends PhysicBody {
 	public void setLinearVelocity(Vec2f newVelocity) {
 		if(body != null)
 			body.setLinearVelocity(newVelocity.toB2Vec());
+		else
+			bodyDef.setLinearVelocity(newVelocity.toB2Vec());
+	}
+	
+	public float getAngularVelocity() {
+		if(body == null)
+			return bodyDef.angularVelocity;
+		else
+			return body.getAngularVelocity();
+	}
+	
+	public void setAngularVelocity(float angularVelocity) {
+		if(body != null)
+			body.setAngularVelocity(angularVelocity);
+		bodyDef.angularVelocity = angularVelocity;
 	}
 
 	@Override
