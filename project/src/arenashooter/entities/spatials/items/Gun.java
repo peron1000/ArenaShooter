@@ -35,7 +35,7 @@ public class Gun extends Usable {
 
 	/**
 	 * 
-	 * @param position
+	 * @param localPosition
 	 * @param name
 	 * @param weight
 	 * @param pathSprite
@@ -57,12 +57,12 @@ public class Gun extends Usable {
 	 * @param thrust
 	 * @param size
 	 */
-	public Gun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public Gun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage, double cannonLength,
 			double recoil, double thrust, double size) {
 		
-		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, soundFire);
 
 		this.nbAmmo = uses;
@@ -222,8 +222,8 @@ public class Gun extends Usable {
 	}
 	
 	@Override
-	public Gun clone(Vec2f position) {
-		Gun gun = new Gun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+	public Gun clone() {
+		Gun gun = new Gun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;
 	}
 }

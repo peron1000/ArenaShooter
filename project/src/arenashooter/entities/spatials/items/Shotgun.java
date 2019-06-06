@@ -40,12 +40,12 @@ public class Shotgun extends Gun {
 	 * @param thrust
 	 * @param size
 	 */
-	public Shotgun(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public Shotgun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String soundFire, String noAmmoSound, int multiShot, double dispersion, int bulletType, float bulletSpeed,
 			float damage, double cannonLength, double recoil, double thrust, double size) {
 
-		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, soundFire, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength,
 				recoil, thrust, size);
 		this.multiShot = multiShot;
@@ -167,14 +167,12 @@ public class Shotgun extends Gun {
 
 		}
 
-//		getSprite().localRotation = getWorldRot();
-
 		super.step(d);
 	}
 
 	@Override
-	public Shotgun clone(Vec2f position) {
-		Shotgun gun = new Shotgun(position, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup,
+	public Shotgun clone() {
+		Shotgun gun = new Shotgun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup,
 				fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, multiShot, dispersion,
 				bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;

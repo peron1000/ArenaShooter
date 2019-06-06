@@ -16,9 +16,9 @@ public class Usable extends Item {
 	protected String soundWarmup = "";
 	protected String soundFire = "";
 
-	public Usable(Vec2f position, String name, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int uses, String animPath,
+	public Usable(Vec2f localPosition, String name, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int uses, String animPath,
 			double warmup, String soundWarmup, String soundFire) {
-		super(position,name, weight, pathSprite, handPosL, handPosR, soundPickup);
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup);
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 		this.fireRate = fireRate;
@@ -50,8 +50,8 @@ public class Usable extends Item {
 	}
 	
 	@Override
-	public Usable clone(Vec2f position) {
-		Usable clone = new Usable(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
+	public Usable clone() {
+		Usable clone = new Usable(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
 		};
 		return clone;
 	}

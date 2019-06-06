@@ -26,9 +26,9 @@ public abstract class Item extends Spatial {
 	
 	private boolean isEquipped = false;
 
-	public Item(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup) {
-		super(position);
+		super(localPosition);
 		
 		attachRot = false;
 		
@@ -192,8 +192,9 @@ public abstract class Item extends Spatial {
 	 * @param position
 	 * @return a copy of this item at <i>position</i>
 	 */
-	public Item clone(Vec2f position) {
-		Item clone = new Item(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {};
+	@Override
+	public Item clone() {
+		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {};
 		return clone;
 	}
 }

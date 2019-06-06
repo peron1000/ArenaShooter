@@ -54,7 +54,11 @@ public class Spawner extends Spatial {
 	 */
 	private void spawnItem() {
 		if (!itemList.isEmpty()) {
-			Item itemToSpawn = getRandomItem().clone(getWorldPos());
+			Item itemToSpawn = getRandomItem().clone();
+			//Set item position
+			itemToSpawn.localPosition.set(getWorldPos());
+			//Slight rotation
+			itemToSpawn.localRotation = Math.random()*.1;
 			GameMaster.gm.getMap().items.add(itemToSpawn);
 			itemToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
 

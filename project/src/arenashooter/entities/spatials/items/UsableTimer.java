@@ -16,10 +16,10 @@ public class UsableTimer extends Item {
 	protected String soundWarmup = "";
 	protected String soundFire = "";
 
-	public UsableTimer(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public UsableTimer(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double fireRate, int duration, String animPath, double warmup, String soundWarmup,
 			String soundFire) {
-		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup);
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup);
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 		this.fireRate = fireRate;
@@ -56,7 +56,7 @@ public class UsableTimer extends Item {
 	}
 	
 	@Override
-	public UsableTimer clone(Vec2f position) {
+	public UsableTimer clone() {
 		UsableTimer clone = new UsableTimer(localPosition, animPath, duration, animPath, handPosL, handPosR, animPath, fireRate, duration, animPath, warmup, soundWarmup, soundFire);
 		return clone;
 	}

@@ -32,10 +32,10 @@ public class Melee extends Usable {
 	private boolean dealingDamage = false;
 	private float bladeRayFraction = 1;
 	
-	public Melee(Vec2f position, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage, double size) {
-		super(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
 		
 		this.animMelee = new AnimMelee(new Vec2f(), this);
@@ -134,8 +134,8 @@ public class Melee extends Usable {
 	}
 
 	@Override
-	public Melee clone(Vec2f position) {
-		Melee clone = new Melee(position, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup,
+	public Melee clone() {
+		Melee clone = new Melee(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup,
 				uses, animPath, warmup, animPath, animPath, damage, warmup) {
 		};
 		return clone;
