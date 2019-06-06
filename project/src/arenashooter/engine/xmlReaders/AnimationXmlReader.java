@@ -235,7 +235,7 @@ public class AnimationXmlReader extends XmlReader {
 					float volume = Float.parseFloat(eventElem.getAttribute("volume"));
 					float pitch = Float.parseFloat(eventElem.getAttribute("volume"));
 					boolean spatialized = Boolean.parseBoolean(eventElem.getAttribute("spatialized"));
-					AudioChannel channel = AudioChannel.valueOf(eventElem.getAttribute("chanel"));
+					AudioChannel channel = AudioChannel.valueOf(eventElem.getAttribute("channel"));
 					event = new AnimEventSound(path, channel, volume, pitch, spatialized);
 					break;
 				default:
