@@ -6,6 +6,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Stack;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,6 +44,7 @@ import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec4i;
 import arenashooter.entities.spatials.Camera;
 
 /**
@@ -88,6 +90,9 @@ public final class Window {
 	//Internal rendering resolution
 	private static int resX, resY;
 	private static float resolutionScale = 1;
+	
+	//Scissor
+	private static final Stack<Vec4i> scissorStack = new Stack<>();
 	
 	//Callbacks
 	private static GLFWErrorCallback callbackError;
@@ -203,6 +208,12 @@ public final class Window {
 	 * End a frame, this will swap framebuffers
 	 */
 	public static void endFrame() {
+		if(!scissorStack.empty()) {
+			log.warn("Scissor stack is not empty!");
+			scissorStack.clear();
+			glDisable(GL_SCISSOR_TEST);
+		}
+		
 		Profiler.startTimer(Profiler.POSTPROCESS);
 		
 		//Bind default framebuffer
@@ -271,6 +282,38 @@ public final class Window {
 			glDisable(GL_BLEND);
 //			Profiler.endTimer(Profiler.TRANSPARENCY);
 		}
+	}
+	
+	/**
+	 * Add a scissor box
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public static void stackScissor(float x, float y, float width, float height) { //TODO: test conversion
+		int screenX = (int) (resX*((x+(50*ratio))/(100*ratio)));
+		int screenY = (int) (resY*((y+50)/100));
+		int screenW = (int) (resX*(width/(100*ratio)));
+		int screenH = (int) (resY*(height/100));
+		
+		if(scissorStack.empty()) glEnable(GL_SCISSOR_TEST);
+		glScissor(screenX, screenY, screenW, screenH);
+		scissorStack.add(new Vec4i(screenX, screenY, screenW, screenH));
+	}
+	
+	/**
+	 * Pop the last scissor box
+	 */
+	public static void popScissor() {
+		scissorStack.pop();
+		if(scissorStack.empty()) {
+			glDisable(GL_SCISSOR_TEST);
+		} else {
+			Vec4i prev = scissorStack.peek();
+			glScissor(prev.x, prev.y, prev.z, prev.w);
+		}
+		
 	}
 	
 	/**
