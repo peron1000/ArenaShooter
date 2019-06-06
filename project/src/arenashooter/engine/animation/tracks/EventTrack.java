@@ -45,6 +45,7 @@ public class EventTrack {
 		double current = from;
 		while(current < to) {
 			int next = nextKeyframe(current);
+			if(next < 0) break;
 			
 			if(times[next] < to)
 				res.add(values[next]);
@@ -69,7 +70,7 @@ public class EventTrack {
 		for(int i=0; i<times.length; i++) {
 			if(times[i]>time) return i;
 		}
-		return times.length-1;
+		return -1;
 	}
 	
 	//TODO
