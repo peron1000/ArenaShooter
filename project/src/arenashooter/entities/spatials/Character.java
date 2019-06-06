@@ -131,28 +131,30 @@ public class Character extends RigidBodyContainer {
 			// vel.y = vel.y / 2;
 		}
 	}
-	
+
 	public void parryStart() {
-		if(getWeapon() == null && !parryCooldown) {
+		if (getWeapon() == null && !parryCooldown) {
 			((CharacterSprite) getChild("skeleton")).parryStart();
 			parry.setIncreasing(true);
 		}
 	}
-	
+
 	public void parryStop() {
 		((CharacterSprite) getChild("skeleton")).parryStop();
 		parry.setIncreasing(false);
 	}
-	
+
 	/**
 	 * 
-	 * @param attackAngle is the angle the attack is directed. For projectiles, relative speed is not taken into account, only absolute speed.  
+	 * @param attackAngle
+	 *            is the angle the attack is directed. For projectiles, relative
+	 *            speed is not taken into account, only absolute speed.
 	 * @return true if the character is blocking in the direction of the attack.
 	 */
 	public boolean canParryThis(double attackAngle) {
-		return parry.isIncreasing();//L'angle n'est pas encore géré
+		return parry.isIncreasing();// L'angle n'est pas encore géré
 	}
-	
+
 	public boolean isParrying() {
 		return parry.isIncreasing() && !parry.isOver();
 	}
@@ -212,7 +214,7 @@ public class Character extends RigidBodyContainer {
 			// punchEnd.multiply(range);
 			// punchEnd.add(getWorldPos());
 
-			Punch ponch = new Punch(localPosition, punchDmgInfo, hitWidth, range, superPoing);
+			Punch ponch = new Punch(punchDmgInfo, hitWidth, range, superPoing);
 			ponch.attachToParent(this, "punch_" + genName());
 
 			// punchHit.clear();
@@ -262,16 +264,17 @@ public class Character extends RigidBodyContainer {
 		}
 	}
 
-	public void dropItem() {
+	public void throwItem() {
 		attackStop();
 
 		Entity item = getChild("Item_Weapon");
 		if (item != null) {
-			if (item instanceof Usable)
-				((Usable) item).setVel(new Vec2f());
-
+			((Item)item).setVel(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20));
+			((Item)item).canDealDamage = true;
+			Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95+Math.random()*0.1), getWorldPos());
+			
 			if (getArena() != null) {
-				if(item instanceof Spatial)
+				if (item instanceof Spatial)
 					((Spatial) item).localPosition.set(((Spatial) item).getWorldPos());
 				item.attachToParent(getArena(), item.genName());
 			} else
@@ -349,7 +352,7 @@ public class Character extends RigidBodyContainer {
 		}
 
 		health = 0;
-		dropItem();
+		throwItem();
 		if (controller != null)
 			controller.death(deathCause);
 		detach();
@@ -360,14 +363,14 @@ public class Character extends RigidBodyContainer {
 		if (getArena() == null)
 			return;
 
-		if (Math.random() > 0.6)//???
-			jumpTimer.isOver();//???
-		
-		if(parry.isOver()) {
+		if (Math.random() > 0.6)// ???
+			jumpTimer.isOver();// ???
+
+		if (parry.isOver()) {
 			parryCooldown = true;
 			parryStop();
 		}
-		if(parryCooldown && parry.getValue() < 0.75) {
+		if (parryCooldown && parry.getValue() < 0.75) {
 			parryCooldown = false;
 		}
 

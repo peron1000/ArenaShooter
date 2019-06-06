@@ -19,23 +19,25 @@ public abstract class Item extends Spatial {
 	public Vec2f handPosR = null;
 	public String name = "";
 	protected double weight = 0;
-	protected String pathSprite = ""; 
+	protected String pathSprite = "";
 	public String soundPickup = "";
-	
+
 	private RigidBodyContainer rigidBody;
-	
+	public boolean canDealDamage;
+
 	private boolean isEquipped = false;
 
 	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup) {
 		super(localPosition);
-		
+
 		attachRot = false;
-		
-		//Set sprite
+		canDealDamage = false;
+
+		// Set sprite
 		Sprite sprite = new Sprite(new Vec2f(), pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
-		
+
 		setSizeOfSprite();
 
 		this.name = name;
@@ -45,24 +47,26 @@ public abstract class Item extends Spatial {
 		this.handPosR = handPosR;
 		this.soundPickup = soundPickup;
 	}
-	
 
 	/**
 	 * Attach this item to a new parent and update its eqipped status
-	 * @param newParent new parent Entity
-	 * @param name      used as a key in parent's children
+	 * 
+	 * @param newParent
+	 *            new parent Entity
+	 * @param name
+	 *            used as a key in parent's children
 	 * @return previous child of the new parent using that name
 	 */
 	@Override
 	public Entity attachToParent(Entity newParent, String name) {
 		Entity prev = super.attachToParent(newParent, name);
-		
+
 		isEquipped = getParent() instanceof Character;
 		updateRigidBodyState();
-		
+
 		return prev;
 	}
-	
+
 	/**
 	 * Detach this item and update its equipped status
 	 */
@@ -72,37 +76,41 @@ public abstract class Item extends Spatial {
 		updateRigidBodyState();
 		super.detach();
 	}
-	
+
 	/**
 	 * @return <b>true</b> if this item is currently equipped on a Character
 	 */
-	public boolean isEquipped() { return isEquipped; }
-	
+	public boolean isEquipped() {
+		return isEquipped;
+	}
+
 	/**
-	 * Apply an impulse depending on damage received.
-	 * <br/>Detach if out of bounds
+	 * Apply an impulse depending on damage received. <br/>
+	 * Detach if out of bounds
 	 */
 	@Override
-	public float takeDamage(DamageInfo info) { //TODO: Get impact location
-		if(rigidBody != null)
+	public float takeDamage(DamageInfo info) { // TODO: Get impact location
+		if (rigidBody != null)
 			rigidBody.applyImpulse(Vec2f.multiply(info.direction, info.damage));
-		
-		//Destroy when out of bounds
-		if(info.dmgType == DamageType.OUT_OF_BOUNDS) detach();
+
+		// Destroy when out of bounds
+		if (info.dmgType == DamageType.OUT_OF_BOUNDS)
+			detach();
 
 		return 0;
 	}
-	
+
 	/**
-	 * Create or destroy the rigid body for this item depending on its equipped state
+	 * Create or destroy the rigid body for this item depending on its equipped
+	 * state
 	 */
 	private void updateRigidBodyState() {
-		if(!isEquipped() && rigidBody == null) {
-			RigidBody body = new RigidBody( new ShapeBox(new Vec2f(1, .2)), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1) ;
-			body.setRotation((float)getWorldRot());
+		if (!isEquipped() && rigidBody == null) {
+			RigidBody body = new RigidBody(new ShapeBox(new Vec2f(1, .2)), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1);
+			body.setRotation((float) getWorldRot());
 			rigidBody = new RigidBodyContainer(body);
 			rigidBody.attachToParent(this, "rigid_body");
-		} else if(isEquipped() && rigidBody != null) {
+		} else if (isEquipped() && rigidBody != null) {
 			rigidBody.detach();
 			rigidBody = null;
 		}
@@ -110,28 +118,28 @@ public abstract class Item extends Spatial {
 
 	@Override
 	public void step(double d) {
-		//Lock transform to rigid body when simulating
-		if(rigidBody != null) {
+		// Lock transform to rigid body when simulating
+		if (rigidBody != null) {
 			localPosition.set(Vec2f.subtract(rigidBody.getWorldPos(), parentPosition));
 			localRotation = rigidBody.getWorldRot();
 		}
 
-		//Destroy when out of bounds
+		// Destroy when out of bounds
 		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
 				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
-		
+
 		// SpriteFlip
 		if (isEquipped()) {
 			setSpriteFlip();
 			setLocalPositionOfSprite();
 		}
-		
+
 		super.step(d);
-		
-//		if(rigidBody != null) {
-//			getSprite().localRotation = rigidBody.getBody().getRotation();
-//		}
+
+		// if(rigidBody != null) {
+		// getSprite().localRotation = rigidBody.getBody().getRotation();
+		// }
 	}
 
 	public Vec2f getVel() {
@@ -152,7 +160,7 @@ public abstract class Item extends Spatial {
 	/** Set the size of the Sprite from its texture size **/
 	protected void setSizeOfSprite() {
 		Sprite sprite = getSprite();
-		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.035, sprite.getTexture().getHeight()*.035);
+		sprite.size = new Vec2f(sprite.getTexture().getWidth() * .035, sprite.getTexture().getHeight() * .035);
 		sprite.getTexture().setFilter(false);
 	}
 
@@ -176,25 +184,26 @@ public abstract class Item extends Spatial {
 			}
 		}
 	}
-	
+
 	/**
-	 * @return Character if parent is a Character (equipped) 
-	 * or NULL if parent is not a Character (not equipped)
+	 * @return Character if parent is a Character (equipped) or NULL if parent is
+	 *         not a Character (not equipped)
 	 */
 	protected Character getCharacter() {
-		if(isEquipped())
+		if (isEquipped())
 			return (Character) getParent();
 		else
 			return null;
 	}
-	
+
 	/**
 	 * @param position
 	 * @return a copy of this item at <i>position</i>
 	 */
 	@Override
 	public Item clone() {
-		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {};
+		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {
+		};
 		return clone;
 	}
 }

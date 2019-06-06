@@ -130,7 +130,7 @@ public class Controller {
 				if (Input.actionJustPressed(device, Action.GET_ITEM))
 					character.getItem();
 				if (Input.actionJustPressed(device, Action.DROP_ITEM))
-					character.dropItem();
+					character.throwItem();
 			} else
 				character.movementInput = 0;
 		}
