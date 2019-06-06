@@ -1,5 +1,6 @@
 package arenashooter.engine.animation;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
@@ -21,7 +22,7 @@ public class Animation {
 	
 	private boolean playing = false;
 	
-	private Queue<AnimEvent> events;
+	private Queue<AnimEvent> events = new LinkedList<AnimEvent>();
 	
 	/**
 	 * Create a new instance of an animation

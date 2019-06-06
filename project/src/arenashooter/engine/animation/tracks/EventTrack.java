@@ -2,13 +2,11 @@ package arenashooter.engine.animation.tracks;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
-import arenashooter.engine.math.Vec2f;
 
 public class EventTrack {
 	protected double[] times;
