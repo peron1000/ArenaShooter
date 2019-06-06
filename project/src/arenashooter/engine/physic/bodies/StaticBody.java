@@ -5,6 +5,7 @@ import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.shapes.PhysicShape;
 
@@ -19,6 +20,8 @@ public class StaticBody extends PhysicBody {
 
 		bodyDef.setPosition(worldPosition.toB2Vec());
 		bodyDef.setAngle((float)worldRotation);
+		
+		debugColor = new Vec4f(.2, .2, 1, 1);
 	}
 
 	@Override

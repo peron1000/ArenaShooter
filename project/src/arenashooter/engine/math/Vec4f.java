@@ -27,14 +27,14 @@ public class Vec4f {
 	}
 	
 	/**
-	 * Create a (a, a, a, a) vector
-	 * @param a
+	 * Create a (x, x, x, x) vector
+	 * @param x
 	 */
-	public Vec4f(float a) {
-		x = a;
-		y = a;
-		z = a;
-		w = a;
+	public Vec4f(float x) {
+		this.x = x;
+		y = x;
+		z = x;
+		w = x;
 	}
 	
 	/**

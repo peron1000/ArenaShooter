@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.shapes.PhysicShape;
 
@@ -25,6 +26,8 @@ public class KinematicBody extends PhysicBody {
 		bodyDef.position.set(worldPosition.x, worldPosition.y);
 		bodyDef.setAngle((float)worldRotation);
 		bodyDef.setType(BodyType.KINEMATIC);
+		
+		debugColor = new Vec4f(.2, 1, .2, 1);
 	}
 	
 	public void applyImpulse(Vec2f impulse) {

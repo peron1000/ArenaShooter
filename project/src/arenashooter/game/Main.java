@@ -27,9 +27,6 @@ public class Main {
 	public static final Logger log = LogManager.getLogger("Main");
 	
 	private static boolean requestclose = false;
-	public static void Reqclose(){
-		requestclose = true;
-	}
 	
 	public static void main(String[] args) {
 		log.info("Starting Super Blep version "+version);
@@ -111,6 +108,11 @@ public class Main {
 		Audio.destroy();
 		
 		log.info("Closing Super Blep...");
+	}
+	
+
+	public static void reqestClose(){
+		requestclose = true;
 	}
 
 }

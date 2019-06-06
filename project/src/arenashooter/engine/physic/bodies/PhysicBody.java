@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.JointEdge;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -19,6 +20,8 @@ public abstract class PhysicBody {
 	protected final CollisionFlags collFlags;
 	protected Fixture fixture;
 	protected Spatial userData = null;
+	
+	protected Vec4f debugColor;
 
 	private boolean isSensor = false;
 
@@ -219,9 +222,7 @@ public abstract class PhysicBody {
 	}
 	
 	public void debugDraw() {
-		if (body != null) {
-			shape.debugDraw(getPosition(), getRotation());
-		}
+		shape.debugDraw(getPosition(), getRotation(), debugColor);
 	}
 
 }

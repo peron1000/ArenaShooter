@@ -7,6 +7,7 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 
 public class ShapeDisk extends PhysicShape {
@@ -32,7 +33,7 @@ public class ShapeDisk extends PhysicShape {
 	private static final Shader shader = Shader.loadShader("data/shaders/debug_color");
 	private Mat4f modelM = new Mat4f();
 	@Override
-	public void debugDraw(Vec2f pos, double rot) {
+	public void debugDraw(Vec2f pos, double rot, Vec4f color) {
 		shader.bind();
 		
 		//Create matrices
@@ -41,7 +42,7 @@ public class ShapeDisk extends PhysicShape {
 		shader.setUniformM4("view", Window.getView());
 		shader.setUniformM4("projection", Window.proj);
 		
-		shader.setUniformV4("color", new float[]{1,0,0,1});
+		shader.setUniformV4("color", color);
 		
 		disk.bindToShader(shader);
 

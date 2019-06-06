@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.shapes.PhysicShape;
 
@@ -28,6 +29,8 @@ public class RigidBody extends PhysicBody {
 		bodyDef.setPosition(worldPosition.toB2Vec());
 		bodyDef.setAngle((float)worldRotation);
 		bodyDef.setType(BodyType.DYNAMIC);
+		
+		debugColor = new Vec4f(1, 0, 0, 1);
 	}
 	
 	/**

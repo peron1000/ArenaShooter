@@ -16,7 +16,7 @@ import arenashooter.game.gameStates.MenuStart;
 
 public class MenuPause extends MenuSelectionV<Label> {
 
-	private Label op1, op2, op3, op4;
+	private Label op1, op3, op4;
 	private InputListener inputs = new InputListener();
 	private MenuSettings menup;
 
@@ -88,8 +88,8 @@ public class MenuPause extends MenuSelectionV<Label> {
 		op1 = new Label(0, new Vec2f(scale), "Resume");
 		addElementInListOfChoices(op1, 1);
 
-		op2 = new Label(0, new Vec2f(scale), "Score");
-		addElementInListOfChoices(op2, 1);
+//		op2 = new Label(0, new Vec2f(scale), "Score");
+//		addElementInListOfChoices(op2, 1);
 
 		op3 = new Label(0, new Vec2f(scale), "Option");
 		addElementInListOfChoices(op3, 1);
@@ -110,12 +110,12 @@ public class MenuPause extends MenuSelectionV<Label> {
 //				}
 			}
 		});
-		op2.addAction("ok", new Trigger() {
-			@Override
-			public void make() {
-				System.out.println("op2 : Score");
-			}
-		});
+//		op2.addAction("ok", new Trigger() {
+//			@Override
+//			public void make() {
+//				System.out.println("op2 : Score");
+//			}
+//		});
 		op3.addAction("ok", new Trigger() {
 			@Override
 			public void make() {

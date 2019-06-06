@@ -97,7 +97,7 @@ public class MenuStart extends GameState {
 		buttonQuit.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Main.Reqclose();
+				Main.reqestClose();
 			}
 		});
 

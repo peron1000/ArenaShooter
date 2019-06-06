@@ -21,6 +21,7 @@ public class Label extends UiSimpleElementNavigable {
 		super(rot, scale);
 		this.text = new Text(Main.font, alignH, text);
 		this.material = new Material("data/shaders/ui/ui_text_distance_field");
+		material.setParamTex("distanceField", this.text.getFont().getTexture());
 
 		setThickness(.3f);
 		setColor(new Vec4f(1));
@@ -53,7 +54,6 @@ public class Label extends UiSimpleElementNavigable {
 	@Override
 	public void draw() {
 		if (isVisible()) {
-			material.setParamTex("distanceField", text.getFont().getTexture());
 			material.model = Mat4f.transform(Vec2f.subtract(getPosition(), new Vec2f(0, getScale().y * 0.07)), rotation,
 					getScale(), modelM);
 			material.proj = Window.projOrtho;
