@@ -27,6 +27,7 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
@@ -65,6 +66,7 @@ public class Game extends GameState {
 	private UiImage counterImage = new UiImage((double) 0, new Vec2f(), Texture.default_tex);
 	private Animation startCounter = null;
 	private AnimationData counterAnimData = AnimationData.loadAnim("data/animations/anim_StartCounter.xml");
+	private boolean canPlay = true;
 
 	/**
 	 * @author Marin C Evaluates if one character or less is alive. (Trigger this
@@ -92,6 +94,7 @@ public class Game extends GameState {
 		super(nbMap);
 		menu = new MenuPause(0, 0);
 		menu.selectorVisible = false;
+		counterImage.setPosition(0, -25);
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -139,12 +142,14 @@ public class Game extends GameState {
 		startCounter.play();
 		endRound.reset();
 		chooseWinner.reset();
+		canPlay = false;
 		for (Controller controller : GameMaster.gm.controllers) {
 			// Ce n'est plus un spawn aleatoire
 			Character character = controller.createNewCharacter(current.GetRandomRespawnch2());
 			players.add(character);
 			character.attachToParent(current, character.genName());
 		}
+		super.update(0.005);
 		oneLeft = false;
 		super.init();
 	}
@@ -154,7 +159,7 @@ public class Game extends GameState {
 		if (menu.selectorVisible) {
 			menu.update(d);
 			return;
-		} else if (startCounter == null) {
+		} else if (canPlay) {
 			if (oneLeft && !chooseWinner.inProcess) {
 				chooseWinner.setProcessing(true);
 			}
@@ -188,22 +193,33 @@ public class Game extends GameState {
 			// Update controllers
 			for (Controller controller1 : GameMaster.gm.controllers)
 				controller1.step(d);
-
 			super.update(d);
-
-		} else {
-			if (startCounter.isPlaying()) {
-				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
-				double size = startCounter.getTrackD("SizeOfCounterSprite");
-
-				counterImage.getMaterial().setParamTex("baseColor", counterTexture);
-				counterImage.setScale(Vec2f.multiply(counterTexture.getSize(), size));
-				startCounter.step(d);
-			} else {
-				startCounter = null;
-			}
 		}
 
+		if (startCounter != null) {
+
+			if (getCamera() != null) {
+				getCamera().center(players, current.cameraBasePos, d);
+				Audio.setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
+				getCamera().step(d);
+			} else
+				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
+
+			if (!startCounter.isPlaying()) {
+				counterImage.setScale(0, 0);
+				startCounter = null;
+			} else {
+				if (startCounter.getTrackD("CanPlay") == 1)
+					canPlay = true;
+				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
+				double size = startCounter.getTrackD("SizeOfCounterSprite");
+				counterImage.getMaterial().setParamTex("image", counterTexture);
+				counterImage.setScale(Vec2f.multiply(counterTexture.getSize(), size));
+				counterImage.getMaterial().getParamTex("image").setFilter(false);
+				startCounter.step(d);
+			}
+
+		}
 		inputs.step(d);
 	}
 

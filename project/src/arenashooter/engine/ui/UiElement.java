@@ -79,6 +79,15 @@ public abstract class UiElement implements Navigable {
 			this.rePos.set(pos);
 		}
 	}
+	public void setPosition(double x, double y) {
+		if (this.pos == null || rePos == null) {
+			pos = new Vec2f(x, y);
+			rePos = new Vec2f(x, y);
+		} else {
+			pos.set(x, y);
+			rePos.set(x, y);
+		}
+	}
 
 	public void setPositionLerp(Vec2f pos , double lerp) {
 		if (this.pos == null) {
@@ -96,6 +105,11 @@ public abstract class UiElement implements Navigable {
 	public void setScale(Vec2f scale) {
 		this.scale.set(scale);
 		this.reScale.set(scale);
+	}
+	
+	public void setScale(double x, double y) {
+		scale.set(x, y);
+		reScale.set(x, y);
 	}
 	
 	public void setScaleLerp(Vec2f scale) {

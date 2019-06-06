@@ -2,22 +2,30 @@
 <!DOCTYPE animation SYSTEM "animationDTD.dtd" >
 <animation length="6.0" loop="false">
 
-	<trackT name="CounterSprite">
+	<trackT name="CounterSprite"> 
 		<keyframeT time="2.0" value = "data/sprites/interface/3_Chroma2.png" />
 		<keyframeT time="3.0" value = "data/sprites/interface/2_Chroma2.png" />
 		<keyframeT time="4.0" value = "data/sprites/interface/1_Chroma2.png" />
 		<keyframeT time="5.0" value = "data/sprites/interface/Fight_Chroma2.png" />
 	</trackT>
 	
-		<trackD name="SizeOfCounterSprite" interpolation="cubic">
-		<keyframeT time="2.0" value = "0.02" />
-		<keyframeT time="2.4" value = "0.10" />
-		<keyframeT time="3.0" value = "0.02" />
-		<keyframeT time="3.4" value = "0.10" />	
-		<keyframeT time="4.0" value = "0.02" />
-		<keyframeT time="4.4" value = "0.10" />
-		<keyframeT time="5.0" value = "0.02" />
-		<keyframeT time="5.4" value = "0.10" />
-	</trackT>
+	<trackD name="SizeOfCounterSprite" interpolation="linear">
+		<keyframeD time="2.0" value = "0.01" />
+		<keyframeD time="2.2" value = "1.4" />
+		<keyframeD time="2.9999" value = "1.4" />
+		<keyframeD time="3.0" value = "0.01" />
+		<keyframeD time="3.2" value = "1.4" />
+		<keyframeD time="3.9999" value = "1.4" />	
+		<keyframeD time="4.0" value = "0.01" />
+		<keyframeD time="4.2" value = "1.4" />
+		<keyframeD time="4.9999" value = "1.4" />
+		<keyframeD time="5.0" value = "0.01" />
+		<keyframeD time="5.2" value = "1.4" />
+	</trackD>
+	
+	<trackD name="CanPlay">
+		<keyframeD time ="0.0" value = "0" />
+		<keyframeD time ="5.2" value = "1" />
+	</trackD>
 
 </animation>
