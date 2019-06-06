@@ -39,6 +39,19 @@ public class Punch extends Spatial {
 		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
 		tex.setFilter(false);
 	}
+	
+	public Punch(DamageInfo dmgInfo, float hitWidth, float radius, boolean superPoing) {
+		this.dmgInfo = dmgInfo.clone();
+
+		this.radius = radius;
+
+		this.hitWidth = hitWidth;
+
+		this.superPoing = superPoing;
+
+		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
+		tex.setFilter(false);
+	}
 
 	private void affect(Spatial target) {
 		Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), target.getWorldPos()));
