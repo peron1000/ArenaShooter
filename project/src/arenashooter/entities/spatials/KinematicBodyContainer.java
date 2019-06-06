@@ -6,50 +6,13 @@ import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.KinematicBody;
-import arenashooter.engine.physic.shapes.PhysicShape;
-import arenashooter.engine.physic.shapes.ShapeBox;
-import arenashooter.engine.physic.shapes.ShapeDisk;
-import arenashooter.entities.Entity;
-import arenashooter.game.Main;
 
-public class KinematicBodyContainer extends Spatial implements IAnimated {
+public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> implements IAnimated {
 
-	private KinematicBody body;
-	
 	private Animation currentAnim = null;
-	
-	private boolean needsPhysWorld = true;
-	private boolean init = false;
 
 	public KinematicBodyContainer(KinematicBody body) {
-		super();
-		this.body = body;
-	}
-	
-	@Override
-	public Entity attachToParent(Entity newParent, String name) {
-		if(body != null) body.removeFromWorld();
-		needsPhysWorld = true;
-		
-		Entity prev = super.attachToParent(newParent, name);
-		
-		if(getArena() != null) {
-			body.addToWorld(getArena().physic);
-			needsPhysWorld = false;
-		}
-		
-		return prev;
-	}
-	
-	@Override
-	/**
-	 * Detach from current parent and destroy physic body
-	 */
-	public void detach() {
-		if(body != null) body.removeFromWorld();
-		needsPhysWorld = true;
-		
-		super.detach();
+		super(body);
 	}
 	
 	/**
@@ -68,17 +31,6 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 		return 0;
 	}
 	
-	
-	@Override
-	public Vec2f getWorldPos() {
-		return body.getPosition();
-	}
-	
-	@Override
-	public double getWorldRot() {
-		return body.getRotation();
-	}
-	
 	/**
 	 * @return linear velocity at center of mass
 	 */
@@ -92,26 +44,9 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 		body.setLinearVelocity(newVelocity);
 	}
 	
-	public KinematicBody getBody() {
-		return body;
-	}
-	
 	@Override
 	public void step(double d) {
-		if(!init) {
-			init = true;
-			body.setUserData(this);
-		}
-		
-		if(needsPhysWorld) {
-			if(getArena() != null) {
-				body.addToWorld(getArena().physic);
-				needsPhysWorld = false;
-			}
-		} else {
-			localPosition = Vec2f.subtract(body.getPosition(), parentPosition);
-			localRotation = body.getRotation() - parentRotation;
-		}
+		super.step(d);
 		
 		if(currentAnim != null) {
 			//TODO: Finish this
@@ -125,15 +60,6 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
 				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
-		
-		super.step(d);
-	}
-	
-	@Override
-	public void draw() {
-		if(Main.drawCollisions) body.debugDraw();
-		
-		super.draw();
 	}
 
 	@Override
@@ -171,35 +97,4 @@ public class KinematicBodyContainer extends Spatial implements IAnimated {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	@Override
-	public void editorAddPosition(Vec2f position) {
-		body.setPosition(Vec2f.add(getWorldPos(), position));
-		
-		for (Entity e : getChildren().values())
-			e.updateAttachment();
-	}
-
-	@Override
-	public void editorAddScale(Vec2f extent) {
-		PhysicShape oldShape = body.getShape();
-		if(oldShape instanceof ShapeBox)
-			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
-		if(oldShape instanceof ShapeDisk)
-			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x  ));
-	}
-
-	@Override
-	public void editorAddRotation(double angle) {
-		body.setRotation((float) (getWorldRot()+angle));
-		
-		for (Entity e : getChildren().values())
-			e.updateAttachment();
-	}
-
-	@Override
-	public void editorDraw() {
-		body.debugDraw();
-	}
-	
 }
