@@ -222,8 +222,8 @@ public class AnimationXmlReader extends XmlReader {
 			NodeList currentChildren = current.getChildNodes();
 			Element eventElem;
 			for(int j=0; j<currentChildren.getLength(); j++) {
-				if( children.item(i).getNodeType() != Node.ELEMENT_NODE ) continue;
-				eventElem = (Element)children.item(i);
+				if( currentChildren.item(j).getNodeType() != Node.ELEMENT_NODE ) continue;
+				eventElem = (Element)currentChildren.item(j);
 				
 				switch(eventElem.getNodeName()) {
 				case "eventCustom":
