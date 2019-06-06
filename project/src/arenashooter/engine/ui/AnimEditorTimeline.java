@@ -65,6 +65,8 @@ public class AnimEditorTimeline extends UiElement {
 	@Override
 	public void draw() {
 		bg.draw();
+		for(Track track : tracksMap.values())
+			track.draw();
 	}
 	
 	private class Track {
