@@ -25,6 +25,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
+import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
@@ -43,7 +44,7 @@ class MainMenu implements Navigable {
 	private Vec2f buttonScale = new Vec2f(15, 5);
 
 	private MenuSelectionV<UiActionable> addMenu = new MenuSelectionV<>(), setMenu = new MenuSelectionV<>(),
-			saveQuitMenu = new MenuSelectionV<>(), meshChooserMenu = new MenuSelectionV<>();
+			saveQuitMenu = new MenuSelectionV<>(), arenaInfo = new MenuSelectionV<>(), meshChooserMenu = new MenuSelectionV<>();
 	private MultiMenu<Prime> mainMenu = new MultiMenu<>(5, Prime.values(), "data/sprites/interface/Selector.png",
 			new Vec2f(30, 10));
 	private Navigable current = mainMenu;
@@ -61,6 +62,7 @@ class MainMenu implements Navigable {
 		mainMenu.addMenu(addMenu, Prime.Add);
 		mainMenu.addMenu(setMenu, Prime.Set);
 		mainMenu.addMenu(saveQuitMenu, Prime.Exit);
+		mainMenu.addMenu(arenaInfo, Prime.ArenaInfo);
 
 		arenaConstruction = toConstruct;
 		parent = toConstruct;
@@ -69,7 +71,14 @@ class MainMenu implements Navigable {
 
 		addMenuConstruction();
 		
+		arenaInfoMenuConstruction();
+		
 		meshChooserMenuConstruction();
+	}
+
+	private void arenaInfoMenuConstruction() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void meshChooserMenuConstruction() {
@@ -165,6 +174,10 @@ class MainMenu implements Navigable {
 						TextSpatial text = new TextSpatial(new Vec3f(), new Vec3f(1f),
 								new Text(Main.font, TextAlignH.CENTER, "GrosTest"));
 						createNewEntity(text, type);
+						break;
+					case SPAWN:
+						Spawner spawner = new Spawner(new Vec2f(), 4);
+						createNewEntity(spawner, type);
 						break;
 					default:
 						break;

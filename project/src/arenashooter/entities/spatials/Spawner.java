@@ -20,11 +20,15 @@ public class Spawner extends Spatial {
 	private Item currentItem = null;
 	/** Timer of respawn*/
 	private double cooldown = 0;
+	
+	private Sprite editorView;
 
 	public Spawner(Vec2f localPosition, double cooldown) {
 		super(localPosition);
 		this.timerWarmup = new Timer(cooldown);
 		timerWarmup.attachToParent(this, "timer_spawn");
+		editorView = new Sprite(localPosition , "data/weapons/alien.png");
+		editorView.size = editorView.getTexture().getSize().multiply(0.03f);
 	}
 
 	/**
@@ -94,5 +98,22 @@ public class Spawner extends Spatial {
 			return true;
 
 		return !currentItem.getWorldPos().equals(getWorldPos(), 1f);
+	}
+	
+	@Override
+	public void editorAddPosition(Vec2f position) {
+		editorView.localPosition.add(position);
+		super.editorAddPosition(position);
+	}
+	
+	@Override
+	public void editorAddRotation(double angle) {
+		editorView.localRotation += angle;
+		super.editorAddRotation(angle);
+	}
+	
+	@Override
+	public void editorDraw() {
+		editorView.draw();
 	}
 }
