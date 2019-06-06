@@ -153,7 +153,6 @@ public class Game extends GameState {
 			players.add(character);
 			character.attachToParent(current, character.genName());
 		}
-		super.update(0.005);
 		oneLeft = false;
 		super.init();
 	}

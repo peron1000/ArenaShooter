@@ -103,10 +103,12 @@ public class Vec2f {
 	 * Add two vectors together. <i>This</i> becomes <i>this</i>+v
 	 * 
 	 * @param v
+	 * @return <i>this</i> (modified)
 	 */
-	public void add(Vec2f v) {
+	public Vec2f add(Vec2f v) {
 		x += v.x;
 		y += v.y;
+		return this;
 	}
 
 	/**

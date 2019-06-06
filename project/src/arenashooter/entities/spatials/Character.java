@@ -267,16 +267,17 @@ public class Character extends RigidBodyContainer {
 	public void throwItem() {
 		attackStop();
 
-		Entity item = getChild("Item_Weapon");
-		if (item != null) {
-			((Item)item).setVel(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20));
-			((Item)item).canDealDamage = true;
-			Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95+Math.random()*0.1), getWorldPos());
-			
+		Item item = (Item) getChild("Item_Weapon");
+		if (item != null) {			
 			if (getArena() != null) {
 				if (item instanceof Spatial)
 					((Spatial) item).localPosition.set(((Spatial) item).getWorldPos());
 				item.attachToParent(getArena(), item.genName());
+				RigidBodyContainer rigBod = ((RigidBodyContainer)item.getChild("rigid_body"));
+				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20).add(getLinearVelocity()));
+				rigBod.setAngularVelocity((float) (Math.PI*2*Math.random()+12*Math.PI));
+				item.canDealDamage = true;
+				Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95+Math.random()*0.1), getWorldPos());
 			} else
 				item.detach();
 		}
