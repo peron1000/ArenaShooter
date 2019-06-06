@@ -34,6 +34,16 @@ public interface Navigable {
 	 */
 	public boolean continueAction();
 	
+	/**
+	 * @return true if an action has been done
+	 */
+	public boolean cancelAction();
+	
+	/**
+	 * @return true if an action has been done
+	 */
+	public boolean changeAction();
+	
 	public boolean isSelected();
 	
 	public void unSelec();

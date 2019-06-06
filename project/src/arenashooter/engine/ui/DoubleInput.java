@@ -9,17 +9,17 @@ import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.ui.simpleElement.UiSimpleElementNavigable;
 
-public class TextInput extends UiElement {
+public class DoubleInput extends UiElement {
 
 	private static final Vec2f defaultSize = new Vec2f(10);
 	private static final float labelProportion = 6;
 	private UiImage background = new UiImage(0, defaultSize.clone(), new Vec4f(0.5, 0.5, 0.5, 0.3));
-	private Label input = new Label(0, defaultSize.multiply(labelProportion), "A");
+	private Label input = new Label(0, defaultSize.multiply(labelProportion), "0");
 	ArrayList<Label> word = new ArrayList<>();
-	private char c = 'A';
+	private char c = '0';
 	int index = 0;
 	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1);
-	private Type type = Type.UPPERCASE;
+	private boolean isNum = true;
 	private Trigger trigger = new Trigger() {
 
 		@Override
@@ -28,11 +28,7 @@ public class TextInput extends UiElement {
 		}
 	};
 
-	private enum Type {
-		UPPERCASE, LOWERCASE, NUM, SPECIAL;
-	}
-
-	public TextInput() {
+	public DoubleInput() {
 		super(0, defaultSize.clone());
 		background.setPosition(new Vec2f());
 		input.setPosition(new Vec2f());
@@ -106,31 +102,12 @@ public class TextInput extends UiElement {
 	}
 
 	private char decrease(char c) {
-		c--;
-		switch (type) {
-		case UPPERCASE:
-			if (!Character.isAlphabetic(c)) {
-				c = 'Z';
-			}
-			break;
-		case LOWERCASE:
-			if (!Character.isAlphabetic(c)) {
-				c = 'z';
-			}
-			break;
-		case NUM:
+		if (isNum) {
+			c--;
 			if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8'
 					&& c != '9') {
 				c = '9';
 			}
-			break;
-		case SPECIAL:
-			if (c != '_' && c != '`') {
-				c = '`';
-			}
-			break;
-		default:
-			break;
 		}
 		return c;
 	}
@@ -148,39 +125,28 @@ public class TextInput extends UiElement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean continueAction() {
-		trigger.make();
+		int nbNoNumber=0;
+		for (Label label : word) {
+			if(label.getText().charAt(0) == '.') {
+				nbNoNumber++;
+			}
+		}
+		if(nbNoNumber < 2) {
+			trigger.make();
+		}
 		return true;
 	}
 
 	private char increase(char c) {
-		c++;
-		switch (type) {
-		case UPPERCASE:
-			if (!Character.isAlphabetic(c)) {
-				c = 'A';
-			}
-			break;
-		case LOWERCASE:
-			if (!Character.isAlphabetic(c)) {
-				c = 'a';
-			}
-			break;
-		case NUM:
+		if (isNum) {
+			c++;
 			if (c != '0' && c != '1' && c != '2' && c != '3' && c != '4' && c != '5' && c != '6' && c != '7' && c != '8'
 					&& c != '9') {
 				c = '0';
 			}
-			break;
-		case SPECIAL:
-			if (c != '_' && c != '`') {
-				c = '_';
-			}
-			break;
-		default:
-			break;
 		}
 		return c;
 	}
@@ -251,8 +217,7 @@ public class TextInput extends UiElement {
 
 	@Override
 	public void unSelec() {
-		// TODO Auto-generated method stub
-
+		// ?
 	}
 
 	@Override
@@ -272,48 +237,39 @@ public class TextInput extends UiElement {
 		actionOnAll(e -> e.update(delta));
 	}
 
-	public String getText() {
+	public double getDouble() {
 		String result = "";
 		for (Label label : word) {
 			result += label.getText();
 		}
-		return result;
+		double res = 0;
+		try {
+			res = Double.parseDouble(result);
+		} catch (Exception e) {
+			System.err.println("The input is not a Double");
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	public void reset() {
 		word.clear();
-		c = 'A';
+		c = '0';
 		index = 0;
 		background.setScale(getScale().clone());
 		background.setPosition(getPosition());
 		input.setText(String.valueOf(c));
 		input.setPosition(getPosition());
-		type = Type.UPPERCASE;
+		isNum = true;
 	}
-	
+
 	@Override
 	public boolean changeAction() {
-		int index = type.ordinal();
-		index++;
-		if (index >= Type.values().length) {
-			index = 0;
-		}
-		type = Type.values()[index];
-		switch (type) {
-		case UPPERCASE:
-			c = 'A';
-			break;
-		case LOWERCASE:
-			c = 'a';
-			break;
-		case NUM:
+		isNum = !isNum;
+		if(isNum) {
 			c = '0';
-			break;
-		case SPECIAL:
-			c = '_';
-			break;
-		default:
-			break;
+		} else {
+			c = '.';
 		}
 		input.setText(String.valueOf(c));
 		return true;
@@ -323,17 +279,8 @@ public class TextInput extends UiElement {
 		trigger = t;
 	}
 
-	@Override
-	public boolean cancelAction() {
-		if (word.size() > 0) {
-			background.setScaleLerp(Vec2f.add(background.getScale(), new Vec2f(-4.25, 0)));
-			background.setPositionLerp(Vec2f.add(background.getPosition(), new Vec2f(-2, 0)), 10);
-			input.setPositionLerp(word.get(word.size() - 1).getPosition(), 10);
-			word.remove(word.size() - 1);
-			if (index > 0 && index == word.size() + 1) {
-				index--;
-			}
-		}
-		return true;
+	public void launchFinishTrigger() {
+		trigger.make();
 	}
+
 }
