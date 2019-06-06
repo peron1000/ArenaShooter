@@ -52,12 +52,15 @@ public class Spatial3 extends Entity {
 	}
 	
 	@Override
-	public Entity attachToParent(Entity newParent, String name) {
-		Entity prev = super.attachToParent(newParent, name);
-		
+	protected void recursiveAttach(Entity newParent) {
+		super.recursiveAttach(newParent);
 		updateAttachment();
-		
-		return prev;
+	}
+	
+	@Override
+	protected void recursiveDetach() {
+		super.recursiveDetach();
+		updateAttachment();
 	}
 	
 	/**
