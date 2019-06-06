@@ -214,14 +214,17 @@ public class Game extends GameState {
 				startCounter = null;
 			} else {
 				Queue<AnimEvent> events = startCounter.getEvents();
-				for(AnimEvent event : events) {
-					if(event instanceof AnimEventCustom) {
-						if(((AnimEventCustom)event).data.equals("CanPlayNow"))
+				AnimEvent current = events.peek();
+				while( (current = events.poll()) != null ) {
+					if(current instanceof AnimEventCustom) {
+						if(((AnimEventCustom)current).data.equals("CanPlayNow")) {
 							canPlay = true;
-					} else if(event instanceof AnimEventSound) {
-						((AnimEventSound) event).play(null);
+						}
+					} else if(current instanceof AnimEventSound) {
+						((AnimEventSound) current).play(null);
 					}
 				}
+				
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);
@@ -238,10 +241,10 @@ public class Game extends GameState {
 	public void draw() {
 		super.draw();
 		Window.beginUi();
+		counterImage.draw();
 		if (menu.selectorVisible) {
 			menu.draw();
 		}
-		counterImage.draw();
 		Window.endUi();
 	}
 }

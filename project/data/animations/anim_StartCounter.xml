@@ -4,16 +4,16 @@
 
 	<trackEvent>
 		<keyframeEvent time ="2.0">
-			<eventSound path ="data/sound/ui/count_3.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+			<eventSound path ="data/sound/ui/count_3.ogg" channel = "UI" volume = ".5" pitch = "1" localized = "false" />
 		</keyframeEvent>
 		<keyframeEvent time ="3.0">
-			<eventSound path ="data/sound/ui/count_2.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+			<eventSound path ="data/sound/ui/count_2.ogg" channel = "UI" volume = ".5" pitch = "1" localized = "false" />
 		</keyframeEvent>
 		<keyframeEvent time ="4.0">
-			<eventSound path ="data/sound/ui/count_1.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+			<eventSound path ="data/sound/ui/count_1.ogg" channel = "UI" volume = ".5" pitch = "1" localized = "false" />
 		</keyframeEvent>
-		<keyframeEvent time ="5.0">
-			<eventSound path ="data/sound/ui/count_fight.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+		<keyframeEvent time ="5.01">
+			<eventSound path ="data/sound/ui/count_fight.ogg" channel = "UI" volume = ".5" pitch = "1" localized = "false" />
 		</keyframeEvent>
 		<keyframeEvent time ="5.0">
 			<eventCustom data="CanPlayNow" />

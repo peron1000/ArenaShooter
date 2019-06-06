@@ -46,11 +46,13 @@ public class EventTrack {
 		while(current < to) {
 			int next = nextKeyframe(current);
 			
-			res.add(values[next]);
+			if(times[next] < to)
+				res.add(values[next]);
 			
 			current = times[next];
-			
+
 			//TODO: loop if to<from
+			if(next == times.length-1) break;
 		}
 		
 		return res;

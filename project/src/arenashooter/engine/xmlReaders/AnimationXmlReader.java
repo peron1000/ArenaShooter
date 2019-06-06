@@ -224,7 +224,7 @@ public class AnimationXmlReader extends XmlReader {
 			for(int j=0; j<currentChildren.getLength(); j++) {
 				if( currentChildren.item(j).getNodeType() != Node.ELEMENT_NODE ) continue;
 				eventElem = (Element)currentChildren.item(j);
-				
+
 				switch(eventElem.getNodeName()) {
 				case "eventCustom":
 					String data = eventElem.getAttribute("data");
@@ -233,7 +233,7 @@ public class AnimationXmlReader extends XmlReader {
 				case "eventSound":
 					String path = eventElem.getAttribute("path");
 					float volume = Float.parseFloat(eventElem.getAttribute("volume"));
-					float pitch = Float.parseFloat(eventElem.getAttribute("volume"));
+					float pitch = Float.parseFloat(eventElem.getAttribute("pitch"));
 					boolean spatialized = Boolean.parseBoolean(eventElem.getAttribute("spatialized"));
 					AudioChannel channel = AudioChannel.valueOf(eventElem.getAttribute("channel"));
 					event = new AnimEventSound(path, channel, volume, pitch, spatialized);
