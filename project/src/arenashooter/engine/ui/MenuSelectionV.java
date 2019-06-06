@@ -231,13 +231,13 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	public void draw() {
 		if (isVisible()) {
 			super.draw();
-			Window.stackScissor(getPosition().x-10, getPosition().y+20, 20, 40);
+			//Window.stackScissor(getPosition().x-10, getPosition().y+20, 20, 40);
 			for (E e : elements) {
 				if (e.isVisible()) {
 					e.draw();
 				}
 			}
-			Window.popScissor();
+			//Window.popScissor();
 			if (selectorVisible) {
 				selec.draw();
 			}
