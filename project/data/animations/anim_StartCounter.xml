@@ -3,8 +3,20 @@
 <animation length="6.0" loop="false">
 
 	<trackEvent>
-		<keyframeEvent time ="5.1">
-			<eventCustom data="batard" />
+		<keyframeEvent time ="2.0">
+			<eventSound path ="data/sound/ui/count_3.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="3.0">
+			<eventSound path ="data/sound/ui/count_2.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="4.0">
+			<eventSound path ="data/sound/ui/count_1.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="5.0">
+			<eventSound path ="data/sound/ui/count_fight.ogg" channel = "UI" volume = "1" pitch = "1" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="5.0">
+			<eventCustom data="CanPlayNow" />
 		</keyframeEvent>
 	</trackEvent>
 	
