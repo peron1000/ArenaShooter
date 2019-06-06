@@ -11,6 +11,7 @@ import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.animevents.AnimEventCustom;
+import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
@@ -217,6 +218,8 @@ public class Game extends GameState {
 					if(event instanceof AnimEventCustom) {
 						if(((AnimEventCustom)event).data.equals("CanPlayNow"))
 							canPlay = true;
+					} else if(event instanceof AnimEventSound) {
+						((AnimEventSound) event).play(null);
 					}
 				}
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
