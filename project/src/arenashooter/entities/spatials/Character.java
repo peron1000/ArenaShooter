@@ -135,8 +135,8 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public void parryStart() {
-		if (getWeapon() == null && !parryCooldown && !stunned) {
-			((CharacterSprite) getChild("skeleton")).parryStart();
+		if (getWeapon() == null && !stunned) {
+			((CharacterSprite) getChild("skeleton")).parryStart(parryCooldown);
 			parry.setIncreasing(true);
 		}
 	}
@@ -154,7 +154,7 @@ public class Character extends RigidBodyContainer {
 	 * @return true if the character is blocking in the direction of the attack.
 	 */
 	public boolean canParryThis(double attackAngle) {
-		return parry.isIncreasing();// L'angle n'est pas encore géré
+		return parry.isIncreasing()&&!parryCooldown;// L'angle n'est pas encore géré
 	}
 
 	public boolean isParrying() {
@@ -295,7 +295,7 @@ public class Character extends RigidBodyContainer {
 					((Spatial) item).localPosition.set(((Spatial) item).getWorldPos());
 				item.attachToParent(getArena(), item.genName());
 				RigidBodyContainer rigBod = ((RigidBodyContainer) item.getChild("rigid_body"));
-				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20).add(getLinearVelocity()));
+				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20));
 				rigBod.setAngularVelocity((float) (Math.PI * 2 * Math.random() + 12 * Math.PI));
 				item.canDealDamage = true;
 				Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
@@ -390,16 +390,19 @@ public class Character extends RigidBodyContainer {
 	public void step(double d) {
 		if (getArena() == null)
 			return;
+		
+		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 
 		if (Math.random() > 0.6)// ???
 			jumpTimer.isOver();// ??? What is the fuque ?
 
 		if (parry.isOver()) {
 			parryCooldown = true;
-			parryStop();
+			skeleton.breakParry();
 		}
 		if (parryCooldown && parry.getValue() < 0.75) {
 			parryCooldown = false;
+			skeleton.canParry = true;
 		}
 
 		if (!stunned) {
@@ -426,7 +429,6 @@ public class Character extends RigidBodyContainer {
 			stun.step(d);
 			if (stun.isOver()) {
 				stunned = false;
-				CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 				skeleton.stunStop();
 			}
 		}
@@ -456,7 +458,6 @@ public class Character extends RigidBodyContainer {
 		if (isOnGround)
 			jumpTimer.reset();
 
-		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
 			skeleton.charging = chargePunch.isProcessing();
