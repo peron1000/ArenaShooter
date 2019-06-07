@@ -19,7 +19,6 @@ public class Intro extends GameState {
 		super(1);
 
 		bgm = Audio.createSource("data/sprites/intro/sf2_title_cps-1.ogg", AudioChannel.MUSIC, .2f, 1);
-		bgm.play();
 		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
@@ -45,6 +44,7 @@ public class Intro extends GameState {
 	public void init() {
 		super.init();
 		current = new AnimIntro();
+		bgm.play();
 	}
 
 	@Override

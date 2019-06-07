@@ -8,10 +8,12 @@ import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -19,6 +21,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Main;
@@ -28,9 +31,11 @@ public class AnimIntro extends Arena{
 	
 	private Sky sky;
 	private Vec3f skyTop, skyBot;
+	
+	private Mesh bigMesh;
 
-	private Sprite cat = new Sprite(new Vec2f());
-	private Sprite fox = new Sprite(new Vec2f());
+	private Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
+	private Mesh fox = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
 	
 	private TextSpatial pressStart;
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
@@ -40,61 +45,54 @@ public class AnimIntro extends Arena{
 	
 	private AnimTrackDouble sceneOpacityA;
 	
-	private Sprite bg = new Sprite(new Vec2f(0, -950), "data/sprites/intro/bg.png");
-	private Sprite logo;
+	private Mesh logo;
 	private AnimTrackTexture logoTex;
 	private AnimTrackDouble logoRotA;
-	private AnimTrackVec2f logoPosA, logoSizeA;
+	private AnimTrackVec3f logoPosA, logoSizeA;
 	
 	private Sprite crowd_01, crowd_02, crowd_03, crowd_04;
 	private AnimTrackTexture crowdA;
 	
-	private AnimTrackVec2f catA, foxA, foxAS;
+	private AnimTrackVec3f catA, foxA, foxAS;
 	private AnimTrackTexture catAT, foxAT;
 	private AnimTrackVec3f camA;
 	
 	private boolean punched = false;
 	
 	public AnimIntro() {
-		skyBot = new Vec3f(.9, .9, 1);
-		skyTop = new Vec3f(.8, .8, 1);
+		skyBot = new Vec3f(.85, .85, 1);
+		skyTop = new Vec3f(.65, .65, 1);
 		sky = new Sky(skyBot, skyTop);
 		sky.attachToParent(this, "sky");
 		
 		//Music
 		
 		//Camera
-		Camera cam = new Camera(new Vec3f(0, 0, 850));
-		cam.setFOV(90);
+		Camera cam = new Camera(new Vec3f(0, 0, 50));
+		cam.setFOV(55);
 		cam.interpolate = false;
 		cam.attachToParent(this, "camera");
 		Window.setCamera(cam);
 		
 		HashMap<Double, Vec3f> vec3Map = new HashMap<>();
-		vec3Map.put(5.2, new Vec3f(0, 0, 550));
-		vec3Map.put(9.0, new Vec3f(0, -1900, 550));
+		vec3Map.put(0.1, new Vec3f(0, -3, 50));
+		vec3Map.put(4.0, new Vec3f(0, -3, 18));
+		vec3Map.put(5.2, new Vec3f(0, -3, 18));
+		vec3Map.put(9.0, new Vec3f(0, -7.3, 12));
+		vec3Map.put(10.0, new Vec3f(0, -7.4, 9.9));
 		camA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 
 		//PRESS START text
 		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
-		pressStart = new TextSpatial(new Vec3f(0, 325, 100), new Vec3f(500), txt);
-		pressStart.attachToParent(this, "textPressStart");
-		
-		//Version text
-		txt = new Text(Main.font, TextAlignH.LEFT, "v"+Main.version);
-		versionText = new TextSpatial(new Vec3f(24, 7.5, -30), new Vec3f(20), txt);
-		versionText.attachToParent(cam, "textVersion");
-		versionText.setColor(new Vec4f(.35, .35, .35, 1));
-		HashMap<Double, Double> textThickness = new HashMap<>();
-		textThickness.put(0d, 0d);
-		textThickness.put(11d, 0d);
-		textThickness.put(12d, .25);
-		versionThickness = new AnimTrackDouble(textThickness);
+		pressStart = new TextSpatial(new Vec3f(0, .75, -2), new Vec3f(1.5f), txt);
+		pressStart.attachToParent(cam, "textPressStart");
 		
 		//BG
-		bg.size = new Vec2f(3000);
-		bg.getTexture().setFilter(false);
-		bg.attachToParent(this, "bg");
+//		bg.size = new Vec2f(3000);
+//		bg.getTexture().setFilter(false);
+//		bg.attachToParent(this, "bg");
+		bigMesh = new Mesh(new Vec3f(), "data/meshes/intro/intro.obj");
+		bigMesh.attachToParent(this, "bigMesh");
 		
 		//Fade out
 		double flashIntensity = 0.5;
@@ -113,10 +111,8 @@ public class AnimIntro extends Arena{
 		sceneOpacityA = new AnimTrackDouble(opacityMap, AnimInterpolation.LINEAR);
 		
 		//Logo
-		logo = new Sprite(new Vec2f());
-		logo.getTexture().setFilter(false);
+		logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
 		logo.attachToParent(this, "logo");
-		logo.zIndex = 1;
 		
 		HashMap<Double, Texture> texMap = new HashMap<>();
 		Texture t = Texture.loadTexture("data/sprites/intro/logo_no_blood.png");
@@ -131,25 +127,37 @@ public class AnimIntro extends Arena{
 		rotMap.put(10d, 0d);
 		rotMap.put(11d, -8*Math.PI);
 		logoRotA = new AnimTrackDouble(rotMap, AnimInterpolation.LINEAR);
+
+		vec3Map = new HashMap<>();
+		vec3Map.put(5.5d, new Vec3f(0));
+		vec3Map.put(10d, new Vec3f(.5f));
+		vec3Map.put(11d, new Vec3f(2.3f));
+		logoSizeA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
+
+		vec3Map = new HashMap<>();
+		vec3Map.put(10d, new Vec3f(-.05, -7.45, 8));
+		vec3Map.put(11d, new Vec3f(-.07, -7.5, 8));
+		logoPosA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
-		HashMap<Double, Vec2f> vecMap = new HashMap<>();
-		vecMap.put(10d, new Vec2f(655));
-		vecMap.put(11d, new Vec2f(1200));
-		logoSizeA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
-		
-		vecMap = new HashMap<>();
-		vecMap.put(10d, new Vec2f(-50, -2018));
-		vecMap.put(11d, new Vec2f(0, -2000));
-		logoPosA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
+		//Version text
+		txt = new Text(Main.font, TextAlignH.LEFT, "v"+Main.version);
+		versionText = new TextSpatial(new Vec3f(.65, .61, 0), new Vec3f(1f), txt);
+		versionText.attachToParent(logo, "textVersion");
+		versionText.setColor(new Vec4f(.35, .35, .35, 1));
+		HashMap<Double, Double> textThickness = new HashMap<>();
+		textThickness.put(0d, 0d);
+		textThickness.put(11d, 0d);
+		textThickness.put(12d, .25);
+		versionThickness = new AnimTrackDouble(textThickness);
 		
 		//Crowd
-		crowd_01 = new Sprite(new Vec2f(-650, 425));
-		crowd_02 = new Sprite(new Vec2f(-310, 425));
-		crowd_03 = new Sprite(new Vec2f( 310, 425));
-		crowd_04 = new Sprite(new Vec2f( 650, 425));
+		crowd_01 = new Sprite(new Vec2f(-.650, .425));
+		crowd_02 = new Sprite(new Vec2f(-.310, .425));
+		crowd_03 = new Sprite(new Vec2f( .310, .425));
+		crowd_04 = new Sprite(new Vec2f( .650, .425));
 		crowd_03.flipX = true;
 		crowd_04.flipX = true;
-		crowd_01.size = new Vec2f(800, 400);
+		crowd_01.size = new Vec2f(.800, .400);
 		crowd_02.size = crowd_01.size;
 		crowd_03.size = crowd_01.size;
 		crowd_04.size = crowd_01.size;
@@ -182,10 +190,10 @@ public class AnimIntro extends Arena{
 		crowdA = new AnimTrackTexture(texMap);
 		
 		//Cat
-		vecMap = new HashMap<>();
-		vecMap.put(4d, new Vec2f(-360, 300));
-		vecMap.put(6d, new Vec2f(-760, 700));
-		catA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
+		HashMap<Double, Vec2f> vecMap = new HashMap<>();
+		vec3Map.put(4d, new Vec3f(-1.2, -.8, 12));
+		vec3Map.put(6d, new Vec3f(-2.0, -.6, 12));
+		catA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
 		texMap = new HashMap<>();
 		t = Texture.loadTexture("data/sprites/intro/cat_01.png");
@@ -208,7 +216,7 @@ public class AnimIntro extends Arena{
 		texMap.put(4d, t);
 		catAT = new AnimTrackTexture(texMap);
 		
-		cat.size = new Vec2f(600);
+		cat.scale = new Vec3f(1.5f);
 		cat.attachToParent(this, "cat");
 		
 		//Fox
@@ -232,27 +240,27 @@ public class AnimIntro extends Arena{
 		texMap.put(3.8, t);
 		foxAT = new AnimTrackTexture(texMap);
 		
-		fox.size = new Vec2f(600);
+		fox.scale = new Vec3f(1.5f);
 		fox.attachToParent(this, "fox");
 		
-		vecMap = new HashMap<>();
-		vecMap.put(3.8, new Vec2f(360, 300));
-		vecMap.put(4.0, new Vec2f(260, 275));
-		foxA = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
+		vec3Map = new HashMap<>();
+		vec3Map.put(3.8, new Vec3f(1.2, -.8, 12));
+		vec3Map.put(4.0, new Vec3f(.8, -1, 12.01));
+		foxA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
-		vecMap = new HashMap<>();
-		vecMap.put(3.79999, new Vec2f(600));
-		vecMap.put(3.8, new Vec2f(1200, 600));
-		foxAS = new AnimTrackVec2f(vecMap, AnimInterpolation.LINEAR);
+		vec3Map = new HashMap<>();
+		vec3Map.put(3.79999, new Vec3f(1.5f));
+		vec3Map.put(3.8, new Vec3f(3, 1.5f, 1));
+		foxAS = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 	}
 	
 	@Override
 	public void step(double d) {
 		time += d;
-		cat.setTexture(catAT.valueAt(time));
+		cat.getMaterial(0).setParamTex("baseColor", catAT.valueAt(time));
 		cat.localPosition.set(catA.valueAt(time));
-		fox.setTexture(foxAT.valueAt(time));
-		fox.size = foxAS.valueAt(time);
+		fox.getMaterial(0).setParamTex("baseColor", foxAT.valueAt(time));
+		fox.scale.set(foxAS.valueAt(time));
 		fox.localPosition.set(foxA.valueAt(time));
 		
 		crowd_01.setTexture(crowdA.valueAt(time));
@@ -260,18 +268,19 @@ public class AnimIntro extends Arena{
 		crowd_03.setTexture(crowdA.valueAt(time));
 		crowd_04.setTexture(crowdA.valueAt(time));
 		
-		logo.setTexture(logoTex.valueAt(time));
+		logo.getMaterial(0).setParamTex("baseColor", logoTex.valueAt(time));
 		logo.localPosition.set(logoPosA.valueAt(time));
-		logo.localRotation = logoRotA.valueAt(time);
-		logo.size.set(logoSizeA.valueAt(time));
+		logo.localRotation = Quat.fromAngle(logoRotA.valueAt(time));
+		logo.scale.set(logoSizeA.valueAt(time));
 		
 		Window.getCamera().localPosition = camA.valueAt(time);
-		pressStart.localPosition.y = 325+Window.getCamera().getWorldPos().y;
+		
+//		pressStart.localPosition.y = 325+Window.getCamera().getWorldPos().y;
 		
 		//Fade
-		float opacity = sceneOpacityA.valueAt(time).floatValue();
-		bg.material.setParamVec4f("baseColorMod", new Vec4f(opacity, opacity, opacity, 1.0));
-		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
+//		float opacity = sceneOpacityA.valueAt(time).floatValue();
+//		bg.material.setParamVec4f("baseColorMod", new Vec4f(opacity, opacity, opacity, 1.0));
+//		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
 		
 		//Text
 		pressStart.setColor( Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d) );
@@ -281,7 +290,7 @@ public class AnimIntro extends Arena{
 		
 		if(!punched && time >= 4f) {
 			Audio.playSound("data/sound/slap.ogg", AudioChannel.UI, .48f, 1);
-			Window.getCamera().setCameraShake(3f);
+			Window.getCamera().setCameraShake(1f);
 			punched = true;
 		}
 		

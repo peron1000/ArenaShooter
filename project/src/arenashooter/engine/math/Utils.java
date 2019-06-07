@@ -144,7 +144,7 @@ public final class Utils {
         dy = p2.y-p1.y;
         d = dx*dx + dy*dy;
         double t2 = t1 + Math.pow(d, 0.25);
-//		if(t2 <= t1 ) t2 = t1+0.1;
+		if(t2 <= t1 ) t2 = t1+0.1;
 
         dx = p3.x-p2.x;
         dy = p3.y-p2.y;
@@ -207,7 +207,7 @@ public final class Utils {
         dz = p2.z-p1.z;
         d = dx*dx + dy*dy + dz*dz;
         double t2 = t1 + Math.pow(d, 0.25);
-//		if(t2 <= t1 ) t2 = t1+0.1;
+		if(t2 <= t1 ) t2 = t1+0.1;
 
         dx = p3.x-p2.x;
         dy = p3.y-p2.y;
