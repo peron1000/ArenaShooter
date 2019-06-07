@@ -40,8 +40,15 @@ public class ConfigManager {
 		defaults.setProperty("resY", "720");
 		defaults.setProperty("fullscreen", "false");
 		defaults.setProperty("resScale", "1");
+		defaults.setProperty("volumeMain", "1");
+		defaults.setProperty("volumeSFX", "1");
+		defaults.setProperty("volumeUI", "1");
+		defaults.setProperty("volumeMusic", "1");
 	}
 	
+	/**
+	 * Save current configuration to config file
+	 */
 	public static void save() {
 		log.info("Saving configuration to file");
 		try( OutputStream out = new FileOutputStream(file) ) {
@@ -55,15 +62,39 @@ public class ConfigManager {
 		return p.getProperty(key, defaults.getProperty(key));
 	}
 	
+	public static void setString(String key, String value) {
+		if(!defaults.contains(key))
+			log.warn("Trying to save a setting with the name \""+key+"\", which is not present in default configuration");
+		p.setProperty(key, value);
+	}
+	
 	public static int getInt(String key) {
 		return Integer.valueOf(getString(key));
+	}
+	
+	public static void setInt(String key, int value) {
+		if(!defaults.contains(key))
+			log.warn("Trying to save a setting with the name \""+key+"\", which is not present in default configuration");
+		p.setProperty(key, String.valueOf(value));
 	}
 	
 	public static float getFloat(String key) {
 		return Float.valueOf(getString(key));
 	}
 	
+	public static void setFloat(String key, float value) {
+		if(!defaults.contains(key))
+			log.warn("Trying to save a setting with the name \""+key+"\", which is not present in default configuration");
+		p.setProperty(key, String.valueOf(value));
+	}
+	
 	public static boolean getBool(String key) {
 		return Boolean.valueOf(getString(key));
+	}
+	
+	public static void setInt(String key, boolean value) {
+		if(!defaults.contains(key))
+			log.warn("Trying to save a setting with the name \""+key+"\", which is not present in default configuration");
+		p.setProperty(key, String.valueOf(value));
 	}
 }
