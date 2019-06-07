@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import arenashooter.engine.animation.tracks.AnimTrackDouble;
 import arenashooter.engine.animation.tracks.AnimTrackTexture;
-import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
@@ -15,14 +14,12 @@ import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Main;
 
@@ -43,14 +40,14 @@ public class AnimIntro extends Arena{
 	private TextSpatial versionText;
 	private AnimTrackDouble versionThickness;
 	
-	private AnimTrackDouble sceneOpacityA;
+	private AnimTrackDouble sceneOpacityA, logoOpacity;
 	
 	private Mesh logo;
 	private AnimTrackTexture logoTex;
 	private AnimTrackDouble logoRotA;
 	private AnimTrackVec3f logoPosA, logoSizeA;
 	
-	private Sprite crowd_01, crowd_02, crowd_03, crowd_04;
+	private Mesh crowd_01, crowd_02, crowd_03, crowd_04;
 	private AnimTrackTexture crowdA;
 	
 	private AnimTrackVec3f catA, foxA, foxAS;
@@ -75,11 +72,12 @@ public class AnimIntro extends Arena{
 		Window.setCamera(cam);
 		
 		HashMap<Double, Vec3f> vec3Map = new HashMap<>();
-		vec3Map.put(0.1, new Vec3f(0, -3, 50));
-		vec3Map.put(4.0, new Vec3f(0, -3, 18));
-		vec3Map.put(5.2, new Vec3f(0, -3, 18));
-		vec3Map.put(9.0, new Vec3f(0, -7.3, 12));
-		vec3Map.put(10.0, new Vec3f(0, -7.4, 9.9));
+		vec3Map.put(0.1, new Vec3f(0, -4, 50));
+		vec3Map.put(4.0, new Vec3f(0, -1.75, 21));
+		vec3Map.put(5.2, new Vec3f(0, -1.75, 21));
+		vec3Map.put(9.0, new Vec3f(0, -7.3, 18));
+		vec3Map.put(10.0, new Vec3f(0, -7.3, 18));
+		vec3Map.put(11.0, new Vec3f(0, -7.4, 9.9));
 		camA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 
 		//PRESS START text
@@ -88,9 +86,6 @@ public class AnimIntro extends Arena{
 		pressStart.attachToParent(cam, "textPressStart");
 		
 		//BG
-//		bg.size = new Vec2f(3000);
-//		bg.getTexture().setFilter(false);
-//		bg.attachToParent(this, "bg");
 		bigMesh = new Mesh(new Vec3f(), "data/meshes/intro/intro.obj");
 		bigMesh.attachToParent(this, "bigMesh");
 		
@@ -112,16 +107,22 @@ public class AnimIntro extends Arena{
 		
 		//Logo
 		logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
+		logo.useTransparency = true;
 		logo.attachToParent(this, "logo");
 		
 		HashMap<Double, Texture> texMap = new HashMap<>();
 		Texture t = Texture.loadTexture("data/sprites/intro/logo_no_blood.png");
 		t.setFilter(false);
-		Texture t2 = Texture.loadTexture("data/sprites/intro/logo.png");
+		Texture t2 = Texture.loadTexture("data/logo.png");
 		t2.setFilter(false);
 		texMap.put(0d, t);
 		texMap.put(11d, t2);
 		logoTex = new AnimTrackTexture(texMap);
+		
+		opacityMap = new HashMap<>();
+		opacityMap.put(9d, 0d);
+		opacityMap.put(10d, 1d);
+		logoOpacity = new AnimTrackDouble(opacityMap, AnimInterpolation.LINEAR);
 		
 		HashMap<Double, Double> rotMap = new HashMap<>();
 		rotMap.put(10d, 0d);
@@ -129,13 +130,12 @@ public class AnimIntro extends Arena{
 		logoRotA = new AnimTrackDouble(rotMap, AnimInterpolation.LINEAR);
 
 		vec3Map = new HashMap<>();
-		vec3Map.put(5.5d, new Vec3f(0));
-		vec3Map.put(10d, new Vec3f(.5f));
+		vec3Map.put(10d, new Vec3f(2f));
 		vec3Map.put(11d, new Vec3f(2.3f));
 		logoSizeA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 
 		vec3Map = new HashMap<>();
-		vec3Map.put(10d, new Vec3f(-.05, -7.45, 8));
+		vec3Map.put(10d, new Vec3f(-.05, -7.45, 9));
 		vec3Map.put(11d, new Vec3f(-.07, -7.5, 8));
 		logoPosA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
@@ -151,16 +151,10 @@ public class AnimIntro extends Arena{
 		versionThickness = new AnimTrackDouble(textThickness);
 		
 		//Crowd
-		crowd_01 = new Sprite(new Vec2f(-.650, .425));
-		crowd_02 = new Sprite(new Vec2f(-.310, .425));
-		crowd_03 = new Sprite(new Vec2f( .310, .425));
-		crowd_04 = new Sprite(new Vec2f( .650, .425));
-		crowd_03.flipX = true;
-		crowd_04.flipX = true;
-		crowd_01.size = new Vec2f(.800, .400);
-		crowd_02.size = crowd_01.size;
-		crowd_03.size = crowd_01.size;
-		crowd_04.size = crowd_01.size;
+		crowd_01 = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd_02 = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd_03 = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd_04 = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), new Material("data/shaders/sprite_simple"));
 		crowd_01.attachToParent(this, "crowd_01");
 		crowd_02.attachToParent(this, "crowd_02");
 		crowd_03.attachToParent(this, "crowd_03");
@@ -190,9 +184,9 @@ public class AnimIntro extends Arena{
 		crowdA = new AnimTrackTexture(texMap);
 		
 		//Cat
-		HashMap<Double, Vec2f> vecMap = new HashMap<>();
-		vec3Map.put(4d, new Vec3f(-1.2, -.8, 12));
-		vec3Map.put(6d, new Vec3f(-2.0, -.6, 12));
+		vec3Map = new HashMap<>();
+		vec3Map.put(4d, new Vec3f(-1, -1, 16.01));
+		vec3Map.put(6d, new Vec3f(-1.2, -.5, 16.01));
 		catA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
 		texMap = new HashMap<>();
@@ -244,8 +238,8 @@ public class AnimIntro extends Arena{
 		fox.attachToParent(this, "fox");
 		
 		vec3Map = new HashMap<>();
-		vec3Map.put(3.8, new Vec3f(1.2, -.8, 12));
-		vec3Map.put(4.0, new Vec3f(.8, -1, 12.01));
+		vec3Map.put(3.8, new Vec3f(1, -1, 15.99));
+		vec3Map.put(4.0, new Vec3f(.4, -1.2, 15.99));
 		foxA = new AnimTrackVec3f(vec3Map, AnimInterpolation.LINEAR);
 		
 		vec3Map = new HashMap<>();
@@ -263,12 +257,13 @@ public class AnimIntro extends Arena{
 		fox.scale.set(foxAS.valueAt(time));
 		fox.localPosition.set(foxA.valueAt(time));
 		
-		crowd_01.setTexture(crowdA.valueAt(time));
-		crowd_02.setTexture(crowdA.valueAt(time));
-		crowd_03.setTexture(crowdA.valueAt(time));
-		crowd_04.setTexture(crowdA.valueAt(time));
+		crowd_01.getMaterial(0).setParamTex("baseColor", crowdA.valueAt(time));
+		crowd_02.getMaterial(0).setParamTex("baseColor", crowdA.valueAt(time));
+		crowd_03.getMaterial(0).setParamTex("baseColor", crowdA.valueAt(time));
+		crowd_04.getMaterial(0).setParamTex("baseColor", crowdA.valueAt(time));
 		
 		logo.getMaterial(0).setParamTex("baseColor", logoTex.valueAt(time));
+		logo.getMaterial(0).setParamVec4f("baseColorMod", new Vec4f(1, 1, 1, logoOpacity.valueAt(time)));
 		logo.localPosition.set(logoPosA.valueAt(time));
 		logo.localRotation = Quat.fromAngle(logoRotA.valueAt(time));
 		logo.scale.set(logoSizeA.valueAt(time));
