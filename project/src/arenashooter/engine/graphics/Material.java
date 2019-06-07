@@ -179,9 +179,12 @@ public class Material {
 	@Override
 	public Material clone() {
 		Material res = new Material(shaderPath);
-		res.model = model.clone();
-		res.view = view.clone();
-		res.proj = proj.clone();
+		if(model != null)
+			res.model = model.clone();
+		if(view != null)
+			res.view = view.clone();
+		if(proj != null)
+			res.proj = proj.clone();
 		
 		for(Entry<String, Integer> entry : paramsI.entrySet())
 			res.paramsI.put(entry.getKey(), entry.getValue().intValue());

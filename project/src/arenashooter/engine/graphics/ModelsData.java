@@ -6,12 +6,15 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains data about a model: models and textures
  *
  */
 public class ModelsData {
+	private static final Map<String, ModelsData> cache = new HashMap<>();
+	
 	static final String default_shader = "data/shaders/mesh_simple";
 	
 	public Model[] models;
@@ -22,13 +25,24 @@ public class ModelsData {
 		this.materials = materials;
 	}
 
+	/**
+	 * Load a model from disk or cache
+	 * @param path
+	 * @return data representing the model, or an empty object if it couldn't be loaded
+	 */
 	public static ModelsData loadModel(String path) {
-		if(path.endsWith(".obj"))
-			return ModelObjLoader.loadObj(path);
-		else {
-			Window.log.error(path+" is not a wavefront obj file");
-			return null;
+		if(cache.containsKey(path)) //Model is cached
+			return cache.get(path).clone();
+		
+		if(path.endsWith(".obj")) { //Model is an obj
+			ModelsData res = ModelObjLoader.loadObj(path);
+			cache.put(path, res);
+			return res.clone();
 		}
+		
+		//Unsupported format
+		Window.log.error(path+" is not a wavefront obj file");
+		return new ModelsData(new Model[0], new Material[0]);
 	}
 	
 	/**
@@ -66,5 +80,18 @@ public class ModelsData {
 		}
 		
 		return res;
+	}
+	
+	@Override
+	public ModelsData clone() {
+		Material[] cloneMats = new Material[materials.length];
+		for(int i=0; i<materials.length; i++)
+			cloneMats[i] = materials[i].clone();
+		
+		Model[] cloneModels = new Model[models.length];
+		for(int i=0; i<models.length; i++)
+			cloneModels[i] = models[i].clone();
+		
+		return new ModelsData(cloneModels, cloneMats);
 	}
 }

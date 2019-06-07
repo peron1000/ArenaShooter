@@ -10,11 +10,8 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-import java.lang.ref.WeakReference;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.lwjgl.system.MemoryUtil;
 
@@ -26,8 +23,6 @@ import arenashooter.engine.math.Vec2f;
  * Doesn't have any shader or texture
  */
 public class Model {
-	private static Map<String, ModelEntry> models = new HashMap<String, ModelEntry>();
-	
 	//Floats per vertex: x, y, z + u, v + nx, ny, nz
 	private static final int floatsPerVertex = 3 + 2 + 3;
 	//Float size in bytes
@@ -259,19 +254,5 @@ public class Model {
 	@Override
 	public Model clone() {
 		return new Model(vaoID, vboID, indexVBO, indicesCount);
-	}
-	
-	private static class ModelEntry {
-		int vao, vbo, indexVBO;
-		String file;
-		WeakReference<Model> model;
-		
-		ModelEntry(Model model) {
-			this.vao = model.vaoID;
-			this.vbo = model.vboID;
-			this.indexVBO = model.indexVBO;
-//			this.file = model.
-			this.model = new WeakReference<Model>(model);
-		}
 	}
 }
