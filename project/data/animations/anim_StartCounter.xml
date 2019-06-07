@@ -24,7 +24,27 @@
 		<keyframeT time="2.0" value = "data/sprites/interface/3_Chroma2.png" />
 		<keyframeT time="3.0" value = "data/sprites/interface/2_Chroma2.png" />
 		<keyframeT time="4.0" value = "data/sprites/interface/1_Chroma2.png" />
-		<keyframeT time="5.0" value = "data/sprites/interface/Fight_Chroma2.png" />
+		<keyframeT time="5.00" value = "data/sprites/interface/Fight_Chroma3_01.png" />
+		<keyframeT time="5.05" value = "data/sprites/interface/Fight_Chroma3_02.png" />
+		<keyframeT time="5.10" value = "data/sprites/interface/Fight_Chroma3_03.png" />
+		<keyframeT time="5.15" value = "data/sprites/interface/Fight_Chroma3_04.png" />
+		<keyframeT time="5.20" value = "data/sprites/interface/Fight_Chroma3_05.png" />
+		<keyframeT time="5.25" value = "data/sprites/interface/Fight_Chroma3_06.png" />
+		<keyframeT time="5.30" value = "data/sprites/interface/Fight_Chroma3_07.png" />
+		<keyframeT time="5.35" value = "data/sprites/interface/Fight_Chroma3_08.png" />
+		<keyframeT time="5.40" value = "data/sprites/interface/Fight_Chroma3_09.png" />
+		<keyframeT time="5.45" value = "data/sprites/interface/Fight_Chroma3_10.png" />
+		<keyframeT time="5.50" value = "data/sprites/interface/Fight_Chroma3_01.png" />
+		<keyframeT time="5.55" value = "data/sprites/interface/Fight_Chroma3_02.png" />
+		<keyframeT time="5.60" value = "data/sprites/interface/Fight_Chroma3_03.png" />
+		<keyframeT time="5.65" value = "data/sprites/interface/Fight_Chroma3_04.png" />
+		<keyframeT time="5.70" value = "data/sprites/interface/Fight_Chroma3_05.png" />
+		<keyframeT time="5.75" value = "data/sprites/interface/Fight_Chroma3_06.png" />
+		<keyframeT time="5.80" value = "data/sprites/interface/Fight_Chroma3_07.png" />
+		<keyframeT time="5.85" value = "data/sprites/interface/Fight_Chroma3_08.png" />
+		<keyframeT time="5.90" value = "data/sprites/interface/Fight_Chroma3_09.png" />
+		<keyframeT time="5.95" value = "data/sprites/interface/Fight_Chroma3_10.png" />
+		<keyframeT time="6.00" value = "data/sprites/interface/Fight_Chroma3_01.png" />
 	</trackT>
 	
 	<trackD name="SizeOfCounterSprite" interpolation="linear">
