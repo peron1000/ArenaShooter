@@ -17,8 +17,8 @@ public class TextSpatial extends Spatial3 {
 	
 	public Vec3f scale;
 
-	public TextSpatial(Vec3f position, Vec3f scale, Text text) {
-		super(position);
+	public TextSpatial(Vec3f localPosition, Vec3f scale, Text text) {
+		super(localPosition);
 		this.scale = scale.clone();
 		this.text = text;
 		this.material = new Material("data/shaders/text_distance_field");
@@ -79,5 +79,15 @@ public class TextSpatial extends Spatial3 {
 	public void editorAddScale(Vec2f scale) {
 		this.scale.x += scale.x;
 		this.scale.y += scale.y;
+	}
+	
+	/**
+	 * Create a copy of this TextSpatial (cloned transform, text and material)
+	 */
+	@Override
+	public TextSpatial clone() {
+		TextSpatial res = new TextSpatial(localPosition, scale, text.clone());
+		res.material = material.clone();
+		return res;
 	}
 }

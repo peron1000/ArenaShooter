@@ -34,9 +34,11 @@ public class SoundEffect extends Spatial {
 	 * @param path audio file
 	 * @param channel
 	 * @param volume
+	 * @param pitch
+	 * @param looping
 	 */
-	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel, float volume ) {
-		this(localPosition, path, channel, volume, 1, 1, false);
+	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel, float volume, float pitch, boolean looping ) {
+		this(localPosition, path, channel, volume, pitch, pitch, looping);
 	}
 	
 	/**
@@ -143,5 +145,13 @@ public class SoundEffect extends Spatial {
 		
 		if(source != null)
 			source.setPosition2D(getWorldPos());
+	}
+	
+	/**
+	 * Create a copy of this SoundEffect (cloned transform, path, volume, pitch, looping boolean)
+	 */
+	@Override
+	public SoundEffect clone() {
+		return new SoundEffect(localPosition, path, channel, volume, pitch, looping);
 	}
 }

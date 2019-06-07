@@ -126,4 +126,12 @@ public class Text {
 				offset+2, offset+3, offset+0  //Bot triangle
 		};
 	}
+	
+	/**
+	 * Create a copy of this text
+	 */
+	@Override
+	public Text clone() {
+		return new Text(font, alignH, text);
+	}
 }
