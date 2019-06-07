@@ -82,16 +82,15 @@ public class ModelsData {
 		return res;
 	}
 	
+	/**
+	 * Creates a clone of this entry (same geometry data, cloned materials)
+	 */
 	@Override
 	public ModelsData clone() {
 		Material[] cloneMats = new Material[materials.length];
 		for(int i=0; i<materials.length; i++)
 			cloneMats[i] = materials[i].clone();
 		
-		Model[] cloneModels = new Model[models.length];
-		for(int i=0; i<models.length; i++)
-			cloneModels[i] = models[i].clone();
-		
-		return new ModelsData(cloneModels, cloneMats);
+		return new ModelsData(models.clone(), cloneMats);
 	}
 }

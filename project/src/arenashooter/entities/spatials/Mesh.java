@@ -138,11 +138,7 @@ public class Mesh extends Spatial3 {
 		for(int i=0; i<materials.length; i++)
 			cloneMats[i] = materials[i].clone();
 		
-		Model[] cloneModels = new Model[models.length];
-		for(int i=0; i<models.length; i++)
-			cloneModels[i] = models[i].clone();
-		
-		Mesh res = new Mesh(localPosition, localRotation, scale, cloneModels, cloneMats);
+		Mesh res = new Mesh(localPosition, localRotation, scale, models.clone(), cloneMats);
 		res.useTransparency = useTransparency;
 		return res;
 	}
