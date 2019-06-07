@@ -21,6 +21,12 @@ public class Sky extends Entity {
 		zIndex = -9999;
 	}
 	
+	public Sky(Material material) {
+		if(quad == null) quad = Model.loadQuad();
+		this.material = material;
+		zIndex = -9999;
+	}
+	
 	public void setColors(Vec3f newColorBot, Vec3f newColorTop) {
 		setColorBot(newColorBot);
 		setColorTop(newColorTop);
@@ -46,6 +52,14 @@ public class Sky extends Entity {
 		quad.draw();
 		
 		Profiler.endTimer(Profiler.SPRITES);
+	}
+	
+	/**
+	 * Creates a clone of this Sky (cloned material)
+	 */
+	@Override
+	public Sky clone() {
+		return new Sky(material.clone());
 	}
 	
 }

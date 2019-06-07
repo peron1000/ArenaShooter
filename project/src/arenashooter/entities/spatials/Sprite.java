@@ -85,4 +85,18 @@ public class Sprite extends Spatial {
 	public void editorAddScale(Vec2f scale) {
 		this.size.add(scale);
 	}
+	
+	/**
+	 * Create a clone of this Sprite (cloned transform, material, flip and transparency usage)
+	 */
+	@Override
+	public Sprite clone() {
+		Sprite res = new Sprite(localPosition, material.clone());
+		res.size.set(size);
+		res.useTransparency = useTransparency;
+		res.flipX = flipX;
+		res.flipY = flipY;
+		
+		return res;
+	}
 }

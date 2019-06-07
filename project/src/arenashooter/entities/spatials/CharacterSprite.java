@@ -63,9 +63,9 @@ public class CharacterSprite extends Spatial {
 
 		File f = new File(folder + "/body.png");
 		if(f.exists() && !f.isDirectory()) { 
-			body = new Sprite(new Vec2f(), folder + "/body.png");
+			body = new Sprite(new Vec2f(0, -.2), folder + "/body.png");
 		}else if(new File(folder + "/body_tr.png").exists()) {
-			body = new Sprite(new Vec2f(), folder + "/body_tr.png");
+			body = new Sprite(new Vec2f(0, -.2), folder + "/body_tr.png");
 		}
 		body.size = new Vec2f(body.getTexture().getWidth() * .052, body.getTexture().getHeight() * .052);
 		body.getTexture().setFilter(false);
@@ -73,9 +73,9 @@ public class CharacterSprite extends Spatial {
 		
 		f = new File(folder + "/head.png");
 		if(f.exists() && !f.isDirectory()) { 
-			head = new Sprite(new Vec2f(), folder + "/head.png");
+			head = new Sprite(new Vec2f(0, -.2), folder + "/head.png");
 		}else if(new File(folder + "/head_tr.png").exists()) {
-			head = new Sprite(new Vec2f(), folder + "/head_tr.png");
+			head = new Sprite(new Vec2f(0, -.2), folder + "/head_tr.png");
 		}			
 		head.size = new Vec2f(head.getTexture().getWidth() * .052, head.getTexture().getHeight() * .052);
 		head.getTexture().setFilter(false);
@@ -85,11 +85,11 @@ public class CharacterSprite extends Spatial {
 		//Feet
 		f = new File(folder + "/foot.png");
 		if(f.exists() && !f.isDirectory()) { 
-			footL = new Sprite(new Vec2f(), folder + "/foot.png");
-			footR = new Sprite(new Vec2f(), folder + "/foot.png");
+			footL = new Sprite(new Vec2f(-.3+.08, .81), folder + "/foot.png");
+			footR = new Sprite(new Vec2f(.3-.08, .81), folder + "/foot.png");
 		} else if(new File(folder + "/foot_tr.png").exists()) {
-			footL = new Sprite(new Vec2f(), folder + "/foot_tr.png");
-			footR = new Sprite(new Vec2f(), folder + "/foot_tr.png");
+			footL = new Sprite(new Vec2f(-.3+.08, .81), folder + "/foot_tr.png");
+			footR = new Sprite(new Vec2f(.3-.08, .81), folder + "/foot_tr.png");
 		}			
 		footL.size = new Vec2f(footL.getTexture().getWidth() * .052, footL.getTexture().getHeight() * .052);
 		footL.getTexture().setFilter(false);
