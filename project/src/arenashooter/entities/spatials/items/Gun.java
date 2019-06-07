@@ -13,6 +13,7 @@ import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Grenade;
 import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.SoundEffect;
+import arenashooter.entities.spatials.StarBullet;
 
 public class Gun extends Usable {
 	protected float recoil = 0.4f;// High
@@ -174,7 +175,14 @@ public class Gun extends Usable {
 //					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 //					flash.attachToParent(getChild("particle_container"), "particles_flash");
 					break;
-
+					
+				case 3:
+					StarBullet star = new StarBullet(bulletPos, bulSpeed, damage);
+					star.attachToParent(getArena(), ("star_" + star.genName()));
+					if (isEquipped())
+						star.shooter = ((Character) getParent());
+					break;
+					
 				default:
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));

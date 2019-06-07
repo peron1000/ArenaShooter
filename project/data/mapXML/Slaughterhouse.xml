@@ -70,6 +70,16 @@
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
 			</gun>
+			<gun name="StarGun" weight="43"
+				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
+				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
+				soundWarmup="wabada" bangSound="ni"
+				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
+				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-0.4" y="-.1" />
+				<vecteur use="handPosR" x="-0.6" y=".2" />
+			</gun>
 			<entities>
 				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
 					<vecteur use="position" x="0" y="-1" z="0" />
@@ -133,6 +143,16 @@
 
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+			<gun name="StarGun" weight="43"
+				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
+				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
+				soundWarmup="wabada" bangSound="ni"
+				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
+				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-0.4" y="-.1" />
+				<vecteur use="handPosR" x="-0.6" y=".2" />
 			</gun>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
@@ -206,6 +226,16 @@
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
 			</gun>
+			<gun name="StarGun" weight="43"
+				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
+				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
+				soundWarmup="wabada" bangSound="ni"
+				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
+				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-0.4" y="-.1" />
+				<vecteur use="handPosR" x="-0.6" y=".2" />
+			</gun>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
@@ -253,6 +283,16 @@
 
 				<vecteur use="handPosL" x="-.32" y=".3" />
 				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+			<gun name="StarGun" weight="43"
+				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
+				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
+				soundWarmup="wabada" bangSound="ni"
+				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
+				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
+
+				<vecteur use="handPosL" x="-0.4" y="-.1" />
+				<vecteur use="handPosR" x="-0.6" y=".2" />
 			</gun>
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
