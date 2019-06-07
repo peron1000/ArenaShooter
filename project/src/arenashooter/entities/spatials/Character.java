@@ -295,8 +295,8 @@ public class Character extends RigidBodyContainer {
 					((Spatial) item).localPosition.set(((Spatial) item).getWorldPos());
 				item.attachToParent(getArena(), item.genName());
 				RigidBodyContainer rigBod = ((RigidBodyContainer) item.getChild("rigid_body"));
-				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20));
-				rigBod.setAngularVelocity((float) (Math.PI * 2 * Math.random() + 12 * Math.PI));
+				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 25));
+				rigBod.setAngularVelocity((float) (Math.PI * 2 * Math.random() + 12 * Math.PI * (lookRight ? 1 : -1)));
 				item.canDealDamage = true;
 				Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
 						getWorldPos());
