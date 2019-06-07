@@ -44,7 +44,7 @@ public class Mesh extends Spatial3 {
 	private Mesh(Vec3f position, Quat rotation, Vec3f scale, Model[] models, Material[] materials) {
 		super(position);
 
-		this.localRotation = rotation;
+		this.localRotation.set(rotation);
 		this.scale = scale.clone();
 
 		this.models = models;
@@ -129,4 +129,21 @@ public class Mesh extends Spatial3 {
 		}
 	}
 
+	/**
+	 * Creates a copy of this mesh (same geometry, cloned materials and transform)
+	 */
+	@Override
+	public Mesh clone() {
+		Material[] cloneMats = new Material[materials.length];
+		for(int i=0; i<materials.length; i++)
+			cloneMats[i] = materials[i].clone();
+		
+		Model[] cloneModels = new Model[models.length];
+		for(int i=0; i<models.length; i++)
+			cloneModels[i] = models[i].clone();
+		
+		Mesh res = new Mesh(localPosition, localRotation, scale, cloneModels, cloneMats);
+		res.useTransparency = useTransparency;
+		return res;
+	}
 }

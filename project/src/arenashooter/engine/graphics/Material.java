@@ -173,6 +173,9 @@ public class Material {
 			paramsTex.put(name, value);
 	}
 	
+	/**
+	 * Creates a copy of this material, mutable parameters are cloned too
+	 */
 	@Override
 	public Material clone() {
 		Material res = new Material(shaderPath);

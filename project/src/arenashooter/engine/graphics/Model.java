@@ -39,6 +39,13 @@ public class Model {
 		loadModel( data, indices );
 	}
 	
+	private Model(int vaoID, int vboID, int indexVBO, int indicesCount) {
+		this.vaoID = vaoID;
+		this.vboID = vboID;
+		this.indexVBO = indexVBO;
+		this.indicesCount = indicesCount;
+	}
+ 	
 	/**
 	 * Load a model
 	 * @param data vertices data (position + uv)
@@ -245,6 +252,14 @@ public class Model {
 //		
 //		Window.log.info("Cleaned up "+toRemove.size()+" models");
 //	}
+	
+	/**
+	 * Creates a new Model pointing to the same geometry data as <i>this</i>
+	 */
+	@Override
+	public Model clone() {
+		return new Model(vaoID, vboID, indexVBO, indicesCount);
+	}
 	
 	private static class ModelEntry {
 		int vao, vbo, indexVBO;
