@@ -1,10 +1,13 @@
 package arenashooter.entities.spatials;
 
 import java.io.File;
+import java.util.Queue;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
+import arenashooter.engine.animation.animevents.AnimEvent;
+import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
@@ -22,10 +25,12 @@ public class CharacterSprite extends Spatial {
 
 	String folder;
 	private Sprite body, head, footL, footR, handL, handR;
-	private Sprite punchSprite = new Sprite(new Vec2f());
-	private Sprite chargeSprite = new Sprite(new Vec2f());
+	private Sprite punchSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/swoosh_1_1.png");
+	private Sprite chargeSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Tching2.png");
 	private Sprite parry = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry_Bubble.png");
-	private String particlesBlood = "data/particles/blood.xml";
+	private Sprite stunStars = new Sprite(new Vec2f(0, -0.5), "data/sprites/StunStars.png");
+	private String bloodParticles = "data/particles/blood.xml";
+	private String stun = "data/particles/stun.xml";
 
 	private double lookAngle = 0;
 	private float moveSpeed = 0;
@@ -40,6 +45,8 @@ public class CharacterSprite extends Spatial {
 	private AnimationData punchAnim2 = AnimationData.loadAnim("data/animations/animPunch_2.xml");
 	private AnimationData punchAnim3 = AnimationData.loadAnim("data/animations/animPunch_3.xml");
 	private AnimationData superPunch = AnimationData.loadAnim("data/animations/animSuperPunch.xml");
+	private AnimationData stunStarsT = AnimationData.loadAnim("data/animations/stun.xml");
+	private Animation animStun = null;
 	private Animation currentPunchAnim = null;
 	private Texture charge1 = Texture.loadTexture("data/sprites/swooshes/Tching1.png");
 	private Texture charge2 = Texture.loadTexture("data/sprites/swooshes/Tching2.png");
@@ -48,6 +55,7 @@ public class CharacterSprite extends Spatial {
 
 	private double movementTime = 0;
 	private double sinTime;//Used for rescaling chargePunch Sprite.
+	public boolean stunned;
 
 	public CharacterSprite(CharacterInfo charInfo) {
 		super();
@@ -115,13 +123,18 @@ public class CharacterSprite extends Spatial {
 		
 		chargeSprite.attachToParent(this, "Charge");
 		chargeSprite.size.set(0, 0);
-		chargeSprite.zIndex = getZIndex()+1;
+		chargeSprite.zIndex = getZIndex()+2;
 		
 		parry.attachToParent(this, "Parry");
 		parry.useTransparency = true;
 		parry.size.set(0, 0);
 		parry.getTexture().setFilter(false);
-		parry.zIndex = getZIndex()+1;
+		parry.zIndex = getZIndex()+2;
+		
+		stunStars.attachToParent(this, "Stun_Stars");
+		stunStars.size.set(0, 0);
+		stunStars.getTexture().setFilter(false);
+		stunStars.zIndex = getZIndex()+2;
 	}
 	
 	public void parryStart() {
@@ -130,6 +143,28 @@ public class CharacterSprite extends Spatial {
 
 	public void parryStop() {
 		parry.size.set(0, 0);
+	}
+	
+	public void stunStart(double stunTime) {
+		if(!stunned) {
+			stunned = true;
+			animStun = new Animation(stunStarsT);
+			animStun.play();
+			stunStars.size.set(stunStars.getTexture().getWidth()*0.06, stunStars.getTexture().getWidth()*0.06);
+		}
+		for(int i = 0 ; i < 1+stunTime*3 ; i++) {
+			Particles stars = new Particles(new Vec2f(0, -0.25), stun);
+			stars.zIndex = getZIndex()+2;
+			stars.selfDestruct = true;
+			stars.attachToParent(this, genName());
+		}
+	}
+	
+	public void stunStop() {
+		//TODO stunStop Effects
+		stunned = false;
+		animStun = null;
+		stunStars.size.set(0, 0);
 	}
 	
 	public void punch(int swoosh, double direction) {
@@ -152,12 +187,12 @@ public class CharacterSprite extends Spatial {
 		default :
 		break;
 		}
+		punchSprite.size.set(2, 2);
 		currentPunchAnim.play();
 	}
 	
-	
 	public void damageEffects(DamageInfo info) {
-		Particles blood = new Particles(new Vec2f(), particlesBlood);
+		Particles blood = new Particles(new Vec2f(), bloodParticles);
 		blood.selfDestruct = true;
 		blood.attachToParent(this, blood.genName());
 	}
@@ -212,7 +247,7 @@ public class CharacterSprite extends Spatial {
 		handR.localPosition.set(0, 0);
 		handR.attachRot = true;
 
-		Particles blood = new Particles(new Vec2f(), particlesBlood);
+		Particles blood = new Particles(new Vec2f(), bloodParticles);
 		blood.selfDestruct = true;
 		blood.attachToParent(this, blood.genName());
 	}
@@ -239,13 +274,28 @@ public class CharacterSprite extends Spatial {
 		movementTime += d * Math.abs(moveSpeed);
 		sinTime += d*16;
 
+		if(animStun != null) {
+			animStun.step(d);
+			stunStars.setTexture(animStun.getTrackTex("starsTexture"));
+			stunStars.getTexture().setFilter(false);
+			Queue<AnimEvent> events = animStun.getEvents();
+			AnimEvent current = events.peek();
+			while( (current = events.poll()) != null ) {
+				if(current instanceof AnimEventSound) {
+					AnimEventSound snd = (AnimEventSound) current;
+					Audio.playSound2D(snd.path, snd.channel, snd.volume, (float) (snd.pitch+Math.random()/4), getWorldPos());
+				}
+			}
+		}
+		
 		if(charging) {
 			if (charged) {
 				chargeSprite.setTexture(charge2);
+				chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07+Math.sin(sinTime)/3, chargeSprite.getTexture().getWidth()*0.07+Math.sin(sinTime)/3);
 			} else {
 				chargeSprite.setTexture(charge1);
+				chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07, chargeSprite.getTexture().getWidth()*0.07);
 			}
-			chargeSprite.size.set(chargeSprite.getTexture().getHeight()*0.07+Math.sin(sinTime)/4, chargeSprite.getTexture().getWidth()*0.07+Math.sin(sinTime)/4);
 			chargeSprite.localPosition.set((lookRight? 0.25 : -0.25), 0.2);
 			chargeSprite.getTexture().setFilter(false);
 		}
@@ -255,12 +305,11 @@ public class CharacterSprite extends Spatial {
 			if(currentPunchAnim.isPlaying()) {
 				punchSprite.flipY = !lookRight;
 				punchSprite.setTexture(currentPunchAnim.getTrackTex("AnimTrackPunch1"));
-				punchSprite.size.set(2, 2);
 				punchSprite.localPosition.set(1.5, 0.3);
 				Vec2f.rotate(punchSprite.localPosition, lookAngle, punchSprite.localPosition);
 				punchSprite.localRotation = lookAngle;
 				punchSprite.getTexture().setFilter(false);
-			}else
+			} else
 				punchSprite.size.set(0, 0);
 		}
 		

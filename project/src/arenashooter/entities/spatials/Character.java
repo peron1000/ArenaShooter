@@ -49,6 +49,8 @@ public class Character extends RigidBodyContainer {
 
 	// Combat stats
 	/** Melee attack cooldown */
+	private boolean stunned = false;
+	private Timer stun = null;
 	private Timer attackCooldown = new Timer(0.2);
 	private int attackCombo = 0;
 	private Timer parry = new Timer(1.5);
@@ -133,7 +135,7 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public void parryStart() {
-		if (getWeapon() == null && !parryCooldown) {
+		if (getWeapon() == null && !parryCooldown && !stunned) {
 			((CharacterSprite) getChild("skeleton")).parryStart();
 			parry.setIncreasing(true);
 		}
@@ -159,10 +161,23 @@ public class Character extends RigidBodyContainer {
 		return parry.isIncreasing() && !parry.isOver();
 	}
 
+	public void stun(double stunTime) {
+		if (stunned) {
+			stun.setMax(stun.getMax()+stunTime);
+		} else {
+			stunned = true;
+			stun = new Timer(stunTime);
+			charged = false;
+			chargePunch.reset();
+		}
+		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
+		skeleton.stunStart(stunTime);
+	}
+
 	public void attackStart() {
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
-		} else if (attackCooldown.isOver()) {
+		} else if (attackCooldown.isOver()&&!stunned) {
 			chargePunch.setProcessing(true);
 		}
 	}
@@ -170,7 +185,7 @@ public class Character extends RigidBodyContainer {
 	public void attackStop() {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
-		} else if (chargePunch.isProcessing()) {
+		} else if (chargePunch.isProcessing()&&!stunned) {
 
 			boolean superPoing = chargePunch.isOver();
 			chargePunch.reset();
@@ -268,16 +283,17 @@ public class Character extends RigidBodyContainer {
 		attackStop();
 
 		Item item = (Item) getChild("Item_Weapon");
-		if (item != null) {			
+		if (item != null) {
 			if (getArena() != null) {
 				if (item instanceof Spatial)
 					((Spatial) item).localPosition.set(((Spatial) item).getWorldPos());
 				item.attachToParent(getArena(), item.genName());
-				RigidBodyContainer rigBod = ((RigidBodyContainer)item.getChild("rigid_body"));
+				RigidBodyContainer rigBod = ((RigidBodyContainer) item.getChild("rigid_body"));
 				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 20).add(getLinearVelocity()));
-				rigBod.setAngularVelocity((float) (Math.PI*2*Math.random()+12*Math.PI));
+				rigBod.setAngularVelocity((float) (Math.PI * 2 * Math.random() + 12 * Math.PI));
 				item.canDealDamage = true;
-				Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95+Math.random()*0.1), getWorldPos());
+				Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
+						getWorldPos());
 			} else
 				item.detach();
 		}
@@ -315,6 +331,11 @@ public class Character extends RigidBodyContainer {
 		if (info.dmgType == DamageType.MISC_ONE_SHOT) {
 			death(info);
 			return health;
+		}
+		
+		if(info.dmgType == DamageType.MELEE) {
+			charged = false;
+			chargePunch.reset();
 		}
 
 		((CharacterSprite) getChild("skeleton")).damageEffects(info);
@@ -365,7 +386,7 @@ public class Character extends RigidBodyContainer {
 			return;
 
 		if (Math.random() > 0.6)// ???
-			jumpTimer.isOver();// ???
+			jumpTimer.isOver();// ??? What is the fuque ?
 
 		if (parry.isOver()) {
 			parryCooldown = true;
@@ -375,9 +396,34 @@ public class Character extends RigidBodyContainer {
 			parryCooldown = false;
 		}
 
-		double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed,
-				Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
-		getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
+		if (!stunned) {
+			// Aim
+			if (!isAiming) {
+				if (movementInput > 0)
+					lookRight = true;
+				else if (movementInput < 0)
+					lookRight = false;
+			} else {
+				aimInput = Utils.normalizeAngle(aimInput);
+				if (aimInput < Math.PI / 2 && aimInput > -Math.PI / 2)
+					lookRight = true;
+				else
+					lookRight = false;
+			}
+			if (!isAiming && !lookRight) {
+				aimInput = Math.PI;
+			}
+			double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed,
+					Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
+			getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
+		} else {
+			stun.step(d);
+			if (stun.isOver()) {
+				stunned = false;
+				CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
+				skeleton.stunStop();
+			}
+		}
 
 		if (getBody().getBody() != null)
 			getBody().getBody().setGravityScale(6);
@@ -403,23 +449,6 @@ public class Character extends RigidBodyContainer {
 
 		if (isOnGround)
 			jumpTimer.reset();
-
-		// Animation
-		if (!isAiming) {
-			if (movementInput > 0)
-				lookRight = true;
-			else if (movementInput < 0)
-				lookRight = false;
-		} else {
-			aimInput = Utils.normalizeAngle(aimInput);
-			if (aimInput < Math.PI / 2 && aimInput > -Math.PI / 2)
-				lookRight = true;
-			else
-				lookRight = false;
-		}
-		if (!isAiming && !lookRight) {
-			aimInput = Math.PI;
-		}
 
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 		if (skeleton != null) {
