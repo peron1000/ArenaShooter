@@ -267,5 +267,13 @@ class EntityEditor implements Navigable {
 	public SetEditable getModificationType() {
 		return modification.get();
 	}
+	
+	@Override
+	public boolean backAction() {
+		if (onWritting) {
+			return textInput.backAction();
+		}
+		return false;
+	}
 
 }

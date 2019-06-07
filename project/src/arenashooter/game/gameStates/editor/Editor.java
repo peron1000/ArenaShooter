@@ -68,8 +68,10 @@ public class Editor extends GameState {
 						}
 						break;
 					case UI_BACK:
-						currentMenu = mainMenu;
-						onSetting = null;
+						if(!currentMenu.backAction()) {
+							currentMenu = mainMenu;
+							onSetting = null;
+						}
 						break;
 					case UI_CHANGE:
 						currentMenu.changeAction();

@@ -27,6 +27,11 @@ public abstract class UiElement implements Navigable {
 	}
 	
 	@Override
+	public boolean backAction() {
+		return false;
+	}
+	
+	@Override
 	public boolean downAction() {
 		return false;
 	}

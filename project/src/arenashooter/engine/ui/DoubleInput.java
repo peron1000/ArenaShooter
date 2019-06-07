@@ -20,8 +20,15 @@ public class DoubleInput extends UiElement {
 	int index = 0;
 	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1);
 	private boolean isNum = true;
-	private Trigger trigger = new Trigger() {
+	private Trigger onFinishGood = new Trigger() {
 
+		@Override
+		public void make() {
+			// Nothing
+		}
+	};
+	private Trigger onFinishBad = new Trigger() {
+		
 		@Override
 		public void make() {
 			// Nothing
@@ -135,8 +142,14 @@ public class DoubleInput extends UiElement {
 			}
 		}
 		if(nbNoNumber < 2) {
-			trigger.make();
+			onFinishGood.make();
 		}
+		return true;
+	}
+	
+	@Override
+	public boolean backAction() {
+		onFinishBad.make();
 		return true;
 	}
 
@@ -276,11 +289,11 @@ public class DoubleInput extends UiElement {
 	}
 
 	public void setOnFinish(Trigger t) {
-		trigger = t;
+		onFinishGood = t;
 	}
-
-	public void launchFinishTrigger() {
-		trigger.make();
+	
+	public void setOnCancel(Trigger t) {
+		onFinishBad = t;
 	}
 
 }

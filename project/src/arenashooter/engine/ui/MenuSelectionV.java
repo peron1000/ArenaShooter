@@ -287,4 +287,9 @@ public class MenuSelectionV<E extends UiElement> extends Menu implements Navigab
 	public boolean changeAction() {
 		return false;
 	}
+
+	@Override
+	public boolean backAction() {
+		return false;
+	}
 }

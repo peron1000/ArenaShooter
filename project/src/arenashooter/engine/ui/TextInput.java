@@ -20,8 +20,15 @@ public class TextInput extends UiElement {
 	int index = 0;
 	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1);
 	private Type type = Type.UPPERCASE;
-	private Trigger trigger = new Trigger() {
+	private Trigger onFinishGood = new Trigger() {
 
+		@Override
+		public void make() {
+			// Nothing
+		}
+	};
+	private Trigger onFinishBad = new Trigger() {
+		
 		@Override
 		public void make() {
 			// Nothing
@@ -151,7 +158,7 @@ public class TextInput extends UiElement {
 	
 	@Override
 	public boolean continueAction() {
-		trigger.make();
+		onFinishGood.make();
 		return true;
 	}
 
@@ -320,7 +327,11 @@ public class TextInput extends UiElement {
 	}
 
 	public void setOnFinish(Trigger t) {
-		trigger = t;
+		onFinishGood = t;
+	}
+	
+	public void setOnCancel(Trigger t) {
+		onFinishBad = t;
 	}
 
 	@Override
@@ -334,6 +345,12 @@ public class TextInput extends UiElement {
 				index--;
 			}
 		}
+		return true;
+	}
+	
+	@Override
+	public boolean backAction() {
+		onFinishBad.make();
 		return true;
 	}
 }

@@ -17,8 +17,10 @@ import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MenuSelectionV;
 import arenashooter.engine.ui.MultiMenu;
 import arenashooter.engine.ui.Navigable;
+import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
+import arenashooter.engine.ui.UiValuableButton;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
@@ -34,6 +36,7 @@ import arenashooter.game.Main;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.editorEnum.Prime;
 import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
+import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
 class MainMenu implements Navigable {
 
@@ -45,7 +48,8 @@ class MainMenu implements Navigable {
 	private Vec2f buttonScale = new Vec2f(15, 5);
 
 	private MenuSelectionV<UiActionable> addMenu = new MenuSelectionV<>(), setMenu = new MenuSelectionV<>(),
-			saveQuitMenu = new MenuSelectionV<>(), arenaInfo = new MenuSelectionV<>(), meshChooserMenu = new MenuSelectionV<>();
+			saveQuitMenu = new MenuSelectionV<>(), arenaInfo = new MenuSelectionV<>(),
+			meshChooserMenu = new MenuSelectionV<>();
 	private MultiMenu<Prime> mainMenu = new MultiMenu<>(5, Prime.values(), "data/sprites/interface/Selector.png",
 			new Vec2f(30, 10));
 	private Navigable current = mainMenu;
@@ -55,8 +59,9 @@ class MainMenu implements Navigable {
 	private HashMap<Entity, Button> entityToButton = new HashMap<>();
 	private HashMap<TypeEntites, Button> typeToButton = new HashMap<>();
 	private Entity parent;
-	private boolean onWritting = false;
+	private Ui_Input ui_InputState = Ui_Input.NOTHING;
 	private DoubleInput doubleInput = new DoubleInput();
+	private TextInput textInput = new TextInput();
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -69,41 +74,74 @@ class MainMenu implements Navigable {
 
 		arenaConstruction = toConstruct;
 		parent = toConstruct;
-		
+
 		doubleInput.setVisible(false);
 
 		saveQuitMenuConstruction();
 
 		addMenuConstruction();
-		
+
 		arenaInfoMenuConstruction();
-		
+
 		meshChooserMenuConstruction();
 	}
 
 	private void arenaInfoMenuConstruction() {
 		arenaInfo.setPosition(new Vec2f(Editor.forVisible, -40));
-		arenaInfo.setEcartement(6);
+		arenaInfo.setEcartement(8);
 		arenaInfo.setPositionRef(new Vec2f(Editor.forVisible, -30));
-		Button button = new Button(0, buttonScale, "input double");
-		arenaInfo.addElementInListOfChoices(button, 1);
-		button.setOnArm(new Trigger() {
+		UiValuableButton<Double> test = new UiValuableButton<Double>("Test", Double.valueOf(9));
+		test.setOnArm(new Trigger() {
 			
 			@Override
 			public void make() {
-				onWritting = true;
+				ui_InputState = Ui_Input.DOUBLE;
 				doubleInput = new DoubleInput();
-				button.setVisible(false);
-				doubleInput.setPosition(button.getPosition());
+				test.setVisible(false);
+				doubleInput.setPosition(test.getPosition());
 				doubleInput.setScale(new Vec2f(10));
 				arenaInfo.addUiElement(doubleInput, 1);
 				doubleInput.setOnFinish(new Trigger() {
 					
 					@Override
 					public void make() {
-						onWritting = false;
+						ui_InputState = Ui_Input.NOTHING;
+						test.setVisible(true);
+						test.setValue(doubleInput.getDouble());
+						arenaInfo.removeUiElement(doubleInput);
+					}
+				});
+			}
+		});
+		arenaInfo.addElementInListOfChoices(test, 1);
+		Button button = new Button(0, buttonScale, "Set");
+		arenaInfo.addElementInListOfChoices(button, 1);
+		button.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				ui_InputState = Ui_Input.DOUBLE;
+				doubleInput = new DoubleInput();
+				button.setVisible(false);
+				doubleInput.setScale(new Vec2f(10));
+				arenaInfo.addUiElement(doubleInput, 1);
+				doubleInput.setPosition(button.getPosition());
+				doubleInput.setOnFinish(new Trigger() {
+
+					@Override
+					public void make() {
+						ui_InputState = Ui_Input.NOTHING;
 						button.setVisible(true);
 						System.out.println(doubleInput.getDouble());
+						arenaInfo.removeUiElement(doubleInput);
+					}
+				});
+				doubleInput.setOnCancel(new Trigger() {
+
+					@Override
+					public void make() {
+						ui_InputState = Ui_Input.NOTHING;
+						button.setVisible(true);
 						arenaInfo.removeUiElement(doubleInput);
 					}
 				});
@@ -133,7 +171,8 @@ class MainMenu implements Navigable {
 	}
 
 	private void saveQuitMenuConstruction() {
-		saveQuitMenu.setEcartement(8);
+		final float spacing = 8;
+		saveQuitMenu.setEcartement(spacing);
 		Button save = new Button(0, buttonScale, "Save"), rename = new Button(0, buttonScale, "Rename File"),
 				quit = new Button(0, buttonScale, "Quit");
 		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
@@ -151,7 +190,30 @@ class MainMenu implements Navigable {
 
 			@Override
 			public void make() {
-				// TODO
+				ui_InputState = Ui_Input.TEXT;
+				textInput = new TextInput();
+				textInput.setScale(new Vec2f(10));
+				saveQuitMenu.addUiElement(textInput, 1);
+				textInput.setPosition(Vec2f.add(rename.getPosition(), new Vec2f(0, buttonScale.y + spacing * 2)));
+				textInput.setOnFinish(new Trigger() {
+
+					@Override
+					public void make() {
+						ui_InputState = Ui_Input.NOTHING;
+						textInput.setVisible(false);
+						fileName = textInput.getText();
+						saveQuitMenu.removeUiElement(textInput);
+					}
+				});
+				textInput.setOnCancel(new Trigger() {
+
+					@Override
+					public void make() {
+						ui_InputState = Ui_Input.NOTHING;
+						textInput.setVisible(false);
+						saveQuitMenu.removeUiElement(textInput);
+					}
+				});
 			}
 		});
 		quit.setOnArm(new Trigger() {
@@ -254,8 +316,8 @@ class MainMenu implements Navigable {
 		toSetMenu.arm();
 		this.parent = arenaConstruction;
 	}
-	
-	void newEntity(Entity parent , TypeEntites type) {
+
+	void newEntity(Entity parent, TypeEntites type) {
 		this.parent = parent;
 		typeToButton.get(type).arm();
 	}
@@ -269,42 +331,62 @@ class MainMenu implements Navigable {
 
 	@Override
 	public boolean upAction() {
-		if(onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.upAction();
+		case TEXT:
+			return textInput.upAction();
+		default:
+			return current.upAction();
 		}
-		return current.upAction();
 	}
 
 	@Override
 	public boolean downAction() {
-		if(onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.downAction();
+		case TEXT:
+			return textInput.downAction();
+		default:
+			return current.downAction();
 		}
-		return current.downAction();
 	}
 
 	@Override
 	public boolean rightAction() {
-		if(onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.rightAction();
+		case TEXT:
+			return textInput.rightAction();
+		default:
+			return current.rightAction();
 		}
-		return current.rightAction();
 	}
 
 	@Override
 	public boolean leftAction() {
-		if(onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.leftAction();
+		case TEXT:
+			return textInput.leftAction();
+		default:
+			return current.leftAction();
 		}
-		return current.leftAction();
 	}
 
 	@Override
 	public boolean selectAction() {
-		if(onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.selectAction();
+		case TEXT:
+			return textInput.selectAction();
+		default:
+			return current.selectAction();
 		}
-		return current.selectAction();
 	}
 
 	@Override
@@ -350,24 +432,36 @@ class MainMenu implements Navigable {
 
 	@Override
 	public boolean continueAction() {
-		if(onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.continueAction();
+		case TEXT:
+			return textInput.continueAction();
+		default:
+			return current.continueAction();
 		}
-		return false;
 	}
-	
+
 	public boolean changeAction() {
-		if (onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.changeAction();
+		case TEXT:
+			return textInput.changeAction();
+		default:
+			return current.changeAction();
 		}
-		return false;
 	}
 
 	public boolean cancelAction() {
-		if (onWritting) {
+		switch (ui_InputState) {
+		case DOUBLE:
 			return doubleInput.cancelAction();
+		case TEXT:
+			return textInput.cancelAction();
+		default:
+			return current.cancelAction();
 		}
-		return false;
 	}
 
 	public void constructCamerabutton(Camera cam) {
@@ -382,6 +476,18 @@ class MainMenu implements Navigable {
 				editor.setCurrentMenu(new EntityEditor(MainMenu.this, cam, TypeEntites.ENTITY));
 			}
 		});
+	}
+
+	@Override
+	public boolean backAction() {
+		switch (ui_InputState) {
+		case DOUBLE:
+			return doubleInput.backAction();
+		case TEXT:
+			return textInput.backAction();
+		default:
+			return false;
+		}
 	}
 
 }
