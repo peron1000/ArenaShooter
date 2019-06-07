@@ -2,7 +2,6 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -22,7 +21,7 @@ public class StarBullet extends Projectile {
 
 		this.damage = damage;
 
-		Sprite sprite = new Sprite(new Vec2f(), "data/sprites/Star.png");
+		Sprite sprite = new Sprite(new Vec2f(), "data/sprites/star.png");
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
 		sprite.getTexture().setFilter(false);
 		sprite.attachToParent(this, "bul_Sprite");
