@@ -7,6 +7,7 @@ public class PostProcess {
 	private Shader shader;
 	public float vignetteIntensity = 1.4f;
 	public float chromaAbbIntensity = 0;
+	public float fadeToBlack = 0;
 
 	public PostProcess(String shader) {
 		this.shader = Shader.loadShader(shader);
@@ -21,6 +22,7 @@ public class PostProcess {
 		shader.bind();
 		shader.setUniformF("vignetteIntensity", vignetteIntensity);
 		shader.setUniformF("chromaAbbIntensity", chromaAbbIntensity);
+		shader.setUniformF("fadeToBlack", fadeToBlack);
 	}
 
 }

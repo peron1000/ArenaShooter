@@ -92,17 +92,19 @@ public class AnimIntro extends Arena{
 		//Fade out
 		double flashIntensity = 0.5;
 		HashMap<Double, Double> opacityMap = new HashMap<>();
-		opacityMap.put(9d, 1d);
-		opacityMap.put(10d, 0d);
-		opacityMap.put(10.95, 0d);
-		opacityMap.put(11.00, flashIntensity);
-		opacityMap.put(11.05, 0d);
-		opacityMap.put(11.10, flashIntensity);
-		opacityMap.put(11.15, 0d);
-		opacityMap.put(11.20, flashIntensity);
-		opacityMap.put(11.25, 0d);
-		opacityMap.put(11.30, flashIntensity);
-		opacityMap.put(11.40, 0d);
+		opacityMap.put(0d, 1d);
+		opacityMap.put(1.2d, 0d);
+//		opacityMap.put(9d, 1d);
+//		opacityMap.put(10d, 0d);
+//		opacityMap.put(10.95, 0d);
+//		opacityMap.put(11.00, flashIntensity);
+//		opacityMap.put(11.05, 0d);
+//		opacityMap.put(11.10, flashIntensity);
+//		opacityMap.put(11.15, 0d);
+//		opacityMap.put(11.20, flashIntensity);
+//		opacityMap.put(11.25, 0d);
+//		opacityMap.put(11.30, flashIntensity);
+//		opacityMap.put(11.40, 0d);
 		sceneOpacityA = new AnimTrackDouble(opacityMap, AnimInterpolation.LINEAR);
 		
 		//Logo
@@ -273,7 +275,8 @@ public class AnimIntro extends Arena{
 //		pressStart.localPosition.y = 325+Window.getCamera().getWorldPos().y;
 		
 		//Fade
-//		float opacity = sceneOpacityA.valueAt(time).floatValue();
+		float opacity = sceneOpacityA.valueAt(time).floatValue();
+		Window.postProcess.fadeToBlack = opacity;
 //		bg.material.setParamVec4f("baseColorMod", new Vec4f(opacity, opacity, opacity, 1.0));
 //		sky.setColors(Vec3f.lerp(new Vec3f(), skyBot, opacity), Vec3f.lerp(new Vec3f(), skyTop, opacity));
 		

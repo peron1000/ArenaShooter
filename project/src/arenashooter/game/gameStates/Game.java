@@ -225,6 +225,8 @@ public class Game extends GameState {
 					}
 				}
 				
+				Window.postProcess.fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
+				
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);

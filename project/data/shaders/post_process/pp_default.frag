@@ -9,6 +9,8 @@ uniform sampler2D sceneColor;
 uniform float chromaAbbIntensity = 0.0;
 uniform float vignetteIntensity = 1.4;
 
+uniform float fadeToBlack = 0.0;
+
 //Out
 layout(location = 0) out vec3 FragmentColor;
 
@@ -28,4 +30,6 @@ void main() {
 	float vignette = 1.0-(distToCenter*distToCenter*distToCenter*distToCenter*vignetteIntensity);
 	
 	FragmentColor = vec3(red, green, blue)*vec3(vignette);
+	
+	FragmentColor = mix( FragmentColor, vec3(0.0, 0.0, 0.0), fadeToBlack );
 }
