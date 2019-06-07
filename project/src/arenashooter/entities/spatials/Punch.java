@@ -39,7 +39,7 @@ public class Punch extends Spatial {
 		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
 		tex.setFilter(false);
 	}
-	
+
 	public Punch(DamageInfo dmgInfo, float hitWidth, float radius, boolean superPoing) {
 		this.dmgInfo = dmgInfo.clone();
 
@@ -54,12 +54,26 @@ public class Punch extends Spatial {
 	}
 
 	private void affect(Spatial target) {
-		Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), target.getWorldPos()));
-
-		float damage = (float) dmgInfo.damage;
-
-		DamageInfo dmg = new DamageInfo(damage, dmgInfo.dmgType, direction, dmgInfo.instigator);
-		target.takeDamage(dmg);
+		if (target instanceof Character) {//Pas forcément ouf de gérer ce cas ici TODO: DamageType Punch && SuperPunch
+			if (((Character) target).canParryThis(dmgInfo.direction.angle())) {
+				if (!superPoing) {
+					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 1f, (float) (0.90 + Math.random() * 0.2), target.getWorldPos());
+					if(getParent() instanceof Character) {
+						Character parent = (Character)getParent();
+						parent.stun(1);
+						Vec2f parentVel = parent.getBody().getLinearVelocity();
+						parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
+					}
+				} else {
+					Audio.playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f, (float) (0.90 + Math.random() * 0.2), target.getWorldPos());
+					target.takeDamage(dmgInfo);
+					((Character) target).stun(1);
+				}
+			} else {
+				target.takeDamage(dmgInfo);
+			}
+		} else
+			target.takeDamage(dmgInfo);
 	}
 
 	@Override
@@ -108,7 +122,8 @@ public class Punch extends Spatial {
 		raycastEnd.multiply(length);
 		raycastEnd.add(getWorldPos());
 
-		if(getArena() == null) return;
+		if (getArena() == null)
+			return;
 		getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
 	}
 
