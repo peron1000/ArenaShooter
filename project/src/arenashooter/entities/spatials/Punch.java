@@ -57,7 +57,7 @@ public class Punch extends Spatial {
 		if (target instanceof Character) {//Pas forcément ouf de gérer ce cas ici TODO: DamageType Punch && SuperPunch
 			if (((Character) target).canParryThis(dmgInfo.direction.angle())) {
 				if (!superPoing) {
-					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 1f, (float) (0.90 + Math.random() * 0.2), target.getWorldPos());
+					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 4f, (float) (0.90 + Math.random() * 0.2), target.getWorldPos());
 					if(getParent() instanceof Character) {
 						Character parent = (Character)getParent();
 						parent.stun(1);
