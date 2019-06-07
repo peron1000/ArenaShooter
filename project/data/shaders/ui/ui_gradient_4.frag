@@ -15,5 +15,5 @@ out vec4 FragmentColor;
 void main() {
     vec4 top = mix(colorA, colorB, texCoord.x);
     FragmentColor = mix(colorC, colorD, texCoord.x);
-    FragmentColor = mix(FragmentColor, top, texCoord.y);
+    FragmentColor = mix(top, FragmentColor, texCoord.y);
 }

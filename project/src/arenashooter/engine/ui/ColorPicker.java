@@ -13,7 +13,7 @@ import arenashooter.engine.ui.simpleElement.UiSimpleElementNavigable;
 public class ColorPicker extends UiElement {
 
 	private static final Vec2f defaultSize = new Vec2f(15, 10);
-	private UiImage background = new UiImage(0, defaultSize.clone(), new Vec4f(0.5, 0.5, 0.5, 0.3));
+	private UiImage background = new UiImage(0, defaultSize.clone(), new Vec4f(0, 0, 0, 0.8));
 	
 	private UiImage lumiSat, hueImg;
 	private Vec3f rgb = new Vec3f();
@@ -36,12 +36,12 @@ public class ColorPicker extends UiElement {
 		this.hasAlpha = hasAlpha;
 		
 		Material lumiSatMat = new Material("data/shaders/ui/ui_gradient_4");
-		lumiSat = new UiImage(0, new Vec2f(), lumiSatMat);
+		lumiSat = new UiImage(0, new Vec2f(9), lumiSatMat);
 		
-		lumiSat.setPosition(new Vec2f(-2.5, 0));
+		lumiSat.setPosition(-2.5, 0);
 		
 		hueImg = new UiImage(Math.PI/2, new Vec2f(10, 2), Texture.loadTexture("data/sprites/interface/hue.png"));
-		hueImg.setPosition(new Vec2f(10, 0));
+		hueImg.setPosition(10, 0);
 		
 		updateMaterials();
 	}
@@ -65,9 +65,15 @@ public class ColorPicker extends UiElement {
 
 	@Override
 	public void setPosition(Vec2f pos) {
-		Vec2f dif = Vec2f.subtract(pos, getPosition());
-		super.setPosition(pos);
-		actionOnAll(e -> e.setPosition(Vec2f.add(e.getPosition(), dif)));
+		setPosition(pos.x, pos.y);
+	}
+	
+	@Override
+	public void setPosition(double x, double y) {
+		super.setPosition(x, y);
+		background.setPosition(x, y);
+		hueImg.setPosition(x+10, y);
+		lumiSat.setPosition(x-2.5, y);
 	}
 
 	@Override
@@ -152,6 +158,10 @@ public class ColorPicker extends UiElement {
 	public void update(double delta) {
 		super.update(delta);
 		actionOnAll(e -> e.update(delta));
+		saturation = 1;
+		value = (float) ((Math.sin(System.currentTimeMillis()*.01)+1)*.5);
+		hue = (float) ((Math.cos(System.currentTimeMillis()*.001)+1)*.5);
+		updateMaterials();
 	}
 	
 	public Vec4f getColorRGBA() {
