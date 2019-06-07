@@ -163,29 +163,35 @@ public class Character extends RigidBodyContainer {
 
 	public void stun(double stunTime) {
 		if (stunned) {
-			stun.setMax(stun.getMax()+stunTime);
+			stun.setMax(stun.getMax() + stunTime);
 		} else {
 			stunned = true;
 			stun = new Timer(stunTime);
 			charged = false;
 			chargePunch.reset();
 		}
+		if (getWeapon() != null)
+			getWeapon().attackStop();
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 		skeleton.stunStart(stunTime);
 	}
 
 	public void attackStart() {
+		if (stunned)
+			return;
 		if (getWeapon() != null) {
 			getWeapon().attackStart();
-		} else if (attackCooldown.isOver()&&!stunned) {
+		} else if (attackCooldown.isOver()) {
 			chargePunch.setProcessing(true);
 		}
 	}
 
 	public void attackStop() {
+		if (stunned)
+			return;
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
-		} else if (chargePunch.isProcessing()&&!stunned) {
+		} else if (chargePunch.isProcessing()) {
 
 			boolean superPoing = chargePunch.isOver();
 			chargePunch.reset();
@@ -332,8 +338,8 @@ public class Character extends RigidBodyContainer {
 			death(info);
 			return health;
 		}
-		
-		if(info.dmgType == DamageType.MELEE) {
+
+		if (info.dmgType == DamageType.MELEE) {
 			charged = false;
 			chargePunch.reset();
 		}
