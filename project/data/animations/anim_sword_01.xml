@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE animation SYSTEM "animationDTD.dtd" >
-<animation length="0.4" loop="true">
+<animation length="0.4" loop="false">
+
+	<trackEvent>
+		<keyframeEvent time ="0.01">
+			<eventCustom data="startDamage" />
+		</keyframeEvent>
+		<keyframeEvent time ="3.99">
+			<eventCustom data="stopDamage" />
+		</keyframeEvent>
+	</trackEvent>
 
 	<trackVec2f name="rightPos" interpolation="cubic">
 		<keyframeVec2f time="0.0" x="0.0" y="0.0" />

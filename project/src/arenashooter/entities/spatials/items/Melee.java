@@ -59,10 +59,8 @@ public class Melee extends Usable {
 	@Override
 	public void attackStart() {
 		animMelee.attachToParent(this, "anim_attack_01");
+		animMelee.stopAnim();
 		animMelee.playAnim();
-		
-		//TODO: Remove this
-		startDamage();
 	}
 
 	@Override
@@ -71,9 +69,6 @@ public class Melee extends Usable {
 			((AnimMelee)getChild("anim_attack_01")).stopAnim();
 			getChild("anim_attack_01").detach();
 		}
-		
-		//TODO: Remove this
-		stopDamage();
 	} 
 
 	@Override
@@ -87,20 +82,23 @@ public class Melee extends Usable {
 		}
 	}
 	
-	private void startDamage() {
+	public void startDamage() {
 		dealingDamage = true;
 		lastBladeBot = null;
 		lastBladeTop = null;
 		damagedEntities.clear();
 	}
 	
-	private void stopDamage() {
+	public void stopDamage() {
 		dealingDamage = false;
 	}
 	
 	@Override
 	public void step(double d) {
 		super.step(d);
+		
+		if(!animMelee.isPlaying())
+			stopDamage();
 		
 		if(dealingDamage) {
 			if(lastBladeBot == null || lastBladeTop == null) {

@@ -1,8 +1,13 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.Queue;
+
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.IAnimated;
+import arenashooter.engine.animation.animevents.AnimEvent;
+import arenashooter.engine.animation.animevents.AnimEventCustom;
+import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
@@ -12,12 +17,12 @@ import arenashooter.entities.spatials.Sprite;
 public class AnimMelee extends Spatial implements IAnimated {
 
 	private Animation anim;
-	protected Item item = null;
+	protected Melee item = null;
 	protected Sprite sprite = null;
 
-	public AnimMelee(Vec2f position, Item item) {
+	public AnimMelee(Vec2f position, Melee item) {
 		super(position);
-		setAnim(new Animation(AnimationData.loadAnim("data/animations/animTest2.xml")));
+		setAnim(new Animation(AnimationData.loadAnim("data/animations/anim_sword_01.xml")));
 		this.item = item;
 		this.sprite = item.getSprite();
 		sprite.attachRot = false;
@@ -29,6 +34,19 @@ public class AnimMelee extends Spatial implements IAnimated {
 		super.step(d);
 
 		anim.step(d);
+		
+		Queue<AnimEvent> events = anim.getEvents();
+		AnimEvent current = events.peek();
+		while( (current = events.poll()) != null ) {
+			if(current instanceof AnimEventCustom) {
+				if(((AnimEventCustom)current).data.equals("startDamage"))
+					item.startDamage();
+				else if(((AnimEventCustom)current).data.equals("startDamage"))
+					item.stopDamage();
+			} else if(current instanceof AnimEventSound) {
+				((AnimEventSound) current).play(item.getWorldPos());
+			}
+		}
 
 		Character character = item.getCharacter();
 		if (character != null) {
@@ -53,6 +71,7 @@ public class AnimMelee extends Spatial implements IAnimated {
 	@Override
 	public void stopAnim() {
 		anim.stopPlaying();
+		anim.setTime(0);
 	}
 
 	public boolean isPlaying() {
