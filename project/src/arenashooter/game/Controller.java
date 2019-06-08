@@ -5,23 +5,19 @@ import java.io.File;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.Device;
-import arenashooter.engine.input.Input;
-import arenashooter.engine.input.Action;
-import arenashooter.engine.input.Axis;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.gameStates.Game;
 
-public class Controller {
-	/** Input device used by this controller */
-	private Device device;
+public abstract class Controller {
 	/** This controller's character information */
 	public CharacterInfo info;
+	
 	/** Currently possessed character */
 	private Character character;
+	
 	public int playerNumber;
+
 	public int team = 1;
 	boolean deadChar = false;
 
@@ -39,11 +35,8 @@ public class Controller {
 		return deadChar;
 	}
 
-	public Controller(Device device) {
-		this.device = device;
+	public Controller() {
 		info = new CharacterInfo(CharacterClass.Agile);
-
-		Main.log.info("Added controller for: " + Input.getDeviceInfo(device));
 	}
 
 	public Character createNewCharacter(Vec2f spawn) {
@@ -74,6 +67,10 @@ public class Controller {
 		return portrait;
 	}
 
+	/**
+	 * Event called by the controlled Character on death
+	 * @param deathCause
+	 */
 	public void death(DamageInfo deathCause) {
 		deadChar = true;
 
@@ -90,57 +87,15 @@ public class Controller {
 		character.controller = null;
 		character = null;
 	}
-
-	public void step(double d) {
-		if (character != null) {
-			if (!character.isDead()) {
-				character.movementInput = Input.getAxis(device, Axis.MOVE_X);
-				if (device == Device.KEYBOARD) {
-					Vec2f charPos = Vec2f.worldToScreen(character.getWorldPos());
-					charPos.y *= -1;
-
-					Vec2f mouseCentered = Vec2f.add(Input.mousePos,
-							new Vec2f(-Window.getWidth() / 2, -Window.getHeight() / 2));
-
-					character.aimInput = Vec2f.subtract(mouseCentered, charPos).angle();
-					character.isAiming = true;
-				} else {
-					character.aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y))
-							.angle();
-					character.isAiming = isAiming();
-				}
-
-				if (Input.actionJustPressed(device, Action.JUMP))
-					character.jump();
-				else if (Input.actionPressed(device, Action.JUMP)) {
-					character.planer();
-				} else if (character.jumpi) {
-					character.jumpStop();
-				}
-
-				if (Input.actionJustPressed(device, Action.PARRY)) {
-					character.parryStart();
-				} else if (Input.actionJustReleased(device, Action.PARRY)) {
-					character.parryStop();
-				} else if (Input.actionJustPressed(device, Action.ATTACK)) {
-					character.attackStart();
-				} else if (Input.actionJustReleased(device, Action.ATTACK))
-					character.attackStop();
-
-				if (Input.actionJustPressed(device, Action.GET_ITEM))
-					character.getItem();
-				if (Input.actionJustPressed(device, Action.DROP_ITEM))
-					character.throwItem();
-			} else
-				character.movementInput = 0;
-		}
+	
+	public void resetScore() {
+		roundsWon = 0;
+		deaths = 0;
+		kills = 0;
+		flagCatch = 0;
+		flagCapture = 0;
+		flagRetrieve = 0;
 	}
 
-	private boolean isAiming() {
-		return Math.abs(Input.getAxis(device, Axis.AIM_X)) > 0.3f || Math.abs(Input.getAxis(device, Axis.AIM_Y)) > 0.3f;
-	}
-
-	public Device getDevice() {
-		return device;
-	}
+	public abstract void step(double d);
 }

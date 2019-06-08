@@ -70,6 +70,7 @@ public class AnimIntro extends Arena{
 		cam.interpolate = false;
 		cam.attachToParent(this, "camera");
 		Window.setCamera(cam);
+		Window.postProcess.fadeToBlack = 1;
 		
 		HashMap<Double, Vec3f> vec3Map = new HashMap<>();
 		vec3Map.put(0.1, new Vec3f(0, -4, 50));

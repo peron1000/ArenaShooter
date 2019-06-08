@@ -22,6 +22,7 @@ import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Controller;
+import arenashooter.game.ControllerPlayer;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameParam;
@@ -158,7 +159,7 @@ public class CharacterChooser extends GameState {
 	}
 
 	private void addController(Device device) {
-		Controller newController = new Controller(device);
+		ControllerPlayer newController = new ControllerPlayer(device);
 		newController.playerNumber = pileOrdreJoueur.size();
 		controllers.put(device, newController);
 		pileOrdreJoueur.push(newController);
@@ -176,14 +177,13 @@ public class CharacterChooser extends GameState {
 				"Player_Number");
 
 		Main.log.info("CharacterSprite added at coordinates x = " + nextSpriteX);
-		Main.log.info("Player Number : " + controllers.get(device).playerNumber);
+		Main.log.info("Player Number : " + newController.playerNumber);
 
 		nextSpriteX += charOffset;
 		updatePlayersNumber();
 	}
 
 	private void removeController(Device device) {
-
 		Main.log.info("Before\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
@@ -198,19 +198,14 @@ public class CharacterChooser extends GameState {
 		updatePlayersNumber();
 		// i -= charOffset;
 
-		// replacement des persos après suppr
+		// Reposition sprites
 		for (Map.Entry<Controller, CharacterSprite> entry : sprites.entrySet()) {
-			Controller key = entry.getKey();
-			CharacterSprite value = entry.getValue();
-			// int j = i;
-			float jj = value.localPosition.x;
-			if (!key.getDevice().equals(Device.KEYBOARD)) {
-
-				if (jj > sp.localPosition.x) {
-					jj -= charOffset;
-					Vec2f pos = new Vec2f(jj, 0);
-					value.localPosition.set(pos);
-				}
+			CharacterSprite sprite = entry.getValue();
+//			float currentPos = sprite.localPosition.x;
+			if (sprite.localPosition.x > sp.localPosition.x) {
+//				currentPos -= charOffset;
+//				Vec2f pos = new Vec2f(currentPos, 0);
+				sprite.localPosition.x -= charOffset;
 			}
 		}
 		nextSpriteX -= charOffset;

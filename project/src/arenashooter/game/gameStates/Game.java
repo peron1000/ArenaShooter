@@ -85,11 +85,9 @@ public class Game extends GameState {
 			}
 		}
 		if (aliveChars <= 1) {
-			if (c != null) {
+			if (c != null)
 				c.roundsWon++;
-			}
 			oneLeft = true;
-
 		}
 	}
 
@@ -143,6 +141,7 @@ public class Game extends GameState {
 		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
+		Window.postProcess.fadeToBlack = 1;
 		endRound.reset();
 		chooseWinner.reset();
 		canPlay = false;

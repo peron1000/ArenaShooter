@@ -10,6 +10,7 @@ import arenashooter.engine.ui.Menu;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.Controller;
+import arenashooter.game.ControllerPlayer;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
@@ -84,8 +85,10 @@ public class Score extends GameState {
 			
 			if(controller.deaths > bestest.deaths)
 				bestest = controller;
+			
+			if(controller.roundsWon > bestest.roundsWon)
+				winner = controller;
 		}
-		winner = survivor; //Deathmatch
 		
 		///Winner
 		float x = -16.6666667f;
@@ -174,34 +177,37 @@ public class Score extends GameState {
 
 		// Detect controls
 		for (Controller controller : GameMaster.gm.controllers) {
-			if (Input.actionJustPressed(controller.getDevice(), Action.JUMP)) {
+			if(!(controller instanceof ControllerPlayer)) continue;
+			ControllerPlayer pc = (ControllerPlayer) controller;
+			
+			if (Input.actionJustPressed(pc.getDevice(), Action.JUMP)) {
 				Texture tex = Texture.loadTexture("data/sprites/interface/Button_A_Activated.png");
 				tex.setFilter(false);
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex, new Vec4f(1));
 				menu.addUiElement(but, 3);
 				but.setPosition(new Vec2f(-67, 41));
-			} else if (Input.actionJustReleased(controller.getDevice(), Action.JUMP)) {
+			} else if (Input.actionJustReleased(pc.getDevice(), Action.JUMP)) {
 				Object[] variable = GameParam.maps.toArray();
 				String[] chosenMaps = new String[variable.length];
 				for (int i = 0; i < variable.length; i++) {
 					chosenMaps[i] = (String) variable[i];
 				}
 				GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
-			} else if (Input.actionJustPressed(controller.getDevice(), Action.DROP_ITEM)) {
+			} else if (Input.actionJustPressed(pc.getDevice(), Action.DROP_ITEM)) {
 				Texture tex = Texture.loadTexture("data/sprites/interface/Button_Y_Activated.png");
 				tex.setFilter(false);
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex, new Vec4f(1));
 				menu.addUiElement(but, 3);
 				but.setPosition(new Vec2f(-30, 41));
-			} else if (Input.actionJustReleased(controller.getDevice(), Action.DROP_ITEM)) {
+			} else if (Input.actionJustReleased(pc.getDevice(), Action.DROP_ITEM)) {
 				GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
-			} else if (Input.actionJustPressed(controller.getDevice(), Action.UI_BACK)) {
+			} else if (Input.actionJustPressed(pc.getDevice(), Action.UI_BACK)) {
 				Texture tex = Texture.loadTexture("data/sprites/interface/Button_B_Activated.png");
 				tex.setFilter(false);
 				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex, new Vec4f(1));
 				menu.addUiElement(but, 3);
 				but.setPosition(new Vec2f(7, 41));
-			} else if (Input.actionJustReleased(controller.getDevice(), Action.UI_BACK)) {
+			} else if (Input.actionJustReleased(pc.getDevice(), Action.UI_BACK)) {
 				GameMaster.gm.requestNextState(new Start(), GameMaster.mapEmpty);
 			}
 		}

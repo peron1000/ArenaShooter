@@ -1,6 +1,7 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
@@ -12,7 +13,7 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
-import arenashooter.game.Controller;
+import arenashooter.game.ControllerPlayer;
 import arenashooter.game.GameMaster;
 
 public class Loading extends GameState {
@@ -39,9 +40,11 @@ public class Loading extends GameState {
 		entities.add(cam);
 		Window.setCamera(cam);
 
-		float startX = -(GameMaster.gm.controllers.size() * 1.28f) / 2f;
+		List<ControllerPlayer> players = GameMaster.gm.getPlayerControllers();
+		
+		float startX = -(players.size() * 1.28f) / 2f;
 		int i = 0;
-		for (Controller c : GameMaster.gm.controllers) {
+		for (ControllerPlayer c : players) {
 			float x = startX + (1.28f * i);
 
 			CharacterSprite sprite = new CharacterSprite(c.info);
@@ -50,14 +53,12 @@ public class Loading extends GameState {
 			entities.add(new LoadingFloor(new Vec2f(x, .9)));
 			i++;
 		}
-		if (GameMaster.gm.controllers.size() == 0) { // No controllers, just place a floor
-			entities.add(new LoadingFloor(new Vec2f(0, .9)));
-		}
-
-		for (Entity entity : entities) {
-			entity.attachToParent(current, entity.genName());
-		}
 		
+		if (players.size() == 0) // No controllers, just place a floor
+			entities.add(new LoadingFloor(new Vec2f(0, .9)));
+
+		for (Entity entity : entities)
+			entity.attachToParent(current, entity.genName());
 	}
 
 	/**

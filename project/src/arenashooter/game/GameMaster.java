@@ -1,6 +1,7 @@
 package arenashooter.game;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import arenashooter.engine.Profiler;
@@ -100,5 +101,14 @@ public class GameMaster {
 	public void update(double delta) {
 		inputs.step(delta);
 		current.update(delta);
+	}
+	
+	public List<ControllerPlayer> getPlayerControllers() {
+		List<ControllerPlayer> res = new ArrayList<>();
+		for(Controller c : controllers) {
+			if(c instanceof ControllerPlayer)
+				res.add((ControllerPlayer)c);
+		}
+		return res;
 	}
 }
