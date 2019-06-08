@@ -34,12 +34,12 @@ public class Main {
 		ConfigManager.init();
 		Audio.init();
 		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), "Super Blep");
-		Window.setResScale(ConfigManager.getFloat("resScale"));
-		Window.setVsync(true);
 		
 		gameMaster = GameMaster.gm;
 		
 		font = Font.loadFont("data/fonts/liberation_sans.fnt");
+		
+		ConfigManager.applyAllSettings();
 		
 		long currentFrame;
 		long lastFrame = System.currentTimeMillis()-8;
