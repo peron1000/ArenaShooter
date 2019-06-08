@@ -5,7 +5,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class GunXml extends AbstractElement {
+/*
+ * 
+ * 		<gun name="Minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
+				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				soundWarmup="warmup_minigun_01" bangSound="Bang1"
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
 
+				<vecteur use="handPosL" x="-.8" y="-.1" />
+				<vecteur use="handPosR" x="0" y="-.28" />
+			</gun>
+ * 
+ * */
 	private String name = "";
 	private int weight = 0;
 	private String pathSprite = "";
@@ -25,10 +38,13 @@ public class GunXml extends AbstractElement {
 	private double recoil = 0;
 	private double thrust = 0;
 	private int proba = 0;
-	
-	private float xpos = 0f;
-	private float ypos = 0f;
-	
+
+
+	private float xpos1 = -.8f;
+	private float ypos1 = -.1f;
+	private float xpos2 = 0f;
+	private float ypos2 = -0.28f;
+	private String handl ="handPosL",handr="handPosR";
 	private Element gun;
 
 	public GunXml(Document doc, Element elementParent) {
@@ -64,7 +80,7 @@ public class GunXml extends AbstractElement {
 		animPath.setValue(this.animPath + "");
 		gun.setAttributeNode(animPath);
 		
-		Attr warmup = doc.createAttribute("warmup");
+		Attr warmup = doc.createAttribute("warmupDuration");
 		warmup.setValue(this.warmup + "");
 		gun.setAttributeNode(warmup);
 		
@@ -72,7 +88,7 @@ public class GunXml extends AbstractElement {
 		soundWarmup.setValue(this.soundWarmup + "");
 		gun.setAttributeNode(soundWarmup);
 		
-		Attr attackSound = doc.createAttribute("attackSound");
+		Attr attackSound = doc.createAttribute("bangSound");
 		attackSound.setValue(this.attackSound + "");
 		gun.setAttributeNode(attackSound);
 		
@@ -108,12 +124,18 @@ public class GunXml extends AbstractElement {
 		thrust.setValue(this.thrust + "");
 		gun.setAttributeNode(thrust);
 		
+		Attr size1 = doc.createAttribute("size");
+		size1.setValue(this.size + "");
+		gun.setAttributeNode(size1);
+		
+		
 		Attr proba = doc.createAttribute("proba");
 		proba.setValue(this.proba + "");
 		gun.setAttributeNode(proba);
 		
 		VecteurXml vecteurGun = new VecteurXml(doc, gun);
-		vecteurGun.addVecteur("", xpos , ypos);
+		vecteurGun.addVecteur(handl, xpos1 , ypos1);
+		vecteurGun.addVecteur(handr, xpos2 , ypos2);
 		for (Element e : vecteurGun.getVecteurs()) {
 			gun.appendChild(e);
 		}
@@ -252,18 +274,55 @@ public class GunXml extends AbstractElement {
 		this.proba = proba;
 	}
 
+
+
 	/**
-	 * @param xpos the xpos to set
+	 * @param xpos1 the xpos1 to set
 	 */
-	public void setXpos(float xpos) {
-		this.xpos = xpos;
+	public void setXpos1(float xpos1) {
+		this.xpos1 = xpos1;
 	}
 
 	/**
-	 * @param ypos the ypos to set
+	 * @param ypos1 the ypos1 to set
 	 */
-	public void setYpos(float ypos) {
-		this.ypos = ypos;
+	public void setYpos1(float ypos1) {
+		this.ypos1 = ypos1;
+	}
+
+	/**
+	 * @param xpos2 the xpos2 to set
+	 */
+	public void setXpos2(float xpos2) {
+		this.xpos2 = xpos2;
+	}
+
+	/**
+	 * @param ypos2 the ypos2 to set
+	 */
+	public void setYpos2(float ypos2) {
+		this.ypos2 = ypos2;
+	}
+
+	/**
+	 * @param handl the handl to set
+	 */
+	public void setHandl(String handl) {
+		this.handl = handl;
+	}
+
+	/**
+	 * @param handr the handr to set
+	 */
+	public void setHandr(String handr) {
+		this.handr = handr;
+	}
+
+	/**
+	 * @param gun the gun to set
+	 */
+	public void setGun(Element gun) {
+		this.gun = gun;
 	}
 
 	@Override
