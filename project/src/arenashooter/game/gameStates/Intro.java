@@ -10,6 +10,9 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.input.ActionState;
 import arenashooter.game.GameMaster;
 
+/**
+ * Intro movie
+ */
 public class Intro extends GameState {
 	private InputListener inputs = new InputListener();
 
@@ -29,7 +32,6 @@ public class Intro extends GameState {
 					case UI_CONTINUE:
 						bgm.destroy();
 						GameMaster.gm.requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
-						//GameMaster.gm.requestNextState(new Config(), "data/mapXML/menu_empty.xml");
 						break;
 					default:
 						break;

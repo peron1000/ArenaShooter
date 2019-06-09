@@ -53,8 +53,8 @@ public class GameMaster {
 			current = Loading.loading.getNextState();
 		} else {
 			if (current instanceof Start) { // Start
-			} else if (current instanceof CharacterChooser) { // Character chooser
 			} else if (current instanceof Intro) { // Intro movie
+			} else if (current instanceof CharacterChooser) { // Character chooser
 			} else if(current instanceof Config) {
 			} else if(current instanceof Game) {
 			} else if(current instanceof Score) {

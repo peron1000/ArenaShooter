@@ -65,7 +65,7 @@ public class Loading extends GameState {
 	 * Set loading target
 	 * 
 	 * @param next
-	 * @param mapPath
+	 * @param mapPath list of maps to load
 	 */
 	public void setNextState(GameState next, String... mapPath) {
 		if(mapPath.length < next.maps.length) {
