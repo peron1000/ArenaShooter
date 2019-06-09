@@ -123,7 +123,7 @@ public class MenuStart extends GameState {
 						menustart.getTarget().selectAction();
 						break;
 					case UI_BACK:
-						GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_empty.xml");
+						GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
 						break;
 
 					default:

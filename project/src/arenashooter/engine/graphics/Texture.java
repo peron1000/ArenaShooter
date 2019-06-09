@@ -128,8 +128,9 @@ public class Texture {
 	/**
 	 * Set filtering on this texture (nearest or linear)
 	 * @param val enable linear filtering
+	 * @return <i>this</i>
 	 */
-	public void setFilter(boolean val) {
+	public Texture setFilter(boolean val) {
 		glBindTexture(GL_TEXTURE_2D, id);
 		if(val) {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -138,6 +139,7 @@ public class Texture {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		}
+		return this;
 	}
 	
 	//

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animation SYSTEM "animationDTD.dtd" >
+<animation length="15.0" loop="false">
+
+	<trackEvent>
+		<keyframeEvent time ="4.0">
+			<eventSound path ="data/sound/slap.ogg" channel = "SFX" volume = ".45" pitch = "1" localized = "false" />
+		</keyframeEvent>
+	</trackEvent>
+	
+	<trackD name="fadeToBlack">
+		<keyframeD time="0" value="1"/>
+		<keyframeD time="1.6" value="0"/>
+	</trackD>
+	
+	<trackVec3f name="cam_pos" interpolation="linear">
+		<keyframeVec3f time="0.1" x="0" y="-4" z="50" />
+		<keyframeVec3f time="4.0" x="0" y="-1.25" z="21" />
+		<keyframeVec3f time="5.2" x="0" y="-1.25" z="21" />
+		<keyframeVec3f time="9.0" x="0" y="-7.3" z="18" />
+		<keyframeVec3f time="10.0" x="0" y="-7.3" z="18" />
+		<keyframeVec3f time="11.0" x="0" y="-7.4" z="9.9" />
+	</trackVec3f>
+	
+	<trackT name="logo_tex"> 
+		<keyframeT time="0" value = "data/sprites/intro/logo_no_blood.png" />
+		<keyframeT time="11" value = "data/logo.png" />
+	</trackT>
+	<trackD name="logo_opacity" interpolation="linear">
+		<keyframeD time="9" value="0"/>
+		<keyframeD time="10" value="1"/>
+	</trackD>
+	<trackVec3f name="logo_pos" interpolation="linear">
+		<keyframeVec3f time="10.0" x="-.05" y="-7.45" z="9" />
+		<keyframeVec3f time="11.0" x="-.07" y="-7.5" z="8" />
+	</trackVec3f>
+	<trackD name="logo_rot" interpolation="linear">
+		<keyframeD time="10" value="25.13274122872"/>
+		<keyframeD time="11" value="0"/>
+	</trackD>
+	<trackVec3f name="logo_scale" interpolation="linear">
+		<keyframeVec3f time="10.0" x="2" y="2" z="1" />
+		<keyframeVec3f time="11.0" x="2.3" y="2.3" z="1" />
+	</trackVec3f>
+	
+	<trackD name="text_version_thickness" interpolation="linear">
+		<keyframeD time="11" value="0.00" />
+		<keyframeD time="12" value="0.25" />
+	</trackD>
+	
+	<trackT name="cat_tex"> 
+		<keyframeT time="0.0" value = "data/sprites/intro/cat_01.png" />
+		<keyframeT time="0.5" value = "data/sprites/intro/cat_02.png" />
+		<keyframeT time="1.0" value = "data/sprites/intro/cat_01.png" />
+		<keyframeT time="1.5" value = "data/sprites/intro/cat_02.png" />
+		<keyframeT time="2.0" value = "data/sprites/intro/cat_01.png" />
+		<keyframeT time="2.5" value = "data/sprites/intro/cat_02.png" />
+		<keyframeT time="3.0" value = "data/sprites/intro/cat_01.png" />
+		<keyframeT time="3.5" value = "data/sprites/intro/cat_02.png" />
+		<keyframeT time="4.0" value = "data/sprites/intro/cat_03.png" />
+	</trackT>
+	<trackVec3f name="cat_pos" interpolation="linear">
+		<keyframeVec3f time="4.0" x="-1" y="-1" z="16.01"/>
+		<keyframeVec3f time="6.0" x="-1.2" y="-.5" z="16.01"/>
+	</trackVec3f>
+	
+	<trackT name="fox_tex"> 
+		<keyframeT time="0.00" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="0.25" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="0.50" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="0.75" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="1.00" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="1.25" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="1.50" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="1.75" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="2.00" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="2.25" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="2.50" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="2.75" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="3.00" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="3.25" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="3.50" value = "data/sprites/intro/fox_01.png" />
+		<keyframeT time="3.75" value = "data/sprites/intro/fox_02.png" />
+		<keyframeT time="3.8" value = "data/sprites/intro/fox_03.png" />
+	</trackT>
+	<trackVec3f name="fox_pos" interpolation="linear">
+		<keyframeVec3f time="3.8" x="1" y="-1" z="15.99"/>
+		<keyframeVec3f time="4.0" x=".4" y="-1.25" z="15.99"/>
+	</trackVec3f>
+	<trackVec3f name="fox_scale" interpolation="linear">
+		<keyframeVec3f time="3.79999" x="1.5" y="1.5" z="1"/>
+		<keyframeVec3f time="3.8" x="3" y="1.5" z="1"/>
+	</trackVec3f>
+
+	<trackT name="crowd_tex"> 
+		<keyframeT time="0.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="0.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="1.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="1.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="2.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="2.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="3.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="3.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="4.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="4.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="5.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="5.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="6.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="6.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="7.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="7.5" value = "data/sprites/intro/crowd_01_02.png" />
+		<keyframeT time="8.0" value = "data/sprites/intro/crowd_01_01.png" />
+		<keyframeT time="8.5" value = "data/sprites/intro/crowd_01_02.png" />
+	</trackT>
+
+</animation>
