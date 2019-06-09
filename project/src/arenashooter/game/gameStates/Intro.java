@@ -1,10 +1,7 @@
 package arenashooter.game.gameStates;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Queue;
 
-import arenashooter.engine.animation.AnimIntro;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
@@ -15,6 +12,7 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
@@ -23,9 +21,6 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.entities.Arena;
-import arenashooter.entities.Entity;
-import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
@@ -76,19 +71,42 @@ public class Intro extends GameState {
 		getCamera().setFOV(55);
 		getCamera().interpolate = false;
 		
-		Arena intro = new AnimIntro();
-		@SuppressWarnings("unchecked")
-		HashMap<String, Entity> entities = (HashMap<String, Entity>) intro.getChildren().clone();
-		for(Entry<String, Entity> entry : entities.entrySet()) {
-			if( !(entry.getValue() instanceof Sky) ) 
-				entry.getValue().attachToParent(current, entry.getKey());
-		}
-		
 		///Fill map with intro-specific stuff TODO: De-harcode this
+		//Logo
+		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
+		logo.useTransparency = true;
+		logo.attachToParent(current, "logo");
+		
+		//Version text
+		Text txt = new Text(Main.font, TextAlignH.LEFT, "v"+Main.version);
+		TextSpatial versionText = new TextSpatial(new Vec3f(.65, .61, 0), new Vec3f(1f), txt);
+		versionText.attachToParent(logo, "textVersion");
+		versionText.setColor(new Vec4f(.35, .35, .35, 1));
+		
 		//PRESS START text
-		Text txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
+		txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
 		TextSpatial pressStart = new TextSpatial(new Vec3f(0, .75, -2), new Vec3f(1.5f), txt);
 		pressStart.attachToParent(getCamera(), "textPressStart");
+		
+		//Fox
+		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
+		fox.scale = new Vec3f(1.5f);
+		fox.attachToParent(current, "fox");
+		
+		//Cat
+		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
+		cat.scale = new Vec3f(1.5f);
+		cat.attachToParent(current, "cat");
+		
+		//Crowds
+		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd.attachToParent(current, "crowd_01");
+		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd.attachToParent(current, "crowd_02");
+		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd.attachToParent(current, "crowd_03");
+		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), new Material("data/shaders/sprite_simple"));
+		crowd.attachToParent(current, "crowd_04");
 		
 		bgm.play();
 		anim.play();
