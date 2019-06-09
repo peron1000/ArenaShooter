@@ -59,6 +59,7 @@ public final class Window {
 	private static GLFWVidMode vidmode;
 	private static int width, height;
 	private static float ratio;
+	private static boolean fullscreen = false;
 	
 	/** Current Window state is Transparency */
 	private static boolean stateTransparency = false;
@@ -107,7 +108,7 @@ public final class Window {
 	 * @param windowHeight
 	 * @param windowTtitle
 	 */
-	public static void init(int windowWidth, int windowHeight, String windowTtitle) {
+	public static void init(int windowWidth, int windowHeight, boolean fullscreen, String windowTtitle) {
 		log.info("Initializing");
 		
 		callbackError = GLFWErrorCallback.createPrint(System.err);
@@ -148,7 +149,7 @@ public final class Window {
 		GL.createCapabilities();
 		
 		//Set window size, create projection matrix, create framebuffers etc
-		resize(windowWidth, windowHeight);
+		resize(windowWidth, windowHeight, fullscreen);
 		
 		//Center window
 		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
@@ -330,26 +331,43 @@ public final class Window {
 	public static float getResScale() { return resolutionScale; }
 	
 	public static void setResScale(float newScale) {
-		resolutionScale = newScale;
+		resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
 		resize(width, height);
 	}
-	
+
 	/**
 	 * Change the window size
 	 * @param newWidth
 	 * @param newHeight
 	 */
 	public static void resize(int newWidth, int newHeight) {
+		Window.resize(newWidth, newHeight, fullscreen);
+	}
+	
+	/**
+	 * Change the window size
+	 * @param newWidth
+	 * @param newHeight
+	 * @param fullscreen
+	 */
+	public static void resize(int newWidth, int newHeight, boolean fullscreen) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
 		
-		resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
-		resX = (int)(width*resolutionScale);
-		resY = (int)(height*resolutionScale);
+		Window.fullscreen = fullscreen;
+		
+		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		
+		if(fullscreen)
+			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
+		else
+			glfwSetWindowSize(window, width, height);
 		
 		ratio = (float)width/(float)height;
 		
-		glfwSetWindowSize(window, width, height);
+		resX = (int)(width*resolutionScale);
+		resY = (int)(height*resolutionScale);
+		
 		glViewport(0, 0, resX, resY);
 
 		//Update framebuffers
@@ -413,9 +431,7 @@ public final class Window {
 	/**
 	 * Get screen aspect ratio (width/height)
 	 */
-	public static float getRatio() {
-		return ratio;
-	}
+	public static float getRatio() { return ratio; }
 	
 	/**
 	 * Set the camera's field of view

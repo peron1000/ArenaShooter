@@ -48,6 +48,7 @@ public class ConfigManager {
 		defaults.setProperty("fullscreen", "false");
 		defaults.setProperty("resScale", "1");
 		defaults.setProperty("vsync", "true");
+		defaults.setProperty("fullscreen", "false");
 		
 		defaults.setProperty("volumeMain", "1");
 		defaults.setProperty("volumeSFX", "1");
@@ -115,6 +116,7 @@ public class ConfigManager {
 		Window.resize(getInt("resX"), getInt("resY"));
 		Window.setResScale(getFloat("resScale"));
 		Window.setVsync(getBool("vsync"));
+		Window.setVsync(getBool("fullscreen"));
 		
 		//Audio
 		Audio.setMainVolume(getFloat("volumeMain"));

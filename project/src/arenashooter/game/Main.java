@@ -8,7 +8,6 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
-import arenashooter.engine.math.Utils;
 
 public class Main {
 	private static final int minFrametimeMilli = 8;
@@ -33,7 +32,7 @@ public class Main {
 		
 		ConfigManager.init();
 		Audio.init();
-		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), "Super Blep");
+		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), "Super Blep");
 		
 		gameMaster = GameMaster.gm;
 		
@@ -47,30 +46,33 @@ public class Main {
 		int fpsFrames = 0;
 		long fpsTime = lastFrame;
 		
+		double remaining = 0;
+		
 		while( !Window.requestClose() && !requestclose) {
 			
 			currentFrame = System.currentTimeMillis();
 			
 			//Limit delta to avoid errors
 //			double delta = Math.max(tickLength, (double)(currentFrame-lastFrame)/1000d);
-			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, tickLength, .17);
+//			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, tickLength, .17);
+			remaining += Math.min( (double)(currentFrame-lastFrame)/1000d, .17 );
 			
 			Profiler.beginFrame();
 			
 			//If delta is too high, break down step into sub-steps
 			Profiler.startTimer(Profiler.STEP);
-			double remaining = delta;
+
 			while(remaining > tickLength) {
 				Window.beginFrame();
 				gameMaster.update(tickLength);
 				Profiler.subSteps++;
 				remaining -= tickLength;
 			}
-			if(remaining > 0) {
-				Window.beginFrame();
-				gameMaster.update(remaining);
-				Profiler.subSteps++;
-			}
+//			if(remaining > 0) {
+//				Window.beginFrame();
+//				gameMaster.update(remaining);
+//				Profiler.subSteps++;
+//			}
 			Profiler.endTimer(Profiler.STEP);
 			
 			Profiler.startTimer(Profiler.RENDER);
