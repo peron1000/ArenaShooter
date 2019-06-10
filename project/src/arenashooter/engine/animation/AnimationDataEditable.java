@@ -27,7 +27,8 @@ public class AnimationDataEditable {
 	public AnimationDataEditable(AnimationData source) {
 		length = source.length;
 		loop = source.loop;
-//		trackEvents = source.eventTrack.extractData();
+		
+		trackEvents = source.eventTrack.extractData();
 		
 		tracksD = new HashMap<>();
 		for(Entry<String, AnimTrackDouble> track : source.tracksD.entrySet())

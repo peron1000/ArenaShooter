@@ -208,32 +208,5 @@ public class Model {
 	//Memory management
 	//
 	
-	/**
-	 * Remove unused models from memory
-	 */
-//	public static void cleanModels() { //TODO: Support multiple models per file
-//		Window.log.info("Cleaning models memory...");
-//		
-//		ArrayList<String> toRemove = new ArrayList<String>(0);
-//		
-//		Model.unbind();
-//		
-//		for ( ModelEntry entry : ModelEntry.values() ) {
-//		    if( entry.model.get() == null ) { //Model has been garbage collected
-//		    	toRemove.add(entry.file);
-//
-//		    	//destroy vao
-//				glDeleteVertexArrays(entry.vao);
-//				
-//				//destroy vbos
-//				glDeleteBuffers(entry.vbo);
-//				glDeleteBuffers(entry.indexVBO);
-//		    }
-//		}
-//		
-//		for( String s : toRemove )
-//			models.remove(s);
-//		
-//		Window.log.info("Cleaned up "+toRemove.size()+" models");
-//	}
+
 }
