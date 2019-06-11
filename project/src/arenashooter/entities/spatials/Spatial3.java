@@ -19,11 +19,11 @@ public class Spatial3 extends Entity {
 	/** World space position */
 	private Vec3f worldPosition = new Vec3f();
 	/** World space parent rotation */
-	private Quat parentRotation = Quat.fromAngle(0);
+	private Quat parentRotation = new Quat();
 	/** Local space rotation */
-	public Quat localRotation = Quat.fromAngle(0);
+	public Quat localRotation = new Quat();
 	/** World space rotation */
-	private Quat worldRotation = Quat.fromAngle(0);
+	private Quat worldRotation = new Quat();
 	private Vec3f editorLocalRotation = new Vec3f();
 	
 	public Spatial3() {

@@ -108,15 +108,23 @@ class EmitterBasic extends Emitter {
 		
 		model.bind();
 		
+		Vec3f pos = new Vec3f(0, 0, owner.position.z);
+		Quat rot = new Quat();
+		Vec3f scale = new Vec3f(1);
+		Mat4f modelM = new Mat4f();
+		
 		for( int i=0; i<positions.size(); i++ ) {
 			float lifetime = lives.get(i)/livesTotal.get(i);
 			
 			float size = Utils.lerpF(sizeEnd, sizeInitial, lifetime);
 			
-			Vec3f pos = new Vec3f( positions.get(i).x, positions.get(i).y, owner.position.z );
-			Quat rot = Quat.fromAngle(rotations.get(i));
-			Vec3f scale = new Vec3f( size, size, 1 );
-			Mat4f modelM = Mat4f.transform(pos, rot, scale);
+			pos.x = positions.get(i).x;
+			pos.y = positions.get(i).y;
+			Quat.fromAngle(rotations.get(i), rot);
+			scale.x = size;
+			scale.y = size;
+//			Mat4f.transform(pos, rot, scale, modelM);
+			modelM = Mat4f.transform(pos, rot, scale); //TODO: replace this to avoid creating a new matrix
 			
 			shader.setUniformM4("model", modelM);
 			

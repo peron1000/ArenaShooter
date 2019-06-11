@@ -100,13 +100,21 @@ class EmitterSparks extends Emitter {
 		
 		model.bind();
 		
+		Vec3f pos = new Vec3f(0, 0, owner.position.z);
+		Quat rot = new Quat();
+		Vec3f scale = new Vec3f(1);
+		Mat4f modelM = new Mat4f();
+		
 		for( int i=0; i<positions.size(); i++ ) {
 			float lifetime = lives.get(i)/livesTotal.get(i);
-			
-			Vec3f pos = new Vec3f( positions.get(i).x, positions.get(i).y, owner.position.z );
-			Quat rot = Quat.fromAngle( velocities.get(i).angle() );
-			Vec3f scale = new Vec3f( 160*lifetime, 35*lifetime, 1 );
-			Mat4f modelM = Mat4f.transform(pos, rot, scale);
+
+			pos.x = positions.get(i).x;
+			pos.y = positions.get(i).y;
+			Quat.fromAngle(velocities.get(i).angle(), rot);
+			scale.x = lifetime*160;
+			scale.y = lifetime*35;
+//			Mat4f.transform(pos, rot, scale, modelM);
+			modelM = Mat4f.transform(pos, rot, scale); //TODO: replace this to avoid creating a new matrix
 			
 			shader.setUniformM4("model", modelM);
 			

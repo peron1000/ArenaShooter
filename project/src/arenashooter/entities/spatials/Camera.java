@@ -26,7 +26,7 @@ public class Camera extends Spatial3 {
 	
 	public Camera(Vec3f position) {
 		super(position);
-		viewMatrix = Mat4f.viewMatrix(getWorldPos(), localRotation);
+		Mat4f.viewMatrix(getWorldPos(), localRotation, viewMatrix);
 		this.targetLoc = localPosition.clone();
 	}
 	
@@ -44,7 +44,7 @@ public class Camera extends Spatial3 {
 			localPosition.y = Utils.lerpF( localPosition.y, targetLoc.y, Math.min(1, 15*d) );
 			localPosition.z = Utils.lerpF( localPosition.z, targetLoc.z, Math.min(1, 20*d) );
 		}
-		viewMatrix = Mat4f.viewMatrix(new Vec3f(getWorldPos().x+shakeX, getWorldPos().y+shakeY, getWorldPos().z+shakeZ), localRotation);
+		Mat4f.viewMatrix(new Vec3f(getWorldPos().x+shakeX, getWorldPos().y+shakeY, getWorldPos().z+shakeZ), localRotation, viewMatrix);
 		
 		super.step(d);
 	}

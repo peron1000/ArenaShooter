@@ -40,15 +40,6 @@ public class Quat {
 	}
 	
 	/**
-	 * Create a quaternion from a 2d rotation
-	 * @param angle
-	 * @return new Quat containing the result
-	 */
-	public static Quat fromAngle( double angle ) {
-		return fromAngle(angle, new Quat());
-	}
-	
-	/**
 	 * Target becomes a new Quat corresponding to an angle
 	 * <br/> Avoids object creation
 	 * @param angle 
@@ -292,16 +283,6 @@ public class Quat {
 		res.w = (float) (q.w/len);
 		
 		return res;
-	}
-	
-	/**
-	 * Multiply two Quats
-	 * @param q1
-	 * @param q2
-	 * @return result as new object
-	 */
-	public static Quat multiply(Quat q1, Quat q2) {
-		return multiply(q1, q1, new Quat());
 	}
 	
 	/**

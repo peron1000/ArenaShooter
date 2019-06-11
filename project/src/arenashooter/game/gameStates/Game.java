@@ -189,7 +189,7 @@ public class Game extends GameState {
 				getCamera().center(players, current.cameraBasePos, d);
 				Audio.setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
 			} else
-				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
+				Audio.setListener(new Vec3f(), new Quat());
 
 			// Update controllers
 			for (Controller controller1 : GameMaster.gm.controllers)
@@ -204,7 +204,7 @@ public class Game extends GameState {
 				Audio.setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
 				getCamera().step(d);
 			} else
-				Audio.setListener(new Vec3f(), Quat.fromAngle(0));
+				Audio.setListener(new Vec3f(), new Quat());
 
 			if (!startCounter.isPlaying()) {
 				counterImage.setScale(0, 0);

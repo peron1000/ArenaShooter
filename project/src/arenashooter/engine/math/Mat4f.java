@@ -272,14 +272,15 @@ public class Mat4f {
 	 * Create a view matrix
 	 * @param loc
 	 * @param rot
-	 * @return
+	 * @param target
+	 * @return <i>target</i> (modified)
 	 */
-	public static Mat4f viewMatrix(Vec3f loc, Quat rot) {
-		Mat4f res = identity();
-		res.val[3][0] = -loc.x;
-		res.val[3][1] = -loc.y;
-		res.val[3][2] = -loc.z;
-		return mul(rotation(Quat.conjugate(rot)), res, res);
+	public static Mat4f viewMatrix(Vec3f loc, Quat rot, Mat4f target) {
+		target.setToIdentity();
+		target.val[3][0] = -loc.x;
+		target.val[3][1] = -loc.y;
+		target.val[3][2] = -loc.z;
+		return mul(rotation(Quat.conjugate(rot)), target, target);
 	}
 	
 	/**
