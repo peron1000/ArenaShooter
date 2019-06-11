@@ -42,6 +42,7 @@ public class CharacterSprite extends Spatial {
 	public boolean charged = false;
 	public boolean canParry = true;
 
+	private boolean mirrorLeftFoot = false;
 	private boolean handLOnWeap = false, handROnWeap = false;
 
 	private AnimationData punchAnim1 = AnimationData.loadAnim("data/animations/animPunch_1.xml");
@@ -100,6 +101,7 @@ public class CharacterSprite extends Spatial {
 		footL.getTexture().setFilter(false);
 		footL.attachToParent(this, "footL");
 		footL.zIndex = 1;
+		footL.flipX = charInfo.mirrorLeftFoot();
 		footR.size = new Vec2f(footR.getTexture().getWidth() * .052, footR.getTexture().getHeight() * .052);
 		footR.getTexture().setFilter(false);
 		footR.attachToParent(this, "footR");

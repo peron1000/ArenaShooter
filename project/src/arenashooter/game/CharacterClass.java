@@ -7,6 +7,7 @@ public enum CharacterClass {
 	Aqua ("poisson_01", "manchot_01", "manchot_02");
 	
 	private String[] skins;
+	private boolean mirrorLeftFoot = false;
 
 	private CharacterClass (String... skins) {
 		this.skins = skins;

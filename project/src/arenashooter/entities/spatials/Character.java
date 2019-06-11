@@ -174,8 +174,10 @@ public class Character extends RigidBodyContainer {
 		}
 		if (getWeapon() != null)
 			getWeapon().attackStop();
+		parryStop();
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 		skeleton.stunStart(stunTime);
+		skeleton.stopCharge();
 	}
 
 	public void attackStart(boolean justPressed) {
@@ -204,11 +206,11 @@ public class Character extends RigidBodyContainer {
 			DamageInfo punchDmgInfo;
 
 			if (superPoing) {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
-				punchDmgInfo = new DamageInfo(defaultDamage * 2, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12), 0), aimInput);
+				punchDmgInfo = new DamageInfo((float)(defaultDamage*1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 				skeleton.punch(-1, aimInput);
 			} else {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12), 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 				attackCombo++;
 				if (skeleton != null)
