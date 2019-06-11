@@ -231,18 +231,6 @@
 			</entities>
 		</static>
 
-		<!-- <rigid> -->
-		<!-- <vecteur x="0" y="-10" use="position" /> -->
-		<!-- <vecteur x="5" y="0.25" use="extent" /> -->
-		<!-- <entities> -->
-		<!-- <mesh src="data/meshes/catwalk/catwalk_10.obj"> -->
-		<!-- <vecteur use="position" x="0" y="0" z="0" /> -->
-		<!-- <vecteur use="rotation" x="0" y="0" z="0" /> -->
-		<!-- <vecteur use="scale" x="1" y="1" z="1" /> -->
-		<!-- </mesh> -->
-		<!-- </entities> -->
-		<!-- </rigid> -->
-
 		<static>
 			<vecteur x="70" y="-1" use="position" />
 			<vecteur x="20" y="0.25" use="extent" />
@@ -443,8 +431,7 @@
 			<vecteur use="scale" x="9.5" y="9.5" z="9.5" />
 			<entities>
 				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
-					<!-- <vecteur use="position" x="-300" y="1200" z="0" /> -->
-					<vecteur use="position" x="212" y="135" z="-615" />
+					<vecteur use="position" x="-20" y="-143" z="0" />
 					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="9.5" y="9.5" z="9.5" />
 				</mesh>

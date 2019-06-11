@@ -512,7 +512,7 @@ public class MapXmlReader extends XmlReader {
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", text);
 		for (Element entities : entitiess) {
-			loadEntities(entities, parent);
+			loadEntities(entities, spatial);
 		}
 	}
 	
@@ -571,7 +571,7 @@ public class MapXmlReader extends XmlReader {
 		//Load children
 		List<Element> children = getListElementByName("entities", spawn);
 		for (Element entities : children)
-			loadEntities(entities, parent);
+			loadEntities(entities, spawner);
 	}
 
 	private void loadMesh(Element mesh, Entity parent) {
@@ -617,7 +617,7 @@ public class MapXmlReader extends XmlReader {
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", mesh);
 		for (Element entities : entitiess) {
-			loadEntities(entities, parent);
+			loadEntities(entities, m);
 		}
 	}
 
