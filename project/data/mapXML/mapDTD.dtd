@@ -3,12 +3,12 @@
 <!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
-<!ELEMENT information (spawn+ , gravity , cameraPos, killBounds , sky)>
-<!ELEMENT spawn (vecteur,(usable | gun | melee |shotgun| usabletimer)*,entities?)>
-<!ATTLIST spawn spawnperso (false|true) "true"
-		        cooldown CDATA #REQUIRED>
+<!ELEMENT information (item* , gravity , cameraPos, killBounds , sky)>
 
-<!ELEMENT gravity (vecteur)>
+<!ELEMENT item (usable|gun|melee|shotgun|usabletimer)>
+
+<!ELEMENT gravity EMPTY>
+<!ATTLIST gravity x CDATA #REQUIRED y CDATA #REQUIRED>
 <!ELEMENT cameraPos EMPTY>
 <!ATTLIST cameraPos x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED>
 <!ELEMENT killBounds EMPTY>
@@ -16,9 +16,13 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|rigid|mesh|text|static|kinematic|jointPin)*>
+<!ELEMENT entities (entity|spawn|rigid|mesh|text|static|kinematic|jointPin)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
+<!ELEMENT spawn (vecteur, itemRef*,entities?)>
+<!ATTLIST spawn playerSpawn (false|true) "true" cooldown CDATA #REQUIRED>
+<!ELEMENT itemRef EMPTY>
+<!ATTLIST itemRef item CDATA #REQUIRED proba CDATA #REQUIRED>
 <!ELEMENT mesh (vecteur, vecteur, vecteur, entities?)>
 <!ATTLIST mesh name CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>
@@ -62,8 +66,7 @@
 				 animPath CDATA #REQUIRED
 				 warmupDuration CDATA #REQUIRED
 				 soundWarmup CDATA #REQUIRED
-				 bangSound CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 bangSound CDATA #REQUIRED>
 				 
 <!ELEMENT gun (vecteur, vecteur , entities?)>
 <!ATTLIST gun	
@@ -84,8 +87,7 @@
 				 cannonLength CDATA #REQUIRED
 				 recoil CDATA #REQUIRED
 				 thrust CDATA #REQUIRED
-				 size CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 size CDATA #REQUIRED>
 
 <!ELEMENT melee (vecteur, vecteur, entities?)>
 <!ATTLIST melee 
@@ -100,8 +102,7 @@
 				 soundWarmup CDATA #REQUIRED
 				 bangSound CDATA #REQUIRED
 				 damage CDATA #REQUIRED
-				 size CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 size CDATA #REQUIRED>
 				 
 <!ELEMENT usabletimer (vecteur, vecteur, entities?)>
 <!ATTLIST usabletimer
@@ -115,8 +116,7 @@
 				 warmupDuration CDATA #REQUIRED
 				 soundWarmup CDATA #REQUIRED
 				 bangSound CDATA #REQUIRED
-				 size CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
+				 size CDATA #REQUIRED>
 				 
 <!ELEMENT shotgun (vecteur, vecteur , entities?)>
 <!ATTLIST shotgun	
@@ -139,8 +139,5 @@
 				 thrust CDATA #REQUIRED
 				 size CDATA #REQUIRED
 				 multiShot CDATA #REQUIRED
-				 dispersion CDATA #REQUIRED
-				 proba CDATA #REQUIRED>
-	
-				
+				 dispersion CDATA #REQUIRED>
 

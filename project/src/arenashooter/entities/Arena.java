@@ -1,6 +1,9 @@
 package arenashooter.entities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.math.Vec2f;
@@ -11,15 +14,16 @@ import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.Main;
 
 public class Arena extends Entity {
-	/** All spawn points (items and characters) */
-	public ArrayList<Vec2f> spawn;
 	/** Character spawn points */
-	public ArrayList<Vec2f> spawnperso;
+	public List<Vec2f> playerSpawns = new ArrayList<>();
 	
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
 
 	public PhysicWorld physic;
+	
+	/** Map of all items available to item spawners */
+	public Map<String, Item> spawnList = new HashMap<>();
 	
 	/** Character spawns that have been used */
 	public ArrayList<Vec2f> usedSpawns = new ArrayList<>();
@@ -37,6 +41,15 @@ public class Arena extends Entity {
 
 	public Arena() {
 		physic = new PhysicWorld(this);
+	}
+	
+	/**
+	 * Get this Arena
+	 * @return this
+	 */
+	@Override
+	public Arena getArena() {
+		return this;
 	}
 
 	@Override
@@ -86,14 +99,14 @@ public class Arena extends Entity {
 		Vec2f randi = new Vec2f();
 
 		try {
-			int rand = ThreadLocalRandom.current().nextInt(0,spawnperso.size());
+			int rand = ThreadLocalRandom.current().nextInt(0,playerSpawns.size());
 
-			randi = spawnperso.get(rand);
+			randi = playerSpawns.get(rand);
 			int max = 100;
 			int etapes = 0;
 			while (usedSpawns.contains(randi) && etapes < max) {
-				rand = ThreadLocalRandom.current().nextInt(spawnperso.size());
-				randi = spawnperso.get(rand);
+				rand = ThreadLocalRandom.current().nextInt(playerSpawns.size());
+				randi = playerSpawns.get(rand);
 				etapes++;
 			}
 		} catch (Exception e) {

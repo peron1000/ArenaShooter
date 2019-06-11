@@ -135,14 +135,11 @@ public class Entity implements Editable {
 	}
 
 	/**
-	 * @return Arena containing this entity or self if this is the Arena
+	 * @return Arena containing this entity
 	 */
 	public Arena getArena() { //TODO: test
 		if(!arenaDirty && arena != null) return arena;
 		
-		if (this instanceof Arena)
-			arena = (Arena)this;
-
 		Entity current = parent;
 		while (current != null && !(current instanceof Arena))
 			current = current.parent;

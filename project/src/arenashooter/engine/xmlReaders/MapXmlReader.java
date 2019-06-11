@@ -97,80 +97,35 @@ public class MapXmlReader extends XmlReader {
 		loadSky(getFirstElementByName("sky", information), map);
 		loadCameraBasePos(getFirstElementByName("cameraPos", information), map);
 		loadKillBounds(getFirstElementByName("killBounds", information), map);
-
-		// Load spawns
-		List<Element> listSpawn = getListElementByName("spawn", information);
-		for (Element element : listSpawn)
-			loadSpawns(element, map);
-		
-		map.spawn = spawner;
-		map.spawnperso = spawnerChars;
+		loadItems(information, map);
 	}
-
-	private void loadSpawns(Element spawn, Arena map) {
-
-		XmlVector vec = loadVecteur(getFirstElementByName("vecteur", spawn));
-		double cooldown = 0;
-		Boolean spawnperso = true;
-
-		if (spawn.hasAttribute("cooldown")) {
-			cooldown = Double.parseDouble(spawn.getAttribute("cooldown"));
-		} else {
-			System.err.println("Pas d'attribut cooldown");
-		}
-		Vec2f position = new Vec2f(vec.x, vec.y);
-		Spawner spawner = new Spawner(position, cooldown);
-		if (spawn.hasAttribute("spawnperso")) {
-			spawnperso = Boolean.parseBoolean(spawn.getAttribute("spawnperso"));
+	
+	private void loadItems(Element parent, Arena arena) {
+		List<Element> itemNodes = getListElementByName("item", parent);
+		for(Element elem : itemNodes) {
+			List<Element> elems = getListElementByName("usable", elem);
+			for(Element item : elems)
+				loadUsable(item, arena);
 			
-		}	
-			if(spawnperso) {
-				this.spawnerChars.add(position);
-				this.spawner.add(position);
-			}
-		 else {
-			this.spawner.add(position);
+			elems = getListElementByName("gun", elem);
+			for(Element item : elems)
+				loadGun(item, arena);
+			
+			elems = getListElementByName("shotgun", elem);
+			for(Element item : elems)
+				loadShotgun(item, arena);
+			
+			elems = getListElementByName("melee", elem);
+			for(Element item : elems)
+				loadMelee(item, arena);
+			
+			elems = getListElementByName("usableTimee", elem);
+			for(Element item : elems)
+				loadUsableTimer(item, arena);
 		}
-		// Usables
-		List<Element> usables = getListElementByName("usable", spawn);
-		for (Element usable : usables) {
-			loadUsable(usable, spawner, position);
-		}
-
-		// Guns
-		List<Element> guns = getListElementByName("gun", spawn);
-		for (Element gun : guns) {
-			loadGun(gun, spawner, position);
-		}
-
-		// shotguns
-		List<Element> shotguns = getListElementByName("shotgun", spawn);
-		for (Element shotgun : shotguns) {
-			loadShotGun(shotgun, spawner, position);
-		}
-
-		// Melee
-		List<Element> melees = getListElementByName("melee", spawn);
-		for (Element melee : melees) {
-			loadMelee(melee, spawner, position);
-		}
-
-		// UsableTimers
-		List<Element> usableTimers = getListElementByName("usabletimer", spawn);
-		for (Element usableTimer : usableTimers) {
-			loadUsableTimers(usableTimer, spawner, position);
-		}
-
-		// Entities
-		List<Element> entitiess = getListElementByName("entities", spawn);
-		for (Element entities : entitiess) {
-			loadEntities(entities, spawner);
-		}
-
-		spawner.attachToParent(map, spawner.genName());
 	}
 
-	private void loadUsableTimers(Element usableTimer, Spawner spawner, Vec2f position) {
+	private void loadUsableTimer(Element usableTimer, Arena arena) {
 		// Attributs
 		String name = usableTimer.getAttribute("name");
 		int weight = Integer.parseInt(usableTimer.getAttribute("weight"));
@@ -198,16 +153,16 @@ public class MapXmlReader extends XmlReader {
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
 			default:
-				System.err.println("Use érroné");
+				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		UsableTimer u = new UsableTimer(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown,
+		UsableTimer item = new UsableTimer(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown,
 				duration, animPath, warmup, soundWarmup, soundAttack);
-		spawner.addItem(u, Integer.parseInt(usableTimer.getAttribute("proba")));
+		arena.spawnList.put(name, item);
 	}
 
-	private void loadMelee(Element melee, Spawner spawner, Vec2f position) {
+	private void loadMelee(Element melee, Arena arena) {
 		// Attributs
 		String name = melee.getAttribute("name");
 		int weight = Integer.parseInt(melee.getAttribute("weight"));
@@ -237,16 +192,17 @@ public class MapXmlReader extends XmlReader {
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
 			default:
-				System.err.println("Use érroné");
+				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		Melee u = new Melee(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
+		
+		Melee item = new Melee(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
 				animPath, warmup, soundWarmup, attackSound, damage, size);
-		spawner.addItem(u, Integer.parseInt(melee.getAttribute("proba")));
+		arena.spawnList.put(name, item);
 	}
 
-	private void loadGun(Element gun, Spawner spawner, Vec2f position) {
+	private void loadGun(Element gun, Arena arena) {
 		// Attributs
 		String name = gun.getAttribute("name");
 		int weight = Integer.parseInt(gun.getAttribute("weight"));
@@ -282,17 +238,18 @@ public class MapXmlReader extends XmlReader {
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
 			default:
-				System.err.println("Use érroné");
+				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		Gun u = new Gun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
+		
+		Gun item = new Gun(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmup, soundWarmup, soundAttack, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil,
 				thrust, size);
-		spawner.addItem(u, Integer.parseInt(gun.getAttribute("proba")));
+		arena.spawnList.put(name, item);
 	}
 
-	private void loadShotGun(Element shotgun, Spawner spawner, Vec2f position) {
+	private void loadShotgun(Element shotgun, Arena arena) {
 		// Attributs
 		String name = shotgun.getAttribute("name");
 		int weight = Integer.parseInt(shotgun.getAttribute("weight"));
@@ -330,17 +287,17 @@ public class MapXmlReader extends XmlReader {
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
 			default:
-				System.err.println("Use érroné");
+				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		Shotgun u = new Shotgun(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
+		Shotgun item = new Shotgun(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
 				animPath, warmup, soundWarmup, soundAttack, soundNoAmmo, multiShot, dispersion, bulletType, bulletSpeed,
 				damage, cannonLength, recoil, thrust, size);
-		spawner.addItem(u, Integer.parseInt(shotgun.getAttribute("proba")));
+		arena.spawnList.put(name, item);
 	}
 
-	private void loadUsable(Element usable, Spawner spawner, Vec2f position) {
+	private void loadUsable(Element usable, Arena arena) {
 		// Attributs
 		String name = usable.getAttribute("name");
 		int weight = Integer.parseInt(usable.getAttribute("weight"));
@@ -368,13 +325,13 @@ public class MapXmlReader extends XmlReader {
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
 			default:
-				System.err.println("Use érroné");
+				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		Usable u = new Usable(position, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
+		Usable item = new Usable(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
 				animPath, warmup, soundWarmup, soundAttack);
-		spawner.addItem(u, Integer.parseInt(usable.getAttribute("proba")));
+		arena.spawnList.put(name, item);
 	}
 
 	private XmlVector loadVecteur(Element vecteur) {
@@ -386,22 +343,22 @@ public class MapXmlReader extends XmlReader {
 		if (killBounds.hasAttribute("minX")) {
 			minX = Double.parseDouble(killBounds.getAttribute("minX"));
 		} else {
-			System.err.println("Missing min X value in kill bounds");
+			log.error("Missing min X value in kill bounds");
 		}
 		if (killBounds.hasAttribute("minY")) {
 			minY = Double.parseDouble(killBounds.getAttribute("minY"));
 		} else {
-			System.err.println("Missing min Y value in kill bounds");
+			log.error("Missing min Y value in kill bounds");
 		}
 		if (killBounds.hasAttribute("maxX")) {
 			maxX = Double.parseDouble(killBounds.getAttribute("maxX"));
 		} else {
-			System.err.println("Missing max X value in kill bounds");
+			log.error("Missing max X value in kill bounds");
 		}
 		if (killBounds.hasAttribute("maxY")) {
 			maxY = Double.parseDouble(killBounds.getAttribute("maxY"));
 		} else {
-			System.err.println("Missing max Y value in kill bounds");
+			log.error("Missing max Y value in kill bounds");
 		}
 		map.killBound.set(minX, minY, maxX, maxY);
 	}
@@ -411,17 +368,17 @@ public class MapXmlReader extends XmlReader {
 		if (cameraPos.hasAttribute("x")) {
 			x = Double.parseDouble(cameraPos.getAttribute("x"));
 		} else {
-			System.err.println("Missing x coordinate in camera base position");
+			log.error("Missing x coordinate in camera base position");
 		}
 		if (cameraPos.hasAttribute("y")) {
 			y = Double.parseDouble(cameraPos.getAttribute("y"));
 		} else {
-			System.err.println("Missing y coordinate in camera base position");
+			log.error("Missing y coordinate in camera base position");
 		}
 		if (cameraPos.hasAttribute("z")) {
 			z = Double.parseDouble(cameraPos.getAttribute("z"));
 		} else {
-			System.err.println("Missing z coordinate in camera base position");
+			log.error("Missing z coordinate in camera base position");
 		}
 		map.cameraBasePos.set(x, y, z);
 	}
@@ -431,7 +388,7 @@ public class MapXmlReader extends XmlReader {
 		Vec3f top = new Vec3f(), bottom = new Vec3f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Balise Sky dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
+			log.error("Balise Sky dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVector vec = loadVecteur(vecteur);
@@ -444,7 +401,7 @@ public class MapXmlReader extends XmlReader {
 					break;
 
 				default:
-					System.err.println("Sky mal dÃ©fini");
+					log.error("Sky mal dÃ©fini");
 					break;
 				}
 			}
@@ -455,45 +412,61 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadGravity(Element gravity, Arena map) {
-		XmlVector vec = new XmlVector(getFirstElementByName("vecteur", gravity));
-		map.gravity = new Vec2f(vec.x, vec.y);
+		float x = 0;
+		if(gravity.hasAttribute("x"))
+			x = Float.parseFloat(gravity.getAttribute("x"));
+		else
+			log.error("Missing x coordinate in gravity vector");
+
+		float y = 9.807f;
+		if(gravity.hasAttribute("y"))
+			y = Float.parseFloat(gravity.getAttribute("y"));
+		else
+			log.error("Missing y coordinate in gravity vector");
+		
+		map.gravity = new Vec2f(x, y);
 	}
 
 	private void loadEntities(Element entities, Entity parent) {
 		// Entity
-		List<Element> entitys = getListElementByName("entity", entities);
-		for (Element entity : entitys)
+		List<Element> elems = getListElementByName("entity", entities);
+		for (Element entity : elems)
 			loadEntity(entity, parent);
+		
+		//Spawner
+		elems = getListElementByName("spawn", entities);
+		for(Element entity : elems)
+			loadSpawn(entity, parent);
 
 		// Rigid Bodies
-		List<Element> rigids = getListElementByName("rigid", entities);
-		for (Element rigid : rigids)
+		elems = getListElementByName("rigid", entities);
+		for (Element rigid : elems)
 			loadRigid(rigid, parent);
 
 		// Kinematic bodies
-		List<Element> kinematics = getListElementByName("kinematic", entities);
-		for (Element body : kinematics)
+		elems = getListElementByName("kinematic", entities);
+		for (Element body : elems)
 			loadKinematicBody(body, parent);
 
 		// Static bodies
-		List<Element> statics = getListElementByName("static", entities);
-		for (Element body : statics)
+		elems = getListElementByName("static", entities);
+		for (Element body : elems)
 			loadStaticBody(body, parent);
 
 		// Mesh
-		List<Element> meshs = getListElementByName("mesh", entities);
-		for (Element mesh : meshs)
+		elems = getListElementByName("mesh", entities);
+		for (Element mesh : elems)
 			loadMesh(mesh, parent);
 
 		// Text
-		List<Element> texts = getListElementByName("text", entities);
-		for (Element text : texts)
+		elems = getListElementByName("text", entities);
+		for (Element text : elems)
 			loadText(text, parent);
 		
 		//Physic joints loaded at last
 		// JointPin
-		List<Element> jointPins = getListElementByName("jointPin", entities);
-		for (Element pin : jointPins)
+		elems = getListElementByName("jointPin", entities);
+		for (Element pin : elems)
 			loadJointPin(pin, parent);
 	}
 
@@ -504,7 +477,7 @@ public class MapXmlReader extends XmlReader {
 		Vec3f scale = new Vec3f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Text element needs " + nbVec + " vectors");
+			log.error("Text element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVector vec = loadVecteur(vecteur);
@@ -517,7 +490,7 @@ public class MapXmlReader extends XmlReader {
 					break;
 
 				default:
-					System.err.println("Invalid vector in Text element");
+					log.error("Invalid vector in Text element");
 					break;
 				}
 			}
@@ -542,6 +515,64 @@ public class MapXmlReader extends XmlReader {
 			loadEntities(entities, parent);
 		}
 	}
+	
+	private void loadSpawn(Element spawn, Entity parent) {
+		//Position
+		List<Element> vecteurs = getListElementByName("vecteur", spawn);
+		Vec2f position = new Vec2f();
+		if (vecteurs.size() != 1) {
+			log.error("Spawn element needs a position vector");
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVector vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec2f(vec.x, vec.y);
+					break;
+				default:
+					log.error("Invalid vector in Spawn element");
+					break;
+				}
+			}
+		}
+		
+		//Cooldown
+		double cooldown = 5;
+		if (spawn.hasAttribute("cooldown")) {
+			cooldown = Double.parseDouble(spawn.getAttribute("cooldown"));
+		} else {
+			log.error("Pas d'attribut cooldown");
+		}
+		
+		//Spawner
+		Spawner spawner = new Spawner(position, cooldown);
+
+		if(spawn.hasAttribute("name"))
+			spawner.attachToParent(parent, spawn.getAttribute("name"));
+		else
+			spawner.attachToParent(parent, spawner.genName());
+
+		//Add this spawn to the arena's list if needed
+		boolean playerSpawn = true;
+		if(spawn.hasAttribute("playerSpawn"))
+			playerSpawn = Boolean.parseBoolean(spawn.getAttribute("playerSpawn"));
+		if(playerSpawn) {
+			if(parent.getArena() != null)
+				parent.getArena().playerSpawns.add(spawner.getWorldPos());
+			else
+				log.error("Cannot create a player spawn: spawn's parent cannot access its containing Arena");
+		}
+		
+		//Load items
+		List<Element> items = getListElementByName("itemRef", spawn);
+		for(Element item : items)
+			spawner.addItem(item.getAttribute("item"), Integer.parseInt(item.getAttribute("proba")));
+		
+		//Load children
+		List<Element> children = getListElementByName("entities", spawn);
+		for (Element entities : children)
+			loadEntities(entities, parent);
+	}
 
 	private void loadMesh(Element mesh, Entity parent) {
 		Loading.loading.getMap().step(0);
@@ -551,7 +582,7 @@ public class MapXmlReader extends XmlReader {
 		Quat rotation = new Quat();
 		int nbVec = 3;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("Mesh element needs " + nbVec + " vectors [src="
+			log.error("Mesh element needs " + nbVec + " vectors [src="
 					+ mesh.getAttribute("src") + "]");
 			System.out.println(vecteurs.size());
 		} else {
@@ -568,7 +599,7 @@ public class MapXmlReader extends XmlReader {
 					rotation = readRotation(vecteur);
 					break;
 				default:
-					System.err.println("Invalid vector in Mesh element");
+					log.error("Invalid vector in Mesh element");
 					break;
 				}
 			}
@@ -596,7 +627,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("RigidBody element needs " + nbVec + " vectors");
+			log.error("RigidBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVector vec = loadVecteur(vecteur);
@@ -608,7 +639,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Invalid vector in RigidBody element");
+					log.error("Invalid vector in RigidBody element");
 					break;
 				}
 			}
@@ -639,17 +670,16 @@ public class MapXmlReader extends XmlReader {
 			body = new RigidBody(new ShapeBox(extent), position, rotation, flags, density, friction);
 
 		// Rigid
-		RigidBodyContainer p = new RigidBodyContainer(body);
-		if (rigid.hasAttribute("name")) {
-			p.attachToParent(parent, rigid.getAttribute("name"));
-		} else {
-			p.attachToParent(parent, p.genName());
-		}
+		RigidBodyContainer container = new RigidBodyContainer(body);
+		if (rigid.hasAttribute("name"))
+			container.attachToParent(parent, rigid.getAttribute("name"));
+		else
+			container.attachToParent(parent, container.genName());
 
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", rigid);
 		for (Element entities : entitiess) {
-			loadEntities(entities, p);
+			loadEntities(entities, container);
 		}
 	}
 
@@ -659,7 +689,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("StaticBody element needs " + nbVec + " vectors");
+			log.error("StaticBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVector vec = loadVecteur(vecteur);
@@ -671,7 +701,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Invalid vector in StaticBody element");
+					log.error("Invalid vector in StaticBody element");
 					break;
 				}
 			}
@@ -683,18 +713,18 @@ public class MapXmlReader extends XmlReader {
 			rotation = Double.parseDouble(entity.getAttribute("rotation"));
 
 		// Create entity
-		StaticBodyContainer e = new StaticBodyContainer(position, extent, rotation);
+		StaticBodyContainer container = new StaticBodyContainer(position, extent, rotation);
 
 		// Attach new entity
 		if (entity.hasAttribute("name"))
-			e.attachToParent(parent, entity.getAttribute("name"));
+			container.attachToParent(parent, entity.getAttribute("name"));
 		else
-			e.attachToParent(parent, e.genName());
+			container.attachToParent(parent, container.genName());
 
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", entity);
 		for (Element entities : entitiess)
-			loadEntities(entities, e);
+			loadEntities(entities, container);
 	}
 	
 	private void loadKinematicBody(Element entity, Entity parent) { // TODO: Add support for circular kinematic bodies
@@ -703,7 +733,7 @@ public class MapXmlReader extends XmlReader {
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
 		if (vecteurs.size() != nbVec) {
-			System.err.println("KinematicBody element needs " + nbVec + " vectors");
+			log.error("KinematicBody element needs " + nbVec + " vectors");
 		} else {
 			for (Element vecteur : vecteurs) {
 				XmlVector vec = loadVecteur(vecteur);
@@ -715,7 +745,7 @@ public class MapXmlReader extends XmlReader {
 					extent = new Vec2f(vec.x, vec.y);
 					break;
 				default:
-					System.err.println("Invalid vector in KinematicBody element");
+					log.error("Invalid vector in KinematicBody element");
 					break;
 				}
 			}
@@ -729,26 +759,26 @@ public class MapXmlReader extends XmlReader {
 		KinematicBody body = new KinematicBody(new ShapeBox(extent), position, rotation, CollisionFlags.ARENA_KINEMATIC, 1);
 		
 		// Create entity
-		KinematicBodyContainer e = new KinematicBodyContainer(body);
+		KinematicBodyContainer container = new KinematicBodyContainer(body);
 
 		// Attach new entity
 		if (entity.hasAttribute("name"))
-			e.attachToParent(parent, entity.getAttribute("name"));
+			container.attachToParent(parent, entity.getAttribute("name"));
 		else
-			e.attachToParent(parent, e.genName());
+			container.attachToParent(parent, container.genName());
 		
 		//Load animation
 		if(entity.hasAttribute("animation")) {
 			AnimationData animData = AnimationData.loadAnim(entity.getAttribute("animation"));
-			e.ignoreKillBounds = true;
-			e.setAnim(new Animation(animData));
-			e.playAnim();
+			container.ignoreKillBounds = true;
+			container.setAnim(new Animation(animData));
+			container.playAnim();
 		}
 
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", entity);
 		for (Element entities : entitiess)
-			loadEntities(entities, e);
+			loadEntities(entities, container);
 	}
 
 	private void loadEntity(Element entity, Entity parent) {
@@ -806,7 +836,7 @@ public class MapXmlReader extends XmlReader {
 		List<Element> vectors = getListElementByName("vecteur", joint);
 		Vec2f anchorA = new Vec2f(), anchorB = new Vec2f(), angleLimit = null;
 		if (vectors.size() < 2 || vectors.size() > 3) {
-			System.err.println("JointPin element needs 2 or 3 vectors");
+			log.error("JointPin element needs 2 or 3 vectors");
 		} else {
 			for (Element vecteur : vectors) {
 				XmlVector vec = loadVecteur(vecteur);

@@ -1,19 +1,20 @@
 package arenashooter.entities.spatials;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.util.Tuple;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 
 public class Spawner extends Spatial {
 	/** Spawn timer */
 	private Timer timerWarmup = null;
-	/** List of all items available in this spawner, linked to their probability */
-	private List<Tuple<Item, Integer>> itemList = new ArrayList<>();
+	/** Map of all items available in this spawner, linked to their probability */
+	private Map<String, Integer> availableItems = new HashMap<>();
 	/** Sum of probabilities */
 	private double probaTotal = 0;
 	/** Last spawned item */
@@ -43,18 +44,21 @@ public class Spawner extends Spatial {
 	 * @param item
 	 * @param proba
 	 */
-	public void addItem(Item item, int proba) {
-		Tuple<Item, Integer> tuple = new Tuple<Item, Integer>(item, proba);
-		itemList.add(tuple);
-		probaTotal += tuple.y;
+	public void addItem(String item, int proba) {
+		if(availableItems.containsKey(item))
+			Main.log.warn("Item \""+item+"\" is already present in spawner");
+		availableItems.put(item, proba);
+		probaTotal += proba;
 	}
 
 	/**
 	 * Spawn a random item and reset timer
 	 */
 	private void spawnItem() {
-		if (!itemList.isEmpty()) {
-			Item itemToSpawn = getRandomItem().clone();
+		if(!availableItems.isEmpty()) {
+			Item itemToSpawn = getRandomItem();
+			if(itemToSpawn == null) return;
+			itemToSpawn = itemToSpawn.clone();
 			//Set item position
 			itemToSpawn.localPosition.set(getWorldPos());
 			//Slight rotation
@@ -71,15 +75,21 @@ public class Spawner extends Spatial {
 	 * @return random item to spawn based on their probabilities
 	 */
 	private Item getRandomItem() {
+		if(getArena() == null) return null;
+		
 		double random = Math.random() * probaTotal;
 		double counter = 0;
 		Item chosenOne = null;
-		for (Tuple<Item, Integer> tuple : itemList) {
-			counter += tuple.y;
+		String itemName = "";
+		for(Entry<String, Integer> entry : availableItems.entrySet()) {
+			counter += entry.getValue();
 			if (chosenOne == null && counter >= random) {
-				chosenOne = tuple.x;
+				itemName = entry.getKey();
+				chosenOne = getArena().spawnList.get(itemName);
 			}
 		}
+		if(chosenOne == null)
+			Main.log.error("Trying to spawn an invalid item: \""+itemName+"\"");
 		return chosenOne;
 	}
 

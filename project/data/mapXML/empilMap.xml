@@ -2,293 +2,78 @@
 <!DOCTYPE map SYSTEM "mapDTD.dtd" >
 <map>
 	<information>
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="-5" y="-12" />
-		</spawn>
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="-15" y="-12" />
-		</spawn>
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="5" y="-12" />
-		</spawn>
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="15" y="-12" />
-		</spawn>
-		
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="-5" y="-30" />
-			<gun name="Minigun" weight="43"
+		<item>
+			<gun name="minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
 				soundWarmup="warmup_minigun_01" bangSound="Bang1"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64">
 
 				<vecteur use="handPosL" x="-.8" y="-.1" />
 				<vecteur use="handPosR" x="0" y="-.28" />
 			</gun>
+		</item>
+		<item>
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
+				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64">
 
 				<vecteur use="handPosL" x="-.32" y=".15" />
 				<vecteur use="handPosR" x=".25" y=".05" />
 			</gun>
+		</item>
+		<item>
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
 				soundWarmup="IonCharge3" bangSound="BangIonGun"
 				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
-				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64">
 
 				<vecteur use="handPosL" x="-.32" y=".2" />
 				<vecteur use="handPosR" x=".3" y=".1" />
 			</gun>
+		</item>
+		<item>
 			<shotgun name="shotgun" weight="100"
 				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
 				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
 				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
-				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
-				proba="1">
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2">
 
 				<vecteur use="handPosL" x="-.65" y=".15" />
 				<vecteur use="handPosR" x=".067" y=".125" />
 			</shotgun>
-			<gun name="StarGun" weight="43"
+		</item>
+		<item>
+			<gun name="stargun" weight="43"
 				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
 				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
 				soundWarmup="wabada" bangSound="ni"
 				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
-				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
+				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64">
 
 				<vecteur use="handPosL" x="-0.4" y="-.1" />
 				<vecteur use="handPosR" x="-0.6" y=".2" />
 			</gun>
-			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
-					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x=".75" y=".75" z=".75" />
-				</mesh>
-			</entities>
-		</spawn>
-
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="15" y="-30" />
-			<gun name="Minigun" weight="43"
-				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
-				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01" bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.8" y="-.1" />
-				<vecteur use="handPosR" x="0" y="-.28" />
-			</gun>
-			<gun name="assault" weight="43"
-				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
-				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
-				soundWarmup="" bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.32" y=".15" />
-				<vecteur use="handPosR" x=".25" y=".05" />
-			</gun>
-			<gun name="ion" weight="50"
-				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
-				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
-				soundWarmup="IonCharge3" bangSound="BangIonGun"
-				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
-				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.32" y=".3" />
-				<vecteur use="handPosR" x=".3" y=".1" />
-			</gun>
-			<shotgun name="shotgun" weight="100"
-				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
-				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
-				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
-				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
-				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
-				proba="1">
-
-				<vecteur use="handPosL" x="-.65" y=".15" />
-				<vecteur use="handPosR" x=".067" y=".125" />
-			</shotgun>
-			<gun name="StarGun" weight="43"
-				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
-				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
-				soundWarmup="wabada" bangSound="ni"
-				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
-				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-0.4" y="-.1" />
-				<vecteur use="handPosR" x="-0.6" y=".2" />
-			</gun>
+		</item>
+		<item>
 			<melee name="kata" weight="5"
 				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
 				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
+				soundWarmup="" damage="3" bangSound="woosh_01" size="2">
 
 				<vecteur use="handPosL" x="-50" y="0" />
 				<vecteur use="handPosR" x="0" y="0" />
 			</melee>
-			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
-					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x=".75" y=".75" z=".75" />
-				</mesh>
-			</entities>
-		</spawn>
+		</item>
 		
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="-15" y="-30" />
-			<gun name="Minigun" weight="43"
-				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
-				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01" bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.8" y="-.1" />
-				<vecteur use="handPosR" x="0" y="-.28" />
-			</gun>
-			<gun name="assault" weight="43"
-				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
-				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
-				soundWarmup="" bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.32" y=".15" />
-				<vecteur use="handPosR" x=".25" y=".05" />
-			</gun>
-			<gun name="ion" weight="50"
-				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
-				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
-				soundWarmup="IonCharge3" bangSound="BangIonGun"
-				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
-				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.32" y=".3" />
-				<vecteur use="handPosR" x=".3" y=".1" />
-			</gun>
-				<gun name="StarGun" weight="43"
-				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
-				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
-				soundWarmup="wabada" bangSound="ni"
-				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
-				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-0.4" y="-.1" />
-				<vecteur use="handPosR" x="-0.6" y=".2" />
-			</gun>
-			<shotgun name="shotgun" weight="100"
-				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
-				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
-				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
-				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
-				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
-				proba="1">
-
-				<vecteur use="handPosL" x="-.65" y=".15" />
-				<vecteur use="handPosR" x=".067" y=".125" />
-			</shotgun>
-			<melee name="kata" weight="5"
-				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
-				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
-
-				<vecteur use="handPosL" x="-50" y="0" />
-				<vecteur use="handPosR" x="0" y="0" />
-			</melee>
-			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
-					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x=".75" y=".75" z=".75" />
-				</mesh>
-			</entities>
-		</spawn>
-		<spawn spawnperso="true" cooldown="2">
-			<vecteur x="5" y="-30" />
-			<gun name="Minigun" weight="43"
-				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
-				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01" bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.8" y="-.1" />
-				<vecteur use="handPosR" x="0" y="-.28" />
-			</gun>
-			<gun name="assault" weight="43"
-				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
-				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
-				soundWarmup="" bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.32" y=".15" />
-				<vecteur use="handPosR" x=".25" y=".05" />
-			</gun>
-			<gun name="ion" weight="50"
-				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
-				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
-				soundWarmup="IonCharge3" bangSound="BangIonGun"
-				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
-				cannonLength="1.38" recoil="1" thrust="2.00" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-.32" y=".3" />
-				<vecteur use="handPosR" x=".3" y=".1" />
-			</gun>
-			<gun name="StarGun" weight="43"
-				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
-				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
-				soundWarmup="wabada" bangSound="ni"
-				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
-				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64" proba="1">
-
-				<vecteur use="handPosL" x="-0.4" y="-.1" />
-				<vecteur use="handPosR" x="-0.6" y=".2" />
-			</gun>
-			<shotgun name="shotgun" weight="100"
-				pathSprite="data/weapons/shotgun1.png" soundPickup="GunCock_02"
-				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
-				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
-				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
-				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2"
-				proba="1">
-
-				<vecteur use="handPosL" x="-.65" y=".15" />
-				<vecteur use="handPosR" x=".067" y=".125" />
-			</shotgun>
-			<melee name="kata" weight="5"
-				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
-				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" damage="3" bangSound="woosh_01" size="2" proba="1">
-
-				<vecteur use="handPosL" x="-50" y="0" />
-				<vecteur use="handPosR" x="0" y="0" />
-			</melee>
-			<entities>
-				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
-					<vecteur use="position" x="0" y="-1" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x=".75" y=".75" z=".75" />
-				</mesh>
-			</entities>
-		</spawn>
-
-		<gravity>
-			<vecteur x="0" y="9.807" />
-		</gravity>
+		<gravity x="0" y="9.807" />
 
 		<cameraPos x="0" y="-15" z="38" />
 		
@@ -301,8 +86,73 @@
 	</information>
 
 	<entities>
+		<spawn playerSpawn="true" cooldown="3">
+			<vecteur x="-5" y="-30" use="position" />
+			<itemRef item="minigun" proba="1" />
+			<itemRef item="assault" proba="1" />
+			<itemRef item="ion" proba="1" />
+			<itemRef item="shotgun" proba="1" />
+			<itemRef item="stargun" proba="1" />
+			<itemRef item="kata" proba="1" />
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
+				</mesh>
+			</entities>
+		</spawn>
+		<spawn playerSpawn="true" cooldown="3">
+			<vecteur x="15" y="-30" use="position" />
+			<itemRef item="minigun" proba="1" />
+			<itemRef item="assault" proba="1" />
+			<itemRef item="ion" proba="1" />
+			<itemRef item="shotgun" proba="1" />
+			<itemRef item="stargun" proba="1" />
+			<itemRef item="kata" proba="1" />
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
+				</mesh>
+			</entities>
+		</spawn>
+		<spawn playerSpawn="true" cooldown="3">
+			<vecteur x="-15" y="-30" use="position" />
+			<itemRef item="minigun" proba="1" />
+			<itemRef item="assault" proba="1" />
+			<itemRef item="ion" proba="1" />
+			<itemRef item="shotgun" proba="1" />
+			<itemRef item="stargun" proba="1" />
+			<itemRef item="kata" proba="1" />
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
+				</mesh>
+			</entities>
+		</spawn>
+		<spawn playerSpawn="true" cooldown="3">
+			<vecteur x="5" y="-30" use="position" />
+			<itemRef item="minigun" proba="1" />
+			<itemRef item="assault" proba="1" />
+			<itemRef item="ion" proba="1" />
+			<itemRef item="shotgun" proba="1" />
+			<itemRef item="stargun" proba="1" />
+			<itemRef item="kata" proba="1" />
+			<entities>
+				<mesh src="data/meshes/item_pickup/weapon_pickup_ceiling.obj">
+					<vecteur use="position" x="0" y="-1" z="0" />
+					<vecteur use="rotation" x="0" y="0" z="0" />
+					<vecteur use="scale" x=".75" y=".75" z=".75" />
+				</mesh>
+			</entities>
+		</spawn>
+		
 		<static>
-			<vecteur x="-15" y="0" use="position" />
+			<vecteur x="-15" y="1" use="position" />
 			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
@@ -314,7 +164,7 @@
 		</static>
 
 		<static>
-			<vecteur x="-5" y="0" use="position" />
+			<vecteur x="-5" y="1" use="position" />
 			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
@@ -326,7 +176,7 @@
 		</static>
 
 		<static>
-			<vecteur x="5" y="0" use="position" />
+			<vecteur x="5" y="1" use="position" />
 			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
@@ -338,7 +188,7 @@
 		</static>
 		
 		<static>
-			<vecteur x="15" y="0" use="position" />
+			<vecteur x="15" y="1" use="position" />
 			<vecteur x=".5" y="0.25" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_2.obj">
