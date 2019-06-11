@@ -79,7 +79,7 @@ public class Punch extends Spatial {
 				Character parent = (Character) getParent();
 				Vec2f parentVel = parent.getBody().getLinearVelocity();
 				parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
-				Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
+				Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 40, (float) (0.95 + Math.random() * 0.1),
 						localPosition);
 			} else {
 				target.takeDamage(dmgInfo);
