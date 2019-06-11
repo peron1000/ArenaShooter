@@ -27,9 +27,9 @@ public class CharacterSprite extends Spatial {
 	private Sprite body, head, footL, footR, handL, handR;
 	private Sprite punchSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/swoosh_1_1.png");
 	private Sprite chargeSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Tching2.png");
-	private Sprite parrySprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry.png");
+	private Sprite parrySprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry_Oriented.png");
 	private Texture brokenParry = Texture.loadTexture("data/sprites/swooshes/Broken_Parry.png");
-	private Texture parryShield = Texture.loadTexture("data/sprites/swooshes/Parry.png");
+	private Texture parryShield = Texture.loadTexture("data/sprites/swooshes/Parry_Oriented.png");
 	private Sprite stunStars = new Sprite(new Vec2f(0, -0.5), "data/sprites/StunStars.png");
 	private String bloodParticles = "data/particles/blood.xml";
 	private String stun = "data/particles/stun.xml";
@@ -66,6 +66,7 @@ public class CharacterSprite extends Spatial {
 	public CharacterSprite(CharacterInfo charInfo) {
 		super();
 		folder = "data/sprites/characters/" + charInfo.getSkin();
+		this.mirrorLeftFoot = charInfo.mirrorLeftFoot();
 
 		File f = new File(folder + "/body.png");
 		if (f.exists() && !f.isDirectory()) {
@@ -101,7 +102,7 @@ public class CharacterSprite extends Spatial {
 		footL.getTexture().setFilter(false);
 		footL.attachToParent(this, "footL");
 		footL.zIndex = 1;
-		footL.flipX = charInfo.mirrorLeftFoot();
+		footL.flipX = mirrorLeftFoot;
 		footR.size = new Vec2f(footR.getTexture().getWidth() * .052, footR.getTexture().getHeight() * .052);
 		footR.getTexture().setFilter(false);
 		footR.attachToParent(this, "footR");
@@ -142,7 +143,7 @@ public class CharacterSprite extends Spatial {
 		stunStars.size.set(0, 0);
 		stunStars.getTexture().setFilter(false);
 		stunStars.zIndex = getZIndex() + 2;
-		
+
 		shieldWiggling = new Animation(wiggleX);
 		shieldWiggling.play();
 	}
@@ -150,8 +151,13 @@ public class CharacterSprite extends Spatial {
 	public void parryStart(boolean broken) {
 		parrySprite.size.set(parrySprite.getTexture().getWidth() * 0.04, parrySprite.getTexture().getHeight() * 0.04);
 		parrySprite.setTexture(broken ? brokenParry : parryShield);
-		if (!broken)
-			parrySprite.localPosition.set(0, 0);
+		if (!broken) {
+			Vec2f targetPos = new Vec2f(1.5, 0);
+			Vec2f.rotate(targetPos, lookAngle, targetPos);
+			parrySprite.localPosition.set(targetPos);
+			if (!lookRight)
+				parrySprite.flipY = true;
+		}
 	}
 
 	public void parryStop() {
@@ -326,9 +332,19 @@ public class CharacterSprite extends Spatial {
 			chargeSprite.getTexture().setFilter(false);
 		}
 
-		if (shieldWiggling != null && !canParry) {
-			shieldWiggling.step(d);
-			parrySprite.localPosition.x = (float) shieldWiggling.getTrackD("BrokenShieldPosX");
+		if (!canParry) {
+			if (shieldWiggling != null) {
+				parrySprite.flipY = false;
+				shieldWiggling.step(d);
+				parrySprite.localPosition.set( (float) shieldWiggling.getTrackD("BrokenShieldPosX"), 0);
+				parrySprite.localRotation = 0;
+			}
+		} else {
+			Vec2f targetParryPosition = new Vec2f(0.5, 0);
+			Vec2f.rotate(targetParryPosition, lookAngle, targetParryPosition);
+			parrySprite.localPosition.set(targetParryPosition);
+			parrySprite.localRotation = targetParryPosition.angle();
+			parrySprite.flipY = !lookRight;
 		}
 
 		if (currentPunchAnim != null) {
@@ -346,7 +362,10 @@ public class CharacterSprite extends Spatial {
 
 		body.flipX = !lookRight;
 		head.flipX = !lookRight;
-		footL.flipX = !lookRight;
+		if (!mirrorLeftFoot)
+			footL.flipX = !lookRight;
+		else
+			footL.flipX = lookRight;
 		footR.flipX = !lookRight;
 
 		// Feet

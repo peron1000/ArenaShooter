@@ -46,6 +46,7 @@ public class Character extends RigidBodyContainer {
 	private double jumpForce = 16;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.5);
+	private Timer justInTime = new Timer(0.15);
 
 	// Combat stats
 	/** Melee attack cooldown */
