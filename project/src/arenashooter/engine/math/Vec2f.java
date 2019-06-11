@@ -397,7 +397,10 @@ public class Vec2f {
 			vec1.multiply(-1);
 		else 
 			vec2.multiply(-1);
-
-		return Math.abs(vec1.angle()-vec2.angle()) >= angleTolerated;
+		
+		System.out.println(vec1.angle());
+		System.out.println(vec2.angle());
+		
+		return Math.abs(vec1.angle()-vec2.angle()) <= angleTolerated;
 	}
 }

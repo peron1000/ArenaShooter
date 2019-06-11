@@ -155,7 +155,8 @@ public class Character extends RigidBodyContainer {
 	 * @return true if the character is blocking in the direction of the attack.
 	 */
 	public boolean canParryThis(double attackAngle) {
-		return parry.isIncreasing()&& !parry.isOver() && Vec2f.areOpposed(Vec2f.fromAngle(attackAngle), Vec2f.fromAngle(aimInput), hitWidth/2);// L'angle n'est pas encore géré
+		return parry.isIncreasing() && !parry.isOver()
+				&& Vec2f.areOpposed(Vec2f.fromAngle(attackAngle), Vec2f.fromAngle(aimInput), hitWidth / 2);
 	}
 
 	public boolean isParrying() {
@@ -180,9 +181,10 @@ public class Character extends RigidBodyContainer {
 	public void attackStart(boolean justPressed) {
 		if (stunned)
 			return;
-		
-		if (getWeapon() != null && justPressed) {
-			getWeapon().attackStart();
+
+		if (getWeapon() != null) {
+			if (justPressed)
+				getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
 			chargePunch.setProcessing(true);
 		}
@@ -393,7 +395,7 @@ public class Character extends RigidBodyContainer {
 	public void step(double d) {
 		if (getArena() == null)
 			return;
-		
+
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 
 		if (Math.random() > 0.6)// ???
