@@ -155,7 +155,7 @@ public class Character extends RigidBodyContainer {
 	 * @return true if the character is blocking in the direction of the attack.
 	 */
 	public boolean canParryThis(double attackAngle) {
-		return parry.isIncreasing()&& !parry.isOver() && Vec2f.areOpposed(Vec2f.fromAngle(attackAngle), Vec2f.fromAngle(aimInput), hitWidth);// L'angle n'est pas encore géré
+		return parry.isIncreasing()&& !parry.isOver() && Vec2f.areOpposed(Vec2f.fromAngle(attackAngle), Vec2f.fromAngle(aimInput), hitWidth/2);// L'angle n'est pas encore géré
 	}
 
 	public boolean isParrying() {

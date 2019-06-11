@@ -53,14 +53,14 @@ public class Punch extends Spatial {
 		tex.setFilter(false);
 	}
 
-	private void affect(Spatial target) {
-		if (target instanceof Character) {// Pas forcément ouf de gérer ce cas ici TODO: DamageType Punch && SuperPunch
-			Character targett = ((Character)target);
-			if (targett.canParryThis(dmgInfo.direction.angle())) {
-				
+	private void affect(Spatial targett) {
+		if (targett instanceof Character) {// Pas forcément ouf de gérer ce cas ici TODO: DamageType Punch && SuperPunch
+			Character target = ((Character) targett);
+			if (target.canParryThis(dmgInfo.direction.angle())) {
+
 				if (!superPoing) {
 					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 4f, (float) (0.90 + Math.random() * 0.2),
-							targett.getWorldPos());
+							target.getWorldPos());
 					if (getParent() instanceof Character) {
 						Character parent = (Character) getParent();
 						parent.stun(1);
@@ -69,22 +69,24 @@ public class Punch extends Spatial {
 					}
 				} else {
 					Audio.playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f,
-							(float) (0.90 + Math.random() * 0.2), targett.getWorldPos());
-					targett.takeDamage(dmgInfo);
-					targett.stun(0.5);
-					targett.getBody().applyImpulse(new Vec2f(0, -1));
+							(float) (0.90 + Math.random() * 0.2), target.getWorldPos());
+					target.takeDamage(dmgInfo);
+					target.stun(0.5);
+					target.getBody().applyImpulse(new Vec2f(0, -1));
 				}
-			} else if (targett.punching > 0 && getParent() instanceof Character){
-					Character parent = (Character) getParent();
-					Vec2f parentVel = parent.getBody().getLinearVelocity();
-					parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
-					Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 1, (float) (0.95+Math.random()*0.1), localPosition);
+			} else if (target.punching > 0 && getParent() instanceof Character
+					&& Vec2f.areOpposed(dmgInfo.direction, Vec2f.fromAngle(target.aimInput), hitWidth/2)) {
+				Character parent = (Character) getParent();
+				Vec2f parentVel = parent.getBody().getLinearVelocity();
+				parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
+				Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
+						localPosition);
 			} else {
-				targett.takeDamage(dmgInfo);
-				targett.getBody().applyImpulse(new Vec2f(0, -1));
+				target.takeDamage(dmgInfo);
+				target.getBody().applyImpulse(new Vec2f(0, -1));
 			}
 		} else
-			target.takeDamage(dmgInfo);
+			targett.takeDamage(dmgInfo);
 	}
 
 	@Override
