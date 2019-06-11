@@ -151,7 +151,7 @@ public class Character extends RigidBodyContainer {
 	 * 
 	 * @param attackAngle
 	 *            is the angle the attack is directed. For projectiles, relative
-	 *            speed is not taken into account, only absolute speed.
+	 *            speed is not taken into account, only absolute speed
 	 * @return true if the character is blocking in the direction of the attack.
 	 */
 	public boolean canParryThis(double attackAngle) {
