@@ -27,6 +27,18 @@
 			</gun>
 		</item>
 		<item>
+			<gun name="grenade_launcher" weight="50"
+				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
+				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="30" damage="95"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64">
+
+				<vecteur use="handPosL" x="-.32" y=".2" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+		</item>
+		<item>
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
@@ -90,6 +102,7 @@
 			<vecteur x="-7" y="1" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
@@ -107,6 +120,7 @@
 			<vecteur x="7" y="1" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
@@ -124,6 +138,7 @@
 			<vecteur x="0" y="-10" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
@@ -150,7 +165,7 @@
 			</entities>
 		</kinematic>
 	<kinematic animation="data/animations/MapXML/MapXmlPlatformMov2.xml">
-			<vecteur x="-10.0" y="1.0" use="position" />
+			<vecteur x="-10.0" y="-5.0" use="position" />
 			<vecteur x="0.125" y="1.0" use="extent" />
 			<entities>
 				<mesh src="data/meshes/catwalk/catwalk_10.obj">

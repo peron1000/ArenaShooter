@@ -4,7 +4,7 @@
 	
 	<trackVec2f name="pos" interpolation="cubic">
 		<keyframeVec2f time="0.0" x="-15.0" y="-.25" />
-		<keyframeVec2f time="5.0" x="-15.0" y="-1.0" />
+		<keyframeVec2f time="5.0" x="-15.0" y="-2.0" />
 		<keyframeVec2f time="5.5" x="-15.0" y="-5.0" />
 		<keyframeVec2f time="6.5" x="-15.0" y="-2.5" />
 		<keyframeVec2f time="8.0" x="-15.0" y="-0.25" />

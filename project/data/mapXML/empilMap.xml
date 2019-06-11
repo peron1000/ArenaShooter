@@ -27,6 +27,18 @@
 			</gun>
 		</item>
 		<item>
+			<gun name="grenade_launcher" weight="50"
+				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
+				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="grenade_launcher_01"
+				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="30" damage="95"
+				cannonLength="1.38" recoil="1" thrust="2.00" size="64">
+
+				<vecteur use="handPosL" x="-.32" y=".2" />
+				<vecteur use="handPosR" x=".3" y=".1" />
+			</gun>
+		</item>
+		<item>
 			<gun name="ion" weight="50"
 				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="GunCock_03"
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
@@ -90,6 +102,7 @@
 			<vecteur x="-5" y="-30" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
@@ -106,6 +119,7 @@
 			<vecteur x="15" y="-30" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
@@ -122,6 +136,7 @@
 			<vecteur x="-15" y="-30" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
@@ -138,6 +153,7 @@
 			<vecteur x="5" y="-30" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
+			<itemRef item="grenade_launcher" proba="1" />
 			<itemRef item="ion" proba="1" />
 			<itemRef item="shotgun" proba="1" />
 			<itemRef item="stargun" proba="1" />
