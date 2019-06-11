@@ -88,6 +88,10 @@ public class Score extends GameState {
 			
 			if(controller.roundsWon > bestest.roundsWon)
 				winner = controller;
+			//controller.resetScore();
+		}
+		for(Controller controller : GameMaster.gm.controllers) {
+			controller.resetScore();
 		}
 		
 		///Winner
@@ -179,7 +183,6 @@ public class Score extends GameState {
 		for (Controller controller : GameMaster.gm.controllers) {
 			if(!(controller instanceof ControllerPlayer)) continue;
 			ControllerPlayer pc = (ControllerPlayer) controller;
-			
 			if (Input.actionJustPressed(pc.getDevice(), Action.JUMP)) {
 				Texture tex = Texture.loadTexture("data/sprites/interface/Button_A_Activated.png");
 				tex.setFilter(false);
