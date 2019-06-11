@@ -381,4 +381,23 @@ public class Vec2f {
 		
 		return new Vec2f( projected[0], projected[1] );
 	}
+	
+	/**
+	 * /!\ Carful, this function may not work.
+	 * @param v1
+	 * @param v2
+	 * @param angleTolerated when diffrence is calculated.
+	 * @return if v1 and v2 are opposed, tolerating a given angle
+	 */
+	public static boolean areOpposed(Vec2f v1, Vec2f v2, double angleTolerated) {
+		Vec2f vec1 = v1.clone();
+		Vec2f vec2 = v2.clone();
+		
+		if (v1.x >= v2.x)
+			vec1.multiply(-1);
+		else 
+			vec2.multiply(-1);
+
+		return Math.abs(vec1.angle()-vec2.angle()) >= angleTolerated;
+	}
 }

@@ -61,13 +61,14 @@ public class Character extends RigidBodyContainer {
 	 */
 	boolean charged = false;
 	private Timer holdCombo = new Timer(1);
+	public int punching;
 	private float range = 2.5f;
-	private float hitWidth = 120;
+	private float hitWidth = 2.0944f;
 	/**
 	 * 
 	 * The Character has already punched mid-air
 	 */
-	boolean punchi = false;
+	boolean punchedMidAir = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
@@ -154,7 +155,7 @@ public class Character extends RigidBodyContainer {
 	 * @return true if the character is blocking in the direction of the attack.
 	 */
 	public boolean canParryThis(double attackAngle) {
-		return parry.isIncreasing()&&!parryCooldown;// L'angle n'est pas encore géré
+		return parry.isIncreasing()&& !parry.isOver() && Vec2f.areOpposed(Vec2f.fromAngle(attackAngle), Vec2f.fromAngle(aimInput), hitWidth);// L'angle n'est pas encore géré
 	}
 
 	public boolean isParrying() {
@@ -176,10 +177,11 @@ public class Character extends RigidBodyContainer {
 		skeleton.stunStart(stunTime);
 	}
 
-	public void attackStart() {
+	public void attackStart(boolean justPressed) {
 		if (stunned)
 			return;
-		if (getWeapon() != null) {
+		
+		if (getWeapon() != null && justPressed) {
 			getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
 			chargePunch.setProcessing(true);
@@ -200,11 +202,11 @@ public class Character extends RigidBodyContainer {
 			DamageInfo punchDmgInfo;
 
 			if (superPoing) {
-				impulse = Vec2f.rotate(new Vec2f((!punchi ? 16 : 8), 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage * 2, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 				skeleton.punch(-1, aimInput);
 			} else {
-				impulse = Vec2f.rotate(new Vec2f((!punchi ? 25 : 12), 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
 				attackCombo++;
 				if (skeleton != null)
@@ -226,7 +228,8 @@ public class Character extends RigidBodyContainer {
 			if (impulse.y < 0)
 				impulse.y /= 4;
 			getBody().applyImpulse(impulse);
-			punchi = true;
+			punching++;
+			punchedMidAir = true;
 			attackCooldown.restart();
 			holdCombo.restart();
 			skeleton.stopCharge();
@@ -502,7 +505,7 @@ public class Character extends RigidBodyContainer {
 				return -1;
 
 			isOnGround = true;
-			punchi = false;
+			punchedMidAir = false;
 			return fraction;
 		}
 	};

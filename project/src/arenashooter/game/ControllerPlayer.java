@@ -51,7 +51,9 @@ public class ControllerPlayer extends Controller {
 				} else if (Input.actionJustReleased(device, Action.PARRY)) {
 					getCharacter().parryStop();
 				} else if (Input.actionJustPressed(device, Action.ATTACK)) {
-					getCharacter().attackStart();
+					getCharacter().attackStart(true);
+				} else if (Input.actionPressed(device, Action.ATTACK)) {
+					getCharacter().attackStart(false);
 				} else if (Input.actionJustReleased(device, Action.ATTACK))
 					getCharacter().attackStop();
 

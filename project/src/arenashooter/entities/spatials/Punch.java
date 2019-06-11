@@ -54,23 +54,34 @@ public class Punch extends Spatial {
 	}
 
 	private void affect(Spatial target) {
-		if (target instanceof Character) {//Pas forcément ouf de gérer ce cas ici TODO: DamageType Punch && SuperPunch
-			if (((Character) target).canParryThis(dmgInfo.direction.angle())) {
+		if (target instanceof Character) {// Pas forcément ouf de gérer ce cas ici TODO: DamageType Punch && SuperPunch
+			Character targett = ((Character)target);
+			if (targett.canParryThis(dmgInfo.direction.angle())) {
+				
 				if (!superPoing) {
-					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 4f, (float) (0.90 + Math.random() * 0.2), target.getWorldPos());
-					if(getParent() instanceof Character) {
-						Character parent = (Character)getParent();
+					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 4f, (float) (0.90 + Math.random() * 0.2),
+							targett.getWorldPos());
+					if (getParent() instanceof Character) {
+						Character parent = (Character) getParent();
 						parent.stun(1);
 						Vec2f parentVel = parent.getBody().getLinearVelocity();
 						parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
 					}
 				} else {
-					Audio.playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f, (float) (0.90 + Math.random() * 0.2), target.getWorldPos());
-					target.takeDamage(dmgInfo);
-					((Character) target).stun(1);
+					Audio.playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f,
+							(float) (0.90 + Math.random() * 0.2), targett.getWorldPos());
+					targett.takeDamage(dmgInfo);
+					targett.stun(0.5);
+					targett.getBody().applyImpulse(new Vec2f(0, -1));
 				}
+			} else if (targett.punching > 0 && getParent() instanceof Character){
+					Character parent = (Character) getParent();
+					Vec2f parentVel = parent.getBody().getLinearVelocity();
+					parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
+					Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 1, (float) (0.95+Math.random()*0.1), localPosition);
 			} else {
-				target.takeDamage(dmgInfo);
+				targett.takeDamage(dmgInfo);
+				targett.getBody().applyImpulse(new Vec2f(0, -1));
 			}
 		} else
 			target.takeDamage(dmgInfo);
@@ -110,9 +121,12 @@ public class Punch extends Spatial {
 				Window.getCamera().setCameraShake(0.05f);
 		}
 
-		if (time >= 1)
+		if (time >= 1) {
+			if (getParent() instanceof Character)
+				((Character) getParent()).punching--;
 			detach();
-		time += d * 5;
+		} else
+			time += d * 5;
 	}
 
 	private Vec2f raycastEnd = new Vec2f();
