@@ -393,7 +393,7 @@ public class Vec2f {
 		Vec2f vec1 = v1.clone();
 		Vec2f vec2 = v2.clone();
 		
-		if (v1.x >= v2.x)
+		if (v1.x <= v2.x)
 			vec1.multiply(-1);
 		else 
 			vec2.multiply(-1);
