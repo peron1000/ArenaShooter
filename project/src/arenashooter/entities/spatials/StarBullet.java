@@ -48,7 +48,7 @@ public class StarBullet extends Projectile {
 		if(getBody().getBody() != null)
 			getBody().getBody().setGravityScale(6);
 		
-		vel = Vec2f.lerp(vel, fallSpeed, d*(Math.random()*4));
+		Vec2f.lerp(vel, fallSpeed, d*(Math.random()*4), vel);
 		getBody().setLinearVelocity(vel);
 		
 		if (Math.abs(getWorldPos().x) > 1000 || Math.abs(getWorldPos().y) > 1000) {

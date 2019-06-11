@@ -1,7 +1,7 @@
 package arenashooter.engine.math;
 
 /**
- * Mutable 3 dimensional vector of floats
+ * Mutable 3 dimensional vector of floats (x, y, z)
  */
 public class Vec3f {
 	
@@ -118,24 +118,19 @@ public class Vec3f {
 		return new Vec3f(x, y, z);
 	}
 	
-	public float[] toArray() { return new float[] {x, y, z}; }
+	public float[] toArray(float[] target) {
+		target[0] = x;
+		target[1] = y;
+		target[2] = z;
+		return target;
+	}
 	
 	public String toString() { return "( "+x+", "+y+", "+z+" )"; }
 	
 	//
 	//Static functions
 	//
-	
-	/**
-	 * Add two vectors together
-	 * @param a
-	 * @param b
-	 * @return a+b (original vectors are unchanged)
-	 */
-	public static Vec3f add(Vec3f a, Vec3f b) {
-		return new Vec3f(a.x+b.x, a.y+b.y, a.z+b.z);
-	}
-	
+
 	/**
 	 * Add two vectors together, store the result in target and return it
 	 * <br/> Avoids object creation
@@ -222,8 +217,13 @@ public class Vec3f {
 	}
 	
 	public static Vec3f lerp( Vec3f a, Vec3f b, double f ) {
-		return new Vec3f( Utils.lerpF(a.x, b.x, f),
-						  Utils.lerpF(a.y, b.y, f),
-						  Utils.lerpF(a.z, b.z, f));
+		return lerp(a, b, f, new Vec3f());
+	}
+	
+	public static Vec3f lerp( Vec3f a, Vec3f b, double f, Vec3f target ) {
+		target.x = Utils.lerpF(a.x, b.x, f);
+		target.y = Utils.lerpF(a.y, b.y, f);
+		target.z = Utils.lerpF(a.z, b.z, f);
+		return target;
 	}
 }

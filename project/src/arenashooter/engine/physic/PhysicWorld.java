@@ -50,7 +50,7 @@ public class PhysicWorld {
 	public void step(double d) {
 		Profiler.startTimer(Profiler.PHYSIC);
 		
-		world.setGravity(arena.gravity.toB2Vec());
+		arena.gravity.toB2Vec(world.getGravity());
 		world.step((float) d, 9, 4);
 
 		//Safely destroy joints after step

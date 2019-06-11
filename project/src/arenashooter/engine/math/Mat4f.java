@@ -30,16 +30,15 @@ public class Mat4f {
 	}
 	
 	/**
+	 * @param target float[16] array used to store the result
 	 * @return This matrix as a 1 dimension array
 	 */
-	public float[] toArray() {
-		float[] res = new float[16];
-		
+	public float[] toArray(float[] target) {
 		for(int j=0; j<4; j++)
 			for(int i=0; i<4; i++)
-				res[ (i*4)+j ] = val[i][j];
+				target[ (i*4)+j ] = val[i][j];
 		
-		return res;
+		return target;
 	}
 	
 	public static Mat4f identity() {

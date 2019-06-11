@@ -26,7 +26,7 @@ public class RigidBody extends PhysicBody {
 		this.friction = friction;
 		
 		bodyDef = new BodyDef();
-		bodyDef.setPosition(worldPosition.toB2Vec());
+		bodyDef.getPosition().set(worldPosition.x, worldPosition.y);
 		bodyDef.setAngle((float)worldRotation);
 		bodyDef.setType(BodyType.DYNAMIC);
 		
@@ -51,6 +51,7 @@ public class RigidBody extends PhysicBody {
 		if(body != null)
 			body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
 	}
+	
 	/**
 	 * Apply an impulse at location
 	 * @param impulse
@@ -74,7 +75,7 @@ public class RigidBody extends PhysicBody {
 	 * @return linear velocity at center of mass
 	 */
 	public Vec2f getLinearVelocity() {
-		if(body == null) return new Vec2f(bodyDef.linearVelocity);
+		if(body == null) return linearVelocity.set(bodyDef.linearVelocity);
 		return linearVelocity.set(body.getLinearVelocity());
 	}
 	
@@ -83,10 +84,9 @@ public class RigidBody extends PhysicBody {
 	 * @param newVelocity
 	 */
 	public void setLinearVelocity(Vec2f newVelocity) {
+		newVelocity.toB2Vec(bodyDef.getLinearVelocity());
 		if(body != null)
-			body.setLinearVelocity(newVelocity.toB2Vec());
-		else
-			bodyDef.setLinearVelocity(newVelocity.toB2Vec());
+			newVelocity.toB2Vec(body.getLinearVelocity());
 	}
 	
 	public float getAngularVelocity() {

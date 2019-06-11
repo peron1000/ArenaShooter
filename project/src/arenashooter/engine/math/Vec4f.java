@@ -1,7 +1,7 @@
 package arenashooter.engine.math;
 
 /**
- * Mutable 4 dimensional vector of floats
+ * Mutable 4 dimensional vector of floats (x, y, z, w)
  */
 public class Vec4f {
 	
@@ -123,7 +123,13 @@ public class Vec4f {
 		return new Vec4f(x, y, z, w);
 	}
 	
-	public float[] toArray() { return new float[] {x, y, z, w}; }
+	public float[] toArray(float[] target) {
+		target[0] = x;
+		target[1] = y;
+		target[2] = z;
+		target[3] = w;
+		return target;
+	}
 	
 	public String toString() { return "( "+x+", "+y+", "+z+", "+w+" )"; }
 	

@@ -76,7 +76,7 @@ public final class Profiler {
 		System.out.println(" | |-Particles:...."+(float)(times[PARTICLES]*NANOTOMILLI)+"ms");
 		System.out.println(" | |-PostProcess:.."+(float)(times[POSTPROCESS]*NANOTOMILLI)+"ms");
 		System.out.println(" |");
-		System.out.println(" |-Sleep:.."+(float)(times[SLEEP]*NANOTOMILLI)+"ms");
+		System.out.println(" |-Sleep:.."+(float)(times[SLEEP]*NANOTOMILLI)+"ms\n");
 	}
 	
 	/**

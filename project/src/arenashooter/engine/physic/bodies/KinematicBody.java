@@ -23,15 +23,27 @@ public class KinematicBody extends PhysicBody {
 
 		this.density = density;
 
-		bodyDef.position.set(worldPosition.x, worldPosition.y);
-		bodyDef.setAngle((float)worldRotation);
 		bodyDef.setType(BodyType.KINEMATIC);
 		
 		debugColor = new Vec4f(.2, 1, .2, 1);
 	}
-	
+
+	/**
+	 * Apply an impulse at center of mass
+	 * @param impulse
+	 */
 	public void applyImpulse(Vec2f impulse) {
 		body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
+	}
+	
+	/**
+	 * Apply an impulse at location
+	 * @param impulse
+	 * @param location world position
+	 */
+	public void applyImpulse(Vec2f impulse, Vec2f location) {
+		if(body != null)
+			body.applyLinearImpulse(impulse.toB2Vec(), location.toB2Vec(), true);
 	}
 	
 	/**
@@ -49,38 +61,9 @@ public class KinematicBody extends PhysicBody {
 	 * @param newVelocity
 	 */
 	public void setLinearVelocity(Vec2f newVelocity) {
-		bodyDef.setLinearVelocity(newVelocity.toB2Vec());
+		newVelocity.toB2Vec(bodyDef.getLinearVelocity());
 		if(body != null)
-			body.setLinearVelocity(newVelocity.toB2Vec());
-	}
-
-	/**
-	 * Teleport this body
-	 * @param position
-	 */
-	public void setPosition(Vec2f position) {
-		if(body != null) {
-			body.setTransform(position.toB2Vec(), body.getAngle());
-			//Collision filter
-			Filter filter = new Filter();
-			filter.categoryBits = collFlags.category.bits;
-			filter.maskBits = collFlags.maskBits;
-		}
-	}
-	
-	/**
-	 * Teleport this body
-	 * @param position
-	 * @param angle
-	 */
-	public void setTransform(Vec2f position, double angle) {
-		if(body != null) {
-			body.setTransform(position.toB2Vec(), (float) angle);
-			//Collision filter
-			Filter filter = new Filter();
-			filter.categoryBits = collFlags.category.bits;
-			filter.maskBits = collFlags.maskBits;
-		}
+			newVelocity.toB2Vec(body.getLinearVelocity());
 	}
 	
 	@Override

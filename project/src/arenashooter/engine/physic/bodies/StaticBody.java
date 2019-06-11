@@ -17,9 +17,6 @@ public class StaticBody extends PhysicBody {
 	
 	public StaticBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags) {
 		super(shape, worldPosition, worldRotation, collFlags);
-
-		bodyDef.setPosition(worldPosition.toB2Vec());
-		bodyDef.setAngle((float)worldRotation);
 		
 		debugColor = new Vec4f(.2, .2, 1, 1);
 	}

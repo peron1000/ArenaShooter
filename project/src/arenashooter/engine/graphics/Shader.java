@@ -23,6 +23,15 @@ public class Shader {
 		INT, FLOAT, VEC2F, VEC3F, VEC4F, MAT4F, TEXTURE2D;
 	}
 	
+	/** Array used to send Vec2f values to openGL */
+	private static float[] floatBuffer2 = new float[2];
+	/** Array used to send Vec3f values to openGL */
+	private static float[] floatBuffer3 = new float[3];
+	/** Array used to send Vec4f values to openGL */
+	private static float[] floatBuffer4 = new float[4];
+	/** Array used to send Mat4f values to openGL */
+	private static float[] floatBuffer16 = new float[16];
+	
 	/** Cached shaders */
 	private static HashMap<String, Shader> cache = new HashMap<>();
 	/** Cached shader source code */
@@ -230,7 +239,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformM4(String name, Mat4f value) {
-		glUniformMatrix4fv(getUniformLocation(name), false, value.toArray());
+		glUniformMatrix4fv(getUniformLocation(name), false, value.toArray(floatBuffer16));
 	}
 	
 	/**
@@ -239,7 +248,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV2(String name, Vec2f value) {
-		glUniform2fv(getUniformLocation(name), value.toArray());
+		glUniform2fv(getUniformLocation(name), value.toArray(floatBuffer2));
 	}
 	
 	/**
@@ -248,25 +257,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV3(String name, Vec3f value) {
-		glUniform3fv(getUniformLocation(name), value.toArray());
-	}
-	
-	/**
-	 * Set a float[3] uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
-	public void setUniformV3(String name, float[] value) {
-		glUniform3fv(getUniformLocation(name), value);
-	}
-	
-	/**
-	 * Set a float[4] uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
-	public void setUniformV4(String name, float[] value) {
-		glUniform4fv(getUniformLocation(name), value);
+		glUniform3fv(getUniformLocation(name), value.toArray(floatBuffer3));
 	}
 	
 	/**
@@ -275,7 +266,7 @@ public class Shader {
 	 * @param value uniform value
 	 */
 	public void setUniformV4(String name, Vec4f value) {
-		glUniform4fv(getUniformLocation(name), new float[] {value.x, value.y, value.z, value.w});
+		glUniform4fv(getUniformLocation(name), value.toArray(floatBuffer4));
 	}
 	
 	/**

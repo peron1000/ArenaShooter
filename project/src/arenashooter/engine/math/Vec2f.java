@@ -5,7 +5,7 @@ import org.jbox2d.common.Vec2;
 import arenashooter.engine.graphics.Window;
 
 /**
- * Mutable 2 dimensional vector of floats
+ * Mutable 2 dimensional vector of floats (x, y)
  */
 public class Vec2f {
 
@@ -14,8 +14,7 @@ public class Vec2f {
 	/**
 	 * Creates a (0, 0) vector
 	 */
-	public Vec2f() {
-	}
+	public Vec2f() { }
 
 	/**
 	 * Creates a (a, a) vector
@@ -50,19 +49,20 @@ public class Vec2f {
 	}
 	
 	/**
-	 * Creates a Vec2f from a Box-2d vector
-	 * @param b2Vec
-	 */
-	public Vec2f(Vec2 b2Vec) {
-		x = b2Vec.x;
-		y = b2Vec.y;
-	}
-	
-	/**
 	 * @return creates a Box-2d vector from <i>this</i>
 	 */
 	public Vec2 toB2Vec() {
 		return new Vec2(x, y);
+	}
+	
+	/**
+	 * Set <i>b2Vec</i> to <i>this</i>
+	 * @param b2Vec
+	 * @return <i>b2Vec</i> (modified)
+	 */
+	public Vec2 toB2Vec(Vec2 b2Vec) {
+		b2Vec.set(x, y);
+		return b2Vec;
 	}
 
 	/**
@@ -169,7 +169,11 @@ public class Vec2f {
 		return new Vec2f(x, y);
 	}
 	
-	public float[] toArray() { return new float[] {x, y}; }
+	public float[] toArray(float[] target) {
+		target[0] = x;
+		target[1] = y;
+		return target;
+	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -344,8 +348,10 @@ public class Vec2f {
 	public static Vec2f rotate(Vec2f v, double r, Vec2f target) {
 		double cos = Math.cos(r);
 		double sin = Math.sin(r);
-		target.x = (float)(cos * v.x - sin * v.y);
-		target.y = (float)(sin * v.x + cos * v.y);
+		float vx = v.x, vy = v.y;
+		
+		target.x = (float)(cos * vx - sin * vy);
+		target.y = (float)(sin * vx + cos * vy);
 		return target;
 	}
 
@@ -354,8 +360,13 @@ public class Vec2f {
 	}
 	
 	public static Vec2f lerp( Vec2f a, Vec2f b, double f ) {
-		return new Vec2f( Utils.lerpF(a.x, b.x, f),
-						  Utils.lerpF(a.y, b.y, f));
+		return lerp(a, b, f, new Vec2f());
+	}
+	
+	public static Vec2f lerp( Vec2f a, Vec2f b, double f, Vec2f target ) {
+		target.x = Utils.lerpF(a.x, b.x, f);
+		target.y = Utils.lerpF(a.y, b.y, f);
+		return target;
 	}
 	
 	/**

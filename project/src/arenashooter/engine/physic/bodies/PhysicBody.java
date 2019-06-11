@@ -20,6 +20,8 @@ public abstract class PhysicBody {
 	protected final CollisionFlags collFlags;
 	protected Fixture fixture;
 	protected Spatial userData = null;
+
+	private Vec2f position = new Vec2f();
 	
 	protected Vec4f debugColor;
 
@@ -30,17 +32,11 @@ public abstract class PhysicBody {
 	public PhysicBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags) {
 		this.shape = shape;
 		this.collFlags = collFlags;
-
+		
 		bodyDef = new BodyDef();
+		worldPosition.toB2Vec(bodyDef.getPosition());
+		bodyDef.setAngle((float)worldRotation);
 	}
-	
-//	/**
-//	 * Does this body exists in the simulation
-//	 * @return
-//	 */
-//	public boolean existsInWorld() {
-//		return world != null && body != null && fixture != null;
-//	}
 
 	/**
 	 * Set user data for this body
@@ -181,8 +177,8 @@ public abstract class PhysicBody {
 
 	public Vec2f getPosition() {
 		if (body == null)
-			return new Vec2f(bodyDef.getPosition());
-		return new Vec2f(body.getPosition());
+			return position.set(bodyDef.getPosition());
+		return position.set(body.getPosition());
 	}
 	
 	/**
@@ -191,7 +187,8 @@ public abstract class PhysicBody {
 	 * @param position
 	 */
 	public void setPosition(Vec2f position) {
-		bodyDef.setPosition(position.toB2Vec());
+		this.position.set(position);
+		position.toB2Vec(bodyDef.getPosition());
 		
 		recreateBody();
 	}
