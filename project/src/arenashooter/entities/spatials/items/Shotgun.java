@@ -52,6 +52,20 @@ public class Shotgun extends Gun {
 		this.dispersion = dispersion;
 	}
 
+	/**
+	 * @return the multiShot
+	 */
+	public int getMultiShot() {
+		return multiShot;
+	}
+
+	/**
+	 * @return the dispersion
+	 */
+	public double getDispersion() {
+		return dispersion;
+	}
+
 	@Override
 	public void step(double d) {
 		if (sndWarmup != null) {

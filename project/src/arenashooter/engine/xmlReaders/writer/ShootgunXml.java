@@ -27,7 +27,8 @@ public class ShootgunXml extends AbstractElement {
 //	private double cannonLength = 0;
 //	private double recoil = 0;
 //	private double thrust = 0;
-//
+//			 multiShot CDATA #REQUIRED
+//	 dispersion CDATA #REQUIRED>
 //	private float xpos1 = -.8f;
 //	private float ypos1 = -.1f;
 //	private float xpos2 = 0f;
@@ -110,7 +111,15 @@ public class ShootgunXml extends AbstractElement {
 		Attr thrust = doc.createAttribute("thrust");
 		thrust.setValue(shotgun.getThrust() + "");
 		shot.setAttributeNode(thrust);
-
+		
+		Attr multiShot = doc.createAttribute("multiShot");
+		multiShot.setValue(shotgun.getMultiShot() + "");
+		shot.setAttributeNode(thrust);
+		
+		Attr dispersion = doc.createAttribute("dispersion");
+		dispersion.setValue(shotgun.getDispersion() + "");
+		shot.setAttributeNode(thrust);
+		
 		VecteurXml vecteurshotgun = new VecteurXml(doc, shot);
 		if (shotgun.handPosL != null)
 			vecteurshotgun.addVecteur(handl, shotgun.handPosL.x, shotgun.handPosL.y);
