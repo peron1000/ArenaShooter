@@ -101,7 +101,8 @@ public class CharacterSprite extends Spatial {
 		footL.size = new Vec2f(footL.getTexture().getWidth() * .052, footL.getTexture().getHeight() * .052);
 		footL.getTexture().setFilter(false);
 		footL.attachToParent(this, "footL");
-		footL.zIndex = 1;
+		if (mirrorLeftFoot)
+			footL.zIndex = -1;
 		footL.flipX = mirrorLeftFoot;
 		footR.size = new Vec2f(footR.getTexture().getWidth() * .052, footR.getTexture().getHeight() * .052);
 		footR.getTexture().setFilter(false);
@@ -336,7 +337,7 @@ public class CharacterSprite extends Spatial {
 			if (shieldWiggling != null) {
 				parrySprite.flipY = false;
 				shieldWiggling.step(d);
-				parrySprite.localPosition.set( (float) shieldWiggling.getTrackD("BrokenShieldPosX"), 0);
+				parrySprite.localPosition.set((float) shieldWiggling.getTrackD("BrokenShieldPosX"), 0);
 				parrySprite.localRotation = 0;
 			}
 		} else {
@@ -364,8 +365,9 @@ public class CharacterSprite extends Spatial {
 		head.flipX = !lookRight;
 		if (!mirrorLeftFoot)
 			footL.flipX = !lookRight;
-		else
+		else {
 			footL.flipX = lookRight;
+		}
 		footR.flipX = !lookRight;
 
 		// Feet
