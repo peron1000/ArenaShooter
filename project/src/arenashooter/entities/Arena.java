@@ -22,6 +22,8 @@ public class Arena extends Entity {
 	
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
+	
+	public Vec3f ambientLight = new Vec3f(.48, .48, .5);
 
 	public PhysicWorld physic;
 	

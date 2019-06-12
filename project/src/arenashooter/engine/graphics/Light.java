@@ -3,34 +3,11 @@ package arenashooter.engine.graphics;
 import arenashooter.engine.math.Vec3f;
 
 public class Light {
-	Vec3f position = new Vec3f();
-	float radius;
-	Vec3f color = new Vec3f();
+	/** Position of this light, or direction for directional lights */
+	public final Vec3f position = new Vec3f();
+	/** Radius of this light, <0 means this is a directional light */
+	public float radius;
+	public final Vec3f color = new Vec3f();
 	
-	public Light() {
-	}
-	
-	/**
-	 * Set this light's position (or direction for a directional light)
-	 * @param position
-	 */
-	public void setPosition(Vec3f position) {
-		this.position.set(position);
-	}
-	
-	/**
-	 * Set this light's radius<br/>
-	 * > 1 for a point light<br/>
-	 * = 0 to disable this light<br/>
-	 * < 0 for a directional light<br/>
-	 * @param radius
-	 */
-	public void setRadius(float radius) {
-		this.radius = radius;
-	}
-	
-	public void setColor(Vec3f color) {
-		this.color.set(color);
-	}
-
+	public Light() { }
 }

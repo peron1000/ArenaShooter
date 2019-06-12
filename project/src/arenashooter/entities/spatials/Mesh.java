@@ -82,6 +82,10 @@ public class Mesh extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 
 		for (int i = 0; i < models.length; i++) {
+			if(getArena() != null) {
+				materials[i].setParamVec3f("ambient", getArena().ambientLight);
+				materials[i].setLights(getArena().lights);
+			}
 
 			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
 			materials[i].view = Window.getView();
@@ -114,6 +118,11 @@ public class Mesh extends Spatial3 {
 				materials[i].setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
 			} else {
 				materials[i].setParamF("editorFilter", 0);
+			}
+
+			if(getArena() != null) {
+				materials[i].setParamVec3f("ambient", getArena().ambientLight);
+				materials[i].setLights(getArena().lights);
 			}
 
 			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);

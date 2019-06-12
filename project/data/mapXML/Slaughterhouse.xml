@@ -86,6 +86,8 @@
 		</item>
 
 		<gravity x="0" y="9.807" />
+		
+		<ambientLight r="0.48" g="0.48" b="0.5"/>
 
 		<cameraPos x="0" y="-8.5" z="29" />
 		

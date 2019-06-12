@@ -37,6 +37,7 @@ public class Material {
 		
 		for(String name : uniforms) {
 			ParamType type = shader.getUniformType(name);
+			
 			if(type == null) {
 				if(!name.equals("time")) //Don't warn about missing time
 					Window.log.error("No uniform named \""+name+"\" in "+shaderPath);
@@ -180,16 +181,25 @@ public class Material {
 	public void setLights(Set<Light> lights) {
 		int i = 0;
 		for(Light light : lights) {
+			//Skip 0-radius lights
 			if(light.radius == 0) continue;
+			//Skip black lights
 			if(light.color.x == 0 && light.color.y == 0 && light.color.z == 0) continue;
-			
-			shader.setUniformV3("lights["+i+"].position", light.position);
-			shader.setUniformF("lights["+i+"].radius", light.radius);
-			shader.setUniformV3("lights["+i+"].color", light.color);
-			
+			//Skip invalid directional lights
+			if(light.radius < 0 && light.position.x == 0 && light.position.y == 0 && light.position.z == 0) continue;
+
+			setParamVec3f("lights["+i+"].position", light.position);
+			setParamF("lights["+i+"].radius", light.radius);
+			setParamVec3f("lights["+i+"].color", light.color);
 			i++;
+			
+			if(i >= 16) {
+				Window.log.warn("Too many lights (16 max)");
+				break;
+			}
 		}
-		shader.setUniformI("activeLights", i);
+		
+		setParamI("activeLights", Math.min(i, 16));
 	}
 	
 	/**

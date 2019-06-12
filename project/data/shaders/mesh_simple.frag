@@ -9,6 +9,8 @@ struct lightStruct {
 //In
 in vec2 texCoord;
 in vec3 normalCamSpaceIn;
+in vec3 worldNormalIn;
+in vec3 worldPosition;
 
 //Uniforms
 uniform float editorFilter = 0.0;
@@ -22,15 +24,30 @@ uniform lightStruct lights[16];
 //Out
 out vec4 FragmentColor;
 
-vec3 computeLight(lightStruct light) {
-    return vec3(1, 1, 1);
+vec3 directionalLight(lightStruct light, vec3 worldNormal) {
+    float dotN = dot(light.position*-1, worldNormal);
+    
+    return light.color * max(dotN, 0);
+}
+
+vec3 pointLight(lightStruct light, vec3 worldNormal) {
+    float intensity = length(worldPosition-light.position);
+    
+    intensity = 1-min( intensity/light.radius, 1 );
+    
+    intensity *= max( 1, dot(light.position*-1, worldNormal) );
+    
+    return light.color*( intensity );
 }
 
 void main() {
 	//Two-sided lighting
 	vec3 normalCamSpace = normalCamSpaceIn;
-	if(!gl_FrontFacing)
+	vec3 worldNormal = worldNormalIn;
+	if(!gl_FrontFacing) {
 		normalCamSpace *= -1.0;
+		worldNormal *= -1.0;
+	}
 
     vec4 textureSample = texture(baseColor, texCoord);
     
@@ -39,7 +56,10 @@ void main() {
     //Lighting
     vec3 lightColor = vec3(0, 0, 0);
     for(int i=0; i<activeLights; i++) {
-        lightColor += computeLight(lights[i]);
+        if(lights[i].radius > 0)
+            lightColor += pointLight(lights[i], worldNormal);
+        else
+            lightColor += directionalLight(lights[i], worldNormal);
     }
     
     //Apply ambient lighting

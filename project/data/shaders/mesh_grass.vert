@@ -14,6 +14,8 @@ uniform int time;
 //Out
 out vec2 texCoord;
 out vec3 normalCamSpaceIn;
+out vec3 worldPosition;
+out vec3 worldNormalIn;
 
 void main() {
     mat4 viewModel = view * model;
@@ -26,5 +28,7 @@ void main() {
     
     gl_Position = mvp * vec4(position_wind, 1.0);
     texCoord = uv;
+    worldNormalIn = normalize( (inverse(model) * vec4(0.0, -1.0, 0.0, 0.0)).xyz );
     normalCamSpaceIn = normalize( ( viewModel * vec4(0.0, -1.0, 0.0, 0.0) ).xyz ); //Custom normal
+    worldPosition = (model * vec4(position, 1.0)).xyz;
 }

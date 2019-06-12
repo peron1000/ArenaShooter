@@ -13,11 +13,17 @@ uniform mat4 projection;
 //Out
 out vec2 texCoord;
 out vec3 normalCamSpaceIn;
+out vec3 worldPosition;
+out vec3 worldNormalIn;
 
 void main() {
     mat4 modelView = view * model;
     mat4 mvp = projection * modelView;
     gl_Position = mvp * vec4(position, 1.0);
     texCoord = uv;
-    normalCamSpaceIn = normalize( transpose(inverse(mat3(modelView))) * normal );
+    //worldNormalIn = normalize( (inverse(mat3(model))) * normal );
+    worldNormalIn = normalize( (model * vec4(normal, 0.0)).xyz );
+    //normalCamSpaceIn = normalize( (inverse(mat3(modelView))) * normal );
+    normalCamSpaceIn = normalize( (modelView * vec4(normal, 0.0)).xyz );
+    worldPosition = (model * vec4(position, 1.0)).xyz;
 }
