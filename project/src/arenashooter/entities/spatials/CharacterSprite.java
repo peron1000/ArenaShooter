@@ -237,7 +237,7 @@ public class CharacterSprite extends Spatial {
 
 	public void explode(Vec2f impulse) {
 		// Head
-		RigidBody rb = new RigidBody(new ShapeDisk(.45), head.getWorldPos(), head.getWorldRot(), CollisionFlags.CORPSE,
+		RigidBody rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(head.getWorldPos(),new Vec2f(0, .5) ), head.getWorldRot(), CollisionFlags.CORPSE,
 				2.9f, .9f);
 		RigidBodyContainer rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
@@ -247,7 +247,7 @@ public class CharacterSprite extends Spatial {
 		head.attachRot = true;
 
 		// Body
-		rb = new RigidBody(new ShapeDisk(.45), body.getWorldPos(), body.getWorldRot(), CollisionFlags.CORPSE, 2.9f,
+		rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(body.getWorldPos(),new Vec2f(0, .1)), body.getWorldRot(), CollisionFlags.CORPSE, 2.9f,
 				.9f);
 		rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
