@@ -86,6 +86,8 @@
 		</item>
 
 		<gravity  x="0" y="9.807" />
+		
+		<ambientLight r="0.48" g="0.48" b="0.5"/>
 
 		<cameraPos x="0" y="-15" z="100" />
 
@@ -98,6 +100,10 @@
 	</information>
 
 	<entities>
+		<directionalLight>
+			<vecteur use="color" x="1" y="1" z="0.99" />
+			<vecteur use="rotation" x="-.2" y="-.8" z="0" />
+		</directionalLight>
 		<spawn playerSpawn="false" cooldown="2">
 			<vecteur x="-7" y="1" use="position" />
 			<itemRef item="minigun" proba="1" />
@@ -413,6 +419,10 @@
 					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="1" y="2" z="1" />
 				</mesh>
+				<pointLight radius="10">
+					<vecteur use="color" x="1" y="1" z=".5" />
+					<vecteur use="position" x="0" y="2" z="0" />
+				</pointLight>
 			</entities>
 		</rigid>
 		<jointPin bodyA="large_platform" bodyB="pinned_crate_01">

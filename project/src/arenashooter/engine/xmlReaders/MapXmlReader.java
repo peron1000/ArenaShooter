@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
+import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
@@ -25,6 +26,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.KinematicBodyContainer;
+import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
@@ -94,6 +96,7 @@ public class MapXmlReader extends XmlReader {
 
 	private void loadInformation(Element information, Arena map) {
 		loadGravity(getFirstElementByName("gravity", information), map);
+		loadAmbientLight(getFirstElementByName("ambientLight", information), map);
 		loadSky(getFirstElementByName("sky", information), map);
 		loadCameraBasePos(getFirstElementByName("cameraPos", information), map);
 		loadKillBounds(getFirstElementByName("killBounds", information), map);
@@ -426,6 +429,28 @@ public class MapXmlReader extends XmlReader {
 		
 		map.gravity = new Vec2f(x, y);
 	}
+	
+	private void loadAmbientLight(Element ambient, Arena arena) {
+		float x = arena.ambientLight.x;
+		if(ambient.hasAttribute("r"))
+			x = Float.parseFloat(ambient.getAttribute("r"));
+		else
+			log.error("Missing red channel in ambient light");
+
+		float y = arena.ambientLight.y;
+		if(ambient.hasAttribute("g"))
+			y = Float.parseFloat(ambient.getAttribute("g"));
+		else
+			log.error("Missing green channel in ambient light");
+
+		float z = arena.ambientLight.z;
+		if(ambient.hasAttribute("b"))
+			z = Float.parseFloat(ambient.getAttribute("g"));
+		else
+			log.error("Missing blue channel in ambient light");
+		
+		arena.ambientLight.set(x, y, z);
+	}
 
 	private void loadEntities(Element entities, Entity parent) {
 		// Entity
@@ -457,7 +482,17 @@ public class MapXmlReader extends XmlReader {
 		elems = getListElementByName("mesh", entities);
 		for (Element mesh : elems)
 			loadMesh(mesh, parent);
-
+		
+		// Point light
+		elems = getListElementByName("pointLight", entities);
+		for (Element mesh : elems)
+			loadLightPoint(mesh, parent);
+		
+		// Directional light
+		elems = getListElementByName("directionalLight", entities);
+		for (Element mesh : elems)
+			loadLightDirectional(mesh, parent);
+		
 		// Text
 		elems = getListElementByName("text", entities);
 		for (Element text : elems)
@@ -575,7 +610,6 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadMesh(Element mesh, Entity parent) {
-		Loading.loading.getMap().step(0);
 		// vecteurs
 		List<Element> vecteurs = getListElementByName("vecteur", mesh);
 		Vec3f position = new Vec3f(), scale = new Vec3f();
@@ -618,6 +652,100 @@ public class MapXmlReader extends XmlReader {
 		List<Element> entitiess = getListElementByName("entities", mesh);
 		for (Element entities : entitiess) {
 			loadEntities(entities, m);
+		}
+	}
+	
+	private void loadLightPoint(Element light, Entity parent) {
+		// vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", light);
+		Vec3f position = new Vec3f();
+		Vec3f color = new Vec3f();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			log.error("Point light element needs " + nbVec + " vectors");
+			System.out.println(vecteurs.size());
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVector vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "position":
+					position = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				case "color":
+					color = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				default:
+					log.error("Invalid vector in Point light element");
+					break;
+				}
+			}
+		}
+
+		// Light
+		Light lightObject = new Light();
+		lightObject.radius = Float.parseFloat(light.getAttribute("radius"));
+		if(lightObject.radius < 0) {
+			log.error("Invalid radius for Point light: "+lightObject.radius);
+			lightObject.radius = 0;
+		}
+		lightObject.color.set(color);
+		LightContainer container = new LightContainer(position, lightObject);
+		if (light.hasAttribute("name")) {
+			container.attachToParent(parent, light.getAttribute("name"));
+		} else {
+			container.attachToParent(parent, container.genName());
+		}
+
+		// Load children
+		List<Element> entitiess = getListElementByName("entities", light);
+		for (Element entities : entitiess) {
+			loadEntities(entities, container);
+		}
+	}
+	
+	private void loadLightDirectional(Element light, Entity parent) {
+		// vecteurs
+		List<Element> vecteurs = getListElementByName("vecteur", light);
+		Vec3f position = new Vec3f();
+		Vec3f color = new Vec3f();
+		Quat rotation = new Quat();
+		int nbVec = 2;
+		if (vecteurs.size() != nbVec) {
+			log.error("Directional light element needs " + nbVec + " vectors");
+			System.out.println(vecteurs.size());
+		} else {
+			for (Element vecteur : vecteurs) {
+				XmlVector vec = loadVecteur(vecteur);
+				switch (vec.use) {
+				case "color":
+					color = new Vec3f(vec.x, vec.y, vec.z);
+					break;
+				case "rotation":
+					rotation = readRotation(vecteur);
+					break;
+				default:
+					log.error("Invalid vector in Directional light element");
+					break;
+				}
+			}
+		}
+
+		// Light
+		Light lightObject = new Light();
+		lightObject.radius = -1;
+		lightObject.color.set(color);
+		LightContainer container = new LightContainer(position, lightObject);
+		container.localRotation.set(rotation);
+		if (light.hasAttribute("name")) {
+			container.attachToParent(parent, light.getAttribute("name"));
+		} else {
+			container.attachToParent(parent, container.genName());
+		}
+
+		// Load children
+		List<Element> entitiess = getListElementByName("entities", light);
+		for (Element entities : entitiess) {
+			loadEntities(entities, container);
 		}
 	}
 

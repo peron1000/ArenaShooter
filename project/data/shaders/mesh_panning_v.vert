@@ -13,24 +13,17 @@ uniform mat4 projection;
 //Out
 out vec2 texCoord;
 out vec3 normalCamSpaceIn;
-out vec3 ambient;
-out vec3 directionalLightDir;
-out vec3 directionalLightColor;
-out struct Light {
-  vec3 position;
-  float radius;
-  vec3 color;
-} light;
+out vec3 worldPosition;
+out vec3 worldNormalIn;
 
 void main() {
     mat4 modelView = view * model;
     mat4 mvp = projection * modelView;
     gl_Position = mvp * vec4(position, 1.0);
     texCoord = uv;
-    normalCamSpaceIn = normalize( transpose(inverse(mat3(modelView))) * normal );
-    
-    ambient = vec3(0.063, 0.078, 0.078);
-    
-    directionalLightDir = normalize( (view * vec4(0.45, -0.8, -0.3, 0.0)).xyz );
-    directionalLightColor = vec3(0.929, 0.906, 0.753);
+    //worldNormalIn = normalize( (inverse(mat3(model))) * normal );
+    worldNormalIn = normalize( (model * vec4(normal, 0.0)).xyz );
+    //normalCamSpaceIn = normalize( (inverse(mat3(modelView))) * normal );
+    normalCamSpaceIn = normalize( (modelView * vec4(normal, 0.0)).xyz );
+    worldPosition = (model * vec4(position, 1.0)).xyz;
 }

@@ -3,12 +3,14 @@
 <!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
-<!ELEMENT information (item* , gravity , cameraPos, killBounds , sky)>
+<!ELEMENT information (item*, gravity, ambientLight, cameraPos, killBounds , sky)>
 
 <!ELEMENT item (usable|gun|melee|shotgun|usabletimer)>
 
 <!ELEMENT gravity EMPTY>
 <!ATTLIST gravity x CDATA #REQUIRED y CDATA #REQUIRED>
+<!ELEMENT ambientLight EMPTY>
+<!ATTLIST ambientLight r CDATA #REQUIRED g CDATA #REQUIRED b CDATA #REQUIRED>
 <!ELEMENT cameraPos EMPTY>
 <!ATTLIST cameraPos x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED>
 <!ELEMENT killBounds EMPTY>
@@ -16,7 +18,7 @@
 <!ELEMENT sky (vecteur, vecteur)>
 
 <!-- Entities-->
-<!ELEMENT entities (entity|spawn|rigid|mesh|text|static|kinematic|jointPin)*>
+<!ELEMENT entities (entity|spawn|rigid|mesh|directionalLight|pointLight|text|static|kinematic|jointPin)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT spawn (vecteur, itemRef*,entities?)>
@@ -26,6 +28,11 @@
 <!ELEMENT mesh (vecteur, vecteur, vecteur, entities?)>
 <!ATTLIST mesh name CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>
+<!ELEMENT directionalLight (vecteur, vecteur)>
+<!ATTLIST directionalLight name CDATA #IMPLIED>
+<!ELEMENT pointLight (vecteur, vecteur)>
+<!ATTLIST pointLight name CDATA #IMPLIED>
+<!ATTLIST pointLight radius CDATA #REQUIRED>
 <!ELEMENT text (vecteur, vecteur, entities?)>
 <!ATTLIST text name CDATA #IMPLIED>
 <!ATTLIST text content CDATA #REQUIRED>
