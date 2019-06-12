@@ -196,49 +196,46 @@
 			<vecteur x="-40.0" y="-1.0" use="position" />
 			<vecteur x="1" y="1" use="extent" />
 			<entities>
-				<mesh src="data/meshes/crate/crate_01.obj">
+				<mesh src="data/meshes/slaughterhouse/carcass_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x="2" y="2" z="2" />
+					<vecteur use="rotation" x=".92" y="1.57" z="-.3" />
+					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
 		</kinematic>
-
-		<rigid>
-			<vecteur x="15" y="-1.1" use="position" />
-			<vecteur x="1" y="1" use="extent" />
+		<kinematic animation="data/animations/animSlaughterhouse02.xml">
+			<vecteur x="-40.0" y="-1.0" use="position" />
+			<vecteur x="1.2" y="1" use="extent" />
 			<entities>
-				<mesh src="data/meshes/crate/crate_01.obj">
+				<mesh src="data/meshes/slaughterhouse/carcass_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x="2" y="2" z="2" />
+					<vecteur use="rotation" x="-.8" y="1.57" z=".32" />
+					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
-		</rigid>
-
-		<rigid>
-			<vecteur x="-15" y="-1.1" use="position" />
-			<vecteur x="1" y="1" use="extent" />
+		</kinematic>
+		<kinematic animation="data/animations/animSlaughterhouse03.xml">
+			<vecteur x="-40.0" y="-1.0" use="position" />
+			<vecteur x="1.2" y="1" use="extent" />
 			<entities>
-				<mesh src="data/meshes/crate/crate_01.obj">
+				<mesh src="data/meshes/slaughterhouse/carcass_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x="2" y="2" z="2" />
+					<vecteur use="rotation" x="-.3" y="1.57" z=".12" />
+					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
-		</rigid>
-		
-		<rigid>
-			<vecteur x="-5" y="-1.1" use="position" />
-			<vecteur x="1" y="1" use="extent" />
+		</kinematic>
+		<kinematic animation="data/animations/animSlaughterhouse04.xml">
+			<vecteur x="-40.0" y="-1.0" use="position" />
+			<vecteur x="1.2" y="1" use="extent" />
 			<entities>
-				<mesh src="data/meshes/crate/crate_01.obj">
+				<mesh src="data/meshes/slaughterhouse/carcass_01.obj">
 					<vecteur use="position" x="0" y="0" z="0" />
-					<vecteur use="rotation" x="0" y="0" z="0" />
-					<vecteur use="scale" x="2" y="2" z="2" />
+					<vecteur use="rotation" x=".41" y="1.57" z="-.08" />
+					<vecteur use="scale" x="1" y="1" z="1" />
 				</mesh>
 			</entities>
-		</rigid>
+		</kinematic>
 
 	</entities>
 </map>
