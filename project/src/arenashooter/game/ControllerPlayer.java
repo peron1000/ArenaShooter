@@ -28,10 +28,14 @@ public class ControllerPlayer extends Controller {
 					Vec2f charPos = Vec2f.worldToScreen(getCharacter().getWorldPos());
 					charPos.y *= -1;
 
-					Vec2f mouseCentered = Vec2f.add(Input.mousePos,
-							new Vec2f(-Window.getWidth() / 2, -Window.getHeight() / 2));
-
-					getCharacter().aimInput = Vec2f.subtract(mouseCentered, charPos).angle();
+					Vec2f mouseCentered = Input.mousePos.clone();
+					mouseCentered.x /= Window.getWidth();
+					mouseCentered.x -= .5;
+					mouseCentered.y /= Window.getHeight();
+					mouseCentered.y -= .5;
+					mouseCentered.multiply(2);
+					
+					getCharacter().aimInput = Vec2f.direction(charPos, mouseCentered);
 					getCharacter().isAiming = true;
 				} else {
 					getCharacter().aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y)).angle();

@@ -375,10 +375,14 @@ public class Vec2f {
 	 * @return screen space projection
 	 */
 	public static Vec2f worldToScreen(Vec3f world) { //TODO: test
+		Mat4f viewProj = Mat4f.mul(Window.proj, Window.getView());
 		Mat4f model = Mat4f.translation(world);
-		float[] projected = Mat4f.mul(Mat4f.mul(Window.proj, Window.getView()), model).val[3];
-				
-		return new Vec2f( projected[0], projected[1] );
+		float res[] = Mat4f.mul(viewProj, model).val[3];
+		float w = res[3];
+		if(w <= 0) w = 1;
+		w = 1/w;
+		
+		return new Vec2f(res[0]*w, res[1]*w);
 	}
 
 	/**
@@ -386,11 +390,15 @@ public class Vec2f {
 	 * @param world point to project
 	 * @return screen space projection
 	 */
-	public static Vec2f worldToScreen(Vec2f world) { //TODO: fix this
+	public static Vec2f worldToScreen(Vec2f world) { //TODO: test
+		Mat4f viewProj = Mat4f.mul(Window.proj, Window.getView());
 		Mat4f model = Mat4f.translation(world);
-		float[] projected = Mat4f.mul( Window.proj, Mat4f.mul( Window.getView(), model) ).val[3];
+		float res[] = Mat4f.mul(viewProj, model).val[3];
+		float w = res[3];
+		if(w <= 0) w = 1;
+		w = 1/w;
 		
-		return new Vec2f( projected[0], projected[1] );
+		return new Vec2f(res[0]*w, res[1]*w);
 	}
 	
 	/**
