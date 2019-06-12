@@ -92,10 +92,10 @@ public class CharacterSprite extends Spatial {
 		// Feet
 		f = new File(folder + "/foot.png");
 		if (f.exists() && !f.isDirectory()) {
-			footL = new Sprite(new Vec2f(-.3 + .08, .81), folder + "/foot.png");
+			footL = new Sprite(new Vec2f((mirrorLeftFoot ? -.5 : -.3) + .08, .81), folder + "/foot.png");
 			footR = new Sprite(new Vec2f(.3 - .08, .81), folder + "/foot.png");
 		} else if (new File(folder + "/foot_tr.png").exists()) {
-			footL = new Sprite(new Vec2f(-.3 + .08, .81), folder + "/foot_tr.png");
+			footL = new Sprite(new Vec2f((mirrorLeftFoot ? -.5 : -.3) + .08, .81), folder + "/foot_tr.png");
 			footR = new Sprite(new Vec2f(.3 - .08, .81), folder + "/foot_tr.png");
 		}
 		footL.size = new Vec2f(footL.getTexture().getWidth() * .052, footL.getTexture().getHeight() * .052);
@@ -238,8 +238,8 @@ public class CharacterSprite extends Spatial {
 
 	public void explode(Vec2f impulse) {
 		// Head
-		RigidBody rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(head.getWorldPos(),new Vec2f(0, .5) ), head.getWorldRot(), CollisionFlags.CORPSE,
-				2.9f, .9f);
+		RigidBody rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(head.getWorldPos(), new Vec2f(0, .5)),
+				head.getWorldRot(), CollisionFlags.CORPSE, 2.9f, .9f);
 		RigidBodyContainer rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity(Vec2f.rotate(impulse, Math.random() - .5));
@@ -248,8 +248,8 @@ public class CharacterSprite extends Spatial {
 		head.attachRot = true;
 
 		// Body
-		rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(body.getWorldPos(),new Vec2f(0, .1)), body.getWorldRot(), CollisionFlags.CORPSE, 2.9f,
-				.9f);
+		rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(body.getWorldPos(), new Vec2f(0, .1)), body.getWorldRot(),
+				CollisionFlags.CORPSE, 2.9f, .9f);
 		rbc = new RigidBodyContainer(rb);
 		rbc.attachToParent(getArena(), rbc.genName());
 		rbc.setLinearVelocity(Vec2f.rotate(impulse, Math.random() - .5));
@@ -363,12 +363,14 @@ public class CharacterSprite extends Spatial {
 
 		body.flipX = !lookRight;
 		head.flipX = !lookRight;
-		if (!mirrorLeftFoot)
+		if (!mirrorLeftFoot) {
 			footL.flipX = !lookRight;
-		else {
-			footL.flipX = lookRight;
+			footR.flipX = !lookRight;
+		} else {
+			footL.flipX = true;
+			footR.flipX = false;
 		}
-		footR.flipX = !lookRight;
+			System.out.println(mirrorLeftFoot);
 
 		// Feet
 		double footSin = Math.sin(movementTime * 2);
@@ -387,32 +389,30 @@ public class CharacterSprite extends Spatial {
 		}
 
 		if (moveSpeed > 0) {
-			footL.localPosition.x = (float) (-.3 + footCos * .08);
-			footL.localPosition.y = (float) (.65 + footSin * .16);
+			footL.localPosition.set((float) ((mirrorLeftFoot ? -.5 : -.3) + footCos * .08),
+					(float) (.65 + footSin * .16));
 
-			footR.localPosition.x = (float) (.3 - footSin * .08);
-			footR.localPosition.y = (float) (.65 + footCos * .16);
+			footR.localPosition.set((float) (.3 - footSin * .08), (float) (.65 + footCos * .16));
 
 			if (lookRight) {
-				footL.zIndex = 1;
+				footL.zIndex = mirrorLeftFoot ? -1 : 1;
 				footR.zIndex = -1;
 			} else {
 				footL.zIndex = -1;
-				footR.zIndex = 1;
+				footR.zIndex = mirrorLeftFoot ? -1 : 1;
 			}
 		} else {
-			footL.localPosition.x = (float) (.3 - footCos * .08);
-			footL.localPosition.y = (float) (.65 + footSin * .16);
+			footL.localPosition.set((float) ((mirrorLeftFoot ? -.5 : .3) - footCos * .08), (float) (.65 + footSin * .16));
 
-			footR.localPosition.x = (float) (-.3 + footSin * .08);
-			footR.localPosition.y = (float) (.65 + footCos * .16);
+			footR.localPosition.set((float) ((mirrorLeftFoot ? .5 : -.3) + footSin * .08),
+					(float) (.65 + footCos * .16));
 
 			if (lookRight) {
-				footL.zIndex = -1;
-				footR.zIndex = 1;
-			} else {
-				footL.zIndex = 1;
+				footL.zIndex = mirrorLeftFoot ? -1 : 1;
 				footR.zIndex = -1;
+			} else {
+				footL.zIndex = -1;
+				footR.zIndex = mirrorLeftFoot ? -1 : 1;
 			}
 		}
 

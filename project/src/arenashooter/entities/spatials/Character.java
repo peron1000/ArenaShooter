@@ -32,6 +32,7 @@ public class Character extends RigidBodyContainer {
 
 	// public Vec2f vel = new Vec2f();
 	boolean isOnGround = true;
+	private boolean canJump = true;
 	public float movementInput = 0;
 	public boolean lookRight = true;
 	public boolean isAiming = false;
@@ -96,7 +97,7 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public void jump() {
-		if (isOnGround) {
+		if (canJump) {
 			isOnGround = false;
 			jumpi = true;
 			// vel.y = (float) -jumpForce;
@@ -393,7 +394,9 @@ public class Character extends RigidBodyContainer {
 			controller.death(deathCause);
 		detach();
 	}
-
+	
+	private int jumpPoints = 0;
+	
 	@Override
 	public void step(double d) {
 		if (getArena() == null)
@@ -445,6 +448,7 @@ public class Character extends RigidBodyContainer {
 			getBody().getBody().setGravityScale(6);
 
 		isOnGround = false;
+		jumpPoints = 0;
 
 		if (!jumpTimer.isProcessing() || (jumpTimer.inProcess && jumpTimer.getValue() > 0.2)) {
 			for (int i = 0; i < 4; i++) {
@@ -462,10 +466,24 @@ public class Character extends RigidBodyContainer {
 				getArena().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
+		
+		canJump = isOnGround;
 
 		if (isOnGround)
 			jumpTimer.reset();
 
+		if(!canJump) {
+			float x = getWorldPos().x;
+			float y = getWorldPos().y;
+			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(.5+x, y).toB2Vec(), new Vec2f(
+					.5+x, .8+y).toB2Vec());
+			
+			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(-.5+x, y).toB2Vec(), new Vec2f(
+					-.5+x, .8+y).toB2Vec());
+			if (jumpPoints >= 2)
+				canJump = true;
+		}
+		
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
 			skeleton.charging = chargePunch.isProcessing();
@@ -474,10 +492,6 @@ public class Character extends RigidBodyContainer {
 				Audio.playSound2D("data/sound/Souing.ogg", AudioChannel.SFX, 0.7f, 1.5f, getWorldPos());
 			}
 		}
-
-		// Kill character when out of bounds
-		if (Math.abs(getWorldPos().x) > 500 || Math.abs(getWorldPos().y) > 500)
-			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
 
 		super.step(d);
 	}
@@ -511,6 +525,38 @@ public class Character extends RigidBodyContainer {
 
 			isOnGround = true;
 			punchedMidAir = false;
+			return fraction;
+		}
+	};
+	
+	RayCastCallback JumpRaycastCallback = new RayCastCallback() {
+		@Override
+		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			// Ignore sensors
+			if (fixture.isSensor())
+				return -1;
+
+			// Ignore anything the character doesn't collide with
+			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
+				return -1;
+
+			jumpPoints++;
+			return fraction;
+		}
+	};
+	
+	RayCastCallback WallRaycastCallback = new RayCastCallback() {
+		@Override
+		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
+			// Ignore sensors
+			if (fixture.isSensor())
+				return -1;
+
+			// Ignore anything the character doesn't collide with
+			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
+				return -1;
+
+			jumpPoints++;
 			return fraction;
 		}
 	};
