@@ -419,6 +419,10 @@
 					<vecteur use="rotation" x="0" y="0" z="0" />
 					<vecteur use="scale" x="1" y="2" z="1" />
 				</mesh>
+				<pointLight radius="10">
+					<vecteur use="color" x="1" y="1" z=".5" />
+					<vecteur use="position" x="0" y="2" z="0" />
+				</pointLight>
 			</entities>
 		</rigid>
 		<jointPin bodyA="large_platform" bodyB="pinned_crate_01">

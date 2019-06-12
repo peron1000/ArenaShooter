@@ -31,11 +31,12 @@ vec3 directionalLight(lightStruct light, vec3 worldNormal) {
 }
 
 vec3 pointLight(lightStruct light, vec3 worldNormal) {
-    float intensity = length(worldPosition-light.position);
+    vec3 direction = worldPosition - light.position;
+    float distance = length(direction);
     
-    intensity = 1-min( intensity/light.radius, 1 );
+    float intensity = 1-min( distance/light.radius, 1 );
     
-    intensity *= max( 1, dot(light.position*-1, worldNormal) );
+    intensity *= max( 1, dot(direction*-1, worldNormal) );
     
     return light.color*( intensity );
 }

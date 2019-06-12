@@ -684,6 +684,10 @@ public class MapXmlReader extends XmlReader {
 		// Light
 		Light lightObject = new Light();
 		lightObject.radius = Float.parseFloat(light.getAttribute("radius"));
+		if(lightObject.radius < 0) {
+			log.error("Invalid radius for Point light: "+lightObject.radius);
+			lightObject.radius = 0;
+		}
 		lightObject.color.set(color);
 		LightContainer container = new LightContainer(position, lightObject);
 		if (light.hasAttribute("name")) {
