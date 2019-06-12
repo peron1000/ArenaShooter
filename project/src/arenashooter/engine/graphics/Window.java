@@ -363,6 +363,8 @@ public final class Window {
 		else
 			glfwSetWindowSize(window, width, height);
 		
+		glfwFocusWindow(window);
+		
 		ratio = (float)width/(float)height;
 		
 		resX = (int)(width*resolutionScale);
