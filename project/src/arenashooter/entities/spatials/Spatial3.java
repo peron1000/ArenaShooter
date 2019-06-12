@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 
 public class Spatial3 extends Entity {
@@ -58,8 +59,8 @@ public class Spatial3 extends Entity {
 	}
 	
 	@Override
-	protected void recursiveDetach() {
-		super.recursiveDetach();
+	protected void recursiveDetach(Arena oldArena) {
+		super.recursiveDetach(oldArena);
 		updateAttachment();
 	}
 	

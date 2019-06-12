@@ -5,6 +5,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Arena;
 
 /**
  * Spatial entity containing a sound effect.
@@ -114,8 +115,8 @@ public class SoundEffect extends Spatial {
 	}
 	
 	@Override
-	protected void recursiveDetach() {
-		super.recursiveDetach();
+	protected void recursiveDetach(Arena oldArena) {
+		super.recursiveDetach(oldArena);
 		
 		destroySource();
 	}

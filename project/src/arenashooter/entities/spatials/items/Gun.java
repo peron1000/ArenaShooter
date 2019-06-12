@@ -67,15 +67,15 @@ public class Gun extends Usable {
 				warmupDuration, soundWarmup, soundFire);
 
 		this.nbAmmo = uses;
-		this.setBulletType(bulletType);
-		this.setBulletSpeed(bulletSpeed);
-		this.setCannonLength(cannonLength);
-		this.setDamage(damage);
-		this.setRecoil((float) recoil);
-		this.setThrust((float) thrust);
-		this.setWarmupDuration(warmupDuration);
-		this.setSoundNoAmmo(soundNoAmmo);
-		this.setSize(size);
+		this.bulletType = bulletType;
+		this.bulletSpeed = bulletSpeed;
+		this.cannonLength = cannonLength;
+		this.damage = damage;
+		this.recoil = (float) recoil;
+		this.thrust = (float) thrust;
+		this.warmupDuration = warmupDuration;
+		this.soundNoAmmo = soundNoAmmo;
+		this.size = size;
 
 		if(soundWarmup == null || soundWarmup.isEmpty()) {
 			sndWarmup = null;
@@ -134,17 +134,17 @@ public class Gun extends Usable {
 			if (nbAmmo > 0) {
 				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
-				Vec2f bulSpeed = Vec2f.multiply(aim, getBulletSpeed());
+				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
 				Vec2f bulletPos = getWorldPos();
-				bulletPos.add(Vec2f.multiply(aim, getCannonLength()));
+				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;
 				
 				nbAmmo--;
 
-				switch (getBulletType()) {
+				switch (bulletType) {
 				case 0:
-					Bullet bul = new Bullet(bulletPos, bulSpeed, getDamage());
+					Bullet bul = new Bullet(bulletPos, bulSpeed, damage);
 					bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 					if (isEquipped())
 						bul.shooter = ((Character) getParent());
@@ -156,8 +156,8 @@ public class Gun extends Usable {
 					flash = new Particles(bulletPos, "data/particles/flash_02.xml");
 					flash.attachToParent(getChild("particle_container"), "particles_flash");
 
-					CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, getDamage(), false);
-					CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, getDamage(), true);
+					CircleBullet bull = new CircleBullet(bulletPos, bulSpeed, damage, false);
+					CircleBullet bull2 = new CircleBullet(bulletPos, bulSpeed, damage, true);
 
 					if (isEquipped()) {
 						bull.shooter = ((Character) getParent());
@@ -168,7 +168,7 @@ public class Gun extends Usable {
 					break;
 					
 				case 2:
-					Grenade bul2 = new Grenade(bulletPos, bulSpeed, getDamage());
+					Grenade bul2 = new Grenade(bulletPos, bulSpeed, damage);
 					bul2.attachToParent(getArena(), ("grenade_" + bul2.genName()));
 					if (isEquipped())
 						bul2.shooter = ((Character) getParent());
@@ -177,14 +177,14 @@ public class Gun extends Usable {
 					break;
 					
 				case 3:
-					StarBullet star = new StarBullet(bulletPos, bulSpeed, getDamage());
+					StarBullet star = new StarBullet(bulletPos, bulSpeed, damage);
 					star.attachToParent(getArena(), ("star_" + star.genName()));
 					if (isEquipped())
 						star.shooter = ((Character) getParent());
 					break;
 					
 				default:
-					Bullet bul1 = new Bullet(bulletPos, bulSpeed, getDamage());
+					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
@@ -196,25 +196,25 @@ public class Gun extends Usable {
 				//Recoil
 				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
-					getVel().add(Vec2f.multiply(recoilDir, getRecoil() * 5000));
+					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
 //					((Character) getParent()).vel.add(Vec2f.multiply(recoilDir, thrust));
-					((Character) getParent()).applyImpulse(Vec2f.multiply(recoilDir, getThrust()));
+					((Character) getParent()).applyImpulse(Vec2f.multiply(recoilDir, thrust));
 				} else {
-					getVel().add(Vec2f.multiply(recoilDir, getThrust() / 10));
+					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				Audio.playSound2D(getSoundFire(), AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 
 				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
 				shell.attachToParent(this, shell.genName());
 
-				localRotation += ((Math.random()) - 0.5) * getRecoil();
+				localRotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
 				Window.getCamera().setCameraShake(.028f);
 			} else {
-				Audio.playSound2D(getSoundNoAmmo(), AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			}
 
 		}
@@ -231,79 +231,7 @@ public class Gun extends Usable {
 	
 	@Override
 	public Gun clone() {
-		Gun gun = new Gun(localPosition, this.genName(), getWeight(), getPathSprite(), handPosL, handPosR, soundPickup, fireRate, getUses(), getAnimPath(), getWarmupDuration(), getSoundWarmup(), getSoundFire(), getSoundNoAmmo(), getBulletType(), getBulletSpeed(), getDamage(), getCannonLength(), getRecoil(), getThrust(), getSize());
+		Gun gun = new Gun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;
-	}
-
-	public double getWarmupDuration() {
-		return warmupDuration;
-	}
-
-	public void setWarmupDuration(double warmupDuration) {
-		this.warmupDuration = warmupDuration;
-	}
-
-	public float getDamage() {
-		return damage;
-	}
-
-	public void setDamage(float damage) {
-		this.damage = damage;
-	}
-
-	public double getSize() {
-		return size;
-	}
-
-	public void setSize(double size) {
-		this.size = size;
-	}
-
-	public int getBulletType() {
-		return bulletType;
-	}
-
-	public void setBulletType(int bulletType) {
-		this.bulletType = bulletType;
-	}
-
-	public float getBulletSpeed() {
-		return bulletSpeed;
-	}
-
-	public void setBulletSpeed(float bulletSpeed) {
-		this.bulletSpeed = bulletSpeed;
-	}
-
-	public float getThrust() {
-		return thrust;
-	}
-
-	public void setThrust(float thrust) {
-		this.thrust = thrust;
-	}
-
-	public float getRecoil() {
-		return recoil;
-	}
-
-	public void setRecoil(float recoil) {
-		this.recoil = recoil;
-	}
-
-	public double getCannonLength() {
-		return cannonLength;
-	}
-
-	public void setCannonLength(double cannonLength) {
-		this.cannonLength = cannonLength;
-	}
-
-	public String getSoundNoAmmo() {
-		return soundNoAmmo;
-	}
-
-	public void setSoundNoAmmo(String soundNoAmmo) {
-		this.soundNoAmmo = soundNoAmmo;
 	}
 }

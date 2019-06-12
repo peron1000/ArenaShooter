@@ -76,7 +76,7 @@ public class Entity implements Editable {
 		parent = null;
 		arena = null;
 		name = "";
-		recursiveDetach();
+		recursiveDetach(arena);
 	}
 	
 	protected void recursiveAttach(Entity newParent) {
@@ -85,10 +85,10 @@ public class Entity implements Editable {
 			e.recursiveAttach(newParent);
 	}
 	
-	protected void recursiveDetach() {
+	protected void recursiveDetach(Arena oldArena) {
 		arenaDirty = true;
 		for(Entity e : children.values())
-			e.recursiveDetach();
+			e.recursiveDetach(oldArena);
 	}
 	
 	/**

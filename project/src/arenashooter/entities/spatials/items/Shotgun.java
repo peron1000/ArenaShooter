@@ -52,20 +52,6 @@ public class Shotgun extends Gun {
 		this.dispersion = dispersion;
 	}
 
-	/**
-	 * @return the multiShot
-	 */
-	public int getMultiShot() {
-		return multiShot;
-	}
-
-	/**
-	 * @return the dispersion
-	 */
-	public double getDispersion() {
-		return dispersion;
-	}
-
 	@Override
 	public void step(double d) {
 		if (sndWarmup != null) {
@@ -87,15 +73,15 @@ public class Shotgun extends Gun {
 			if (nbAmmo > 0) {
 				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
-				Vec2f bulSpeed = Vec2f.multiply(aim, getBulletSpeed());
+				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
 				Vec2f bulletPos = getWorldPos();
-				bulletPos.add(Vec2f.multiply(aim, getCannonLength()));
+				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;
 
 				nbAmmo--;
 
-				switch (getBulletType()) {
+				switch (bulletType) {
 				case 0:
 					for (int i = 0; i < multiShot; i++) {
 
@@ -105,7 +91,7 @@ public class Shotgun extends Gun {
 									bulletPos, Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed, 1 + (1 - rand) * 0.2),
 															(Math.random()>=0.5 ? 1 : -1)* rand * dispersion)),
 													1 + Math.random() / 4),
-									getDamage());
+									damage);
 							bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) getParent());
@@ -113,7 +99,7 @@ public class Shotgun extends Gun {
 							Bullet bul = new Bullet(bulletPos,
 									Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed,1.2), (Math.random() - 0.5) * 0.5 * dispersion)),
 											1 + Math.random() / 4),
-									getDamage());
+									damage);
 							bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) getParent());
@@ -131,11 +117,11 @@ public class Shotgun extends Gun {
 						CircleBullet bull = new CircleBullet(bulletPos,
 								Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random() - 0.5) * 2 * dispersion)),
 										1 + Math.random() / 4),
-								getDamage(), false);
+								damage, false);
 						CircleBullet bull2 = new CircleBullet(bulletPos,
 								Vec2f.multiply((Vec2f.rotate(bulSpeed, (Math.random() - 0.5) * 2 * dispersion)),
 										1 + Math.random() / 4),
-								getDamage(), true);
+								damage, true);
 
 						if (isEquipped()) {
 							bull.shooter = ((Character) getParent());
@@ -148,7 +134,7 @@ public class Shotgun extends Gun {
 
 				default:
 
-					Bullet bul1 = new Bullet(bulletPos, bulSpeed, getDamage());
+					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
@@ -158,25 +144,25 @@ public class Shotgun extends Gun {
 					break;
 				}
 				if (isEquipped()) {
-					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), getRecoil() * 5000));
+					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
 //					((Character) getParent()).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
-					((Character) getParent()).applyImpulse(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), getThrust()));
+					((Character) getParent()).applyImpulse(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
 				} else {
-					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), getThrust() / 10));
+					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
 				}
 
-				Audio.playSound2D(getSoundFire(), AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 
 				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
 				shell.attachToParent(this, shell.genName());
 
-				localRotation += ((Math.random()) - 0.5) * getRecoil();
+				localRotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
 				Window.getCamera().setCameraShake(.029f);
 			} else {
-				Audio.playSound2D(getSoundNoAmmo(), AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			}
 
 		}
@@ -186,9 +172,9 @@ public class Shotgun extends Gun {
 
 	@Override
 	public Shotgun clone() {
-		Shotgun gun = new Shotgun(localPosition, this.genName(), getWeight(), getPathSprite(), handPosL, handPosR, soundPickup,
-				fireRate, getUses(), getAnimPath(), getWarmupDuration(), getSoundWarmup(), getSoundFire(), getSoundNoAmmo(), multiShot, dispersion,
-				getBulletType(), getBulletSpeed(), getDamage(), getCannonLength(), getRecoil(), getThrust(), getSize());
+		Shotgun gun = new Shotgun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup,
+				fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, multiShot, dispersion,
+				bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
 		return gun;
 	}
 }

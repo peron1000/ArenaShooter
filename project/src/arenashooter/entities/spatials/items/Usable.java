@@ -13,13 +13,6 @@ public class Usable extends Item {
 	protected int uses = 0;
 	protected String animPath = "";
 	protected double warmup = 0;
-	/**
-	 * @return the warmup
-	 */
-	public double getWarmup() {
-		return warmup;
-	}
-
 	protected String soundWarmup = "";
 	protected String soundFire = "";
 
@@ -29,18 +22,11 @@ public class Usable extends Item {
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 		this.fireRate = fireRate;
-		this.setUses(uses);
-		this.setAnimPath(animPath);
+		this.uses = uses;
+		this.animPath = animPath;
 		this.warmup = warmup;
-		this.setSoundWarmup(soundWarmup);
-		this.setSoundFire(soundFire);
-	}
-
-	/**
-	 * @return the fireRate
-	 */
-	public double getFireRate() {
-		return fireRate;
+		this.soundWarmup = soundWarmup;
+		this.soundFire = soundFire;
 	}
 
 	public void attackStart() {
@@ -65,40 +51,8 @@ public class Usable extends Item {
 	
 	@Override
 	public Usable clone() {
-		Usable clone = new Usable(localPosition, this.genName(), getWeight(), getPathSprite(), handPosL, handPosL, soundPickup, fireRate, getUses(), getAnimPath(), fireRate, getAnimPath(), getAnimPath()) {
+		Usable clone = new Usable(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
 		};
 		return clone;
-	}
-
-	public int getUses() {
-		return uses;
-	}
-
-	public void setUses(int uses) {
-		this.uses = uses;
-	}
-
-	public String getAnimPath() {
-		return animPath;
-	}
-
-	public void setAnimPath(String animPath) {
-		this.animPath = animPath;
-	}
-
-	public String getSoundWarmup() {
-		return soundWarmup;
-	}
-
-	public void setSoundWarmup(String soundWarmup) {
-		this.soundWarmup = soundWarmup;
-	}
-
-	public String getSoundFire() {
-		return soundFire;
-	}
-
-	public void setSoundFire(String soundFire) {
-		this.soundFire = soundFire;
 	}
 }

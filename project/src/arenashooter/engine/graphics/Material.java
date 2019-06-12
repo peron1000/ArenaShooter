@@ -174,6 +174,25 @@ public class Material {
 	}
 	
 	/**
+	 * Set lights used on this materials
+	 * @param lights
+	 */
+	public void setLights(Set<Light> lights) {
+		int i = 0;
+		for(Light light : lights) {
+			if(light.radius == 0) continue;
+			if(light.color.x == 0 && light.color.y == 0 && light.color.z == 0) continue;
+			
+			shader.setUniformV3("lights["+i+"].position", light.position);
+			shader.setUniformF("lights["+i+"].radius", light.radius);
+			shader.setUniformV3("lights["+i+"].color", light.color);
+			
+			i++;
+		}
+		shader.setUniformI("activeLights", i);
+	}
+	
+	/**
 	 * Creates a copy of this material, mutable parameters are cloned too
 	 */
 	@Override

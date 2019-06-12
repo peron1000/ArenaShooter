@@ -2,10 +2,13 @@ package arenashooter.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import arenashooter.engine.graphics.Light;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -36,6 +39,8 @@ public class Arena extends Entity {
 	
 	/** Base camera position, camera movement will be restricted into this field of view */
 	public Vec3f cameraBasePos = new Vec3f(0, 0, 8);
+	
+	public Set<Light> lights = new HashSet<>();
 
 	Timer spawnWeapon = new Timer(4);
 
