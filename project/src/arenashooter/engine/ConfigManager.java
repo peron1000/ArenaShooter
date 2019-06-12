@@ -113,10 +113,9 @@ public class ConfigManager {
 	 */
 	public static void applyAllSettings() {
 		//Video
-		Window.resize(getInt("resX"), getInt("resY"));
+		Window.resize(getInt("resX"), getInt("resY"), getBool("fullscreen"));
 		Window.setResScale(getFloat("resScale"));
 		Window.setVsync(getBool("vsync"));
-		Window.setVsync(getBool("fullscreen"));
 		
 		//Audio
 		Audio.setMainVolume(getFloat("volumeMain"));

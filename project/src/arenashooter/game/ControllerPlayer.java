@@ -38,7 +38,8 @@ public class ControllerPlayer extends Controller {
 					getCharacter().aimInput = Vec2f.direction(charPos, mouseCentered);
 					getCharacter().isAiming = true;
 				} else {
-					getCharacter().aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y)).angle();
+					if(isAiming())
+						getCharacter().aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y)).angle();
 					getCharacter().isAiming = isAiming();
 				}
 
