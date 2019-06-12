@@ -4,21 +4,21 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class GunXml extends AbstractElement {
-/*
- * 
- * 		<gun name="Minigun" weight="43"
-				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
-				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
-				soundWarmup="warmup_minigun_01" bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+import arenashooter.entities.spatials.items.Gun;
 
-				<vecteur use="handPosL" x="-.8" y="-.1" />
-				<vecteur use="handPosR" x="0" y="-.28" />
-			</gun>
- * 
- * */
+public class GunXml extends AbstractElement {
+	/*
+	 * 
+	 * <gun name="Minigun" weight="43" pathSprite="data/weapons/Minigun_1.png"
+	 * soundPickup="GunCock_02" cooldown="0.03" uses="350" animPath=""
+	 * warmupDuration="0.25" soundWarmup="warmup_minigun_01" bangSound="Bang1"
+	 * noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
+	 * cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
+	 * 
+	 * <vecteur use="handPosL" x="-.8" y="-.1" /> <vecteur use="handPosR" x="0"
+	 * y="-.28" /> </gun>
+	 * 
+	 */
 	private String name = "";
 	private int weight = 0;
 	private String pathSprite = "";
@@ -39,12 +39,11 @@ public class GunXml extends AbstractElement {
 	private double thrust = 0;
 	private int proba = 0;
 
-
 	private float xpos1 = -.8f;
 	private float ypos1 = -.1f;
 	private float xpos2 = 0f;
 	private float ypos2 = -0.28f;
-	private String handl ="handPosL",handr="handPosR";
+	private String handl = "handPosL", handr = "handPosR";
 	private Element gun;
 
 	public GunXml(Document doc, Element elementParent) {
@@ -59,88 +58,177 @@ public class GunXml extends AbstractElement {
 		Attr weight = doc.createAttribute("weight");
 		weight.setValue(this.weight + "");
 		gun.setAttributeNode(weight);
-		
+
 		Attr pathSprite = doc.createAttribute("pathSprite");
 		pathSprite.setValue(this.pathSprite + "");
 		gun.setAttributeNode(pathSprite);
-		
+
 		Attr soundPickup = doc.createAttribute("soundPickup");
 		soundPickup.setValue(this.soundPickup + "");
 		gun.setAttributeNode(soundPickup);
-		
+
 		Attr cooldown = doc.createAttribute("cooldown");
 		cooldown.setValue(this.cooldown + "");
 		gun.setAttributeNode(cooldown);
-		
+
 		Attr uses = doc.createAttribute("uses");
 		uses.setValue(this.uses + "");
 		gun.setAttributeNode(uses);
-		
+
 		Attr animPath = doc.createAttribute("animPath");
 		animPath.setValue(this.animPath + "");
 		gun.setAttributeNode(animPath);
-		
+
 		Attr warmup = doc.createAttribute("warmupDuration");
 		warmup.setValue(this.warmup + "");
 		gun.setAttributeNode(warmup);
-		
+
 		Attr soundWarmup = doc.createAttribute("soundWarmup");
 		soundWarmup.setValue(this.soundWarmup + "");
 		gun.setAttributeNode(soundWarmup);
-		
+
 		Attr attackSound = doc.createAttribute("bangSound");
 		attackSound.setValue(this.attackSound + "");
 		gun.setAttributeNode(attackSound);
-		
+
 		Attr noAmmoSound = doc.createAttribute("noAmmoSound");
 		noAmmoSound.setValue(this.noAmmoSound + "");
 		gun.setAttributeNode(noAmmoSound);
-		
+
 		Attr damage = doc.createAttribute("damage");
 		damage.setValue(this.damage + "");
 		gun.setAttributeNode(damage);
-		
+
 		Attr size = doc.createAttribute("size");
 		warmup.setValue(this.size + "");
 		gun.setAttributeNode(warmup);
-		
+
 		Attr bulletType = doc.createAttribute("bulletType");
 		bulletType.setValue(this.bulletType + "");
 		gun.setAttributeNode(bulletType);
-		
+
 		Attr bulletSpeed = doc.createAttribute("bulletSpeed");
 		bulletSpeed.setValue(this.bulletSpeed + "");
 		gun.setAttributeNode(bulletSpeed);
-		
+
 		Attr cannonLength = doc.createAttribute("cannonLength");
 		cannonLength.setValue(this.cannonLength + "");
 		gun.setAttributeNode(cannonLength);
-		
+
 		Attr recoil = doc.createAttribute("recoil");
 		recoil.setValue(this.recoil + "");
 		gun.setAttributeNode(recoil);
-		
+
 		Attr thrust = doc.createAttribute("thrust");
 		thrust.setValue(this.thrust + "");
 		gun.setAttributeNode(thrust);
-		
+
 		Attr size1 = doc.createAttribute("size");
 		size1.setValue(this.size + "");
 		gun.setAttributeNode(size1);
-		
-		
-		Attr proba = doc.createAttribute("proba");
-		proba.setValue(this.proba + "");
-		gun.setAttributeNode(proba);
-		
+
+//		Attr proba = doc.createAttribute("proba");
+//		proba.setValue(this.proba + "");
+//		gun.setAttributeNode(proba);
+
 		VecteurXml vecteurGun = new VecteurXml(doc, gun);
-		vecteurGun.addVecteur(handl, xpos1 , ypos1);
-		vecteurGun.addVecteur(handr, xpos2 , ypos2);
+		vecteurGun.addVecteur(handl, xpos1, ypos1);
+		vecteurGun.addVecteur(handr, xpos2, ypos2);
+		for (Element e : vecteurGun.getVecteurs()) {
+			gun.appendChild(e);
+		}
+	}
+
+	public GunXml(Document doc, Element elementParent, Gun g) {
+		super(doc, elementParent);
+		gun = doc.createElement("gun");
+		elementParent.appendChild(gun);
+
+		Attr name = doc.createAttribute("name");
+		name.setValue(g.name + "");
+		gun.setAttributeNode(name);
+
+		Attr weight = doc.createAttribute("weight");
+		weight.setValue(g.getWeight() + "");
+		gun.setAttributeNode(weight);
+
+		Attr pathSprite = doc.createAttribute("pathSprite");
+		pathSprite.setValue(g.getPathSprite() + "");
+		gun.setAttributeNode(pathSprite);
+
+		Attr soundPickup = doc.createAttribute("soundPickup");
+		soundPickup.setValue(g.soundPickup + "");
+		gun.setAttributeNode(soundPickup);
+
+		Attr cooldown = doc.createAttribute("cooldown");
+		cooldown.setValue(g.getFireRate() + "");
+		gun.setAttributeNode(cooldown);
+
+		Attr uses = doc.createAttribute("uses");
+		uses.setValue(g.getUses() + "");
+		gun.setAttributeNode(uses);
+
+		Attr animPath = doc.createAttribute("animPath");
+		animPath.setValue(g.getAnimPath() + "");
+		gun.setAttributeNode(animPath);
+
+		Attr warmup = doc.createAttribute("warmupDuration");
+		warmup.setValue(g.getWarmupDuration() + "");
+		gun.setAttributeNode(warmup);
+
+		Attr soundWarmup = doc.createAttribute("soundWarmup");
+		soundWarmup.setValue(g.getSoundWarmup() + "");
+		gun.setAttributeNode(soundWarmup);
+
+		Attr attackSound = doc.createAttribute("bangSound");
+		attackSound.setValue(g.getSoundFire() + "");
+		gun.setAttributeNode(attackSound);
+		Attr noAmmoSound = doc.createAttribute("noAmmoSound");
+		noAmmoSound.setValue(g.getSoundNoAmmo() + "");
+		gun.setAttributeNode(noAmmoSound);
+
+		Attr damage = doc.createAttribute("damage");
+		damage.setValue(g.getDamage() + "");
+		gun.setAttributeNode(damage);
+
+		Attr size = doc.createAttribute("size");
+		size.setValue(g.getSize() + "");
+		gun.setAttributeNode(size);
+
+		Attr bulletType = doc.createAttribute("bulletType");
+		bulletType.setValue(g.getBulletType() + "");
+		gun.setAttributeNode(bulletType);
+
+		Attr bulletSpeed = doc.createAttribute("bulletSpeed");
+		bulletSpeed.setValue(g.getBulletSpeed() + "");
+		gun.setAttributeNode(bulletSpeed);
+
+		Attr cannonLength = doc.createAttribute("cannonLength");
+		cannonLength.setValue(g.getCannonLength() + "");
+		gun.setAttributeNode(cannonLength);
+
+		Attr recoil = doc.createAttribute("recoil");
+		recoil.setValue(g.getRecoil() + "");
+		gun.setAttributeNode(recoil);
+
+		Attr thrust = doc.createAttribute("thrust");
+		thrust.setValue(g.getThrust() + "");
+		gun.setAttributeNode(thrust);
+
+//		Attr proba = doc.createAttribute("proba");
+//		proba.setValue(this.proba + "");
+//		gun.setAttributeNode(proba);
+
+		VecteurXml vecteurGun = new VecteurXml(doc, gun);
+		if(g.handPosL != null)
+			vecteurGun.addVecteur(handl, g.handPosL.x, g.handPosL.y);
+		if(g.handPosR != null)	vecteurGun.addVecteur(handr, g.handPosR.x, g.handPosR.y);
 		for (Element e : vecteurGun.getVecteurs()) {
 			gun.appendChild(e);
 		}
 	}
 	
+
 	/**
 	 * @param name the name to set
 	 */
@@ -273,8 +361,6 @@ public class GunXml extends AbstractElement {
 	public void setProba(int proba) {
 		this.proba = proba;
 	}
-
-
 
 	/**
 	 * @param xpos1 the xpos1 to set

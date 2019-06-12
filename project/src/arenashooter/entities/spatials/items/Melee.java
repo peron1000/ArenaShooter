@@ -32,6 +32,7 @@ public class Melee extends Usable {
 	private boolean dealingDamage = false;
 	private float bladeRayFraction = 1;
 	
+	private double size=0;
 	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage, double size) {
@@ -114,7 +115,7 @@ public class Melee extends Usable {
 				//Bottom raycast
 				getArena().physic.getB2World().raycast(DamageRaycastCallback, lastBladeTop.toB2Vec(), bladeTop.getWorldPos().toB2Vec());
 				
-				DamageInfo dmgInfo = new DamageInfo(damage, DamageType.MELEE, Vec2f.fromAngle(Vec2f.direction(lastBladeTop, bladeTop.getWorldPos())), getCharacter());
+				DamageInfo dmgInfo = new DamageInfo(getDamage(), DamageType.MELEE, Vec2f.fromAngle(Vec2f.direction(lastBladeTop, bladeTop.getWorldPos())), getCharacter());
 				
 				//Damage all newly detected entities
 				for(Entry<Spatial, Float> entry : hitEntities.entrySet()) {
@@ -133,12 +134,28 @@ public class Melee extends Usable {
 
 	@Override
 	public Melee clone() {
-		Melee clone = new Melee(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup,
-				uses, animPath, warmup, animPath, animPath, damage, warmup) {
+		Melee clone = new Melee(localPosition, this.genName(), getWeight(), getPathSprite(), handPosL, handPosL, soundPickup, warmup,
+				getUses(), getAnimPath(), warmup, getAnimPath(), getAnimPath(), getDamage(), warmup) {
 		};
 		return clone;
 	}
 	
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+	public double getSize() {
+		return size;
+	}
+
+	public void setsize(double size) {
+		this.size = size;
+	}
+	
+
 	RayCastCallback DamageRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
