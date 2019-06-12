@@ -27,9 +27,9 @@ public class CharacterSprite extends Spatial {
 	private Sprite body, head, footL, footR, handL, handR;
 	private Sprite punchSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/swoosh_1_1.png");
 	private Sprite chargeSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Tching2.png");
-	private Sprite parrySprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry_Oriented.png");
+	private Sprite parrySprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry_Oriented2.png");
 	private Texture brokenParry = Texture.loadTexture("data/sprites/swooshes/Broken_Parry.png");
-	private Texture parryShield = Texture.loadTexture("data/sprites/swooshes/Parry_Oriented.png");
+	private Texture parryShield = Texture.loadTexture("data/sprites/swooshes/Parry_Oriented2.png");
 	private Sprite stunStars = new Sprite(new Vec2f(0, -0.5), "data/sprites/StunStars.png");
 	private String bloodParticles = "data/particles/blood.xml";
 	private String stun = "data/particles/stun.xml";
