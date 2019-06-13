@@ -314,6 +314,8 @@ class MainMenu extends UiElement implements MultiUi {
 						break;
 					case LIGHT:
 						LightContainer light = new LightContainer(new Vec3f(), new Light());
+						light.getLight().color.set(1, 1, 1);
+						light.getLight().radius = 5f;
 						createNewEntity(light, type);
 						break;
 					default:
