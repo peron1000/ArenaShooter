@@ -5,6 +5,7 @@ import java.util.Queue;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
+import arenashooter.engine.animation.animevents.AnimEventCustom;
 import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
@@ -34,7 +35,7 @@ public class Intro extends GameState {
 	
 	private Animation anim;
 
-	private SoundSource bgm;
+	private SoundSource bgm, bgmLoop;
 	
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
 	
@@ -43,7 +44,9 @@ public class Intro extends GameState {
 		
 		anim = new Animation(AnimationData.loadAnim("data/animations/anim_intro.xml"));
 
-		bgm = Audio.createSource("data/sprites/intro/sf2_title_cps-1.ogg", AudioChannel.MUSIC, .2f, 1);
+		bgm = Audio.createSource("data/music/Juhani Junkala [Chiptune Adventures] 4. Stage Select [Edited].ogg", AudioChannel.MUSIC, .67f, 1);
+		bgmLoop = Audio.createSource("data/music/Juhani Junkala [Retro Game Music Pack] Title Screen.ogg", AudioChannel.MUSIC, .8f, 1.05f);
+		bgmLoop.setLooping(true);
 		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
@@ -53,6 +56,7 @@ public class Intro extends GameState {
 					switch (event.getAction()) {
 					case UI_CONTINUE:
 						bgm.destroy();
+						bgmLoop.destroy();
 						GameMaster.gm.requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
 						break;
 					default:
@@ -76,6 +80,11 @@ public class Intro extends GameState {
 		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), new Material("data/shaders/sprite_simple"));
 		logo.useTransparency = true;
 		logo.attachToParent(current, "logo");
+		
+		//Logo bg
+		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), new Material("data/shaders/color"));
+		logoBg.scale.set(7, 5, 1);
+		logoBg.attachToParent(current, "logo_bg");
 		
 		//Version text
 		Text txt = new Text(Main.font, TextAlignH.LEFT, "v"+Main.version);
@@ -125,6 +134,10 @@ public class Intro extends GameState {
 		while( (currentEvent = events.poll()) != null ) {
 			if(currentEvent instanceof AnimEventSound)
 				((AnimEventSound) currentEvent).play(null);
+			else if(currentEvent instanceof AnimEventCustom) {
+				if( ((AnimEventCustom) currentEvent).data.equals("changeMusic") )
+					bgmLoop.play();
+			}
 		}
 		
 		//Fade to black
@@ -139,6 +152,8 @@ public class Intro extends GameState {
 		((Mesh)current.getChild("logo")).localPosition.set(anim.getTrackVec3f("logo_pos"));
 		Quat.fromAngle(anim.getTrackD("logo_rot"), ((Mesh)current.getChild("logo")).localRotation);
 		((Mesh)current.getChild("logo")).scale.set(anim.getTrackVec3f("logo_scale"));
+		
+		((Mesh)current.getChild("logo_bg")).getMaterial(0).setParamVec4f("baseColor", new Vec4f( anim.getTrackVec3f("logo_bg_color"), 1) );
 
 		//Cat
 		((Mesh)current.getChild("cat")).getMaterial(0).setParamTex("baseColor", anim.getTrackTex("cat_tex").setFilter(false));

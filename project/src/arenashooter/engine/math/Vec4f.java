@@ -51,6 +51,18 @@ public class Vec4f {
 		this.w = (float)w;
 	}
 	
+	/**
+	 * Appends w to a Vec3f
+	 * @param xyz
+	 * @param w
+	 */
+	public Vec4f(Vec3f xyz, float w) {
+		x = xyz.x;
+		y = xyz.y;
+		z = xyz.z;
+		this.w = w;
+	}
+	
 
 	/**
 	 * <i>This</i> becomes (x, y, z, w) and return <i>this</i>
