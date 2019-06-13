@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -63,6 +64,7 @@ public class LightContainer extends Spatial3 {
 	public void editorDraw() {
 		if(editorSprite == null) {
 			editorSpriteMat = new Material("data/shaders/sprite_simple");
+			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
 			editorSprite = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(1), editorSpriteMat);
 		}
 		editorSpriteMat.setParamVec4f("baseColorMod", new Vec4f(light.color.x,light.color.y,light.color.z,1));

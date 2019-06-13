@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import arenashooter.engine.FileUtils;
+import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec2f;
@@ -29,6 +30,7 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
@@ -119,8 +121,7 @@ class MainMenu extends UiElement implements MultiUi {
 					
 					@Override
 					public void make() {
-						Vec4f vec4f = colorPicker.getColorRGBA();
-						setSkyColorTop(new Vec3f(vec4f.x, vec4f.y, vec4f.z));
+						setSkyColorTop(colorPicker.getColorRGB());
 					}
 				};
 				colorPicker.setOnFinish(new Trigger() {
@@ -144,8 +145,7 @@ class MainMenu extends UiElement implements MultiUi {
 					
 					@Override
 					public void make() {
-						Vec4f vec4f = colorPicker.getColorRGBA();
-						setSkyColorBottom(new Vec3f(vec4f.x, vec4f.y, vec4f.z));
+						setSkyColorBottom(colorPicker.getColorRGB());
 					}
 				};
 				colorPicker.setOnFinish(new Trigger() {
@@ -311,16 +311,16 @@ class MainMenu extends UiElement implements MultiUi {
 						Spawner spawner = new Spawner(new Vec2f(), 4);
 						createNewEntity(spawner, type);
 						break;
+					case LIGHT:
+						LightContainer light = new LightContainer(new Vec3f(), new Light());
+						createNewEntity(light, type);
+						break;
 					default:
 						break;
 					}
 				}
 			});
 		}
-
-		Button joinpin = new Button("Joinpin");
-		addMenu.addElement(joinpin);
-		joinpin.setScaleText(scaleText);
 
 		Button animation = new Button("Animation");
 		addMenu.addElement(animation);

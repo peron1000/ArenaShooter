@@ -31,7 +31,10 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	
 	public void addBind(String tabTitle , UiListVertical<? extends E> uiList) {
 		binding.put(uiList, tabTitle);
-		labelsInfo.put(uiList, new ArrayList<>());
+		ArrayList<Label> list = labelsInfo.get(uiList);
+		if(list ==null) {
+			labelsInfo.put(uiList, new ArrayList<>());
+		}
 		uiList.setPosition(getPosition().x, getPosition().y);
 		if(circleList.size() == 0) {
 			this.tabTitle.setText(tabTitle);
@@ -42,6 +45,10 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	
 	public void addLabelInfo(UiListVertical<? extends E> uiList , Label info) {
 		ArrayList<Label> list = labelsInfo.get(uiList);
+		if(list == null) {
+			list = new ArrayList<>();
+			labelsInfo.put(uiList, list);
+		}
 		info.setPosition(getPosition().x, getPosition().y+spacing*list.size());
 		list.add(info);
 		uiList.setPosition(getPosition().x, getPosition().y+spacing*list.size());
