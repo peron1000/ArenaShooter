@@ -40,12 +40,6 @@ public class LightContainer extends Spatial3 {
 		super.updateAttachment();
 		updateLight();
 	}
-	
-	@Override
-	public void step(double d) {
-		super.step(d);
-		updateLight();
-	}
 
 	private void updateLight() {
 		switch(light.getType()) {
@@ -61,7 +55,15 @@ public class LightContainer extends Spatial3 {
 	}
 	
 	@Override
+	public void draw() {
+		updateLight();
+		super.draw();
+	}
+	
+	@Override
 	public void editorDraw() {
+		updateLight();
+		
 		if(editorSprite == null) {
 			editorSpriteMat = new Material("data/shaders/sprite_simple");
 			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
