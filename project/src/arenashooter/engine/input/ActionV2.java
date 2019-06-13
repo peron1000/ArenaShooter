@@ -259,6 +259,28 @@ public enum ActionV2 {
 		public boolean gamepadInput(GLFWGamepadState gamePad) {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS;
 		}
+	},
+	UI_ZOOMR {
+		@Override
+		public boolean keyboardInput(long window) {
+			return glfwGetKey(window, GLFW_KEY_KP_ADD) == GLFW_PRESS;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER) == GLFW_PRESS;
+		}
+	},
+	UI_ZOOML {
+		@Override
+		public boolean keyboardInput(long window) {
+			return glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_LEFT_BUMPER) == GLFW_PRESS;
+		}
 	};
 
 	public abstract boolean keyboardInput(long window);

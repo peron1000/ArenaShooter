@@ -160,6 +160,12 @@ public class Editor extends GameState {
 							break;
 						}
 						break;
+					case UI_ZOOMR:
+						cam.editorAddDeep(-(float) positionSpeed);
+						break;
+					case UI_ZOOML:
+						cam.editorAddDeep((float) positionSpeed);
+						break;
 					default:
 						break;
 					}
