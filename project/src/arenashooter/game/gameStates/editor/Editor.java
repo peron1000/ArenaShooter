@@ -8,10 +8,12 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
+import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.game.gameStates.GameState;
 
@@ -177,6 +179,9 @@ public class Editor extends GameState {
 		cam = (Camera) current.getChild("camera");
 		cam.interpolate = false;
 		mainMenu.constructCamerabutton(cam);
+		Sky sky = new Sky(new Vec3f(), new Vec3f());
+		sky.attachToParent(current, "sky");
+		allEditable.add(sky);
 	}
 
 	private void setMenuVisible(boolean visible) {

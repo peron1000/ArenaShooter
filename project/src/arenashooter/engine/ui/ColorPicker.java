@@ -1,10 +1,7 @@
 package arenashooter.engine.ui;
 
-import java.util.function.Consumer;
-
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.UiImage;

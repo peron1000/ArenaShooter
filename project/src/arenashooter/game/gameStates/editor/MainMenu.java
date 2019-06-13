@@ -13,6 +13,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.ui.ColorPicker;
 import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MultiUi;
 import arenashooter.engine.ui.TabList;
@@ -26,6 +27,7 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
@@ -60,6 +62,15 @@ class MainMenu extends UiElement implements MultiUi {
 	private Ui_Input ui_InputState = Ui_Input.NOTHING;
 	private DoubleInput doubleInput = new DoubleInput();
 	private TextInput textInput = new TextInput();
+	private ColorPicker colorPicker = new ColorPicker(false);
+	
+	private Trigger colorPickerModification = new Trigger() {
+		
+		@Override
+		public void make() {
+			// Nothing by default
+		}
+	};
 
 	// default values for buttons
 	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 10;
@@ -94,7 +105,69 @@ class MainMenu extends UiElement implements MultiUi {
 
 	private void arenaInfoMenuConstruction() {
 		mainMenu.addBind("Arena Info", arenaInfo);
-		// TODO
+		Button top = new Button("Change top"), bottom = new Button("Change bottom");
+		arenaInfo.addElements(top , bottom);
+		
+		// Trigger
+		top.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				ui_InputState = Ui_Input.COLOR_PICKER;
+				arenaInfo.addElement(colorPicker);
+				colorPickerModification = new Trigger() {
+					
+					@Override
+					public void make() {
+						Vec4f vec4f = colorPicker.getColorRGBA();
+						setSkyColorTop(new Vec3f(vec4f.x, vec4f.y, vec4f.z));
+					}
+				};
+				colorPicker.setOnFinish(new Trigger() {
+					
+					@Override
+					public void make() {
+						arenaInfo.removeElement(colorPicker);
+						ui_InputState = Ui_Input.NOTHING;
+					}
+				});
+			}
+		});
+		
+		bottom.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				ui_InputState = Ui_Input.COLOR_PICKER;
+				arenaInfo.addElement(colorPicker);
+				colorPickerModification = new Trigger() {
+					
+					@Override
+					public void make() {
+						Vec4f vec4f = colorPicker.getColorRGBA();
+						setSkyColorBottom(new Vec3f(vec4f.x, vec4f.y, vec4f.z));
+					}
+				};
+				colorPicker.setOnFinish(new Trigger() {
+					
+					@Override
+					public void make() {
+						arenaInfo.removeElement(colorPicker);
+						ui_InputState = Ui_Input.NOTHING;
+					}
+				});
+			}
+		});
+		
+		
+		for (UiElement uiElement : arenaInfo) {
+			if(uiElement instanceof Button) {
+				Button b = (Button) uiElement;
+				b.setScaleRect(xRect, yRect);
+				b.setScaleText(scaleText);
+			}
+		}
+		
 	}
 
 	private void meshChooserMenuConstruction() {
@@ -327,6 +400,16 @@ class MainMenu extends UiElement implements MultiUi {
 			}
 		});
 	}
+	
+	private void setSkyColorTop(Vec3f color) {
+		Sky sky = (Sky) arenaConstruction.getChild("sky");
+		sky.setColorTop(color);
+	}
+	
+	private void setSkyColorBottom(Vec3f color) {
+		Sky sky = (Sky) arenaConstruction.getChild("sky");
+		sky.setColorBot(color);
+	}
 
 	@Override
 	public boolean upAction() {
@@ -335,6 +418,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.upAction();
 		case TEXT:
 			return textInput.upAction();
+		case COLOR_PICKER:
+			return colorPicker.upAction();
 		default:
 			return current.upAction();
 		}
@@ -347,6 +432,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.downAction();
 		case TEXT:
 			return textInput.downAction();
+		case COLOR_PICKER:
+			return colorPicker.downAction();
 		default:
 			return current.downAction();
 		}
@@ -359,6 +446,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.rightAction();
 		case TEXT:
 			return textInput.rightAction();
+		case COLOR_PICKER:
+			return colorPicker.rightAction();
 		default:
 			return current.rightAction();
 		}
@@ -371,6 +460,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.leftAction();
 		case TEXT:
 			return textInput.leftAction();
+		case COLOR_PICKER:
+			return colorPicker.leftAction();
 		default:
 			return current.leftAction();
 		}
@@ -383,6 +474,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.selectAction();
 		case TEXT:
 			return textInput.selectAction();
+		case COLOR_PICKER:
+			return colorPicker.selectAction();
 		default:
 			return current.selectAction();
 		}
@@ -392,6 +485,9 @@ class MainMenu extends UiElement implements MultiUi {
 	public void update(double delta) {
 		super.update(delta);
 		current.update(delta);
+		if(ui_InputState == Ui_Input.COLOR_PICKER) {
+			colorPickerModification.make();
+		}
 		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 10);
 		UiImage.selector.update(delta);
 	}
@@ -427,6 +523,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.continueAction();
 		case TEXT:
 			return textInput.continueAction();
+		case COLOR_PICKER:
+			return colorPicker.continueAction();
 		default:
 			return current.continueAction();
 		}
@@ -438,6 +536,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.changeAction();
 		case TEXT:
 			return textInput.changeAction();
+		case COLOR_PICKER:
+			return colorPicker.changeAction();
 		default:
 			return current.changeAction();
 		}
@@ -449,6 +549,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.cancelAction();
 		case TEXT:
 			return textInput.cancelAction();
+		case COLOR_PICKER:
+			return colorPicker.cancelAction();
 		default:
 			return current.cancelAction();
 		}
@@ -461,6 +563,8 @@ class MainMenu extends UiElement implements MultiUi {
 			return doubleInput.backAction();
 		case TEXT:
 			return textInput.backAction();
+		case COLOR_PICKER:
+			return colorPicker.backAction();
 		default:
 			return false;
 		}
