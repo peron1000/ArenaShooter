@@ -209,11 +209,11 @@ public class Character extends RigidBodyContainer {
 			
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12), 0), aimInput);
-				punchDmgInfo = new DamageInfo((float)(defaultDamage*1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
+				punchDmgInfo = new DamageInfo((float)(defaultDamage*1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
-				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
+				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
 				attackCombo++;
 				if (skeleton != null)
 					switch (attackCombo) {
@@ -333,8 +333,7 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		// Force death if character fell out of bounds or was killed for a non-gameplay
-		// reason
+		//Force death if character fell out of bounds or was killed for a non-gameplay reason
 		if (info.dmgType == DamageType.OUT_OF_BOUNDS) {
 			if (ignoreKillBounds)
 				return 0;
@@ -357,16 +356,7 @@ public class Character extends RigidBodyContainer {
 
 		float res = Math.min(info.damage, health);
 
-		applyImpulse(Vec2f.multiply(info.direction, info.damage));
-		// float bumpX = (info.damage >= 1 ? 4 * (1 + ((float) Math.log10(info.damage)))
-		// : 4);
-		// float bumpY = (info.damage >= 1 ? 2.5f * (1 + ((float)
-		// Math.log10(info.damage))) : 2.5f);
-
-		// if (droite) //TODO: impulsex
-		// vel.add(new Vec2f(bumpX, -bumpY));
-		// else
-		// vel.add(new Vec2f(-bumpX, -bumpY));
+		applyImpulse(Vec2f.multiply(info.direction, info.impulse));
 
 		health = Math.max(0, health - info.damage);
 

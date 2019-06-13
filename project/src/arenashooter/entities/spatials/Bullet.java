@@ -32,7 +32,7 @@ public class Bullet extends Projectile {
 	public void impact(Spatial other) {
 		if(other == shooter) return; //Ignore instigator
 		
-		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), shooter));
+		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), 5, shooter));
 		
 		Audio.playSound2D("data/sound/Ptou.ogg", AudioChannel.SFX, .15f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		

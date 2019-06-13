@@ -114,7 +114,7 @@ public class Melee extends Usable {
 				//Bottom raycast
 				getArena().physic.getB2World().raycast(DamageRaycastCallback, lastBladeTop.toB2Vec(), bladeTop.getWorldPos().toB2Vec());
 				
-				DamageInfo dmgInfo = new DamageInfo(damage, DamageType.MELEE, Vec2f.fromAngle(Vec2f.direction(lastBladeTop, bladeTop.getWorldPos())), getCharacter());
+				DamageInfo dmgInfo = new DamageInfo(damage, DamageType.MELEE, Vec2f.fromAngle(Vec2f.direction(lastBladeTop, bladeTop.getWorldPos())), 10, getCharacter());
 				
 				//Damage all newly detected entities
 				for(Entry<Spatial, Float> entry : hitEntities.entrySet()) {

@@ -59,7 +59,7 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 		//Destroy when out of bounds
 		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
 				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
-			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 	}
 
 	@Override

@@ -56,7 +56,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	 */
 	@Override
 	public float takeDamage(DamageInfo info) { // TODO: Get impact location
-		applyImpulse(Vec2f.multiply(info.direction, info.damage));
+		applyImpulse(Vec2f.multiply(info.direction, info.impulse));
 
 		// Destroy when out of bounds
 		if(info.dmgType == DamageType.OUT_OF_BOUNDS) {
@@ -76,7 +76,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 		// Destroy when out of bounds
 		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
 				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
-			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), null));
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 
 	}
 

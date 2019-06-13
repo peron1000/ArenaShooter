@@ -79,7 +79,8 @@ public class Explosion extends Spatial {
 		
 		float damage = (float)(dmgInfo.damage/(distance+1));
 		
-		DamageInfo dmg = new DamageInfo(damage, dmgInfo.dmgType, direction, dmgInfo.instigator);
+		//TODO: reduce impulse with distance
+		DamageInfo dmg = new DamageInfo(damage, dmgInfo.dmgType, direction, dmgInfo.impulse, dmgInfo.instigator);
 		target.takeDamage(dmg);
 	}
 	

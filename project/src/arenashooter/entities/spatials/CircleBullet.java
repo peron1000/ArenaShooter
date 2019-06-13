@@ -47,7 +47,7 @@ public class CircleBullet extends Projectile {
 	public void impact(Spatial other) {
 		if(other == shooter) return; //Ignore instigator
 		
-		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, direction, shooter));
+		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, direction, 5, shooter));
 		
 		Audio.playSound2D("data/sound/slap.ogg", AudioChannel.SFX, .15f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		

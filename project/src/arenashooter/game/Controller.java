@@ -41,7 +41,7 @@ public abstract class Controller {
 
 	public Character createNewCharacter(Vec2f spawn) {
 		if (character != null)
-			character.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), null));
+			character.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
 		character = info.createNewCharacter(spawn);
 		character.controller = this;
 		deadChar = false;

@@ -155,7 +155,7 @@ public class Game extends GameState {
 					for (Controller player : GameMaster.gm.controllers) {
 						if (player.getCharacter() != null) {
 							player.getCharacter()
-									.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), null));
+									.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
 						}
 					}
 					newRound();
