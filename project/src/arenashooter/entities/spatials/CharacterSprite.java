@@ -370,7 +370,6 @@ public class CharacterSprite extends Spatial {
 			footL.flipX = true;
 			footR.flipX = false;
 		}
-			System.out.println(mirrorLeftFoot);
 
 		// Feet
 		double footSin = Math.sin(movementTime * 2);
@@ -394,28 +393,21 @@ public class CharacterSprite extends Spatial {
 
 			footR.localPosition.set((float) (.3 - footSin * .08), (float) (.65 + footCos * .16));
 
-			if (lookRight) {
-				footL.zIndex = mirrorLeftFoot ? -1 : 1;
-				footR.zIndex = -1;
-			} else {
-				footL.zIndex = -1;
-				footR.zIndex = mirrorLeftFoot ? -1 : 1;
-			}
 		} else {
 			footL.localPosition.set((float) ((mirrorLeftFoot ? -.5 : .3) - footCos * .08), (float) (.65 + footSin * .16));
 
 			footR.localPosition.set((float) ((mirrorLeftFoot ? .5 : -.3) + footSin * .08),
 					(float) (.65 + footCos * .16));
-
-			if (lookRight) {
-				footL.zIndex = mirrorLeftFoot ? -1 : 1;
-				footR.zIndex = -1;
-			} else {
-				footL.zIndex = -1;
-				footR.zIndex = mirrorLeftFoot ? -1 : 1;
-			}
 		}
 
+		if (lookRight) {
+			footL.zIndex = mirrorLeftFoot ? -1 : 1;
+			footR.zIndex = -1;
+		} else {
+			footL.zIndex = -1;
+			footR.zIndex = mirrorLeftFoot ? -1 : 1;
+		}
+		
 		// Body
 		double bodyH = Utils.lerpD(0, Math.sin(movementTime * 1d), Math.min(Math.abs(moveSpeed) / 3, 1));
 		body.localPosition.y = (float) (-.2 + bodyH * .032);
