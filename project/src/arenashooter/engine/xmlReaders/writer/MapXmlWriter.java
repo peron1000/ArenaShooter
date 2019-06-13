@@ -23,16 +23,26 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import arenashooter.engine.graphics.Light.LightType;
+import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.physic.bodies.KinematicBody;
+import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.entities.spatials.KinematicBodyContainer;
+import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.Mesh;
+import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.StaticBodyContainer;
+import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Melee;
@@ -68,12 +78,6 @@ public class MapXmlWriter {
 			Element entities = doc.createElement("entities");
 			map.appendChild(entities);
 
-//			int etapes = 0;
-//			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
-//				System.out.println("cp " + entry.getValue());
-//			
-			// for (Item it : arena.items) {
-
 			// items de la map
 			for (Entry<String, Item> it : arena.spawnList.entrySet()) {
 				Element item = doc.createElement("item");
@@ -89,6 +93,7 @@ public class MapXmlWriter {
 					new MeleeXml(doc, item, (Melee) it.getValue());
 				}
 			}
+
 //			<spawn playerSpawn="false" cooldown="2"> 
 //			<vector x="7" y="1" use="position" />
 //			<itemRef item="kata" proba="1" />
@@ -100,10 +105,15 @@ public class MapXmlWriter {
 //				</mesh>
 //			</entities>
 //		</spawn>
-			// for (Vec2f ps : arena.playerSpawns) {
+			// </entities>
 
 			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
-//				<spawn playerSpawn="false" cooldown="2"> 
+
+				/*
+				 * Spawn* / /*-
+				 */
+
+				// <spawn playerSpawn="false" cooldown="2">
 				if (entry.getValue() instanceof Spawner) {
 					Element spawn = doc.createElement("spawn");
 					entities.appendChild(spawn);
@@ -118,13 +128,13 @@ public class MapXmlWriter {
 					Attr cooldown = doc.createAttribute("cooldown");
 					cooldown.setValue(((Spawner) entry.getValue()).getCooldown() + "");
 					spawn.setAttributeNode(cooldown);
-//					<vector x="7" y="1" use="position" />
+					// <vector x="7" y="1" use="position" />
 					Element vector = doc.createElement("vector");
 					VectorAttr2(vector, "position", ((Spawner) entry.getValue()).localPosition.x,
 							((Spawner) entry.getValue()).localPosition.y);
 					spawn.appendChild(vector);
 
-//					<itemRef item="minigun" proba="1" />
+					// <itemRef item="minigun" proba="1" />
 					for (Entry<String, Integer> itemavaible : ((Spawner) entry.getValue()).getAvailableItems()
 							.entrySet()) {
 						Element itemRef = doc.createElement("itemRef");
@@ -132,122 +142,219 @@ public class MapXmlWriter {
 						itemRef.setAttribute("proba", itemavaible.getValue() + "");
 						spawn.appendChild(itemRef);
 					}
-					// <entities>
+//		 <entities>
 //				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
 //				<vector use="position" x="0" y="1" z="0" />
 //				<vector use="rotation" x="0" y="0" z="0" w="1" />
 //				<vector use="scale" x=".5" y=".5" z=".5" />
 //			</mesh>
 //		</entities>
-					for (Entry<String, Entity> mesh : ((Spawner) entry.getValue()).getChildren().entrySet()) {
-						if (mesh instanceof Mesh) {
-							Element mesheux = doc.createElement("mesh");
-							mesheux.setAttribute("src", ((Mesh) mesh.getValue()).getModelPath() + "");
-							spawn.appendChild(mesheux);
-							VectorAttr2(vector, "position", ((Mesh) entry.getValue()).localPosition.x,
-									((Mesh) entry.getValue()).localPosition.y);
-							spawn.appendChild(vector);
-							VectorAttr2(vector, "rotation", ((Mesh) entry.getValue()).localRotation.toEuler().x,
-									((Mesh) entry.getValue()).localRotation.toEuler().y);
-							spawn.appendChild(vector);
-							VectorAttr2(vector, "scale", ((Mesh) entry.getValue()).scale.x,
-									((Mesh) entry.getValue()).scale.y);
-							spawn.appendChild(vector);
-						}
-
-					}
-
+					Element entitiespawn = doc.createElement("entities");
+					spawn.appendChild(entitiespawn);
+					ADDelemnts(spawn, entry.getValue());
 				}
 
+				/* Rigid */
+				/*
+				 * <vector x="-5" y="-3" use="position" /> <vector x=".5" y=".5" use="extent"
+				 * />
+				 */
+				if (entry.getValue() instanceof RigidBodyContainer) {
+					Element rigid = doc.createElement("rigid");
+					entities.appendChild(rigid);
+					RigidBodyContainer rbc = (RigidBodyContainer) entry.getValue();
+					Element vec1 = doc.createElement("vector");
+					VectorAttr2(vec1, "position", rbc.getWorldPos().x, rbc.getWorldPos().y);
+					if (rbc.getBody().getShape() instanceof ShapeBox) {
+						Element vec2 = doc.createElement("vector");
+						VectorAttr2(vec2, "extent", ((ShapeBox) rbc.getBody().getShape()).getExtent().x,
+								((ShapeBox) rbc.getBody().getShape()).getExtent().y);// TODO LA
+						rigid.appendChild(vec2);
+					} else if (rbc.getBody().getShape() instanceof ShapeDisk) {
+						rigid.setAttribute("radius", ((ShapeDisk) rbc.getBody().getShape()).getRadius() + "");
+					}
+					rigid.setAttribute("rotation", rbc.getWorldRot() + "");
+					rigid.appendChild(vec1);
+
+					ADDelemnts(rigid, entry.getValue());
+				}
+
+				/*
+				 * <mesh src="data/meshes/item_pickup/weapon_pickup.obj"> <vector
+				 * use="position" x="0" y="1" z="0" /> <vector use="rotation" x="0" y="0" z="0"
+				 * w="1" /> <vector use="scale" x=".5" y=".5" z=".5" /> </mesh>
+				 */
+				if (entry.getValue() instanceof Mesh) {
+
+					Mesh meu = ((Mesh) entry.getValue());
+
+					if (meu.modelPath == null)
+						continue;
+					Element mesh12 = doc.createElement("mesh");
+					entities.appendChild(mesh12);
+					mesh12.setAttribute("src", meu.modelPath);
+					Element vector12 = doc.createElement("vector");
+					Element vector22 = doc.createElement("vector");
+					Element vector32 = doc.createElement("vector");
+					Vec3f vm = ((Mesh) entry.getValue()).localPosition;
+					Vec3f vms = ((Mesh) entry.getValue()).scale;
+					Vec3f qm = meu.localRotation.toEuler();
+					VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
+					VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
+					VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
+
+					mesh12.appendChild(vector12);
+					mesh12.appendChild(vector22);
+					mesh12.appendChild(vector32);
+
+					ADDelemnts(mesh12, meu);
+				}
+
+				/* Light */
+				// directionalLight|pointLight
+				/*
+				 * <!ELEMENT directionalLight (vector, vector)> <!ATTLIST directionalLight
+				 * name CDATA #IMPLIED> <!ELEMENT pointLight (vector, vector)> <!ATTLIST
+				 * pointLight name CDATA #IMPLIED> <!ATTLIST pointLight radius CDATA #REQUIRED>
+				 */
+
+				if (entry.getValue() instanceof LightContainer) {
+
+					Element vec1 = doc.createElement("vector");
+					Element vec2 = doc.createElement("vector");
+					Element Light = null;
+					LightContainer lc = ((LightContainer) entry.getValue());
+					VectorAttr3(vec1, "color", lc.getLight().color.x, lc.getLight().color.y, lc.getLight().color.z);
+					if (lc.getLight().getType() == LightType.DIRECTIONAL) {
+						Light = doc.createElement("directionalLight");
+						entities.appendChild(Light);
+						VectorAttr3(vec2, "rotation", lc.localRotation.toEuler().x, lc.localRotation.toEuler().y,
+								lc.localRotation.toEuler().z);
+						/*
+						 * <vector use="color" x="1" y="1" z="0.99" /> <vector use="rotation" x="-.2"
+						 * y="-.8" z="0" />
+						 */
+					} else if (((LightContainer) entry.getValue()).getLight().getType() == LightType.POINT) {
+						Light = doc.createElement("pointLight");
+						entities.appendChild(Light);
+						Light.setAttribute("radius", lc.getLight().radius + "");
+						VectorAttr3(vec2, "position", lc.localPosition.x, lc.localPosition.y, lc.localPosition.z);
+					} /*
+						 * <pointLight radius="10"> <vector use="color" x="1" y="1" z=".5" /> <vector
+						 * use="position" x="0" y="2" z="0" /> </pointLight>
+						 */
+					Light.appendChild(vec1);
+					Light.appendChild(vec2);
+					ADDelemnts(Light, entry.getValue()); 
+				}
+				/*
+				 * <!ELEMENT text (vector, vector, entities?)> <!ATTLIST text name CDATA
+				 * #IMPLIED> <!ATTLIST text content CDATA #REQUIRED> <!ATTLIST text font CDATA
+				 * #REQUIRED>
+				 */
+				if (entry.getValue() instanceof TextSpatial) {
+					Element Text = doc.createElement("text");
+					TextSpatial txtspe = (TextSpatial) entry.getValue();
+					Text.setAttribute("content", txtspe.getText() + "");
+					Text.setAttribute("font", txtspe.getText().getFont() + "");
+					ADDelemnts(Text, entry.getValue());
+				}
+
+				/*
+				 * <static name="..."> <vector x="0" y="2.25" use="position" /> <vector x="50"
+				 * y="0.25" use="extent" />...
+				 */
+				if (entry.getValue() instanceof StaticBodyContainer) {
+					Element stat = doc.createElement("static");
+					entities.appendChild(stat);
+					Element vec1 = doc.createElement("vector");
+					StaticBodyContainer staticbc = ((StaticBodyContainer) entry.getValue());
+					VectorAttr2(vec1, "position", staticbc.getWorldPos().x, staticbc.getWorldPos().y);
+					stat.appendChild(vec1);
+					if (staticbc.getBody().getShape() instanceof ShapeBox) {
+						Element vec2 = doc.createElement("vector");
+						VectorAttr2(vec2, "extent", ((ShapeBox) staticbc.getBody().getShape()).getExtent().x,
+								((ShapeBox) staticbc.getBody().getShape()).getExtent().y);// TODO LA
+						stat.appendChild(vec2);
+					} else if (staticbc.getBody().getShape() instanceof ShapeDisk) {
+						stat.setAttribute("radius", ((ShapeDisk) staticbc.getBody().getShape()).getRadius() + "");
+					}
+					stat.setAttribute("rotation", staticbc.getWorldRot() + "");
+					ADDelemnts(stat, entry.getValue());
+				}
+
+				/*
+				 * <kinematic animation="data/animations/MapXML/MapXmlPlatformMov2.xml">
+				 * <vector x="-10.0" y="-5.0" use="position" /> <vector x="0.125" y="1.0"
+				 * use="extent" /> <entities> <mesh src="data/meshes/catwalk/catwalk_10.obj">
+				 * <vector use="position" x="0.0" y="0.0" z="0" /> <vector use="rotation"
+				 * x="0.0" y="0" z="1.57" /> <vector use="scale" x="0.25" y="0.25" z="1" />
+				 * </mesh> </entities> </kinematic>
+				 */
+				if (entry.getValue() instanceof KinematicBodyContainer) {
+					Element KinematicBodyContainer = doc.createElement("Kinematic");
+					entities.appendChild(KinematicBodyContainer);
+					Element vec1 = doc.createElement("vector");
+
+					KinematicBodyContainer statikbc = ((KinematicBodyContainer) entry.getValue());
+
+					VectorAttr2(vec1, "position", statikbc.localPosition.x, statikbc.localPosition.y);
+
+					if (statikbc.getBody().getShape() instanceof ShapeBox) {
+						Element vec2 = doc.createElement("vector");
+						VectorAttr2(vec2, "extent", ((ShapeBox) statikbc.getBody().getShape()).getExtent().x,
+								((ShapeBox) statikbc.getBody().getShape()).getExtent().y);
+
+						KinematicBodyContainer.appendChild(vec2);
+					} else if (statikbc.getBody().getShape() instanceof ShapeDisk) {
+						KinematicBodyContainer.setAttribute("radius",
+								((ShapeDisk) statikbc.getBody().getShape()).getRadius() + "");
+					}
+
+					KinematicBodyContainer.appendChild(vec1);
+
+					ADDelemnts(KinematicBodyContainer, entry.getValue());
+				}
+				/*
+				 * <sky> <vector x="0.659" y="0.835" z="0.996" use="bottom" /> <vector
+				 * x="0.016" y="0.145" z="0.565" use="top" /> </sky>
+				 **/
+				
+					if (entry.getValue() instanceof Sky) {
+						Sky s = (Sky) entry.getValue();
+						System.out.println(s);
+						Element sky = doc.createElement("sky");
+						info.appendChild(sky);
+						Element vec1 = doc.createElement("vector");
+						Element vec2 = doc.createElement("vector");
+						VectorAttr3(vec1, "bottom", s.material.getParamVec3f("colorBot").x,
+								s.material.getParamVec3f("colorBot").y, s.material.getParamVec3f("colorBot").z);
+						VectorAttr3(vec2, "top", s.material.getParamVec3f("colorTop").x,
+								s.material.getParamVec3f("colorTop").y, s.material.getParamVec3f("colorTop").z);
+					}
+				
+
 			}
-
-//				for(Entry<String, Item> sp : ) {
-//					
-//				}
-
-//				if (entry.getValue() instanceof Spawner) {
-//					Spawner spp = (Spawner) entry.getValue();
-//					etapes = 1;
-//					Element spawn = doc.createElement("spawn");
-//					info.appendChild(spawn);
-//					spawn.setAttribute("cooldown", "" + spp.getCooldown());
-//					VectorXml vectorGun = new VectorXml(doc, spawn);
-//					vectorGun.addVector("position", spp.localPosition.x, spp.localPosition.y);
-//
-////					for (Element e : vectorGun.getVectors()) {
-////						new GunXml(doc, spawn);
-////					}
-
-			/**/
-//			if (bm) {
-//				Element entities1 = doc.createElement("entities");
-//				spawn.appendChild(entities1);
-//				Element mesh1 = doc.createElement("mesh");
-//				entities1.appendChild(mesh1);
-//				mesh1.setAttribute("src", "data/meshes/item_pickup/weapon_pickup_ceiling.obj");
-//				// <vector use="position" x="0" y="-1" z="0" />
-//				// <vector use="rotation" x="0" y="0" z="0" />
-//				// <vector use="scale" x=".75" y=".75" z=".75" />
-//				Element vector1 = doc.createElement("vector");
-//				Element vector2 = doc.createElement("vector");
-//				Element vector3 = doc.createElement("vector");
-//
-//				VectorAttr3Mesh(vector1, "position", 0, -1, 0);
-//				VectorAttr3Mesh(vector2, "rotation", 0, 0, 0);
-//				VectorAttr3Mesh(vector3, "scale", 0.75, 0.75, 0.75);
-//
-//				mesh1.appendChild(vector1);
-//				mesh1.appendChild(vector2);
-//				mesh1.appendChild(vector3);
-//			}
-//					if (!vectorGun.getElement().getElementsByTagName("gun").equals(null)) {
-//						for (int j = 0; j < vectorGun.getElement().getElementsByTagName("gun").getLength(); j++) {
-//							new GunXml(doc, spawn);
-//						}
-//					}
-
-//					for(Element e :) {
-//						
-//					}
-
-			// }
-			// }
-//			if (etapes == 0) {
-//				Element spawn = doc.createElement("spawn");
-//				info.appendChild(spawn);
-//				spawn.setAttribute("cooldown", "2");
-//				Element vector = doc.createElement("vector");
-//				spawn.appendChild(vector);
-//				vector.setAttribute("x", "" + 0.0);
-//				vector.setAttribute("y", "" + 0.0);
-//			}
 
 			/* <gravity> <vector x="0" y="9.807" /> </gravity> */
 			Element gravity = doc.createElement("gravity");
 			info.appendChild(gravity);
-			Element vector = doc.createElement("vector");
-			gravity.appendChild(vector);
-			vector.setAttribute("x", "" + arena.gravity.x);
-			vector.setAttribute("y", "" + arena.gravity.y);
+			gravity.setAttribute("x", "" + arena.gravity.x);
+			gravity.setAttribute("y", "" + arena.gravity.y);
 
-//			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
-//				System.out.println("cp " + entry.getValue());
-//				/* camera */
-//				if (entry.getValue() instanceof Camera) {
-//					Camera c = (Camera) entry.getValue();
+			// <ambientLight r="0.48" g="0.48" b="0.5" />
+			Element ambientLight = doc.createElement("ambientLight");
+			info.appendChild(ambientLight);
+			ambientLight.setAttribute("r", "" + arena.ambientLight.x);
+			ambientLight.setAttribute("g", "" + arena.ambientLight.y);
+			ambientLight.setAttribute("b", "" + arena.ambientLight.z);
+
+			// <cameraPos x="0" y="-15" z="100" />
 			Element camera = doc.createElement("cameraPos");
 			info.appendChild(camera);
-//					camera.setAttribute("x", "" + c.getWorldPos().x);
-//					camera.setAttribute("y", "" + c.getWorldPos().y);
-//					camera.setAttribute("z", "" + c.getWorldPos().z);
-
 			camera.setAttribute("x", "" + arena.cameraBasePos.x);
 			camera.setAttribute("y", "" + arena.cameraBasePos.y);
 			camera.setAttribute("z", "" + arena.cameraBasePos.z);
-
-//				}
-//
-//			}
 
 			/* <killBounds minX="-200" minY="-100" maxX="200" maxY="20" /> */
 			Element killbounds = doc.createElement("killBounds");
@@ -256,112 +363,10 @@ public class MapXmlWriter {
 			killbounds.setAttribute("minY", "" + arena.killBound.y);
 			killbounds.setAttribute("maxX", "" + arena.killBound.z);
 			killbounds.setAttribute("maxY", "" + arena.killBound.w);
-
-			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
-				System.out.println("cp " + entry.getValue());
-				if (entry.getValue() instanceof Sky) {
-					Sky s = (Sky) entry.getValue();
-					Element sky = doc.createElement("sky");
-					info.appendChild(sky);
-					VectorXml vecs = new VectorXml(doc, sky);
-					vecs.addVector("bottom", s.material.getParamVec3f("colorBot").x,
-							s.material.getParamVec3f("colorBot").y, s.material.getParamVec3f("colorBot").z);
-					vecs.addVector("top", s.material.getParamVec3f("colorTop").x,
-							s.material.getParamVec3f("colorTop").y, s.material.getParamVec3f("colorTop").z);
-				}
-			}
-
-			/*
-			 * <static name="large_platform"> <vector x="0" y="2.25" use="position" />
-			 * <vector x="50" y="0.25" use="extent" />
-			 */
-			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
-				System.out.println("cp " + entry.getValue());
-
-				if (entry.getValue() instanceof StaticBodyContainer) {
-					Element stat = doc.createElement("static");
-					entities.appendChild(stat);
-					Element vec1 = doc.createElement("vector");
-					Element vec2 = doc.createElement("vector");
-					stat.appendChild(vec1);
-					stat.appendChild(vec2);
-					Element entities34 = doc.createElement("entities");
-					stat.appendChild(entities34);
-
-					for (Entry<String, Entity> mesh : entry.getValue().getChildren().entrySet()) {
-						if (mesh instanceof Mesh) {
-//					MeshXml s = new MeshXml(doc, entities);
-
-							Element mesh12 = doc.createElement("mesh");
-							entities34.appendChild(mesh12);
-							Mesh meu = ((Mesh) mesh);
-							mesh12.setAttribute("src", meu.getModelPath());
-							Element vector12 = doc.createElement("vector");
-							Element vector22 = doc.createElement("vector");
-							Element vector32 = doc.createElement("vector");
-							Vec3f vm = ((Mesh) mesh).localPosition;
-							Vec3f vms = ((Mesh) mesh).scale;
-							Vec3f qm = meu.localRotation.toEuler();
-							VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
-							VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
-							VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
-
-							mesh12.appendChild(vector12);
-							mesh12.appendChild(vector22);
-							mesh12.appendChild(vector32);
-
-							VectorAttr2(vec1, "position", 0, 2.25);
-							VectorAttr2(vec2, "extent", 5, 0.25);
-
-						}
-					}
-					if (entry.getValue() instanceof Mesh) {
-//						MeshXml s = new MeshXml(doc, entities);
-
-						Element mesh12 = doc.createElement("mesh");
-						entities34.appendChild(mesh12);
-						Mesh meu = ((Mesh) entry.getValue());
-						mesh12.setAttribute("src", meu.getModelPath());
-						Element vector12 = doc.createElement("vector");
-						Element vector22 = doc.createElement("vector");
-						Element vector32 = doc.createElement("vector");
-						Vec3f vm = ((Mesh) entry.getValue()).localPosition;
-						Vec3f vms = ((Mesh) entry.getValue()).scale;
-						Vec3f qm = meu.localRotation.toEuler();
-						VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
-						VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
-						VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
-
-						mesh12.appendChild(vector12);
-						mesh12.appendChild(vector22);
-						mesh12.appendChild(vector32);
-
-						VectorAttr2(vec1, "position", 0, 2.25);
-						VectorAttr2(vec2, "extent", 5, 0.25);
-
-					}
-				}
-			}
-
-			// if (entry.getValue() instanceof Mesh) {
-//				Mesh p = (Mesh) entry.getValue();
-//				// NodeList bb = doc.getElementsByTagName("entities");
-//				Element bbb = (Element) doc.getElementsByTagName("map").item(0).getLastChild();
-//				// getDocumentElement().getChildNodes().item(1).getNodeValue();
-//				System.out.println(bbb + "      " + bbb);
-//				if (bbb != null) {
-//					MeshXml p1 = new MeshXml(doc, bbb);
-//					p1.xPosition = p.localPosition.x;
-//					p1.yPosition = p.localPosition.y;
-//					p1.zPosition = p.localPosition.z;
-//				}
-//			}
-
-			// loadChildren(doc,arena, map);
-			// loadChildren2(doc, arena, map);
+			
 
 			DOMSource source = new DOMSource(doc);
-			/* _ */
+			/* _verify the existance of the file and create it if it doesn't exist_ */
 			File file1 = new File("data/mapXML");
 			if (!file1.exists()) {
 				file1.mkdirs();
@@ -378,65 +383,15 @@ public class MapXmlWriter {
 			transformer.transform(source, resultat);
 			System.out.println("Fichier sauvegardé avec succès!");
 
-			// Accesseurs :
-
 		} catch (
 
 		ParserConfigurationException pce) {
 			pce.printStackTrace();
+			System.out.println(pce);
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("aze_aze_aze" + e);
+			System.out.println(e);
 		}
-	}
-
-//	private static void loadChildren2(Document doc2, Arena arena, Element map) {
-//		// TODO Auto-generated method stub
-////		for(Vec2f v : arena.spawn) {
-////			Element sp = doc.createElement("spawn");
-////			((Node) doc2.getChildNodes()).appendChild(sp);
-////		}
-//		for (Entry<String, Entity> entry : parent.getChildren().entrySet()) {
-//			System.out.println("cp");
-//			if (child instanceof Spawner) {
-//				System.out.println("lol");
-//				Spawner p = (Spawner) child;
-//				SpawnXml p1 = new SpawnXml(doc, parent, info, true, p.getCooldown());
-//			}
-//	}
-
-	private static void loadChildren(Document doc, Entity parent, Element parentBalise) {
-
-//			Element info = doc.createElement("information");
-//			parentBalise.appendChild(info);
-
-//			Element entities = doc.createElement("entities");
-//			parentBalise.appendChild(entities);
-
-		for (Entry<String, Entity> entry : parent.getChildren().entrySet()) {
-			System.out.println("cp " + entry.getValue());
-//				if (entry.getValue() instanceof Spawner) {
-//					System.out.println("lol");
-//					Spawner p = (Spawner) entry.getValue();
-//					SpawnXml p1 = new SpawnXml(doc, parent, info, true, p.getCooldown());
-//				}
-//			if (entry.getValue() instanceof Mesh) {
-//				Mesh p = (Mesh) entry.getValue();
-//				// NodeList bb = doc.getElementsByTagName("entities");
-//				Element bbb = (Element) doc.getElementsByTagName("map").item(0).getLastChild();
-//				// getDocumentElement().getChildNodes().item(1).getNodeValue();
-//				System.out.println(bbb + "      " + bbb);
-//				if (bbb != null) {
-//					MeshXml p1 = new MeshXml(doc, bbb);
-//					p1.xPosition = p.localPosition.x;
-//					p1.yPosition = p.localPosition.y;
-//					p1.zPosition = p.localPosition.z;
-//				}
-//			}
-
-		}
-
 	}
 
 	private static void VectorAttr3(Element vector, String s, double x, double y, double z) {
@@ -453,34 +408,152 @@ public class MapXmlWriter {
 		vector.setAttribute("y", "" + y);
 	}
 
-	public static void main(String argv[]) {
-		try {
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document doc = docBuilder.newDocument();
-			System.out.print("Nom map : ");
-			Scanner sc = new Scanner(System.in);
-			String line = sc.nextLine();
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			File file = new File("data/testMap");
-			if (!file.exists()) {
-				file.mkdirs();
+	// <!ELEMENT entities
+	// (entity|spawn|rigid|mesh|directionalLight|pointLight|text|static|kinematic|jointPin)*>
+	private static void ADDelemnts(Element elem, Entity entity) {
+		if (entity.getChildren() != null) {
+			for (Entry<String, Entity> entry : entity.getChildren().entrySet()) {
+				if (entry.getValue() instanceof Mesh) {
+					Element vec1 = doc.createElement("vector");
+					Element vec2 = doc.createElement("vector");
+
+					Element mesh12 = doc.createElement("mesh");
+					elem.appendChild(mesh12);
+					Mesh meu = ((Mesh) entry.getValue());
+					if (((Mesh) meu).modelPath == null)
+						continue;
+					mesh12.setAttribute("src", meu.modelPath);
+					Element vector12 = doc.createElement("vector");
+					Element vector22 = doc.createElement("vector");
+					Element vector32 = doc.createElement("vector");
+					Vec3f vm = ((Mesh) entry.getValue()).localPosition;
+					Vec3f vms = ((Mesh) entry.getValue()).scale;
+					Vec3f qm = meu.localRotation.toEuler();
+					VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
+					VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
+					VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
+
+					mesh12.appendChild(vector12);
+					mesh12.appendChild(vector22);
+					mesh12.appendChild(vector32);
+
+					VectorAttr2(vec1, "position", 0, 2.25);
+					VectorAttr2(vec2, "extent", 5, 0.25);
+					ADDelemnts(mesh12, meu);
+				}
+				if (entry.getValue() instanceof StaticBodyContainer) {
+					Element stat = doc.createElement("static");
+					elem.appendChild(stat);
+					Element vec1 = doc.createElement("vector");
+					Element vec2 = doc.createElement("vector");
+					stat.appendChild(vec1);
+					stat.appendChild(vec2);
+					Element entities34 = doc.createElement("entities");
+					stat.appendChild(entities34);
+
+					for (Entry<String, Entity> mesh : entry.getValue().getChildren().entrySet()) {
+						if (mesh.getValue() instanceof Mesh) {
+							if (((Mesh) mesh.getValue()).modelPath == null)
+								continue;
+							Element mesh12 = doc.createElement("mesh");
+							entities34.appendChild(mesh12);
+							Mesh meu = ((Mesh) mesh.getValue());
+							mesh12.setAttribute("src", meu.modelPath);
+							Element vector12 = doc.createElement("vector");
+							Element vector22 = doc.createElement("vector");
+							Element vector32 = doc.createElement("vector");
+							Vec3f vm = ((Mesh) meu).localPosition;
+							Vec3f vms = ((Mesh) meu).scale;
+							Vec3f qm = meu.localRotation.toEuler();
+							VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
+							VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
+							VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
+
+							mesh12.appendChild(vector12);
+							mesh12.appendChild(vector22);
+							mesh12.appendChild(vector32);
+
+							VectorAttr2(vec1, "position", 0, 2.25);
+							VectorAttr2(vec2, "extent", 5, 0.25);
+							ADDelemnts(mesh12, meu);
+						}
+						ADDelemnts(stat, entry.getValue());
+					}
+				}
+				if (entry.getValue() instanceof RigidBodyContainer) {
+					Element rigid = doc.createElement("rigid");
+					elem.appendChild(rigid);
+					Element vec1 = doc.createElement("vector");
+					Element vec2 = doc.createElement("vector");
+					rigid.appendChild(vec1);
+					rigid.appendChild(vec2);
+					Element entities34 = doc.createElement("entities");
+					rigid.appendChild(entities34);
+
+					for (Entry<String, Entity> mesh : entry.getValue().getChildren().entrySet()) {
+						if (mesh.getValue() instanceof Mesh) {
+//					MeshXml s = new MeshXml(doc, entities);
+							if (((Mesh) mesh.getValue()).modelPath == null)
+								continue;
+							Element mesh12 = doc.createElement("mesh");
+							entities34.appendChild(mesh12);
+							Mesh meu = ((Mesh) mesh.getValue());
+							mesh12.setAttribute("src", meu.modelPath);
+							Element vector12 = doc.createElement("vector");
+							Element vector22 = doc.createElement("vector");
+							Element vector32 = doc.createElement("vector");
+							Vec3f vm = ((Mesh) meu).localPosition;
+							Vec3f vms = ((Mesh) meu).scale;
+							Vec3f qm = meu.localRotation.toEuler();
+							VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
+							VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
+							VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
+
+							mesh12.appendChild(vector12);
+							mesh12.appendChild(vector22);
+							mesh12.appendChild(vector32);
+
+							VectorAttr2(vec1, "position", 0, 2.25);
+							VectorAttr2(vec2, "extent", 5, 0.25);
+							ADDelemnts(mesh12, meu);
+						}
+						ADDelemnts(rigid, entry.getValue());
+					}
+				}
+
 			}
-			StreamResult result = new StreamResult(new File("data/testMap/" + line + ".xml"));
-
-			// Creation of the test arena
-			Arena arena = new Arena();
-			Mesh mesh = new Mesh(new Vec3f(), "data/meshes/item_pickup/weapon_pickup.obj");
-			mesh.attachToParent(arena, "meshTest");
-
-			transformer.transform(source, result);
-			System.out.println("File saved!");
-		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
-		} catch (TransformerException tfe) {
-			tfe.printStackTrace();
 		}
+
 	}
+
+//	public static void main(String argv[]) {
+//		try {
+//			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+//			Document doc = docBuilder.newDocument();
+//			System.out.print("Nom map : ");
+//			Scanner sc = new Scanner(System.in);
+//			String line = sc.nextLine();
+//			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//			Transformer transformer = transformerFactory.newTransformer();
+//			DOMSource source = new DOMSource(doc);
+//			File file = new File("data/testMap");
+//			if (!file.exists()) {
+//				file.mkdirs();
+//			}
+//			StreamResult result = new StreamResult(new File("data/testMap/" + line + ".xml"));
+//
+//			// Creation of the test arena
+//			Arena arena = new Arena();
+//			Mesh mesh = new Mesh(new Vec3f(), "data/meshes/item_pickup/weapon_pickup.obj");
+//			mesh.attachToParent(arena, "meshTest");
+//
+//			transformer.transform(source, result);
+//			System.out.println("File saved!");
+//		} catch (ParserConfigurationException pce) {
+//			pce.printStackTrace();
+//		} catch (TransformerException tfe) {
+//			tfe.printStackTrace();
+//		}
+//	}
 }
