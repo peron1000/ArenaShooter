@@ -28,9 +28,9 @@ public class Text {
 	
 	public Font getFont() { return font; }
 	
-	public String getText() {
-		return text;
-	}
+	public String getText() { return text; }
+	
+	public float getWidth() { return width; }
 
 	private void genModel() { //TODO: Support multi-lines
 		ArrayList<FontChar> chars = new ArrayList<>(text.length());
