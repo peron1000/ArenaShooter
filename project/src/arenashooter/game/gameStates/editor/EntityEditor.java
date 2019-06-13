@@ -3,6 +3,7 @@ package arenashooter.game.gameStates.editor;
 import java.util.function.Consumer;
 
 import arenashooter.engine.graphics.Light;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.ColorPicker;
 import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MultiUi;
@@ -137,7 +138,19 @@ class EntityEditor extends UiElement implements MultiUi {
 		case LIGHT:
 			LightContainer light = (LightContainer) entity;
 			ScrollerH<Light.LightType> lightType = new ScrollerH<>(Light.LightType.values());
-			lightType.setAlwaysScrollable(true);
+			lightType.setAlwaysScrollable(false);
+			lightType.setOnValidation(new Trigger() {
+				
+				@Override
+				public void make() {
+					light.getLight().setType(lightType.get());
+				}
+			});
+			lightType.setScale(5);
+			lightType.setBackgroundVisible(true);
+			UiImage background = new UiImage(new Vec4f(0, 0, 0, 1));
+			background.setScale(30, 5);
+			lightType.setBackgroundUnselect(background );
 			Label radius = new Label("Radius : "+light.getLight().radius);
 			radius.setScale(labelScale);
 			menu.addLabelInfo(vList, radius);
@@ -200,7 +213,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		menu.addBind(type.name() + " Editor", vList);
 		menu.addLabelInfo(vList, entityNameLabel);
 		menu.addLabelInfo(vList, parent);
-		menu.setSpacing(8);
+		menu.setSpacing(6);
 		menu.setTitleSpacing(1);
 		menu.setPosition(0, -35);
 		for (UiElement e : vList) {

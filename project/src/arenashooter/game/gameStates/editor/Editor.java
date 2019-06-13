@@ -160,11 +160,16 @@ public class Editor extends GameState {
 							break;
 						}
 						break;
+					default:
+						break;
+					}
+				} else if(event.getActionState() == ActionState.PRESSED) {
+					switch (event.getAction()) {
 					case UI_ZOOMR:
-						cam.editorAddDeep(-(float) positionSpeed);
+						cam.editorAddDeep(-0.1f);
 						break;
 					case UI_ZOOML:
-						cam.editorAddDeep((float) positionSpeed);
+						cam.editorAddDeep(0.1f);
 						break;
 					default:
 						break;
