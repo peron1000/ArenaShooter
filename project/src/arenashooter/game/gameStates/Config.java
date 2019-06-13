@@ -93,7 +93,9 @@ public class Config extends GameState {
 						}
 						break;
 					case UI_BACK:
-						menu.backAction();
+						if(!menu.backAction()) {
+							GameMaster.gm.requestPreviousState();
+						}
 						break;
 					case UI_CANCEL:
 						menu.cancelAction();
