@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
@@ -180,6 +182,8 @@ public class CharacterChooser extends GameState {
 
 		nextSpriteX += charOffset;
 		updatePlayersNumber();
+		
+		Audio.playSound("data/sound/ui/zboui_01.ogg", AudioChannel.UI, 1, 1);
 	}
 
 	private void removeController(Device device) {
@@ -212,6 +216,8 @@ public class CharacterChooser extends GameState {
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
 		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.gm.controllers.size());
+
+		Audio.playSound("data/sound/ui/zboui_02.ogg", AudioChannel.UI, 1, 1);
 	}
 
 	/**
