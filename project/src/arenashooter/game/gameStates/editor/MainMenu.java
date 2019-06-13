@@ -20,7 +20,6 @@ import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiListVertical;
-import arenashooter.engine.ui.UiValuableButton;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
@@ -45,9 +44,7 @@ class MainMenu extends UiElement implements MultiUi {
 	private Arena arenaConstruction;
 	private String fileName = "NewArena";
 
-	private Vec2f buttonScale = new Vec2f(15, 5);
-
-	private Label fileNameLabel = new Label("File Name: "+fileName);
+	private Label fileNameLabel = new Label("File Name: " + fileName);
 	private TabList<UiElement> mainMenu = new TabList<>(), meshChooser = new TabList<>();
 	private UiListVertical<Button> addMenu = new UiListVertical<>();
 	private UiListVertical<Button> setMenu = new UiListVertical<>();
@@ -97,66 +94,7 @@ class MainMenu extends UiElement implements MultiUi {
 
 	private void arenaInfoMenuConstruction() {
 		mainMenu.addBind("Arena Info", arenaInfo);
-		// arenaInfo.setPosition(new Vec2f(Editor.forVisible, -40));
-		// arenaInfo.setPositionRef(new Vec2f(Editor.forVisible, -30));
-		UiValuableButton<Double> test = new UiValuableButton<Double>("Test", Double.valueOf(9));
-		test.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				ui_InputState = Ui_Input.DOUBLE;
-				doubleInput = new DoubleInput();
-				test.setVisible(false);
-				doubleInput.setPosition(test.getPosition().x, test.getPosition().y);
-				doubleInput.setScale(10);
-				arenaInfo.addElement(doubleInput);
-				doubleInput.setOnFinish(new Trigger() {
-
-					@Override
-					public void make() {
-						ui_InputState = Ui_Input.NOTHING;
-						test.setVisible(true);
-						test.setValue(doubleInput.getDouble());
-						arenaInfo.removeElement(doubleInput);
-					}
-				});
-			}
-		});
-		arenaInfo.addElement(test);
-		Button button = new Button("Set");
-		button.setScale(buttonScale.x, buttonScale.y);
-		arenaInfo.addElement(button);
-//		button.setOnArm(new Trigger() {
-//
-//			@Override
-//			public void make() {
-//				ui_InputState = Ui_Input.DOUBLE;
-//				doubleInput = new DoubleInput();
-//				button.setVisible(false);
-//				doubleInput.setScale(new Vec2f(10));
-//				arenaInfo.addUiElement(doubleInput, 1);
-//				doubleInput.setPosition(button.getPosition());
-//				doubleInput.setOnFinish(new Trigger() {
-//
-//					@Override
-//					public void make() {
-//						ui_InputState = Ui_Input.NOTHING;
-//						button.setVisible(true);
-//						System.out.println(doubleInput.getDouble());
-//						arenaInfo.removeUiElement(doubleInput);
-//					}
-//				});
-//				doubleInput.setOnCancel(new Trigger() {
-//
-//					@Override
-//					public void make() {
-//						ui_InputState = Ui_Input.NOTHING;
-//						button.setVisible(true);
-//						arenaInfo.removeUiElement(doubleInput);
-//					}
-//				});
-//			}
-//		});
+		// TODO
 	}
 
 	private void meshChooserMenuConstruction() {
@@ -183,7 +121,7 @@ class MainMenu extends UiElement implements MultiUi {
 				}
 			});
 			i++;
-			if(i >= 7) {
+			if (i >= 7) {
 				meshChooser.addBind("Mesh Chooser", vList);
 				vList = new UiListVertical<>();
 				vList.setSpacing(spacing);
@@ -224,7 +162,7 @@ class MainMenu extends UiElement implements MultiUi {
 						ui_InputState = Ui_Input.NOTHING;
 						textInput.setVisible(false);
 						fileName = textInput.getText();
-						fileNameLabel.setText("File Name: "+fileName);
+						fileNameLabel.setText("File Name: " + fileName);
 						saveQuitMenu.removeElement(textInput);
 					}
 				});
@@ -255,7 +193,7 @@ class MainMenu extends UiElement implements MultiUi {
 		saveQuitMenu.addElements(save, rename, quit);
 
 		mainMenu.addBind("Exit", saveQuitMenu);
-		
+
 		mainMenu.addLabelInfo(saveQuitMenu, fileNameLabel);
 		fileNameLabel.setScale(scaleText);
 	}
@@ -280,7 +218,7 @@ class MainMenu extends UiElement implements MultiUi {
 						break;
 					case MESH:
 						current = meshChooser;
-						//editor.setCurrentMenu(current);
+						editor.setCurrentMenu(MainMenu.this);
 						break;
 					case RIGID:
 						RigidBodyContainer rigid = new RigidBodyContainer(new RigidBody(new ShapeBox(new Vec2f(1)),
@@ -364,7 +302,7 @@ class MainMenu extends UiElement implements MultiUi {
 			button.setText(name);
 		}
 	}
-	
+
 	void removeEntity(Entity toRemove) {
 		Button buttonToRemove = entityToButton.remove(toRemove);
 		setMenu.removeElement(buttonToRemove);
@@ -461,7 +399,7 @@ class MainMenu extends UiElement implements MultiUi {
 	@Override
 	public void draw() {
 		current.draw();
-		if(ui_InputState == Ui_Input.NOTHING) {
+		if (ui_InputState == Ui_Input.NOTHING) {
 			UiImage.selector.draw();
 		}
 	}
@@ -469,7 +407,7 @@ class MainMenu extends UiElement implements MultiUi {
 	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
 		double xDif = x - getPosition().x, yDif = y - getPosition().y;
-		super.setPositionLerp(x, y , lerp);
+		super.setPositionLerp(x, y, lerp);
 		mainMenu.addToPositionLerp(xDif, yDif, lerp);
 		meshChooser.addToPositionLerp(xDif, yDif, lerp);
 	}
