@@ -83,6 +83,18 @@ class EntityEditor extends UiElement implements MultiUi {
 			}
 		});
 		vList.addElement(rename);
+		
+		Button removeEntity = new Button("Remove Entity");
+		removeEntity.setScaleText(5);
+		removeEntity.setScaleRect(30, 5);
+		removeEntity.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				mainMenu.removeEntity(entity);
+			}
+		});
+		vList.addElement(removeEntity);
 
 		switch (type) {
 		case RIGID:

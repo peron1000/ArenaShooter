@@ -364,6 +364,15 @@ class MainMenu extends UiElement implements MultiUi {
 			button.setText(name);
 		}
 	}
+	
+	void removeEntity(Entity toRemove) {
+		Button buttonToRemove = entityToButton.remove(toRemove);
+		setMenu.removeElement(buttonToRemove);
+		current = mainMenu;
+		toRemove.detach();
+		editor.allEditable.remove(toRemove);
+		editor.setCurrentMenu(this);
+	}
 
 	public void constructCamerabutton(Camera cam) {
 		Button toSetMenu = new Button("camera");
