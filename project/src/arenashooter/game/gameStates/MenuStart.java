@@ -1,17 +1,19 @@
 package arenashooter.game.gameStates;
 
+import java.util.function.Consumer;
+
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.MenuSettings;
-import arenashooter.engine.ui.MenuSelectionV;
+import arenashooter.engine.ui.TabList;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
+import arenashooter.engine.ui.UiElement;
+import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
@@ -20,56 +22,44 @@ import arenashooter.game.gameStates.editor.Editor;
 
 public class MenuStart extends GameState {
 	/* MenuStart Menu */
-	private Vec2f forVisible = new Vec2f(0, 25);
-	private MenuSelectionV<UiActionable> menustart = new MenuSelectionV<>(10, forVisible.x, forVisible.y,
-			new Vec2f(100, 12), "data/sprites/interface/Selector_MainMenu_tr.png");
-	// Selector_Ajustable_4
-
-	private final Vec2f scale = new Vec2f(37f);
-	private Button buttonPlay = new Button(0, new Vec2f(50, 5.5), "Play");
-	private Button buttonEditor = new Button(0, new Vec2f(50, 5.5), "Map Editor");
-	private Button buttonSettings = new Button(0, new Vec2f(50, 5.5), "Settings");
-	private Button buttonQuit = new Button(0, new Vec2f(50, 5.5), "Quit");
+	private UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_MainMenu_tr.png")),
+			background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png")), 
+			logo;
+	private TabList<UiActionable> mainMenu = new TabList<>();
+	private TabList<UiActionable> current = mainMenu;
 
 	private InputListener inputs = new InputListener();
-	private MenuSettings menu;
+
 	public MenuStart() {
 		super(1);
-
-		menu = new MenuSettings();
-		menu.selectorVisible = false;
+		selector.setScale(100, 8);
 		
-		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
-		texture1.setFilter(false);
-
-		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1));
-		
-		menustart.setBackground(bg);
-		bg.setPosition(new Vec2f(0));
-		
-		menustart.setPositionRef(new Vec2f(forVisible.x, forVisible.y - 15));
-		menustart.setEcartement(10f);
-		buttonPlay.setScaleText(scale);
-		buttonEditor.setScaleText(scale);
-		buttonSettings.setScaleText(scale);
-		buttonQuit.setScaleText(scale);
-
-		buttonPlay.setColorFond(new Vec4f(0, 1, 1, 0));
-		buttonEditor.setColorFond(new Vec4f(1, 0, 1, 0));
-		buttonSettings.setColorFond(new Vec4f(1, 1, 0, 0));
-		buttonQuit.setColorFond(new Vec4f(1, 1, 0, 0));
-
-		menustart.addElementInListOfChoices(buttonPlay, 1);
-		menustart.addElementInListOfChoices(buttonEditor, 1);
-		menustart.addElementInListOfChoices(buttonSettings, 1);
-		menustart.addElementInListOfChoices(buttonQuit, 1);
-
-		// Logo
+		//logo
 		Texture logoTex = Texture.loadTexture("data/logo.png");
-		logoTex.setFilter(false);
-		UiImage Logo = new UiImage(0, new Vec2f(logoTex.getWidth() / 6, logoTex.getHeight() / 6), logoTex, new Vec4f(1));
-		menustart.addUiElement(Logo, 5);
-		Logo.setPosition(new Vec2f(-2.25, -24));
+		logo = new UiImage(logoTex);
+		logo.setScale(logoTex.getWidth() / 6, logoTex.getHeight() / 6);
+		logo.setPosition(-2.25, -24);
+		
+		//Button
+		Button buttonPlay = new Button("Play");
+		Button buttonEditor = new Button("Map Editor");
+		Button buttonSettings = new Button("Settings");
+		Button buttonQuit = new Button("Quit");
+		
+		background.setScale(178, 100);
+
+		
+		UiListVertical<Button> uilist = new UiListVertical<>();
+		uilist.setSpacing(8);
+		uilist.addElements(buttonPlay , buttonEditor , buttonSettings , buttonQuit);
+		for (Button button : uilist) {
+//			button.setScale(50, 5.5);
+			button.setScale(8);
+			button.setRectangleVisible(false);
+		}
+		mainMenu.addBind("Main Menu", uilist);
+		uilist.setPosition(0, -5);
+		mainMenu.setPosition(0, 20);
 
 		buttonPlay.setOnArm(new Trigger() {
 			@Override
@@ -77,29 +67,35 @@ public class MenuStart extends GameState {
 				GameMaster.gm.requestNextState(new Config(), "data/mapXML/menu_empty.xml");
 			}
 		});
-		
+
 		buttonEditor.setOnArm(new Trigger() {
 			@Override
 			public void make() {
 				GameMaster.gm.requestNextState(new Editor(), "data/mapXML/menu_empty.xml");
 			}
 		});
-		
+
 		buttonSettings.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				menu.selectorVisible = !menu.selectorVisible;
-				System.out.println("option");
-				//GameMaster.gm.requestNextState(new MenuOption(), "data/mapXML/menu_empty.xml");
+				current = new MenuSettings(20 , new Trigger() {
+					
+					@Override
+					public void make() {
+						current = mainMenu;
+					}
+				});
 			}
 		});
-		
+
 		buttonQuit.setOnArm(new Trigger() {
 			@Override
 			public void make() {
 				Main.reqestClose();
 			}
 		});
+		
+		selector.setPosition(mainMenu.getTarget().getPosition().x, mainMenu.getTarget().getPosition().y);
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
@@ -107,42 +103,49 @@ public class MenuStart extends GameState {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_LEFT:
-						menustart.leftAction();
+						current.leftAction();
 						break;
 					case UI_RIGHT:
-						menustart.rightAction();
+						current.rightAction();
 						break;
 					case UI_UP:
-						menustart.upAction();
+						current.upAction();
 						break;
 					case UI_DOWN:
-						menustart.downAction();
+						current.downAction();
 						break;
 					case UI_OK:
+						current.selectAction();
+						break;
 					case UI_CONTINUE:
-						menustart.getTarget().selectAction();
+						current.selectAction();
 						break;
 					case UI_BACK:
-						GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
+						if(!current.backAction()) {
+							GameMaster.gm.requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
+						}
 						break;
 
 					default:
 						break;
 					}
+					selector.setPosition(current.getTarget().getPosition().x, current.getTarget().getPosition().y);
 				}
 			}
 		});
 	}
+	
+	private void actionOnAll(Consumer<UiElement> c) {
+		c.accept(background);
+		c.accept(logo);
+		c.accept(current);
+		c.accept(selector);
+	}
 
 	@Override
 	public void update(double delta) {
-		menustart.update(delta);
-		if(menu.selectorVisible) {
-			menu.update(delta);
-		}
-		else{
-			inputs.step(delta);
-		}
+		inputs.step(delta);
+		actionOnAll(e -> e.update(delta));
 		super.update(delta);
 	}
 
@@ -150,10 +153,7 @@ public class MenuStart extends GameState {
 	public void draw() {
 		super.draw();
 		Window.beginUi();
-		menustart.draw();
-		if (menu.selectorVisible) {
-		menu.draw();
-		}
+		actionOnAll(e -> e.draw());
 		Window.endUi();
 	}
 

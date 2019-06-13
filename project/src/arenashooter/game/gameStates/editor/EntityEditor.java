@@ -2,46 +2,42 @@ package arenashooter.game.gameStates.editor;
 
 import java.util.function.Consumer;
 
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.ui.MenuSelectionV;
-import arenashooter.engine.ui.Navigable;
+import arenashooter.engine.ui.MultiUi;
 import arenashooter.engine.ui.ScrollerH;
+import arenashooter.engine.ui.TabList;
 import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
+import arenashooter.engine.ui.UiElement;
+import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
+import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.gameStates.editor.editorEnum.SetEditable;
 import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
 
-class EntityEditor implements Navigable {
+class EntityEditor extends UiElement implements MultiUi {
 
 	private String entityNameString = "";
-	private Label entityNameLabel, title, parent;
-	private Vec2f position = new Vec2f(Editor.forVisible, 0);
-	private MenuSelectionV<UiActionable> menu = new MenuSelectionV<>();
+	private Label entityNameLabel, parent;
+	private TabList<UiElement> menu = new TabList<>();
 	private boolean onWritting = false;
-	private ScrollerH<TypeEntites> newChild = new ScrollerH<>(0, new Vec2f(30), TypeEntites.values());
-	private ScrollerH<SetEditable> modification = new ScrollerH<>(0, new Vec2f(30), SetEditable.values());
+	private ScrollerH<TypeEntites> newChild = new ScrollerH<>(TypeEntites.values());
+	private ScrollerH<SetEditable> modification = new ScrollerH<>(SetEditable.values());
 	private TextInput textInput = new TextInput();
-
+	
 	public EntityEditor(MainMenu mainMenu, Entity entity, TypeEntites type) {
-
-		// Make title
-		title = new Label(0, new Vec2f(40), type.name() + " Editor");
-		title.setPosition(new Vec2f(Editor.forVisible, -40));
 
 		// Make Label for entity name and parent entity name
 		makeLabelsForEntity(entity);
 
 		// makeTextInput(mainMenu , entity);
 
-		menu.setPosition(position);
-
 		newChild.setTitle("New Child");
+		newChild.setScale(5);
 		newChild.setAlwaysScrollable(true);
 		newChild.setOnArm(new Trigger() {
 
@@ -50,13 +46,17 @@ class EntityEditor implements Navigable {
 				mainMenu.newEntity(entity, newChild.get());
 			}
 		});
-		menu.addElementInListOfChoices(newChild, 1);
+		UiListVertical<UiActionable> vList = new UiListVertical<>();
+		vList.addElement(newChild);
 
 		modification.setAlwaysScrollable(true);
 		modification.setTitle("Setting");
-		menu.addElementInListOfChoices(modification, 1);
+		modification.setScale(5);
+		vList.addElement(modification);
 
-		Button rename = new Button(0, new Vec2f(10), "Rename Entity");
+		Button rename = new Button("Rename Entity");
+		rename.setScaleText(5);
+		rename.setScaleRect(30, 5);
 		rename.setOnArm(new Trigger() {
 
 			@Override
@@ -64,8 +64,8 @@ class EntityEditor implements Navigable {
 				onWritting = true;
 				entityNameLabel.setVisible(false);
 				textInput = new TextInput();
-				textInput.setPosition(entityNameLabel.getPosition());
-				textInput.setScale(new Vec2f(10));
+				textInput.setPosition(entityNameLabel.getPosition().x , entityNameLabel.getPosition().y);
+				textInput.setScale(10);
 				textInput.setOnFinish(new Trigger() {
 
 					@Override
@@ -82,16 +82,15 @@ class EntityEditor implements Navigable {
 				});
 			}
 		});
-		menu.addElementInListOfChoices(rename, 0);
-		menu.setEcartement(8);
+		vList.addElement(rename);
 
 		switch (type) {
 		case RIGID:
 		case STATIC:
 			break;
 		case TEXT:
-			Button setText = new Button(0, new Vec2f(30, 10), "set Text");
-			menu.addElementInListOfChoices(setText, 1);
+			Button setText = new Button("set Text");
+			vList.addElement(setText);
 			setText.setOnArm(new Trigger() {
 
 				@Override
@@ -99,8 +98,8 @@ class EntityEditor implements Navigable {
 					onWritting = true;
 					setText.setVisible(false);
 					textInput = new TextInput();
-					textInput.setPosition(setText.getPosition());
-					textInput.setScale(new Vec2f(10));
+					textInput.setPosition(setText.getPosition().x , setText.getPosition().y);
+					textInput.setScale(10);
 					textInput.setOnFinish(new Trigger() {
 
 						@Override
@@ -115,9 +114,21 @@ class EntityEditor implements Navigable {
 		default:
 			break;
 		}
+		
+		menu.addBind(type.name() + " Editor", vList);
+		menu.addLabelInfo(vList, entityNameLabel);
+		menu.addLabelInfo(vList, parent);
+		menu.setSpacing(7);
+		menu.setTitleSpacing(1);
+		menu.setPosition(0, -35);
+		
+		UiImage.selector.setPosition(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y);
+		
+		setPosition(Editor.forVisible, 0);
 	}
 
 	private void makeLabelsForEntity(Entity entity) {
+		final double scale = 3.5;
 		Entity parent = entity.getParent();
 		try {
 			for (String name : parent.getChildren().keySet()) {
@@ -130,25 +141,25 @@ class EntityEditor implements Navigable {
 			entityNameString = "error";
 		}
 
-		entityNameLabel = new Label(0, new Vec2f(30), "Name : " + entityNameString);
-		entityNameLabel.setPosition(new Vec2f(Editor.forVisible, -30));
+		entityNameLabel = new Label("Name : " + entityNameString);
+		entityNameLabel.setScale(scale);
 
 		if (parent instanceof Arena) {
-			this.parent = new Label(0, new Vec2f(30), "Parent : Arena");
+			this.parent = new Label("Parent : Arena");
 		} else {
 			try {
 				for (String name : parent.getParent().getChildren().keySet()) {
 					if (parent == parent.getParent().getChild(name)) {
-						this.parent = new Label(0, new Vec2f(30), "Parent : " + name);
+						this.parent = new Label("Parent : " + name);
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.parent = new Label(0, new Vec2f(30), "Parent : Error");
+				this.parent = new Label("Parent : Error");
 			}
 		}
 
-		this.parent.setPosition(new Vec2f(Editor.forVisible, -20));
+		this.parent.setScale(scale);
 	}
 
 	@Override
@@ -201,51 +212,35 @@ class EntityEditor implements Navigable {
 	}
 
 	@Override
-	public boolean isSelected() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void unSelec() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update(double delta) {
+		super.update(delta);
 		textInput.setVisible(onWritting);
 		onAll(e -> e.update(delta));
+		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 10);
+		UiImage.selector.update(delta);
 	}
 
 	@Override
 	public void draw() {
 		onAll(e -> e.draw());
+		UiImage.selector.draw();
 	}
 
 	@Override
-	public void setPositionLerp(Vec2f position, double lerp) {
-		Vec2f dif = Vec2f.subtract(position, this.position);
-		this.position.add(dif);
-		onAll(e -> e.setPositionLerp(Vec2f.add(e.getPosition(), dif), lerp));
+	public void setPositionLerp(double x , double y, double lerp) {
+		double xDif = x - getPosition().x , yDif = y - getPosition().y;
+		super.setPositionLerp(x, y ,lerp);
+		onAll(e -> e.addToPositionLerp(xDif, yDif , lerp));
 	}
 
 	@Override
-	public void setPosition(Vec2f newPosition) {
-		Vec2f dif = Vec2f.subtract(position, this.position);
-		this.position.add(dif);
-		onAll(e -> e.setPosition(Vec2f.add(e.getPosition(), dif)));
+	public void setPosition(double x , double y) {
+		double xDif = x - getPosition().x , yDif = y - getPosition().y;
+		super.setPosition(x, y);
+		onAll(e -> e.addToPosition(xDif, yDif));
 	}
 
-	@Override
-	public Vec2f getPosition() {
-		return position;
-	}
-
-	private void onAll(Consumer<Navigable> c) {
-		c.accept(entityNameLabel);
-		c.accept(title);
-		c.accept(parent);
+	private void onAll(Consumer<UiElement> c) {
 		c.accept(menu);
 		c.accept(textInput);
 	}
@@ -274,6 +269,11 @@ class EntityEditor implements Navigable {
 			return textInput.backAction();
 		}
 		return false;
+	}
+
+	@Override
+	public UiElement getTarget() {
+		return menu.getTarget();
 	}
 
 }

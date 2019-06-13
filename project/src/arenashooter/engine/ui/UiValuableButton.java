@@ -1,31 +1,42 @@
 package arenashooter.engine.ui;
 
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.ui.simpleElement.Label;
+import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.ui.simpleElement.Button;
 
 public class UiValuableButton<T> extends UiActionable {
 	
 	private String title;
-	private Label labelValue;
+	private Button button;
 	private T value;
 
-	public UiValuableButton(double rot, Vec2f scale , String title , T defaultValue) {
-		super(rot, scale);
+	public UiValuableButton(String title , T defaultValue) {
 		this.title = title;
-		labelValue = new Label(rot, scale, title+" : "+defaultValue.toString());
+		button = new Button(title+" : "+defaultValue.toString());
+		button.setRectangleVisible(false);
+		button.setRatio(2);
+		setScale(button.getScale().x, button.getScale().y);
 		value = defaultValue;
 	}
 	
-	public UiValuableButton(String title , T defaultValue) {
-		this(0 , new Vec2f(30) , title , defaultValue);
+	public void setScaleText(double square) {
+		button.setScaleText(square);
 	}
 	
-	public UiValuableButton(T defaultValue) {
-		this("title : " , defaultValue);
+	public void setColorText(Vec4f color) {
+		button.setColorText(color);
+	}
+	
+	public void setScaleRectangle(double x , double y) {
+		button.setScaleRect(x, y);
+	}
+	
+	public void setColorRectangle(Vec4f color) {
+		button.setColorRect(color);
 	}
 	
 	public void setTitle(String title) {
-		labelValue.setText(title+" : "+value.toString());
+		this.title = title;
+		button.setText(title+" : "+value.toString());
 	}
 	
 	public T getValue() {
@@ -34,63 +45,32 @@ public class UiValuableButton<T> extends UiActionable {
 	
 	public void setValue(T value) {
 		this.value = value;
-		labelValue.setText(title+" : "+value.toString());
-	}
-	
-	@Override
-	public void setPosition(Vec2f pos) {
-		labelValue.setPosition(pos);
-		super.setPosition(pos);
-	}
-	
-	@Override
-	public void setPositionLerp(Vec2f pos, double lerp) {
-		Vec2f dif = Vec2f.subtract(pos, getPosition());
-		labelValue.setPositionLerp(Vec2f.add(dif, getPosition()), lerp);
-		super.setPositionLerp(pos, lerp);
+		button.setText(title+" : "+value.toString());
 	}
 	
 	@Override
 	public void setPosition(double x, double y) {
-		labelValue.setPosition(x, y);
+		button.setPosition(x, y);
 		super.setPosition(x, y);
 	}
 	
 	@Override
 	public void setScale(double x, double y) {
-		labelValue.setScale(x, y);
-		super.setScale(x, y);
-	}
-	
-	@Override
-	public void setScale(Vec2f scale) {
-		labelValue.setScale(scale);
-		super.setScale(scale);
-	}
-	
-	@Override
-	public void setScaleLerp(Vec2f scale) {
-		labelValue.setScale(scale);
-		super.setScaleLerp(scale);
+		button.setScale(x , y);
+		super.setScale(x , y);
 	}
 	
 	@Override
 	public void update(double delta) {
-		labelValue.update(delta);
+		button.update(delta);
 		super.update(delta);
 	}
 	
 	@Override
 	public void draw() {
 		if(isVisible()) {
-			labelValue.draw();
+			button.draw();
 		}
-	}
-	
-	@Override
-	public boolean selectAction() {
-		arm();
-		return true;
 	}
 
 }

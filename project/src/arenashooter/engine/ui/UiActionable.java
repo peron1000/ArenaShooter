@@ -1,9 +1,6 @@
 package arenashooter.engine.ui;
 
-import arenashooter.engine.math.Vec2f;
-
 public abstract class UiActionable extends UiElement implements Actionable {
-	private boolean selected = false;
 	private Trigger arm = new Trigger() {
 		
 		@Override
@@ -11,25 +8,13 @@ public abstract class UiActionable extends UiElement implements Actionable {
 			// Nothing by default
 		}
 	};
+	
+	public UiActionable(float xPos , float yPos , float xScale , float yScale , double rot) {
+		super(xPos , yPos , xScale , yScale , rot);
+	}
 
-	public UiActionable(double rot, Vec2f scale) {
-		super(rot, scale);
-	}
-	
-	@Override
-	public boolean isSelected() {
-		return selected;
-	}
-	
-	@Override
-	public boolean selectAction() {
-		selected = !selected;
-		return true;
-	}
-	
-	@Override
-	public void unSelec() {
-		selected = false;
+	public UiActionable() {
+		super();
 	}
 	
 	@Override

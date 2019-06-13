@@ -49,18 +49,8 @@ public interface Navigable {
 	 */
 	public boolean backAction();
 	
-	public boolean isSelected();
-	
-	public void unSelec();
-	
 	public void update(double delta);
 	
 	public void draw();
 
-	public void setPositionLerp(Vec2f position , double lerp);
-	
-	public void setPosition(Vec2f newPosition);
-	
-	public Vec2f getPosition();
-	
 }

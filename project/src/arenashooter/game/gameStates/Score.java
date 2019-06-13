@@ -1,229 +1,221 @@
 package arenashooter.game.gameStates;
 
+import arenashooter.engine.events.EventListener;
+import arenashooter.engine.events.input.InputActionEvent;
+import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.Action;
-import arenashooter.engine.input.Input;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Menu;
+import arenashooter.engine.ui.UiElement;
+import arenashooter.engine.ui.UiGroup;
+import arenashooter.engine.ui.UiImageLabel;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.Controller;
-import arenashooter.game.ControllerPlayer;
 import arenashooter.game.GameMaster;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Score extends GameState {
 
-	private Menu menu = new Menu(5);
-	private Menu menuscore = new Menu(5);
+	private InputListener inputs = new InputListener();
+
+	private UiGroup<UiElement> group = new UiGroup<>();
 
 	public Score() {
 		super(1);
 	}
 
+	private void setPositions(UiGroup<UiImage> group, double y, double scale) {
+		final double x = 100 * Window.getRatio() / 4;
+		double i = -1.5;
+		for (UiImage uiImage : group) {
+			uiImage.setScale(scale);
+			uiImage.setPosition(x * i, y);
+			i++;
+		}
+	}
+
 	@Override
 	public void init() {
-
-		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
-		texture1.setFilter(false);
-		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1));
-		menu.setBackground(bg);
+		UiImage bg = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png"), new Vec4f(1));
+		bg.setScale(177.78, 100);
+		group.setBackground(bg);
 
 		Texture texButtonA = Texture.loadTexture("data/sprites/interface/Button_A.png");
 		Texture texButtonY = Texture.loadTexture("data/sprites/interface/Button_Y.png");
 		Texture texButtonB = Texture.loadTexture("data/sprites/interface/Button_B.png");
 
-		texButtonA.setFilter(false);
-		texButtonY.setFilter(false);
-		texButtonB.setFilter(false);
-		UiImage butA = new UiImage(0, new Vec2f(texButtonA.getWidth() / 2, texButtonA.getHeight() / 2), texButtonA, new Vec4f(1));
-		UiImage butY = new UiImage(0, new Vec2f(texButtonY.getWidth() / 2, texButtonY.getHeight() / 2), texButtonY, new Vec4f(1));
-		UiImage butB = new UiImage(0, new Vec2f(texButtonB.getWidth() / 2, texButtonB.getHeight() / 2), texButtonB, new Vec4f(1));
-		menu.addUiElement(butA, 2);
-		menu.addUiElement(butY, 2);
-		menu.addUiElement(butB, 2);
-		butA.setPosition(new Vec2f(-67, 41));
-		butY.setPosition(new Vec2f(-30, 41));
-		butB.setPosition(new Vec2f(7, 41));
+		UiImageLabel buttonA = new UiImageLabel(new UiImage(texButtonA, new Vec4f(1)), texButtonA.getWidth() / 2,
+				texButtonA.getHeight() / 2);
+		UiImageLabel buttonY = new UiImageLabel(new UiImage(texButtonY, new Vec4f(1)), texButtonY.getWidth() / 2,
+				texButtonY.getHeight() / 2);
+		UiImageLabel buttonB = new UiImageLabel(new UiImage(texButtonB, new Vec4f(1)), texButtonB.getWidth() / 2,
+				texButtonB.getHeight() / 2);
 
-		Label labelA = new Label(0, new Vec2f(25, 25), "Rematch"), labelY = new Label(0, new Vec2f(25, 25), "New Game"),
-				labelB = new Label(0, new Vec2f(25, 25), "Back to Menu"),
-				labelAInfo = new Label(0, new Vec2f(20, 20), "(Space)"),
-				labelYInfo = new Label(0, new Vec2f(20, 20), "(R)"),
-				labelBInfo = new Label(0, new Vec2f(20, 20), "(Esc)");
+		final double sizeMain = 3, size2 = 2, pourcent1 = 0.55, pourcent2 = 0.75;
+
+		Label labelA = new Label("Rematch", sizeMain), labelY = new Label("New Game", sizeMain),
+				labelB = new Label("Back to Menu", sizeMain), labelAInfo = new Label("(Space)", size2),
+				labelYInfo = new Label("(R)", size2), labelBInfo = new Label("(Esc)", size2);
 		labelAInfo.setColor(new Vec4f(0, 0, 0, 0.25));
 		labelYInfo.setColor(new Vec4f(0, 0, 0, 0.25));
 		labelBInfo.setColor(new Vec4f(0, 0, 0, 0.25));
-		menu.addUiElement(labelA, 4);
-		menu.addUiElement(labelY, 4);
-		menu.addUiElement(labelB, 4);
-		menu.addUiElement(labelAInfo, 4);
-		menu.addUiElement(labelYInfo, 4);
-		menu.addUiElement(labelBInfo, 4);
-		labelA.setPosition(new Vec2f(-67, 40));
-		labelY.setPosition(new Vec2f(-30, 40));
-		labelB.setPosition(new Vec2f(7, 40));
-		labelAInfo.setPosition(new Vec2f(-67, 43));
-		labelYInfo.setPosition(new Vec2f(-30, 43));
-		labelBInfo.setPosition(new Vec2f(7, 43));
 
-		
-		//Display scores
+		buttonA.addLabel(labelA, pourcent1);
+		buttonA.addLabel(labelAInfo, pourcent2);
+
+		buttonY.addLabel(labelY, pourcent1);
+		buttonY.addLabel(labelYInfo, pourcent2);
+
+		buttonB.addLabel(labelB, pourcent1);
+		buttonB.addLabel(labelBInfo, pourcent2);
+
+		UiGroup<UiImageLabel> groupButtons = new UiGroup<>();
+		groupButtons.addElements(buttonA, buttonY, buttonB);
+		float i = -67;
+		for (UiImageLabel uiImageLabel : groupButtons) {
+			uiImageLabel.setPosition(i, 41);
+			i += 37; // spacing between buttons
+		}
+		group.addElement(groupButtons);
+
+		// Display scores
 		Controller winner = GameMaster.gm.controllers.get(0);
 		Controller killer = GameMaster.gm.controllers.get(0);
 		Controller survivor = GameMaster.gm.controllers.get(0);
 		Controller bestest = GameMaster.gm.controllers.get(0);
-		
-		for(Controller controller : GameMaster.gm.controllers) {
-			if(controller.deaths < survivor.deaths)
+
+		for (Controller controller : GameMaster.gm.controllers) {
+			if (controller.deaths < survivor.deaths)
 				survivor = controller;
 
-			if(controller.kills > killer.kills)
+			if (controller.kills > killer.kills)
 				killer = controller;
-			
-			if(controller.deaths > bestest.deaths)
+
+			if (controller.deaths > bestest.deaths)
 				bestest = controller;
-			
-			if(controller.roundsWon > bestest.roundsWon)
+
+			if (controller.roundsWon > bestest.roundsWon)
 				winner = controller;
-			//controller.resetScore();
+			// controller.resetScore();
 		}
-		for(Controller controller : GameMaster.gm.controllers) {
+		for (Controller controller : GameMaster.gm.controllers) {
 			controller.resetScore();
 		}
-		
-		///Winner
-		float x = -16.6666667f;
-		//Portrait
-		UiImage image = new UiImage(0, new Vec2f(23), winner.getPortrait());
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -22));
-		//Number
-		Texture tex = Texture.loadTexture("data/sprites/interface/Player_"+(winner.playerNumber+1)+"_Arrow.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(15), tex);
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -38));
-		//Medal
-		tex = Texture.loadTexture("data/sprites/interface/medals/medal_winner.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(24), tex);
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, 0));
-		
-		///Killer
-		x = -50;
-		//Portrait
-		image = new UiImage(0, new Vec2f(23), killer.getPortrait());
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -22));
-		//Number
-		tex = Texture.loadTexture("data/sprites/interface/Player_"+(killer.playerNumber+1)+"_Arrow.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(15), tex);
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -38));
-		//Medal
-		tex = Texture.loadTexture("data/sprites/interface/medals/medal_kills.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(24), tex);
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, 0));
 
-		///Killer
-		x = 16.6666667f;
-		//Portrait
-		image = new UiImage(0, new Vec2f(23), survivor.getPortrait());
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -22));
-		//Number
-		tex = Texture.loadTexture("data/sprites/interface/Player_"+(survivor.playerNumber+1)+"_Arrow.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(15), tex);
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -38));
-		//Medal
-		tex = Texture.loadTexture("data/sprites/interface/medals/medal_survivor.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(24), tex);
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, 0));
-		
-		///Bestest player
-		x = 50;
-		//Portrait
-		image = new UiImage(0, new Vec2f(23), bestest.getPortrait());
-		image.rotation = .028;
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -22));
-		//Number
-		tex = Texture.loadTexture("data/sprites/interface/Player_"+(bestest.playerNumber+1)+"_Arrow.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(15), tex);
-		image.rotation = -.035;
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, -38));
-		//Medal
-		tex = Texture.loadTexture("data/sprites/interface/medals/medal_congration.png");
-		tex.setFilter(false);
-		image = new UiImage(0, new Vec2f(24), tex);
-		image.rotation = .056;
-		menu.addUiElement(image, 4);
-		image.setPosition(new Vec2f(x, 0));
+		// Medals
+		UiGroup<UiImage> medals = new UiGroup<>();
+		medals.addElements(new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_winner.png")),
+				new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_kills.png")),
+				new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_survivor.png")),
+				new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_congration.png")));
+
+		setPositions(medals, 0, 24);
+
+		// Portraits
+		UiGroup<UiImage> portraits = new UiGroup<>();
+		portraits.addElements(new UiImage(winner.getPortrait()), new UiImage(killer.getPortrait()),
+				new UiImage(survivor.getPortrait()), new UiImage(bestest.getPortrait()));
+		setPositions(portraits, -25, 23);
+
+		// Numbers
+		UiGroup<UiImage> numbers = new UiGroup<>();
+		numbers.addElements(
+				new UiImage(Texture
+						.loadTexture("data/sprites/interface/Player_" + (winner.playerNumber + 1) + "_Arrow.png")),
+				new UiImage(Texture
+						.loadTexture("data/sprites/interface/Player_" + (killer.playerNumber + 1) + "_Arrow.png")),
+				new UiImage(Texture
+						.loadTexture("data/sprites/interface/Player_" + (survivor.playerNumber + 1) + "_Arrow.png")),
+				new UiImage(Texture
+						.loadTexture("data/sprites/interface/Player_" + (bestest.playerNumber + 1) + "_Arrow.png")));
+		setPositions(numbers, -40, 8);
+
+		group.addElements(medals, portraits, numbers);
+
+		inputs.actions.add(new EventListener<InputActionEvent>() {
+
+			@Override
+			public void launch(InputActionEvent event) {
+				if (event.getActionState() == ActionState.JUST_PRESSED) {
+					switch (event.getAction()) {
+					case JUMP:
+						buttonA.setImage(
+								new UiImage(Texture.loadTexture("data/sprites/interface/Button_A_Activated.png")));
+						break;
+					case DROP_ITEM:
+						buttonY.setImage(
+								new UiImage(Texture.loadTexture("data/sprites/interface/Button_Y_Activated.png")));
+						break;
+					case UI_BACK:
+						buttonB.setImage(
+								new UiImage(Texture.loadTexture("data/sprites/interface/Button_B_Activated.png")));
+						break;
+
+					default:
+						break;
+					}
+				} else if(event.getActionState() == ActionState.JUST_RELEASED) {
+					switch (event.getAction()) {
+					case JUMP:
+						// Rematch
+						GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), GameParam.mapsString());
+						break;
+					case DROP_ITEM:
+						// New Game
+						GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
+						break;
+					case UI_BACK:
+						// Back to menu
+						GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		});
 
 		super.init();
 	}
-	
+
 	@Override
 	public void update(double d) {
-
-		// Detect controls
-		for (Controller controller : GameMaster.gm.controllers) {
-			if(!(controller instanceof ControllerPlayer)) continue;
-			ControllerPlayer pc = (ControllerPlayer) controller;
-			if (Input.actionJustPressed(pc.getDevice(), Action.JUMP)) {
-				Texture tex = Texture.loadTexture("data/sprites/interface/Button_A_Activated.png");
-				tex.setFilter(false);
-				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex, new Vec4f(1));
-				menu.addUiElement(but, 3);
-				but.setPosition(new Vec2f(-67, 41));
-			} else if (Input.actionJustReleased(pc.getDevice(), Action.JUMP)) {
-				Object[] variable = GameParam.maps.toArray();
-				String[] chosenMaps = new String[variable.length];
-				for (int i = 0; i < variable.length; i++) {
-					chosenMaps[i] = (String) variable[i];
-				}
-				GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
-			} else if (Input.actionJustPressed(pc.getDevice(), Action.DROP_ITEM)) {
-				Texture tex = Texture.loadTexture("data/sprites/interface/Button_Y_Activated.png");
-				tex.setFilter(false);
-				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex, new Vec4f(1));
-				menu.addUiElement(but, 3);
-				but.setPosition(new Vec2f(-30, 41));
-			} else if (Input.actionJustReleased(pc.getDevice(), Action.DROP_ITEM)) {
-				GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
-			} else if (Input.actionJustPressed(pc.getDevice(), Action.UI_BACK)) {
-				Texture tex = Texture.loadTexture("data/sprites/interface/Button_B_Activated.png");
-				tex.setFilter(false);
-				UiImage but = new UiImage(0, new Vec2f(tex.getWidth() / 2, tex.getHeight() / 2), tex, new Vec4f(1));
-				menu.addUiElement(but, 3);
-				but.setPosition(new Vec2f(7, 41));
-			} else if (Input.actionJustReleased(pc.getDevice(), Action.UI_BACK)) {
-				GameMaster.gm.requestNextState(new Start(), GameMaster.mapEmpty);
-			}
+		inputs.step(d);
+		for (UiElement element : group) {
+			element.update(d);
 		}
 
+//		// Detect controls
+//		for (Controller controller : GameMaster.gm.controllers) {
+//			if (!(controller instanceof ControllerPlayer))
+//				continue;
+//			ControllerPlayer pc = (ControllerPlayer) controller;
+//			if (Input.actionJustPressed(pc.getDevice(), Action.JUMP)) {
+//			} else if (Input.actionJustReleased(pc.getDevice(), Action.JUMP)) {
+//				Object[] variable = GameParam.maps.toArray();
+//				String[] chosenMaps = new String[variable.length];
+//				for (int i = 0; i < variable.length; i++) {
+//					chosenMaps[i] = (String) variable[i];
+//				}
+//				GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
+//			} else if (Input.actionJustPressed(pc.getDevice(), Action.DROP_ITEM)) {
+//			} else if (Input.actionJustReleased(pc.getDevice(), Action.DROP_ITEM)) {
+//				GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
+//			} else if (Input.actionJustPressed(pc.getDevice(), Action.UI_BACK)) {
+//			} else if (Input.actionJustReleased(pc.getDevice(), Action.UI_BACK)) {
+//				GameMaster.gm.requestNextState(new Start(), GameMaster.mapEmpty);
+//			}
+//		}
+
 		super.update(d);
-		menu.update(d);
 	}
 
 	public void draw() {
 		super.draw();
 		Window.beginUi();
-		menu.draw();
-		menuscore.draw();
+		group.draw();
 		Window.endUi();
 	}
 }

@@ -3,18 +3,14 @@ package arenashooter.engine.ui;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
-import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.engine.ui.simpleElement.UiSimpleElementNavigable;
 
 public class TextInput extends UiElement {
 
-	private static final Vec2f defaultSize = new Vec2f(10);
-	private static final float labelProportion = 6;
-	private UiImage background = new UiImage(0, defaultSize.clone(), new Vec4f(0.5, 0.5, 0.5, 0.3));
-	private Label input = new Label(0, defaultSize.multiply(labelProportion), "A");
+	private UiImage background = new UiImage(new Vec4f(0.5, 0.5, 0.5, 0.3));
+	private Label input = new Label("A");
 	ArrayList<Label> word = new ArrayList<>();
 	private char c = 'A';
 	int index = 0;
@@ -28,7 +24,7 @@ public class TextInput extends UiElement {
 		}
 	};
 	private Trigger onFinishBad = new Trigger() {
-		
+
 		@Override
 		public void make() {
 			// Nothing
@@ -40,13 +36,11 @@ public class TextInput extends UiElement {
 	}
 
 	public TextInput() {
-		super(0, defaultSize.clone());
-		background.setPosition(new Vec2f());
-		input.setPosition(new Vec2f());
 		input.setColor(new Vec4f(1, 0.1, 0.1, 0.48));
+		setScale(10);
 	}
 
-	protected void actionOnAll(Consumer<UiSimpleElementNavigable> c) {
+	protected void actionOnAll(Consumer<UiElement> c) {
 		c.accept(input);
 		c.accept(background);
 		for (Label label : word) {
@@ -55,41 +49,37 @@ public class TextInput extends UiElement {
 	}
 
 	@Override
-	public void setPosition(Vec2f pos) {
-		Vec2f dif = Vec2f.subtract(pos, getPosition());
-		super.setPosition(pos);
-		actionOnAll(e -> e.setPosition(Vec2f.add(e.getPosition(), dif)));
+	public void setPosition(double x, double y) {
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
+		super.setPosition(x, y);
+		actionOnAll(e -> e.addToPosition(xDif, yDif));
 	}
 
 	@Override
-	public void setPositionLerp(Vec2f pos, double lerp) {
-		Vec2f dif = Vec2f.subtract(pos, getPosition());
-		super.setPositionLerp(pos, lerp);
-		actionOnAll(e -> e.setPositionLerp(Vec2f.add(e.getPosition(), dif), 10));
+	public void setPositionLerp(double x, double y, double lerp) {
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
+		super.setPositionLerp(x, y, lerp);
+		actionOnAll(e -> e.setPositionLerp(xDif + e.getPosition().x, yDif + e.getPosition().y, lerp));
 	}
 
 	@Override
-	public void setScale(Vec2f scale) {
-		super.setScale(scale);
-		input.setScale(scale.clone().multiply(labelProportion));
+	public void setScale(double x, double y) {
+		super.setScale(x, y);
+		input.setScale(x, y);
 		for (Label label : word) {
-			label.setScale(scale.clone().multiply(labelProportion));
+			label.setScale(x, y);
 		}
-		Vec2f bgScale = scale.clone();
-		bgScale.x += getMovement() * word.size();
-		background.setScale(bgScale);
+		background.setScale(x + getMovement() * word.size(), y);
 	}
 
 	@Override
-	public void setScaleLerp(Vec2f scale) {
-		super.setScaleLerp(scale);
-		input.setScaleLerp(scale.clone().multiply(labelProportion));
+	public void setScaleLerp(double x, double y, double lerp) {
+		super.setScaleLerp(x, y, lerp);
+		input.setScaleLerp(x , y , lerp);
 		for (Label label : word) {
-			label.setScaleLerp(scale.clone().multiply(labelProportion));
+			label.setScaleLerp(x , y, lerp);
 		}
-		Vec2f bgScale = scale.clone();
-		bgScale.x += getMovement() * word.size();
-		background.setScaleLerp(bgScale);
+		background.setScaleLerp(x + getMovement() * word.size(), y, lerp);
 	}
 
 	@Override
@@ -155,7 +145,7 @@ public class TextInput extends UiElement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean continueAction() {
 		onFinishGood.make();
@@ -231,20 +221,16 @@ public class TextInput extends UiElement {
 	private void addNewChar() {
 		Label newChar;
 		if (c == '_') {
-			newChar = new Label(0, getScale().clone().multiply(labelProportion), String.valueOf(' '));
+			newChar = new Label(String.valueOf(' '));
 		} else {
-			newChar = new Label(0, getScale().clone().multiply(labelProportion), String.valueOf(c));
+			newChar = new Label(String.valueOf(c));
 		}
-		newChar.setPosition(input.getPosition());
+		newChar.setPosition(input.getPosition().x, input.getPosition().y);
+		newChar.setScale(getScale().x, getScale().y);
 		word.add(newChar);
-		Vec2f goalScale = background.getScale().clone(), goalPos = background.getPosition().clone(),
-				goalInput = input.getPosition().clone();
-		goalScale.x += getMovement() + 1;
-		goalPos.x += getMovement() / 2;
-		goalInput.x += getMovement();
-		background.setScaleLerp(goalScale);
-		background.setPositionLerp(goalPos, 10);
-		input.setPositionLerp(goalInput, 10);
+		background.addToScaleLerp(getMovement() + 1, 0, 10);
+		background.addToPositionLerp(getMovement() / 2, 0, 10);
+		input.addToPositionLerp(getMovement(), 0, 10);
 	}
 
 	private double getMovement() {
@@ -252,19 +238,8 @@ public class TextInput extends UiElement {
 	}
 
 	@Override
-	public boolean isSelected() {
-		return true;
-	}
-
-	@Override
-	public void unSelec() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void draw() {
-		if (visible) {
+		if (isVisible()) {
 			background.draw();
 			for (Label label : word) {
 				label.draw();
@@ -291,13 +266,13 @@ public class TextInput extends UiElement {
 		word.clear();
 		c = 'A';
 		index = 0;
-		background.setScale(getScale().clone());
-		background.setPosition(getPosition());
+		background.setScale(getScale().x, getScale().y);
+		background.setPosition(getPosition().x, getPosition().y);
 		input.setText(String.valueOf(c));
-		input.setPosition(getPosition());
+		input.setPosition(getPosition().x, getPosition().y);
 		type = Type.UPPERCASE;
 	}
-	
+
 	@Override
 	public boolean changeAction() {
 		int index = type.ordinal();
@@ -329,7 +304,7 @@ public class TextInput extends UiElement {
 	public void setOnFinish(Trigger t) {
 		onFinishGood = t;
 	}
-	
+
 	public void setOnCancel(Trigger t) {
 		onFinishBad = t;
 	}
@@ -337,9 +312,10 @@ public class TextInput extends UiElement {
 	@Override
 	public boolean cancelAction() {
 		if (word.size() > 0) {
-			background.setScaleLerp(Vec2f.add(background.getScale(), new Vec2f(-4.25, 0)));
-			background.setPositionLerp(Vec2f.add(background.getPosition(), new Vec2f(-2, 0)), 10);
-			input.setPositionLerp(word.get(word.size() - 1).getPosition(), 10);
+			background.addToScaleLerp(-(getMovement() + 1), 0, 10);
+			background.addToPositionLerp(-getMovement() / 2, 0, 10);
+			input.addToPositionLerp(-getMovement(), 0, 10);
+
 			word.remove(word.size() - 1);
 			if (index > 0 && index == word.size() + 1) {
 				index--;
@@ -347,7 +323,7 @@ public class TextInput extends UiElement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean backAction() {
 		onFinishBad.make();

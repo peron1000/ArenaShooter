@@ -8,115 +8,108 @@ import java.util.Comparator;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.events.menus.MenuExitEvent;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Menu;
-import arenashooter.engine.ui.MenuSelection;
-import arenashooter.engine.ui.MenuSelectionV;
+import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.engine.ui.simpleElement.Button;
+import arenashooter.engine.ui.UiElement;
+import arenashooter.engine.ui.UiGridWeak;
+import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
-import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Config extends GameState {
 
 	private GameParam gameParam;
-	private Menu menuBg = new Menu(2);
-	private MenuSelectionV<Button> menuParam = new MenuSelectionV<>(10, 0, 0, new Vec2f(65, 10),
-			"data/sprites/interface/Selector.png");
-	private MenuSelection<UiImage> menuMap = new MenuSelection<>(10);
-	private Button param1, param2, param3, param4;
-	private boolean activated = false;
+	private UiGridWeak menu = new UiGridWeak();
+	private UiImage background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png")),
+			selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
 	private ArrayList<File> maps = new ArrayList<>();
 	private InputListener inputs = new InputListener();
+	private ScrollerH<Integer> rounds;
 
 	public Config() {
 		super(1);
+		background.setScale(180, 100);
+
+		UiListVertical<UiElement> vlist = new UiListVertical<>();
+		Integer[] roundsValues = { 1, 2, 3, 4, 5, 10, 15, 20, 25, -1 };
+		rounds = new ScrollerH<>(roundsValues);
+		rounds.setTitle("Round(s)");
+		rounds.changeValueView(Integer.valueOf(-1), "\u221E");
+		rounds.setBackgroundVisible(true);
+		rounds.setBackgroundChange(true);
+		UiImage bgU = new UiImage(0, 0, 0, 1), bgS = new UiImage(0.8, 0.8, 0.5, 1);
+		rounds.setBackgroundUnselect(bgU);
+		rounds.setBackgroundSelect(bgS);
+		rounds.setSelectColor(0, 0, 0, 1);
+		rounds.setOnValidation(new Trigger() {
+
+			@Override
+			public void make() {
+				gameParam.setNbRound(rounds.get());
+			}
+		});
+		vlist.addElement(rounds);
+		vlist.setPosition(-60, -40);
+
+		bgU.setScale(40, 10);
+		bgS.setScale(40, 10);
+
+		menu.addListVertical(vlist);
+
+		selector.setScale(50, 10);
+
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
 			public void launch(InputActionEvent e) {
-				switch (e.getAction()) {
-				case UI_RIGHT:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (activated && menuParam.selectorVisible) {
-							menuParam.getTarget().lunchAction("right");
-						} else if (menuParam.selectorVisible) {
-							menuParam.rightAction();
-						} else if (menuMap.active.getValue()) {
-							menuMap.rightAction();
+				if (e.getActionState() == ActionState.JUST_PRESSED) {
+					switch (e.getAction()) {
+					case UI_RIGHT:
+						menu.rightAction();
+						break;
+					case UI_LEFT:
+						menu.leftAction();
+						break;
+					case UI_UP:
+						menu.upAction();
+						break;
+					case UI_DOWN:
+						menu.downAction();
+						break;
+					case UI_OK:
+						if (!menu.selectAction() && menu.getTarget().hasAction("selec")) {
+							menu.getTarget().lunchAction("selec");
 						}
-					}
-					break;
-				case UI_LEFT:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (activated && menuParam.selectorVisible) {
-							menuParam.getTarget().lunchAction("left");
-						} else if (menuParam.selectorVisible) {
-							menuParam.leftAction();
-						} else if (menuMap.active.getValue()) {
-							menuMap.leftAction();
-						}
-					}
-					break;
-				case UI_UP:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (!activated && menuParam.selectorVisible) {
-							menuParam.upAction();
-						} else if (menuMap.active.getValue()) {
-							menuMap.upAction();
-						}
-					}
-					break;
-				case UI_DOWN:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (!activated && menuParam.selectorVisible) {
-							menuParam.downAction();
-						} else if (menuMap.active.getValue()) {
-							menuMap.downAction();
-						}
-					}
-					break;
-				case UI_OK:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (menuParam.selectorVisible) {
-							activated = !activated;
-							if (activated) {
-								menuParam.getTarget().setColorFond(new Vec4f(0.5, 0.5, 0.5, 1));
-								menuParam.getTarget().setColorText(new Vec4f(0, 0, 0, 1));
-							} else {
-								menuParam.getTarget().setColorFond(new Vec4f(0, 0, 0, 1));
-								menuParam.getTarget().setColorText(new Vec4f(1));
+						break;
+					case UI_CONTINUE:
+						if (!menu.continueAction()) {
+							if (!GameParam.maps.isEmpty()) {
+								GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
 							}
-						} else if (menuMap.active.getValue()) {
-							menuMap.getElemSelec().lunchAction("selec");
 						}
+						break;
+					case UI_BACK:
+						menu.backAction();
+						break;
+					case UI_CANCEL:
+						menu.cancelAction();
+						break;
+					case UI_CHANGE:
+						menu.changeAction();
+						break;
+					default:
+						break;
 					}
-					break;
-				case UI_CONTINUE:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						if (!GameParam.maps.isEmpty()) {
-							GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
-						} else {
-							Exception exc = new Exception("Choisissez au moins une map");
-							exc.printStackTrace();
-						}
-					}
-					break;
-				case UI_BACK:
-					if (e.getActionState() == ActionState.JUST_PRESSED) {
-						GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
-					}
-					break;
-
-				default:
-					break;
+				}
+				selector.setPosition(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y);
+				if (menu.getTarget() == rounds) {
+					selector.setScale(50, 10);
+				} else {
+					selector.setScale(10);
 				}
 			}
 		});
@@ -127,89 +120,6 @@ public class Config extends GameState {
 		gameParam = new GameParam();
 		GameParam.maps.clear();
 
-		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu.png");
-		texture1.setFilter(false);
-
-		Texture texture2 = Texture.loadTexture("data/sprites/interface/Selector.png");
-		texture2.setFilter(false);
-
-		UiImage bg = new UiImage(0, new Vec2f(177.78, 100), texture1, new Vec4f(1));
-		menuBg.setBackground(bg);
-
-		final float scaleY = 5.5f, scaleX = 55f;
-		param1 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringGameMode());
-		param2 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringRound());
-		param3 = new Button(0, new Vec2f(scaleX, scaleY), gameParam.getStringTeam());
-		param4 = new Button(0, new Vec2f(scaleX, scaleY), "Parametre");
-
-		param1.setScaleText(new Vec2f(25));
-		param2.setScaleText(new Vec2f(28));
-		param3.setScaleText(new Vec2f(28));
-		
-		param1.addAction("right", new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.nextGameMode();
-				param1.setText(gameParam.getStringGameMode());
-			}
-		});
-		param1.addAction("left", new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.previousGameMode();
-				param1.setText(gameParam.getStringGameMode());
-			}
-		});
-
-		param2.addAction("right", new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.nextRound();
-				param2.setText(gameParam.getStringRound());
-			}
-		});
-		param2.addAction("left", new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.previousRound();
-				param2.setText(gameParam.getStringRound());
-			}
-		});
-
-		param3.addAction("right", new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.nextTeam();
-				param3.setText(gameParam.getStringTeam());
-			}
-		});
-		param3.addAction("left", new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.previousTeam();
-				param3.setText(gameParam.getStringTeam());
-			}
-		});
-
-		param3.setVisible(false);
-		param4.setVisible(false);
-
-		menuParam.setPositionRef(new Vec2f(-57, -37.5));
-		menuParam.setEcartement(8);
-		menuParam.addElementInListOfChoices(param1, 1);
-		menuParam.addElementInListOfChoices(param2, 1);
-
-		// test
-		menuMap.setEcartementX(14);
-		menuMap.setEcartementY(14);
-		menuMap.setImageSelec(new UiImage(0, new Vec2f(15), texture2, new Vec4f(1)), 3);
-		menuMap.setPosition(new Vec2f(-5, -15));
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
@@ -226,94 +136,61 @@ public class Config extends GameState {
 			}
 		});
 
-		int y = 0, i = 0, nbElemH = 7;
+		int i = 0, nbElemH = 7;
+		double spacing = 15;
+		// init
+		ArrayList<UiListVertical<UiElement>> everyList = new ArrayList<>(nbElemH);
+		for (int j = 0; j < nbElemH; j++) {
+			UiListVertical<UiElement> newList = new UiListVertical<>();
+			everyList.add(j, newList);
+			newList.setPosition(j * spacing - 10, -30);
+			newList.setSpacing(spacing);
+			menu.addListVertical(newList);
+		}
+
 		for (File file : maps) {
 			Texture image = Texture.loadTexture(
 					"data/MAP_VIS/" + file.getName().substring(0, file.getName().lastIndexOf('.')) + ".png");
-			int x = i % nbElemH;
-			if (x == 0 && i != 0)
-				y++;
-			UiImage picture = new UiImage(0, new Vec2f(6), image, new Vec4f(1));
-			menuMap.put(picture, 1, x, y);
+			UiImage picture = new UiImage(image);
+			double scale = 4.5;
+			picture.addToScale(-scale);
+			everyList.get(i % nbElemH).addElement(picture);
 			picture.addAction("selec", new Trigger() {
 
 				@Override
 				public void make() {
+					double lerp = 10;
 					if (GameParam.maps.contains(file.getPath())) {
 						GameParam.maps.remove(file.getPath());
-						picture.setScaleLerp(new Vec2f(6));
+						picture.addToScaleLerp(-scale, lerp);
 					} else {
 						GameParam.maps.add(file.getPath());
-						picture.setScaleLerp(new Vec2f(12));
+						picture.addToScaleLerp(scale, lerp);
 					}
 				}
 			});
 			i++;
 		}
 
-		menuMap.active.setValue(false);
-
-		menuParam.exit = new EventListener<MenuExitEvent>() {
-
-			@Override
-			public void launch(MenuExitEvent e) {
-				switch (e.getSide()) {
-				case Down:
-				case Up:
-					break;
-				case Right:
-				case Left:
-				default:
-					menuParam.selectorVisible = false;
-					menuMap.active.setValue(true);
-					menuMap.restart();
-					break;
-				}
-			}
-		};
-		menuMap.exit = new EventListener<MenuExitEvent>() {
-
-			@Override
-			public void launch(MenuExitEvent e) {
-				switch (e.getSide()) {
-				case Down:
-				case Up:
-					break;
-				case Right:
-				case Left:
-				default:
-					menuParam.selectorVisible =true;
-					menuMap.active.setValue(false);
-					menuParam.restart();
-					break;
-				}
-			}
-		};
+		selector.setPosition(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y);
 
 		super.init();
 	}
 
 	@Override
 	public void update(double delta) {
-		if (GameParam.getGameMode() == GameMode.Rixe) {
-			menuParam.addElementInListOfChoices(param3, 1);
-		} else {
-			menuParam.removeElementInListOfChoices(param3);
-		}
-
 		inputs.step(delta);
-		menuParam.update(delta);
-		menuMap.update(delta);
+		menu.update(delta);
 		super.update(delta);
 	}
 
 	@Override
 	public void draw() {
+		// super.draw();
 		Window.beginUi();
-		super.draw();
-		menuBg.draw();
-		menuParam.draw();
-		menuMap.draw();
+		background.draw();
+		menu.draw();
+		selector.draw();
 		Window.endUi();
 	}
 

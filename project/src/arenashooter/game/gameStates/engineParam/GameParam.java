@@ -30,32 +30,14 @@ public class GameParam {
 	}
 
 	// Rounds
-	private static ParamElement<Integer> nbRound = new ParamElement<Integer>("Round(s)", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, -1) {
+	private static Integer nbRound = Integer.valueOf(1);
 
-		@Override
-		String getStringValue() {
-			if (getValue() != -1) {
-				return getValue().toString();
-			} else {
-				return "\u221E";
-			}
-		}
-	};
-
-	public void nextRound() {
-		nbRound.next();
-	}
-
-	public void previousRound() {
-		nbRound.previous();
-	}
-
-	public String getStringRound() {
-		return nbRound.getTitle() + " : " + nbRound.getStringValue();
+	public void setNbRound(Integer nbRound) {
+		GameParam.nbRound = nbRound;
 	}
 
 	public static int getRound() {
-		return nbRound.getValue();
+		return nbRound;
 	}
 
 	// Team
@@ -89,5 +71,15 @@ public class GameParam {
 
 	// Maps
 	public static TreeSet<String> maps = new TreeSet<>();
+	
+	public static String[] mapsString() {
+		String[] ret = new String[maps.size()];
+		int i =0;
+		for (String map : maps) {
+			ret[i] = map;
+			i++;
+		}
+		return ret;
+	}
 
 }

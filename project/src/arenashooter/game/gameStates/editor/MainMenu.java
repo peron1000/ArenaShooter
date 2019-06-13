@@ -14,14 +14,16 @@ import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.ui.DoubleInput;
-import arenashooter.engine.ui.MenuSelectionV;
-import arenashooter.engine.ui.MultiMenu;
-import arenashooter.engine.ui.Navigable;
+import arenashooter.engine.ui.MultiUi;
+import arenashooter.engine.ui.TabList;
 import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.engine.ui.UiActionable;
+import arenashooter.engine.ui.UiElement;
+import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.UiValuableButton;
 import arenashooter.engine.ui.simpleElement.Button;
+import arenashooter.engine.ui.simpleElement.Label;
+import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
@@ -34,25 +36,24 @@ import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.MenuStart;
-import arenashooter.game.gameStates.editor.editorEnum.Prime;
 import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
-class MainMenu implements Navigable {
+class MainMenu extends UiElement implements MultiUi {
 
 	// Save & Quit variables
 	private Arena arenaConstruction;
 	private String fileName = "NewArena";
 
-	private Vec2f position = new Vec2f(Editor.forVisible, 0);
 	private Vec2f buttonScale = new Vec2f(15, 5);
 
-	private MenuSelectionV<UiActionable> addMenu = new MenuSelectionV<>(), setMenu = new MenuSelectionV<>(),
-			saveQuitMenu = new MenuSelectionV<>(), arenaInfo = new MenuSelectionV<>(),
-			meshChooserMenu = new MenuSelectionV<>();
-	private MultiMenu<Prime> mainMenu = new MultiMenu<>(5, Prime.values(), "data/sprites/interface/Selector.png",
-			new Vec2f(30, 10));
-	private Navigable current = mainMenu;
+	private Label fileNameLabel = new Label("File Name: "+fileName);
+	private TabList<UiElement> mainMenu = new TabList<>(), meshChooser = new TabList<>();
+	private UiListVertical<Button> addMenu = new UiListVertical<>();
+	private UiListVertical<Button> setMenu = new UiListVertical<>();
+	private UiListVertical<UiElement> saveQuitMenu = new UiListVertical<>();
+	private UiListVertical<UiElement> arenaInfo = new UiListVertical<>();
+	private TabList<UiElement> current = mainMenu;
 
 	private Editor editor;
 
@@ -63,102 +64,116 @@ class MainMenu implements Navigable {
 	private DoubleInput doubleInput = new DoubleInput();
 	private TextInput textInput = new TextInput();
 
+	// default values for buttons
+	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 10;
+
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
 
-		mainMenu.setPosition(new Vec2f(Editor.forVisible, -40));
-		mainMenu.addMenu(addMenu, Prime.Add);
-		mainMenu.addMenu(setMenu, Prime.Set);
-		mainMenu.addMenu(saveQuitMenu, Prime.Exit);
-		mainMenu.addMenu(arenaInfo, Prime.ArenaInfo);
+		mainMenu.setPosition(0, -30);
+		mainMenu.setSpacing(spacing);
+		meshChooser.setPosition(0, -30);
+
+		setPosition(Editor.forVisible, 0);
 
 		arenaConstruction = toConstruct;
 		parent = toConstruct;
 
 		doubleInput.setVisible(false);
 
-		saveQuitMenuConstruction();
-
 		addMenuConstruction();
+
+		mainMenu.addBind("Set", setMenu);
+		setMenu.setSpacing(spacing);
+
+		saveQuitMenuConstruction();
 
 		arenaInfoMenuConstruction();
 
 		meshChooserMenuConstruction();
+
+		UiImage.selector.setPosition(current.getTarget().getPosition().x, current.getTarget().getPosition().y);
 	}
 
 	private void arenaInfoMenuConstruction() {
-		arenaInfo.setPosition(new Vec2f(Editor.forVisible, -40));
-		arenaInfo.setEcartement(8);
-		arenaInfo.setPositionRef(new Vec2f(Editor.forVisible, -30));
+		mainMenu.addBind("Arena Info", arenaInfo);
+		// arenaInfo.setPosition(new Vec2f(Editor.forVisible, -40));
+		// arenaInfo.setPositionRef(new Vec2f(Editor.forVisible, -30));
 		UiValuableButton<Double> test = new UiValuableButton<Double>("Test", Double.valueOf(9));
 		test.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.DOUBLE;
 				doubleInput = new DoubleInput();
 				test.setVisible(false);
-				doubleInput.setPosition(test.getPosition());
-				doubleInput.setScale(new Vec2f(10));
-				arenaInfo.addUiElement(doubleInput, 1);
+				doubleInput.setPosition(test.getPosition().x, test.getPosition().y);
+				doubleInput.setScale(10);
+				arenaInfo.addElement(doubleInput);
 				doubleInput.setOnFinish(new Trigger() {
-					
+
 					@Override
 					public void make() {
 						ui_InputState = Ui_Input.NOTHING;
 						test.setVisible(true);
 						test.setValue(doubleInput.getDouble());
-						arenaInfo.removeUiElement(doubleInput);
+						arenaInfo.removeElement(doubleInput);
 					}
 				});
 			}
 		});
-		arenaInfo.addElementInListOfChoices(test, 1);
-		Button button = new Button(0, buttonScale, "Set");
-		arenaInfo.addElementInListOfChoices(button, 1);
-		button.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				ui_InputState = Ui_Input.DOUBLE;
-				doubleInput = new DoubleInput();
-				button.setVisible(false);
-				doubleInput.setScale(new Vec2f(10));
-				arenaInfo.addUiElement(doubleInput, 1);
-				doubleInput.setPosition(button.getPosition());
-				doubleInput.setOnFinish(new Trigger() {
-
-					@Override
-					public void make() {
-						ui_InputState = Ui_Input.NOTHING;
-						button.setVisible(true);
-						System.out.println(doubleInput.getDouble());
-						arenaInfo.removeUiElement(doubleInput);
-					}
-				});
-				doubleInput.setOnCancel(new Trigger() {
-
-					@Override
-					public void make() {
-						ui_InputState = Ui_Input.NOTHING;
-						button.setVisible(true);
-						arenaInfo.removeUiElement(doubleInput);
-					}
-				});
-			}
-		});
+		arenaInfo.addElement(test);
+		Button button = new Button("Set");
+		button.setScale(buttonScale.x, buttonScale.y);
+		arenaInfo.addElement(button);
+//		button.setOnArm(new Trigger() {
+//
+//			@Override
+//			public void make() {
+//				ui_InputState = Ui_Input.DOUBLE;
+//				doubleInput = new DoubleInput();
+//				button.setVisible(false);
+//				doubleInput.setScale(new Vec2f(10));
+//				arenaInfo.addUiElement(doubleInput, 1);
+//				doubleInput.setPosition(button.getPosition());
+//				doubleInput.setOnFinish(new Trigger() {
+//
+//					@Override
+//					public void make() {
+//						ui_InputState = Ui_Input.NOTHING;
+//						button.setVisible(true);
+//						System.out.println(doubleInput.getDouble());
+//						arenaInfo.removeUiElement(doubleInput);
+//					}
+//				});
+//				doubleInput.setOnCancel(new Trigger() {
+//
+//					@Override
+//					public void make() {
+//						ui_InputState = Ui_Input.NOTHING;
+//						button.setVisible(true);
+//						arenaInfo.removeUiElement(doubleInput);
+//					}
+//				});
+//			}
+//		});
 	}
 
 	private void meshChooserMenuConstruction() {
-		meshChooserMenu.setPosition(new Vec2f(Editor.forVisible, -40));
-		meshChooserMenu.setEcartement(6);
+		UiListVertical<Button> vList = new UiListVertical<>();
+		vList.setSpacing(spacing);
 
 		// mesh buttons
 		File root = new File("data");
 		List<File> list = FileUtils.listFilesByType(root, ".obj");
+		int i = 0;
 		for (File file : list) {
-			Button button = new Button(0, buttonScale, file.getName());
-			meshChooserMenu.addElementInListOfChoices(button, 1);
+			String fileName = file.getName();
+			int index = fileName.lastIndexOf('.');
+			Button button = new Button(fileName.substring(0, index));
+			button.setScaleRect(xRect, yRect);
+			button.setScaleText(scaleText);
+			vList.addElement(button);
 			button.setOnArm(new Trigger() {
 
 				@Override
@@ -167,16 +182,23 @@ class MainMenu implements Navigable {
 					createNewEntity(mesh, TypeEntites.MESH);
 				}
 			});
+			i++;
+			if(i >= 7) {
+				meshChooser.addBind("Mesh Chooser", vList);
+				vList = new UiListVertical<>();
+				vList.setSpacing(spacing);
+				i = 0;
+			}
 		}
+
+		meshChooser.addBind("Mesh Chooser", vList);
 	}
 
 	private void saveQuitMenuConstruction() {
-		final float spacing = 8;
-		saveQuitMenu.setEcartement(spacing);
-		Button save = new Button(0, buttonScale, "Save"), rename = new Button(0, buttonScale, "Rename File"),
-				quit = new Button(0, buttonScale, "Quit");
-		save.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
-		save.setScaleText(new Vec2f(20));
+		Button save = new Button("Save"), rename = new Button("Rename File"), quit = new Button("Quit");
+		save.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
+		save.setScaleText(scaleText);
+		save.setScaleRect(xRect, yRect);
 		save.setOnArm(new Trigger() {
 
 			@Override
@@ -184,17 +206,17 @@ class MainMenu implements Navigable {
 				MapXmlWriter.writerMap(arenaConstruction, fileName);
 			}
 		});
-		rename.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
-		rename.setScaleText(new Vec2f(20));
+		rename.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
+		rename.setScaleText(scaleText);
+		rename.setScaleRect(xRect, yRect);
 		rename.setOnArm(new Trigger() {
 
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.TEXT;
 				textInput = new TextInput();
-				textInput.setScale(new Vec2f(10));
-				saveQuitMenu.addUiElement(textInput, 1);
-				textInput.setPosition(Vec2f.add(rename.getPosition(), new Vec2f(0, buttonScale.y + spacing * 2)));
+				textInput.setScale(10);
+				saveQuitMenu.addElement(textInput);
 				textInput.setOnFinish(new Trigger() {
 
 					@Override
@@ -202,7 +224,8 @@ class MainMenu implements Navigable {
 						ui_InputState = Ui_Input.NOTHING;
 						textInput.setVisible(false);
 						fileName = textInput.getText();
-						saveQuitMenu.removeUiElement(textInput);
+						fileNameLabel.setText("File Name: "+fileName);
+						saveQuitMenu.removeElement(textInput);
 					}
 				});
 				textInput.setOnCancel(new Trigger() {
@@ -211,7 +234,7 @@ class MainMenu implements Navigable {
 					public void make() {
 						ui_InputState = Ui_Input.NOTHING;
 						textInput.setVisible(false);
-						saveQuitMenu.removeUiElement(textInput);
+						saveQuitMenu.removeElement(textInput);
 					}
 				});
 			}
@@ -223,23 +246,29 @@ class MainMenu implements Navigable {
 				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
 			}
 		});
-		quit.setColorFond(new Vec4f(0.25, 0.25, 1, 1));
-		quit.setScaleText(new Vec2f(20));
-		saveQuitMenu.addElementInListOfChoices(save, 1);
-		saveQuitMenu.addElementInListOfChoices(rename, 1);
-		saveQuitMenu.addElementInListOfChoices(quit, 1);
+		quit.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
+		quit.setScaleText(scaleText);
+		quit.setScaleRect(xRect, yRect);
+
+		saveQuitMenu.setSpacing(spacing);
+
+		saveQuitMenu.addElements(save, rename, quit);
+
+		mainMenu.addBind("Exit", saveQuitMenu);
+		
+		mainMenu.addLabelInfo(saveQuitMenu, fileNameLabel);
+		fileNameLabel.setScale(scaleText);
 	}
 
 	private void addMenuConstruction() {
-		final float scaleText = 20f;
 		for (TypeEntites type : TypeEntites.values()) {
 			char first = type.name().charAt(0);
 			String name = type.name().substring(1).toLowerCase();
 
-			Button button = new Button(0, buttonScale, first + name);
-			addMenu.addElementInListOfChoices(button, 1);
+			Button button = new Button(first + name);
+			addMenu.addElement(button);
 			typeToButton.put(type, button);
-			button.setScaleText(new Vec2f(scaleText));
+			button.setScaleText(scaleText);
 			button.setOnArm(new Trigger() {
 
 				@Override
@@ -250,8 +279,8 @@ class MainMenu implements Navigable {
 						createNewEntity(entity, type);
 						break;
 					case MESH:
-						current = meshChooserMenu;
-						editor.setCurrentMenu(current);
+						current = meshChooser;
+						//editor.setCurrentMenu(current);
 						break;
 					case RIGID:
 						RigidBodyContainer rigid = new RigidBodyContainer(new RigidBody(new ShapeBox(new Vec2f(1)),
@@ -278,13 +307,13 @@ class MainMenu implements Navigable {
 			});
 		}
 
-		Button joinpin = new Button(0, buttonScale, "Joinpin");
-		addMenu.addElementInListOfChoices(joinpin, 1);
-		joinpin.setScaleText(new Vec2f(scaleText));
+		Button joinpin = new Button("Joinpin");
+		addMenu.addElement(joinpin);
+		joinpin.setScaleText(scaleText);
 
-		Button animation = new Button(0, buttonScale, "Animation");
-		addMenu.addElementInListOfChoices(animation, 1);
-		animation.setScaleText(new Vec2f(scaleText));
+		Button animation = new Button("Animation");
+		addMenu.addElement(animation);
+		animation.setScaleText(scaleText);
 		animation.setOnArm(new Trigger() {
 
 			@Override
@@ -293,15 +322,22 @@ class MainMenu implements Navigable {
 			}
 		});
 
-		addMenu.setEcartement(8);
+		for (Button button : addMenu) {
+			button.setScaleRect(xRect, yRect);
+			button.setScaleText(scaleText);
+			button.setColorRect(new Vec4f(0, 0, 0, 0.5));
+		}
 
+		mainMenu.addBind("Adding", addMenu);
 	}
 
 	private void createNewEntity(Entity entity, TypeEntites type) {
 		String entityName = entity.genName();
 		entity.attachToParent(parent, entityName);
-		Button toSetMenu = new Button(0, buttonScale, entityName);
-		setMenu.addElementInListOfChoices(toSetMenu, 1);
+		Button toSetMenu = new Button(entityName);
+		toSetMenu.setScaleRect(xRect, yRect);
+		toSetMenu.setScaleText(scaleText);
+		setMenu.addElement(toSetMenu);
 		editor.allEditable.add(entity);
 		entityToButton.put(entity, toSetMenu);
 		toSetMenu.setOnArm(new Trigger() {
@@ -327,6 +363,22 @@ class MainMenu implements Navigable {
 		if (button != null) {
 			button.setText(name);
 		}
+	}
+
+	public void constructCamerabutton(Camera cam) {
+		Button toSetMenu = new Button("camera");
+		toSetMenu.setScaleRect(xRect, yRect);
+		toSetMenu.setScaleText(scaleText);
+		setMenu.addElement(toSetMenu);
+		entityToButton.put(cam, toSetMenu);
+		toSetMenu.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				editor.onSetting = cam;
+				editor.setCurrentMenu(new EntityEditor(MainMenu.this, cam, TypeEntites.ENTITY));
+			}
+		});
 	}
 
 	@Override
@@ -390,44 +442,35 @@ class MainMenu implements Navigable {
 	}
 
 	@Override
-	public boolean isSelected() {
-		return false;
-	}
-
-	@Override
-	public void unSelec() {
-		// Nothing
-	}
-
-	@Override
 	public void update(double delta) {
+		super.update(delta);
 		current.update(delta);
+		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 10);
+		UiImage.selector.update(delta);
 	}
 
 	@Override
 	public void draw() {
 		current.draw();
+		if(ui_InputState == Ui_Input.NOTHING) {
+			UiImage.selector.draw();
+		}
 	}
 
 	@Override
-	public void setPositionLerp(Vec2f position, double lerp) {
-		Vec2f dif = Vec2f.subtract(position, this.position);
-		this.position.add(dif);
-		mainMenu.setPositionLerp(Vec2f.add(mainMenu.getPosition(), dif), lerp);
-		meshChooserMenu.setPositionLerp(Vec2f.add(meshChooserMenu.getPosition(), dif), lerp);
+	public void setPositionLerp(double x, double y, double lerp) {
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
+		super.setPositionLerp(x, y , lerp);
+		mainMenu.addToPositionLerp(xDif, yDif, lerp);
+		meshChooser.addToPositionLerp(xDif, yDif, lerp);
 	}
 
 	@Override
-	public void setPosition(Vec2f newPosition) {
-		Vec2f dif = Vec2f.subtract(position, this.position);
-		this.position.add(dif);
-		mainMenu.setPosition(Vec2f.add(mainMenu.getPosition(), dif));
-		meshChooserMenu.setPosition(Vec2f.add(meshChooserMenu.getPosition(), dif));
-	}
-
-	@Override
-	public Vec2f getPosition() {
-		return position;
+	public void setPosition(double x, double y) {
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
+		super.setPosition(x, y);
+		mainMenu.addToPosition(xDif, yDif);
+		meshChooser.addToPosition(xDif, yDif);
 	}
 
 	@Override
@@ -464,20 +507,6 @@ class MainMenu implements Navigable {
 		}
 	}
 
-	public void constructCamerabutton(Camera cam) {
-		Button toSetMenu = new Button(0, buttonScale, "camera");
-		setMenu.addElementInListOfChoices(toSetMenu, 1);
-		entityToButton.put(cam, toSetMenu);
-		toSetMenu.setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				editor.onSetting = cam;
-				editor.setCurrentMenu(new EntityEditor(MainMenu.this, cam, TypeEntites.ENTITY));
-			}
-		});
-	}
-
 	@Override
 	public boolean backAction() {
 		switch (ui_InputState) {
@@ -488,6 +517,11 @@ class MainMenu implements Navigable {
 		default:
 			return false;
 		}
+	}
+
+	@Override
+	public UiElement getTarget() {
+		return current.getTarget();
 	}
 
 }

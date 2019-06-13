@@ -9,7 +9,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.Navigable;
+import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
 import arenashooter.entities.spatials.Camera;
@@ -19,7 +19,7 @@ public class Editor extends GameState {
 
 	static final float forVisible = -64, forNotVisible = -110;
 
-	private UiImage background = new UiImage(0, new Vec2f(50, 150), new Vec4f(.5, .5, .5, .2));
+	private UiImage background = new UiImage(new Vec4f(.5, .5, .5, .2));
 
 	private boolean menuVisible = true;
 
@@ -30,8 +30,8 @@ public class Editor extends GameState {
 
 	private MainMenu mainMenu = new MainMenu(current, this);
 
-	private Navigable currentMenu = mainMenu;
-
+	private UiElement currentMenu = mainMenu;
+	
 	AnimEditor animEditor = new AnimEditor();
 
 	private Camera cam;
@@ -39,8 +39,9 @@ public class Editor extends GameState {
 	public Editor() {
 		super(1);
 
-		background.setPosition(new Vec2f(forVisible, 0));
-
+		background.setPosition(forVisible, 0);
+		background.setScale(50, 150);
+		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -166,7 +167,7 @@ public class Editor extends GameState {
 
 	}
 
-	void setCurrentMenu(Navigable currentMenu) {
+	void setCurrentMenu(UiElement currentMenu) {
 		this.currentMenu = currentMenu;
 	}
 
@@ -180,11 +181,11 @@ public class Editor extends GameState {
 
 	private void setMenuVisible(boolean visible) {
 		if (visible) {
-			background.setPositionLerp(new Vec2f(forVisible, 0), 30);
-			currentMenu.setPositionLerp(new Vec2f(forVisible, 0), 40);
+			background.setPositionLerp(forVisible, 0, 30);
+			currentMenu.setPositionLerp(forVisible, 0, 40);
 		} else {
-			background.setPositionLerp(new Vec2f(forNotVisible, 0), 30);
-			currentMenu.setPositionLerp(new Vec2f(forNotVisible, 0), 40);
+			background.setPositionLerp(forNotVisible, 0, 30);
+			currentMenu.setPositionLerp(forNotVisible, 0, 40);
 		}
 		menuVisible = visible;
 	}

@@ -1,157 +1,151 @@
 package arenashooter.engine.ui;
 
-import java.util.LinkedList;
+import java.util.function.Consumer;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.simpleElement.Label;
+import arenashooter.engine.input.ActionV2;
+import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
+import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.MenuStart;
 
-public class MenuPause extends MenuSelectionV<Label> {
+public class MenuPause {
 
-	private Label op1, op3, op4;
+	private UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector.png")),
+			background = new UiImage(0.5, 0.5, 0.5, 0.3);
+	private TabList<UiActionable> mainMenu = new TabList<>();
+	private TabList<UiActionable> current = mainMenu;
 	private InputListener inputs = new InputListener();
-	private MenuSettings menup;
+	private boolean pause = false;
 
-	public MenuPause(float x, float y) {
-		super(5, x, y, new Vec2f(30, 10), "data/sprites/interface/Selector.png");
-		if (maxLayout < 3) {
-			Exception e = new Exception("Max layout trop petit");
-			e.printStackTrace();
+	public MenuPause(Game game) {
 
-			// Pour eviter le crash
-			for (int i = maxLayout; i < 3; i++) {
-				elems.put(Integer.valueOf(i), new LinkedList<>());
+		// background
+		background.setScale(40, 60);
+
+		Button resume = new Button("Resume"), options = new Button("option"), back = new Button("Back to menu");
+
+		UiListVertical<Button> uiList = new UiListVertical<>();
+		uiList.addElement(resume);
+		uiList.addElement(options);
+		uiList.addElement(back);
+		mainMenu.addBind("Pause", uiList);
+		mainMenu.setPosition(0, -10);
+		mainMenu.setScale(8);
+		uiList.setSpacing(15);
+		uiList.setScale(6, 6);
+
+		final double xScaleButton = 30, yScaleButton = 8;
+		resume.setScaleRect(xScaleButton, yScaleButton);
+		options.setScaleRect(xScaleButton, yScaleButton);
+		back.setScaleRect(xScaleButton, yScaleButton);
+
+		resume.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				setPause(false);
 			}
-		}
-		/*menu option*/
-		menup = new MenuSettings();
-		menup.selectorVisible = false;
-		
-		Texture texture1 = Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png");
-		texture1.setFilter(false);
-		
-		UiImage bg = new UiImage(0, new Vec2f(100, 75), texture1, new Vec4f(1));
-		menup.setBackground(bg);
-		menup.getMusic().setBackground(bg);
-		menup.getResolution().setBackground(bg);
-		
-		bg.setPosition(new Vec2f(0, 5));
-		
-		
-		
+		});
+		options.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				current = new MenuSettings(-10, new Trigger() {
+					
+					@Override
+					public void make() {
+						current = mainMenu;
+					}
+				});
+			}
+		});
+		back.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+			}
+		});
+
+		selector.setScale(40, 10);
+		selector.setPosition(mainMenu.getTarget().getPosition().x, mainMenu.getTarget().getPosition().y);
+
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
 			public void launch(InputActionEvent event) {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
-					switch (event.getAction()) {
-					case UI_OK:
-						getTarget().lunchAction("ok");
-						break;
-
-					case UI_PAUSE:
-//						selectorVisible =  false;
-//						break;
-					case UI_BACK:
-						selectorVisible = false;
-						break;
-					case UI_UP:
-						upAction();
-						break;
-					case UI_DOWN:
-						downAction();
-						break;
-					default:
-						break;
+					if(isPaused()) {
+						switch (event.getAction()) {
+						case UI_BACK:
+							current.backAction();
+							break;
+						case UI_CANCEL:
+							current.cancelAction();
+							break;
+						case UI_CHANGE:
+							current.changeAction();
+							break;
+						case UI_CONTINUE:
+							current.continueAction();
+							break;
+						case UI_DOWN:
+							current.downAction();
+							break;
+						case UI_LEFT:
+							current.leftAction();
+							break;
+						case UI_OK:
+							current.selectAction();
+							break;
+						case UI_RIGHT:
+							current.rightAction();
+							break;
+						case UI_UP:
+							current.upAction();
+							break;
+						default:
+							break;
+						}
+						selector.setPositionLerp(current.getTarget().getPosition().x, current.getTarget().getPosition().y, 10);
+					} else {
+						setPause(event.getAction() == ActionV2.UI_PAUSE);
 					}
-
 				}
 			}
 		});
-		final float scale = 24;
-		setPositionRef(new Vec2f(getPosition().x, getPosition().y - 12.5));
-		setEcartement(10);
-		UiImage rec = new UiImage(0, new Vec2f(45, 60), new Vec4f(0, 0, 0, .25));
-		setBackground(rec);
-		Label pause = new Label(0, new Vec2f(50, 50), "PAUSE");
-		addUiElement(pause, 0);
-		pause.setPosition(new Vec2f(x, y - 27));
-
-		op1 = new Label(0, new Vec2f(scale), "Resume");
-		addElementInListOfChoices(op1, 1);
-
-//		op2 = new Label(0, new Vec2f(scale), "Score");
-//		addElementInListOfChoices(op2, 1);
-
-		op3 = new Label(0, new Vec2f(scale), "Option");
-		addElementInListOfChoices(op3, 1);
-
-		op4 = new Label(0, new Vec2f(scale), "Back to Menu");
-		addElementInListOfChoices(op4, 1);
-
-		op1.addAction("ok", new Trigger() {
-			@Override
-			public void make() {
-				// try {
-//					Robot robot = new Robot();
-//					robot.keyPress(java.awt.event.KeyEvent.VK_ESCAPE);
-				selectorVisible = false;
-				System.out.println("op1 : Resume");
-//				} catch (Exception ex) {
-//					System.out.println("fail pause");
-//				}
-			}
-		});
-//		op2.addAction("ok", new Trigger() {
-//			@Override
-//			public void make() {
-//				System.out.println("op2 : Score");
-//			}
-//		});
-		op3.addAction("ok", new Trigger() {
-			@Override
-			public void make() {
-				System.out.println("op3 : Option");
-				menup.selectorVisible = !menup.selectorVisible;
-			}
-		});
-		op4.addAction("ok", new Trigger() {
-			@Override
-			public void make() {
-				System.out.println("op4 : back to Menu");
-				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
-			}
-		});
-		// op2.visible = false;
-		// op3.visible = false;
 	}
 
-	@Override
+	private void setPause(boolean b) {
+		pause = b;
+	}
+
+	private void actionOnAll(Consumer<UiElement> c) {
+		c.accept(background);
+		c.accept(current);
+		c.accept(selector);
+	}
+
+	public boolean isPaused() {
+		return pause;
+	}
+
 	public void update(double delta) {
-
-		super.update(delta);
-		// Detect controls
-		if (!menup.selectorVisible) {
-			inputs.step(delta);
-		} else {
-			menup.update(delta);
+		inputs.step(delta);
+		if (pause) {
+			actionOnAll(e -> e.update(delta));
 		}
-
 	}
 
-	@Override
 	public void draw() {
-		super.draw();
-		if (menup.selectorVisible) {
-			menup.draw();
+		if (pause) {
+			actionOnAll(e -> e.draw());
 		}
 	}
 

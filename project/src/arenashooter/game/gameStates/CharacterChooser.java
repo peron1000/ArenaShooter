@@ -16,7 +16,6 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.ui.Menu;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.Sprite;
@@ -35,7 +34,7 @@ public class CharacterChooser extends GameState {
 	private final double firstX = -3;
 	private double nextSpriteX = firstX;
 	private final double charOffset = 2;
-	Menu menu = new Menu(6);
+	//Menu menu = new Menu(6);
 	private InputListener inputs = new InputListener();
 
 	public CharacterChooser() {
@@ -276,12 +275,10 @@ public class CharacterChooser extends GameState {
 	public void update(double delta) {
 		super.update(delta);
 		inputs.step(delta);
-		menu.update(delta);
 	}
 
 	public void draw() {
 		super.draw();
-		menu.draw();
 	}
 
 }

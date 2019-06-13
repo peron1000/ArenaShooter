@@ -15,12 +15,9 @@ import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
-import arenashooter.engine.events.EventListener;
-import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -39,7 +36,6 @@ public class Game extends GameState {
 	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
 	private ArrayList<Arena> mapsToShuffle = new ArrayList<Arena>();
 
-	MenuPause menu;
 	int currentRound = 1;
 	private final GameMode gameMode = GameParam.getGameMode();
 	private final int nbRounds = GameParam.getRound();
@@ -66,10 +62,12 @@ public class Game extends GameState {
 	 * Time before switching to next map. After the winner has been found
 	 */
 	private Timer endRound = new Timer(2);
-	private UiImage counterImage = new UiImage((double) 0, new Vec2f(), Texture.default_tex);
+	private UiImage counterImage = new UiImage(Texture.default_tex);
 	private Animation startCounter = null;
 	private AnimationData counterAnimData = AnimationData.loadAnim("data/animations/anim_StartCounter.xml");
 	private boolean canPlay = true;
+	
+	private MenuPause menuPause = new MenuPause(this);
 
 	/**
 	 * @author Marin C Evaluates if one character or less is alive. (Trigger this
@@ -93,25 +91,7 @@ public class Game extends GameState {
 
 	public Game(int nbMap) {
 		super(nbMap);
-		menu = new MenuPause(0, 0);
-		menu.selectorVisible = false;
 		counterImage.setPosition(0, -25);
-		inputs.actions.add(new EventListener<InputActionEvent>() {
-
-			@Override
-			public void launch(InputActionEvent event) {
-				if (event.getActionState() == ActionState.JUST_PRESSED) {
-					switch (event.getAction()) {
-					case UI_PAUSE:
-						menu.selectorVisible = !menu.selectorVisible;
-						break;
-
-					default:
-						break;
-					}
-				}
-			}
-		});
 
 		if (bgm != null) {
 			bgm.destroy();
@@ -157,8 +137,8 @@ public class Game extends GameState {
 
 	@Override
 	public void update(double d) {
-		if (menu.selectorVisible) {
-			menu.update(d);
+		menuPause.update(d);
+		if (menuPause.isPaused()) {
 			return;
 		} else if (canPlay) {
 			if (oneLeft && !chooseWinner.inProcess) {
@@ -229,7 +209,7 @@ public class Game extends GameState {
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);
-				counterImage.setScale(Vec2f.multiply(counterTexture.getSize(), size));
+				counterImage.setScale(counterTexture.getSize().x*size, counterTexture.getSize().y*size);
 				counterImage.getMaterial().getParamTex("image").setFilter(false);
 				startCounter.step(d);
 			}
@@ -243,9 +223,7 @@ public class Game extends GameState {
 		super.draw();
 		Window.beginUi();
 		counterImage.draw();
-		if (menu.selectorVisible) {
-			menu.draw();
-		}
+		menuPause.draw();
 		Window.endUi();
 	}
 }

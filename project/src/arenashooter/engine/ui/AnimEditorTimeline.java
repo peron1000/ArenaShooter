@@ -21,9 +21,7 @@ public class AnimEditorTimeline extends UiElement {
 	private List<String> tracks = new ArrayList<>();
 
 	public AnimEditorTimeline(double rot, Vec2f scale) {
-		super(rot, scale);
-		
-		bg = new UiImage(rot, scale, new Vec4f(0,0,0, .8f));
+		bg = new UiImage(new Vec4f(0,0,0, .8f));
 	}
 	
 	public double maxVisibleTime() {
@@ -31,23 +29,11 @@ public class AnimEditorTimeline extends UiElement {
 	}
 	
 	@Override
-	public void setPosition(Vec2f pos) {
-		bg.setPosition(pos);
-		super.setPosition(pos);
+	public void setPosition(double x, double y) {
+		bg.setPosition(x , y);
+		super.setPosition(x , y);
 	}
 
-	@Override
-	public boolean isSelected() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void unSelec() {
-		// TODO Auto-generated method stub
-
-	}
-	
 	public void addTrack(String name) {
 		tracks.add(name);
 		tracksMap.put(name, new Track());

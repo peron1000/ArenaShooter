@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.events.UIEvent;
+
 import arenashooter.engine.animation.AnimationDataEditable;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
@@ -11,11 +13,12 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.AnimEditorTimeline;
 import arenashooter.engine.ui.Navigable;
+import arenashooter.engine.ui.NoStatic;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
-public class AnimEditor implements Navigable {
+public class AnimEditor extends UiElement {
 	DecimalFormat df = new DecimalFormat("#0.000");
 	double currentTime = 0;
 	AnimationDataEditable data;
@@ -30,23 +33,27 @@ public class AnimEditor implements Navigable {
 	public AnimEditor() {
 		data = new AnimationDataEditable();
 		
-		UiImage bg = new UiImage(0, new Vec2f(screenWidth(), 100), new Vec4f(.133, .204, 961, 1));
+		UiImage bg = new UiImage(new Vec4f(.133, .204, 961, 1));
+		bg.setScale(screenWidth(), 100);
 		elems.add(bg);
 		
-		UiImage mainPanel = new UiImage(0, new Vec2f(screenWidth(), 30), new Vec4f(0, 0, 0, .8));
-		mainPanel.setPosition(new Vec2f(0, 35));
+		UiImage mainPanel = new UiImage(new Vec4f(0, 0, 0, .8));
+		mainPanel.setPosition(0, 35);
+		mainPanel.setScale(screenWidth(), 30);
 		elems.add(mainPanel);
 		
-		lblTimeCurrent = new Label(0, new Vec2f(25), "Time: ", Text.TextAlignH.LEFT);
-		lblTimeCurrent.setPosition(new Vec2f(screenLeft()+2, 50-3));
+		lblTimeCurrent = new Label("Time: ", Text.TextAlignH.LEFT);
+		lblTimeCurrent.setScale(25);
+		lblTimeCurrent.setPosition(screenLeft()+2, 50-3);
 		elems.add(lblTimeCurrent);
 		
-		lblTimeLength = new Label(0, new Vec2f(25), "Length: ", Text.TextAlignH.LEFT);
-		lblTimeLength.setPosition(new Vec2f(screenLeft()+32, 50-3));
+		lblTimeLength = new Label("Length: ", Text.TextAlignH.LEFT);
+		lblTimeLength.setScale(25);
+		lblTimeLength.setPosition(screenLeft()+32, 50-3);
 		elems.add(lblTimeLength);
 		
 		timeline = new AnimEditorTimeline(0, new Vec2f(screenWidth()-25, 20));
-		timeline.setPosition(new Vec2f(11, 32));
+		timeline.setPosition(11, 32);
 		elems.add(timeline);
 	}
 	
@@ -82,17 +89,6 @@ public class AnimEditor implements Navigable {
 	}
 
 	@Override
-	public boolean isSelected() {
-		return false;
-	}
-
-	@Override
-	public void unSelec() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update(double delta) {
 		lblTimeCurrent.setText("Time: "+df.format(currentTime));
 		lblTimeLength.setText("Length: "+df.format(data.length)); //TODO: Only update this when needed
@@ -108,26 +104,8 @@ public class AnimEditor implements Navigable {
 	}
 
 	@Override
-	public void setPositionLerp(Vec2f position, double lerp) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean continueAction() {
 		return false;
-	}
-
-	@Override
-	public void setPosition(Vec2f newPosition) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Vec2f getPosition() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
