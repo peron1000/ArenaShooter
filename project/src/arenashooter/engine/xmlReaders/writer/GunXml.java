@@ -15,7 +15,7 @@ public class GunXml extends AbstractElement {
 	 * noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
 	 * cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
 	 * 
-	 * <vecteur use="handPosL" x="-.8" y="-.1" /> <vecteur use="handPosR" x="0"
+	 * <vector use="handPosL" x="-.8" y="-.1" /> <vector use="handPosR" x="0"
 	 * y="-.28" /> </gun>
 	 * 
 	 */
@@ -131,10 +131,10 @@ public class GunXml extends AbstractElement {
 //		proba.setValue(this.proba + "");
 //		gun.setAttributeNode(proba);
 
-		VecteurXml vecteurGun = new VecteurXml(doc, gun);
-		vecteurGun.addVecteur(handl, xpos1, ypos1);
-		vecteurGun.addVecteur(handr, xpos2, ypos2);
-		for (Element e : vecteurGun.getVecteurs()) {
+		VectorXml vectorGun = new VectorXml(doc, gun);
+		vectorGun.addVector(handl, xpos1, ypos1);
+		vectorGun.addVector(handr, xpos2, ypos2);
+		for (Element e : vectorGun.getVectors()) {
 			gun.appendChild(e);
 		}
 	}
@@ -219,11 +219,11 @@ public class GunXml extends AbstractElement {
 //		proba.setValue(this.proba + "");
 //		gun.setAttributeNode(proba);
 
-		VecteurXml vecteurGun = new VecteurXml(doc, gun);
+		VectorXml vectorGun = new VectorXml(doc, gun);
 		if(g.handPosL != null)
-			vecteurGun.addVecteur(handl, g.handPosL.x, g.handPosL.y);
-		if(g.handPosR != null)	vecteurGun.addVecteur(handr, g.handPosR.x, g.handPosR.y);
-		for (Element e : vecteurGun.getVecteurs()) {
+			vectorGun.addVector(handl, g.handPosL.x, g.handPosL.y);
+		if(g.handPosR != null)	vectorGun.addVector(handr, g.handPosR.x, g.handPosR.y);
+		for (Element e : vectorGun.getVectors()) {
 			gun.appendChild(e);
 		}
 	}

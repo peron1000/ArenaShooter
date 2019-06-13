@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class VecteurXml extends AbstractElement{
+public class VectorXml extends AbstractElement{
 	private Document doc;
-	private ArrayList<Element> vecteurs = new ArrayList<>();
+	private ArrayList<Element> vectors = new ArrayList<>();
 	
-	public VecteurXml(Document doc, Element elementParent) {
+	public VectorXml(Document doc, Element elementParent) {
 		super(doc, elementParent);
 		this.doc = doc;
 	}
 	
-	public void addVecteur(String use , float...fs) {
-		Element vec = doc.createElement("vecteur");
+	public void addVector(String use , float...fs) {
+		Element vec = doc.createElement("vector");
 		elementParent.appendChild(vec);
 		if(use != "") {
 			vec.setAttribute("use", use);
@@ -41,11 +41,11 @@ public class VecteurXml extends AbstractElement{
 				break;
 			}
 		}
-		vecteurs.add(vec);
+		vectors.add(vec);
 	}
 	
-	public ArrayList<Element> getVecteurs(){
-		return vecteurs;
+	public ArrayList<Element> getVectors(){
+		return vectors;
 	}
 
 	@Override

@@ -142,12 +142,12 @@ public class MapXmlReader extends XmlReader {
 		String soundPickup = preloadSound("data/sound/"+usableTimer.getAttribute("soundPickup")+".ogg");
 		String soundAttack = preloadSound("data/sound/"+usableTimer.getAttribute("bangSound")+".ogg");
 
-		// Vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", usableTimer);
+		// Vectors
+		List<Element> vectors = getListElementByName("vector", usableTimer);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
-		for (Element vecteur : vecteurs) {
-			XmlVector vec = loadVecteur(vecteur);
+		for (Element vector : vectors) {
+			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -181,12 +181,12 @@ public class MapXmlReader extends XmlReader {
 		float damage = Float.parseFloat(melee.getAttribute("damage"));
 		double size = Double.parseDouble(melee.getAttribute("size"));
 
-		// Vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", melee);
+		// Vectors
+		List<Element> vectors = getListElementByName("vector", melee);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
-		for (Element vecteur : vecteurs) {
-			XmlVector vec = loadVecteur(vecteur);
+		for (Element vector : vectors) {
+			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -227,12 +227,12 @@ public class MapXmlReader extends XmlReader {
 		double recoil = Double.parseDouble(gun.getAttribute("recoil"));
 		double thrust = Double.parseDouble(gun.getAttribute("thrust"));
 
-		// Vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", gun);
+		// Vectors
+		List<Element> vectors = getListElementByName("vector", gun);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
-		for (Element vecteur : vecteurs) {
-			XmlVector vec = loadVecteur(vecteur);
+		for (Element vector : vectors) {
+			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -276,12 +276,12 @@ public class MapXmlReader extends XmlReader {
 		int multiShot = Integer.parseInt(shotgun.getAttribute("multiShot"));
 		double dispersion = Double.parseDouble(shotgun.getAttribute("dispersion"));
 
-		// Vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", shotgun);
+		// Vectors
+		List<Element> vectors = getListElementByName("vector", shotgun);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
-		for (Element vecteur : vecteurs) {
-			XmlVector vec = loadVecteur(vecteur);
+		for (Element vector : vectors) {
+			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -314,12 +314,12 @@ public class MapXmlReader extends XmlReader {
 		if(!soundWarmup.isEmpty()) soundWarmup = preloadSound("data/sound/"+soundWarmup+".ogg");
 		String soundAttack = preloadSound("data/sound/"+usable.getAttribute("bangSound")+".ogg");
 
-		// Vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", usable);
+		// Vectors
+		List<Element> vectors = getListElementByName("vector", usable);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
-		for (Element vecteur : vecteurs) {
-			XmlVector vec = loadVecteur(vecteur);
+		for (Element vector : vectors) {
+			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
 			case "handPosL":
 				handPosL = new Vec2f(vec.x, vec.y);
@@ -337,8 +337,8 @@ public class MapXmlReader extends XmlReader {
 		arena.spawnList.put(name, item);
 	}
 
-	private XmlVector loadVecteur(Element vecteur) {
-		return new XmlVector(vecteur);
+	private XmlVector loadVector(Element vector) {
+		return new XmlVector(vector);
 	}
 
 	private void loadKillBounds(Element killBounds, Arena map) {
@@ -387,14 +387,14 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadSky(Element sky, Arena map) {
-		List<Element> vecteurs = getListElementByName("vecteur", sky);
+		List<Element> vectors = getListElementByName("vector", sky);
 		Vec3f top = new Vec3f(), bottom = new Vec3f();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
-			log.error("Balise Sky dans XML ne possÃ¨de pas " + nbVec + " vecteurs");
+		if (vectors.size() != nbVec) {
+			log.error("Balise Sky dans XML ne possÃ¨de pas " + nbVec + " vectors");
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "top":
 					top = new Vec3f(vec.x, vec.y, vec.z);
@@ -506,16 +506,16 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadText(Element text, Entity parent) {
-		// vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", text);
+		// vectors
+		List<Element> vectors = getListElementByName("vector", text);
 		Vec3f position = new Vec3f();
 		Vec3f scale = new Vec3f();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("Text element needs " + nbVec + " vectors");
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec3f(vec.x, vec.y, vec.z);
@@ -553,13 +553,13 @@ public class MapXmlReader extends XmlReader {
 	
 	private void loadSpawn(Element spawn, Entity parent) {
 		//Position
-		List<Element> vecteurs = getListElementByName("vecteur", spawn);
+		List<Element> vectors = getListElementByName("vector", spawn);
 		Vec2f position = new Vec2f();
-		if (vecteurs.size() != 1) {
+		if (vectors.size() != 1) {
 			log.error("Spawn element needs a position vector");
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -610,18 +610,18 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	private void loadMesh(Element mesh, Entity parent) {
-		// vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", mesh);
+		// vectors
+		List<Element> vectors = getListElementByName("vector", mesh);
 		Vec3f position = new Vec3f(), scale = new Vec3f();
 		Quat rotation = new Quat();
 		int nbVec = 3;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("Mesh element needs " + nbVec + " vectors [src="
 					+ mesh.getAttribute("src") + "]");
-			System.out.println(vecteurs.size());
+			System.out.println(vectors.size());
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec3f(vec.x, vec.y, vec.z);
@@ -630,7 +630,7 @@ public class MapXmlReader extends XmlReader {
 					scale = new Vec3f(vec.x, vec.y, vec.z);
 					break;
 				case "rotation":
-					rotation = readRotation(vecteur);
+					rotation = readRotation(vector);
 					break;
 				default:
 					log.error("Invalid vector in Mesh element");
@@ -656,17 +656,17 @@ public class MapXmlReader extends XmlReader {
 	}
 	
 	private void loadLightPoint(Element light, Entity parent) {
-		// vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", light);
+		// vectors
+		List<Element> vectors = getListElementByName("vector", light);
 		Vec3f position = new Vec3f();
 		Vec3f color = new Vec3f();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("Point light element needs " + nbVec + " vectors");
-			System.out.println(vecteurs.size());
+			System.out.println(vectors.size());
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec3f(vec.x, vec.y, vec.z);
@@ -704,24 +704,24 @@ public class MapXmlReader extends XmlReader {
 	}
 	
 	private void loadLightDirectional(Element light, Entity parent) {
-		// vecteurs
-		List<Element> vecteurs = getListElementByName("vecteur", light);
+		// vectors
+		List<Element> vectors = getListElementByName("vector", light);
 		Vec3f position = new Vec3f();
 		Vec3f color = new Vec3f();
 		Quat rotation = new Quat();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("Directional light element needs " + nbVec + " vectors");
-			System.out.println(vecteurs.size());
+			System.out.println(vectors.size());
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "color":
 					color = new Vec3f(vec.x, vec.y, vec.z);
 					break;
 				case "rotation":
-					rotation = readRotation(vecteur);
+					rotation = readRotation(vector);
 					break;
 				default:
 					log.error("Invalid vector in Directional light element");
@@ -751,14 +751,14 @@ public class MapXmlReader extends XmlReader {
 
 	private void loadRigid(Element rigid, Entity parent) {
 		//Vectors
-		List<Element> vecteurs = getListElementByName("vecteur", rigid);
+		List<Element> vectors = getListElementByName("vector", rigid);
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("RigidBody element needs " + nbVec + " vectors");
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -813,14 +813,14 @@ public class MapXmlReader extends XmlReader {
 
 	private void loadStaticBody(Element entity, Entity parent) { // TODO: Add support for circular static bodies
 		// Read position and extent values
-		List<Element> vecteurs = getListElementByName("vecteur", entity);
+		List<Element> vectors = getListElementByName("vector", entity);
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("StaticBody element needs " + nbVec + " vectors");
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -857,14 +857,14 @@ public class MapXmlReader extends XmlReader {
 	
 	private void loadKinematicBody(Element entity, Entity parent) { // TODO: Add support for circular kinematic bodies
 		// Read position and extent values
-		List<Element> vecteurs = getListElementByName("vecteur", entity);
+		List<Element> vectors = getListElementByName("vector", entity);
 		Vec2f position = new Vec2f(), extent = new Vec2f();
 		int nbVec = 2;
-		if (vecteurs.size() != nbVec) {
+		if (vectors.size() != nbVec) {
 			log.error("KinematicBody element needs " + nbVec + " vectors");
 		} else {
-			for (Element vecteur : vecteurs) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "position":
 					position = new Vec2f(vec.x, vec.y);
@@ -961,13 +961,13 @@ public class MapXmlReader extends XmlReader {
 		else
 			bodyB = ((KinematicBodyContainer)entityB).getBody();
 		
-		List<Element> vectors = getListElementByName("vecteur", joint);
+		List<Element> vectors = getListElementByName("vector", joint);
 		Vec2f anchorA = new Vec2f(), anchorB = new Vec2f(), angleLimit = null;
 		if (vectors.size() < 2 || vectors.size() > 3) {
 			log.error("JointPin element needs 2 or 3 vectors");
 		} else {
-			for (Element vecteur : vectors) {
-				XmlVector vec = loadVecteur(vecteur);
+			for (Element vector : vectors) {
+				XmlVector vec = loadVector(vector);
 				switch (vec.use) {
 				case "anchorA":
 					anchorA.set(vec.x, vec.y);

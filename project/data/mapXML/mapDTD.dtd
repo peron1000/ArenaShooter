@@ -15,54 +15,54 @@
 <!ATTLIST cameraPos x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED>
 <!ELEMENT killBounds EMPTY>
 <!ATTLIST killBounds minX CDATA #REQUIRED minY CDATA #REQUIRED maxX CDATA #REQUIRED maxY CDATA #REQUIRED>
-<!ELEMENT sky (vecteur, vecteur)>
+<!ELEMENT sky (vector, vector)>
 
 <!-- Entities-->
 <!ELEMENT entities (entity|spawn|rigid|mesh|directionalLight|pointLight|text|static|kinematic|jointPin)*>
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
-<!ELEMENT spawn (vecteur, itemRef*,entities?)>
+<!ELEMENT spawn (vector, itemRef*,entities?)>
 <!ATTLIST spawn playerSpawn (false|true) "true" cooldown CDATA #REQUIRED>
 <!ELEMENT itemRef EMPTY>
 <!ATTLIST itemRef item CDATA #REQUIRED proba CDATA #REQUIRED>
-<!ELEMENT mesh (vecteur, vecteur, vecteur, entities?)>
+<!ELEMENT mesh (vector, vector, vector, entities?)>
 <!ATTLIST mesh name CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>
-<!ELEMENT directionalLight (vecteur, vecteur)>
+<!ELEMENT directionalLight (vector, vector)>
 <!ATTLIST directionalLight name CDATA #IMPLIED>
-<!ELEMENT pointLight (vecteur, vecteur)>
+<!ELEMENT pointLight (vector, vector)>
 <!ATTLIST pointLight name CDATA #IMPLIED>
 <!ATTLIST pointLight radius CDATA #REQUIRED>
-<!ELEMENT text (vecteur, vecteur, entities?)>
+<!ELEMENT text (vector, vector, entities?)>
 <!ATTLIST text name CDATA #IMPLIED>
 <!ATTLIST text content CDATA #REQUIRED>
 <!ATTLIST text font CDATA #REQUIRED>
-<!ELEMENT static (vecteur, vecteur?, entities?)>
+<!ELEMENT static (vector, vector?, entities?)>
 <!ATTLIST static name CDATA #IMPLIED>
 <!ATTLIST static rotation CDATA #IMPLIED>
 <!ATTLIST rigid radius CDATA #IMPLIED>
-<!ELEMENT kinematic (vecteur, vecteur?, entities?)>
+<!ELEMENT kinematic (vector, vector?, entities?)>
 <!ATTLIST kinematic name CDATA #IMPLIED>
 <!ATTLIST kinematic animation CDATA #IMPLIED>
 <!ATTLIST kinematic rotation CDATA #IMPLIED>
 <!ATTLIST rigid radius CDATA #IMPLIED>
-<!ELEMENT rigid (vecteur, vecteur?, entities?)>
+<!ELEMENT rigid (vector, vector?, entities?)>
 <!ATTLIST rigid name CDATA #IMPLIED>
 <!ATTLIST rigid rotation CDATA #IMPLIED>
 <!ATTLIST rigid radius CDATA #IMPLIED>
 <!ATTLIST rigid density CDATA #IMPLIED>
 <!ATTLIST rigid friction CDATA #IMPLIED>
-<!ELEMENT jointPin (vecteur, vecteur, vecteur?)>
+<!ELEMENT jointPin (vector, vector, vector?)>
 <!ATTLIST jointPin bodyA CDATA #REQUIRED>
 <!ATTLIST jointPin bodyB CDATA #REQUIRED>
 
 <!-- Misc -->
-<!ELEMENT vecteur EMPTY>
-<!ATTLIST vecteur w CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED use CDATA #IMPLIED >
+<!ELEMENT vector EMPTY>
+<!ATTLIST vector w CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED use CDATA #IMPLIED >
 <!ELEMENT fichier (#PCDATA)>
 
 <!-- Items allowed -->
-<!ELEMENT usable (vecteur, vecteur, entities?)>
+<!ELEMENT usable (vector, vector, entities?)>
 <!ATTLIST usable
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -75,7 +75,7 @@
 				 soundWarmup CDATA #REQUIRED
 				 bangSound CDATA #REQUIRED>
 				 
-<!ELEMENT gun (vecteur, vecteur , entities?)>
+<!ELEMENT gun (vector, vector , entities?)>
 <!ATTLIST gun	
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -96,7 +96,7 @@
 				 thrust CDATA #REQUIRED
 				 size CDATA #REQUIRED>
 
-<!ELEMENT melee (vecteur, vecteur, entities?)>
+<!ELEMENT melee (vector, vector, entities?)>
 <!ATTLIST melee 
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -111,7 +111,7 @@
 				 damage CDATA #REQUIRED
 				 size CDATA #REQUIRED>
 				 
-<!ELEMENT usabletimer (vecteur, vecteur, entities?)>
+<!ELEMENT usabletimer (vector, vector, entities?)>
 <!ATTLIST usabletimer
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -125,7 +125,7 @@
 				 bangSound CDATA #REQUIRED
 				 size CDATA #REQUIRED>
 				 
-<!ELEMENT shotgun (vecteur, vecteur , entities?)>
+<!ELEMENT shotgun (vector, vector , entities?)>
 <!ATTLIST shotgun	
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED

@@ -120,12 +120,12 @@ public class ShootgunXml extends AbstractElement {
 		dispersion.setValue(shotgun.getDispersion() + "");
 		shot.setAttributeNode(thrust);
 		
-		VecteurXml vecteurshotgun = new VecteurXml(doc, shot);
+		VectorXml vectorshotgun = new VectorXml(doc, shot);
 		if (shotgun.handPosL != null)
-			vecteurshotgun.addVecteur(handl, shotgun.handPosL.x, shotgun.handPosL.y);
+			vectorshotgun.addVector(handl, shotgun.handPosL.x, shotgun.handPosL.y);
 		if (shotgun.handPosR != null)
-			vecteurshotgun.addVecteur(handr, shotgun.handPosR.x, shotgun.handPosR.y);
-		for (Element e : vecteurshotgun.getVecteurs()) {
+			vectorshotgun.addVector(handr, shotgun.handPosR.x, shotgun.handPosR.y);
+		for (Element e : vectorshotgun.getVectors()) {
 			shot.appendChild(e);
 		}
 	}

@@ -10,18 +10,18 @@ public class MeshXml extends AbstractElement {
 	Element mesh;
 	private ArrayList<Element> meshs = new ArrayList<>();
 
-	// Vecteur 1 position du mesh
+	// Vector 1 position du mesh
 	float xPosition = 0f;
 	float yPosition = 0f;
 	float zPosition = 0f;
 
-	// Vecteur 1 rotation du mesh
+	// Vector 1 rotation du mesh
 	float xRotation = 0f;
 	float yRotation = 0f;
 	float zRotation = 0f;
 	float wRotation = 0f;
 
-	// Vecteur 1 position du mesh
+	// Vector 1 position du mesh
 	float xScale = 0f;
 	float yScale = 0f;
 	float zScale = 0f;
@@ -33,11 +33,11 @@ public class MeshXml extends AbstractElement {
 		mesh = doc.createElement("mesh");
 		elementParent.appendChild(mesh);
 
-		VecteurXml vecteurMesh = new VecteurXml(doc, mesh);
-		vecteurMesh.addVecteur("position", xPosition, yPosition, zPosition);
-		vecteurMesh.addVecteur("rotation", xRotation, yRotation, zRotation, wRotation);
-		vecteurMesh.addVecteur("scale", xScale, yScale, zScale);
-		for (Element e : vecteurMesh.getVecteurs()) {
+		VectorXml vectorMesh = new VectorXml(doc, mesh);
+		vectorMesh.addVector("position", xPosition, yPosition, zPosition);
+		vectorMesh.addVector("rotation", xRotation, yRotation, zRotation, wRotation);
+		vectorMesh.addVector("scale", xScale, yScale, zScale);
+		for (Element e : vectorMesh.getVectors()) {
 			mesh.appendChild(e);
 		}
 	}

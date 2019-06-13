@@ -11,8 +11,8 @@
 		<killBounds minX="-1000" minY="-1000" maxX="1000" maxY="1000" />
 
 		<sky>
-			<vecteur x="0.996" y="0.9098" z="0.003922" use="bottom" />
-			<vecteur x="0.34901960784" y="0.13725490196" z="0.48235294118" use="top" />
+			<vector x="0.996" y="0.9098" z="0.003922" use="bottom" />
+			<vector x="0.34901960784" y="0.13725490196" z="0.48235294118" use="top" />
 		</sky>
 	</information>
 

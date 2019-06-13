@@ -28,9 +28,9 @@ public class SpawnXml extends AbstractElement {
 		cooldown.setValue(Cooldown + "");
 		spawn.setAttributeNode(cooldown);
 		
-		VecteurXml vecteurGun = new VecteurXml(doc, spawn);
-		vecteurGun.addVecteur("", x , y);
-		for (Element e : vecteurGun.getVecteurs()) {
+		VectorXml vectorGun = new VectorXml(doc, spawn);
+		vectorGun.addVector("", x , y);
+		for (Element e : vectorGun.getVectors()) {
 			spawn.appendChild(e);
 		}
 		
@@ -43,7 +43,7 @@ public class SpawnXml extends AbstractElement {
 //		}
 	}
 
-	public void setVecteur(float x, float y) {
+	public void setVector(float x, float y) {
 		XmlVector vec = new XmlVector(spawn);
 	}
 

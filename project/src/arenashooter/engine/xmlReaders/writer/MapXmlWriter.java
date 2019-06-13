@@ -90,13 +90,13 @@ public class MapXmlWriter {
 				}
 			}
 //			<spawn playerSpawn="false" cooldown="2"> 
-//			<vecteur x="7" y="1" use="position" />
+//			<vector x="7" y="1" use="position" />
 //			<itemRef item="kata" proba="1" />
 //			<entities>
 //				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-//					<vecteur use="position" x="0" y="1" z="0" />
-//					<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-//					<vecteur use="scale" x=".5" y=".5" z=".5" />
+//					<vector use="position" x="0" y="1" z="0" />
+//					<vector use="rotation" x="0" y="0" z="0" w="1" />
+//					<vector use="scale" x=".5" y=".5" z=".5" />
 //				</mesh>
 //			</entities>
 //		</spawn>
@@ -118,11 +118,11 @@ public class MapXmlWriter {
 					Attr cooldown = doc.createAttribute("cooldown");
 					cooldown.setValue(((Spawner) entry.getValue()).getCooldown() + "");
 					spawn.setAttributeNode(cooldown);
-//					<vecteur x="7" y="1" use="position" />
-					Element vecteur = doc.createElement("vecteur");
-					VecteurAttr2(vecteur, "position", ((Spawner) entry.getValue()).localPosition.x,
+//					<vector x="7" y="1" use="position" />
+					Element vector = doc.createElement("vector");
+					VectorAttr2(vector, "position", ((Spawner) entry.getValue()).localPosition.x,
 							((Spawner) entry.getValue()).localPosition.y);
-					spawn.appendChild(vecteur);
+					spawn.appendChild(vector);
 
 //					<itemRef item="minigun" proba="1" />
 					for (Entry<String, Integer> itemavaible : ((Spawner) entry.getValue()).getAvailableItems()
@@ -134,9 +134,9 @@ public class MapXmlWriter {
 					}
 					// <entities>
 //				<mesh src="data/meshes/item_pickup/weapon_pickup.obj">
-//				<vecteur use="position" x="0" y="1" z="0" />
-//				<vecteur use="rotation" x="0" y="0" z="0" w="1" />
-//				<vecteur use="scale" x=".5" y=".5" z=".5" />
+//				<vector use="position" x="0" y="1" z="0" />
+//				<vector use="rotation" x="0" y="0" z="0" w="1" />
+//				<vector use="scale" x=".5" y=".5" z=".5" />
 //			</mesh>
 //		</entities>
 					for (Entry<String, Entity> mesh : ((Spawner) entry.getValue()).getChildren().entrySet()) {
@@ -144,15 +144,15 @@ public class MapXmlWriter {
 							Element mesheux = doc.createElement("mesh");
 							mesheux.setAttribute("src", ((Mesh) mesh.getValue()).getModelPath() + "");
 							spawn.appendChild(mesheux);
-							VecteurAttr2(vecteur, "position", ((Mesh) entry.getValue()).localPosition.x,
+							VectorAttr2(vector, "position", ((Mesh) entry.getValue()).localPosition.x,
 									((Mesh) entry.getValue()).localPosition.y);
-							spawn.appendChild(vecteur);
-							VecteurAttr2(vecteur, "rotation", ((Mesh) entry.getValue()).localRotation.toEuler().x,
+							spawn.appendChild(vector);
+							VectorAttr2(vector, "rotation", ((Mesh) entry.getValue()).localRotation.toEuler().x,
 									((Mesh) entry.getValue()).localRotation.toEuler().y);
-							spawn.appendChild(vecteur);
-							VecteurAttr2(vecteur, "scale", ((Mesh) entry.getValue()).scale.x,
+							spawn.appendChild(vector);
+							VectorAttr2(vector, "scale", ((Mesh) entry.getValue()).scale.x,
 									((Mesh) entry.getValue()).scale.y);
-							spawn.appendChild(vecteur);
+							spawn.appendChild(vector);
 						}
 
 					}
@@ -171,10 +171,10 @@ public class MapXmlWriter {
 //					Element spawn = doc.createElement("spawn");
 //					info.appendChild(spawn);
 //					spawn.setAttribute("cooldown", "" + spp.getCooldown());
-//					VecteurXml vecteurGun = new VecteurXml(doc, spawn);
-//					vecteurGun.addVecteur("position", spp.localPosition.x, spp.localPosition.y);
+//					VectorXml vectorGun = new VectorXml(doc, spawn);
+//					vectorGun.addVector("position", spp.localPosition.x, spp.localPosition.y);
 //
-////					for (Element e : vecteurGun.getVecteurs()) {
+////					for (Element e : vectorGun.getVectors()) {
 ////						new GunXml(doc, spawn);
 ////					}
 
@@ -185,23 +185,23 @@ public class MapXmlWriter {
 //				Element mesh1 = doc.createElement("mesh");
 //				entities1.appendChild(mesh1);
 //				mesh1.setAttribute("src", "data/meshes/item_pickup/weapon_pickup_ceiling.obj");
-//				// <vecteur use="position" x="0" y="-1" z="0" />
-//				// <vecteur use="rotation" x="0" y="0" z="0" />
-//				// <vecteur use="scale" x=".75" y=".75" z=".75" />
-//				Element vecteur1 = doc.createElement("vecteur");
-//				Element vecteur2 = doc.createElement("vecteur");
-//				Element vecteur3 = doc.createElement("vecteur");
+//				// <vector use="position" x="0" y="-1" z="0" />
+//				// <vector use="rotation" x="0" y="0" z="0" />
+//				// <vector use="scale" x=".75" y=".75" z=".75" />
+//				Element vector1 = doc.createElement("vector");
+//				Element vector2 = doc.createElement("vector");
+//				Element vector3 = doc.createElement("vector");
 //
-//				VecteurAttr3Mesh(vecteur1, "position", 0, -1, 0);
-//				VecteurAttr3Mesh(vecteur2, "rotation", 0, 0, 0);
-//				VecteurAttr3Mesh(vecteur3, "scale", 0.75, 0.75, 0.75);
+//				VectorAttr3Mesh(vector1, "position", 0, -1, 0);
+//				VectorAttr3Mesh(vector2, "rotation", 0, 0, 0);
+//				VectorAttr3Mesh(vector3, "scale", 0.75, 0.75, 0.75);
 //
-//				mesh1.appendChild(vecteur1);
-//				mesh1.appendChild(vecteur2);
-//				mesh1.appendChild(vecteur3);
+//				mesh1.appendChild(vector1);
+//				mesh1.appendChild(vector2);
+//				mesh1.appendChild(vector3);
 //			}
-//					if (!vecteurGun.getElement().getElementsByTagName("gun").equals(null)) {
-//						for (int j = 0; j < vecteurGun.getElement().getElementsByTagName("gun").getLength(); j++) {
+//					if (!vectorGun.getElement().getElementsByTagName("gun").equals(null)) {
+//						for (int j = 0; j < vectorGun.getElement().getElementsByTagName("gun").getLength(); j++) {
 //							new GunXml(doc, spawn);
 //						}
 //					}
@@ -216,19 +216,19 @@ public class MapXmlWriter {
 //				Element spawn = doc.createElement("spawn");
 //				info.appendChild(spawn);
 //				spawn.setAttribute("cooldown", "2");
-//				Element vecteur = doc.createElement("vecteur");
-//				spawn.appendChild(vecteur);
-//				vecteur.setAttribute("x", "" + 0.0);
-//				vecteur.setAttribute("y", "" + 0.0);
+//				Element vector = doc.createElement("vector");
+//				spawn.appendChild(vector);
+//				vector.setAttribute("x", "" + 0.0);
+//				vector.setAttribute("y", "" + 0.0);
 //			}
 
-			/* <gravity> <vecteur x="0" y="9.807" /> </gravity> */
+			/* <gravity> <vector x="0" y="9.807" /> </gravity> */
 			Element gravity = doc.createElement("gravity");
 			info.appendChild(gravity);
-			Element vecteur = doc.createElement("vecteur");
-			gravity.appendChild(vecteur);
-			vecteur.setAttribute("x", "" + arena.gravity.x);
-			vecteur.setAttribute("y", "" + arena.gravity.y);
+			Element vector = doc.createElement("vector");
+			gravity.appendChild(vector);
+			vector.setAttribute("x", "" + arena.gravity.x);
+			vector.setAttribute("y", "" + arena.gravity.y);
 
 //			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
 //				System.out.println("cp " + entry.getValue());
@@ -263,17 +263,17 @@ public class MapXmlWriter {
 					Sky s = (Sky) entry.getValue();
 					Element sky = doc.createElement("sky");
 					info.appendChild(sky);
-					VecteurXml vecs = new VecteurXml(doc, sky);
-					vecs.addVecteur("bottom", s.material.getParamVec3f("colorBot").x,
+					VectorXml vecs = new VectorXml(doc, sky);
+					vecs.addVector("bottom", s.material.getParamVec3f("colorBot").x,
 							s.material.getParamVec3f("colorBot").y, s.material.getParamVec3f("colorBot").z);
-					vecs.addVecteur("top", s.material.getParamVec3f("colorTop").x,
+					vecs.addVector("top", s.material.getParamVec3f("colorTop").x,
 							s.material.getParamVec3f("colorTop").y, s.material.getParamVec3f("colorTop").z);
 				}
 			}
 
 			/*
-			 * <static name="large_platform"> <vecteur x="0" y="2.25" use="position" />
-			 * <vecteur x="50" y="0.25" use="extent" />
+			 * <static name="large_platform"> <vector x="0" y="2.25" use="position" />
+			 * <vector x="50" y="0.25" use="extent" />
 			 */
 			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
 				System.out.println("cp " + entry.getValue());
@@ -281,8 +281,8 @@ public class MapXmlWriter {
 				if (entry.getValue() instanceof StaticBodyContainer) {
 					Element stat = doc.createElement("static");
 					entities.appendChild(stat);
-					Element vec1 = doc.createElement("vecteur");
-					Element vec2 = doc.createElement("vecteur");
+					Element vec1 = doc.createElement("vector");
+					Element vec2 = doc.createElement("vector");
 					stat.appendChild(vec1);
 					stat.appendChild(vec2);
 					Element entities34 = doc.createElement("entities");
@@ -296,22 +296,22 @@ public class MapXmlWriter {
 							entities34.appendChild(mesh12);
 							Mesh meu = ((Mesh) mesh);
 							mesh12.setAttribute("src", meu.getModelPath());
-							Element vecteur12 = doc.createElement("vecteur");
-							Element vecteur22 = doc.createElement("vecteur");
-							Element vecteur32 = doc.createElement("vecteur");
+							Element vector12 = doc.createElement("vector");
+							Element vector22 = doc.createElement("vector");
+							Element vector32 = doc.createElement("vector");
 							Vec3f vm = ((Mesh) mesh).localPosition;
 							Vec3f vms = ((Mesh) mesh).scale;
 							Vec3f qm = meu.localRotation.toEuler();
-							VecteurAttr3(vecteur12, "position", vm.x, vm.y, vm.z);
-							VecteurAttr3(vecteur22, "rotation", qm.x, qm.y, qm.z);
-							VecteurAttr3(vecteur32, "scale", vms.x, vms.y, vms.z);
+							VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
+							VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
+							VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
 
-							mesh12.appendChild(vecteur12);
-							mesh12.appendChild(vecteur22);
-							mesh12.appendChild(vecteur32);
+							mesh12.appendChild(vector12);
+							mesh12.appendChild(vector22);
+							mesh12.appendChild(vector32);
 
-							VecteurAttr2(vec1, "position", 0, 2.25);
-							VecteurAttr2(vec2, "extent", 5, 0.25);
+							VectorAttr2(vec1, "position", 0, 2.25);
+							VectorAttr2(vec2, "extent", 5, 0.25);
 
 						}
 					}
@@ -322,22 +322,22 @@ public class MapXmlWriter {
 						entities34.appendChild(mesh12);
 						Mesh meu = ((Mesh) entry.getValue());
 						mesh12.setAttribute("src", meu.getModelPath());
-						Element vecteur12 = doc.createElement("vecteur");
-						Element vecteur22 = doc.createElement("vecteur");
-						Element vecteur32 = doc.createElement("vecteur");
+						Element vector12 = doc.createElement("vector");
+						Element vector22 = doc.createElement("vector");
+						Element vector32 = doc.createElement("vector");
 						Vec3f vm = ((Mesh) entry.getValue()).localPosition;
 						Vec3f vms = ((Mesh) entry.getValue()).scale;
 						Vec3f qm = meu.localRotation.toEuler();
-						VecteurAttr3(vecteur12, "position", vm.x, vm.y, vm.z);
-						VecteurAttr3(vecteur22, "rotation", qm.x, qm.y, qm.z);
-						VecteurAttr3(vecteur32, "scale", vms.x, vms.y, vms.z);
+						VectorAttr3(vector12, "position", vm.x, vm.y, vm.z);
+						VectorAttr3(vector22, "rotation", qm.x, qm.y, qm.z);
+						VectorAttr3(vector32, "scale", vms.x, vms.y, vms.z);
 
-						mesh12.appendChild(vecteur12);
-						mesh12.appendChild(vecteur22);
-						mesh12.appendChild(vecteur32);
+						mesh12.appendChild(vector12);
+						mesh12.appendChild(vector22);
+						mesh12.appendChild(vector32);
 
-						VecteurAttr2(vec1, "position", 0, 2.25);
-						VecteurAttr2(vec2, "extent", 5, 0.25);
+						VectorAttr2(vec1, "position", 0, 2.25);
+						VectorAttr2(vec2, "extent", 5, 0.25);
 
 					}
 				}
@@ -439,18 +439,18 @@ public class MapXmlWriter {
 
 	}
 
-	private static void VecteurAttr3(Element vecteur, String s, double x, double y, double z) {
-		vecteur.setAttribute("use", s);
-		vecteur.setAttribute("x", "" + x);
-		vecteur.setAttribute("y", "" + y);
-		vecteur.setAttribute("z", "" + z);
+	private static void VectorAttr3(Element vector, String s, double x, double y, double z) {
+		vector.setAttribute("use", s);
+		vector.setAttribute("x", "" + x);
+		vector.setAttribute("y", "" + y);
+		vector.setAttribute("z", "" + z);
 
 	}
 
-	private static void VecteurAttr2(Element vecteur, String s, double x, double y) {
-		vecteur.setAttribute("use", s);
-		vecteur.setAttribute("x", "" + x);
-		vecteur.setAttribute("y", "" + y);
+	private static void VectorAttr2(Element vector, String s, double x, double y) {
+		vector.setAttribute("use", s);
+		vector.setAttribute("x", "" + x);
+		vector.setAttribute("y", "" + y);
 	}
 
 	public static void main(String argv[]) {
