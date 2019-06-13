@@ -2,22 +2,26 @@ package arenashooter.engine.ui;
 
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
 public class ColorPicker extends UiElement {
 
+	private static enum selection {LUMISAT, HUE, ALPHA};
+	
 	private UiImage background = new UiImage(new Vec4f(0, 0, 0, 0.8));
 	
-	private UiImage lumiSat, hueImg;
+	private UiImage lumiSat, hueImg, lumiSatSelector, hueSelector, alphaSelector;
 	private Vec3f rgb = new Vec3f();
 	private float hue, saturation, value;
 	private float alpha = 1;
 	private boolean hasAlpha = false;
+	
+	private selection current = selection.LUMISAT;
 
 	private Trigger trigger = new Trigger() {
-
 		@Override
 		public void make() {
 			// Nothing
@@ -72,28 +76,95 @@ public class ColorPicker extends UiElement {
 
 	@Override
 	public boolean upAction() {
+		switch(current) {
+		case LUMISAT:
+			value += .01;
+			break;
+		case HUE:
+			hue += .01;
+			break;
+		case ALPHA:
+			alpha += .01;
+			break;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean downAction() {
+		switch(current) {
+		case LUMISAT:
+			value -= .01;
+			break;
+		case HUE:
+			hue -= .01;
+			break;
+		case ALPHA:
+			alpha -= .01;
+			break;
+		}
 		return true;
 	}
+	
+	@Override
+	public boolean leftAction() {
+		switch(current) {
+		case LUMISAT:
+			saturation -= .01;
+			break;
+		case HUE:
+			current = selection.LUMISAT;
+			break;
+		case ALPHA:
+			current = selection.HUE;
+			break;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean rightAction() {
+		switch(current) {
+		case LUMISAT:
+			saturation += .01;
+			break;
+		case HUE:
+			current = hasAlpha ? selection.ALPHA : selection.LUMISAT;
+			break;
+		case ALPHA:
+			current = selection.LUMISAT;
+			break;
+		}
+		return true;
+	}
+
 	
 	@Override
 	public boolean continueAction() {
 		trigger.make();
 		return true;
 	}
-
+	
 	@Override
-	public boolean rightAction() {
-		return true;
+	public boolean changeAction() {
+		switch(current) {
+		case LUMISAT:
+			current = selection.HUE;
+			break;
+		case HUE:
+			current = hasAlpha ? selection.ALPHA : selection.LUMISAT;
+			break;
+		case ALPHA:
+			current = selection.LUMISAT;
+			break;
+		}
+		return super.changeAction();
 	}
-
+	
 	@Override
-	public boolean leftAction() {
-		return true;
+	public boolean cancelAction() {
+		// TODO Auto-generated method stub
+		return super.cancelAction();
 	}
 
 	@Override
@@ -113,9 +184,10 @@ public class ColorPicker extends UiElement {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		saturation = 1;
-		value = (float) ((Math.sin(System.currentTimeMillis()*.01)+1)*.5);
-		hue = (float) ((Math.cos(System.currentTimeMillis()*.001)+1)*.5);
+		hue = Utils.clampF(hue, 0, 1);
+		value = Utils.clampF(value, 0, 1); //Remove this clamp?
+		saturation = Utils.clampF(saturation, 0, 1);
+		alpha = hasAlpha ? Utils.clampF(alpha, 0, 1) : 1;
 		updateMaterials();
 	}
 	
