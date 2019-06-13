@@ -2,7 +2,6 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
-import arenashooter.engine.graphics.Model;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -48,10 +47,15 @@ public class LightContainer extends Spatial3 {
 	}
 
 	private void updateLight() {
-		if(light.radius > 0) { //Point
+		switch(light.getType()) {
+		case POINT:
 			light.position.set(getWorldPos());
-		} else { //Directional
+			break;
+		case DIRECTIONAL:
 			light.position.set(getWorldRot().forward());
+			break;
+		default:
+			break;
 		}
 	}
 	
