@@ -119,6 +119,16 @@ public class ColorPicker extends UiElement {
 		updateMaterials();
 	}
 	
+	public Vec3f getColorRGB() {
+		updateMaterials();
+		return new Vec3f(rgb.x, rgb.y, rgb.z);
+	}
+	
+	public void setColorRGB(Vec3f color) {
+		//TODO: Convert RGB to HSV
+		updateMaterials();
+	}
+	
 	public Vec4f getColorRGBA() {
 		updateMaterials();
 		return new Vec4f(rgb.x, rgb.y, rgb.z, alpha);
