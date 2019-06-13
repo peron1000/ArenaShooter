@@ -62,7 +62,7 @@ public class CharacterSprite extends Spatial {
 	private double movementTime = 0;
 	private double sinTime;// Used for rescaling chargePunch Sprite.
 	public boolean stunned;
-
+	
 	public CharacterSprite(CharacterInfo charInfo) {
 		super();
 		folder = "data/sprites/characters/" + charInfo.getSkin();
@@ -390,39 +390,39 @@ public class CharacterSprite extends Spatial {
 		if (moveSpeed > 0) {
 			
 			if(!mirrorLeftFoot) {
-			footL.localPosition.set((float) (-.3 + footCos * .08),
-					(float) (.65 + footSin * .16));
-			footL.localPosition.set((float) (-.3 + footCos * .08),
-					(float) (.65 + footSin * .16));
+				footL.localPosition.set((float) (-.3 + footCos * .08), (float) (.65 + footSin * .16));
+				footR.localPosition.set((float) (.3 - footSin * .08), (float) (.65 + footCos * .16));
 			} else {
-				
+//				footL.flipX = true;
+//				footR.flipX = false;
+				footL.localPosition.set((float) (-.5 + (lookRight ? 0:.2 ) + footCos * .08),
+						(float) (.65 + footSin * .16));
+				footR.localPosition.set((float) (.3 + (lookRight ? 0:0.2 ) - footSin * .08), (float) (.65 + footCos * .16));
 			}
 			if (lookRight) {
 				footL.zIndex = mirrorLeftFoot ? -1 : 1;
-				footR.zIndex = -1;
+				footR.zIndex = -2;
 			} else {
-				footL.zIndex = -1;
+				footL.zIndex = -2;
 				footR.zIndex = mirrorLeftFoot ? -1 : 1;
 			}
 		} else {
 			if(!mirrorLeftFoot) {
-			footL.localPosition.set((float) (.3 - footCos * .08),
-					(float) (.65 + footSin * .16));
-			footR.localPosition.set((float) (-.3 + footSin * .08),
-					(float) (.65 + footCos * .16));
+				footL.localPosition.set((float) (.3 - footCos * .08), (float) (.65 + footSin * .16));
+				footR.localPosition.set((float) (-.3 + footSin * .08), (float) (.65 + footCos * .16));
 			} else {
-				footL.localPosition.set((float) (-.3 + footCos * .08),
-						(float) (.70 + footSin * .16));
-				footL.localPosition.set((float) (-.3 + footCos * .08),
-						(float) (.70 + footSin * .16));
+//				footL.flipX = false;
+//				footR.flipX = true;
+				footL.localPosition.set((float) (-.5 + (lookRight ? 0:.2 ) - footCos * .08), (float) (.65 + footSin * .16));
+				footR.localPosition.set((float) (0.3 + (lookRight ? 0:0.2 ) + footSin * .08), (float) (.65 + footCos * .16));
 			}
 
 			if (lookRight) {
-				footL.zIndex = -1;
+				footL.zIndex = -2;
 				footR.zIndex = mirrorLeftFoot ? -1 : 1;
 			} else {
 				footL.zIndex = mirrorLeftFoot ? -1 : 1;
-				footR.zIndex = -1;
+				footR.zIndex = -2;
 			}
 		}
 

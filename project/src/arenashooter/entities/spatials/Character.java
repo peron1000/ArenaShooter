@@ -206,7 +206,7 @@ public class Character extends RigidBodyContainer {
 			Vec2f impulse;
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			DamageInfo punchDmgInfo;
-
+			
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12), 0), aimInput);
 				punchDmgInfo = new DamageInfo((float)(defaultDamage*1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput), this);
