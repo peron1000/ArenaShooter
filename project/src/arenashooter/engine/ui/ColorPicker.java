@@ -78,13 +78,13 @@ public class ColorPicker extends UiElement {
 	public boolean upAction() {
 		switch(current) {
 		case LUMISAT:
-			value += .01;
+			value += .1;
 			break;
 		case HUE:
-			hue += .01;
+			hue += .1;
 			break;
 		case ALPHA:
-			alpha += .01;
+			alpha += .1;
 			break;
 		}
 		return true;
@@ -94,13 +94,13 @@ public class ColorPicker extends UiElement {
 	public boolean downAction() {
 		switch(current) {
 		case LUMISAT:
-			value -= .01;
+			value -= .1;
 			break;
 		case HUE:
-			hue -= .01;
+			hue -= .1;
 			break;
 		case ALPHA:
-			alpha -= .01;
+			alpha -= .1;
 			break;
 		}
 		return true;
@@ -110,7 +110,7 @@ public class ColorPicker extends UiElement {
 	public boolean leftAction() {
 		switch(current) {
 		case LUMISAT:
-			saturation -= .01;
+			saturation -= .1;
 			break;
 		case HUE:
 			current = selection.LUMISAT;
@@ -126,7 +126,7 @@ public class ColorPicker extends UiElement {
 	public boolean rightAction() {
 		switch(current) {
 		case LUMISAT:
-			saturation += .01;
+			saturation += .1;
 			break;
 		case HUE:
 			current = hasAlpha ? selection.ALPHA : selection.LUMISAT;
