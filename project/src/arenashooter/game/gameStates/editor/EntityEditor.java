@@ -3,6 +3,7 @@ package arenashooter.game.gameStates.editor;
 import java.util.function.Consumer;
 
 import arenashooter.engine.graphics.Light;
+import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.ColorPicker;
 import arenashooter.engine.ui.DoubleInput;
@@ -35,7 +36,7 @@ class EntityEditor extends UiElement implements MultiUi {
 	private TextInput textInput = new TextInput();
 	private DoubleInput doubleInput = new DoubleInput();
 	private ColorPicker colorPicker = new ColorPicker(false);
-	
+
 	private final double labelScale = 3.5;
 
 	private Trigger colorPickerModification = new Trigger() {
@@ -120,7 +121,7 @@ class EntityEditor extends UiElement implements MultiUi {
 				public void make() {
 					uiInputState = Ui_Input.TEXT;
 					setText.setVisible(false);
-					textInput = new TextInput();
+					textInput.reset();
 					textInput.setPosition(setText.getPosition().x, setText.getPosition().y);
 					textInput.setScale(10);
 					textInput.setOnFinish(new Trigger() {
@@ -140,7 +141,7 @@ class EntityEditor extends UiElement implements MultiUi {
 			ScrollerH<Light.LightType> lightType = new ScrollerH<>(Light.LightType.values());
 			lightType.setAlwaysScrollable(false);
 			lightType.setOnValidation(new Trigger() {
-				
+
 				@Override
 				public void make() {
 					light.getLight().setType(lightType.get());
@@ -150,12 +151,25 @@ class EntityEditor extends UiElement implements MultiUi {
 			lightType.setBackgroundVisible(true);
 			UiImage background = new UiImage(new Vec4f(0, 0, 0, 1));
 			background.setScale(30, 5);
-			lightType.setBackgroundUnselect(background );
-			Label radius = new Label("Radius : "+light.getLight().radius);
+			lightType.setBackgroundUnselect(background);
+			Label radius = new Label("Radius : " + light.getLight().radius);
 			radius.setScale(labelScale);
 			menu.addLabelInfo(vList, radius);
 			Button setColorPicker = new Button("Change color"), setRadius = new Button("Set radius");
-			vList.addElements(setColorPicker , setRadius , lightType);
+			vList.addElements(setColorPicker, lightType , setRadius);
+			lightType.setOnValidation(new Trigger() {
+
+				@Override
+				public void make() {
+					light.getLight().setType(lightType.get());
+					radius.setText("Radius : " + light.getLight().radius);
+					if(lightType.get() == LightType.DIRECTIONAL) {
+						vList.removeElement(setRadius);
+					} else if(!vList.contain(setRadius)) {
+						vList.addElement(setRadius);
+					}
+				}
+			});
 			setColorPicker.setOnArm(new Trigger() {
 
 				@Override
@@ -185,6 +199,7 @@ class EntityEditor extends UiElement implements MultiUi {
 				public void make() {
 					uiInputState = Ui_Input.DOUBLE;
 					vList.addElement(doubleInput);
+					doubleInput.reset();
 					doubleInput.setOnFinish(new Trigger() {
 
 						@Override
@@ -192,7 +207,7 @@ class EntityEditor extends UiElement implements MultiUi {
 							uiInputState = Ui_Input.NOTHING;
 							vList.removeElement(doubleInput);
 							light.getLight().radius = (float) doubleInput.getDouble();
-							radius.setText("Radius : "+light.getLight().radius);
+							radius.setText("Radius : " + light.getLight().radius);
 						}
 					});
 					doubleInput.setOnCancel(new Trigger() {
@@ -439,6 +454,8 @@ class EntityEditor extends UiElement implements MultiUi {
 			return textInput.backAction();
 		case COLOR_PICKER:
 			return colorPicker.backAction();
+		case DOUBLE:
+			return doubleInput.backAction();
 		default:
 			return false;
 		}
