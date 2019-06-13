@@ -50,7 +50,6 @@ class MainMenu extends UiElement implements MultiUi {
 
 	private Label fileNameLabel = new Label("File Name: " + fileName);
 	private TabList<UiElement> mainMenu = new TabList<>(), meshChooser = new TabList<>();
-	private UiListVertical<Button> addMenu = new UiListVertical<>();
 	private UiListVertical<Button> setMenu = new UiListVertical<>();
 	private UiListVertical<UiElement> saveQuitMenu = new UiListVertical<>();
 	private UiListVertical<UiElement> arenaInfo = new UiListVertical<>();
@@ -65,9 +64,9 @@ class MainMenu extends UiElement implements MultiUi {
 	private DoubleInput doubleInput = new DoubleInput();
 	private TextInput textInput = new TextInput();
 	private ColorPicker colorPicker = new ColorPicker(false);
-	
+
 	private Trigger colorPickerModification = new Trigger() {
-		
+
 		@Override
 		public void make() {
 			// Nothing by default
@@ -108,24 +107,24 @@ class MainMenu extends UiElement implements MultiUi {
 	private void arenaInfoMenuConstruction() {
 		mainMenu.addBind("Arena Info", arenaInfo);
 		Button top = new Button("Change top"), bottom = new Button("Change bottom");
-		arenaInfo.addElements(top , bottom);
-		
+		arenaInfo.addElements(top, bottom);
+
 		// Trigger
 		top.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.COLOR_PICKER;
 				arenaInfo.addElement(colorPicker);
 				colorPickerModification = new Trigger() {
-					
+
 					@Override
 					public void make() {
 						setSkyColorTop(colorPicker.getColorRGB());
 					}
 				};
 				colorPicker.setOnFinish(new Trigger() {
-					
+
 					@Override
 					public void make() {
 						arenaInfo.removeElement(colorPicker);
@@ -134,22 +133,22 @@ class MainMenu extends UiElement implements MultiUi {
 				});
 			}
 		});
-		
+
 		bottom.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.COLOR_PICKER;
 				arenaInfo.addElement(colorPicker);
 				colorPickerModification = new Trigger() {
-					
+
 					@Override
 					public void make() {
 						setSkyColorBottom(colorPicker.getColorRGB());
 					}
 				};
 				colorPicker.setOnFinish(new Trigger() {
-					
+
 					@Override
 					public void make() {
 						arenaInfo.removeElement(colorPicker);
@@ -158,16 +157,15 @@ class MainMenu extends UiElement implements MultiUi {
 				});
 			}
 		});
-		
-		
+
 		for (UiElement uiElement : arenaInfo) {
-			if(uiElement instanceof Button) {
+			if (uiElement instanceof Button) {
 				Button b = (Button) uiElement;
 				b.setScaleRect(xRect, yRect);
 				b.setScaleText(scaleText);
 			}
 		}
-		
+
 	}
 
 	private void meshChooserMenuConstruction() {
@@ -194,7 +192,7 @@ class MainMenu extends UiElement implements MultiUi {
 				}
 			});
 			i++;
-			if (i >= 7) {
+			if (i >= 8) {
 				meshChooser.addBind("Mesh Chooser", vList);
 				vList = new UiListVertical<>();
 				vList.setSpacing(spacing);
@@ -272,6 +270,9 @@ class MainMenu extends UiElement implements MultiUi {
 	}
 
 	private void addMenuConstruction() {
+		final int mod = 8;
+		int i = 0, j = 1;
+		UiListVertical<Button> addMenu = new UiListVertical<>();
 		for (TypeEntites type : TypeEntites.values()) {
 			char first = type.name().charAt(0);
 			String name = type.name().substring(1).toLowerCase();
@@ -320,8 +321,18 @@ class MainMenu extends UiElement implements MultiUi {
 					}
 				}
 			});
+			i++;
+			if (i / mod >= j) {
+				for (Button b : addMenu) {
+					b.setScaleRect(xRect, yRect);
+					b.setScaleText(scaleText);
+					b.setColorRect(new Vec4f(0, 0, 0, 0.5));
+				}
+				mainMenu.addBind("Adding" + j, addMenu);
+				addMenu = new UiListVertical<>();
+				j++;
+			}
 		}
-
 		Button animation = new Button("Animation");
 		addMenu.addElement(animation);
 		animation.setScaleText(scaleText);
@@ -339,7 +350,7 @@ class MainMenu extends UiElement implements MultiUi {
 			button.setColorRect(new Vec4f(0, 0, 0, 0.5));
 		}
 
-		mainMenu.addBind("Adding", addMenu);
+		mainMenu.addBind("Adding" + j, addMenu);
 	}
 
 	private void createNewEntity(Entity entity, TypeEntites type) {
@@ -379,6 +390,7 @@ class MainMenu extends UiElement implements MultiUi {
 	void removeEntity(Entity toRemove) {
 		Button buttonToRemove = entityToButton.remove(toRemove);
 		setMenu.removeElement(buttonToRemove);
+		mainMenu.reset();
 		current = mainMenu;
 		toRemove.detach();
 		editor.allEditable.remove(toRemove);
@@ -400,12 +412,12 @@ class MainMenu extends UiElement implements MultiUi {
 			}
 		});
 	}
-	
+
 	private void setSkyColorTop(Vec3f color) {
 		Sky sky = (Sky) arenaConstruction.getChild("sky");
 		sky.setColorTop(color);
 	}
-	
+
 	private void setSkyColorBottom(Vec3f color) {
 		Sky sky = (Sky) arenaConstruction.getChild("sky");
 		sky.setColorBot(color);
@@ -485,7 +497,7 @@ class MainMenu extends UiElement implements MultiUi {
 	public void update(double delta) {
 		super.update(delta);
 		current.update(delta);
-		if(ui_InputState == Ui_Input.COLOR_PICKER) {
+		if (ui_InputState == Ui_Input.COLOR_PICKER) {
 			colorPickerModification.make();
 		}
 		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 10);

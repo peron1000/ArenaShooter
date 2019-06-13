@@ -213,4 +213,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		}
 	}
 
+	public void reset() {
+		indexTarget = 0;
+	}
+
 }

@@ -2,6 +2,7 @@ package arenashooter.game.gameStates.editor;
 
 import java.util.function.Consumer;
 
+import arenashooter.engine.graphics.Light;
 import arenashooter.engine.ui.ColorPicker;
 import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MultiUi;
@@ -135,11 +136,13 @@ class EntityEditor extends UiElement implements MultiUi {
 			break;
 		case LIGHT:
 			LightContainer light = (LightContainer) entity;
+			ScrollerH<Light.LightType> lightType = new ScrollerH<>(Light.LightType.values());
+			lightType.setAlwaysScrollable(true);
 			Label radius = new Label("Radius : "+light.getLight().radius);
 			radius.setScale(labelScale);
 			menu.addLabelInfo(vList, radius);
 			Button setColorPicker = new Button("Change color"), setRadius = new Button("Set radius");
-			vList.addElements(setColorPicker , setRadius);
+			vList.addElements(setColorPicker , setRadius , lightType);
 			setColorPicker.setOnArm(new Trigger() {
 
 				@Override

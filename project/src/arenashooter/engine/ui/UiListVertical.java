@@ -27,6 +27,10 @@ public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<
 		list.add(element);
 	}
 	
+	public int getSize() {
+		return list.size();
+	}
+	
 	public void addElements(E... elements) {
 		for (E uiElement : elements) {
 			addElement(uiElement);
