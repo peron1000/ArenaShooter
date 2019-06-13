@@ -388,26 +388,44 @@ public class CharacterSprite extends Spatial {
 		}
 
 		if (moveSpeed > 0) {
-			footL.localPosition.set((float) ((mirrorLeftFoot ? -.5 : -.3) + footCos * .08),
+			
+			if(!mirrorLeftFoot) {
+			footL.localPosition.set((float) (-.3 + footCos * .08),
 					(float) (.65 + footSin * .16));
-
-			footR.localPosition.set((float) (.3 - footSin * .08), (float) (.65 + footCos * .16));
-
+			footL.localPosition.set((float) (-.3 + footCos * .08),
+					(float) (.65 + footSin * .16));
+			} else {
+				
+			}
+			if (lookRight) {
+				footL.zIndex = mirrorLeftFoot ? -1 : 1;
+				footR.zIndex = -1;
+			} else {
+				footL.zIndex = -1;
+				footR.zIndex = mirrorLeftFoot ? -1 : 1;
+			}
 		} else {
-			footL.localPosition.set((float) ((mirrorLeftFoot ? -.5 : .3) - footCos * .08), (float) (.65 + footSin * .16));
-
-			footR.localPosition.set((float) ((mirrorLeftFoot ? .5 : -.3) + footSin * .08),
+			if(!mirrorLeftFoot) {
+			footL.localPosition.set((float) (.3 - footCos * .08),
+					(float) (.65 + footSin * .16));
+			footR.localPosition.set((float) (-.3 + footSin * .08),
 					(float) (.65 + footCos * .16));
+			} else {
+				footL.localPosition.set((float) (-.3 + footCos * .08),
+						(float) (.70 + footSin * .16));
+				footL.localPosition.set((float) (-.3 + footCos * .08),
+						(float) (.70 + footSin * .16));
+			}
+
+			if (lookRight) {
+				footL.zIndex = -1;
+				footR.zIndex = mirrorLeftFoot ? -1 : 1;
+			} else {
+				footL.zIndex = mirrorLeftFoot ? -1 : 1;
+				footR.zIndex = -1;
+			}
 		}
 
-		if (lookRight) {
-			footL.zIndex = mirrorLeftFoot ? -1 : 1;
-			footR.zIndex = -1;
-		} else {
-			footL.zIndex = -1;
-			footR.zIndex = mirrorLeftFoot ? -1 : 1;
-		}
-		
 		// Body
 		double bodyH = Utils.lerpD(0, Math.sin(movementTime * 1d), Math.min(Math.abs(moveSpeed) / 3, 1));
 		body.localPosition.y = (float) (-.2 + bodyH * .032);

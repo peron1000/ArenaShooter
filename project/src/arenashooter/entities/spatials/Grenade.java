@@ -49,9 +49,6 @@ public class Grenade extends Projectile {
 			launched = true;
 			getBody().setLinearVelocity(vel);
 		}
-		
-		if (Math.abs(getWorldPos().x) > 1000 || Math.abs(getWorldPos().y) > 1000)
-			detach();
 
 		super.step(d);
 	}
