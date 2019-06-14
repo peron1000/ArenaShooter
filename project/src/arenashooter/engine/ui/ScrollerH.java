@@ -72,6 +72,11 @@ public class ScrollerH<E> extends UiActionable {
 	public void setBackgroundUnselect(UiImage background) {
 		this.backgroundUnselect = background;
 	}
+	
+	public void setBackgroundScale(double x , double y) {
+		backgroundSelect.setScale(x, y);
+		backgroundUnselect.setScale(x, y);
+	}
 
 	public void changeValueView(E value, String view) {
 		viewOfValue.put(value, view);

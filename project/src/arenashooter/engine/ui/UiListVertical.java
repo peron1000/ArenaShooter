@@ -27,10 +27,6 @@ public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<
 		list.add(element);
 	}
 	
-	public int getSize() {
-		return list.size();
-	}
-	
 	public void addElements(E... elements) {
 		for (E uiElement : elements) {
 			addElement(uiElement);
@@ -44,6 +40,18 @@ public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<
 		}
 	}
 	
+	public void replaceElement(E newElement , E oldElement) {
+		int index = list.indexOf(oldElement);
+		if(index != -1) {
+			list.set(index, newElement);
+			newElement.setPosition(oldElement.getPosition().x, oldElement.getPosition().y);
+		}
+	}
+	
+	public int getSize() {
+		return list.size();
+	}
+
 	public UiElement get(int i) {
 		return list.get(i);
 	}

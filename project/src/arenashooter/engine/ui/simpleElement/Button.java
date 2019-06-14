@@ -1,5 +1,7 @@
 package arenashooter.engine.ui.simpleElement;
 
+import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiActionable;
 
@@ -62,6 +64,10 @@ public class Button extends UiActionable {
 
 	public void setScaleRect(double x, double y) {
 		rect.setScale(x, y);
+	}
+	
+	public void setAlign(TextAlignH align) {
+		label.setAlignement(align);
 	}
 
 	@Override
@@ -127,10 +133,12 @@ public class Button extends UiActionable {
 
 	@Override
 	public void draw() {
+		//Window.stackScissor(getPosition().x-getScale().x/2, getPosition().y-getScale().y/2, getScale().x, getScale().y);
 		if (isVisible()) {
 			rect.draw();
 			label.draw();
 		}
+		//Window.popScissor();
 	}
 
 	@Override

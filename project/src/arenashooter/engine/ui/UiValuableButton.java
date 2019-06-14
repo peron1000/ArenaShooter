@@ -18,6 +18,10 @@ public class UiValuableButton<T> extends UiActionable {
 		value = defaultValue;
 	}
 	
+	public void setRectangleVisible(boolean visible) {
+		button.setRectangleVisible(visible);
+	}
+	
 	public void setScaleText(double square) {
 		button.setScaleText(square);
 	}
@@ -58,6 +62,12 @@ public class UiValuableButton<T> extends UiActionable {
 	public void setScale(double x, double y) {
 		button.setScale(x , y);
 		super.setScale(x , y);
+	}
+	
+	@Override
+	public boolean selectAction() {
+		arm();
+		return true;
 	}
 	
 	@Override

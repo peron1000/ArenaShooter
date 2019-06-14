@@ -14,6 +14,7 @@ import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiListVertical;
+import arenashooter.engine.ui.UiValuableButton;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
@@ -31,7 +32,6 @@ class EntityEditor extends UiElement implements MultiUi {
 	private Label entityNameLabel, parent;
 	private TabList<UiElement> menu = new TabList<>();
 	private Ui_Input uiInputState = Ui_Input.NOTHING;
-	private ScrollerH<TypeEntites> newChild = new ScrollerH<>(TypeEntites.values());
 	private ScrollerH<SetEditable> modification = new ScrollerH<>(SetEditable.values());
 	private TextInput textInput = new TextInput();
 	private DoubleInput doubleInput = new DoubleInput();
@@ -52,9 +52,12 @@ class EntityEditor extends UiElement implements MultiUi {
 		// Make Label for entity name and parent entity name
 		makeLabelsForEntity(entity);
 
+		ScrollerH<TypeEntites> newChild = new ScrollerH<>(TypeEntites.values());
 		newChild.setTitle("New Child");
 		newChild.setScale(5);
 		newChild.setAlwaysScrollable(true);
+		newChild.setBackgroundVisible(true);
+		newChild.setBackgroundScale(30, 5);
 		newChild.setOnArm(new Trigger() {
 
 			@Override
@@ -62,13 +65,16 @@ class EntityEditor extends UiElement implements MultiUi {
 				mainMenu.newEntity(entity, newChild.get());
 			}
 		});
-		UiListVertical<UiElement> vList = new UiListVertical<>();
-		vList.addElement(newChild);
 
 		modification.setAlwaysScrollable(true);
 		modification.setTitle("Setting");
 		modification.setScale(5);
-		vList.addElement(modification);
+		modification.setBackgroundVisible(true);
+		modification.setBackgroundScale(30, 5);
+
+		// add
+		UiListVertical<UiElement> vList = new UiListVertical<>();
+		vList.addElements(newChild, modification);
 
 		Button rename = new Button("Rename Entity");
 		rename.setOnArm(new Trigger() {
@@ -111,6 +117,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		switch (type) {
 		case RIGID:
 		case STATIC:
+			// TODO : shape
 			break;
 		case TEXT:
 			Button setText = new Button("Set Text");
@@ -138,6 +145,8 @@ class EntityEditor extends UiElement implements MultiUi {
 			break;
 		case LIGHT:
 			LightContainer light = (LightContainer) entity;
+
+			// Light type
 			ScrollerH<Light.LightType> lightType = new ScrollerH<>(Light.LightType.values());
 			lightType.setAlwaysScrollable(false);
 			lightType.setOnValidation(new Trigger() {
@@ -152,21 +161,29 @@ class EntityEditor extends UiElement implements MultiUi {
 			UiImage background = new UiImage(new Vec4f(0, 0, 0, 1));
 			background.setScale(30, 5);
 			lightType.setBackgroundUnselect(background);
-			Label radius = new Label("Radius : " + light.getLight().radius);
-			radius.setScale(labelScale);
-			menu.addLabelInfo(vList, radius);
-			Button setColorPicker = new Button("Change color"), setRadius = new Button("Set radius");
-			vList.addElements(setColorPicker, lightType , setRadius);
+
+			// light radius
+			Button setColorPicker = new Button("Change color");
+			UiValuableButton<Double> buttonRadius = new UiValuableButton<Double>("Radius",
+					(double) light.getLight().radius);
+			buttonRadius.setRectangleVisible(true);
+			buttonRadius.setColorRectangle(new Vec4f(0, 0, 0, 1));
+			buttonRadius.setScaleRectangle(30, 5);
+			buttonRadius.setScaleText(5);
+
+			// Add
+			vList.addElements(setColorPicker, lightType, buttonRadius);
+
+			// Triggers
 			lightType.setOnValidation(new Trigger() {
 
 				@Override
 				public void make() {
 					light.getLight().setType(lightType.get());
-					radius.setText("Radius : " + light.getLight().radius);
-					if(lightType.get() == LightType.DIRECTIONAL) {
-						vList.removeElement(setRadius);
-					} else if(!vList.contain(setRadius)) {
-						vList.addElement(setRadius);
+					if (lightType.get() == LightType.DIRECTIONAL) {
+						vList.removeElement(buttonRadius);
+					} else if (!vList.contain(buttonRadius)) {
+						vList.addElement(buttonRadius);
 					}
 				}
 			});
@@ -193,21 +210,23 @@ class EntityEditor extends UiElement implements MultiUi {
 					};
 				}
 			});
-			setRadius.setOnArm(new Trigger() {
+			buttonRadius.setOnArm(new Trigger() {
 
 				@Override
 				public void make() {
 					uiInputState = Ui_Input.DOUBLE;
-					vList.addElement(doubleInput);
+					// vList.addElement(doubleInput);
+					vList.replaceElement(doubleInput, buttonRadius);
 					doubleInput.reset();
 					doubleInput.setOnFinish(new Trigger() {
 
 						@Override
 						public void make() {
 							uiInputState = Ui_Input.NOTHING;
-							vList.removeElement(doubleInput);
+							// vList.removeElement(doubleInput);
+							vList.replaceElement(buttonRadius, doubleInput);
 							light.getLight().radius = (float) doubleInput.getDouble();
-							radius.setText("Radius : " + light.getLight().radius);
+							buttonRadius.setValue(doubleInput.getDouble());
 						}
 					});
 					doubleInput.setOnCancel(new Trigger() {
@@ -215,7 +234,8 @@ class EntityEditor extends UiElement implements MultiUi {
 						@Override
 						public void make() {
 							uiInputState = Ui_Input.NOTHING;
-							vList.removeElement(doubleInput);
+							// vList.removeElement(doubleInput);
+							vList.replaceElement(buttonRadius, doubleInput);
 						}
 					});
 				}
@@ -393,6 +413,7 @@ class EntityEditor extends UiElement implements MultiUi {
 			break;
 		case DOUBLE:
 			doubleInput.draw();
+			break;
 		default:
 			UiImage.selector.draw();
 			break;
