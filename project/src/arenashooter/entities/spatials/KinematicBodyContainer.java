@@ -52,7 +52,7 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 		if(currentAnim != null) {
 			//TODO: Add rotation
 			currentAnim.step(d);
-			if(currentAnim.hasTrackVec2f("position")) {
+			if(currentAnim.hasTrackVec2f("pos")) {
 				Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), currentAnim.getTrackVec2f("pos")));
 				double distance = Vec2f.distance(getWorldPos(), currentAnim.getTrackVec2f("pos"));
 				body.setLinearVelocity(direction.multiply((float) (distance/d)));

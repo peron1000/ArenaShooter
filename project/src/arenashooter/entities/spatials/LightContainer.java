@@ -64,11 +64,11 @@ public class LightContainer extends Spatial3 implements IAnimated {
 		if(anim != null) {
 			anim.step(d);
 			
-			if(anim.hasTrackVec3f("position"))
-				localPosition.set( anim.getTrackVec3f("position") );
+			if(anim.hasTrackVec3f("pos"))
+				localPosition.set( anim.getTrackVec3f("pos") );
 			
-			if(anim.hasTrackVec3f("rotation"))
-				Quat.fromEuler( anim.getTrackVec3f("rotation"), localRotation );
+			if(anim.hasTrackVec3f("rot"))
+				Quat.fromEuler( anim.getTrackVec3f("rot"), localRotation );
 			
 			if(anim.hasTrackD("radius"))
 				light.radius = (float) anim.getTrackD("radius");
