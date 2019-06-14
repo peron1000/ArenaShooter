@@ -114,6 +114,13 @@ public class Spawner extends Spatial {
 		return !currentItem.getWorldPos().equals(getWorldPos(), 1f);
 	}
 	
+	/**
+	 * Get a map of item names linked to their spawn probability
+	 */
+	public Map<String, Integer> getAvailableItems() {
+		return availableItems;
+	}
+	
 	@Override
 	public void editorAddPosition(Vec2f position) {
 		editorView.localPosition.add(position);
