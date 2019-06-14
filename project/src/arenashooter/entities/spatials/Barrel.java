@@ -16,14 +16,14 @@ public class Barrel extends RigidBodyContainer {
 	private float damage = 75;
 	private double health = 5;
 	private Mesh barrelMesh;
-	private Timer detonTimer = new Timer(0.25);
+	private Timer detonTimer = new Timer(4.25);
 	private Entity instigator;
 	private double timeSinceLastSpark = 0;
 
 	public Barrel(Vec2f position) {
 		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), position, 0, CollisionFlags.RIGIDBODY, 8, 1));
 
-		barrelMesh = new Mesh(new Vec3f(position.x, position.y, 0), "data/crate/barrel_grey.obj");
+		barrelMesh = new Mesh(new Vec3f(position.x, position.y, 0), "data/meshes/barrels/barrel_01.obj");
 		barrelMesh.attachToParent(this, "Barrel_Mesh");
 
 		detonTimer.attachToParent(this, "Detonation_Timer");
@@ -58,6 +58,8 @@ public class Barrel extends RigidBodyContainer {
 		Explosion explosion = new Explosion(getWorldPos(),
 				new DamageInfo(damage, DamageType.EXPLOSION, new Vec2f(), 5f, instigator), 10);
 		explosion.attachToParent(getArena(), explosion.genName());
+		Particles particles = new Particles(getWorldPos(), "data/particles/fire_sparkles.xml");
+		particles.attachToParent(getArena(), "fire_particles" + genName());
 		detach();
 	}
 
@@ -66,10 +68,10 @@ public class Barrel extends RigidBodyContainer {
 			detonate();
 		} else if(detonTimer.isProcessing()) {
 			timeSinceLastSpark += d;
-			for(int i = 0 ; i < timeSinceLastSpark/0.1 ; i++) {//new Particle every 0.1s
+			for(int i = 0 ; timeSinceLastSpark>=0.1 && i < timeSinceLastSpark/0.1 ; i++) {//new Particle every 0.1s
 				Particles particles = new Particles(getWorldPos(), "data/particles/fire_sparkles.xml");
 				particles.attachToParent(getArena(), "fire_particles" + genName());
-				Audio.playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(1 + detonTimer.getValueRatio()), localPosition);
+				Audio.playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(.1 + detonTimer.getValueRatio()), localPosition);
 			}
 			timeSinceLastSpark %= 0.1;
 		}

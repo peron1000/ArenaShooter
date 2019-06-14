@@ -104,7 +104,7 @@
 			<vector use="color" x="1" y="1" z="0.99" />
 			<vector use="rotation" x="-.2" y="-.8" z="0" />
 		</directionalLight>
-		<spawn playerSpawn="false" cooldown="2">
+		<spawn playerSpawn="true" cooldown="2">
 			<vector x="-7" y="1" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
@@ -122,7 +122,7 @@
 			</entities>
 		</spawn>
 
-		<spawn playerSpawn="false" cooldown="2">
+		<spawn playerSpawn="true" cooldown="2">
 			<vector x="7" y="1" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
@@ -140,7 +140,7 @@
 			</entities>
 		</spawn>
 
-		<spawn playerSpawn="false" cooldown="5">
+		<spawn playerSpawn="true" cooldown="5">
 			<vector x="0" y="-10" use="position" />
 			<itemRef item="minigun" proba="1" />
 			<itemRef item="assault" proba="1" />
