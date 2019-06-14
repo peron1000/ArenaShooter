@@ -63,6 +63,10 @@ public abstract class UiElement implements Navigable, NoStatic {
 	public Vec2f getPosition() {
 		return pos;
 	}
+	
+	public void setPosition(Vec2f position) {
+		setPosition(position.x, position.y);
+	}
 
 	public void setPosition(double x , double y) {
 		pos.set(x, y);
@@ -86,6 +90,10 @@ public abstract class UiElement implements Navigable, NoStatic {
 		return scale;
 	}
 
+	public void setScale(Vec2f scale) {
+		setScale(scale.x, scale.y);
+	}
+	
 	public void setScale(double x , double y) {
 		scale.set(x , y);
 		reScale.set(x , y);
