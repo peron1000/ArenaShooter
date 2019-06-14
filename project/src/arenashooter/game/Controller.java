@@ -81,8 +81,8 @@ public abstract class Controller {
 				((Character) deathCause.instigator).controller.kills++;
 			}
 		}
-		if (GameMaster.current instanceof Game) {
-			((Game) GameMaster.current).characterDeath(this, character);
+		if (GameMaster.getCurrent() instanceof Game) {
+			((Game) GameMaster.getCurrent()).characterDeath(this, character);
 		}
 		character.controller = null;
 		character = null;

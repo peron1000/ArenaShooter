@@ -2,7 +2,6 @@ package arenashooter.game.gameStates;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import arenashooter.engine.events.EventListener;
@@ -26,41 +25,16 @@ public class Config extends GameState {
 	private UiGridWeak menu = new UiGridWeak();
 	private UiImage background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png")),
 			selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
-	private ArrayList<File> maps = new ArrayList<>();
 	private InputListener inputs = new InputListener();
 	private ScrollerH<Integer> rounds;
 
 	public Config() {
 		super(1);
-		background.setScale(180, 100);
-
-		UiListVertical<UiElement> vlist = new UiListVertical<>();
-		Integer[] roundsValues = { 1, 2, 3, 4, 5, 10, 15, 20, 25, -1 };
-		rounds = new ScrollerH<>(roundsValues);
-		rounds.setTitle("Round(s)");
-		rounds.changeValueView(Integer.valueOf(-1), "\u221E");
-		rounds.setBackgroundVisible(true);
-		rounds.setBackgroundChange(true);
-		UiImage bgU = new UiImage(0, 0, 0, 1), bgS = new UiImage(0.8, 0.8, 0.5, 1);
-		rounds.setBackgroundUnselect(bgU);
-		rounds.setBackgroundSelect(bgS);
-		rounds.setSelectColor(0, 0, 0, 1);
-		rounds.setOnValidation(new Trigger() {
-
-			@Override
-			public void make() {
-				gameParam.setNbRound(rounds.get());
-			}
-		});
-		vlist.addElement(rounds);
-		vlist.setPosition(-60, -40);
-
-		bgU.setScale(40, 10);
-		bgS.setScale(40, 10);
-
-		menu.addListVertical(vlist);
-
-		selector.setScale(55, 20);
+		gameParam = new GameParam();
+		GameParam.maps.clear();
+		ui();
+		fileArena();
+		
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
@@ -117,20 +91,52 @@ public class Config extends GameState {
 		});
 	}
 
-	@Override
-	public void init() {
-		gameParam = new GameParam();
-		GameParam.maps.clear();
-
+	private void fileArena() {
 		File mapFolder = new File("data/mapXML");
 		File[] folderContent = mapFolder.listFiles();
 		for (int i = 0; i < folderContent.length; i++) {
 			if (folderContent[i].getName().endsWith(".xml") && !folderContent[i].getName().startsWith("menu_")) {
-				maps.add(folderContent[i]);
+				Loading.loadTexture.put(folderContent[i], Texture.default_tex);
 			}
 		}
+	}
 
-		Collections.sort(maps);
+	private void ui() {
+		background.setScale(180, 100);
+
+		UiListVertical<UiElement> vlist = new UiListVertical<>();
+		Integer[] roundsValues = { 1, 2, 3, 4, 5, 10, 15, 20, 25, -1 };
+		rounds = new ScrollerH<>(roundsValues);
+		rounds.setTitle("Round(s)");
+		rounds.changeValueView(Integer.valueOf(-1), "\u221E");
+		rounds.setBackgroundVisible(true);
+		rounds.setBackgroundChange(true);
+		UiImage bgU = new UiImage(0, 0, 0, 1), bgS = new UiImage(0.8, 0.8, 0.5, 1);
+		rounds.setBackgroundUnselect(bgU);
+		rounds.setBackgroundSelect(bgS);
+		rounds.setSelectColor(0, 0, 0, 1);
+		rounds.setOnValidation(new Trigger() {
+
+			@Override
+			public void make() {
+				gameParam.setNbRound(rounds.get());
+			}
+		});
+		vlist.addElement(rounds);
+		vlist.setPosition(-60, -40);
+
+		bgU.setScale(40, 10);
+		bgS.setScale(40, 10);
+
+		menu.addListVertical(vlist);
+
+		selector.setScale(55, 20);
+	}
+
+	@Override
+	public void init() {
+
+		ArrayList<File> maps = new ArrayList<>(Loading.loadTexture.keySet());
 		maps.sort(new Comparator<File>() {
 			@Override
 			public int compare(File o1, File o2) {
@@ -151,9 +157,7 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			Texture image = Texture.loadTexture(
-					"data/MAP_VIS/" + file.getName().substring(0, file.getName().lastIndexOf('.')) + ".png");
-			UiImage picture = new UiImage(image);
+			UiImage picture = new UiImage(Loading.loadTexture.get(file));
 			double scale = 4.5;
 			picture.addToScale(-scale);
 			everyList.get(i % nbElemH).addElement(picture);

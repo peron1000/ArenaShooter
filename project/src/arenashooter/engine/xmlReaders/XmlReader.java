@@ -18,7 +18,7 @@ import arenashooter.engine.math.Quat;
 public abstract class XmlReader {
 	private final static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	
-	protected static final Logger log = LogManager.getLogger("Xml");
+	public static final Logger log = LogManager.getLogger("Xml");
 
 	// document
 	private static DocumentBuilder builder = null;
@@ -66,7 +66,7 @@ public abstract class XmlReader {
 	 * @param element
 	 * @return
 	 */
-	protected static Quat readRotation(Element element) {
+	public static Quat readRotation(Element element) {
 		double x = 0, y = 0, z = 0, w = 0;
 		if(element.hasAttribute("x")) {
 			x = Double.parseDouble(element.getAttribute("x"));

@@ -10,6 +10,7 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
+import arenashooter.engine.ui.Trigger;
 import arenashooter.entities.Arena;
 import arenashooter.game.gameStates.CharacterChooser;
 import arenashooter.game.gameStates.Game;
@@ -24,15 +25,17 @@ public class GameMaster {
 
 	public ArrayList<Controller> controllers = new ArrayList<>();
 
-	Stack<GameState> stateStack = new Stack<>();
-	public static GameState current = new Start();
+	private Stack<GameState> stateStack = new Stack<>();
+	private static GameState current = new Start();
 
 	public static final GameMaster gm = new GameMaster();
 
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
 	public static final String mapCharChooser = "data/mapXML/menu_character_chooser.xml";
 	
-	InputListener inputs = new InputListener();
+	private static Loading loading = Loading.loading;
+	
+	private InputListener inputs = new InputListener();
 
 	private GameMaster() {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
@@ -45,26 +48,42 @@ public class GameMaster {
 			}
 		});
 	}
+	
+	public static GameState getCurrent() {
+		return current;
+	}
 
-	@SuppressWarnings("unchecked")
 	public void requestNextState(GameState nextState, String... nextStateMap) {
-
-		if (current == Loading.loading) { // Loading
-			current = Loading.loading.getNextState();
-		} else {
-			if (current instanceof Start) { // Start
-			} else if (current instanceof Intro) { // Intro movie
-			} else if (current instanceof CharacterChooser) { // Character chooser
-			} else if(current instanceof Config) {
-			} else if(current instanceof Game) {
-			} else if(current instanceof Score) {
-				goBackTo((Class<GameState>) nextState.getClass());
+		loading.init();
+		
+		current = loading;
+		loading.setOnFinish(new Trigger() {
+			
+			@Override
+			public void make() {
+				current = nextState;
+				current.init();
 			}
-			stateStack.push(current);
-			current = Loading.loading;
-			current.init();
-			Loading.loading.setNextState(nextState, nextStateMap);
-		}
+		});
+		
+		loading.setNextState(nextState, nextStateMap);
+
+//		if (current == Loading.loading) { // Loading
+//			current = Loading.loading.getNextState();
+//		} else {
+//			if (current instanceof Start) { // Start
+//			} else if (current instanceof Intro) { // Intro movie
+//			} else if (current instanceof CharacterChooser) { // Character chooser
+//			} else if(current instanceof Config) {
+//			} else if(current instanceof Game) {
+//			} else if(current instanceof Score) {
+//				goBackTo((Class<GameState>) nextState.getClass());
+//			}
+//			stateStack.push(current);
+//			current = Loading.loading;
+//			current.init();
+//			Loading.loading.setNextState(nextState, nextStateMap);
+//		}
 	}
 
 	public void requestPreviousState() {

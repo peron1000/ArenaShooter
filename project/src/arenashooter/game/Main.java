@@ -8,61 +8,65 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
+import arenashooter.game.gameStates.Loading;
 
 public class Main {
 	private static final int minFrametimeMilli = 8;
-	
+
 	public static final String version = "0.0.1";
-	
-	/** Maximum duration of a step, longer steps will be broken down into sub-steps */
-	private static double tickLength = 1/150d;
-	
+
+	/**
+	 * Maximum duration of a step, longer steps will be broken down into sub-steps
+	 */
+	private static double tickLength = 1 / 150d;
+
 	public static boolean drawCollisions = false;
-	
+
 	private static GameMaster gameMaster;
-	
+
 	public static Font font = null;
-	
+
 	public static final Logger log = LogManager.getLogger("Main");
-	
+
 	private static boolean requestclose = false;
-	
+
 	public static void main(String[] args) {
-		log.info("Starting Super Blep version "+version);
-		
+		log.info("Starting Super Blep version " + version);
+
 		ConfigManager.init();
 		Audio.init();
-		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), "Super Blep");
-		
+		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"),
+				"Super Blep");
+
 		gameMaster = GameMaster.gm;
-		
+
 		font = Font.loadFont("data/fonts/liberation_sans.fnt");
-		
+
 		ConfigManager.applyAllSettings();
-		
+
 		long currentFrame;
-		long lastFrame = System.currentTimeMillis()-8;
-		
+		long lastFrame = System.currentTimeMillis() - 8;
+
 		int fpsFrames = 0;
 		long fpsTime = lastFrame;
-		
+
 		double remaining = 0;
-		
-		while( !Window.requestClose() && !requestclose) {
-			
+
+		while (!Window.requestClose() && !requestclose) {
+
 			currentFrame = System.currentTimeMillis();
-			
-			//Limit delta to avoid errors
+
+			// Limit delta to avoid errors
 //			double delta = Math.max(tickLength, (double)(currentFrame-lastFrame)/1000d);
 //			double delta = Utils.clampD((double)(currentFrame-lastFrame)/1000, tickLength, .17);
-			remaining += Math.min( (double)(currentFrame-lastFrame)/1000d, .17 );
-			
+			remaining += Math.min((double) (currentFrame - lastFrame) / 1000d, .17);
+
 			Profiler.beginFrame();
-			
-			//If delta is too high, break down step into sub-steps
+
+			// If delta is too high, break down step into sub-steps
 			Profiler.startTimer(Profiler.STEP);
 
-			while(remaining > tickLength) {
+			while (remaining > tickLength) {
 				Window.beginFrame();
 				gameMaster.update(tickLength);
 				Profiler.subSteps++;
@@ -74,46 +78,48 @@ public class Main {
 //				Profiler.subSteps++;
 //			}
 			Profiler.endTimer(Profiler.STEP);
-			
+
 			Profiler.startTimer(Profiler.RENDER);
 			gameMaster.draw();
-			
+			if (Loading.isLoading()) {
+				Loading.loadingStep();
+			}
+
 			Window.endFrame();
 			Profiler.endTimer(Profiler.RENDER);
-			
+
 			Audio.update();
-			
-			//FPS counter
+
+			// FPS counter
 			fpsFrames++;
-			if(fpsFrames >= 10 && (currentFrame-fpsTime)>=250 ) {
-				double time = ((double)(currentFrame-fpsTime))/fpsFrames;
-				Window.setTitle( "Super Blep - " + (int)(1/(time/1000d)) + "fps" );
+			if (fpsFrames >= 10 && (currentFrame - fpsTime) >= 250) {
+				double time = ((double) (currentFrame - fpsTime)) / fpsFrames;
+				Window.setTitle("Super Blep - " + (int) (1 / (time / 1000d)) + "fps");
 				fpsTime = currentFrame;
 				fpsFrames = 0;
 			}
-			
+
 			Profiler.startTimer(Profiler.SLEEP);
-			//Limit framerate
-			if(currentFrame-lastFrame < minFrametimeMilli)
+			// Limit framerate
+			if (currentFrame - lastFrame < minFrametimeMilli)
 				try {
-					Thread.sleep( minFrametimeMilli-(currentFrame-lastFrame) );
+					Thread.sleep(minFrametimeMilli - (currentFrame - lastFrame));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			lastFrame = currentFrame;
-			
+
 			Profiler.endTimer(Profiler.SLEEP);
 			Profiler.printData();
 		}
-		
+
 		Window.destroy();
 		Audio.destroy();
-		
+
 		log.info("Closing Super Blep...");
 	}
-	
 
-	public static void reqestClose(){
+	public static void reqestClose() {
 		requestclose = true;
 	}
 

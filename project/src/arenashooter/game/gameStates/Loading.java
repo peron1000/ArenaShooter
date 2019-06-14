@@ -1,13 +1,18 @@
 package arenashooter.game.gameStates;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import arenashooter.engine.graphics.PostProcess;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.xmlReaders.MapXmlReader;
+import arenashooter.engine.ui.Trigger;
+import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
@@ -17,43 +22,102 @@ import arenashooter.game.ControllerPlayer;
 import arenashooter.game.GameMaster;
 
 public class Loading extends GameState {
-	public static final Loading loading = new Loading();
+	private static GameState next = new Start();
 
-	private GameState next;
+	private static MapXmlReader mapXmlReader;
 
-	private MapXmlReader mapXmlReader;
+	private static boolean isLoading = false;
 
-	private Loading() { 
+	public static Loading loading = new Loading();
+
+	private static String[] toLoad;
+	public static HashMap<File, Texture> loadTexture = new HashMap<>();
+	private static Iterator<File> iterator = loadTexture.keySet().iterator();
+	private static int indexLoading = 0;
+	private static boolean firstStep = true;
+
+	private static Trigger onFinish = new Trigger() {
+
+		@Override
+		public void make() {
+			// Nothing by default
+		}
+	};
+
+	private Loading() {
 		super(1);
+	}
+
+	public static boolean isLoading() {
+		return isLoading;
+	}
+
+	public static void loadingStep() {
+		if(firstStep) {
+			firstStep = false;
+			newMapXmlReader();
+		} else {
+			boolean finish = mapXmlReader.loadNextEntity();
+	
+			if (finish) {
+				if (indexLoading < toLoad.length) {
+					newMapXmlReader();
+				} else if (iterator.hasNext()) {
+					File file = iterator.next();
+					Texture texture = Texture.loadTexture(
+							"data/MAP_VIS/" + file.getName().substring(0, file.getName().lastIndexOf('.')) + ".png");
+					loadTexture.put(file, texture);
+				} else {
+					onFinish.make();
+					loadTexture.clear();
+					indexLoading = 0;
+					isLoading = false;
+				}
+			}
+		}
+	
+	}
+
+	private static void newMapXmlReader() {
+		mapXmlReader = new MapXmlReader(toLoad[indexLoading]);
+		mapXmlReader.load(next.maps[indexLoading]);
+		indexLoading++;
+	}
+
+	public void setOnFinish(Trigger t) {
+		onFinish = t;
 	}
 
 	public void init() {
 		current = new Arena();
+		indexLoading = 0;
+		iterator = loadTexture.keySet().iterator();
+		firstStep = true;
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
 
 		ArrayList<Entity> entities = new ArrayList<>();
 
-		//Camera
+		// Camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
 		entities.add(cam);
 		Window.setCamera(cam);
 
 		List<ControllerPlayer> players = GameMaster.gm.getPlayerControllers();
-		
+
 		float startX = -(players.size() * 1.28f) / 2f;
 		int i = 0;
 		for (ControllerPlayer c : players) {
 			float x = startX + (1.28f * i);
 
 			CharacterSprite sprite = new CharacterSprite(c.info);
-			sprite.localPosition.set( x, -.52 );
+			sprite.localPosition.set(x, -.52);
 			entities.add(sprite);
 			entities.add(new LoadingFloor(new Vec2f(x, .9)));
 			i++;
 		}
-		
+
 		if (players.size() == 0) // No controllers, just place a floor
 			entities.add(new LoadingFloor(new Vec2f(0, .9)));
 
@@ -68,41 +132,33 @@ public class Loading extends GameState {
 	 * @param mapPath list of maps to load
 	 */
 	public void setNextState(GameState next, String... mapPath) {
-		if(mapPath.length < next.maps.length) {
+		isLoading = true;
+		if (mapPath.length < next.maps.length) {
 			Exception e = new Exception("Not enough map Path given");
 			e.printStackTrace();
-			for (int i = 0; i < next.maps.length; i++) {
-				if(i < mapPath.length) {
-					mapXmlReader = new MapXmlReader(mapPath[i]);
+			toLoad = new String[next.maps.length];
+			for (int i = 0; i < toLoad.length; i++) {
+				if (i < mapPath.length) {
+					toLoad[i] = mapPath[i];
 				} else {
-					mapXmlReader = new MapXmlReader(mapPath[mapPath.length-1]);
+					toLoad[i] = mapPath[mapPath.length - 1];
 				}
-				mapXmlReader.load(next.maps[i]);
 			}
 		} else {
-			for (int i = 0; i < next.maps.length; i++) {
-				String string = mapPath[i];
-				mapXmlReader = new MapXmlReader(string);
-				mapXmlReader.load(next.maps[i]);
-			}
+			toLoad = mapPath;
 		}
-		this.next = next;
-	}
-
-	public GameState getNextState() {
-		return next;
+		Loading.next = next;
+		indexLoading = 0;
 	}
 
 	@Override
 	public void update(double delta) {
 		current.step(delta);
-		if(mapXmlReader.isDone()) {
-			stopLoading();
-		}
 	}
-	
-	public void stopLoading() {
-		next.init();
-		GameMaster.gm.requestNextState(next,"data/mapXML/menu_empty.xml");
+
+	@Override
+	public void draw() {
+		super.draw();
 	}
+
 }

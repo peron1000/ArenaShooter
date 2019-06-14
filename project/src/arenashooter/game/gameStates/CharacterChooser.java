@@ -123,7 +123,8 @@ public class CharacterChooser extends GameState {
 						for (int i = 0; i < variable.length; i++) {
 							chosenMaps[i] = (String) variable[i];
 						}
-						GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), chosenMaps);
+						Game game = new Game(GameParam.maps.size());
+						GameMaster.gm.requestNextState(game, GameParam.mapsString());
 						break;
 
 					case UI_OK:
