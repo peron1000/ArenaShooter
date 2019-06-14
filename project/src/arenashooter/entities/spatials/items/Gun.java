@@ -16,6 +16,104 @@ import arenashooter.entities.spatials.SoundEffect;
 import arenashooter.entities.spatials.StarBullet;
 
 public class Gun extends Usable {
+	/**
+	 * @return the recoil
+	 */
+	public float getRecoil() {
+		return recoil;
+	}
+
+	/**
+	 * @return the thrust
+	 */
+	public float getThrust() {
+		return thrust;
+	}
+
+	/**
+	 * @return the cannonLength
+	 */
+	public double getCannonLength() {
+		return cannonLength;
+	}
+
+	/**
+	 * @return the bulletType
+	 */
+	public int getBulletType() {
+		return bulletType;
+	}
+
+	/**
+	 * @return the bulletSpeed
+	 */
+	public float getBulletSpeed() {
+		return bulletSpeed;
+	}
+
+	/**
+	 * @return the damage
+	 */
+	public float getDamage() {
+		return damage;
+	}
+
+	/**
+	 * @return the warmupDuration
+	 */
+	public double getWarmupDuration() {
+		return warmupDuration;
+	}
+
+	/**
+	 * @return the soundNoAmmo
+	 */
+	public String getSoundNoAmmo() {
+		return soundNoAmmo;
+	}
+
+	/**
+	 * @return the size
+	 */
+	public double getSize() {
+		return size;
+	}
+
+	/**
+	 * @return the timerCooldown
+	 */
+	public Timer getTimerCooldown() {
+		return timerCooldown;
+	}
+
+	/**
+	 * @return the sndWarmup
+	 */
+	public SoundEffect getSndWarmup() {
+		return sndWarmup;
+	}
+
+	/**
+	 * @return the sndChargeVol
+	 */
+	public float getSndChargeVol() {
+		return sndChargeVol;
+	}
+
+	/**
+	 * @return the sndChargePitch
+	 */
+	public float getSndChargePitch() {
+		return sndChargePitch;
+	}
+
+	/**
+	 * @return the nbAmmo
+	 */
+	public int getNbAmmo() {
+		return nbAmmo;
+	}
+
 	protected float recoil = 0.4f;// High
 	protected float thrust = 0;//
 	protected double cannonLength = 1.0;

@@ -29,6 +29,49 @@ public class Usable extends Item {
 		this.soundFire = soundFire;
 	}
 
+
+	/**
+	 * @return the fireRate
+	 */
+	public double getFireRate() {
+		return fireRate;
+	}
+
+	/**
+	 * @return the uses
+	 */
+	public int getUses() {
+		return uses;
+	}
+
+	/**
+	 * @return the animPath
+	 */
+	public String getAnimPath() {
+		return animPath;
+	}
+
+	/**
+	 * @return the warmup
+	 */
+	public double getWarmup() {
+		return warmup;
+	}
+
+	/**
+	 * @return the soundWarmup
+	 */
+	public String getSoundWarmup() {
+		return soundWarmup;
+	}
+
+	/**
+	 * @return the soundFire
+	 */
+	public String getSoundFire() {
+		return soundFire;
+	}
+
 	public void attackStart() {
 		timerCooldown.setIncreasing(true);
 		timerCooldown.setProcessing(true);

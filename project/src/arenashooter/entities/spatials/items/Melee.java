@@ -20,6 +20,19 @@ public class Melee extends Usable {
 	protected Timer fireRate = null;
 	protected float damage = 10f;
 
+	/**
+	 * @return the damage
+	 */
+	public float getDamage() {
+		return damage;
+	}
+
+	/**
+	 * @return the animMelee
+	 */
+	public AnimMelee getAnimMelee() {
+		return animMelee;
+	}
 	protected AnimMelee animMelee = null;
 
 	protected Timer timerWarmup = null;
@@ -31,13 +44,14 @@ public class Melee extends Usable {
 	private Vec2f lastBladeBot, lastBladeTop;
 	private boolean dealingDamage = false;
 	private float bladeRayFraction = 1;
+	private double size = 0;
 	
 	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage, double size) {
 		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
-		
+		this.size = size;
 		this.animMelee = new AnimMelee(new Vec2f(), this);
 
 		getSprite().attachRot = true;
@@ -48,6 +62,13 @@ public class Melee extends Usable {
 		bladeTop = new Spatial();
 		bladeTop.attachToParent(getSprite(), "blade_top");
 		bladeTop.localPosition.set(.5, 0);
+	}
+
+	/**
+	 * @return the size
+	 */
+	public double getSize() {
+		return size;
 	}
 
 	@Override

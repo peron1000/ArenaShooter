@@ -51,10 +51,8 @@ public abstract class Item extends Spatial {
 	/**
 	 * Attach this item to a new parent and update its eqipped status
 	 * 
-	 * @param newParent
-	 *            new parent Entity
-	 * @param name
-	 *            used as a key in parent's children
+	 * @param newParent new parent Entity
+	 * @param name      used as a key in parent's children
 	 * @return previous child of the new parent using that name
 	 */
 	@Override
@@ -75,6 +73,20 @@ public abstract class Item extends Spatial {
 		isEquipped = false;
 		updateRigidBodyState();
 		super.detach();
+	}
+
+	/**
+	 * @return the weight
+	 */
+	public double getWeight() {
+		return weight;
+	}
+
+	/**
+	 * @return the pathSprite
+	 */
+	public String getPathSprite() {
+		return pathSprite;
 	}
 
 	/**

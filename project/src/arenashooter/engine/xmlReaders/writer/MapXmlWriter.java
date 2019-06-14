@@ -187,11 +187,11 @@ public class MapXmlWriter {
 
 					Mesh meu = ((Mesh) entry.getValue());
 
-					if (meu.modelPath == null)
+					if (meu.getModelPath() == null)
 						continue;
 					Element mesh12 = doc.createElement("mesh");
 					entities.appendChild(mesh12);
-					mesh12.setAttribute("src", meu.modelPath);
+					mesh12.setAttribute("src", meu.getModelPath());
 					Element vector12 = doc.createElement("vector");
 					Element vector22 = doc.createElement("vector");
 					Element vector32 = doc.createElement("vector");
@@ -424,9 +424,9 @@ public class MapXmlWriter {
 					Element mesh12 = doc.createElement("mesh");
 					elem.appendChild(mesh12);
 					Mesh meu = ((Mesh) entry.getValue());
-					if (((Mesh) meu).modelPath == null)
+					if (((Mesh) meu).getModelPath() == null)
 						continue;
-					mesh12.setAttribute("src", meu.modelPath);
+					mesh12.setAttribute("src", meu.getModelPath());
 					Element vector12 = doc.createElement("vector");
 					Element vector22 = doc.createElement("vector");
 					Element vector32 = doc.createElement("vector");
@@ -457,12 +457,12 @@ public class MapXmlWriter {
 
 					for (Entry<String, Entity> mesh : entry.getValue().getChildren().entrySet()) {
 						if (mesh.getValue() instanceof Mesh) {
-							if (((Mesh) mesh.getValue()).modelPath == null)
+							if (((Mesh) mesh.getValue()).getModelPath() == null)
 								continue;
 							Element mesh12 = doc.createElement("mesh");
 							entities34.appendChild(mesh12);
 							Mesh meu = ((Mesh) mesh.getValue());
-							mesh12.setAttribute("src", meu.modelPath);
+							mesh12.setAttribute("src", meu.getModelPath());
 							Element vector12 = doc.createElement("vector");
 							Element vector22 = doc.createElement("vector");
 							Element vector32 = doc.createElement("vector");
@@ -497,12 +497,12 @@ public class MapXmlWriter {
 					for (Entry<String, Entity> mesh : entry.getValue().getChildren().entrySet()) {
 						if (mesh.getValue() instanceof Mesh) {
 //					MeshXml s = new MeshXml(doc, entities);
-							if (((Mesh) mesh.getValue()).modelPath == null)
+							if (((Mesh) mesh.getValue()).getModelPath() == null)
 								continue;
 							Element mesh12 = doc.createElement("mesh");
 							entities34.appendChild(mesh12);
 							Mesh meu = ((Mesh) mesh.getValue());
-							mesh12.setAttribute("src", meu.modelPath);
+							mesh12.setAttribute("src", meu.getModelPath());
 							Element vector12 = doc.createElement("vector");
 							Element vector22 = doc.createElement("vector");
 							Element vector32 = doc.createElement("vector");

@@ -14,6 +14,8 @@ public class Mesh extends Spatial3 {
 
 	private Model[] models;
 	private Material[] materials;
+	
+	private String modelPath = null;
 
 	/** Does this sprite require transparency */
 	public boolean useTransparency = false;
@@ -30,10 +32,19 @@ public class Mesh extends Spatial3 {
 		this(localPosition, localRotation, new Vec3f(1, 1, 1), modelPath);
 	}
 
+	/**
+	 * @return the modelPath
+	 */
+	public String getModelPath() {
+		return modelPath;
+	}
+
 	public Mesh(Vec3f localPosition, Quat localRotation, Vec3f scale, String modelPath) {
 		super(localPosition, localRotation);
 
 		this.scale = scale.clone();
+		
+		this.modelPath = modelPath;
 
 		ModelsData data = ModelsData.loadModel(modelPath);
 
