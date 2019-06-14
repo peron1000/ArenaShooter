@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
@@ -9,11 +11,13 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 
-public class LightContainer extends Spatial3 {
+public class LightContainer extends Spatial3 implements IAnimated {
 	private final Light light;
 	
 	private Mesh editorSprite;
 	private Material editorSpriteMat;
+	
+	private Animation anim;
 
 	public LightContainer(Vec3f localPosition, Light light) {
 		super(localPosition);
@@ -55,6 +59,28 @@ public class LightContainer extends Spatial3 {
 	}
 	
 	@Override
+	public void step(double d) {
+		//Animation
+		if(anim != null) {
+			anim.step(d);
+			
+			if(anim.hasTrackVec3f("position"))
+				localPosition.set( anim.getTrackVec3f("position") );
+			
+			if(anim.hasTrackVec3f("rotation"))
+				Quat.fromEuler( anim.getTrackVec3f("rotation"), localRotation );
+			
+			if(anim.hasTrackD("radius"))
+				light.radius = (float) anim.getTrackD("radius");
+
+			if(anim.hasTrackVec3f("color"))
+				light.color.set(anim.getTrackVec3f("color"));
+		}
+		
+		super.step(d);
+	}
+	
+	@Override
 	public void draw() {
 		updateLight();
 		super.draw();
@@ -73,5 +99,44 @@ public class LightContainer extends Spatial3 {
 		editorSprite.localPosition.set(getWorldPos());
 		editorSprite.localRotation.set(getWorldRot());
 		editorSprite.draw();
+	}
+
+	@Override
+	public void setAnim(Animation anim) {
+		this.anim = anim;
+	}
+
+	@Override
+	public void playAnim() {
+		if(anim != null)
+			anim.play();
+	}
+
+	@Override
+	public void stopAnim() {
+		if(anim != null)
+			anim.stopPlaying();
+	}
+
+	@Override
+	public void animJumpToEnd() {
+		if(anim != null)
+			anim.setTime(anim.getLength());
+	}
+
+	@Override
+	public Animation getAnim() {
+		return anim;
+	}
+
+	@Override
+	public void setAnimSpeed(double speed) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public double getAnimSpeed() {
+		// TODO Auto-generated method stub
+		return 1;
 	}
 }

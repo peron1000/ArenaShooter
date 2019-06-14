@@ -48,12 +48,15 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 	public void step(double d) {
 		super.step(d);
 		
+		//Animation
 		if(currentAnim != null) {
-			//TODO: Finish this
+			//TODO: Add rotation
 			currentAnim.step(d);
-			Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), currentAnim.getTrackVec2f("pos")));
-			double distance = Vec2f.distance(getWorldPos(), currentAnim.getTrackVec2f("pos"));
-			body.setLinearVelocity(direction.multiply((float) (distance/d)));
+			if(currentAnim.hasTrackVec2f("position")) {
+				Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), currentAnim.getTrackVec2f("pos")));
+				double distance = Vec2f.distance(getWorldPos(), currentAnim.getTrackVec2f("pos"));
+				body.setLinearVelocity(direction.multiply((float) (distance/d)));
+			}
 		}
 		
 		//Destroy when out of bounds

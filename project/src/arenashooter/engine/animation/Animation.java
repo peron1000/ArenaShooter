@@ -154,5 +154,37 @@ public class Animation {
 			return new Vec3f();
 		}
 	}
+	
+	/**
+	 * @param track
+	 * @return if <i>track</i> exists and is a double track
+	 */
+	public boolean hasTrackD(String track) {
+		return animData.tracksD.containsKey(track);
+	}
+
+	/**
+	 * @param track
+	 * @return if <i>track</i> exists and is a texture track
+	 */
+	public boolean hasTrackTex(String track) {
+		return animData.tracksT.containsKey(track);
+	}
+
+	/**
+	 * @param track
+	 * @return if <i>track</i> exists and is a Vec2f track
+	 */
+	public boolean hasTrackVec2f(String track) {
+		return animData.tracksVec2f.containsKey(track);
+	}
+
+	/**
+	 * @param track
+	 * @return if <i>track</i> exists and is a Vec3f track
+	 */
+	public boolean hasTrackVec3f(String track) {
+		return animData.tracksVec3f.containsKey(track);
+	}
 
 }
