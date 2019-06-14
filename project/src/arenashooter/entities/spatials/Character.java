@@ -47,7 +47,7 @@ public class Character extends RigidBodyContainer {
 	public int bonusJumpsMax = 0;
 	public int bonusJumpsUsed = 0;
 	private double weight = 1;
-	private double jumpForce = 16*weight;
+	private double jumpForce = 16;
 	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.6);
@@ -100,6 +100,7 @@ public class Character extends RigidBodyContainer {
 		case Agile:
 			maxSpeed = 18;
 			weight = 0.8;
+			jumpForce = 18;
 			break;
 		case Aqua:
 			bushido = true;
@@ -426,6 +427,7 @@ public class Character extends RigidBodyContainer {
 			bushidoDeath(deathCause);
 		} else {
 			if (!afterDeath.isProcessing()) {
+				System.out.println("bushido");
 				deathInfo = deathCause;
 				afterDeath.inProcess = true;
 				//TODO: Activate Bushido Mode : Haricot...etc
@@ -573,7 +575,7 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public boolean isDead() {
-		return health <= 0 && (!bushido || !afterDeath.isOver());
+		return health <= 0 && (!bushido || afterDeath.isOver());
 	}
 
 	public Vec2f getSpawn() {
