@@ -7,6 +7,7 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.ui.MenuSettings;
 import arenashooter.engine.ui.TabList;
@@ -40,6 +41,7 @@ public class MenuStart extends GameState {
 		logo.setScale(logoTex.getWidth() / 6, logoTex.getHeight() / 6);
 		logo.setPosition(-2.25, -24);
 		
+		
 		//Button
 		Button buttonPlay = new Button("Play");
 		Button buttonEditor = new Button("Map Editor");
@@ -56,9 +58,11 @@ public class MenuStart extends GameState {
 //			button.setScale(50, 5.5);
 			button.setScale(8);
 			button.setRectangleVisible(false);
+			button.setScaleText(7);
+		
 		}
-		mainMenu.addBind("Main Menu", uilist);
-		uilist.setPosition(0, -5);
+		mainMenu.addBind("", uilist);
+		uilist.setPosition(0, -10);
 		mainMenu.setPosition(0, 20);
 
 		buttonPlay.setOnArm(new Trigger() {
@@ -95,7 +99,7 @@ public class MenuStart extends GameState {
 			}
 		});
 		
-		selector.setPosition(mainMenu.getTarget().getPosition().x, mainMenu.getTarget().getPosition().y);
+		selector.setPositionLerp(mainMenu.getTarget().getPosition().x, mainMenu.getTarget().getPosition().y,15);
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
@@ -129,7 +133,7 @@ public class MenuStart extends GameState {
 					default:
 						break;
 					}
-					selector.setPosition(current.getTarget().getPosition().x, current.getTarget().getPosition().y);
+					selector.setPositionLerp(current.getTarget().getPosition().x, current.getTarget().getPosition().y,15);
 				}
 			}
 		});
