@@ -55,7 +55,6 @@ class EntityEditor extends UiElement implements MultiUi {
 		ScrollerH<TypeEntites> newChild = new ScrollerH<>(TypeEntites.values());
 		newChild.setTitle("New Child");
 		newChild.setScale(5);
-		newChild.setAlwaysScrollable(true);
 		newChild.setBackgroundVisible(true);
 		newChild.setBackgroundScale(30, 5);
 		newChild.setOnArm(new Trigger() {
@@ -66,7 +65,6 @@ class EntityEditor extends UiElement implements MultiUi {
 			}
 		});
 
-		modification.setAlwaysScrollable(true);
 		modification.setTitle("Setting");
 		modification.setScale(5);
 		modification.setBackgroundVisible(true);
