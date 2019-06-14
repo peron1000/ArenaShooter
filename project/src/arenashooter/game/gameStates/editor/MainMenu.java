@@ -311,6 +311,7 @@ class MainMenu extends UiElement implements MultiUi {
 					case SPAWN:
 						Spawner spawner = new Spawner(new Vec2f(), 4);
 						createNewEntity(spawner, type);
+						arenaConstruction.playerSpawns.add(spawner.localPosition);
 						break;
 					case LIGHT:
 						LightContainer light = new LightContainer(new Vec3f(), new Light());
