@@ -4,6 +4,7 @@ import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -20,11 +21,12 @@ public class Barrel extends RigidBodyContainer {
 	private Entity instigator;
 	private double timeSinceLastSpark = 0;
 
-	public Barrel(Vec2f position) {
-		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), position, 0, CollisionFlags.RIGIDBODY, 8, 1));
+	public Barrel(Vec2f worldPosition) {
+		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), worldPosition, 0, CollisionFlags.RIGIDBODY, 8, 1));
 
-		barrelMesh = new Mesh(new Vec3f(position.x, position.y, 0), "data/meshes/barrels/barrel_01.obj");
+		barrelMesh = new Mesh(new Vec3f(worldPosition, 0), "data/meshes/barrels/barrel_01.obj");
 		barrelMesh.attachToParent(this, "Barrel_Mesh");
+		Quat.fromEuler(Math.random()*2*Math.PI, 0, 0, barrelMesh.localRotation);
 
 		detonTimer.attachToParent(this, "Detonation_Timer");
 		detonTimer.reset();

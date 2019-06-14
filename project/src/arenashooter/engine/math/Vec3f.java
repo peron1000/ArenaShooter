@@ -47,6 +47,17 @@ public class Vec3f {
 	}
 	
 	/**
+	 * Appends z to a Vec2f
+	 * @param xy
+	 * @param z
+	 */
+	public Vec3f(Vec2f xy, float z) {
+		x = xy.x;
+		y = xy.y;
+		this.z = z;
+	}
+	
+	/**
 	 * This becomes Other
 	 * @param other vector to copy
 	 */
