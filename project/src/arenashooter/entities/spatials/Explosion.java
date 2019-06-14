@@ -104,11 +104,11 @@ public class Explosion extends Spatial {
 
 		if(time <= 0) {
 			Particles particles = new Particles(getWorldPos(), "data/particles/explosion.xml");
-			particles.attachToParent(getArena(), "particles");
+			particles.attachToParent(getArena(), "particles"+genName());
 
 			Audio.playSound2D("data/sound/explosion_01.ogg", AudioChannel.SFX, 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			
-			Window.getCamera().setCameraShake(3);
+			Window.getCamera().setCameraShake(4);
 		}
 		
 		if(time >= 1) detach();
