@@ -39,7 +39,7 @@ public class Material {
 			ParamType type = shader.getUniformType(name);
 			
 			if(type == null) {
-				if(!name.equals("time")) //Don't warn about missing time
+				if(!name.equals("time") && !name.equals("activeLights") && !name.equals("ambient"))
 					Window.log.error("No uniform named \""+name+"\" in "+shaderPath);
 				continue;
 			}
@@ -109,8 +109,8 @@ public class Material {
 		ParamType type = shader.getUniformType(name);
 		if( type == expected ) return true;
 		
-		if(expected != ParamType.INT && !name.equals("time")) //Don't print an error for the time value
-			Window.log.error("Type check error: uniform \""+name+"\" is "+type+", expected "+expected+" (in "+shaderPath+")");
+		if(expected != ParamType.INT && !name.equals("time") && !name.equals("activeLights") && !name.equals("ambient")) //Don't print an error for the time value
+			Window.log.warn("Type check error: uniform \""+name+"\" is "+type+", expected "+expected+" (in "+shaderPath+")");
 		return false;
 	}
 	
