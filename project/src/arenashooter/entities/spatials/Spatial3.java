@@ -87,8 +87,26 @@ public class Spatial3 extends Entity {
 	}
 	
 	@Override
-	public void editorAddRotation(double angle) {
+	public void editorAddRotationZ(double angle) {
 		editorLocalRotation.z += angle;
+		Quat.fromEuler(editorLocalRotation, localRotation);
+
+		for(Entity e : getChildren().values())
+			e.updateAttachment();
+	}
+	
+	@Override
+	public void editorAddRotationX(double angle) {
+		editorLocalRotation.x += angle;
+		Quat.fromEuler(editorLocalRotation, localRotation);
+
+		for(Entity e : getChildren().values())
+			e.updateAttachment();
+	}
+	
+	@Override
+	public void editorAddRotationY(double angle) {
+		editorLocalRotation.y += angle;
 		Quat.fromEuler(editorLocalRotation, localRotation);
 
 		for(Entity e : getChildren().values())

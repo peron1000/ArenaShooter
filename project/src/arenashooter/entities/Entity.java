@@ -242,7 +242,7 @@ public class Entity implements Editable {
 	}
 
 	@Override
-	public void editorAddRotation(double angle) {
+	public void editorAddRotationZ(double angle) {
 		// Nothing
 	}
 
@@ -254,5 +254,15 @@ public class Entity implements Editable {
 	@Override
 	public void editorAddDeep(float deep) {
 		// Nothing		
+	}
+
+	@Override
+	public void editorAddRotationX(double angle) {
+		// Nothing
+	}
+
+	@Override
+	public void editorAddRotationY(double angle) {
+		// Nothing
 	}
 }

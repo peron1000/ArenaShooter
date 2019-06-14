@@ -76,7 +76,7 @@ public class Spatial extends Entity {
 	}
 	
 	@Override
-	public void editorAddRotation(double angle) {
+	public void editorAddRotationZ(double angle) {
 		localRotation += angle;
 		
 		for(Entity e : getChildren().values())

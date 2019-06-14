@@ -121,9 +121,9 @@ public class Spawner extends Spatial {
 	}
 	
 	@Override
-	public void editorAddRotation(double angle) {
+	public void editorAddRotationZ(double angle) {
 		editorView.localRotation += angle;
-		super.editorAddRotation(angle);
+		super.editorAddRotationZ(angle);
 	}
 	
 	@Override

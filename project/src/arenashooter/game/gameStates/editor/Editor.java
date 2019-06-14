@@ -95,8 +95,14 @@ public class Editor extends GameState {
 						case POSITION:
 							onSetting.editorAddPosition(new Vec2f(0, positionSpeed));
 							break;
-						case ROTATION:
-							onSetting.editorAddRotation(-rotationSpeed);
+						case ROTATION_Z:
+							onSetting.editorAddRotationZ(-rotationSpeed);
+							break;
+						case ROTATION_X:
+							onSetting.editorAddRotationX(-rotationSpeed);
+							break;
+						case ROTATION_Y:
+							onSetting.editorAddRotationY(-rotationSpeed);
 							break;
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(0, -scaleSpeed));
@@ -113,8 +119,14 @@ public class Editor extends GameState {
 						case POSITION:
 							onSetting.editorAddPosition(new Vec2f(0, -positionSpeed));
 							break;
-						case ROTATION:
-							onSetting.editorAddRotation(rotationSpeed);
+						case ROTATION_Z:
+							onSetting.editorAddRotationZ(rotationSpeed);
+							break;
+						case ROTATION_X:
+							onSetting.editorAddRotationX(rotationSpeed);
+							break;
+						case ROTATION_Y:
+							onSetting.editorAddRotationY(rotationSpeed);
 							break;
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(0, scaleSpeed));
@@ -131,8 +143,14 @@ public class Editor extends GameState {
 						case POSITION:
 							onSetting.editorAddPosition(new Vec2f(positionSpeed, 0));
 							break;
-						case ROTATION:
-							onSetting.editorAddRotation(rotationSpeed);
+						case ROTATION_Z:
+							onSetting.editorAddRotationZ(rotationSpeed);
+							break;
+						case ROTATION_X:
+							onSetting.editorAddRotationX(rotationSpeed);
+							break;
+						case ROTATION_Y:
+							onSetting.editorAddRotationY(rotationSpeed);
 							break;
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(scaleSpeed, 0));
@@ -148,8 +166,14 @@ public class Editor extends GameState {
 						case POSITION:
 							onSetting.editorAddPosition(new Vec2f(-positionSpeed, 0));
 							break;
-						case ROTATION:
-							onSetting.editorAddRotation(-rotationSpeed);
+						case ROTATION_Z:
+							onSetting.editorAddRotationZ(-rotationSpeed);
+							break;
+						case ROTATION_X:
+							onSetting.editorAddRotationX(-rotationSpeed);
+							break;
+						case ROTATION_Y:
+							onSetting.editorAddRotationY(-rotationSpeed);
 							break;
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(-scaleSpeed, 0));

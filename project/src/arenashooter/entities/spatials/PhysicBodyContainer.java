@@ -106,7 +106,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	}
 
 	@Override
-	public void editorAddRotation(double angle) {
+	public void editorAddRotationZ(double angle) {
 		body.setRotation((float) (getWorldRot()+angle));
 		
 		for (Entity e : getChildren().values())
