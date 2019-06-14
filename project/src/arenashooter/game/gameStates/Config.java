@@ -60,7 +60,7 @@ public class Config extends GameState {
 
 		menu.addListVertical(vlist);
 
-		selector.setScale(50, 10);
+		selector.setScale(55, 20);
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
@@ -107,11 +107,11 @@ public class Config extends GameState {
 						break;
 					}
 				}
-				selector.setPosition(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y);
+				selector.setPositionLerp(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y,15);
 				if (menu.getTarget() == rounds) {
-					selector.setScale(50, 10);
+					selector.setScale(55, 20);
 				} else {
-					selector.setScale(10);
+					selector.setScale(12);
 				}
 			}
 		});
@@ -174,7 +174,7 @@ public class Config extends GameState {
 			i++;
 		}
 
-		selector.setPosition(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y);
+		selector.setPositionLerp(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y,15);
 
 		super.init();
 	}
