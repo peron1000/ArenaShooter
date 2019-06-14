@@ -156,8 +156,7 @@ public class MapXmlWriter {
 
 				/* Rigid */
 				/*
-				 * <vector x="-5" y="-3" use="position" /> <vector x=".5" y=".5" use="extent"
-				 * />
+				 * <vector x="-5" y="-3" use="position" /> <vector x=".5" y=".5" use="extent" />
 				 */
 				if (entry.getValue() instanceof RigidBodyContainer) {
 					Element rigid = doc.createElement("rigid");
@@ -180,9 +179,9 @@ public class MapXmlWriter {
 				}
 
 				/*
-				 * <mesh src="data/meshes/item_pickup/weapon_pickup.obj"> <vector
-				 * use="position" x="0" y="1" z="0" /> <vector use="rotation" x="0" y="0" z="0"
-				 * w="1" /> <vector use="scale" x=".5" y=".5" z=".5" /> </mesh>
+				 * <mesh src="data/meshes/item_pickup/weapon_pickup.obj"> <vector use="position"
+				 * x="0" y="1" z="0" /> <vector use="rotation" x="0" y="0" z="0" w="1" />
+				 * <vector use="scale" x=".5" y=".5" z=".5" /> </mesh>
 				 */
 				if (entry.getValue() instanceof Mesh) {
 
@@ -213,9 +212,9 @@ public class MapXmlWriter {
 				/* Light */
 				// directionalLight|pointLight
 				/*
-				 * <!ELEMENT directionalLight (vector, vector)> <!ATTLIST directionalLight
-				 * name CDATA #IMPLIED> <!ELEMENT pointLight (vector, vector)> <!ATTLIST
-				 * pointLight name CDATA #IMPLIED> <!ATTLIST pointLight radius CDATA #REQUIRED>
+				 * <!ELEMENT directionalLight (vector, vector)> <!ATTLIST directionalLight name
+				 * CDATA #IMPLIED> <!ELEMENT pointLight (vector, vector)> <!ATTLIST pointLight
+				 * name CDATA #IMPLIED> <!ATTLIST pointLight radius CDATA #REQUIRED>
 				 */
 
 				if (entry.getValue() instanceof LightContainer) {
@@ -245,7 +244,7 @@ public class MapXmlWriter {
 						 */
 					Light.appendChild(vec1);
 					Light.appendChild(vec2);
-					ADDelemnts(Light, entry.getValue()); 
+					ADDelemnts(Light, entry.getValue());
 				}
 				/*
 				 * <!ELEMENT text (vector, vector, entities?)> <!ATTLIST text name CDATA
@@ -284,12 +283,12 @@ public class MapXmlWriter {
 				}
 
 				/*
-				 * <kinematic animation="data/animations/MapXML/MapXmlPlatformMov2.xml">
-				 * <vector x="-10.0" y="-5.0" use="position" /> <vector x="0.125" y="1.0"
-				 * use="extent" /> <entities> <mesh src="data/meshes/catwalk/catwalk_10.obj">
-				 * <vector use="position" x="0.0" y="0.0" z="0" /> <vector use="rotation"
-				 * x="0.0" y="0" z="1.57" /> <vector use="scale" x="0.25" y="0.25" z="1" />
-				 * </mesh> </entities> </kinematic>
+				 * <kinematic animation="data/animations/MapXML/MapXmlPlatformMov2.xml"> <vector
+				 * x="-10.0" y="-5.0" use="position" /> <vector x="0.125" y="1.0" use="extent"
+				 * /> <entities> <mesh src="data/meshes/catwalk/catwalk_10.obj"> <vector
+				 * use="position" x="0.0" y="0.0" z="0" /> <vector use="rotation" x="0.0" y="0"
+				 * z="1.57" /> <vector use="scale" x="0.25" y="0.25" z="1" /> </mesh>
+				 * </entities> </kinematic>
 				 */
 				if (entry.getValue() instanceof KinematicBodyContainer) {
 					Element KinematicBodyContainer = doc.createElement("Kinematic");
@@ -315,24 +314,6 @@ public class MapXmlWriter {
 
 					ADDelemnts(KinematicBodyContainer, entry.getValue());
 				}
-				/*
-				 * <sky> <vector x="0.659" y="0.835" z="0.996" use="bottom" /> <vector
-				 * x="0.016" y="0.145" z="0.565" use="top" /> </sky>
-				 **/
-				
-					if (entry.getValue() instanceof Sky) {
-						Sky s = (Sky) entry.getValue();
-						System.out.println(s);
-						Element sky = doc.createElement("sky");
-						info.appendChild(sky);
-						Element vec1 = doc.createElement("vector");
-						Element vec2 = doc.createElement("vector");
-						VectorAttr3(vec1, "bottom", s.material.getParamVec3f("colorBot").x,
-								s.material.getParamVec3f("colorBot").y, s.material.getParamVec3f("colorBot").z);
-						VectorAttr3(vec2, "top", s.material.getParamVec3f("colorTop").x,
-								s.material.getParamVec3f("colorTop").y, s.material.getParamVec3f("colorTop").z);
-					}
-				
 
 			}
 
@@ -363,7 +344,30 @@ public class MapXmlWriter {
 			killbounds.setAttribute("minY", "" + arena.killBound.y);
 			killbounds.setAttribute("maxX", "" + arena.killBound.z);
 			killbounds.setAttribute("maxY", "" + arena.killBound.w);
-			
+
+			/*
+			 * <sky> <vector x="0.659" y="0.835" z="0.996" use="bottom" /> <vector x="0.016"
+			 * y="0.145" z="0.565" use="top" /> </sky>
+			 **/
+			Element sky = doc.createElement("sky");
+			info.appendChild(sky);
+			int skyint = 0;
+			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
+				if (entry.getValue() instanceof Sky) {
+					if (skyint == 0) {
+						Sky s = (Sky) entry.getValue();
+						Element vec1 = doc.createElement("vector");
+						Element vec2 = doc.createElement("vector");
+						VectorAttr3(vec1, "bottom", s.material.getParamVec3f("colorBot").x,
+								s.material.getParamVec3f("colorBot").y, s.material.getParamVec3f("colorBot").z);
+						VectorAttr3(vec2, "top", s.material.getParamVec3f("colorTop").x,
+								s.material.getParamVec3f("colorTop").y, s.material.getParamVec3f("colorTop").z);
+						sky.appendChild(vec1);
+						sky.appendChild(vec2);
+					}
+					skyint++;
+				}
+			}
 
 			DOMSource source = new DOMSource(doc);
 			/* _verify the existance of the file and create it if it doesn't exist_ */
