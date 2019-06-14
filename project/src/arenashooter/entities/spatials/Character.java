@@ -30,20 +30,21 @@ public class Character extends RigidBodyContainer {
 	private float health, healthMax;
 	private final Vec2f spawn;
 
-	// public Vec2f vel = new Vec2f();
-	boolean isOnGround = true;
-	private boolean canJump = true;
-	public float movementInput = 0;
 	public boolean lookRight = true;
 	public boolean isAiming = false;
 	public double aimInput = 0;
 
 	// Movement stats
-	public double maxSpeed = 18;
+	public double maxSpeed = 8;
+	boolean isOnGround = true;
+	private boolean canJump = true;
+	public float movementInput = 0;
 	/**
 	 * The Character is jumping
 	 */
 	public boolean jumpi;
+	public int bonusJumps = 0;
+	public int bonusJumpsUsed ;
 	private double jumpForce = 16;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.5);
