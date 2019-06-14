@@ -20,6 +20,7 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Usable;
+import arenashooter.game.CharacterClass;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.Controller;
 
@@ -35,7 +36,7 @@ public class Character extends RigidBodyContainer {
 	public double aimInput = 0;
 
 	// Movement stats
-	public double maxSpeed = 8;
+	public double maxSpeed = 15;
 	boolean isOnGround = true;
 	private boolean canJump = true;
 	public float movementInput = 0;
@@ -43,14 +44,19 @@ public class Character extends RigidBodyContainer {
 	 * The Character is jumping
 	 */
 	public boolean jumpi;
-	public int bonusJumps = 0;
-	public int bonusJumpsUsed ;
-	private double jumpForce = 16;
+	public int bonusJumpsMax = 0;
+	public int bonusJumpsUsed = 0;
+	private double weight = 1;
+	private double jumpForce = 16*weight;
+	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;
-	private Timer jumpTimer = new Timer(0.5);
+	private Timer jumpTimer = new Timer(0.6);
 	private Timer justInTime = new Timer(0.15);
 
 	// Combat stats
+	private boolean bushido = false;// still has control and explodes 3s after dying;
+	private Timer afterDeath;
+	private DamageInfo deathInfo;// used for bushido Death
 	/** Melee attack cooldown */
 	private boolean stunned = false;
 	private Timer stun = null;
@@ -74,7 +80,7 @@ public class Character extends RigidBodyContainer {
 	boolean punchedMidAir = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
-		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, .5f, 1.2f));
+		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, (charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 1.2f));
 
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
@@ -85,10 +91,36 @@ public class Character extends RigidBodyContainer {
 
 		localRotation = 0;
 
+		switch (charInfo.getCharClass()) {
+		case Heavy:
+			weight = 3;
+			punchDashForce = 9;
+			jumpForce = 16*weight;
+			break;
+		case Agile:
+			maxSpeed = 18;
+			weight = 0.8;
+			break;
+		case Aqua:
+			bushido = true;
+			afterDeath = new Timer(3);
+			afterDeath.attachToParent(this, "bushido_Timer");
+			afterDeath.reset();
+			break;
+		case Bird:
+			bonusJumpsMax = 1;
+			parachuteForce = 8.5;
+			jumpTimer.setMax(1);
+			break;
+		default:
+			break;
+		}
+
 		attackCooldown.attachToParent(this, "attack timer");
 		chargePunch.attachToParent(this, "powerpunch charging");
 		chargePunch.setProcessing(false);
 		jumpTimer.attachToParent(this, "jump Timer");
+		justInTime.attachToParent(this, "just_In_Time jump");
 		holdCombo.attachToParent(this, "attack Combo Hold");
 		parry.attachToParent(this, "parry timer");
 		parry.setIncreasing(false);
@@ -98,7 +130,10 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public void jump() {
-		if (canJump) {
+		if (canJump || bonusJumpsUsed++ < bonusJumpsMax) {
+			if(!canJump) {
+				//TODO: Skeleton double jump feather Effects
+			}
 			isOnGround = false;
 			jumpi = true;
 			// vel.y = (float) -jumpForce;
@@ -119,7 +154,7 @@ public class Character extends RigidBodyContainer {
 				if (getLinearVelocity().y < 0 && jumpi) {
 					// vel.y += (float) (-parachuteForce * Math.expm1(1 -
 					// (jumpTimer.getValueRatio())));
-					getBody().applyForce(new Vec2f(0, -parachuteForce * Math.expm1(1 - (jumpTimer.getValueRatio()))));
+					getBody().applyForce(new Vec2f(0, -parachuteForce * weight * Math.expm1(1 - (jumpTimer.getValueRatio()))));
 					isOnGround = false;
 				}
 			} else {
@@ -207,13 +242,14 @@ public class Character extends RigidBodyContainer {
 			Vec2f impulse;
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			DamageInfo punchDmgInfo;
-			
+
 			if (superPoing) {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12), 0), aimInput);
-				punchDmgInfo = new DamageInfo((float)(defaultDamage*1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput), 50, this);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12)*punchDashForce, 0), aimInput);
+				punchDmgInfo = new DamageInfo((float) (defaultDamage * 1.5), DamageType.MELEE,
+						Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8)*(punchDashForce>=2 ? punchDashForce/2 : 1), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
 				attackCombo++;
 				if (skeleton != null)
@@ -334,7 +370,8 @@ public class Character extends RigidBodyContainer {
 
 	@Override
 	public float takeDamage(DamageInfo info) {
-		//Force death if character fell out of bounds or was killed for a non-gameplay reason
+		// Force death if character fell out of bounds or was killed for a non-gameplay
+		// reason
 		if (info.dmgType == DamageType.OUT_OF_BOUNDS) {
 			if (ignoreKillBounds)
 				return 0;
@@ -370,24 +407,57 @@ public class Character extends RigidBodyContainer {
 	private void death(DamageInfo deathCause) {
 		// TODO: Effects
 		// if(deathCause.dmgType == DamageType.EXPLOSION)
-		((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
+		if (!bushido) {
+			((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
+
+			if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
+				Window.getCamera().setCameraShake(2);
+				// TODO: Improve random sound
+				Audio.playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1,
+						1, getWorldPos());
+			}
+
+			health = 0;
+			throwItem();
+			if (controller != null)
+				controller.death(deathCause);
+			detach();
+		} else if (deathCause.dmgType == DamageType.MISC_ONE_SHOT || deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
+			bushidoDeath(deathCause);
+		} else {
+			if (!afterDeath.isProcessing()) {
+				deathInfo = deathCause;
+				afterDeath.inProcess = true;
+				//TODO: Activate Bushido Mode : Haricot...etc
+			}
+		}
+	}
+
+	private void bushidoDeath(DamageInfo deathCause) {
+		// TODO: Effects
+		// if(deathCause.dmgType == DamageType.EXPLOSION)
+		if (deathCause.dmgType != DamageType.MISC_ONE_SHOT) {
+			Explosion explosion = new Explosion(getWorldPos(),
+					new DamageInfo(90, DamageType.EXPLOSION, new Vec2f(), 5f, this), 10);
+			explosion.attachToParent(getArena(), explosion.genName());
+			((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
+		}
 
 		if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
-			Window.getCamera().setCameraShake(1);
+			Window.getCamera().setCameraShake(2);
 			// TODO: Improve random sound
 			Audio.playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1, 1,
 					getWorldPos());
 		}
-
 		health = 0;
 		throwItem();
 		if (controller != null)
 			controller.death(deathCause);
 		detach();
 	}
-	
+
 	private int jumpPoints = 0;
-	
+
 	@Override
 	public void step(double d) {
 		if (getArena() == null)
@@ -395,8 +465,8 @@ public class Character extends RigidBodyContainer {
 
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 
-		if (Math.random() > 0.6)// ???
-			jumpTimer.isOver();// ??? What is the fuque ?
+		// if (Math.random() > 0.6)// ???
+		// jumpTimer.isOver();// ??? What is the fuque ?
 
 		if (parry.isOver()) {
 			parryCooldown = true;
@@ -424,8 +494,7 @@ public class Character extends RigidBodyContainer {
 			if (!isAiming && !lookRight) {
 				aimInput = Math.PI;
 			}
-			double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed,
-					Utils.clampD(d * (isOnGround ? 10 : 7), 0, 1));
+			double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * 10, 0, 1));
 			getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
 		} else {
 			stun.step(d);
@@ -457,24 +526,24 @@ public class Character extends RigidBodyContainer {
 				getArena().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
 			}
 		}
-		
+
 		canJump = isOnGround;
 
 		if (isOnGround)
 			jumpTimer.reset();
 
-		if(!canJump) {
+		if (!canJump) {
 			float x = getWorldPos().x;
 			float y = getWorldPos().y;
-			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(.5+x, y).toB2Vec(), new Vec2f(
-					.5+x, .8+y).toB2Vec());
-			
-			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(-.5+x, y).toB2Vec(), new Vec2f(
-					-.5+x, .8+y).toB2Vec());
+			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(.5 + x, y).toB2Vec(),
+					new Vec2f(.5 + x, .8 + y).toB2Vec());
+
+			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(-.5 + x, y).toB2Vec(),
+					new Vec2f(-.5 + x, .8 + y).toB2Vec());
 			if (jumpPoints >= 2)
 				canJump = true;
 		}
-		
+
 		if (skeleton != null) {
 			skeleton.setLookRight(lookRight);
 			skeleton.charging = chargePunch.isProcessing();
@@ -485,6 +554,14 @@ public class Character extends RigidBodyContainer {
 		}
 
 		super.step(d);
+		if (bushido) {
+			if (afterDeath.isProcessing()) {
+				if (afterDeath.isOver()) {
+					bushidoDeath(deathInfo);
+				}
+				//TODO: Bushido Effects 
+			}
+		}
 	}
 
 	public float getHealth() {
@@ -496,7 +573,7 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public boolean isDead() {
-		return health <= 0;
+		return health <= 0 && (!bushido || !afterDeath.isOver());
 	}
 
 	public Vec2f getSpawn() {
@@ -515,11 +592,13 @@ public class Character extends RigidBodyContainer {
 				return -1;
 
 			isOnGround = true;
+			bonusJumpsUsed = 0;
 			punchedMidAir = false;
+			justInTime.restart();
 			return fraction;
 		}
 	};
-	
+
 	RayCastCallback JumpRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
@@ -535,7 +614,7 @@ public class Character extends RigidBodyContainer {
 			return fraction;
 		}
 	};
-	
+
 	RayCastCallback WallRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {

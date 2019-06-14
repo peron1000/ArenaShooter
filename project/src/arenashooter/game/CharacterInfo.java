@@ -4,7 +4,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Character;
 
 public class CharacterInfo {
-	CharacterClass charClass;
+	private CharacterClass charClass;
 	int skin = 0;
 	boolean mirrorLeftFoot;
 	
@@ -38,6 +38,9 @@ public class CharacterInfo {
 		return charClass.getSkin(skin);
 	}
 	
+	public CharacterClass getCharClass() {
+		return charClass;
+	}
 
 	public Character createNewCharacter(Vec2f spawn) {
 		return new Character(spawn, this);
