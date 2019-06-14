@@ -30,8 +30,10 @@
 <!ATTLIST mesh src CDATA #REQUIRED>
 <!ELEMENT directionalLight (vector, vector)>
 <!ATTLIST directionalLight name CDATA #IMPLIED>
+<!ATTLIST directionalLight animation CDATA #IMPLIED>
 <!ELEMENT pointLight (vector, vector)>
 <!ATTLIST pointLight name CDATA #IMPLIED>
+<!ATTLIST pointLight animation CDATA #IMPLIED>
 <!ATTLIST pointLight radius CDATA #REQUIRED>
 <!ELEMENT text (vector, vector, entities?)>
 <!ATTLIST text name CDATA #IMPLIED>

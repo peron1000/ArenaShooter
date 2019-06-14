@@ -695,6 +695,13 @@ public class MapXmlReader extends XmlReader {
 		} else {
 			container.attachToParent(parent, container.genName());
 		}
+		
+		//Load animation
+		if(light.hasAttribute("animation")) {
+			AnimationData animData = AnimationData.loadAnim(light.getAttribute("animation"));
+			container.setAnim(new Animation(animData));
+			container.playAnim();
+		}
 
 		// Load children
 		List<Element> entitiess = getListElementByName("entities", light);
@@ -740,6 +747,13 @@ public class MapXmlReader extends XmlReader {
 			container.attachToParent(parent, light.getAttribute("name"));
 		} else {
 			container.attachToParent(parent, container.genName());
+		}
+
+		//Load animation
+		if(light.hasAttribute("animation")) {
+			AnimationData animData = AnimationData.loadAnim(light.getAttribute("animation"));
+			container.setAnim(new Animation(animData));
+			container.playAnim();
 		}
 
 		// Load children
