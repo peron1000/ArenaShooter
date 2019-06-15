@@ -7,7 +7,6 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.ui.MenuSettings;
 import arenashooter.engine.ui.TabList;
@@ -82,7 +81,7 @@ public class MenuStart extends GameState {
 		buttonSettings.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				current = new MenuSettings(20 , new Trigger() {
+				current = new MenuSettings(10 , new Trigger() {
 					
 					@Override
 					public void make() {

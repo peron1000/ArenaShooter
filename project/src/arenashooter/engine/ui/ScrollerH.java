@@ -114,7 +114,7 @@ public class ScrollerH<E> extends UiActionable {
 	/**
 	 * change the value of the ScrollerH to <i>value</i>
 	 * @param value
-	 * @return if it's a succeed
+	 * @return if it's a success
 	 */
 	public boolean setValue(E value) {
 		for (int i = 0; i < list.size(); i++) {

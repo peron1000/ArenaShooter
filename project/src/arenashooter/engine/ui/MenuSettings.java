@@ -8,6 +8,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
+import arenashooter.game.Main;
 
 public class MenuSettings extends TabList<UiActionable> {
 
@@ -28,8 +29,8 @@ public class MenuSettings extends TabList<UiActionable> {
 		addBind("Audio", audio);
 		setPosition(0, y);
 		addToScale(-4);
-		audio.setSpacing(180);
-		video.setSpacing(8);
+		audio.setSpacing(7.5);
+		video.setSpacing(7.5);
 		
 		///
 		/// Audio settings
@@ -42,6 +43,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			mainVolume.changeValueView(f, df.format(f.floatValue()));
 		}
 		mainVolume.setTitle("Main volume");
+		if(!mainVolume.setValue(Audio.getMainVolume())) Main.log.warn("Couldn't set main volume button initial value");
 		mainVolume.setOnValidation(new Trigger() {
 
 			@Override
@@ -56,6 +58,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			musicVolume.changeValueView(f, df.format(f.floatValue()));
 		}
 		musicVolume.setTitle("Music volume");
+		if(!musicVolume.setValue(Audio.getChannelVolume(AudioChannel.MUSIC))) Main.log.warn("Couldn't set music volume button initial value");
 		musicVolume.setOnValidation(new Trigger() {
 
 			@Override
@@ -71,6 +74,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			sfxVolume.changeValueView(f, df.format(f.floatValue()));
 		}
 		sfxVolume.setTitle("SFX volume");
+		if(!sfxVolume.setValue(Audio.getChannelVolume(AudioChannel.SFX))) Main.log.warn("Couldn't set sfx volume button initial value");
 		sfxVolume.setOnValidation(new Trigger() {
 
 			@Override
@@ -86,6 +90,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			uiVolume.changeValueView(f, df.format(f.floatValue()));
 		}
 		uiVolume.setTitle("UI volume");
+		if(!uiVolume.setValue(Audio.getChannelVolume(AudioChannel.UI))) Main.log.warn("Couldn't set ui volume button initial value");
 		uiVolume.setOnValidation(new Trigger() {
 
 			@Override
@@ -104,6 +109,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			reso.changeValueView(is, is[0] + "x" + is[1]);
 		}
 		reso.setTitle("Resolution");
+		if(!reso.setValue(new int[] {Window.getWidth(), Window.getHeight()})) Main.log.warn("Couldn't set resolution button initial value");
 		reso.setOnValidation(new Trigger() {
 
 			@Override
@@ -118,6 +124,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		fullscreen.add(true);
 		fullscreen.changeValueView(true, "fullscreen");
 		fullscreen.setTitle("Mode");
+		if(!fullscreen.setValue(Window.isFullscreen())) Main.log.warn("Couldn't set fullscreen button initial value");
 		fullscreen.setOnValidation(new Trigger() {
 			@Override
 			public void make() {
@@ -132,6 +139,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			scale.changeValueView(f, df.format(f.floatValue()));
 		}
 		scale.setTitle("Resolution scale");
+		if(!scale.setValue(Window.getResScale())) Main.log.warn("Couldn't set resolution scale button initial value");
 		scale.setOnValidation(new Trigger() {
 			@Override
 			public void make() {
