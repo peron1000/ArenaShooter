@@ -33,9 +33,9 @@ public class CharacterChooser extends GameState {
 	private HashMap<Device, Controller> controllers = new HashMap<>(1);
 	private HashMap<Controller, CharacterSprite> sprites = new HashMap<>(1);
 	Stack<Controller> pileOrdreJoueur = new Stack<Controller>();
-	private final double firstX = -3;
+	private final double firstX = -10.9;
 	private double nextSpriteX = firstX;
-	private final double charOffset = 2;
+	private final double charOffset = 3.12;
 	//Menu menu = new Menu(6);
 	private InputListener inputs = new InputListener();
 
@@ -59,6 +59,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cu);
 							cu.attachToParent(current, cu.genName());
 							numberu.attachToParent(cu.getChild("body"), "Player_Number");
+							updatePlayersNumber();
 						}
 						break;
 
@@ -74,6 +75,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cd);
 							cd.attachToParent(current, cd.genName());
 							numberd.attachToParent(cd.getChild("body"), "Player_Number");
+							updatePlayersNumber();
 						}
 						break;
 
@@ -89,6 +91,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cr);
 							cr.attachToParent(current, cr.genName());
 							numberr.attachToParent(cr.getChild("body"), "Player_Number");
+							updatePlayersNumber();
 						}
 						break;
 
@@ -104,7 +107,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cl);
 							cl.attachToParent(current, cl.genName());
 							numberl.attachToParent(cl.getChild("body"), "Player_Number");
-
+							updatePlayersNumber();
 						}
 						break;
 					case UI_CONTINUE:
@@ -168,13 +171,13 @@ public class CharacterChooser extends GameState {
 
 		GameMaster.gm.controllers.add(newController);
 		CharacterSprite caracSprite = new CharacterSprite(newController.info);
-		caracSprite.localPosition.set(nextSpriteX, 0);
+		caracSprite.localPosition.set(nextSpriteX, -2.5);
 		caracSprite.attachToParent(current, "PlayerSprite_" + pileOrdreJoueur.size());
 		sprites.put(newController, caracSprite);
 		Sprite newNumber = new Sprite(new Vec2f(),
 				"data/sprites/interface/Player_" + (pileOrdreJoueur.size()) + "_Arrow.png");
 		newNumber.getTexture().setFilter(false);
-		newNumber.localPosition = new Vec2f(0, -2);
+		newNumber.localPosition = new Vec2f(0, -2.2);
 		newNumber.attachToParent(current.getChild("PlayerSprite_" + pileOrdreJoueur.size()).getChild("body"),
 				"Player_Number");
 
@@ -183,6 +186,32 @@ public class CharacterChooser extends GameState {
 
 		nextSpriteX += charOffset;
 		updatePlayersNumber();
+		
+		Vec2f iconPos = caracSprite.localPosition.clone();
+		iconPos.y += 1.7;
+		String texName;
+		switch(newController.getCharInfo().getCharClass()) {
+		case Heavy:
+			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png";
+			break;
+		case Agile:
+			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png";
+			break;
+		case Aqua:
+			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png";
+			break;
+		case Bird:
+			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png";
+			break;
+			default:
+				texName = "data/default_texture.png";
+				break;
+		}
+		Sprite classIcon = new Sprite(iconPos, texName);
+		float iconWidth = (float) (classIcon.getTexture().getWidth()*.02);
+		float iconHeigth = (float) (classIcon.getTexture().getHeight()*.02);
+		classIcon.size.set(iconWidth, iconHeigth);
+		classIcon.attachToParent(current, "class_Icon_Player_" + newController.playerNumber);
 		
 		Audio.playSound("data/sound/ui/zboui_01.ogg", AudioChannel.UI, 1, 1);
 	}
@@ -193,8 +222,11 @@ public class CharacterChooser extends GameState {
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
 		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.gm.controllers.size());
 
-		CharacterSprite sp = sprites.get(controllers.get(device));
-		sp.detach();
+		if(current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber) != null){
+			current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber).detach();
+		}
+		CharacterSprite charSprite = sprites.get(controllers.get(device));
+		charSprite.detach();
 		sprites.remove((controllers.get(device)));
 		pileOrdreJoueur.remove(controllers.get(device).playerNumber);
 		GameMaster.gm.controllers.remove(controllers.get(device));
@@ -206,7 +238,7 @@ public class CharacterChooser extends GameState {
 		for (Map.Entry<Controller, CharacterSprite> entry : sprites.entrySet()) {
 			CharacterSprite sprite = entry.getValue();
 //			float currentPos = sprite.localPosition.x;
-			if (sprite.localPosition.x > sp.localPosition.x) {
+			if (sprite.localPosition.x > charSprite.localPosition.x) {
 //				currentPos -= charOffset;
 //				Vec2f pos = new Vec2f(currentPos, 0);
 				sprite.localPosition.x -= charOffset;
@@ -233,9 +265,39 @@ public class CharacterChooser extends GameState {
 
 			Sprite number = new Sprite(new Vec2f(),
 					"data/sprites/interface/Player_" + (currentController.playerNumber + 1) + "_Arrow.png");
-			number.localPosition = new Vec2f(0, -2);
+			number.localPosition = new Vec2f(0, -2.2);
 			number.attachToParent(sprites.get(currentController).getChild("body"), "Player_Number");
 			sprites.get(currentController).attachToParent(current, "PlayerSprite_" + currentController.playerNumber);
+			
+			if(current.getChild("class_Icon_Player_" + i) != null){
+				current.getChild("class_Icon_Player_" + i).detach();
+			}
+			
+			Vec2f iconPos = sprites.get(currentController).localPosition.clone();
+			iconPos.y += 1.7;
+			String texName;
+			switch(currentController.getCharInfo().getCharClass()) {
+			case Heavy:
+				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png";
+				break;
+			case Agile:
+				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png";
+				break;
+			case Aqua:
+				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png";
+				break;
+			case Bird:
+				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png";
+				break;
+				default:
+					texName = "data/default_texture.png";
+					break;
+			}
+			Sprite classIcon = new Sprite(iconPos, texName);
+			float iconWidth = (float) (classIcon.getTexture().getWidth()*.02);
+			float iconHeigth = (float) (classIcon.getTexture().getHeight()*.02);
+			classIcon.size.set(iconWidth, iconHeigth);
+			classIcon.attachToParent(current, "class_Icon_Player_" + currentController.playerNumber);
 		}
 	}
 
@@ -243,21 +305,16 @@ public class CharacterChooser extends GameState {
 	public void init() {
 		super.init();
 
-		Texture fondMenuTex = Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png");
-		fondMenuTex.setFilter(false);
-		// UiImage bg = new UiImage(0, new Vec2f(177.78, 100), fondMenuTex, new Vec4f(1));
-		// menu.setBackground(bg);
-
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
-		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7, 0), new Vec3f(7.3f), text);
+		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -8, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(current, "Text_Select");
 
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "← → to change class");
-		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -5.6, 0), new Vec3f(4.25f), text2);
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -6.6, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(current, "Text_char");
 
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "↑ ↓ to change skin");
-		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -5, 0), new Vec3f(4.25f), text3);
+		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -6, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(current, "Text_touch");
 
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press 'Start' to begin");
@@ -267,6 +324,32 @@ public class CharacterChooser extends GameState {
 		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, "Press 'Jump' to join");
 		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
 		textEnt5.attachToParent(current, "Text_touch3");
+		
+		Sprite backGroundCharacChooser = new Sprite(new Vec2f(), "data/sprites/interface/BackGround_CharacterChooser_PreRendered.png");
+		backGroundCharacChooser.attachToParent(current, "BackGround");
+		Texture tex = backGroundCharacChooser.getTexture();
+		backGroundCharacChooser.size.set(tex.getWidth()*.0711, tex.getHeight()*.0711);
+		backGroundCharacChooser.zIndex = -126;
+		backGroundCharacChooser.getTexture().setFilter(false);
+		
+		Sprite birdsIcon = new Sprite(new Vec2f(-13, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png");
+		birdsIcon.attachToParent(current, "Icon_Bird");
+		float iconWidth = (float) (birdsIcon.getTexture().getWidth()*.05);
+		float iconHeigth = (float) (birdsIcon.getTexture().getHeight()*.05);
+		birdsIcon.size.set(iconWidth, iconHeigth);
+		birdsIcon.getTexture().setFilter(false);
+		Sprite heavyIcon = new Sprite(new Vec2f(-11, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png");
+		heavyIcon.attachToParent(current, "Icon_Heavy");
+		heavyIcon.size.set(iconWidth, iconHeigth);
+		heavyIcon.getTexture().setFilter(false);
+		Sprite agileIcon = new Sprite(new Vec2f(-9, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png");
+		agileIcon.attachToParent(current, "Icon_Agile");
+		agileIcon.size.set(iconWidth, iconHeigth);
+		agileIcon.getTexture().setFilter(false);
+		Sprite aquaIcon = new Sprite(new Vec2f(-7, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png");
+		aquaIcon.attachToParent(current, "Icon_Aqua");
+		aquaIcon.size.set(iconWidth, iconHeigth);
+		aquaIcon.getTexture().setFilter(false);
 
 		// Set camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
