@@ -58,6 +58,8 @@ public class Font {
 		return font;
 	}
 	
+	public String getPath() { return path; }
+	
 	private static void readLine(Font font, String line) {
 		String[] parts = line.split(" ");
 		

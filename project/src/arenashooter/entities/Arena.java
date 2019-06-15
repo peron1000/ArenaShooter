@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.math.Vec2f;
@@ -14,12 +13,13 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 import arenashooter.entities.spatials.Barrel;
+import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.Main;
 
 public class Arena extends Entity {
 	/** Character spawn points */
-	public List<Vec2f> playerSpawns = new ArrayList<>();
+	public List<Spawner> playerSpawns = new ArrayList<>();
 
 	/** World gravity vector */
 	public Vec2f gravity = new Vec2f(0);
@@ -111,12 +111,12 @@ public class Arena extends Entity {
 		try {
 			int rand = (int) (Math.random()*playerSpawns.size());
 			
-			randi = playerSpawns.get(rand);
+			randi = playerSpawns.get(rand).getWorldPos();
 			int max = 100;
 			int etapes = 0;
 			while (usedSpawns.contains(randi) && etapes < max) {
 				rand =  (int) (Math.random()*playerSpawns.size());
-				randi = playerSpawns.get(rand);
+				randi = playerSpawns.get(rand).getWorldPos();
 				etapes++;
 			}
 		} catch (Exception e) {

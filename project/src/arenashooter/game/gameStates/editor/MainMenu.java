@@ -215,7 +215,7 @@ class MainMenu extends UiElement implements MultiUi {
 
 			@Override
 			public void make() {
-				MapXmlWriter.writerMap(arenaConstruction, fileName);
+				MapXmlWriter.exportArena(arenaConstruction, fileName);
 			}
 		});
 		rename.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
@@ -333,7 +333,7 @@ class MainMenu extends UiElement implements MultiUi {
 					case SPAWN:
 						Spawner spawner = new Spawner(new Vec2f(), 4);
 						createNewEntity(spawner, type);
-						arenaConstruction.playerSpawns.add(spawner.localPosition);
+						arenaConstruction.playerSpawns.add(spawner);
 						break;
 					case LIGHT:
 						LightContainer light = new LightContainer(new Vec3f(), new Light());

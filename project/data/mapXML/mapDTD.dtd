@@ -42,7 +42,7 @@
 <!ELEMENT static (vector, vector?, entities?)>
 <!ATTLIST static name CDATA #IMPLIED>
 <!ATTLIST static rotation CDATA #IMPLIED>
-<!ATTLIST rigid radius CDATA #IMPLIED>
+<!ATTLIST static radius CDATA #IMPLIED>
 <!ELEMENT kinematic (vector, vector?, entities?)>
 <!ATTLIST kinematic name CDATA #IMPLIED>
 <!ATTLIST kinematic animation CDATA #IMPLIED>

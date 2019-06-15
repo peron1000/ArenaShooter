@@ -61,7 +61,7 @@ public class SpawnLoader implements EntitiesLoader<Spawner> {
 			playerSpawn = Boolean.parseBoolean(element.getAttribute("playerSpawn"));
 		if (playerSpawn) {
 			if (parent.getArena() != null)
-				parent.getArena().playerSpawns.add(spawner.getWorldPos());
+				parent.getArena().playerSpawns.add(spawner);
 			else
 				XmlReader.log.error("Cannot create a player spawn: spawn's parent cannot access its containing Arena");
 		}
