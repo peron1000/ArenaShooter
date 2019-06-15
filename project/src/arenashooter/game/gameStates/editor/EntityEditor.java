@@ -57,7 +57,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		newChild.setScale(5);
 		newChild.setBackgroundVisible(true);
 		newChild.setBackgroundScale(30, 5);
-		newChild.setOnArm(new Trigger() {
+		newChild.setOnValidation(new Trigger() {
 
 			@Override
 			public void make() {
@@ -445,7 +445,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		case DOUBLE:
 			return doubleInput.changeAction();
 		default:
-			return false;
+			return menu.changeAction();
 		}
 	}
 
@@ -458,7 +458,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		case DOUBLE:
 			return doubleInput.cancelAction();
 		default:
-			return false;
+			return menu.cancelAction();
 		}
 	}
 
@@ -476,7 +476,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		case DOUBLE:
 			return doubleInput.backAction();
 		default:
-			return false;
+			return menu.backAction();
 		}
 	}
 

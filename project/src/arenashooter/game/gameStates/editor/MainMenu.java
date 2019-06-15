@@ -581,6 +581,10 @@ class MainMenu extends UiElement implements MultiUi {
 		case COLOR_PICKER:
 			return colorPicker.backAction();
 		default:
+			if(current == meshChooser) {
+				current = mainMenu;
+				return true;
+			}
 			return false;
 		}
 	}
