@@ -54,6 +54,7 @@ public class GameMaster {
 	}
 
 	public void requestNextState(GameState nextState, String... nextStateMap) {
+		stateStack.push(current);
 		loading.init();
 		
 		current = loading;

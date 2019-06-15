@@ -110,6 +110,27 @@ public class ScrollerH<E> extends UiActionable {
 	public E get() {
 		return list.get();
 	}
+	
+	/**
+	 * change the value of the ScrollerH to <i>value</i>
+	 * @param value
+	 * @return if it's a succeed
+	 */
+	public boolean setValue(E value) {
+		for (int i = 0; i < list.size(); i++) {
+			if(value == get()) {
+				if (viewOfValue.containsKey(get())) {
+					label.setText(title + viewOfValue.get(get()));
+				} else {
+					label.setText(title + get().toString());
+				}
+				return true;
+			} else {
+				list.next();
+			}
+		}
+		return false;
+	}
 
 	public void setTitle(String title) {
 		this.title = title + " : ";
@@ -187,6 +208,20 @@ public class ScrollerH<E> extends UiActionable {
 	}
 
 	@Override
+	public void setVisible(boolean visible) {
+		label.setVisible(visible);
+		backgroundSelect.setVisible(visible);
+		super.setVisible(visible);
+	}
+
+	@Override
+	public void update(double delta) {
+		label.update(delta);
+		backgroundSelect.update(delta);
+		super.update(delta);
+	}
+	
+	@Override
 	public void draw() {
 		if (isVisible()) {
 			if (bgVisible) {
@@ -205,20 +240,6 @@ public class ScrollerH<E> extends UiActionable {
 		}
 	}
 
-	@Override
-	public void setVisible(boolean visible) {
-		label.setVisible(visible);
-		backgroundSelect.setVisible(visible);
-		super.setVisible(visible);
-	}
-
-	@Override
-	public void update(double delta) {
-		label.update(delta);
-		backgroundSelect.update(delta);
-		super.update(delta);
-	}
-	
 	@Override
 	public boolean downAction() {
 		if(selected) {
