@@ -1,5 +1,5 @@
 package arenashooter.game.gameStates.editor.editorEnum;
 
 public enum TypeEntites {
-	MESH , RIGID , STATIC , ENTITY , TEXT , SPAWN , LIGHT;
+	MESH, RIGID_RECT, RIGID_DISK, STATIC_RECT, STATIC_DISK, ENTITY, TEXT, SPAWN, LIGHT;
 }

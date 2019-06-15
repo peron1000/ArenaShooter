@@ -14,6 +14,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.engine.ui.ColorPicker;
 import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MultiUi;
@@ -294,14 +295,23 @@ class MainMenu extends UiElement implements MultiUi {
 						current = meshChooser;
 						editor.setCurrentMenu(MainMenu.this);
 						break;
-					case RIGID:
-						RigidBodyContainer rigid = new RigidBodyContainer(new RigidBody(new ShapeBox(new Vec2f(1)),
+					case RIGID_RECT:
+						RigidBodyContainer rigidRect = new RigidBodyContainer(new RigidBody(new ShapeBox(new Vec2f(1)),
 								new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f));
-						createNewEntity(rigid, type);
+						createNewEntity(rigidRect, type);
 						break;
-					case STATIC:
-						StaticBodyContainer staticq = new StaticBodyContainer(new Vec2f(), new Vec2f(1), 0);
-						createNewEntity(staticq, type);
+					case RIGID_DISK:
+						RigidBodyContainer rigidDisk = new RigidBodyContainer(new RigidBody(new ShapeDisk(1),
+								new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f));
+						createNewEntity(rigidDisk , type);
+						break;
+					case STATIC_RECT:
+						StaticBodyContainer staticRect = new StaticBodyContainer(new Vec2f(), new Vec2f(1), 0);
+						createNewEntity(staticRect, type);
+						break;
+					case STATIC_DISK:
+						StaticBodyContainer staticDisk = new StaticBodyContainer(new Vec2f(), 1, 0);
+						createNewEntity(staticDisk, type);
 						break;
 					case TEXT:
 						TextSpatial text = new TextSpatial(new Vec3f(), new Vec3f(1f),
