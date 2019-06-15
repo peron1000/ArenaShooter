@@ -342,7 +342,6 @@ public final class Window {
 	 * @param newScale
 	 */
 	public static void setResScale(float newScale) {
-		
 		resize(width, height, fullscreen, newScale);
 	}
 
@@ -371,15 +370,19 @@ public final class Window {
 	 * @param resolutionScale
 	 */
 	public static void resize(int newWidth, int newHeight, boolean fullscreen, float resolutionScale) {
-		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
-		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
+		int oldW = width, oldH = height;
+//		width = Utils.clampI(newWidth, WIDTH_MIN, vidmode.width());
+//		height = Utils.clampI(newWidth, HEIGHT_MIN, vidmode.height());
+		width = Math.max(newWidth, WIDTH_MIN);
+		height = Math.max(newHeight, HEIGHT_MIN);
 		
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
 		if(fullscreen) {
-			if(Window.fullscreen) //Change fullscreen res
-				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
-			else //Switch to fullscreen
+			if(Window.fullscreen) { //Change fullscreen res
+				if( oldW != width || oldH != height ) //Check that resolution was changed
+					glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
+			} else //Switch to fullscreen
 				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
 		} else {
 			if(Window.fullscreen) { //Switch to windowed mode

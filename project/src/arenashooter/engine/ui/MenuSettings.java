@@ -24,7 +24,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		back.setOnArm(onBack);
 
 		UiListVertical<UiActionable> audio = new UiListVertical<>(),  video = new UiListVertical<>();
-		audio.setSpacing(8);
+		audio.setSpacing(180);
 		video.setSpacing(8);
 		
 		///
@@ -107,6 +107,19 @@ public class MenuSettings extends TabList<UiActionable> {
 				Window.resize(reso.get()[0], reso.get()[1]);
 			}
 		});
+		
+		ScrollerH<Boolean> fullscreen = new ScrollerH<>();
+		fullscreen.add(false);
+		fullscreen.changeValueView(false, "windowed");
+		fullscreen.add(true);
+		fullscreen.changeValueView(true, "fullscreen");
+		fullscreen.setTitle("Mode");
+		fullscreen.setOnValidation(new Trigger() {
+			@Override
+			public void make() {
+				Window.setFullscreen(fullscreen.get().booleanValue());
+			}
+		});
 
 		ScrollerH<Float> scale = new ScrollerH<>();
 		for (int i = 5; i <= 20; i++) {
@@ -114,7 +127,7 @@ public class MenuSettings extends TabList<UiActionable> {
 			scale.add(f);
 			scale.changeValueView(f, df.format(f.floatValue()));
 		}
-		scale.setTitle("Scale");
+		scale.setTitle("Resolution scale");
 		scale.setOnValidation(new Trigger() {
 			@Override
 			public void make() {
@@ -122,20 +135,20 @@ public class MenuSettings extends TabList<UiActionable> {
 			}
 		});
 
-		Button backAudio = new Button("Back");
-		backAudio.setOnArm(onBack);
-		backAudio.setRectangleVisible(false);
 		Button backVideo = new Button("Back");
 		backVideo.setOnArm(onBack);
 		backVideo.setRectangleVisible(false);
+		Button backAudio = new Button("Back");
+		backAudio.setOnArm(onBack);
+		backAudio.setRectangleVisible(false);
+		video.addElements(reso, fullscreen, scale, backVideo);
 		audio.addElements(mainVolume, musicVolume, sfxVolume, uiVolume, backAudio);
-		video.addElements(reso, scale, backVideo);
-		
-		backAudio.addToPosition(0, 2.5);
-		backVideo.addToPosition(0, 2.5);
 
-		addBind("Audio", audio);
+		backVideo.addToPosition(0, 2.5);
+		backAudio.addToPosition(0, 2.5);
+
 		addBind("Video", video);
+		addBind("Audio", audio);
 
 		setPosition(0, y);
 		addToScale(-4);
