@@ -110,8 +110,8 @@ public class Character extends RigidBodyContainer {
 			break;
 		case Bird:
 			bonusJumpsMax = 1;
-			parachuteForce = 8.5;
-			jumpTimer.setMax(1);
+			parachuteForce = 10;
+			jumpTimer.setMax(2);
 			break;
 		default:
 			break;
@@ -132,7 +132,12 @@ public class Character extends RigidBodyContainer {
 
 	public void jump() {
 		if (canJump || bonusJumpsUsed++ < bonusJumpsMax) {
+			jumpTimer.reset();
+			jumpTimer.setProcessing(true);
+			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+					getWorldPos());
 			if(!canJump) {
+				jumpTimer.setValue(jumpTimer.getMax()/2);
 				//TODO: Skeleton double jump feather Effects
 			}
 			isOnGround = false;
@@ -142,10 +147,7 @@ public class Character extends RigidBodyContainer {
 			newVel.y = 0;
 			setLinearVelocity(newVel);
 			getBody().applyImpulse(new Vec2f(0, -jumpForce));
-			jumpTimer.reset();
-			jumpTimer.setProcessing(true);
-			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
-					getWorldPos());
+			
 		}
 	}
 
@@ -250,7 +252,7 @@ public class Character extends RigidBodyContainer {
 						Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8)*(punchDashForce>=2 ? punchDashForce/2 : 1), 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
 				attackCombo++;
 				if (skeleton != null)
@@ -496,7 +498,7 @@ public class Character extends RigidBodyContainer {
 			if (!isAiming && !lookRight) {
 				aimInput = Math.PI;
 			}
-			double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * 10, 0, 1));
+			double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * 20, 0, 1));
 			getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
 		} else {
 			stun.step(d);
