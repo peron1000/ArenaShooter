@@ -12,6 +12,7 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
@@ -31,6 +32,7 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.entities.spatials.KinematicBodyContainer;
 import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.RigidBodyContainer;
@@ -295,23 +297,33 @@ class MainMenu extends UiElement implements MultiUi {
 						current = meshChooser;
 						editor.setCurrentMenu(MainMenu.this);
 						break;
-					case RIGID_RECT:
+					case RIGID_BOX:
 						RigidBodyContainer rigidRect = new RigidBodyContainer(new RigidBody(new ShapeBox(new Vec2f(1)),
 								new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f));
 						createNewEntity(rigidRect, type);
 						break;
 					case RIGID_DISK:
-						RigidBodyContainer rigidDisk = new RigidBodyContainer(new RigidBody(new ShapeDisk(1),
-								new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f));
-						createNewEntity(rigidDisk , type);
+						RigidBodyContainer rigidDisk = new RigidBodyContainer(
+								new RigidBody(new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 1, 0.8f));
+						createNewEntity(rigidDisk, type);
 						break;
-					case STATIC_RECT:
+					case STATIC_BOX:
 						StaticBodyContainer staticRect = new StaticBodyContainer(new Vec2f(), new Vec2f(1), 0);
 						createNewEntity(staticRect, type);
 						break;
 					case STATIC_DISK:
 						StaticBodyContainer staticDisk = new StaticBodyContainer(new Vec2f(), 1, 0);
 						createNewEntity(staticDisk, type);
+						break;
+					case KINEMATIC_BOX:
+						KinematicBodyContainer kinematicBox = new KinematicBodyContainer(new KinematicBody(
+								new ShapeBox(new Vec2f(1)), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0.8f));
+						createNewEntity(kinematicBox, type);
+						break;
+					case KINEMATIC_DISK:
+						KinematicBodyContainer kinematicDisk = new KinematicBodyContainer(new KinematicBody(
+								new ShapeDisk(1), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0.8f));
+						createNewEntity(kinematicDisk, type);
 						break;
 					case TEXT:
 						TextSpatial text = new TextSpatial(new Vec3f(), new Vec3f(1f),
@@ -591,7 +603,7 @@ class MainMenu extends UiElement implements MultiUi {
 		case COLOR_PICKER:
 			return colorPicker.backAction();
 		default:
-			if(current == meshChooser) {
+			if (current == meshChooser) {
 				current = mainMenu;
 				return true;
 			}

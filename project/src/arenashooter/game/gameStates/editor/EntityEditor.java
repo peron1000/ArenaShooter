@@ -113,8 +113,8 @@ class EntityEditor extends UiElement implements MultiUi {
 		vList.addElement(removeEntity);
 
 		switch (type) {
-		case RIGID_RECT:
-		case STATIC_RECT:
+		case RIGID_BOX:
+		case STATIC_BOX:
 			// TODO : shape
 			break;
 		case TEXT:
