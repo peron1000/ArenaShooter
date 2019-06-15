@@ -343,7 +343,7 @@ public final class Window {
 	 */
 	public static void setResScale(float newScale) {
 		
-		resize(width, height);
+		resize(width, height, fullscreen, newScale);
 	}
 
 	/**

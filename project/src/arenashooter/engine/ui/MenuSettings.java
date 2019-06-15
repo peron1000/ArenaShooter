@@ -116,7 +116,6 @@ public class MenuSettings extends TabList<UiActionable> {
 		}
 		scale.setTitle("Scale");
 		scale.setOnValidation(new Trigger() {
-
 			@Override
 			public void make() {
 				Window.setResScale(scale.get().floatValue());
