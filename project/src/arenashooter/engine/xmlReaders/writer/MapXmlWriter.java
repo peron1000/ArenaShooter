@@ -119,9 +119,9 @@ public class MapXmlWriter {
 					} else {
 						Sky s = (Sky) entry.getValue();
 
-						sky.appendChild( createVec3(doc, "colorTop", s.material.getParamVec3f("colorTop")) );
-						sky.appendChild( createVec3(doc, "colorBot", s.material.getParamVec3f("colorBot")) );
-						
+						sky.appendChild( createVec3(doc, "top", s.material.getParamVec3f("colorTop")) );
+						sky.appendChild( createVec3(doc, "bottom", s.material.getParamVec3f("colorBot")) );
+
 						foundSky = true;
 					}
 				}
@@ -132,9 +132,8 @@ public class MapXmlWriter {
 			Element entities = doc.createElement("entities");
 			map.appendChild(entities);
 			addChildren(entities, arena, arena);
-
-			DOMSource source = new DOMSource(doc);
-			// Verify the existence of the file and create it if it doesn't exist
+			
+			// Create arenas folder if necessary
 			File file1 = new File("data/mapXML");
 			if (!file1.exists()) {
 				file1.mkdirs();
@@ -142,13 +141,22 @@ public class MapXmlWriter {
 
 			File file = new File("data/mapXML/" + name + ".xml");
 
-			/* DTD */
+			//Set file encoding
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			//Enable indentation
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+			//Add DOCTYPE
 			DOMImplementation domImpl = doc.getImplementation();
-			DocumentType doctype = domImpl.createDocumentType("doctype", "", "mapDTD.dtd");
-			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
-			/* Save */
+			DocumentType docType = domImpl.createDocumentType("doctype", "", "mapDTD.dtd");
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, docType.getSystemId());
+
+			// Write file
 			StreamResult resultat = new StreamResult(file);
+			DOMSource source = new DOMSource(doc);
 			transformer.transform(source, resultat);
+
 			Main.log.info("Successfully exported Arena to "+file.getPath());
 
 		} catch ( ParserConfigurationException pce) {
@@ -182,17 +190,17 @@ public class MapXmlWriter {
 			if (entry.getValue() instanceof Camera) {
 				continue;
 			}
-			
+
 			// Sky
 			if (entry.getValue() instanceof Sky) {
 				continue;
 			}
-			
+
 			// Timer
 			if (entry.getValue() instanceof Timer) {
 				continue;
 			}
-			
+
 			// Spawner
 			else if (entry.getValue() instanceof Spawner) {
 				Spawner entity = ((Spawner)entry.getValue());
@@ -222,94 +230,94 @@ public class MapXmlWriter {
 				Mesh entity = ((Mesh) entry.getValue());
 
 				if (entity.getModelPath() == null) continue; //Mesh was created from code and cannot be saved in XML
-				
+
 				elem = doc.createElement("mesh");
-				
+
 				elem.setAttribute("src", entity.getModelPath());
-				
+
 				elem.appendChild( createVec3(doc, "position", entity.localPosition) );
-				
+
 				elem.appendChild( createVec3(doc, "rotation", entity.localRotation.toEuler()) );
-				
+
 				elem.appendChild( createVec3(doc, "scale", entity.scale) );
 			}
 
 			// Lights
 			else if (entry.getValue() instanceof LightContainer) {
 				LightContainer entity = ((LightContainer)entry.getValue());
-				
+
 				switch(entity.getLight().getType()) {
 				case POINT:
 					elem = doc.createElement("pointLight");
-					
+
 					elem.appendChild(createVec3(doc, "position", entity.localPosition) );
-					
+
 					elem.setAttribute("radius", String.valueOf(entity.getLight().radius));
-					
+
 					break;
 				case DIRECTIONAL:
 					elem = doc.createElement("directionalLight");
-					
+
 					elem.appendChild( createVec3(doc, "rotation", entity.localRotation.toEuler()) );
-					
+
 					break;
 				default:
 					Main.log.warn("Unsupported light type for \""+entityName+"\" will not be saved to XML");
 					elem = null;
 					break;
 				}
-				
+
 				if(elem != null) elem.appendChild( createVec3(doc, "color", entity.getLight().color) );
 			}
-			
+
 			// Text
 			else if (entry.getValue() instanceof TextSpatial) {
 				TextSpatial entity = ((TextSpatial)entry.getValue());
-				
+
 				elem = doc.createElement("text");
-				
+
 				elem.appendChild( createVec3(doc, "position", entity.localPosition) );
-				
+
 				elem.appendChild( createVec3(doc, "rotation", entity.localRotation.toEuler()) );
-				
+
 				elem.setAttribute("content", entity.getText().getText());
-				
+
 				elem.setAttribute("font", entity.getText().getFont().getPath());
 			}
 
 			// Rigid body
 			else if (entry.getValue() instanceof RigidBodyContainer) {
 				RigidBodyContainer entity = (RigidBodyContainer) entry.getValue();
-				
+
 				elem = doc.createElement("rigid");
 
 				//Position
 				elem.appendChild( createVec2(doc, "position", entity.getWorldPos()) );
-				
+
 				//Rotation
 				elem.setAttribute( "rotation", String.valueOf(entity.getWorldRot()) );
-				
+
 				//Shape
 				if(entity.getBody().getShape() instanceof ShapeBox)
 					elem.appendChild( createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()) );
 				else if (entity.getBody().getShape() instanceof ShapeDisk)
 					elem.setAttribute("radius", String.valueOf( ((ShapeDisk) entity.getBody().getShape()).getRadius() ));
-				
+
 				//TODO: Write density and friction
 			}
 
 			// Static body
 			else if (entry.getValue() instanceof StaticBodyContainer) {
 				StaticBodyContainer entity = (StaticBodyContainer) entry.getValue();
-				
+
 				elem = doc.createElement("static");
-				
+
 				//Position
 				elem.appendChild( createVec2(doc, "position", entity.getWorldPos()) );
-				
+
 				//Rotation
 				elem.setAttribute( "rotation", String.valueOf(entity.getWorldRot()) );
-				
+
 				//Shape
 				if(entity.getBody().getShape() instanceof ShapeBox)
 					elem.appendChild( createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()) );
@@ -320,42 +328,42 @@ public class MapXmlWriter {
 			// Kinematic body
 			else if (entry.getValue() instanceof KinematicBodyContainer) {
 				KinematicBodyContainer entity = (KinematicBodyContainer) entry.getValue();
-				
+
 				elem = doc.createElement("static");
-				
+
 				//Position
 				elem.appendChild( createVec2(doc, "position", entity.getWorldPos()) );
-				
+
 				//Rotation
 				elem.setAttribute( "rotation", String.valueOf(entity.getWorldRot()) );
-				
+
 				//Shape
 				if(entity.getBody().getShape() instanceof ShapeBox)
 					elem.appendChild( createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()) );
 				else if (entity.getBody().getShape() instanceof ShapeDisk)
 					elem.setAttribute("radius", String.valueOf( ((ShapeDisk) entity.getBody().getShape()).getRadius() ));
-				
-//				if(entity.getAnim() != null) elem.setAttribute("animation", entity.getAnim().); //TODO: Get anim path if it has been loaded from XML
+
+				//				if(entity.getAnim() != null) elem.setAttribute("animation", entity.getAnim().); //TODO: Get anim path if it has been loaded from XML
 			}
-			
+
 			//TODO: Add other classes while being careful of condition order (everything is an instance of Entity)
-			
+
 			// Spatial
 			else if (entry.getValue() instanceof Spatial) {
 				Spatial entity = (Spatial) entry.getValue();
-				
+
 				elem = doc.createElement("spatial");
-				
+
 				elem.appendChild( createVec2(doc, "position", entity.localPosition) );
-				
+
 				elem.setAttribute("rotation", String.valueOf(entity.localRotation));
 			}
-			
+
 			// Entity
 			else {
 				elem = doc.createElement("entity");
 			}
-			
+
 			//Add current entity to parent
 			entitiesElem.appendChild(elem);
 
@@ -368,11 +376,11 @@ public class MapXmlWriter {
 				elem.appendChild(children);
 				addChildren(children, entry.getValue(), arena);
 			}
-			
+
 		}
 
 	}
-	
+
 	/**
 	 * Create a vector xml element from a Vec2f
 	 * @param doc
@@ -439,9 +447,9 @@ public class MapXmlWriter {
 	private static Element createVec4(Document doc, String use, Vec4f vec) {
 		return createVec4(doc, use, vec.x, vec.y, vec.z, vec.w);
 	}
-	
+
 	//TODO: createVec4 from Quat
-	
+
 	/**
 	 * Create a vector xml element from a set of (x, y, z, w) coordinates
 	 * @param doc
