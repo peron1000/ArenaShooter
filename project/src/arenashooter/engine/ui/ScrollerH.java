@@ -118,7 +118,7 @@ public class ScrollerH<E> extends UiActionable {
 	 */
 	public boolean setValue(E value) {
 		for (int i = 0; i < list.size(); i++) {
-			if(value == get()) {
+			if(value.equals(get())) {
 				if (viewOfValue.containsKey(get())) {
 					label.setText(title + viewOfValue.get(get()));
 				} else {
@@ -130,6 +130,10 @@ public class ScrollerH<E> extends UiActionable {
 			}
 		}
 		return false;
+	}
+	
+	public boolean containValue(E value) {
+		return list.contains(value);
 	}
 
 	public void setTitle(String title) {
