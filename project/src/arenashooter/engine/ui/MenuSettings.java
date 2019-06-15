@@ -23,9 +23,13 @@ public class MenuSettings extends TabList<UiActionable> {
 	public MenuSettings(float y, Trigger onBack) {
 		back.setOnArm(onBack);
 
-		UiListVertical<UiActionable> audio = new UiListVertical<>(),  resolution = new UiListVertical<>();
+		UiListVertical<UiActionable> audio = new UiListVertical<>(),  video = new UiListVertical<>();
 		audio.setSpacing(8);
-		resolution.setSpacing(8);
+		video.setSpacing(8);
+		
+		///
+		/// Audio settings
+		///
 
 		ScrollerH<Float> mainVolume = new ScrollerH<>();
 		for (int i = 0; i <= 10; i++) {
@@ -85,6 +89,11 @@ public class MenuSettings extends TabList<UiActionable> {
 				Audio.setChannelVolume(AudioChannel.UI, uiVolume.get().floatValue());
 			}
 		});
+		
+		///
+		/// Video settings
+		///
+		
 		ScrollerH<int[]> reso = new ScrollerH<>();
 		for (int[] is : Window.getAvailableResolutions()) {
 			reso.add(is);
@@ -117,17 +126,17 @@ public class MenuSettings extends TabList<UiActionable> {
 		Button backAudio = new Button("Back");
 		backAudio.setOnArm(onBack);
 		backAudio.setRectangleVisible(false);
-		Button backReso = new Button("Back");
-		backReso.setOnArm(onBack);
-		backReso.setRectangleVisible(false);
+		Button backVideo = new Button("Back");
+		backVideo.setOnArm(onBack);
+		backVideo.setRectangleVisible(false);
 		audio.addElements(mainVolume, musicVolume, sfxVolume, uiVolume, backAudio);
-		resolution.addElements(reso, scale, backReso);
+		video.addElements(reso, scale, backVideo);
 		
 		backAudio.addToPosition(0, 2.5);
-		backReso.addToPosition(0, 2.5);
+		backVideo.addToPosition(0, 2.5);
 
 		addBind("Audio", audio);
-		addBind("Resolution", resolution);
+		addBind("Video", video);
 
 		setPosition(0, y);
 		addToScale(-4);

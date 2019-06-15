@@ -57,7 +57,11 @@ public final class Window {
 	
 	private static long window;
 	private static GLFWVidMode vidmode;
-	private static int width, height;
+
+	/** Window width or x res for fullscreen */
+	private static int width;
+	/** Window height or y res for fullscreen */
+	private static int height;
 	private static float ratio;
 	private static boolean fullscreen = false;
 	
@@ -108,7 +112,7 @@ public final class Window {
 	 * @param windowHeight
 	 * @param windowTtitle
 	 */
-	public static void init(int windowWidth, int windowHeight, boolean fullscreen, String windowTtitle) {
+	public static void init(int windowWidth, int windowHeight, boolean fullscreen, float resolutionScale, String windowTtitle) {
 		log.info("Initializing");
 		
 		callbackError = GLFWErrorCallback.createPrint(System.err);
@@ -149,7 +153,7 @@ public final class Window {
 		GL.createCapabilities();
 		
 		//Set window size, create projection matrix, create framebuffers etc
-		resize(windowWidth, windowHeight, fullscreen);
+		resize(windowWidth, windowHeight, fullscreen, resolutionScale);
 		
 		//Center window
 		glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
@@ -328,47 +332,75 @@ public final class Window {
 		glfwTerminate();
 	}
 	
+	/**
+	 * @return current resolution scale
+	 */
 	public static float getResScale() { return resolutionScale; }
 	
+	/**
+	 * Change resolution scale
+	 * @param newScale
+	 */
 	public static void setResScale(float newScale) {
-		resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
+		
 		resize(width, height);
 	}
 
 	/**
-	 * Change the window size
+	 * Change the window size or fullscreen resolution
 	 * @param newWidth
 	 * @param newHeight
 	 */
 	public static void resize(int newWidth, int newHeight) {
-		Window.resize(newWidth, newHeight, fullscreen);
+		Window.resize(newWidth, newHeight, fullscreen, resolutionScale);
+	}
+	
+	public static boolean isFullscreen() {
+		return fullscreen;
+	}
+	
+	public static void setFullscreen(boolean fullscreen) {
+		resize(width, height, fullscreen, resolutionScale);
 	}
 	
 	/**
-	 * Change the window size
+	 * Change the window size, resolution scale and set fullscreen mode
 	 * @param newWidth
 	 * @param newHeight
 	 * @param fullscreen
+	 * @param resolutionScale
 	 */
-	public static void resize(int newWidth, int newHeight, boolean fullscreen) {
+	public static void resize(int newWidth, int newHeight, boolean fullscreen, float resolutionScale) {
 		width = Math.max(WIDTH_MIN, Math.min(newWidth, vidmode.width()));
 		height = Math.max(HEIGHT_MIN, Math.min(newHeight, vidmode.height()));
 		
-		Window.fullscreen = fullscreen;
-		
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
-		if(fullscreen)
-			glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
-		else
-			glfwSetWindowSize(window, width, height);
+		if(fullscreen) {
+			if(Window.fullscreen) //Change fullscreen res
+				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
+			else //Switch to fullscreen
+				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
+		} else {
+			if(Window.fullscreen) { //Switch to windowed mode
+				glfwSetWindowMonitor(window, NULL, 0, 0, width, height, vidmode.refreshRate());
+
+				//Center window
+				glfwSetWindowPos(window, (vidmode.width()-width)/2, (vidmode.height()-height)/2 );
+			} else //Change window size
+				glfwSetWindowSize(window, width, height);
+		}
+		
+		Window.fullscreen = fullscreen;
 		
 		glfwFocusWindow(window);
 		
 		ratio = (float)width/(float)height;
 		
-		resX = (int)(width*resolutionScale);
-		resY = (int)(height*resolutionScale);
+		//Update resolution scale
+		Window.resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
+		resX = (int)(width*Window.resolutionScale);
+		resY = (int)(height*Window.resolutionScale);
 		
 		glViewport(0, 0, resX, resY);
 
@@ -378,6 +410,13 @@ public final class Window {
 		
 		//Recreate projection matrix
 		createProjectionMatrix();
+		
+		if(Window.fullscreen)
+			log.info("Set fullscreen resolution to: "+width+"x"+height);
+		else
+			log.info("Set window size to: "+width+"x"+height);
+		
+		log.info("Set resolution scale to: "+Window.resolutionScale);
 	}
 	
 	public static int getWidth() { return width; }

@@ -35,8 +35,7 @@ public class Main {
 
 		ConfigManager.init();
 		Audio.init();
-		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"),
-				"Super Blep");
+		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
 
 		gameMaster = GameMaster.gm;
 
@@ -72,11 +71,7 @@ public class Main {
 				Profiler.subSteps++;
 				remaining -= tickLength;
 			}
-//			if(remaining > 0) {
-//				Window.beginFrame();
-//				gameMaster.update(remaining);
-//				Profiler.subSteps++;
-//			}
+
 			Profiler.endTimer(Profiler.STEP);
 
 			Profiler.startTimer(Profiler.RENDER);
