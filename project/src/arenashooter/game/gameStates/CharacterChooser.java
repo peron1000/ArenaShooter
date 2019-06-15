@@ -325,6 +325,8 @@ public class CharacterChooser extends GameState {
 		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
 		textEnt5.attachToParent(current, "Text_touch3");
 		
+		//TODO: Classes explanation.
+		
 		Sprite backGroundCharacChooser = new Sprite(new Vec2f(), "data/sprites/interface/BackGround_CharacterChooser_PreRendered.png");
 		backGroundCharacChooser.attachToParent(current, "BackGround");
 		Texture tex = backGroundCharacChooser.getTexture();
@@ -332,21 +334,21 @@ public class CharacterChooser extends GameState {
 		backGroundCharacChooser.zIndex = -126;
 		backGroundCharacChooser.getTexture().setFilter(false);
 		
-		Sprite birdsIcon = new Sprite(new Vec2f(-13, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png");
+		Sprite birdsIcon = new Sprite(new Vec2f(-13, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png");
 		birdsIcon.attachToParent(current, "Icon_Bird");
 		float iconWidth = (float) (birdsIcon.getTexture().getWidth()*.05);
 		float iconHeigth = (float) (birdsIcon.getTexture().getHeight()*.05);
 		birdsIcon.size.set(iconWidth, iconHeigth);
 		birdsIcon.getTexture().setFilter(false);
-		Sprite heavyIcon = new Sprite(new Vec2f(-11, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png");
+		Sprite heavyIcon = new Sprite(new Vec2f(-11, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png");
 		heavyIcon.attachToParent(current, "Icon_Heavy");
 		heavyIcon.size.set(iconWidth, iconHeigth);
 		heavyIcon.getTexture().setFilter(false);
-		Sprite agileIcon = new Sprite(new Vec2f(-9, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png");
+		Sprite agileIcon = new Sprite(new Vec2f(-9, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png");
 		agileIcon.attachToParent(current, "Icon_Agile");
 		agileIcon.size.set(iconWidth, iconHeigth);
 		agileIcon.getTexture().setFilter(false);
-		Sprite aquaIcon = new Sprite(new Vec2f(-7, 5.75), "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png");
+		Sprite aquaIcon = new Sprite(new Vec2f(-7, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png");
 		aquaIcon.attachToParent(current, "Icon_Aqua");
 		aquaIcon.size.set(iconWidth, iconHeigth);
 		aquaIcon.getTexture().setFilter(false);
