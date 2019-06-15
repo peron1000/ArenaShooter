@@ -54,6 +54,11 @@ public class SpawnLoader implements EntitiesLoader<Spawner> {
 			spawner.attachToParent(parent, element.getAttribute("name"));
 		else
 			spawner.attachToParent(parent, spawner.genName());
+		
+		// Read items
+		List<Element> items = XmlReader.getListElementByName("itemRef", element);
+		for(Element itemRef : items)
+			spawner.addItem(itemRef.getAttribute("item"), Integer.parseInt(itemRef.getAttribute("proba")));
 
 		// Add this spawn to the arena's list if needed
 		boolean playerSpawn = true;

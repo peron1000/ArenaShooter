@@ -1,6 +1,5 @@
 package arenashooter.engine.xmlReaders.reader;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,8 +7,6 @@ import java.util.Map.Entry;
 import java.util.function.Consumer;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -94,18 +91,6 @@ public class MapXmlReader extends XmlReader {
 		if (list.isEmpty())
 			return null;
 		return list.get(0);
-	}
-
-	static List<Element> getListElementByName(String name, Element parent) {
-		ArrayList<Element> array = new ArrayList<>();
-		NodeList list = parent.getChildNodes();
-		for (int i = 0; i < list.getLength(); i++) {
-			Node node = list.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equalsIgnoreCase(name)) {
-				array.add((Element) list.item(i));
-			}
-		}
-		return array;
 	}
 
 	static XmlVector loadVector(Element vector) {

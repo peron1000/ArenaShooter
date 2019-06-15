@@ -1,6 +1,8 @@
 package arenashooter.engine.xmlReaders;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import arenashooter.engine.audio.SoundBuffer;
@@ -85,5 +89,17 @@ public abstract class XmlReader {
 			return Quat.normalize(new Quat((float)x, (float)y, (float)z, (float)w));
 		}
 		return Quat.fromEuler(x, y, z);
+	}
+
+	public static List<Element> getListElementByName(String name, Element parent) {
+		ArrayList<Element> array = new ArrayList<>();
+		NodeList list = parent.getChildNodes();
+		for (int i = 0; i < list.getLength(); i++) {
+			Node node = list.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equalsIgnoreCase(name)) {
+				array.add((Element) list.item(i));
+			}
+		}
+		return array;
 	}
 }
