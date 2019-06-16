@@ -77,11 +77,11 @@ public class Camera extends Spatial3 {
 	
 	/**
 	 * Move the camera target to fit all the targets in the view
-	 * @param players
+	 * @param centerTargets
 	 * @param basePos base camera position used to restrict movement
 	 * @param d delta time
 	 */
-	public void center( List<Character> centerTargets, Vec3f basePos, double d ) { //TODO: Improve bounds support
+	public void center( List<? extends Spatial> centerTargets, Vec3f basePos, double d ) { //TODO: Improve bounds support
 		if(centerTargets == null || centerTargets.isEmpty() ) {
 			targetLoc.set(basePos);
 			return;
