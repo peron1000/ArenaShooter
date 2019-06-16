@@ -76,11 +76,11 @@ public class Main {
 
 			Profiler.startTimer(Profiler.RENDER);
 			gameMaster.draw();
+
+			Window.endFrame();
 			if (Loading.isLoading()) {
 				Loading.loadingStep();
 			}
-
-			Window.endFrame();
 			Profiler.endTimer(Profiler.RENDER);
 
 			Audio.update();

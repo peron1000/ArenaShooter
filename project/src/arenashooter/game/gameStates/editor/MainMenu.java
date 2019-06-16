@@ -84,7 +84,7 @@ class MainMenu extends UiElement implements MultiUi {
 		this.editor = editor;
 
 		mainMenu.setPosition(0, -30);
-		mainMenu.setSpacing(spacing);
+		mainMenu.setSpacingForeachList(spacing);
 		meshChooser.setPosition(0, -30);
 
 		setPosition(Editor.forVisible, 0);

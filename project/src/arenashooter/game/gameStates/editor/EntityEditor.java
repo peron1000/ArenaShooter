@@ -246,7 +246,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		menu.addBind(type.name() + " Editor", vList);
 		menu.addLabelInfo(vList, entityNameLabel);
 		menu.addLabelInfo(vList, parent);
-		menu.setSpacing(6);
+		menu.setSpacingForeachList(6);
 		menu.setTitleSpacing(1);
 		menu.setPosition(0, -35);
 		for (UiElement e : vList) {

@@ -35,7 +35,7 @@ public class Loading extends GameState {
 	public static Map<File, Texture> loadTexture = new HashMap<>();
 	private static Iterator<File> iterator = loadTexture.keySet().iterator();
 	private static int indexLoading = 0;
-	private static boolean firstStep = true;
+	private static int firstStep = 0;
 
 	private static Trigger onFinish = new Trigger() {
 
@@ -54,8 +54,12 @@ public class Loading extends GameState {
 	}
 
 	public static void loadingStep() {
-		if(firstStep) {
-			firstStep = false;
+		if(firstStep == 0) {
+			firstStep++;
+			return;
+		}
+		if(firstStep == 1) {
+			firstStep++;
 			newMapXmlReader();
 		} else {
 			boolean finish = mapXmlReader.loadNextEntity();
@@ -93,7 +97,7 @@ public class Loading extends GameState {
 		current = new Arena();
 		indexLoading = 0;
 		iterator = loadTexture.keySet().iterator();
-		firstStep = true;
+		firstStep = 0;
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
 
