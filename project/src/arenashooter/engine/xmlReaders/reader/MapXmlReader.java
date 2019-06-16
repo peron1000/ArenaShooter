@@ -419,7 +419,7 @@ public class MapXmlReader extends XmlReader {
 			}
 		}
 		Sky s = new Sky(bottom, top);
-		s.attachToParent(map, s.genName());
+		s.attachToParent(map, "sky");
 
 	}
 

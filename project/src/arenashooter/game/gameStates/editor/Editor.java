@@ -2,6 +2,7 @@ package arenashooter.game.gameStates.editor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -14,8 +15,10 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
+import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.GameState;
 
 public class Editor extends GameState {
@@ -202,7 +205,7 @@ public class Editor extends GameState {
 				}
 			}
 		});
-
+		
 	}
 
 	void setCurrentMenu(UiElement currentMenu) {
@@ -215,8 +218,13 @@ public class Editor extends GameState {
 		cam = (Camera) current.getChild("camera");
 		cam.interpolate = false;
 		mainMenu.constructCamerabutton(cam);
-		Sky sky = new Sky(new Vec3f(), new Vec3f());
-		sky.attachToParent(current, "sky");
+		
+		Sky sky = (Sky) current.getChild("sky");
+		if(sky == null) {
+			sky = new Sky(new Vec3f(), new Vec3f());
+			sky.attachToParent(current, "sky");
+			Main.log.warn("Sky not correctly named or not existing from the xml");
+		}
 		allEditable.add(sky);
 	}
 
