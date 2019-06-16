@@ -37,7 +37,7 @@ public class Main {
 		Audio.init();
 		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
 
-		gameMaster = GameMaster.gm;
+		gameMaster = new GameMaster();
 
 		font = Font.loadFont("data/fonts/liberation_sans.fnt");
 
@@ -113,6 +113,11 @@ public class Main {
 
 		log.info("Closing Super Blep...");
 	}
+	
+	/**
+	 * @return active GameMaster
+	 */
+	public static GameMaster getGameMaster() { return gameMaster; }
 
 	public static void reqestClose() {
 		requestclose = true;

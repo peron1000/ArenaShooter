@@ -17,22 +17,19 @@ import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
-
-	public static List<Controller> controllers = new ArrayList<>();
-
-	private static Stack<GameState> stateStack = new Stack<>();
-	private static GameState current = new Start();
-
-	public static final GameMaster gm = new GameMaster();
-
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
 	public static final String mapCharChooser = "data/mapXML/menu_character_chooser.xml";
-	
+
+	public List<Controller> controllers = new ArrayList<>();
+
+	private Stack<GameState> stateStack = new Stack<>();
+	private GameState current = new Start();
+
 	private static Loading loading = Loading.loading;
 	
 	private InputListener inputs = new InputListener();
 
-	private GameMaster() {
+	GameMaster() {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void launch(InputActionEvent event) {
@@ -46,7 +43,10 @@ public class GameMaster {
 		});
 	}
 	
-	public static GameState getCurrent() {
+	/**
+	 * @return current GameState
+	 */
+	public GameState getCurrent() {
 		return current;
 	}
 

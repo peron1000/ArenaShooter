@@ -24,7 +24,6 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
-import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 
 /**
@@ -57,7 +56,7 @@ public class Intro extends GameState {
 					case UI_CONTINUE:
 						bgm.destroy();
 						bgmLoop.destroy();
-						GameMaster.gm.requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
+						Main.getGameMaster().requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
 						break;
 					default:
 						break;

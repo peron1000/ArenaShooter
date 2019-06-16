@@ -256,7 +256,7 @@ class MainMenu extends UiElement implements MultiUi {
 
 			@Override
 			public void make() {
-				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+				Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
 			}
 		});
 		quit.setColorRect(new Vec4f(0.25, 0.25, 1, 1));

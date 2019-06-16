@@ -2,7 +2,6 @@ package arenashooter.game.gameStates.editor;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -15,7 +14,6 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
-import arenashooter.entities.Entity;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.game.Main;

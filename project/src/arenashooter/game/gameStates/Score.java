@@ -14,6 +14,7 @@ import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Score extends GameState {
@@ -81,12 +82,12 @@ public class Score extends GameState {
 		group.addElement(groupButtons);
 
 		// Display scores
-		Controller winner = GameMaster.controllers.get(0);
-		Controller killer = GameMaster.controllers.get(0);
-		Controller survivor = GameMaster.controllers.get(0);
-		Controller bestest = GameMaster.controllers.get(0);
+		Controller winner = Main.getGameMaster().controllers.get(0);
+		Controller killer = Main.getGameMaster().controllers.get(0);
+		Controller survivor = Main.getGameMaster().controllers.get(0);
+		Controller bestest = Main.getGameMaster().controllers.get(0);
 
-		for (Controller controller : GameMaster.controllers) {
+		for (Controller controller : Main.getGameMaster().controllers) {
 			if (controller.deaths < survivor.deaths)
 				survivor = controller;
 
@@ -99,7 +100,7 @@ public class Score extends GameState {
 			if (controller.roundsWon > bestest.roundsWon)
 				winner = controller;
 		}
-		for (Controller controller : GameMaster.controllers) {
+		for (Controller controller : Main.getGameMaster().controllers) {
 			controller.resetScore();
 		}
 
@@ -139,11 +140,11 @@ public class Score extends GameState {
 			public void launch(InputActionEvent event) {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
-					case JUMP:
+					case JUMP: //TODO: Use UI action
 						buttonA.setImage(
 								new UiImage(Texture.loadTexture("data/sprites/interface/Button_A_Activated.png")));
 						break;
-					case DROP_ITEM:
+					case DROP_ITEM: //TODO: Use UI action
 						buttonY.setImage(
 								new UiImage(Texture.loadTexture("data/sprites/interface/Button_Y_Activated.png")));
 						break;
@@ -157,17 +158,17 @@ public class Score extends GameState {
 					}
 				} else if(event.getActionState() == ActionState.JUST_RELEASED) {
 					switch (event.getAction()) {
-					case JUMP:
+					case JUMP: //TODO: Use UI action
 						// Rematch
-						GameMaster.gm.requestNextState(new Game(GameParam.maps.size()), GameParam.mapsString());
+						Main.getGameMaster().requestNextState(new Game(GameParam.maps.size()), GameParam.mapsString());
 						break;
-					case DROP_ITEM:
+					case DROP_ITEM: //TODO: Use UI action
 						// New Game
-						GameMaster.gm.requestNextState(new Config(), GameMaster.mapEmpty);
+						Main.getGameMaster().requestNextState(new Config(), GameMaster.mapEmpty);
 						break;
 					case UI_BACK:
 						// Back to menu
-						GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+						Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
 						break;
 					default:
 						break;

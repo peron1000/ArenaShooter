@@ -20,7 +20,7 @@ import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
 import arenashooter.game.ControllerPlayer;
-import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 
 public class Loading extends GameState {
 	private static GameState next = new Start();
@@ -105,7 +105,7 @@ public class Loading extends GameState {
 		entities.add(cam);
 		Window.setCamera(cam);
 
-		List<ControllerPlayer> players = GameMaster.gm.getPlayerControllers();
+		List<ControllerPlayer> players = Main.getGameMaster().getPlayerControllers();
 
 		float startX = -(players.size() * 1.28f) / 2f;
 		int i = 0;

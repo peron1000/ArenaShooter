@@ -18,6 +18,7 @@ import arenashooter.engine.ui.UiGridWeak;
 import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Config extends GameState {
@@ -63,13 +64,13 @@ public class Config extends GameState {
 					case UI_CONTINUE:
 						if (!menu.continueAction()) {
 							if (!GameParam.maps.isEmpty()) {
-								GameMaster.gm.requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
+								Main.getGameMaster().requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
 							}
 						}
 						break;
 					case UI_BACK:
 						if(!menu.backAction()) {
-							GameMaster.gm.requestPreviousState();
+							Main.getGameMaster().requestPreviousState();
 						}
 						break;
 					case UI_CANCEL:

@@ -11,6 +11,7 @@ import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
+import arenashooter.game.Main;
 import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.MenuStart;
 
@@ -69,7 +70,7 @@ public class MenuPause {
 
 			@Override
 			public void make() {
-				GameMaster.gm.requestNextState(new MenuStart(), GameMaster.mapEmpty);
+				Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
 			}
 		});
 

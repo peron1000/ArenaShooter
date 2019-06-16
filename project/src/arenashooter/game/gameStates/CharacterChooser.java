@@ -24,7 +24,6 @@ import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Controller;
 import arenashooter.game.ControllerPlayer;
-import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
@@ -117,9 +116,9 @@ public class CharacterChooser extends GameState {
 							break;
 						}
 						
-						GameMaster.controllers.clear();
+						Main.getGameMaster().controllers.clear();
 						for (Controller cont : controllers.values()) {
-							GameMaster.controllers.add(cont);
+							Main.getGameMaster().controllers.add(cont);
 						}
 						Object[] variable = GameParam.maps.toArray();
 						String[] chosenMaps = new String[variable.length];
@@ -127,7 +126,7 @@ public class CharacterChooser extends GameState {
 							chosenMaps[i] = (String) variable[i];
 						}
 						Game game = new Game(GameParam.maps.size());
-						GameMaster.gm.requestNextState(game, GameParam.mapsString());
+						Main.getGameMaster().requestNextState(game, GameParam.mapsString());
 						break;
 
 					case UI_OK:
@@ -140,13 +139,11 @@ public class CharacterChooser extends GameState {
 
 					case UI_BACK:
 						if (!event.getDevice().equals(Device.KEYBOARD)) {
-							// if (controllers.get(event.getDevice()) != null)
 							if (controllers.keySet().contains(event.getDevice())) {
-
 								removeController(event.getDevice());
 							}
 						} else {
-							GameMaster.gm.requestPreviousState();
+							Main.getGameMaster().requestPreviousState();
 						}
 						break;
 
@@ -169,7 +166,7 @@ public class CharacterChooser extends GameState {
 		controllers.put(device, newController);
 		pileOrdreJoueur.push(newController);
 
-		GameMaster.controllers.add(newController);
+		Main.getGameMaster().controllers.add(newController);
 		CharacterSprite caracSprite = new CharacterSprite(newController.info);
 		caracSprite.localPosition.set(nextSpriteX, -2.5);
 		caracSprite.attachToParent(current, "PlayerSprite_" + pileOrdreJoueur.size());
@@ -220,7 +217,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("Before\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
-		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.controllers.size());
+		Main.log.info("GameMaster.gm.controllers.size()" + Main.getGameMaster().controllers.size());
 
 		if(current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber) != null){
 			current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber).detach();
@@ -229,7 +226,7 @@ public class CharacterChooser extends GameState {
 		charSprite.detach();
 		sprites.remove((controllers.get(device)));
 		pileOrdreJoueur.remove(controllers.get(device).playerNumber);
-		GameMaster.controllers.remove(controllers.get(device));
+		Main.getGameMaster().controllers.remove(controllers.get(device));
 		controllers.remove(device);
 		updatePlayersNumber();
 		// i -= charOffset;
@@ -248,7 +245,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("After\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
-		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.controllers.size());
+		Main.log.info("GameMaster.gm.controllers.size()" + Main.getGameMaster().controllers.size());
 
 		Audio.playSound("data/sound/ui/zboui_02.ogg", AudioChannel.UI, 1, 1);
 	}
