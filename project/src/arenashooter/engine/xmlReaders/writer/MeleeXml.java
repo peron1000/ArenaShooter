@@ -5,7 +5,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import arenashooter.entities.spatials.items.Melee;
-import arenashooter.entities.spatials.items.Shotgun;
 
 public class MeleeXml extends AbstractElement {
 //	private String name = "";

@@ -1,6 +1,7 @@
 package arenashooter.engine.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import arenashooter.engine.math.Vec4f;
@@ -11,7 +12,7 @@ public class DoubleInput extends UiElement {
 
 	private UiImage background = new UiImage(new Vec4f(0.5, 0.5, 0.5, 0.3));
 	private Label input = new Label("0");
-	ArrayList<Label> word = new ArrayList<>();
+	List<Label> word = new ArrayList<>();
 	private char c = '0';
 	int index = 0;
 	private Vec4f selecColor = new Vec4f(1, 1, 0, 1), white = new Vec4f(1);

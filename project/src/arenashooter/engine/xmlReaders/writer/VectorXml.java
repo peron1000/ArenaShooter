@@ -1,13 +1,14 @@
 package arenashooter.engine.xmlReaders.writer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class VectorXml extends AbstractElement{
 	private Document doc;
-	private ArrayList<Element> vectors = new ArrayList<>();
+	private List<Element> vectors = new ArrayList<>();
 	
 	public VectorXml(Document doc, Element elementParent) {
 		super(doc, elementParent);
@@ -44,7 +45,7 @@ public class VectorXml extends AbstractElement{
 		vectors.add(vec);
 	}
 	
-	public ArrayList<Element> getVectors(){
+	public List<Element> getVectors(){
 		return vectors;
 	}
 

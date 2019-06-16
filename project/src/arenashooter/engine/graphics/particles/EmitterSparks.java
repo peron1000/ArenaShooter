@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
@@ -18,10 +19,10 @@ import arenashooter.game.GameMaster;
 class EmitterSparks extends Emitter {
 	private final EmitterTemplateSparks data;
 	
-	private ArrayList<Vec2f> positions;
-	private ArrayList<Vec2f> velocities;
-	private ArrayList<Float> lives;
-	private ArrayList<Float> livesTotal;
+	private List<Vec2f> positions;
+	private List<Vec2f> velocities;
+	private List<Float> lives;
+	private List<Float> livesTotal;
 
 	/**
 	 * Create a spark particle emitter (rectangles oriented towards their velocity)
@@ -47,7 +48,7 @@ class EmitterSparks extends Emitter {
 		super.update(delta);
 		
 		//Force = current map gravity
-		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, data.gravityScale);
+		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, data.gravityScale); //TODO: Access mArena properly
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
 			if( lives.get(i) > 0 ) {

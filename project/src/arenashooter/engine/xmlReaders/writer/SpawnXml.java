@@ -6,7 +6,6 @@ import org.w3c.dom.Element;
 
 import arenashooter.engine.xmlReaders.XmlVector;
 import arenashooter.entities.Entity;
-import arenashooter.entities.spatials.Spawner;
 
 public class SpawnXml extends AbstractElement {
 

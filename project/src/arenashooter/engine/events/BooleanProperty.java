@@ -1,6 +1,7 @@
 package arenashooter.engine.events;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Observable;
  */
 public class BooleanProperty extends Observable {
 	private boolean value = true;
-	public LinkedList<EventListener<NewValueEvent<Boolean>>> listener = new LinkedList<>();
+	public List<EventListener<NewValueEvent<Boolean>>> listener = new LinkedList<>();
 	
 	public BooleanProperty() {
 	}

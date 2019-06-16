@@ -12,18 +12,14 @@ import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.entities.Arena;
-import arenashooter.game.gameStates.CharacterChooser;
-import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
-import arenashooter.game.gameStates.Config;
-import arenashooter.game.gameStates.Score;
 import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
 
-	public ArrayList<Controller> controllers = new ArrayList<>();
+	public List<Controller> controllers = new ArrayList<>();
 
 	private Stack<GameState> stateStack = new Stack<>();
 	private static GameState current = new Start();

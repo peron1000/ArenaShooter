@@ -3,7 +3,9 @@ package arenashooter.game.gameStates;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
@@ -33,8 +35,8 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Game extends GameState {
 	private int nbPlayers = GameMaster.gm.controllers.size();
-	private ArrayList<Character> players = new ArrayList<>(nbPlayers);
-	private ArrayList<Arena> mapsToShuffle = new ArrayList<Arena>();
+	private List<Character> players = new ArrayList<>(nbPlayers);
+	private List<Arena> mapsToShuffle = new ArrayList<Arena>();
 
 	int currentRound = 1;
 	private final GameMode gameMode = GameParam.getGameMode();
@@ -47,8 +49,8 @@ public class Game extends GameState {
 	// Les teams sont pour l'instant au nombre de 2. On pourra changer
 	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
 	// voulues.
-	HashSet<Controller> team1 = new HashSet<Controller>();
-	HashSet<Controller> team2 = new HashSet<Controller>();
+	Set<Controller> team1 = new HashSet<Controller>();
+	Set<Controller> team2 = new HashSet<Controller>();
 	Timer roundTimer;
 	private boolean oneLeft;
 

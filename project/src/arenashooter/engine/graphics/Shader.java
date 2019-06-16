@@ -33,20 +33,20 @@ public class Shader {
 	private static float[] floatBuffer16 = new float[16];
 	
 	/** Cached shaders */
-	private static HashMap<String, Shader> cache = new HashMap<>();
+	private static Map<String, Shader> cache = new HashMap<>();
 	/** Cached shader source code */
-	private static HashMap<String, String> cacheSrc = new HashMap<>();
+	private static Map<String, String> cacheSrc = new HashMap<>();
 
 	/** Currently bound shader program */
 	private static int boundShader = 0;
 	
 	private Map<String, Integer> uniforms;
 	private ParamType[] uniformTypes;
-	HashMap<String, Integer> defaultsParamsI = new HashMap<>();
-	HashMap<String, Float> defaultsParamsF = new HashMap<>();
-	HashMap<String, Vec2f> defaultsParamsVec2f = new HashMap<>();
-	HashMap<String, Vec3f> defaultsParamsVec3f = new HashMap<>();
-	HashMap<String, Vec4f> defaultsParamsVec4f = new HashMap<>();
+	Map<String, Integer> defaultsParamsI = new HashMap<>();
+	Map<String, Float> defaultsParamsF = new HashMap<>();
+	Map<String, Vec2f> defaultsParamsVec2f = new HashMap<>();
+	Map<String, Vec3f> defaultsParamsVec3f = new HashMap<>();
+	Map<String, Vec4f> defaultsParamsVec4f = new HashMap<>();
 	
 	private int program;
 	

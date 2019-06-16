@@ -1,6 +1,7 @@
 package arenashooter.engine.xmlReaders;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,7 +15,7 @@ import arenashooter.engine.math.Vec4f;
 
 public class ParticlesXmlReader extends XmlReader {
 
-	private static ArrayList<EmitterTemplate> data;
+	private static List<EmitterTemplate> data;
 	private static EmitterTemplate currentEmitter;
 	private static Element emitterType;
 	private static Texture texture;

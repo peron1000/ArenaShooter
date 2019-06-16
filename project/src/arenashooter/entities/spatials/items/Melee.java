@@ -2,7 +2,9 @@ package arenashooter.entities.spatials.items;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
@@ -39,8 +41,8 @@ public class Melee extends Usable {
 	
 	//Damage dealing
 	private Spatial bladeBot,bladeTop;
-	private HashMap<Spatial, Float> hitEntities = new HashMap<>();
-	private HashSet<Spatial> damagedEntities = new HashSet<>();
+	private Map<Spatial, Float> hitEntities = new HashMap<>();
+	private Set<Spatial> damagedEntities = new HashSet<>();
 	private Vec2f lastBladeBot, lastBladeTop;
 	private boolean dealingDamage = false;
 	private float bladeRayFraction = 1;

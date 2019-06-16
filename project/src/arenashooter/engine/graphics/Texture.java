@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import arenashooter.engine.math.Vec2f;
@@ -152,7 +153,7 @@ public class Texture {
 	public static void cleanTextures() { //TODO: Test
 		Window.log.info("Cleaning textures...");
 		
-		ArrayList<String> toRemove = new ArrayList<String>(0);
+		List<String> toRemove = new ArrayList<String>(0);
 		
 		Texture.unbind();
 		

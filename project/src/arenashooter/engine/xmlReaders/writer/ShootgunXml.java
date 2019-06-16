@@ -4,7 +4,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Shotgun;
 
 public class ShootgunXml extends AbstractElement {

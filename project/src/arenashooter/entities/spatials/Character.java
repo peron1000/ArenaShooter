@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
@@ -635,7 +636,7 @@ public class Character extends RigidBodyContainer {
 		}
 	};
 
-	private HashMap<Spatial, Float> punchHit = new HashMap<>();
+	private Map<Spatial, Float> punchHit = new HashMap<>();
 	/** Farthest blocking entity hit by the punch */
 	private float punchRayFraction = 0;
 	RayCastCallback PunchRaycastCallback = new RayCastCallback() {

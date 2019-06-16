@@ -50,8 +50,8 @@ public class ModelsData {
 	 * @param path mesh file (*.obj)
 	 * @return a map of material names linked to their shaders path
 	 */
-	static HashMap<String, String> getShadersOverrides(String path) {
-		HashMap<String, String> res = new HashMap<>();
+	static Map<String, String> getShadersOverrides(String path) {
+		Map<String, String> res = new HashMap<>();
 		
 		File file = new File( path.substring(0, path.lastIndexOf('.'))+".shaders" );
 		

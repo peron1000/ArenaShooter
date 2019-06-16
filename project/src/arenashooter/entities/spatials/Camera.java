@@ -1,6 +1,6 @@
 package arenashooter.entities.spatials;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
@@ -81,7 +81,7 @@ public class Camera extends Spatial3 {
 	 * @param basePos base camera position used to restrict movement
 	 * @param d delta time
 	 */
-	public void center( ArrayList<Character> centerTargets, Vec3f basePos, double d ) { //TODO: Improve bounds support
+	public void center( List<Character> centerTargets, Vec3f basePos, double d ) { //TODO: Improve bounds support
 		if(centerTargets == null || centerTargets.isEmpty() ) {
 			targetLoc.set(basePos);
 			return;

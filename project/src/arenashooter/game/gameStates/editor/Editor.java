@@ -1,6 +1,7 @@
 package arenashooter.game.gameStates.editor;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -27,7 +28,7 @@ public class Editor extends GameState {
 
 	private InputListener inputs = new InputListener();
 
-	LinkedList<Editable> allEditable = new LinkedList<>();
+	List<Editable> allEditable = new LinkedList<>();
 	Editable onSetting = null;
 
 	private MainMenu mainMenu = new MainMenu(current, this);

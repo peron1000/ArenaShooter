@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Texture;
@@ -31,7 +32,7 @@ public class Loading extends GameState {
 	public static Loading loading = new Loading();
 
 	private static String[] toLoad;
-	public static HashMap<File, Texture> loadTexture = new HashMap<>();
+	public static Map<File, Texture> loadTexture = new HashMap<>();
 	private static Iterator<File> iterator = loadTexture.keySet().iterator();
 	private static int indexLoading = 0;
 	private static boolean firstStep = true;
@@ -96,7 +97,7 @@ public class Loading extends GameState {
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
 
-		ArrayList<Entity> entities = new ArrayList<>();
+		List<Entity> entities = new ArrayList<>();
 
 		// Camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));

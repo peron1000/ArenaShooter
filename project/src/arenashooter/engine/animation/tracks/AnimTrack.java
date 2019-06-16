@@ -2,6 +2,7 @@ package arenashooter.engine.animation.tracks;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
 import arenashooter.engine.animation.AnimInterpolation;
@@ -26,7 +27,7 @@ public abstract class AnimTrack<T> {
 		values = new Object[keyframes.size()];
 		
 		//Make sure keyframes times are sorted
-		ArrayList<Double> timesList = new ArrayList<>(keyframes.size());
+		List<Double> timesList = new ArrayList<>(keyframes.size());
 		timesList.addAll(keyframes.keySet());
 		timesList.sort( new Comparator<Double>() {
 			public int compare(Double d1, Double d2) {

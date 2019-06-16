@@ -2,12 +2,13 @@ package arenashooter.engine.ui;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import arenashooter.engine.math.Vec2f;
 
 public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<E> {
 	
-	private LinkedList<E> list = new LinkedList<>();
+	private List<E> list = new LinkedList<>();
 	private double spacing = 6;
 	private Vec2f positionRef = new Vec2f();
 	

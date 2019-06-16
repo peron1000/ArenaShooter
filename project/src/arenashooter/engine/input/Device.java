@@ -2,6 +2,7 @@ package arenashooter.engine.input;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.lwjgl.glfw.GLFWGamepadState;
@@ -29,8 +30,8 @@ public enum Device {
 	public final int id;
 	private static final float deadZone = 0.3f;
 	
-	private TreeMap<ActionV2, ActionState> actions = new TreeMap<>();
-	private TreeMap<AxisV2, Float> axis = new TreeMap<>();
+	private Map<ActionV2, ActionState> actions = new TreeMap<>();
+	private Map<AxisV2, Float> axis = new TreeMap<>();
 	
 	private Device( int id ) {
 		this.id = id;

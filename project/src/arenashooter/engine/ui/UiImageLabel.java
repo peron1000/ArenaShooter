@@ -1,6 +1,7 @@
 package arenashooter.engine.ui;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import arenashooter.engine.ui.simpleElement.Label;
@@ -9,7 +10,7 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 public class UiImageLabel extends UiElement {
 	
 	private UiImage image;
-	private HashSet<UiElement> labels = new HashSet<>();
+	private Set<UiElement> labels = new HashSet<>();
 	
 	public UiImageLabel(UiImage image) {
 		this.image = image;

@@ -3,13 +3,14 @@ package arenashooter.engine.graphics.particles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.ParticlesXmlReader;
 
 public class ParticleSystem {
-	private static HashMap<String, EmitterTemplate[]> cache = new HashMap<>();
+	private static Map<String, EmitterTemplate[]> cache = new HashMap<>();
 	
 	private List<Emitter> emitters;
 	/** System's world position */

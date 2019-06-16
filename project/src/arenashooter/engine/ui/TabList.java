@@ -2,6 +2,8 @@ package arenashooter.engine.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import arenashooter.engine.ui.simpleElement.Label;
@@ -12,8 +14,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	
 	private CircleList<UiListVertical<? extends E>> circleList = new CircleList<>();
 	private Label tabTitle = new Label("");
-	private HashMap<UiListVertical<? extends E>, String> binding = new HashMap<>();
-	private HashMap<UiListVertical<? extends E>, ArrayList<Label>> labelsInfo = new HashMap<>();
+	private Map<UiListVertical<? extends E>, String> binding = new HashMap<>();
+	private Map<UiListVertical<? extends E>, List<Label>> labelsInfo = new HashMap<>();
 	private double titleSpacing = 1.5;
 	private int indexTarget = 0;
 	private UiImage background = new UiImage(0.5, 0.5, 0.5, 1);
@@ -31,7 +33,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	
 	public void addBind(String tabTitle , UiListVertical<? extends E> uiList) {
 		binding.put(uiList, tabTitle);
-		ArrayList<Label> list = labelsInfo.get(uiList);
+		List<Label> list = labelsInfo.get(uiList);
 		if(list ==null) {
 			labelsInfo.put(uiList, new ArrayList<>());
 		}
@@ -44,7 +46,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	}
 	
 	public void addLabelInfo(UiListVertical<? extends E> uiList , Label info) {
-		ArrayList<Label> list = labelsInfo.get(uiList);
+		List<Label> list = labelsInfo.get(uiList);
 		if(list == null) {
 			list = new ArrayList<>();
 			labelsInfo.put(uiList, list);
@@ -57,7 +59,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public void setSpacing(double spacing) {
 		this.spacing = spacing;
 		for (UiListVertical<? extends E> uiListVertical : circleList) {
-			ArrayList<Label> listInfos = labelsInfo.get(uiListVertical);
+			List<Label> listInfos = labelsInfo.get(uiListVertical);
 			int i = 0;
 			for (Label label : listInfos) {
 				label.setPosition(getPosition().x, getPosition().y+spacing*i);
@@ -82,7 +84,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	
 	private void actionOnAll(Consumer<NoStatic> c) {
 		c.accept(background);
-		for (ArrayList<Label> info : labelsInfo.values()) {
+		for (List<Label> info : labelsInfo.values()) {
 			for (Label label : info) {
 				c.accept(label);
 			}

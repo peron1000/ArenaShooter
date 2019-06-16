@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
@@ -17,7 +19,7 @@ public class Entity implements Editable {
 	private Entity parent = null;
 	/** Key to find this entity in its parent's children */
 	private String name = "";
-	private HashMap<String, Entity> children = new HashMap<String, Entity>();
+	private Map<String, Entity> children = new HashMap<String, Entity>();
 
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
@@ -108,7 +110,7 @@ public class Entity implements Editable {
 	 * If you intend to use this for get(), you should use getChild() instead.
 	 * @return this Entity's children map (name->child)
 	 */
-	public HashMap<String, Entity> getChildren() { return children; }
+	public Map<String, Entity> getChildren() { return children; }
 	
 	/**
 	 * Get a child Entity from its name.
@@ -125,7 +127,7 @@ public class Entity implements Editable {
 	 */
 	public void step(double d) {
 		if (!children.isEmpty()) {
-			LinkedList<Entity> toUpdate = new LinkedList<>();
+			List<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(children.values());
 			for (Entity e : toUpdate) {
 				e.updateAttachment();
@@ -184,7 +186,7 @@ public class Entity implements Editable {
 //		else
 //			draw();
 //
-//		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
+//		List<Entity> toDraw = new ArrayList<>(children.values());
 //		toDraw.sort(comparator);
 //		
 //		for (Entity e : toDraw)
@@ -203,7 +205,7 @@ public class Entity implements Editable {
 			Window.endTransparency();
 		draw();
 
-		ArrayList<Entity> toDraw = new ArrayList<>(children.values());
+		List<Entity> toDraw = new ArrayList<>(children.values());
 		toDraw.sort(comparator);
 
 		for (Entity e : toDraw)

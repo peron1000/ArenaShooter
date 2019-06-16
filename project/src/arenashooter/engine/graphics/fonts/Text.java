@@ -1,6 +1,7 @@
 package arenashooter.engine.graphics.fonts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.fonts.Font.FontChar;
@@ -33,7 +34,7 @@ public class Text {
 	public float getWidth() { return width; }
 
 	private void genModel() { //TODO: Support multi-lines
-		ArrayList<FontChar> chars = new ArrayList<>(text.length());
+		List<FontChar> chars = new ArrayList<>(text.length());
 		
 		width = 0;
 		
@@ -46,8 +47,8 @@ public class Text {
 			}
 		}
 		
-		ArrayList<Float> data = new ArrayList<>();
-		ArrayList<Integer> indices = new ArrayList<>();
+		List<Float> data = new ArrayList<>();
+		List<Integer> indices = new ArrayList<>();
 		
 		int current = 0;
 		float currentX = 0;

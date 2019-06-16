@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.Map;
 
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
@@ -20,7 +21,7 @@ public class Font {
 	final String path;
 	int scaleW, scaleH;
 	private Texture tex;
-	HashMap<Character, FontChar> chars = new HashMap<>();
+	Map<Character, FontChar> chars = new HashMap<>();
 	int[] padding = new int[4];
 
 	private Font(String path) {
@@ -74,7 +75,7 @@ public class Font {
 			case "page":
 				readPageInfo(font, parts);
 				break;
-			case "chars": //No need to read this because HashMap doesn't have a fixed size
+			case "chars": //No need to read this because the collection does not have a fixed size
 				break;
 			case "char":
 				readChar(font, parts);

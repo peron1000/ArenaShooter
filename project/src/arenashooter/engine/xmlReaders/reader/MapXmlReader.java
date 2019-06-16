@@ -1,8 +1,10 @@
 package arenashooter.engine.xmlReaders.reader;
 
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
@@ -32,18 +34,11 @@ public class MapXmlReader extends XmlReader {
 	private Element root;
 	private boolean done = false;
 
-	/** All spawners */
-	//public ArrayList<Vec2f> spawner;
-	/** Character spawners */
-	//public ArrayList<Vec2f> spawnerChars;
-
-	private HashMap<EntitiesLoader<? extends Entity>, LinkedList<Tuple<Element, Entity>>> entitiesToLoad = new HashMap<>();
+	private Map<EntitiesLoader<? extends Entity>, Deque<Tuple<Element, Entity>>> entitiesToLoad = new HashMap<>();
 
 	public MapXmlReader(String path) {
 		parse(path);
 		root = document.getDocumentElement();
-		//spawner = new ArrayList<Vec2f>();
-		//spawnerChars = new ArrayList<Vec2f>();
 
 		initMap(e -> entitiesToLoad.put(e, new LinkedList<>()));
 	}
@@ -61,8 +56,7 @@ public class MapXmlReader extends XmlReader {
 	}
 
 	public boolean loadNextEntity() {
-		for (Entry<EntitiesLoader<? extends Entity>, LinkedList<Tuple<Element, Entity>>> entry : entitiesToLoad
-				.entrySet()) {
+		for (Entry<EntitiesLoader<? extends Entity>, Deque<Tuple<Element, Entity>>> entry : entitiesToLoad.entrySet()) {
 			if (!entry.getValue().isEmpty()) {
 				Tuple<Element, Entity> tuple = entry.getValue().pollFirst();
 				Entity newEntity = entry.getKey().loadEntity(tuple.x, tuple.y);

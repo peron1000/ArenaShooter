@@ -3,6 +3,7 @@ package arenashooter.game.gameStates;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -136,7 +137,7 @@ public class Config extends GameState {
 	@Override
 	public void init() {
 
-		ArrayList<File> maps = new ArrayList<>(Loading.loadTexture.keySet());
+		List<File> maps = new ArrayList<>(Loading.loadTexture.keySet());
 		maps.sort(new Comparator<File>() {
 			@Override
 			public int compare(File o1, File o2) {
@@ -147,7 +148,7 @@ public class Config extends GameState {
 		int i = 0, nbElemH = 7;
 		double spacing = 15;
 		// init
-		ArrayList<UiListVertical<UiElement>> everyList = new ArrayList<>(nbElemH);
+		List<UiListVertical<UiElement>> everyList = new ArrayList<>(nbElemH);
 		for (int j = 0; j < nbElemH; j++) {
 			UiListVertical<UiElement> newList = new UiListVertical<>();
 			everyList.add(j, newList);

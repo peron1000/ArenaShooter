@@ -3,6 +3,7 @@ package arenashooter.game.gameStates.editor;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.graphics.Light;
@@ -60,8 +61,8 @@ class MainMenu extends UiElement implements MultiUi {
 
 	private Editor editor;
 
-	private HashMap<Entity, Button> entityToButton = new HashMap<>();
-	private HashMap<TypeEntites, Button> typeToButton = new HashMap<>();
+	private Map<Entity, Button> entityToButton = new HashMap<>();
+	private Map<TypeEntites, Button> typeToButton = new HashMap<>();
 	private Entity parent;
 	private Ui_Input ui_InputState = Ui_Input.NOTHING;
 	private DoubleInput doubleInput = new DoubleInput();

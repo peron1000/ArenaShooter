@@ -1,6 +1,7 @@
 package arenashooter.engine.ui;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
@@ -22,7 +23,7 @@ public class ScrollerH<E> extends UiActionable {
 			// Nothing by default
 		}
 	};
-	private HashMap<E, String> viewOfValue = new HashMap<>();
+	private Map<E, String> viewOfValue = new HashMap<>();
 
 	public ScrollerH(E[] enumValues) {
 		for (E e : enumValues) {

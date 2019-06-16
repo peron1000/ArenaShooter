@@ -32,10 +32,10 @@ public class Arena extends Entity {
 	public Map<String, Item> spawnList = new HashMap<>();
 
 	/** Character spawns that have been used */
-	public ArrayList<Vec2f> usedSpawns = new ArrayList<>();
+	public List<Vec2f> usedSpawns = new ArrayList<>();
 
 	/** All items currently on the map */
-	public ArrayList<Item> items = new ArrayList<>();
+	public List<Item> items = new ArrayList<>();
 
 	/** Kill every Spatial that touches these bounds (min X, min Y, max X, max Y) */
 	public Vec4f killBound = new Vec4f(-100, -100, 100, 100);

@@ -3,10 +3,11 @@ package arenashooter.engine.util;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class CircleList<T> implements Iterable<T>, Collection<T> {
 
-	private LinkedList<T> circleList = new LinkedList<>();
+	private List<T> circleList = new LinkedList<>();
 	private int index = 0;
 
 	@Override

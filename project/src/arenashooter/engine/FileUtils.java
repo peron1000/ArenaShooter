@@ -103,7 +103,7 @@ public final class FileUtils {
 	 * Auxiliary method for listFilesByType()
 	 */
 	private static List<File> listFilesByTypeAux(File parent, String endsWith) {
-		LinkedList<File> res = new LinkedList<>();
+		List<File> res = new LinkedList<>();
 		for (File file : parent.listFiles()) {
 			if (file.isDirectory())
 				res.addAll(listFilesByTypeAux(file, endsWith));

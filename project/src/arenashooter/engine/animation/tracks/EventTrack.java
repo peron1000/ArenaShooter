@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -18,7 +19,7 @@ public class EventTrack {
 		values = new AnimEvent[keyframes.size()];
 		
 		//Make sure keyframes times are sorted
-		ArrayList<Double> timesList = new ArrayList<>(keyframes.size());
+		List<Double> timesList = new ArrayList<>(keyframes.size());
 		timesList.addAll(keyframes.keySet());
 		timesList.sort( new Comparator<Double>() {
 			public int compare(Double d1, Double d2) {

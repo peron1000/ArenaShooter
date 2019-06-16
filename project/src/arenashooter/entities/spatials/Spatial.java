@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.math.Vec2f;
@@ -118,7 +119,7 @@ public class Spatial extends Entity {
 	@Override
 	public void step(double d) {
 		if(!getChildren().isEmpty()) {
-			LinkedList<Entity> toUpdate = new LinkedList<>();
+			List<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
 				e.updateAttachment();

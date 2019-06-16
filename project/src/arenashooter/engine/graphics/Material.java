@@ -1,6 +1,7 @@
 package arenashooter.engine.graphics;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -14,12 +15,12 @@ public class Material {
 	private final Shader shader;
 	private final String shaderPath;
 
-	private HashMap<String, Integer> paramsI = new HashMap<>();
-	private HashMap<String, Float> paramsF = new HashMap<>();
-	private HashMap<String, Vec2f> paramsVec2f = new HashMap<>();
-	private HashMap<String, Vec3f> paramsVec3f = new HashMap<>();
-	private HashMap<String, Vec4f> paramsVec4f = new HashMap<>();
-	private HashMap<String, Texture> paramsTex = new HashMap<>();
+	private Map<String, Integer> paramsI = new HashMap<>();
+	private Map<String, Float> paramsF = new HashMap<>();
+	private Map<String, Vec2f> paramsVec2f = new HashMap<>();
+	private Map<String, Vec3f> paramsVec3f = new HashMap<>();
+	private Map<String, Vec4f> paramsVec4f = new HashMap<>();
+	private Map<String, Texture> paramsTex = new HashMap<>();
 	
 	public Mat4f model = null, view = null, proj = null;
 	

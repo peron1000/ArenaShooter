@@ -15,6 +15,8 @@ import arenashooter.engine.physic.CollisionFlags;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
@@ -22,10 +24,10 @@ import org.jbox2d.dynamics.Fixture;
 
 public class Explosion extends Spatial {
 	private double time = 0;
-	private ArrayList<Mesh> meshesBits = new ArrayList<>();
-	private ArrayList<Float> bitsScales = new ArrayList<>();
+	private List<Mesh> meshesBits = new ArrayList<>();
+	private List<Float> bitsScales = new ArrayList<>();
 	
-	private HashSet<Spatial> damaged = new HashSet<>();
+	private Set<Spatial> damaged = new HashSet<>();
 	private DamageInfo dmgInfo;
 	
 	private float radius;
@@ -146,7 +148,7 @@ public class Explosion extends Spatial {
 		getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
 	}
 
-	private HashSet<Spatial> touched = new HashSet<>();
+	private Set<Spatial> touched = new HashSet<>();
 	/** Farthest blocking entity hit by the punch */
 	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
 		@Override

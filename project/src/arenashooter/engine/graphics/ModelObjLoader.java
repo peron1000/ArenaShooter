@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.math.Vec2f;
@@ -17,11 +19,11 @@ final class ModelObjLoader {
 	private ModelObjLoader() {};
 	
 	static ModelsData loadObj( String path ) {
-		ArrayList<Model> models = new ArrayList<>(1);
-		ArrayList<String> shaders = new ArrayList<>(1);
-		ArrayList<Texture> textures = new ArrayList<>(1);
+		List<Model> models = new ArrayList<>(1);
+		List<String> shaders = new ArrayList<>(1);
+		List<Texture> textures = new ArrayList<>(1);
 		
-		HashMap<String, String> shaderOverrides = ModelsData.getShadersOverrides(path);
+		Map<String, String> shaderOverrides = ModelsData.getShadersOverrides(path);
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -29,14 +31,14 @@ final class ModelObjLoader {
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);
 
-			ArrayList<Vec3f> vertices = new ArrayList<Vec3f>();
-			ArrayList<Vec2f> texCoords = new ArrayList<Vec2f>();
+			List<Vec3f> vertices = new ArrayList<Vec3f>();
+			List<Vec2f> texCoords = new ArrayList<Vec2f>();
 			texCoords.add(new Vec2f(0, 0)); //Add default value in case a vertex doesn't have UVs
-			ArrayList<Vec3f> normals = new ArrayList<Vec3f>();
-			ArrayList<Vec3f> generatedNormals = new ArrayList<Vec3f>();
-			ArrayList<int[]> points = new ArrayList<int[]>(); //(VertexID, TexCoordsID, NormalsID)[]
-			HashMap<int[], Integer> pointsID = new HashMap<int[], Integer>(); //To find a point's ID from its value
-			ArrayList<int[]> faces = new ArrayList<int[]>(); //(Point1, Point2, Point3)[]
+			List<Vec3f> normals = new ArrayList<Vec3f>();
+			List<Vec3f> generatedNormals = new ArrayList<Vec3f>();
+			List<int[]> points = new ArrayList<int[]>(); //(VertexID, TexCoordsID, NormalsID)[]
+			Map<int[], Integer> pointsID = new HashMap<int[], Integer>(); //To find a point's ID from its value
+			List<int[]> faces = new ArrayList<int[]>(); //(Point1, Point2, Point3)[]
 			
 			//Materials
 			HashMap<String, Texture> materials = new HashMap<>();
@@ -197,9 +199,9 @@ final class ModelObjLoader {
 		return Vec3f.normalize(res);
 	}
 	
-	private static Model finishModel( ArrayList<Vec3f> vertices, ArrayList<Vec2f> texCoords, ArrayList<Vec3f> normals, ArrayList<Vec3f> generatedNormals, ArrayList<int[]> points, ArrayList<int[]> faces ) {
+	private static Model finishModel( List<Vec3f> vertices, List<Vec2f> texCoords, List<Vec3f> normals, List<Vec3f> generatedNormals, List<int[]> points, List<int[]> faces ) {
 		//Convert data to arrays
-		ArrayList<Float> dataList = new ArrayList<Float>();
+		List<Float> dataList = new ArrayList<Float>();
 		for(int[] point : points) {
 			dataList.add(vertices.get(point[0]).x);
 			dataList.add(vertices.get(point[0]).y);
@@ -217,7 +219,7 @@ final class ModelObjLoader {
 				dataList.add(normals.get(point[2]).z);
 			}
 		}
-		ArrayList<Integer> idsList = new ArrayList<Integer>();
+		List<Integer> idsList = new ArrayList<Integer>();
 		for(int[] face : faces) {
 			idsList.add(face[0]);
 			idsList.add(face[1]);

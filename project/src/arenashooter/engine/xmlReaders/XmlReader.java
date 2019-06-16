@@ -92,7 +92,7 @@ public abstract class XmlReader {
 	}
 
 	public static List<Element> getListElementByName(String name, Element parent) {
-		ArrayList<Element> array = new ArrayList<>();
+		List<Element> array = new ArrayList<>();
 		NodeList list = parent.getChildNodes();
 		for (int i = 0; i < list.getLength(); i++) {
 			Node node = list.item(i);

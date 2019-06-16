@@ -1,13 +1,14 @@
 package arenashooter.engine.ui;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 
 public abstract class UiElement implements Navigable, NoStatic {
 	public static final double defaultLerp = 5;
-	private HashMap<String, Trigger> actions = new HashMap<>();
+	private Map<String, Trigger> actions = new HashMap<>();
 
 	private Vec2f pos = new Vec2f(), scale = new Vec2f(10), rePos = pos.clone(), reScale = scale.clone();
 	private double rotation = 0, lerp = defaultLerp;

@@ -30,8 +30,8 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class CharacterChooser extends GameState {
 
-	private HashMap<Device, Controller> controllers = new HashMap<>(1);
-	private HashMap<Controller, CharacterSprite> sprites = new HashMap<>(1);
+	private Map<Device, Controller> controllers = new HashMap<>(1);
+	private Map<Controller, CharacterSprite> sprites = new HashMap<>(1);
 	Stack<Controller> pileOrdreJoueur = new Stack<Controller>();
 	private final double firstX = -10.9;
 	private double nextSpriteX = firstX;

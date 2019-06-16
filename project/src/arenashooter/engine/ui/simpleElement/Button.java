@@ -1,6 +1,5 @@
 package arenashooter.engine.ui.simpleElement;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiActionable;

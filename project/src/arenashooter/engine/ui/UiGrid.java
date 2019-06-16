@@ -2,6 +2,7 @@ package arenashooter.engine.ui;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class UiGrid extends UiElement implements Iterable<UiElement>, MultiUi {
 
@@ -9,7 +10,7 @@ public class UiGrid extends UiElement implements Iterable<UiElement>, MultiUi {
 
 	private double spacing = 8;
 
-	private ArrayList<UiElement> list = new ArrayList<>();
+	private List<UiElement> list = new ArrayList<>();
 
 	private boolean loop = true;
 

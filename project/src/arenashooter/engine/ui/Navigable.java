@@ -1,7 +1,5 @@
 package arenashooter.engine.ui;
 
-import arenashooter.engine.math.Vec2f;
-
 public interface Navigable {
 	
 	/**

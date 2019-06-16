@@ -1,6 +1,7 @@
 package arenashooter.engine.events.input;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.input.ActionState;
@@ -17,11 +18,11 @@ public class InputListener {
 	/**
 	 * List of Event in case of an inputs from Keyboard or Gamepad's button
 	 */
-	public LinkedList<EventListener<InputActionEvent>> actions = new LinkedList<>();
+	public List<EventListener<InputActionEvent>> actions = new LinkedList<>();
 	/**
 	 * List of Event in case of an inputs from Gamepad's joysticks
 	 */
-	public LinkedList<EventListener<InputAxisEvent>> axis = new LinkedList<>();
+	public List<EventListener<InputAxisEvent>> axis = new LinkedList<>();
 	
 	public void step(double delta) {
 		for (Device device : Device.values()) {

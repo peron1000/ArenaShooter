@@ -1,5 +1,6 @@
 package arenashooter.game.gameStates.engineParam;
 
+import java.util.Set;
 import java.util.TreeSet;
 
 public class GameParam {
@@ -70,7 +71,7 @@ public class GameParam {
 	}
 
 	// Maps
-	public static TreeSet<String> maps = new TreeSet<>();
+	public static Set<String> maps = new TreeSet<>();
 	
 	public static String[] mapsString() {
 		String[] ret = new String[maps.size()];

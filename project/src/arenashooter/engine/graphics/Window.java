@@ -433,7 +433,7 @@ public final class Window {
 	public static List<int[]> getAvailableResolutions() {
 		Buffer modes = glfwGetVideoModes(glfwGetPrimaryMonitor());
 
-		ArrayList<int[]> res = new ArrayList<>();
+		List<int[]> res = new ArrayList<>();
 		
 		for ( int i = 0; i < modes.capacity(); i++ ) {
 			modes.position(i);

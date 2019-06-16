@@ -312,7 +312,7 @@ public final class Audio {
 	public static void cleanBuffers() {
 		log.info("Cleaning buffers...");
 		
-		ArrayList<String> toRemove = new ArrayList<String>(0);
+		List<String> toRemove = new ArrayList<String>(0);
 		for ( BufferEntry entry : buffers.values() ) {
 		    if( entry.sound.get() == null ) {
 		    	toRemove.add(entry.file);

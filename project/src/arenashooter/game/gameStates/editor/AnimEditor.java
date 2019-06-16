@@ -4,16 +4,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.events.UIEvent;
-
 import arenashooter.engine.animation.AnimationDataEditable;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.AnimEditorTimeline;
-import arenashooter.engine.ui.Navigable;
-import arenashooter.engine.ui.NoStatic;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;

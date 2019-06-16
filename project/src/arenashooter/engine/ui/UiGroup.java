@@ -2,6 +2,7 @@ package arenashooter.engine.ui;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import arenashooter.engine.ui.simpleElement.UiImage;
 
@@ -9,7 +10,7 @@ public class UiGroup<E extends UiElement> extends UiElement implements Iterable<
 	
 	private UiImage background = null;
 	
-	private LinkedList<E> list = new LinkedList<>();
+	private List<E> list = new LinkedList<>();
 	
 	public void addElement(E uiElement) {
 		list.add(uiElement);

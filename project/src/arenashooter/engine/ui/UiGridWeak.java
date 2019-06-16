@@ -3,10 +3,12 @@ package arenashooter.engine.ui;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class UiGridWeak extends UiElement implements Iterable<UiElement> {
 
-	private ArrayList<UiListVertical<UiElement>> vLists = new ArrayList<>();
+	private List<UiListVertical<UiElement>> vLists = new ArrayList<>();
 
 	private int indexX = 0, indexY = 0;
 	
@@ -158,7 +160,7 @@ public class UiGridWeak extends UiElement implements Iterable<UiElement> {
 
 	@Override
 	public Iterator<UiElement> iterator() {
-		HashSet<UiElement> set = new HashSet<>();
+		Set<UiElement> set = new HashSet<>();
 		for (UiListVertical<UiElement> vList : vLists) {
 			for (UiElement uiElement : vList) {
 				set.add(uiElement);
