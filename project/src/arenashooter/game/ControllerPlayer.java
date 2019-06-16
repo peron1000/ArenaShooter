@@ -23,7 +23,6 @@ public class ControllerPlayer extends Controller {
 	public void step(double d) {
 		if (getCharacter() != null) {
 			if (!getCharacter().isDead() && device != null) {
-				System.out.println("alive");
 				getCharacter().movementInput = Input.getAxis(device, Axis.MOVE_X);
 				if (device == Device.KEYBOARD) {
 					Vec2f charPos = Vec2f.worldToScreen(getCharacter().getWorldPos());
@@ -69,7 +68,6 @@ public class ControllerPlayer extends Controller {
 					getCharacter().throwItem();
 			} else {
 				getCharacter().movementInput = 0;
-				System.out.println("dead");
 			}
 		}
 	}
