@@ -306,6 +306,14 @@ public class Quat {
 		return target;
 	}
 	
+	/**
+	 * Create a (x, y, z, w) vector from this Quaternion's values
+	 * @return
+	 */
+	public Vec4f toVec4f() {
+		return new Vec4f(x, y, z, w);
+	}
+	
 	public String toString() {
 		return "Quat("+w+", "+x+", "+y+", "+z+")";
 	}

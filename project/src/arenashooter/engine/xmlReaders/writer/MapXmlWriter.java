@@ -12,11 +12,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
+import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -39,9 +42,10 @@ import arenashooter.entities.spatials.items.Gun;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.entities.spatials.items.Melee;
 import arenashooter.entities.spatials.items.Shotgun;
-import arenashooter.game.Main;
 
 public class MapXmlWriter {
+	public static final Logger log = LogManager.getLogger("Xml");
+	
 	public static final MapXmlWriter writer = new MapXmlWriter();
 	public static Document doc;
 
@@ -75,7 +79,7 @@ public class MapXmlWriter {
 				} else if (entry instanceof Melee) {
 					new MeleeXml(doc, item, (Melee) entry.getValue());
 				} else {
-					Main.log.warn("Unsupported item "+entry.getValue().getClass());
+					log.warn("Unsupported item "+entry.getValue().getClass());
 					continue;
 				}
 				info.appendChild(item);
@@ -115,7 +119,7 @@ public class MapXmlWriter {
 			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
 				if (entry.getValue() instanceof Sky) {
 					if(foundSky) {
-						Main.log.warn("Multiple skies found in Arena, only the first has been written");
+						log.warn("Multiple skies found in Arena, only the first has been written");
 					} else {
 						Sky s = (Sky) entry.getValue();
 
@@ -157,7 +161,7 @@ public class MapXmlWriter {
 			DOMSource source = new DOMSource(doc);
 			transformer.transform(source, resultat);
 
-			Main.log.info("Successfully exported Arena to "+file.getPath());
+			log.info("Successfully exported Arena to "+file.getPath());
 
 		} catch ( ParserConfigurationException pce) {
 			pce.printStackTrace();
@@ -237,7 +241,7 @@ public class MapXmlWriter {
 
 				elem.appendChild( createVec3(doc, "position", entity.localPosition) );
 
-				elem.appendChild( createVec3(doc, "rotation", entity.localRotation.toEuler()) );
+				elem.appendChild( createQuat(doc, "rotation", entity.localRotation) );
 
 				elem.appendChild( createVec3(doc, "scale", entity.scale) );
 			}
@@ -258,11 +262,11 @@ public class MapXmlWriter {
 				case DIRECTIONAL:
 					elem = doc.createElement("directionalLight");
 
-					elem.appendChild( createVec3(doc, "rotation", entity.localRotation.toEuler()) );
+					elem.appendChild( createQuat(doc, "rotation", entity.localRotation) );
 
 					break;
 				default:
-					Main.log.warn("Unsupported light type for \""+entityName+"\" will not be saved to XML");
+					log.warn("Unsupported light type for \""+entityName+"\" will not be saved to XML");
 					elem = null;
 					break;
 				}
@@ -278,7 +282,7 @@ public class MapXmlWriter {
 
 				elem.appendChild( createVec3(doc, "position", entity.localPosition) );
 
-				elem.appendChild( createVec3(doc, "rotation", entity.localRotation.toEuler()) );
+				elem.appendChild( createQuat(doc, "rotation", entity.localRotation) );
 
 				elem.setAttribute("content", entity.getText().getText());
 
@@ -436,6 +440,17 @@ public class MapXmlWriter {
 		elem.setAttribute("z", String.valueOf(z));
 		return elem;
 	}
+	
+	/**
+	 * Create a vector xml element from a Quat
+	 * @param doc
+	 * @param use
+	 * @param quat
+	 * @return new Element
+	 */
+	private static Element createQuat(Document doc, String use, Quat quat) {
+		return createVec4(doc, use, quat.toVec4f());
+	}
 
 	/**
 	 * Create a vector xml element from a Vec4f
@@ -447,8 +462,6 @@ public class MapXmlWriter {
 	private static Element createVec4(Document doc, String use, Vec4f vec) {
 		return createVec4(doc, use, vec.x, vec.y, vec.z, vec.w);
 	}
-
-	//TODO: createVec4 from Quat
 
 	/**
 	 * Create a vector xml element from a set of (x, y, z, w) coordinates
