@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.ParticlesXmlReader;
 
@@ -40,9 +41,9 @@ public class ParticleSystem {
 		return new ParticleSystem( emitters );
 	}
 	
-	public void update(double delta) {
+	public void update(double delta, Vec2f gravity) {
 		for( int i=emitters.size()-1; i>=0; i-- ) {
-			if( emitters.get(i).update(delta) ) emitters.remove(i);
+			if( emitters.get(i).update(delta, gravity) ) emitters.remove(i);
 		}
 	}
 	

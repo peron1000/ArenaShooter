@@ -14,7 +14,6 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.game.GameMaster;
 
 class EmitterSparks extends Emitter {
 	private final EmitterTemplateSparks data;
@@ -44,11 +43,11 @@ class EmitterSparks extends Emitter {
 	}
 	
 	@Override
-	boolean update(double delta) {
-		super.update(delta);
+	boolean update(double delta, Vec2f gravity) {
+		super.update(delta, gravity);
 		
 		//Force = current map gravity
-		Vec2f force = Vec2f.multiply(GameMaster.gm.getMap().gravity, data.gravityScale); //TODO: Access mArena properly
+		Vec2f force = Vec2f.multiply(gravity, data.gravityScale);
 		
 		for( int i=positions.size()-1; i>=0; i-- ) {
 			if( lives.get(i) > 0 ) {

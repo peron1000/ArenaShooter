@@ -11,7 +11,6 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.entities.Arena;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
@@ -19,9 +18,9 @@ import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
 
-	public List<Controller> controllers = new ArrayList<>();
+	public static List<Controller> controllers = new ArrayList<>();
 
-	private Stack<GameState> stateStack = new Stack<>();
+	private static Stack<GameState> stateStack = new Stack<>();
 	private static GameState current = new Start();
 
 	public static final GameMaster gm = new GameMaster();
@@ -103,10 +102,6 @@ public class GameMaster {
 				requestPreviousState();
 			}
 		requestPreviousState();
-	}
-	
-	public Arena getMap() {
-		return current.getMap();
 	}
 
 	public void draw() {

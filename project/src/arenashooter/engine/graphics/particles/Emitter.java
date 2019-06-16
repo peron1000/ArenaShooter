@@ -4,6 +4,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 
 abstract class Emitter {
@@ -71,9 +72,10 @@ abstract class Emitter {
 	 * Update this emitter. Handles delay and particle spawning. 
 	 * Particle behavior needs to be implemented in override
 	 * @param delta frame time in seconds
+	 * @param gravity world gravity vector
 	 * @return emitter ended and can be destroyed
 	 */
-	boolean update(double delta) {
+	boolean update(double delta, Vec2f gravity) {
 		if( delay > 0 ) {
 			delay -= delta;
 			return false;

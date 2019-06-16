@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 
 public class Spawner extends Spatial {
@@ -55,20 +54,20 @@ public class Spawner extends Spatial {
 	 * Spawn a random item and reset timer
 	 */
 	private void spawnItem() {
-		if(!availableItems.isEmpty()) {
-			Item itemToSpawn = getRandomItem();
-			if(itemToSpawn == null) return;
-			itemToSpawn = itemToSpawn.clone();
-			//Set item position
-			itemToSpawn.localPosition.set(getWorldPos());
-			//Slight rotation
-			itemToSpawn.localRotation = Math.random()*.1;
-			GameMaster.gm.getMap().items.add(itemToSpawn);
-			itemToSpawn.attachToParent(GameMaster.gm.getMap(), genName());
+		if(getArena() == null || availableItems.isEmpty()) return;
 
-			currentItem = itemToSpawn;
-			timerWarmup.reset();
-		}
+		Item itemToSpawn = getRandomItem();
+		if(itemToSpawn == null) return;
+		itemToSpawn = itemToSpawn.clone();
+		//Set item position
+		itemToSpawn.localPosition.set(getWorldPos());
+		//Slight rotation
+		itemToSpawn.localRotation = Math.random()*.1;
+		getArena().items.add(itemToSpawn);
+		itemToSpawn.attachToParent(getArena(), genName());
+
+		currentItem = itemToSpawn;
+		timerWarmup.reset();
 	}
 
 	/**

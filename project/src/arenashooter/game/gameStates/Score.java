@@ -81,12 +81,12 @@ public class Score extends GameState {
 		group.addElement(groupButtons);
 
 		// Display scores
-		Controller winner = GameMaster.gm.controllers.get(0);
-		Controller killer = GameMaster.gm.controllers.get(0);
-		Controller survivor = GameMaster.gm.controllers.get(0);
-		Controller bestest = GameMaster.gm.controllers.get(0);
+		Controller winner = GameMaster.controllers.get(0);
+		Controller killer = GameMaster.controllers.get(0);
+		Controller survivor = GameMaster.controllers.get(0);
+		Controller bestest = GameMaster.controllers.get(0);
 
-		for (Controller controller : GameMaster.gm.controllers) {
+		for (Controller controller : GameMaster.controllers) {
 			if (controller.deaths < survivor.deaths)
 				survivor = controller;
 
@@ -98,9 +98,8 @@ public class Score extends GameState {
 
 			if (controller.roundsWon > bestest.roundsWon)
 				winner = controller;
-			// controller.resetScore();
 		}
-		for (Controller controller : GameMaster.gm.controllers) {
+		for (Controller controller : GameMaster.controllers) {
 			controller.resetScore();
 		}
 

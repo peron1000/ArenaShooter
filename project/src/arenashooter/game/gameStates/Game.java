@@ -34,7 +34,7 @@ import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Game extends GameState {
-	private int nbPlayers = GameMaster.gm.controllers.size();
+	private int nbPlayers = GameMaster.controllers.size();
 	private List<Character> players = new ArrayList<>(nbPlayers);
 	private List<Arena> mapsToShuffle = new ArrayList<Arena>();
 
@@ -78,7 +78,7 @@ public class Game extends GameState {
 	private void evalOneLeft() {
 		int aliveChars = 0;
 		Controller c = null;
-		for (Controller controller : GameMaster.gm.controllers) {
+		for (Controller controller : GameMaster.controllers) {
 			if (!controller.hasDeadChar()) {
 				aliveChars++;
 				c = controller;
@@ -127,7 +127,7 @@ public class Game extends GameState {
 		endRound.reset();
 		chooseWinner.reset();
 		canPlay = false;
-		for (Controller controller : GameMaster.gm.controllers) {
+		for (Controller controller : GameMaster.controllers) {
 			// Ce n'est plus un spawn aleatoire
 			Character character = controller.createNewCharacter(current.GetRandomRespawnch2());
 			players.add(character);
@@ -154,7 +154,7 @@ public class Game extends GameState {
 			if (endRound.isOver()) {
 				if (currentRound < nbRounds || nbRounds == -1) {
 					currentRound++;
-					for (Controller player : GameMaster.gm.controllers) {
+					for (Controller player : GameMaster.controllers) {
 						if (player.getCharacter() != null) {
 							player.getCharacter()
 									.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
@@ -174,7 +174,7 @@ public class Game extends GameState {
 				Audio.setListener(new Vec3f(), new Quat());
 
 			// Update controllers
-			for (Controller controller1 : GameMaster.gm.controllers)
+			for (Controller controller1 : GameMaster.controllers)
 				controller1.step(d);
 			super.update(d);
 		}

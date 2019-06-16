@@ -117,9 +117,9 @@ public class CharacterChooser extends GameState {
 							break;
 						}
 						
-						GameMaster.gm.controllers.clear();
+						GameMaster.controllers.clear();
 						for (Controller cont : controllers.values()) {
-							GameMaster.gm.controllers.add(cont);
+							GameMaster.controllers.add(cont);
 						}
 						Object[] variable = GameParam.maps.toArray();
 						String[] chosenMaps = new String[variable.length];
@@ -169,7 +169,7 @@ public class CharacterChooser extends GameState {
 		controllers.put(device, newController);
 		pileOrdreJoueur.push(newController);
 
-		GameMaster.gm.controllers.add(newController);
+		GameMaster.controllers.add(newController);
 		CharacterSprite caracSprite = new CharacterSprite(newController.info);
 		caracSprite.localPosition.set(nextSpriteX, -2.5);
 		caracSprite.attachToParent(current, "PlayerSprite_" + pileOrdreJoueur.size());
@@ -220,7 +220,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("Before\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
-		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.gm.controllers.size());
+		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.controllers.size());
 
 		if(current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber) != null){
 			current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber).detach();
@@ -229,7 +229,7 @@ public class CharacterChooser extends GameState {
 		charSprite.detach();
 		sprites.remove((controllers.get(device)));
 		pileOrdreJoueur.remove(controllers.get(device).playerNumber);
-		GameMaster.gm.controllers.remove(controllers.get(device));
+		GameMaster.controllers.remove(controllers.get(device));
 		controllers.remove(device);
 		updatePlayersNumber();
 		// i -= charOffset;
@@ -248,7 +248,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("After\nCharacterChooser.controllers.size() : " + controllers.size());
 		Main.log.info("CharacterChooser.sprites.size()" + sprites.size());
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
-		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.gm.controllers.size());
+		Main.log.info("GameMaster.gm.controllers.size()" + GameMaster.controllers.size());
 
 		Audio.playSound("data/sound/ui/zboui_02.ogg", AudioChannel.UI, 1, 1);
 	}
