@@ -102,4 +102,17 @@ public abstract class XmlReader {
 		}
 		return array;
 	}
+	
+	/**
+	 * @param name   balise recherchée
+	 * @param parent balise du parent
+	 * @return Le premier Element correspondant au name parmi les enfants de parent
+	 */
+	public static Element getFirstElementByName(String name, Element parent) {
+
+		List<Element> list = getListElementByName(name, parent);
+		if (list.isEmpty())
+			return null;
+		return list.get(0);
+	}
 }

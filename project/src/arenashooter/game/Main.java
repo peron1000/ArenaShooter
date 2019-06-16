@@ -76,15 +76,15 @@ public class Main {
 
 			Profiler.startTimer(Profiler.RENDER);
 			gameMaster.draw();
-
-			Window.endFrame();
-			if (Loading.isLoading()) {
-				Loading.loadingStep();
-			}
 			Profiler.endTimer(Profiler.RENDER);
 
 			Audio.update();
 
+			Window.endFrame();
+			
+			if (Loading.isLoading())
+				Loading.loadingStep();
+			
 			// FPS counter
 			fpsFrames++;
 			if (fpsFrames >= 10 && (currentFrame - fpsTime) >= 250) {

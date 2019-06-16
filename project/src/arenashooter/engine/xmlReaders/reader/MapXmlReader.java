@@ -80,19 +80,6 @@ public class MapXmlReader extends XmlReader {
 		return done;
 	}
 
-	/**
-	 * @param name   balise recherchée
-	 * @param parent balise du parent
-	 * @return Le premier Element correspondant au name parmi les enfants de parent
-	 */
-	static Element getFirstElementByName(String name, Element parent) {
-
-		List<Element> list = getListElementByName(name, parent);
-		if (list.isEmpty())
-			return null;
-		return list.get(0);
-	}
-
 	static XmlVector loadVector(Element vector) {
 		return new XmlVector(vector);
 	}
