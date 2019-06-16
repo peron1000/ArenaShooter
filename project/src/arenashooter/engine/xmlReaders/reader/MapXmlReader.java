@@ -35,6 +35,7 @@ public class MapXmlReader extends XmlReader {
 	private boolean done = false;
 
 	private Map<EntitiesLoader<? extends Entity>, Deque<Tuple<Element, Entity>>> entitiesToLoad = new HashMap<>();
+	private Deque<Tuple<Element, Entity>> joinPinToLoad = new LinkedList<>();
 
 	public MapXmlReader(String path) {
 		parse(path);
@@ -66,6 +67,11 @@ public class MapXmlReader extends XmlReader {
 					loadEntities(entities, newEntity);
 				return false;
 			}
+		}
+		if(!joinPinToLoad.isEmpty()) {
+			Tuple<Element, Entity> tuple = joinPinToLoad.pollFirst();
+			loadJointPin(tuple.x, tuple.y);
+			return false;
 		}
 		return true;
 	}
@@ -514,8 +520,9 @@ public class MapXmlReader extends XmlReader {
 		// Physic joints loaded at last
 		// JointPin
 		elems = getListElementByName("jointPin", entities);
-		for (Element pin : elems)
-			loadJointPin(pin, parent);
+		for (Element pin : elems) {
+			joinPinToLoad.add(new Tuple<Element, Entity>(pin, parent));
+		}
 	}
 
 	/**
