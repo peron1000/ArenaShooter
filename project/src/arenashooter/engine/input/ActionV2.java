@@ -163,7 +163,7 @@ public enum ActionV2 {
 			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_START) == GLFW_PRESS;
 		}
 	},
-	DEBUG_SHOW_COLLISION {
+	DEBUG_TOGGLE_PROFILER {
 		@Override
 		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS;
@@ -174,10 +174,21 @@ public enum ActionV2 {
 			return false;
 		}
 	},
-	DEBUG_TOGGLE_PROFILER {
+	DEBUG_SHOW_COLLISION {
 		@Override
 		public boolean keyboardInput(long window) {
 			return glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS;
+		}
+
+		@Override
+		public boolean gamepadInput(GLFWGamepadState gamePad) {
+			return false;
+		}
+	},
+	DEBUG_SKIP_TRANSPARENCY {
+		@Override
+		public boolean keyboardInput(long window) {
+			return glfwGetKey(window, GLFW_KEY_F3) == GLFW_PRESS;
 		}
 
 		@Override

@@ -38,6 +38,8 @@ public class GameMaster {
 			public void launch(InputActionEvent event) {
 				if(event.getAction() == ActionV2.DEBUG_SHOW_COLLISION && event.getActionState() == ActionState.JUST_PRESSED)
 					Main.drawCollisions = !Main.drawCollisions;
+				if(event.getAction() == ActionV2.DEBUG_SKIP_TRANSPARENCY && event.getActionState() == ActionState.JUST_PRESSED)
+					Main.skipTransparency = !Main.skipTransparency;
 				if(event.getAction() == ActionV2.DEBUG_TOGGLE_PROFILER && event.getActionState() == ActionState.JUST_PRESSED)
 					Profiler.toggle();
 			}

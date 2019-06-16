@@ -27,7 +27,7 @@ public class Entity implements Editable {
 	private boolean isEditorTarget = false;
 	
 	// Entity comparator based on zIndex
-	protected static Comparator<Entity> comparator = new Comparator<Entity>() {
+	protected static Comparator<Entity> comparatorZindex = new Comparator<Entity>() {
 		@Override
 		public int compare(Entity o1, Entity o2) {
 			return o1.getZIndex() - o2.getZIndex();
@@ -203,10 +203,12 @@ public class Entity implements Editable {
 			Window.beginTransparency();
 		else
 			Window.endTransparency();
-		draw();
+		
+		if( !Main.skipTransparency || !drawAsTransparent() )
+			draw();
 
 		List<Entity> toDraw = new ArrayList<>(children.values());
-		toDraw.sort(comparator);
+		toDraw.sort(comparatorZindex);
 
 		for (Entity e : toDraw)
 			e.drawSelfAndChildren();
@@ -214,8 +216,7 @@ public class Entity implements Editable {
 
 	/**
 	 * Draw this entity<br/>
-	 * This will be called during the opaque pass or the transparency pass if
-	 * drawAsTransparent()
+	 * This will be called during the opaque pass or the transparency pass if drawAsTransparent()
 	 */
 	public void draw() { }
 

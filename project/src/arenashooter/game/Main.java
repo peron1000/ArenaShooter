@@ -20,7 +20,7 @@ public class Main {
 	 */
 	private static double tickLength = 1 / 150d;
 
-	public static boolean drawCollisions = false;
+	public static boolean drawCollisions = false, skipTransparency = false;
 
 	private static GameMaster gameMaster;
 
