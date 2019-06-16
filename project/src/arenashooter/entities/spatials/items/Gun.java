@@ -296,7 +296,7 @@ public class Gun extends Usable {
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
 //					((Character) getParent()).vel.add(Vec2f.multiply(recoilDir, thrust));
-					((Character) getParent()).applyImpulse(Vec2f.multiply(recoilDir, thrust));
+					((Character) getParent()).applyImpulse(Vec2f.multiply(recoilDir, thrust*((Character) getParent()).weight));
 				} else {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}

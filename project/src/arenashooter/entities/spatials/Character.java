@@ -47,7 +47,7 @@ public class Character extends RigidBodyContainer {
 	public boolean jumpi;
 	public int bonusJumpsMax = 0;
 	public int bonusJumpsUsed = 0;
-	private double weight = 1;
+	public double weight = 1;
 	private double jumpForce = 16;
 	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;

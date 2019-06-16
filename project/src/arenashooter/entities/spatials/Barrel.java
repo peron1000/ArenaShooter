@@ -20,12 +20,14 @@ public class Barrel extends RigidBodyContainer {
 	private Timer detonTimer = new Timer(4.25);
 	private Entity instigator;
 	private double timeSinceLastSpark = 0;
+	double timeUntilNewSpark = 0.2;
 
 	public Barrel(Vec2f worldPosition) {
-		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), worldPosition, 0, CollisionFlags.RIGIDBODY, 8, 1));
+		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), worldPosition, 0, CollisionFlags.RIGIDBODY, 3, 1));
 
 		barrelMesh = new Mesh(new Vec3f(), "data/meshes/barrels/barrel_01.obj");
 		barrelMesh.attachToParent(this, "Barrel_Mesh");
+		barrelMesh.scale.set(.95, .95, .95);
 		Quat.fromEuler(Math.random()*2*Math.PI, 0, 0, barrelMesh.localRotation);
 
 		detonTimer.attachToParent(this, "Detonation_Timer");
@@ -70,12 +72,13 @@ public class Barrel extends RigidBodyContainer {
 			detonate();
 		} else if(detonTimer.isProcessing()) {
 			timeSinceLastSpark += d;
-			for(int i = 0 ; timeSinceLastSpark>=0.1 && i < timeSinceLastSpark/0.1 ; i++) {//new Particle every 0.1s
+			for(int i = 0 ; timeSinceLastSpark >= timeUntilNewSpark && i < timeSinceLastSpark/timeUntilNewSpark ; i++) {//new Particle every 'timeUntilNewSpark' s
 				Particles particles = new Particles(getWorldPos(), "data/particles/fire_sparkles.xml");
 				particles.attachToParent(getArena(), "fire_particles" + genName());
 				Audio.playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(.1 + detonTimer.getValueRatio()), localPosition);
+				timeSinceLastSpark -= timeUntilNewSpark;
+				timeUntilNewSpark = 0.05+Math.random()*0.20;
 			}
-			timeSinceLastSpark %= 0.1;
 		}
 		super.step(d);
 	}

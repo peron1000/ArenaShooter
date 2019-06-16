@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
 <particleSystem>
-	<emitter angleMin="-1.047" angleMax="-2.094" delay="0" duration="0" lifetimeMin="2" lifetimeMax="4" rate="1" velocityMin="11" velocityMax="25" gravityScale="2">
+	<emitter angleMin="-1.007" angleMax="2.007" delay="0" duration="0" lifetimeMin="2" lifetimeMax="4" rate="1" velocityMin="11" velocityMax="25" gravityScale="2">
 	<basic sizeInitial=".7" sizeEnd=".7"></basic>
 <!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented> -->
 	<texture filtered="false" src="data/particles/fire.png"/>
