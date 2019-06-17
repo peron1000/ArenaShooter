@@ -82,6 +82,9 @@ public class Label extends UiElement {
 		text = new Text(text.getFont(), this.text.getAlignH(), alignV, text.getText());
 	}
 	
+	/**
+	 * @return width of the text, influenced by scale.x
+	 */
 	public float getTextWidth() {
 		return (getScale().x*text.getWidth())/text.getHeight();
 	}

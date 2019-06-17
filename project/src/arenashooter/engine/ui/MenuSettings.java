@@ -35,71 +35,47 @@ public class MenuSettings extends TabList<UiActionable> {
 		/// Audio settings
 		///
 
-		ScrollerH<Float> mainVolume = new ScrollerH<>();
-		for (int i = 0; i <= 10; i++) {
-			Float f = Float.valueOf((float) (i * 0.1));
-			mainVolume.add(f);
-			mainVolume.changeValueView(f, df.format(f.floatValue()));
-		}
+		UiSliderV mainVolume = new UiSliderV();
+		mainVolume.value = Audio.getMainVolume();
 		mainVolume.setTitle("Main volume");
-		if (!mainVolume.setValue(Audio.getMainVolume()))
-			Main.log.warn("Couldn't set main volume button initial value");
-		mainVolume.setOnValidation(new Trigger() {
-
+		mainVolume.setScale(40, 8);
+		mainVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setMainVolume(mainVolume.get().floatValue());
+				Audio.setMainVolume((float) mainVolume.value);
 			}
 		});
-		ScrollerH<Float> musicVolume = new ScrollerH<>();
-		for (int i = 0; i <= 10; i++) {
-			Float f = Float.valueOf((float) (i * 0.1));
-			musicVolume.add(f);
-			musicVolume.changeValueView(f, df.format(f.floatValue()));
-		}
+		
+		UiSliderV musicVolume = new UiSliderV();
+		musicVolume.value = Audio.getChannelVolume(AudioChannel.MUSIC);
 		musicVolume.setTitle("Music volume");
-		if (!musicVolume.setValue(Audio.getChannelVolume(AudioChannel.MUSIC)))
-			Main.log.warn("Couldn't set music volume button initial value");
-		musicVolume.setOnValidation(new Trigger() {
-
+		musicVolume.setScale(40, 8);
+		musicVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.MUSIC, musicVolume.get().floatValue());
+				Audio.setChannelVolume(AudioChannel.MUSIC, (float) musicVolume.value);
 			}
 		});
 
-		ScrollerH<Float> sfxVolume = new ScrollerH<>();
-		for (int i = 0; i <= 10; i++) {
-			Float f = Float.valueOf((float) (i * 0.1));
-			sfxVolume.add(f);
-			sfxVolume.changeValueView(f, df.format(f.floatValue()));
-		}
-		sfxVolume.setTitle("SFX volume");
-		if (!sfxVolume.setValue(Audio.getChannelVolume(AudioChannel.SFX)))
-			Main.log.warn("Couldn't set sfx volume button initial value");
-		sfxVolume.setOnValidation(new Trigger() {
-
+		UiSliderV sfxVolume = new UiSliderV();
+		sfxVolume.value = Audio.getChannelVolume(AudioChannel.SFX);
+		sfxVolume.setTitle("Sfx volume");
+		sfxVolume.setScale(40, 8);
+		sfxVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.SFX, sfxVolume.get().floatValue());
+				Audio.setChannelVolume(AudioChannel.SFX, (float) sfxVolume.value);
 			}
 		});
 
-		ScrollerH<Float> uiVolume = new ScrollerH<>();
-		for (int i = 0; i <= 10; i++) {
-			Float f = Float.valueOf((float) (i * 0.1));
-			uiVolume.add(f);
-			uiVolume.changeValueView(f, df.format(f.floatValue()));
-		}
+		UiSliderV uiVolume = new UiSliderV();
+		uiVolume.value = Audio.getChannelVolume(AudioChannel.UI);
 		uiVolume.setTitle("UI volume");
-		if (!uiVolume.setValue(Audio.getChannelVolume(AudioChannel.UI)))
-			Main.log.warn("Couldn't set ui volume button initial value");
-
-		uiVolume.setOnValidation(new Trigger() {
-
+		uiVolume.setScale(40, 8);
+		uiVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.UI, uiVolume.get().floatValue());
+				Audio.setChannelVolume(AudioChannel.UI, (float) uiVolume.value);
 			}
 		});
 
