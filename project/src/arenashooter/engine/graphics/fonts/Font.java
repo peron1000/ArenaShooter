@@ -20,6 +20,7 @@ public class Font {
 	/** Path to the fnt file */
 	final String path;
 	int scaleW, scaleH;
+	float lineHeight;
 	private Texture tex;
 	Map<Character, FontChar> chars = new HashMap<>();
 	int[] padding = new int[4];
@@ -119,6 +120,9 @@ public class Font {
 			case "scaleH":
 				font.scaleH = Integer.parseInt(parts[1]);
 				break;
+			
+			case "lineHeight":
+				font.lineHeight = Integer.parseInt(parts[1]);
 				
 			default:
 				break;

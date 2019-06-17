@@ -32,6 +32,8 @@ public class Text {
 	public String getText() { return text; }
 	
 	public float getWidth() { return width; }
+	
+	public float getHight() { return font.lineHeight; }
 
 	private void genModel() { //TODO: Support multi-lines
 		List<FontChar> chars = new ArrayList<>(text.length());
