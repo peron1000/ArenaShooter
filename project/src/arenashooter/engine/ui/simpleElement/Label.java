@@ -69,24 +69,28 @@ public class Label extends UiElement {
 	public void setShadowColor(Vec4f value) {
 		material.setParamVec4f("shadowColor", value);
 	}
+	
+	public TextAlignH getAlignH() {
+		return text.getAlignH();
+	}
 
-	public void setAlignementH(TextAlignH alignH) {
+	public void setAlignH(TextAlignH alignH) {
 		text = new Text(text.getFont(), alignH, this.text.getAlignV(), text.getText());
 	}
 	
-	public void setAlignementV(TextAlignV alignV) {
+	public void setAlignV(TextAlignV alignV) {
 		text = new Text(text.getFont(), this.text.getAlignH(), alignV, text.getText());
+	}
+	
+	public float getTextWidth() {
+		return (getScale().x*text.getWidth())/text.getHeight();
 	}
 	
 	@Override
 	public void draw() {
 		if (isVisible()) {
-			
-//			setScale(1000000*(Math.sin(System.currentTimeMillis()*.001)+1));
-//			setScale(10);
 			float ratio = 1/text.getHeight();
-			material.model = Mat4f.transform(getPosition(),
-					getRotation(), Vec2f.multiply(getScale(), ratio), modelM);
+			material.model = Mat4f.transform(getPosition(), getRotation(), Vec2f.multiply(getScale(), ratio), modelM);
 			material.proj = Window.projOrtho;
 			material.bind(text.getModel());
 

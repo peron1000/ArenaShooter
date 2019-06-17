@@ -2,6 +2,7 @@ package arenashooter.engine.ui.simpleElement;
 
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiActionable;
 
@@ -10,10 +11,13 @@ public class Button extends UiActionable {
 	public final double defaultXScale = 10 , defaultYScale = defaultXScale/ratio;
 	private UiImage rect;
 	private Label label;
+	private float labelOffset = 0;
+	private TextAlignH oldAlignH;
 	
 	public Button(String text , Vec4f color) {
 		rect = new UiImage(color.clone());
 		label = new Label(text);
+		oldAlignH = label.getAlignH();
 		setScale(defaultXScale, defaultYScale);
 	}
 
@@ -58,8 +62,12 @@ public class Button extends UiActionable {
 		rect.getMaterial().setParamVec4f("color", color.clone());
 	}
 	
+	public TextAlignH getAlignH() {
+		return oldAlignH;
+	}
+	
 	public void setAlignH(TextAlignH align) {
-		label.setAlignementH(align);
+		oldAlignH = align;
 	}
 
 	@Override
@@ -134,6 +142,31 @@ public class Button extends UiActionable {
 	public void update(double delta) {
 		label.update(delta);
 		rect.update(delta);
+		
+		if(getScale().x < label.getTextWidth()) { //Text is too long to fit in button
+			if(label.getAlignH() != TextAlignH.LEFT) { //Set horizontal alignment to left
+				oldAlignH = label.getAlignH();
+				label.setAlignH(TextAlignH.LEFT);
+			}
+			
+			float minOffset = (getScale().x/2) - label.getTextWidth();
+			float maxOffset = -getScale().x/2;
+			
+			if(labelOffset < minOffset - 12)
+				labelOffset = maxOffset + 6;
+			labelOffset -= delta*6;
+			
+			labelOffset = Math.min(labelOffset, maxOffset + 6);
+			
+			float posX = Utils.clampF(labelOffset, minOffset, maxOffset);
+			
+			label.setPosition(getPosition().x+posX, label.getPosition().y);
+		} else { //Text fit in button
+			if(label.getAlignH() != oldAlignH) //Restore alignment
+				label.setAlignH(oldAlignH);
+			label.setPosition(getPosition());
+		}
+		
 		super.update(delta);
 	}
 
