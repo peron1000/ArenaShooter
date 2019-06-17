@@ -58,7 +58,7 @@ public class MenuPause {
 			@Override
 			public void make() {
 				current = new MenuSettings(-10, new Trigger() {
-					
+
 					@Override
 					public void make() {
 						current = mainMenu;
@@ -114,7 +114,7 @@ public class MenuPause {
 						default:
 							break;
 						}
-						selector.setPositionLerp(current.getTarget().getPosition().x, current.getTarget().getPosition().y, 10);
+						selector.setPositionLerp(current.getTarget().getPosition().x, current.getTarget().getPosition().y, 32);
 					} else {
 						setPause(event.getAction() == ActionV2.UI_PAUSE);
 					}

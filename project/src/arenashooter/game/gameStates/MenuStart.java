@@ -98,7 +98,7 @@ public class MenuStart extends GameState {
 			}
 		});
 		
-		selector.setPositionLerp(mainMenu.getTarget().getPosition().x, mainMenu.getTarget().getPosition().y,15);
+		selector.setPosition(mainMenu.getTarget().getPosition());
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
@@ -132,7 +132,7 @@ public class MenuStart extends GameState {
 					default:
 						break;
 					}
-					selector.setPositionLerp(current.getTarget().getPosition().x, current.getTarget().getPosition().y,15);
+					selector.setPositionLerp(current.getTarget().getPosition().x, current.getTarget().getPosition().y, 32);
 				}
 			}
 		});

@@ -83,7 +83,7 @@ public class Config extends GameState {
 						break;
 					}
 				}
-				selector.setPositionLerp(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y,15);
+				selector.setPositionLerp(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y, 32);
 				if (menu.getTarget() == rounds) {
 					selector.setScale(55, 20);
 				} else {
@@ -180,7 +180,7 @@ public class Config extends GameState {
 			i++;
 		}
 
-		selector.setPositionLerp(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y,15);
+		selector.setPosition(menu.getTarget().getPosition());
 
 		super.init();
 	}
