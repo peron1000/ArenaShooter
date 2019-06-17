@@ -267,7 +267,7 @@ public class CharacterChooser extends GameState {
 			Controller currentController = pileOrdreJoueur.get(i);
 			currentController.playerNumber = i;
 
-			if (i >= 8)
+			if (i <= 8)
 				sprites.get(currentController).localPosition.set(firstX + charOffset * i, -2.5);
 			else
 				sprites.get(currentController).localPosition.set(firstX + charOffset * i + secondRow.x, -2.5 + secondRow.y);
