@@ -122,12 +122,11 @@ class MainMenu extends UiElement implements MultiUi {
 	}
 
 	private void arenaInfoMenuConstruction() {
-		Button top = new Button("Change top"), bottom = new Button("Change bottom");
-		arenaInfo.addElements(top, bottom);
+		Button top = new Button("Sky top"), bottom = new Button("Sky bottom"), ambient = new Button("Ambient light");
+		arenaInfo.addElements(top, bottom, ambient);
 
 		// Trigger
 		top.setOnArm(new Trigger() {
-
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.COLOR_PICKER;
@@ -151,7 +150,6 @@ class MainMenu extends UiElement implements MultiUi {
 		});
 
 		bottom.setOnArm(new Trigger() {
-
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.COLOR_PICKER;
@@ -165,6 +163,27 @@ class MainMenu extends UiElement implements MultiUi {
 				};
 				colorPicker.setOnFinish(new Trigger() {
 
+					@Override
+					public void make() {
+						arenaInfo.removeElement(colorPicker);
+						ui_InputState = Ui_Input.NOTHING;
+					}
+				});
+			}
+		});
+
+		ambient.setOnArm(new Trigger() {
+			@Override
+			public void make() {
+				ui_InputState = Ui_Input.COLOR_PICKER;
+				arenaInfo.addElement(colorPicker);
+				colorPickerModification = new Trigger() {
+					@Override
+					public void make() {
+						setAmbientLight(colorPicker.getColorRGB());
+					}
+				};
+				colorPicker.setOnFinish(new Trigger() {
 					@Override
 					public void make() {
 						arenaInfo.removeElement(colorPicker);
@@ -452,6 +471,10 @@ class MainMenu extends UiElement implements MultiUi {
 	private void setSkyColorBottom(Vec3f color) {
 		Sky sky = (Sky) arenaConstruction.getChild("sky");
 		sky.setColorBot(color);
+	}
+	
+	private void setAmbientLight(Vec3f ambient) {
+		arenaConstruction.ambientLight.set(ambient);
 	}
 
 	@Override

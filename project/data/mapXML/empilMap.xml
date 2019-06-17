@@ -87,7 +87,7 @@
 		
 		<gravity x="0" y="9.807" />
 		
-		<ambientLight r="0.48" g="0.48" b="0.5"/>
+		<ambientLight r="0.595" g="0.7" b="0.7"/>
 
 		<cameraPos x="0" y="-15" z="38" />
 		
@@ -100,6 +100,10 @@
 	</information>
 
 	<entities>
+		<directionalLight>
+			<vector use="color" x="1" y="1" z="0.99" />
+			<vector use="rotation" x="-0.2414757" y="-0.3917141" z="-0.887009" w="0.03828" />
+		</directionalLight>
 		<spawn playerSpawn="true" cooldown="3">
 			<vector x="-5" y="-30" use="position" />
 			<itemRef item="minigun" proba="1" />
