@@ -94,17 +94,18 @@ public class Game extends GameState {
 	public Game(int nbMap) {
 		super(nbMap);
 		counterImage.setPosition(0, -25);
+	}
 
+	@Override
+	public void init() {
+		
 		if (bgm != null) {
 			bgm.destroy();
 			bgm = null;
 		}
 		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
-	}
-
-	@Override
-	public void init() {
+		
 		for (Arena map : maps) {
 			mapsToShuffle.add(map);
 		}
