@@ -9,16 +9,19 @@ import arenashooter.engine.graphics.fonts.Font.FontChar;
 public class Text {
 	
 	public static enum TextAlignH {	LEFT, RIGHT, CENTER; }
+	public static enum TextAlignV {	TOP, BOTTOM, CENTER; }
 	
 	private TextAlignH alignH;
+	private TextAlignV alignV;
 	private Font font;
 	private String text;
 	private float width;
 	private Model model;
 
-	public Text(Font font, TextAlignH align, String text) {
+	public Text(Font font, TextAlignH alignH, TextAlignV alignV, String text) {
 		this.font = font;
-		this.alignH = align;
+		this.alignH = alignH;
+		this.alignV = alignV;
 		this.text = text;
 		genModel();
 	}
@@ -33,12 +36,9 @@ public class Text {
 	
 	public float getWidth() { return width; }
 	
-	public float getHeight() {
-		FontChar fontChar = font.chars.get('.');
-		return fontChar.yOffset+fontChar.height;
-	}
+	public float getHeight() { return font.getHeight(); }
 
-	private void genModel() { //TODO: Support multi-lines
+	private void genModel() {
 		List<FontChar> chars = new ArrayList<>(text.length());
 		
 		width = 0;
@@ -57,6 +57,18 @@ public class Text {
 		
 		int current = 0;
 		float currentX = 0;
+		float currentY;
+		switch(alignV) {
+		case BOTTOM:
+			currentY = -getHeight();
+			break;
+		case TOP:
+			currentY = 0;
+			break;
+		default: //Center
+			currentY = -getHeight()/2;
+			break;
+		}
 		
 		if(alignH == TextAlignH.CENTER)
 			currentX = -width/2;
@@ -65,7 +77,7 @@ public class Text {
 		
 		for( FontChar fontChar : chars ) {
 			if(fontChar.width != 0 && fontChar.height != 0) { //Don't generate geometry for empty glyphs
-				float[] charData = genQuad(fontChar, currentX, 0);
+				float[] charData = genQuad(fontChar, currentX, currentY);
 
 				int[] charIndices = genIndices(current);
 
@@ -138,6 +150,6 @@ public class Text {
 	 */
 	@Override
 	public Text clone() {
-		return new Text(font, alignH, text);
+		return new Text(font, alignH, alignV, text);
 	}
 }
