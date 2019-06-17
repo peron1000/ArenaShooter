@@ -6,6 +6,7 @@ import java.util.List;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
@@ -16,6 +17,7 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.GameState;
 
@@ -39,9 +41,13 @@ public class Editor extends GameState {
 	AnimEditor animEditor = new AnimEditor();
 
 	private Camera cam;
+	
+	private Sprite grid2d;
 
 	public Editor() {
 		super(1);
+		
+		grid2d = new Sprite(new Vec2f(), new Material("data/shaders/editor_grid"));
 
 		background.setPosition(forVisible, 0);
 		background.setScale(50, 150);
@@ -251,12 +257,20 @@ public class Editor extends GameState {
 			}
 		}
 	}
-
+	
 	@Override
 	public void draw() {
 		for (Editable editable : allEditable) {
 			editable.editorDraw();
 		}
+		
+		Window.beginTransparency();
+		float gridSize = (float) (getCamera().getWorldPos().z * 1.5);
+		grid2d.size.set(gridSize, gridSize);
+		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
+		grid2d.draw();
+		Window.endTransparency();
+		
 		Window.beginUi();
 		background.draw();
 		currentMenu.draw();
