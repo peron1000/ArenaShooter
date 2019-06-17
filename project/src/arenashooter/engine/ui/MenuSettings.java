@@ -179,6 +179,8 @@ public class MenuSettings extends TabList<UiActionable> {
 		backAudio.addToPosition(0, 2.5);
 		
 		addToScaleForeach(-4, -4);
+		setArrowsDistance(15);
+		setScaleArrows(5, 5);
 
 	}
 

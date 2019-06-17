@@ -84,10 +84,21 @@ class MainMenu extends UiElement implements MultiUi {
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
 
+		// Settings mainMenu
 		mainMenu.setPosition(0, -30);
 		mainMenu.setSpacingForeachList(spacing);
+		mainMenu.setArrowsDistance(30);
+		mainMenu.setTitleScale(7, 7);
+		mainMenu.setArrowsDistance(18);
+		mainMenu.setTitleSpacing(1.2);
+		
+		// Settings meshChooser
 		meshChooser.setPosition(0, -30);
 		meshChooser.setSpacingForeachList(spacing);
+		meshChooser.setArrowsDistance(30);
+		meshChooser.setTitleScale(6, 6);
+		meshChooser.setArrowsDistance(20);
+		meshChooser.setTitleSpacing(1.2);
 
 		setPosition(Editor.forVisible, 0);
 

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.util.CircleList;
@@ -14,14 +15,18 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	private Label tabTitle = new Label("");
 	private Map<UiListVertical<? extends E>, String> binding = new HashMap<>();
 	private Map<UiListVertical<? extends E>, UiListVertical<Label>> labelsInfo = new HashMap<>();
-	private double titleSpacing = 1.5;
+	private double titleSpacing = 1.5 , arrowsDistance = 10 , arrowLerp = 5 , lerp = 50;
 	private int indexTarget = 0;
 	private UiImage background = new UiImage(0.5, 0.5, 0.5, 1);
 	private boolean backgroundVisible = false, scissor = false;
 	private double spacing = 1;
+	private UiImage arrowRight = new UiImage(Texture.loadTexture("data/sprites/interface/WhatsRight.png").setFilter(false)),
+			arrowLeft = new UiImage(Texture.loadTexture("data/sprites/interface/WhatsLeft.png").setFilter(false));
 
 	public TabList() {
 		tabTitle.addToPosition(0, -getScale().y * titleSpacing);
+		arrowLeft.addToPosition(-arrowsDistance, -getScale().y * titleSpacing);
+		arrowRight.addToPosition(arrowsDistance, -getScale().y * titleSpacing);
 	}
 
 	/**
@@ -31,13 +36,53 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	 */
 	public void setTitleSpacing(double titleSpacing) {
 		this.titleSpacing = titleSpacing;
-		tabTitle.setPosition(getPosition().x, getPosition().y - getScale().y * titleSpacing);
+		double y = getPosition().y - getScale().y * titleSpacing;
+		tabTitle.setPosition(getPosition().x, y);
+		arrowLeft.setPosition(-arrowsDistance, y);
+		arrowRight.setPosition(arrowsDistance, y);
 	}
 
 	public void setTitleVisible(boolean visible) {
 		tabTitle.setVisible(visible);
 	}
+	
+	public void setTitleScale(double x , double y) {
+		tabTitle.setScale(x, y);
+		setTitleSpacing(titleSpacing);
+	}
 
+	public void setScaleArrows(double x , double y) {
+		arrowLeft.setScale(x ,y);
+		arrowRight.setScale(x, y);
+	}
+	
+	public double getArrowsDistance() {
+		return arrowsDistance;
+	}
+	
+	public double getArrowLerp() {
+		return arrowLerp;
+	}
+	
+	public double getArowsLerp() {
+		return lerp;
+	}
+	
+	public void setArrowsLerp(double lerp) {
+		this.lerp = lerp;
+	}
+	
+	public void setArrowLerp(double arrowLerp) {
+		this.arrowLerp = arrowLerp;
+	}
+	
+	public void setArrowsDistance(double arrowsDistance) {
+		this.arrowsDistance = arrowsDistance;
+		double y = getPosition().y - getScale().y * titleSpacing;
+		arrowLeft.setPosition(-arrowsDistance, y);
+		arrowRight.setPosition(arrowsDistance, y);
+	}
+	
 	/**
 	 * Set the position and the spacing of the uiList to match with <i>this</i>
 	 * values
@@ -107,7 +152,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public int getIndexTarget() {
 		return indexTarget;
 	}
-
+	
 	public void setPositionForeach(double x, double y) {
 		actionOnAllSimpleElement(e -> e.setPosition(x, y));
 	}
@@ -146,6 +191,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			c.accept(uiList);
 		}
 		c.accept(tabTitle);
+		c.accept(arrowLeft);
+		c.accept(arrowRight);
 	}
 
 	@Override
@@ -180,6 +227,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			circleList.next();
 			indexTarget = 0;
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
+			arrowRight.addToPositionSuperLerp(arrowLerp, 0, lerp);
 		}
 		return true;
 	}
@@ -190,6 +238,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			circleList.previous();
 			indexTarget = 0;
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
+			arrowLeft.addToPositionSuperLerp(-arrowLerp, 0, lerp);
 		}
 		return true;
 	}
@@ -257,6 +306,10 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			UiListVertical<? extends E> vlist = circleList.get();
 			vlist.draw();
 			labelsInfo.get(vlist).forEach(l -> l.draw());
+			if(circleList.size() > 1) {
+				arrowLeft.draw();
+				arrowRight.draw();
+			}
 		}
 	}
 

@@ -10,15 +10,16 @@ public abstract class UiElement implements Navigable, NoStatic {
 	public static final double defaultLerp = 5;
 	private Map<String, Trigger> actions = new HashMap<>();
 
-	private Vec2f pos = new Vec2f(), scale = new Vec2f(10), rePos = pos.clone(), reScale = scale.clone();
+	private Vec2f pos = new Vec2f(), scale = new Vec2f(10), toLerpPos = pos.clone(), reScale = scale.clone(),
+			toSuperLerpPos = pos.clone();
 	private double rotation = 0, lerp = defaultLerp;
-	private boolean visible = true;
+	private boolean visible = true, onSuperLerp = false;
 
 	public UiElement(float xPos, float yPos, float xScale, float yScale, double rot) {
 		rotation = rot;
 		pos.set(xPos, yPos);
 		scale.set(xScale, yScale);
-		rePos.set(xPos, yPos);
+		toLerpPos.set(xPos, yPos);
 		reScale.set(xScale, yScale);
 	}
 
@@ -72,12 +73,20 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	public void setPosition(double x, double y) {
 		pos.set(x, y);
-		rePos.set(x, y);
+		toLerpPos.set(x, y);
 	}
 
 	public void setPositionLerp(double x, double y, double lerp) {
-		rePos.set(x, y);
+		toLerpPos.set(x, y);
 		this.lerp = lerp;
+	}
+
+	public void setPositionSuperLerp(double x, double y, double lerp) {
+		if (!onSuperLerp) {
+			setPositionLerp(x, y, lerp);
+			toSuperLerpPos.set(pos);
+			onSuperLerp = true;
+		}
 	}
 
 	public void addToPosition(double x, double y) {
@@ -86,6 +95,10 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	public void addToPositionLerp(double x, double y, double lerp) {
 		setPositionLerp(x + pos.x, y + pos.y, lerp);
+	}
+
+	public void addToPositionSuperLerp(double x, double y, double lerp) {
+		setPositionSuperLerp(x + pos.x, y + pos.y, lerp);
 	}
 
 	public Vec2f getScale() {
@@ -175,18 +188,33 @@ public abstract class UiElement implements Navigable, NoStatic {
 	public boolean changeAction() {
 		return false;
 	}
-	
-	public float getLeft() { return getPosition().x-getScale().x/2; }
-	
-	public float getRight() { return getPosition().x+getScale().x/2; }
-	
-	public float getTop() { return getPosition().y-getScale().y/2; }
-	
-	public float getBottom() { return getPosition().y+getScale().y/2; }
+
+	public float getLeft() {
+		return getPosition().x - getScale().x / 2;
+	}
+
+	public float getRight() {
+		return getPosition().x + getScale().x / 2;
+	}
+
+	public float getTop() {
+		return getPosition().y - getScale().y / 2;
+	}
+
+	public float getBottom() {
+		return getPosition().y + getScale().y / 2;
+	}
 
 	public void update(double delta) {
 		scale.set(Vec2f.lerp(scale, reScale, Utils.clampD(delta * 5, 0, 1)));
-		pos.set(Vec2f.lerp(pos, rePos, Utils.clampD(delta * lerp, 0, 1)));
+		pos.set(Vec2f.lerp(pos, toLerpPos, Utils.clampD(delta * lerp, 0, 1)));
+		if (onSuperLerp) {
+			if (pos.equals(toSuperLerpPos, .05f)) {
+				onSuperLerp = false;
+			} else if (pos.equals(toLerpPos, .05f)) {
+				setPositionLerp(toSuperLerpPos.x, toSuperLerpPos.y, lerp);
+			}
+		}
 	}
 
 }

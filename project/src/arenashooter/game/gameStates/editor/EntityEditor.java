@@ -80,10 +80,10 @@ class EntityEditor extends UiElement implements MultiUi {
 			@Override
 			public void make() {
 				uiInputState = Ui_Input.TEXT;
-				entityNameLabel.setVisible(false);
 				textInput.reset();
 				textInput.setPosition(entityNameLabel.getPosition().x, entityNameLabel.getPosition().y);
 				textInput.setScale(10);
+				entityNameLabel.setVisible(false);
 				textInput.setOnFinish(new Trigger() {
 
 					@Override
@@ -385,8 +385,10 @@ class EntityEditor extends UiElement implements MultiUi {
 		case COLOR_PICKER:
 			colorPicker.update(delta);
 			colorPickerModification.make();
+			break;
 		case DOUBLE:
 			doubleInput.update(delta);
+			break;
 		default:
 			break;
 		}
