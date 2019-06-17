@@ -33,7 +33,10 @@ public class Text {
 	
 	public float getWidth() { return width; }
 	
-	public float getHight() { return font.lineHeight; }
+	public float getHeight() {
+		FontChar fontChar = font.chars.get('.');
+		return fontChar.yOffset+fontChar.height;
+	}
 
 	private void genModel() { //TODO: Support multi-lines
 		List<FontChar> chars = new ArrayList<>(text.length());
