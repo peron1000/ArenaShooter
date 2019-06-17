@@ -76,7 +76,6 @@ public abstract class UiElement implements Navigable, NoStatic {
 	}
 
 	public void setPositionLerp(double x, double y, double lerp) {
-		pos.set(x, y);
 		rePos.set(x, y);
 		this.lerp = lerp;
 	}

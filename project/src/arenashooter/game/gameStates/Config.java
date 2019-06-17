@@ -189,6 +189,7 @@ public class Config extends GameState {
 	public void update(double delta) {
 		inputs.step(delta);
 		menu.update(delta);
+		selector.update(delta);
 		super.update(delta);
 	}
 
