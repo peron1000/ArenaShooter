@@ -296,7 +296,7 @@ public final class Window {
 	 * @param width
 	 * @param height
 	 */
-	public static void stackScissor(float x, float y, float width, float height) { //TODO: test conversion
+	public static void stackScissor(float x, float y, float width, float height) {
 		int screenX = (int) Utils.lerpF(0, resX, Utils.inverseLerpF(-50*ratio, 50*ratio, x));
 		int screenY = (int) Utils.lerpF(0, resY, Utils.inverseLerpF(50, -50, y));
 		int screenW = (int) (resX*(width/(100*ratio)));
