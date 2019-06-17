@@ -122,14 +122,12 @@ public class Button extends UiActionable {
 
 	@Override
 	public void draw() {
-		
 		if (isVisible()) {
 			rect.draw();
-			//Window.stackScissor(getPosition().x-getScale().x/2, getPosition().y+getScale().y/2, getScale().x, getScale().y);
+			Window.stackScissor(getPosition().x-getScale().x/2, getPosition().y+getScale().y/2, getScale().x, getScale().y);
 			label.draw();
-			//Window.popScissor();
+			Window.popScissor();
 		}
-	
 	}
 
 	@Override
