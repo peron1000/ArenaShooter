@@ -175,6 +175,14 @@ public abstract class UiElement implements Navigable, NoStatic {
 	public boolean changeAction() {
 		return false;
 	}
+	
+	public float getLeft() { return getPosition().x-getScale().x/2; }
+	
+	public float getRight() { return getPosition().x+getScale().x/2; }
+	
+	public float getTop() { return getPosition().y-getScale().y/2; }
+	
+	public float getBottom() { return getPosition().y+getScale().y/2; }
 
 	public void update(double delta) {
 		scale.set(Vec2f.lerp(scale, reScale, Utils.clampD(delta * 5, 0, 1)));
