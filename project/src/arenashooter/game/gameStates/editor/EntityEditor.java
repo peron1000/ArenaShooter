@@ -244,6 +244,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		menu.addLabelInfo(vList, parent);
 		menu.setSpacingForeachList(2);
 		menu.setTitleSpacing(1);
+		menu.setTitleScale(6, 6);
 		menu.setPosition(0, -35);
 		for (UiElement e : vList) {
 			if (e instanceof Button) {

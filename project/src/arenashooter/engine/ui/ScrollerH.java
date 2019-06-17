@@ -223,6 +223,7 @@ public class ScrollerH<E> extends UiActionable {
 	public void update(double delta) {
 		label.update(delta);
 		backgroundSelect.update(delta);
+		backgroundUnselect.update(delta);
 		super.update(delta);
 	}
 	
