@@ -140,7 +140,7 @@ public class Score extends GameState {
 			public void launch(InputActionEvent event) {
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
-					case JUMP: //TODO: Use UI action
+					case UI_OK: //TODO: Use UI action
 						buttonA.setImage(
 								new UiImage(Texture.loadTexture("data/sprites/interface/Button_A_Activated.png")));
 						break;
@@ -158,7 +158,7 @@ public class Score extends GameState {
 					}
 				} else if(event.getActionState() == ActionState.JUST_RELEASED) {
 					switch (event.getAction()) {
-					case JUMP: //TODO: Use UI action
+					case UI_OK: //TODO: Use UI action
 						// Rematch
 						Main.getGameMaster().requestNextState(new Game(GameParam.maps.size()), GameParam.mapsString());
 						break;
