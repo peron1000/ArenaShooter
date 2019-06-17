@@ -118,7 +118,7 @@ public class MenuStart extends GameState {
 						current.selectAction();
 						break;
 					case UI_CONTINUE:
-						current.selectAction();
+						current.continueAction();
 						break;
 					case UI_BACK:
 						if(!current.backAction()) {
