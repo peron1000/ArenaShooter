@@ -89,7 +89,7 @@
 		
 		<ambientLight r="0.22" g="0.22" b="0.3"/>
 
-		<cameraPos x="-2" y="-8" z="42" />
+		<cameraPos x="-2" y="-8" z="50" />
 		
 		<killBounds minX="-60" minY="-100" maxX="60" maxY="10" />
 
@@ -205,9 +205,13 @@
 		</static>
 		<static> <!-- Wall left -->
 			<vector x="-56.6373" y="-17.59102" use="position" />
-			<vector x="1" y="8.16644" use="extent" />
+			<vector x="1" y="30" use="extent" />
 		</static>
 		<static> <!-- Wall Right -->
+			<vector x="-14.8463" y="-12.4399" use="position" />
+			<vector x="0.2" y="4.760105" use="extent" />
+		</static>
+		<static> <!-- Building Right -->
 			<vector x="27.2416" y="-17.59102" use="position" />
 			<vector x="1" y="8.16644" use="extent" />
 		</static>
