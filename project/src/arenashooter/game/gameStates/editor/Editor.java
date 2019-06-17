@@ -230,6 +230,7 @@ public class Editor extends GameState {
 			Main.log.warn("Sky not correctly named or not existing from the xml");
 		}
 		allEditable.add(sky);
+		sky.setColors(new Vec3f(.016, .145, .565), new Vec3f(.659, .835, .996));
 	}
 
 	private void setMenuVisible(boolean visible) {
@@ -268,6 +269,7 @@ public class Editor extends GameState {
 		float gridSize = (float) (getCamera().getWorldPos().z * 1.5);
 		grid2d.size.set(gridSize, gridSize);
 		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
+		grid2d.material.setParamF("lineThickness", gridSize*.002f);
 		grid2d.draw();
 		Window.endTransparency();
 		
