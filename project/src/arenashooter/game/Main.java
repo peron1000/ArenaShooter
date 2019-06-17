@@ -13,7 +13,7 @@ import arenashooter.game.gameStates.Loading;
 public class Main {
 	private static final int minFrametimeMilli = 8;
 
-	public static final String version = "0.0.1";
+	public static final String version = "0.0.2";
 
 	/**
 	 * Maximum duration of a step, longer steps will be broken down into sub-steps

@@ -39,12 +39,12 @@ public class AnimEditor extends UiElement {
 		elems.add(mainPanel);
 		
 		lblTimeCurrent = new Label("Time: ", Text.TextAlignH.LEFT);
-		lblTimeCurrent.setScale(25);
+		lblTimeCurrent.setScale(4);
 		lblTimeCurrent.setPosition(screenLeft()+2, 50-3);
 		elems.add(lblTimeCurrent);
 		
 		lblTimeLength = new Label("Length: ", Text.TextAlignH.LEFT);
-		lblTimeLength.setScale(25);
+		lblTimeLength.setScale(4);
 		lblTimeLength.setPosition(screenLeft()+32, 50-3);
 		elems.add(lblTimeLength);
 		
