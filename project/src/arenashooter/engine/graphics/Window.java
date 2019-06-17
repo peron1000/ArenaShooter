@@ -301,6 +301,9 @@ public final class Window {
 		int screenY = (int) (resY*((y+50)/100));
 		int screenW = (int) (resX*(width/(100*ratio)));
 		int screenH = (int) (resY*(height/100));
+
+		screenX = (int) Utils.inverseLerpF(0, resX, Utils.inverseLerpF(-50*ratio, 50*ratio, x));
+		screenY = (int) Utils.inverseLerpF(0, resY, Utils.inverseLerpF(-50, 50, y));
 		
 		if(scissorStack.empty()) glEnable(GL_SCISSOR_TEST);
 		glScissor(screenX, screenY, screenW, screenH);

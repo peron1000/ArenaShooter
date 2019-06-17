@@ -89,6 +89,17 @@ public final class Utils {
 	}
 	
 	/**
+	 * Inverse linear interpolation
+	 * @param a lower bound
+	 * @param b upper bound
+	 * @param x value
+	 * @return factor
+	 */
+	public static float inverseLerpF( float a, float b, float x ) {
+		return (x-a)/(b-a);
+	}
+	
+	/**
 	 * Linear interpolation between two angles (in radians).<br/>
 	 * This will normalize the given angles
 	 * @param a
