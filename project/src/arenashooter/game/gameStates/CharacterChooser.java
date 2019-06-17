@@ -33,9 +33,10 @@ public class CharacterChooser extends GameState {
 	private Map<Controller, CharacterSprite> sprites = new HashMap<>(1);
 	Stack<Controller> pileOrdreJoueur = new Stack<Controller>();
 	private final double firstX = -10.9;
+	private final Vec2f secondRow = new Vec2f(-26.621, 4.6);
 	private double nextSpriteX = firstX;
-	private final double charOffset = 3.12;
-	//Menu menu = new Menu(6);
+	private final double charOffset = 3.121;
+	// Menu menu = new Menu(6);
 	private InputListener inputs = new InputListener();
 
 	public CharacterChooser() {
@@ -58,7 +59,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cu);
 							cu.attachToParent(current, cu.genName());
 							numberu.attachToParent(cu.getChild("body"), "Player_Number");
-							updatePlayersNumber();
+							updatePlayers();
 						}
 						break;
 
@@ -74,7 +75,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cd);
 							cd.attachToParent(current, cd.genName());
 							numberd.attachToParent(cd.getChild("body"), "Player_Number");
-							updatePlayersNumber();
+							updatePlayers();
 						}
 						break;
 
@@ -90,7 +91,7 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cr);
 							cr.attachToParent(current, cr.genName());
 							numberr.attachToParent(cr.getChild("body"), "Player_Number");
-							updatePlayersNumber();
+							updatePlayers();
 						}
 						break;
 
@@ -106,16 +107,16 @@ public class CharacterChooser extends GameState {
 							sprites.put(controllers.get(event.getDevice()), cl);
 							cl.attachToParent(current, cl.genName());
 							numberl.attachToParent(cl.getChild("body"), "Player_Number");
-							updatePlayersNumber();
+							updatePlayers();
 						}
 						break;
 					case UI_CONTINUE:
-						//Device needs to have a controller to start the game
-						if( !controllers.containsKey(event.getDevice()) ) {
-							Main.log.warn(event.getDevice()+" tried to start the game but doesn't have a controller");
+						// Device needs to have a controller to start the game
+						if (!controllers.containsKey(event.getDevice())) {
+							Main.log.warn(event.getDevice() + " tried to start the game but doesn't have a controller");
 							break;
 						}
-						
+
 						Main.getGameMaster().controllers.clear();
 						for (Controller cont : controllers.values()) {
 							Main.getGameMaster().controllers.add(cont);
@@ -168,7 +169,13 @@ public class CharacterChooser extends GameState {
 
 		Main.getGameMaster().controllers.add(newController);
 		CharacterSprite caracSprite = new CharacterSprite(newController.info);
-		caracSprite.localPosition.set(nextSpriteX, -2.5);
+
+		if (pileOrdreJoueur.size() > 7) {
+			caracSprite.localPosition.set(nextSpriteX + secondRow.x, -2.5 + secondRow.y);
+		} else {
+			caracSprite.localPosition.set(nextSpriteX, -2.5);
+		}
+
 		caracSprite.attachToParent(current, "PlayerSprite_" + pileOrdreJoueur.size());
 		sprites.put(newController, caracSprite);
 		Sprite newNumber = new Sprite(new Vec2f(),
@@ -182,12 +189,12 @@ public class CharacterChooser extends GameState {
 		Main.log.info("Player Number : " + newController.playerNumber);
 
 		nextSpriteX += charOffset;
-		updatePlayersNumber();
-		
+		updatePlayers();
+
 		Vec2f iconPos = caracSprite.localPosition.clone();
 		iconPos.y += 1.7;
 		String texName;
-		switch(newController.getCharInfo().getCharClass()) {
+		switch (newController.getCharInfo().getCharClass()) {
 		case Heavy:
 			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png";
 			break;
@@ -200,16 +207,16 @@ public class CharacterChooser extends GameState {
 		case Bird:
 			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png";
 			break;
-			default:
-				texName = "data/default_texture.png";
-				break;
+		default:
+			texName = "data/default_texture.png";
+			break;
 		}
 		Sprite classIcon = new Sprite(iconPos, texName);
-		float iconWidth = (float) (classIcon.getTexture().getWidth()*.02);
-		float iconHeigth = (float) (classIcon.getTexture().getHeight()*.02);
+		float iconWidth = (float) (classIcon.getTexture().getWidth() * .02);
+		float iconHeigth = (float) (classIcon.getTexture().getHeight() * .02);
 		classIcon.size.set(iconWidth, iconHeigth);
 		classIcon.attachToParent(current, "class_Icon_Player_" + newController.playerNumber);
-		
+
 		Audio.playSound("data/sound/ui/zboui_01.ogg", AudioChannel.UI, 1, 1);
 	}
 
@@ -219,7 +226,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
 		Main.log.info("GameMaster.gm.controllers.size()" + Main.getGameMaster().controllers.size());
 
-		if(current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber) != null){
+		if (current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber) != null) {
 			current.getChild("class_Icon_Player_" + controllers.get(device).playerNumber).detach();
 		}
 		CharacterSprite charSprite = sprites.get(controllers.get(device));
@@ -228,7 +235,7 @@ public class CharacterChooser extends GameState {
 		pileOrdreJoueur.remove(controllers.get(device).playerNumber);
 		Main.getGameMaster().controllers.remove(controllers.get(device));
 		controllers.remove(device);
-		updatePlayersNumber();
+		updatePlayers();
 		// i -= charOffset;
 
 		// Reposition sprites
@@ -254,26 +261,31 @@ public class CharacterChooser extends GameState {
 	 * Update player number in each controller and reposition character numbers on
 	 * screen
 	 */
-	private void updatePlayersNumber() {
+	private void updatePlayers() {
 
 		for (int i = 0; i < pileOrdreJoueur.size(); i++) {
 			Controller currentController = pileOrdreJoueur.get(i);
 			currentController.playerNumber = i;
+
+			if (i >= 8)
+				sprites.get(currentController).localPosition.set(firstX + charOffset * i, -2.5);
+			else
+				sprites.get(currentController).localPosition.set(firstX + charOffset * i + secondRow.x, -2.5 + secondRow.y);
 
 			Sprite number = new Sprite(new Vec2f(),
 					"data/sprites/interface/Player_" + (currentController.playerNumber + 1) + "_Arrow.png");
 			number.localPosition = new Vec2f(0, -2.2);
 			number.attachToParent(sprites.get(currentController).getChild("body"), "Player_Number");
 			sprites.get(currentController).attachToParent(current, "PlayerSprite_" + currentController.playerNumber);
-			
-			if(current.getChild("class_Icon_Player_" + i) != null){
+
+			if (current.getChild("class_Icon_Player_" + i) != null) {
 				current.getChild("class_Icon_Player_" + i).detach();
 			}
-			
+
 			Vec2f iconPos = sprites.get(currentController).localPosition.clone();
 			iconPos.y += 1.7;
 			String texName;
-			switch(currentController.getCharInfo().getCharClass()) {
+			switch (currentController.getCharInfo().getCharClass()) {
 			case Heavy:
 				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png";
 				break;
@@ -286,13 +298,13 @@ public class CharacterChooser extends GameState {
 			case Bird:
 				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png";
 				break;
-				default:
-					texName = "data/default_texture.png";
-					break;
+			default:
+				texName = "data/default_texture.png";
+				break;
 			}
 			Sprite classIcon = new Sprite(iconPos, texName);
-			float iconWidth = (float) (classIcon.getTexture().getWidth()*.02);
-			float iconHeigth = (float) (classIcon.getTexture().getHeight()*.02);
+			float iconWidth = (float) (classIcon.getTexture().getWidth() * .02);
+			float iconHeigth = (float) (classIcon.getTexture().getHeight() * .02);
 			classIcon.size.set(iconWidth, iconHeigth);
 			classIcon.attachToParent(current, "class_Icon_Player_" + currentController.playerNumber);
 		}
@@ -317,24 +329,25 @@ public class CharacterChooser extends GameState {
 		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Start' to begin");
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
 		textEnt4.attachToParent(current, "Text_touch2");
-		
+
 		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Jump' to join");
 		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
 		textEnt5.attachToParent(current, "Text_touch3");
-		
-		//TODO: Classes explanation.
-		
-		Sprite backGroundCharacChooser = new Sprite(new Vec2f(), "data/sprites/interface/BackGround_CharacterChooser_PreRendered.png");
+
+		// TODO: Classes explanation.
+
+		Sprite backGroundCharacChooser = new Sprite(new Vec2f(),
+				"data/sprites/interface/BackGround_CharacterChooser_PreRendered.png");
 		backGroundCharacChooser.attachToParent(current, "BackGround");
 		Texture tex = backGroundCharacChooser.getTexture();
-		backGroundCharacChooser.size.set(tex.getWidth()*.0711, tex.getHeight()*.0711);
+		backGroundCharacChooser.size.set(tex.getWidth() * .0711, tex.getHeight() * .0711);
 		backGroundCharacChooser.zIndex = -126;
 		backGroundCharacChooser.getTexture().setFilter(false);
-		
+
 		Sprite birdsIcon = new Sprite(new Vec2f(-13, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png");
 		birdsIcon.attachToParent(current, "Icon_Bird");
-		float iconWidth = (float) (birdsIcon.getTexture().getWidth()*.05);
-		float iconHeigth = (float) (birdsIcon.getTexture().getHeight()*.05);
+		float iconWidth = (float) (birdsIcon.getTexture().getWidth() * .05);
+		float iconHeigth = (float) (birdsIcon.getTexture().getHeight() * .05);
 		birdsIcon.size.set(iconWidth, iconHeigth);
 		birdsIcon.getTexture().setFilter(false);
 		Sprite heavyIcon = new Sprite(new Vec2f(-11, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png");
@@ -356,7 +369,7 @@ public class CharacterChooser extends GameState {
 		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
 
-		//Add a controller for keyboard
+		// Add a controller for keyboard
 //		addController(Device.KEYBOARD);
 	}
 
