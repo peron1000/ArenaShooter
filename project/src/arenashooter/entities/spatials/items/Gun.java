@@ -5,6 +5,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
@@ -295,8 +296,8 @@ public class Gun extends Usable {
 				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
-//					((Character) getParent()).vel.add(Vec2f.multiply(recoilDir, thrust));
-					((Character) getParent()).applyImpulse(Vec2f.multiply(recoilDir, thrust*((Character) getParent()).weight));
+					Character parent = ((Character) getParent());
+					parent.setLinearVelocity(Vec2f.add(parent.getLinearVelocity(), Vec2f.multiply(recoilDir, thrust)));
 				} else {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}

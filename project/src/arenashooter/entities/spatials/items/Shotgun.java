@@ -157,12 +157,13 @@ public class Shotgun extends Gun {
 
 					break;
 				}
+				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), recoil * 5000));
-//					((Character) getParent()).vel.add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
-					((Character) getParent()).applyImpulse(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust));
+					Character parent = ((Character) getParent());
+					parent.setLinearVelocity(Vec2f.add(parent.getLinearVelocity(), Vec2f.multiply(recoilDir, thrust)));
 				} else {
-					getVel().add(Vec2f.multiply(Vec2f.rotate(aim, Math.PI), thrust / 10));
+					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
 				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());

@@ -95,7 +95,7 @@ public class Character extends RigidBodyContainer {
 		switch (charInfo.getCharClass()) {
 		case Heavy:
 			weight = 3;
-			punchDashForce = 9;
+			punchDashForce = 10;
 			jumpForce = 16*weight;
 			break;
 		case Agile:
