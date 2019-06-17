@@ -79,7 +79,7 @@ class MainMenu extends UiElement implements MultiUi {
 	};
 
 	// default values for buttons
-	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 6;
+	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 1;
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -87,6 +87,7 @@ class MainMenu extends UiElement implements MultiUi {
 		mainMenu.setPosition(0, -30);
 		mainMenu.setSpacingForeachList(spacing);
 		meshChooser.setPosition(0, -30);
+		meshChooser.setSpacingForeachList(spacing);
 
 		setPosition(Editor.forVisible, 0);
 
@@ -110,7 +111,6 @@ class MainMenu extends UiElement implements MultiUi {
 	}
 
 	private void arenaInfoMenuConstruction() {
-		mainMenu.addBind("Arena Info", arenaInfo);
 		Button top = new Button("Change top"), bottom = new Button("Change bottom");
 		arenaInfo.addElements(top, bottom);
 
@@ -166,10 +166,11 @@ class MainMenu extends UiElement implements MultiUi {
 		for (UiElement uiElement : arenaInfo) {
 			if (uiElement instanceof Button) {
 				Button b = (Button) uiElement;
-				b.setScaleRect(xRect, yRect);
-				b.setScaleText(scaleText);
+				b.setScale(xRect, yRect);
 			}
 		}
+		
+		mainMenu.addBind("Arena Info", arenaInfo);
 
 	}
 
@@ -185,8 +186,7 @@ class MainMenu extends UiElement implements MultiUi {
 			String fileName = file.getName();
 			int index = fileName.lastIndexOf('.');
 			Button button = new Button(fileName.substring(0, index));
-			button.setScaleRect(xRect, yRect);
-			button.setScaleText(scaleText);
+			button.setScale(xRect, yRect);
 			vList.addElement(button);
 			button.setOnArm(new Trigger() {
 
@@ -211,8 +211,7 @@ class MainMenu extends UiElement implements MultiUi {
 	private void saveQuitMenuConstruction() {
 		Button save = new Button("Save"), rename = new Button("Rename File"), quit = new Button("Quit");
 		save.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
-		save.setScaleText(scaleText);
-		save.setScaleRect(xRect, yRect);
+		save.setScale(xRect, yRect);
 		save.setOnArm(new Trigger() {
 
 			@Override
@@ -221,8 +220,7 @@ class MainMenu extends UiElement implements MultiUi {
 			}
 		});
 		rename.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
-		rename.setScaleText(scaleText);
-		rename.setScaleRect(xRect, yRect);
+		rename.setScale(xRect, yRect);
 		rename.setOnArm(new Trigger() {
 
 			@Override
@@ -261,8 +259,7 @@ class MainMenu extends UiElement implements MultiUi {
 			}
 		});
 		quit.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
-		quit.setScaleText(scaleText);
-		quit.setScaleRect(xRect, yRect);
+		quit.setScale(xRect, yRect);
 
 		saveQuitMenu.setSpacing(spacing);
 
@@ -285,7 +282,7 @@ class MainMenu extends UiElement implements MultiUi {
 			Button button = new Button(first + name);
 			addMenu.addElement(button);
 			typeToButton.put(type, button);
-			button.setScaleText(scaleText);
+			button.setScale(xRect, yRect);
 			button.setOnArm(new Trigger() {
 
 				@Override
@@ -351,8 +348,7 @@ class MainMenu extends UiElement implements MultiUi {
 			i++;
 			if (i / mod >= j) {
 				for (Button b : addMenu) {
-					b.setScaleRect(xRect, yRect);
-					b.setScaleText(scaleText);
+					b.setScale(xRect, yRect);
 					b.setColorRect(new Vec4f(0, 0, 0, 0.5));
 				}
 				mainMenu.addBind("Adding" + j, addMenu);
@@ -362,7 +358,7 @@ class MainMenu extends UiElement implements MultiUi {
 		}
 		Button animation = new Button("Animation");
 		addMenu.addElement(animation);
-		animation.setScaleText(scaleText);
+		animation.setScale(xRect, yRect);
 		animation.setOnArm(new Trigger() {
 
 			@Override
@@ -372,8 +368,7 @@ class MainMenu extends UiElement implements MultiUi {
 		});
 
 		for (Button button : addMenu) {
-			button.setScaleRect(xRect, yRect);
-			button.setScaleText(scaleText);
+			button.setScale(xRect, yRect);
 			button.setColorRect(new Vec4f(0, 0, 0, 0.5));
 		}
 
@@ -384,8 +379,7 @@ class MainMenu extends UiElement implements MultiUi {
 		String entityName = entity.genName();
 		entity.attachToParent(parent, entityName);
 		Button toSetMenu = new Button(entityName);
-		toSetMenu.setScaleRect(xRect, yRect);
-		toSetMenu.setScaleText(scaleText);
+		toSetMenu.setScale(xRect, yRect);
 		setMenu.addElement(toSetMenu);
 		editor.allEditable.add(entity);
 		entityToButton.put(entity, toSetMenu);
@@ -426,8 +420,7 @@ class MainMenu extends UiElement implements MultiUi {
 
 	public void constructCamerabutton(Camera cam) {
 		Button toSetMenu = new Button("camera");
-		toSetMenu.setScaleRect(xRect, yRect);
-		toSetMenu.setScaleText(scaleText);
+		toSetMenu.setScale(xRect, yRect);
 		setMenu.addElement(toSetMenu);
 		entityToButton.put(cam, toSetMenu);
 		toSetMenu.setOnArm(new Trigger() {

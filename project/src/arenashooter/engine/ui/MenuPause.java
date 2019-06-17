@@ -42,9 +42,9 @@ public class MenuPause {
 		uiList.setScale(6, 6);
 
 		final double xScaleButton = 30, yScaleButton = 8;
-		resume.setScaleRect(xScaleButton, yScaleButton);
-		options.setScaleRect(xScaleButton, yScaleButton);
-		back.setScaleRect(xScaleButton, yScaleButton);
+		resume.setScale(xScaleButton, yScaleButton);
+		options.setScale(xScaleButton, yScaleButton);
+		back.setScale(xScaleButton, yScaleButton);
 
 		resume.setOnArm(new Trigger() {
 

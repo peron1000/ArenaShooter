@@ -1,5 +1,6 @@
 package arenashooter.engine.ui.simpleElement;
 
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiActionable;
@@ -56,14 +57,6 @@ public class Button extends UiActionable {
 	public void setColorRect(Vec4f color) {
 		rect.getMaterial().setParamVec4f("color", color.clone());
 	}
-
-	public void setScaleText(double x) {
-		label.setScale(x);
-	}
-
-	public void setScaleRect(double x, double y) {
-		rect.setScale(x, y);
-	}
 	
 	public void setAlignH(TextAlignH align) {
 		label.setAlignementH(align);
@@ -86,8 +79,7 @@ public class Button extends UiActionable {
 	@Override
 	public void setScale(double x, double y) {
 		rect.setScale(x, y);
-		double max = Math.max(x, y);
-		label.setScale(max, max);
+		label.setScale(y*0.6, y*0.6);
 		super.setScale(x, y);
 	}
 	
@@ -103,9 +95,7 @@ public class Button extends UiActionable {
 	@Override
 	public void setScaleLerp(double x, double y, double lerp) {
 		rect.setScaleLerp(x, y , lerp);
-		double max = Math.max(x, y);
-		max *= 2.5;
-		label.setScaleLerp(max, max , lerp);
+		label.setScaleLerp(y, y , lerp);
 		super.setScaleLerp(x, y, lerp);
 	}
 	
@@ -132,12 +122,14 @@ public class Button extends UiActionable {
 
 	@Override
 	public void draw() {
-		//Window.stackScissor(getPosition().x-getScale().x/2, getPosition().y-getScale().y/2, getScale().x, getScale().y);
+		
 		if (isVisible()) {
 			rect.draw();
+			//Window.stackScissor(getPosition().x-getScale().x/2, getPosition().y+getScale().y/2, getScale().x, getScale().y);
 			label.draw();
+			//Window.popScissor();
 		}
-		//Window.popScissor();
+	
 	}
 
 	@Override

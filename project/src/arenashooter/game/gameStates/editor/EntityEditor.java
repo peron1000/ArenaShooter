@@ -166,8 +166,7 @@ class EntityEditor extends UiElement implements MultiUi {
 					(double) light.getLight().radius);
 			buttonRadius.setRectangleVisible(true);
 			buttonRadius.setColorRectangle(new Vec4f(0, 0, 0, 1));
-			buttonRadius.setScaleRectangle(30, 5);
-			buttonRadius.setScaleText(5);
+			buttonRadius.setScale(30, 5);
 
 			// Add
 			vList.addElements(setColorPicker, lightType, buttonRadius);
@@ -213,7 +212,6 @@ class EntityEditor extends UiElement implements MultiUi {
 				@Override
 				public void make() {
 					uiInputState = Ui_Input.DOUBLE;
-					// vList.addElement(doubleInput);
 					vList.replaceElement(doubleInput, buttonRadius);
 					doubleInput.reset();
 					doubleInput.setOnFinish(new Trigger() {
@@ -221,7 +219,6 @@ class EntityEditor extends UiElement implements MultiUi {
 						@Override
 						public void make() {
 							uiInputState = Ui_Input.NOTHING;
-							// vList.removeElement(doubleInput);
 							vList.replaceElement(buttonRadius, doubleInput);
 							light.getLight().radius = (float) doubleInput.getDouble();
 							buttonRadius.setValue(doubleInput.getDouble());
@@ -232,7 +229,6 @@ class EntityEditor extends UiElement implements MultiUi {
 						@Override
 						public void make() {
 							uiInputState = Ui_Input.NOTHING;
-							// vList.removeElement(doubleInput);
 							vList.replaceElement(buttonRadius, doubleInput);
 						}
 					});
@@ -246,14 +242,13 @@ class EntityEditor extends UiElement implements MultiUi {
 		menu.addBind(type.name() + " Editor", vList);
 		menu.addLabelInfo(vList, entityNameLabel);
 		menu.addLabelInfo(vList, parent);
-		menu.setSpacingForeachList(6);
+		menu.setSpacingForeachList(2);
 		menu.setTitleSpacing(1);
 		menu.setPosition(0, -35);
 		for (UiElement e : vList) {
 			if (e instanceof Button) {
 				Button b = (Button) e;
-				b.setScaleText(5);
-				b.setScaleRect(30, 5);
+				b.setScale(30, 5);
 			}
 		}
 

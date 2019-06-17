@@ -52,11 +52,8 @@ public class MenuStart extends GameState {
 		UiListVertical<Button> uilist = new UiListVertical<>();
 		uilist.addElements(buttonPlay , buttonEditor , buttonSettings , buttonQuit);
 		for (Button button : uilist) {
-//			button.setScale(50, 5.5);
-			button.setScale(8);
 			button.setRectangleVisible(false);
-			button.setScaleText(7);
-		
+			button.setScale(8);
 		}
 		mainMenu.addBind("MainMenu", uilist);
 		mainMenu.setTitleVisible(false);

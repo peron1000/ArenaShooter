@@ -22,16 +22,8 @@ public class UiValuableButton<T> extends UiActionable {
 		button.setRectangleVisible(visible);
 	}
 	
-	public void setScaleText(double square) {
-		button.setScaleText(square);
-	}
-	
 	public void setColorText(Vec4f color) {
 		button.setColorText(color);
-	}
-	
-	public void setScaleRectangle(double x , double y) {
-		button.setScaleRect(x, y);
 	}
 	
 	public void setColorRectangle(Vec4f color) {

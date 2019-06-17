@@ -1,9 +1,6 @@
 package arenashooter.engine.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -52,8 +49,10 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		binding.put(uiList, tabTitle);
 		UiListVertical<Label> list = labelsInfo.get(uiList);
 		if (list == null) {
-			labelsInfo.put(uiList, new UiListVertical<>());
+			list = new UiListVertical<>();
+			labelsInfo.put(uiList, list);
 		}
+		list.setPosition(getPosition());
 		uiList.setPosition(getPosition().x, getPosition().y);
 		if (circleList.size() == 0) {
 			this.tabTitle.setText(tabTitle);
@@ -68,6 +67,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			list = new UiListVertical<>();
 			labelsInfo.put(uiList, list);
 		}
+		list.setSpacing(spacing);
 		list.addElement(info);
 		uiList.setPosition(getPosition().x,
 				info.getPosition().y + spacing + info.getScale().y / 2 + uiList.getFisrt().getScale().y / 2);
