@@ -51,7 +51,7 @@ public class TextLoader implements EntitiesLoader<TextSpatial> {
 		font = element.getAttribute("font");
 		Font f = Font.loadFont(font);
 		content = element.getAttribute("content");
-		Text t = new Text(f, Text.TextAlignH.CENTER, content);
+		Text t = new Text(f, Text.TextAlignH.CENTER,Text.TextAlignV.CENTER , content);
 		TextSpatial spatial = new TextSpatial(position, scale, t);
 		if (element.hasAttribute("name")) {
 			spatial.attachToParent(parent, element.getAttribute("name"));

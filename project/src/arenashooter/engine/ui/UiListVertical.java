@@ -2,53 +2,72 @@ package arenashooter.engine.ui;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
-import arenashooter.engine.math.Vec2f;
+public class UiListVertical<E extends UiElement> extends UiElement implements Iterable<E> {
 
-public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<E> {
-	
-	private List<E> list = new LinkedList<>();
-	private double spacing = 6;
-	private Vec2f positionRef = new Vec2f();
-	
+	private LinkedList<E> list = new LinkedList<>();
+	private double spacing = 1;
+
+	private void updatePositionElements() {
+		for (E e : list) {
+			if (e == list.getFirst()) {
+				e.setPosition(getPosition());
+			} else {
+				E prev = list.get(list.indexOf(e) - 1);
+				e.setPosition(getPosition().x,
+						prev.getPosition().y + spacing + prev.getScale().y / 2 + e.getScale().y / 2);
+			}
+		}
+	}
+
 	public double getSpacing() {
 		return spacing;
 	}
-	
+
 	public void setSpacing(double spacing) {
 		this.spacing = spacing;
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setPosition(positionRef.x, positionRef.y+spacing*i);
-		}
+		updatePositionElements();
 	}
-	
+
 	public void addElement(E element) {
-		element.setPosition(positionRef.x, positionRef.y+spacing*list.size());
+		int size = list.size();
+		if (size > 0) {
+			E e = list.get(size - 1);
+			element.setPosition(getPosition().x,
+					e.getPosition().y + spacing + e.getScale().y / 2 + element.getScale().y / 2);
+		} else {
+			element.setPosition(getPosition().x, getPosition().y);
+		}
 		list.add(element);
 	}
-	
+
 	public void addElements(E... elements) {
 		for (E uiElement : elements) {
 			addElement(uiElement);
 		}
 	}
-	
+
 	public void removeElement(UiElement element) {
 		list.remove(element);
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setPosition(positionRef.x, positionRef.y+spacing*i);
-		}
+		updatePositionElements();
 	}
-	
-	public void replaceElement(E newElement , E oldElement) {
+
+	public void replaceElement(E newElement, E oldElement) {
 		int index = list.indexOf(oldElement);
-		if(index != -1) {
+		if (index != -1) {
 			list.set(index, newElement);
 			newElement.setPosition(oldElement.getPosition().x, oldElement.getPosition().y);
 		}
 	}
-	
+
+	public E getFisrt() {
+		return list.getFirst();
+	}
+
+	public E getLast() {
+		return list.getLast();
+	}
+
 	public int getSize() {
 		return list.size();
 	}
@@ -56,24 +75,19 @@ public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<
 	public UiElement get(int i) {
 		return list.get(i);
 	}
-	
+
 	public int size() {
 		return list.size();
 	}
-	
+
 	public boolean contain(UiElement element) {
 		return list.contains(element);
-	}
-	
-	@Override
-	public Vec2f getPosition() {
-		return positionRef;
 	}
 
 	@Override
 	public void setPosition(double x, double y) {
-		double xDif = x - positionRef.x , yDif = y - positionRef.y;
-		positionRef.set(x, y);
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
+		super.setPosition(x, y);
 		for (UiElement uiElement : list) {
 			uiElement.addToPosition(xDif, yDif);
 		}
@@ -81,27 +95,10 @@ public class UiListVertical<E extends UiElement> implements NoStatic , Iterable<
 
 	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
-		double xDif = x - positionRef.x , yDif = y - positionRef.y;
-		positionRef.set(x, y);
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
+		super.setPositionLerp(x, y, lerp);
 		for (UiElement uiElement : list) {
 			uiElement.addToPositionLerp(xDif, yDif, lerp);
-		}
-	}
-
-	@Override
-	public Vec2f getScale() {
-		double x = Double.MAX_VALUE , y = 0;
-		for (UiElement uiElement : list) {
-			x = Math.max(x, uiElement.getScale().x);
-			y += uiElement.getScale().y+spacing;
-		}
-		return new Vec2f(x, y);
-	}
-
-	@Override
-	public void setScale(double x, double y) {
-		for (UiElement uiElement : list) {
-			uiElement.setScale(x, y);
 		}
 	}
 

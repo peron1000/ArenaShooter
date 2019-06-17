@@ -6,6 +6,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
+import arenashooter.engine.graphics.fonts.Text.TextAlignV;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -43,15 +44,19 @@ public class TextSpatial extends Spatial3 {
 	}
 
 	public void setText(String str) {
-		text = new Text(text.getFont(), text.getAlignH(), str);
+		text = new Text(text.getFont(), text.getAlignH(), text.getAlignV(), str);
 	}
 
-	public void setAlign(TextAlignH align) {
-		text = new Text(text.getFont(), align, text.getText());
+	public void setAlignH(TextAlignH alignH) {
+		text = new Text(text.getFont(), alignH, text.getAlignV(), text.getText());
+	}
+	
+	public void setAlignV(TextAlignV alignV) {
+		text = new Text(text.getFont(), text.getAlignH(), alignV, text.getText());
 	}
 
 	public void setFont(Font font) {
-		text = new Text(font, text.getAlignH(), text.getText());
+		text = new Text(font, text.getAlignH(), text.getAlignV(), text.getText());
 	}
 
 	@Override

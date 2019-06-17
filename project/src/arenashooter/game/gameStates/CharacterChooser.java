@@ -302,23 +302,23 @@ public class CharacterChooser extends GameState {
 	public void init() {
 		super.init();
 
-		Text text = new Text(Main.font, Text.TextAlignH.CENTER, "Choose your failleterre");
+		Text text = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Choose your failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -8, 0), new Vec3f(7.3f), text);
 		textEnt.attachToParent(current, "Text_Select");
 
-		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, "← → to change class");
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "← → to change class");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -6.6, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(current, "Text_char");
 
-		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, "↑ ↓ to change skin");
+		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "↑ ↓ to change skin");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(0, -6, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(current, "Text_touch");
 
-		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, "Press 'Start' to begin");
+		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Start' to begin");
 		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, 5.65, 0), new Vec3f(7.15f), text4);
 		textEnt4.attachToParent(current, "Text_touch2");
 		
-		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, "Press 'Jump' to join");
+		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Jump' to join");
 		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
 		textEnt5.attachToParent(current, "Text_touch3");
 		

@@ -65,8 +65,8 @@ public class Button extends UiActionable {
 		rect.setScale(x, y);
 	}
 	
-	public void setAlign(TextAlignH align) {
-		label.setAlignement(align);
+	public void setAlignH(TextAlignH align) {
+		label.setAlignementH(align);
 	}
 
 	@Override

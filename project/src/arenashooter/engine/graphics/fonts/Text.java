@@ -28,6 +28,10 @@ public class Text {
 	
 	public TextAlignH getAlignH() { return alignH; }
 	
+	public TextAlignV getAlignV() {
+		return alignV;
+	}
+
 	public Model getModel() { return model; }
 	
 	public Font getFont() { return font; }

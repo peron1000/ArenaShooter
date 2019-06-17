@@ -28,9 +28,8 @@ public class MenuSettings extends TabList<UiActionable> {
 		addBind("Video", video);
 		addBind("Audio", audio);
 		setPosition(0, y);
-		addToScale(-4);
-		audio.setSpacing(7.5);
-		video.setSpacing(7.5);
+		setSpacingForeachList(1);
+		setTitleSpacing(1);
 
 		///
 		/// Audio settings
@@ -167,15 +166,19 @@ public class MenuSettings extends TabList<UiActionable> {
 		Button backVideo = new Button("Back");
 		backVideo.setOnArm(onBack);
 		backVideo.setRectangleVisible(false);
+		backVideo.setScale(10);
 		Button backAudio = new Button("Back");
 		backAudio.setOnArm(onBack);
 		backAudio.setRectangleVisible(false);
+		backAudio.setScale(10);
 
 		video.addElements(reso, fullscreen, scale, backVideo);
 		audio.addElements(mainVolume, musicVolume, sfxVolume, uiVolume, backAudio);
 
 		backVideo.addToPosition(0, 2.5);
 		backAudio.addToPosition(0, 2.5);
+		
+		addToScaleForeach(-4, -4);
 
 	}
 

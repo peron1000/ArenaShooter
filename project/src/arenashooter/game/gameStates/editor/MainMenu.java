@@ -9,6 +9,7 @@ import arenashooter.engine.FileUtils;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
+import arenashooter.engine.graphics.fonts.Text.TextAlignV;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -78,7 +79,7 @@ class MainMenu extends UiElement implements MultiUi {
 	};
 
 	// default values for buttons
-	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 10;
+	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 6;
 
 	public MainMenu(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -328,7 +329,7 @@ class MainMenu extends UiElement implements MultiUi {
 						break;
 					case TEXT:
 						TextSpatial text = new TextSpatial(new Vec3f(), new Vec3f(1f),
-								new Text(Main.font, TextAlignH.CENTER, "GrosTest"));
+								new Text(Main.font, TextAlignH.CENTER, TextAlignV.CENTER, "GrosTest"));
 						createNewEntity(text, type);
 						break;
 					case SPAWN:

@@ -86,13 +86,13 @@ public class Intro extends GameState {
 		logoBg.attachToParent(current, "logo_bg");
 		
 		//Version text
-		Text txt = new Text(Main.font, TextAlignH.LEFT, "v"+Main.version);
+		Text txt = new Text(Main.font, TextAlignH.LEFT, Text.TextAlignV.TOP, "v"+Main.version);
 		TextSpatial versionText = new TextSpatial(new Vec3f(.65, .61, 0), new Vec3f(1f), txt);
 		versionText.attachToParent(logo, "textVersion");
 		versionText.setColor(new Vec4f(.35, .35, .35, 1));
 		
 		//PRESS START text
-		txt = new Text(Main.font, TextAlignH.CENTER, "PRESS ENTER.");
+		txt = new Text(Main.font, TextAlignH.CENTER, Text.TextAlignV.TOP, "PRESS ENTER.");
 		TextSpatial pressStart = new TextSpatial(new Vec3f(0, .75, -2), new Vec3f(1.5f), txt);
 		pressStart.attachToParent(getCamera(), "textPressStart");
 		

@@ -50,7 +50,6 @@ public class MenuStart extends GameState {
 
 		
 		UiListVertical<Button> uilist = new UiListVertical<>();
-		uilist.setSpacing(8);
 		uilist.addElements(buttonPlay , buttonEditor , buttonSettings , buttonQuit);
 		for (Button button : uilist) {
 //			button.setScale(50, 5.5);
@@ -59,9 +58,11 @@ public class MenuStart extends GameState {
 			button.setScaleText(7);
 		
 		}
-		mainMenu.addBind("", uilist);
-		uilist.setPosition(0, -10);
-		mainMenu.setPosition(0, 20);
+		mainMenu.addBind("MainMenu", uilist);
+		mainMenu.setTitleVisible(false);
+		mainMenu.setSpacingForeachList(0.1);
+		mainMenu.setPosition(0, 10);
+		
 
 		buttonPlay.setOnArm(new Trigger() {
 			@Override
@@ -80,7 +81,7 @@ public class MenuStart extends GameState {
 		buttonSettings.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				current = new MenuSettings(10 , new Trigger() {
+				current = new MenuSettings(20 , new Trigger() {
 					
 					@Override
 					public void make() {

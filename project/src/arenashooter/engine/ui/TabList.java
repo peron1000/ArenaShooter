@@ -2,6 +2,7 @@ package arenashooter.engine.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -15,12 +16,12 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	private CircleList<UiListVertical<? extends E>> circleList = new CircleList<>();
 	private Label tabTitle = new Label("");
 	private Map<UiListVertical<? extends E>, String> binding = new HashMap<>();
-	private Map<UiListVertical<? extends E>, List<Label>> labelsInfo = new HashMap<>();
+	private Map<UiListVertical<? extends E>, UiListVertical<Label>> labelsInfo = new HashMap<>();
 	private double titleSpacing = 1.5;
 	private int indexTarget = 0;
 	private UiImage background = new UiImage(0.5, 0.5, 0.5, 1);
 	private boolean backgroundVisible = false, scissor = false;
-	private double spacing = 10;
+	private double spacing = 1;
 
 	public TabList() {
 		tabTitle.addToPosition(0, -getScale().y * titleSpacing);
@@ -49,9 +50,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	 */
 	public void addBind(String tabTitle, UiListVertical<? extends E> uiList) {
 		binding.put(uiList, tabTitle);
-		List<Label> list = labelsInfo.get(uiList);
+		UiListVertical<Label> list = labelsInfo.get(uiList);
 		if (list == null) {
-			labelsInfo.put(uiList, new ArrayList<>());
+			labelsInfo.put(uiList, new UiListVertical<>());
 		}
 		uiList.setPosition(getPosition().x, getPosition().y);
 		if (circleList.size() == 0) {
@@ -62,14 +63,14 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	}
 
 	public void addLabelInfo(UiListVertical<? extends E> uiList, Label info) {
-		List<Label> list = labelsInfo.get(uiList);
+		UiListVertical<Label> list = labelsInfo.get(uiList);
 		if (list == null) {
-			list = new ArrayList<>();
+			list = new UiListVertical<>();
 			labelsInfo.put(uiList, list);
 		}
-		info.setPosition(getPosition().x, getPosition().y + spacing * list.size());
-		list.add(info);
-		uiList.setPosition(getPosition().x, getPosition().y + spacing * list.size());
+		list.addElement(info);
+		uiList.setPosition(getPosition().x,
+				info.getPosition().y + spacing + info.getScale().y / 2 + uiList.getFisrt().getScale().y / 2);
 	}
 
 	/**
@@ -80,14 +81,18 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public void setSpacingForeachList(double spacing) {
 		this.spacing = spacing;
 		for (UiListVertical<? extends E> uiListVertical : circleList) {
-			List<Label> listInfos = labelsInfo.get(uiListVertical);
-			int i = 0;
-			for (Label label : listInfos) {
-				label.setPosition(getPosition().x, getPosition().y + spacing * i);
-				i++;
+			UiListVertical<Label> listInfos = labelsInfo.get(uiListVertical);
+
+			if (listInfos.size() > 0) {
+				Label last = listInfos.getLast();
+				listInfos.setSpacing(spacing);
+
+				uiListVertical.setPosition(getPosition().x, last.getPosition().y + last.getScale().y / 2 + spacing
+						+ uiListVertical.getFisrt().getScale().y / 2);
+				uiListVertical.setSpacing(spacing);
+			} else {
+				uiListVertical.setSpacing(spacing);
 			}
-			uiListVertical.setPosition(getPosition().x, getPosition().y + spacing * listInfos.size());
-			uiListVertical.setSpacing(spacing);
 		}
 	}
 
@@ -117,11 +122,11 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	public void addToScaleForeach(double x, double y) {
 		actionOnAllSimpleElement(e -> e.addToScale(x, y));
+		setSpacingForeachList(spacing);
 	}
 
 	private void actionOnAllSimpleElement(Consumer<UiElement> c) {
-		c.accept(background);
-		for (List<Label> info : labelsInfo.values()) {
+		for (UiListVertical<Label> info : labelsInfo.values()) {
 			info.forEach(l -> c.accept(l));
 		}
 		for (UiListVertical<? extends E> uiList : circleList) {
@@ -132,7 +137,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	private void actionOnAll(Consumer<NoStatic> c) {
 		c.accept(background);
-		for (List<Label> info : labelsInfo.values()) {
+		for (UiListVertical<Label> info : labelsInfo.values()) {
 			for (Label label : info) {
 				c.accept(label);
 			}
