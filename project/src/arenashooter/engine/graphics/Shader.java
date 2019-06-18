@@ -155,7 +155,7 @@ public class Shader {
 		IntBuffer sizeB = BufferUtils.createIntBuffer(1);
 		IntBuffer typeB = BufferUtils.createIntBuffer(1);
 		for(int i = 0; i < count; i++) {
-			String name = glGetActiveUniform(program, i, sizeB, typeB);
+			String name = glGetActiveUniform(program, i, sizeB, typeB); //TODO This might cause errors on some drivers
 		    
 		    uniforms.put(name, i);
 		    
