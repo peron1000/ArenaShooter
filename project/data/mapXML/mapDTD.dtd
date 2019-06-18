@@ -3,7 +3,7 @@
 <!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
-<!ELEMENT information (item*, gravity, ambientLight, cameraPos, killBounds, sky, music?)>
+<!ELEMENT information (item*, gravity, ambientLight, fog?, cameraPos, killBounds, sky, music?)>
 
 <!ELEMENT item (usable|gun|melee|shotgun|usabletimer)>
 
@@ -11,6 +11,8 @@
 <!ATTLIST gravity x CDATA #REQUIRED y CDATA #REQUIRED>
 <!ELEMENT ambientLight EMPTY>
 <!ATTLIST ambientLight r CDATA #REQUIRED g CDATA #REQUIRED b CDATA #REQUIRED>
+<!ELEMENT fog EMPTY>
+<!ATTLIST fog r CDATA #REQUIRED g CDATA #REQUIRED b CDATA #REQUIRED distance CDATA #REQUIRED>
 <!ELEMENT cameraPos EMPTY>
 <!ATTLIST cameraPos x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #REQUIRED>
 <!ELEMENT killBounds EMPTY>

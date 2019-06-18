@@ -5,6 +5,8 @@
 		<gravity x="0" y="9.807" />
 		
 		<ambientLight r="0.48" g="0.48" b="0.5"/>
+		
+		<fog r="0.929" g="0.906" b="0.753" distance="300"/>
 
 		<cameraPos x="0" y="0" z="50" />
 		

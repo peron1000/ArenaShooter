@@ -92,6 +92,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadInformation(Element information, Arena arena) {
 		loadGravity(getFirstElementByName("gravity", information), arena);
 		loadAmbientLight(getFirstElementByName("ambientLight", information), arena);
+		loadFog(getFirstElementByName("fog", information), arena);
 		loadSky(getFirstElementByName("sky", information), arena);
 		loadCameraBasePos(getFirstElementByName("cameraPos", information), arena);
 		loadKillBounds(getFirstElementByName("killBounds", information), arena);
@@ -447,6 +448,38 @@ public class MapXmlReader extends XmlReader {
 			log.error("Missing blue channel in ambient light");
 
 		arena.ambientLight.set(x, y, z);
+	}
+	
+	private void loadFog(Element elem, Arena arena) {
+		if(elem == null) return;
+		
+		float x = arena.fogColor.x;
+		if (elem.hasAttribute("r"))
+			x = Float.parseFloat(elem.getAttribute("r"));
+		else
+			log.error("Missing red channel in fog");
+
+		float y = arena.fogColor.y;
+		if (elem.hasAttribute("g"))
+			y = Float.parseFloat(elem.getAttribute("g"));
+		else
+			log.error("Missing green channel in fog");
+
+		float z = arena.fogColor.z;
+		if (elem.hasAttribute("b"))
+			z = Float.parseFloat(elem.getAttribute("g"));
+		else
+			log.error("Missing blue channel in fog");
+
+		arena.fogColor.set(x, y, z);
+		
+		float distance = arena.fogDistance;
+		if(elem.hasAttribute("distance"))
+			distance = Float.parseFloat(elem.getAttribute("distance"));
+		else
+			log.error("Missing attribute distance in fog");
+		
+		arena.fogDistance = distance;
 	}
 	
 	private void loadMusic(Element elem, Arena arena) {
