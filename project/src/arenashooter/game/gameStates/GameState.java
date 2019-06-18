@@ -1,8 +1,12 @@
 package arenashooter.game.gameStates;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 
 public abstract class GameState {
@@ -31,6 +35,15 @@ public abstract class GameState {
 		Camera cam = new Camera(current.cameraBasePos);
 		cam.attachToParent(current, "camera");
 		Window.setCamera(cam);
+	}
+	
+	/**
+	 * Called by GameMaster on state change
+	 */
+	public void destroy() {
+		Set<String> entities = new HashSet<>(current.getChildren().keySet());
+		for(String e : entities)
+			current.getChild(e).detach();
 	}
 	
 	public Camera getCamera() {

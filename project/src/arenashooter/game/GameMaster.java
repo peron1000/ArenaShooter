@@ -54,9 +54,10 @@ public class GameMaster {
 		stateStack.push(current);
 		loading.init();
 		
+		current.destroy();
+		
 		current = loading;
 		loading.setOnFinish(new Trigger() {
-			
 			@Override
 			public void make() {
 				current = nextState;
@@ -85,6 +86,7 @@ public class GameMaster {
 	}
 
 	public void requestPreviousState() {
+		current.destroy();
 		 current = stateStack.pop();
 		 if(current instanceof Intro) {
 			 current = new Start();

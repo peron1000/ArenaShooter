@@ -45,6 +45,8 @@ public class Game extends GameState {
 	private InputListener inputs = new InputListener();
 
 	private static SoundSource bgm;
+	private static String bgmPath;
+	private static final String bgmPathDefault = "data/music/Super_blep_serious_fight.ogg";
 
 	// Les teams sont pour l'instant au nombre de 2. On pourra changer
 	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
@@ -103,6 +105,7 @@ public class Game extends GameState {
 			bgm.destroy();
 			bgm = null;
 		}
+		bgmPath = bgmPathDefault;
 		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
 		
@@ -113,6 +116,14 @@ public class Game extends GameState {
 		current = mapsToShuffle.get(0);
 		newRound();
 	}
+	
+	@Override
+	public void destroy() {
+		super.destroy();
+		
+		if(bgm != null)
+			bgm.destroy();
+	}
 
 	public void characterDeath(Controller controller, Character character) {
 		players.remove(character);
@@ -120,8 +131,25 @@ public class Game extends GameState {
 	}
 
 	private void newRound() {
-		bgm.setVolume(.1f);
 		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
+		
+		if(!current.musicPath.isEmpty()) { //Arena has custom music
+			if(!bgmPath.equals(current.musicPath)) { //Only restart music if its path changed
+				bgmPath = current.musicPath;
+				bgm.destroy();
+				bgm = Audio.createSource(bgmPath, AudioChannel.MUSIC, .1f, current.musicPitch);
+				bgm.setLooping(true);
+				bgm.play();
+			}
+		} else if(!bgmPath.equals(bgmPathDefault)) { //Switch to default music
+			bgmPath = bgmPathDefault;
+			bgm.destroy();
+			bgm = Audio.createSource(bgmPath, AudioChannel.MUSIC, .1f, 1);
+			bgm.setLooping(true);
+			bgm.play();
+		}
+		bgm.setVolume(.1f);
+		
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
 		Window.postProcess.fadeToBlack = 1;
@@ -199,7 +227,10 @@ public class Game extends GameState {
 					if(current instanceof AnimEventCustom) {
 						if(((AnimEventCustom)current).data.equals("CanPlayNow")) {
 							canPlay = true;
-							bgm.setVolume(.5f);
+							if(bgmPath.equals(bgmPathDefault))
+								bgm.setVolume(.5f);
+							else
+								bgm.setVolume(this.current.musicVolume);
 							if(!bgm.isPlaying()) bgm.play();
 						}
 					} else if(current instanceof AnimEventSound) {

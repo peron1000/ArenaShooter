@@ -25,6 +25,11 @@ public class Arena extends Entity {
 	public Vec2f gravity = new Vec2f(0);
 
 	public Vec3f ambientLight = new Vec3f(.48, .48, .5);
+	
+	//Music
+	public String musicPath = "";
+	public float musicVolume = 1;
+	public float musicPitch = 1;
 
 	public PhysicWorld physic;
 

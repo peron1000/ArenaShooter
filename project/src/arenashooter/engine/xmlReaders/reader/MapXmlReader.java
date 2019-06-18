@@ -89,13 +89,14 @@ public class MapXmlReader extends XmlReader {
 		loadEntities(getFirstElementByName("entities", root), map);
 	}
 
-	private void loadInformation(Element information, Arena map) {
-		loadGravity(getFirstElementByName("gravity", information), map);
-		loadAmbientLight(getFirstElementByName("ambientLight", information), map);
-		loadSky(getFirstElementByName("sky", information), map);
-		loadCameraBasePos(getFirstElementByName("cameraPos", information), map);
-		loadKillBounds(getFirstElementByName("killBounds", information), map);
-		loadItems(information, map);
+	private void loadInformation(Element information, Arena arena) {
+		loadGravity(getFirstElementByName("gravity", information), arena);
+		loadAmbientLight(getFirstElementByName("ambientLight", information), arena);
+		loadSky(getFirstElementByName("sky", information), arena);
+		loadCameraBasePos(getFirstElementByName("cameraPos", information), arena);
+		loadKillBounds(getFirstElementByName("killBounds", information), arena);
+		loadItems(information, arena);
+		loadMusic(getFirstElementByName("music", information), arena);
 	}
 
 	private void loadItems(Element parent, Arena arena) {
@@ -446,6 +447,15 @@ public class MapXmlReader extends XmlReader {
 			log.error("Missing blue channel in ambient light");
 
 		arena.ambientLight.set(x, y, z);
+	}
+	
+	private void loadMusic(Element elem, Arena arena) {
+		if(elem == null) return; //No custom music
+		arena.musicPath = preloadSound(elem.getAttribute("path"));
+		arena.musicVolume = Float.parseFloat(elem.getAttribute("volume"));
+		arena.musicPitch = 1;
+		if(elem.hasAttribute("pitch"))
+			arena.musicPitch = Float.parseFloat(elem.getAttribute("pitch"));
 	}
 
 	private void loadEntities(Element entities, Entity parent) {
