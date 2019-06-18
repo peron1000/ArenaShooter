@@ -242,7 +242,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	}
 
 	private void slideUpdate() {
-		double top = topScissor(), bottom = top + getScale().y;
+		double top = topMainList(), bottom = top + getScale().y;
 		
 		if (getTarget().getTop() < top) {
 			double d = top - getTarget().getTop();
@@ -253,7 +253,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		}
 	}
 	
-	private float topScissor() {
+	private float topMainList() {
 		UiListVertical<Label> vList = labelsInfo.get(circleList.get());
 		if(vList != null && vList.size() >0) {
 			return vList.getBottom();
@@ -395,15 +395,12 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (!scissor) {
 				vlist.draw();
 			} else {
-				UiImage i = new UiImage(1, 0.5, 0.5, 0.2);
-				i.setScale(getScale());
-				i.setPosition(getPosition().x,topScissor() + i.getScale().y / 2);
-				
-				Window.stackScissor(getLeft(), topScissor(), getScale().x, getScale().y);
+				Window.stackScissor(getLeft(), topMainList() + getScale().y, getScale().x, getScale().y);
+				UiImage j = new UiImage(1, 1, 0, 1);
+				j.setScale(300);
+				j.draw();
 				vlist.draw();
 				Window.popScissor();
-				
-				i.draw();
 			}
 			labelsInfo.get(vlist).forEach(l -> l.draw());
 			if (circleList.size() > 1) {

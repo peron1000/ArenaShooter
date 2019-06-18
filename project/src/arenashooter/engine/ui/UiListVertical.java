@@ -103,6 +103,15 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 			uiElement.addToPositionLerp(xDif, yDif, lerp);
 		}
 	}
+	
+	@Override
+	public float getBottom() {
+		if(list.isEmpty()) {
+			return (float) (getPosition().y + spacing);
+		} else {
+			return (float) (list.getLast().getBottom() + spacing);
+		}
+	}
 
 	@Override
 	public void setScale(double x, double y) {
