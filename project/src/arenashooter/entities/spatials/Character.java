@@ -255,13 +255,8 @@ public class Character extends RigidBodyContainer {
 						Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
-<<<<<<< HEAD
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
 				punchDmgInfo = new DamageInfo(punchDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
-=======
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8)* weight, 0), aimInput);
-				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
->>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 				attackCombo++;
 				if (skeleton != null)
 					switch (attackCombo) {
@@ -441,21 +436,11 @@ public class Character extends RigidBodyContainer {
 			bushidoDeath(deathCause);
 		} else {
 			if (!afterDeath.isProcessing()) {
-<<<<<<< HEAD
 				controller.zombieChar();
-				deathInfo = deathCause;
-=======
-				System.out.println("bushido");
 				upcomingDeath = deathCause;
->>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 				afterDeath.inProcess = true;
-<<<<<<< HEAD
 				((CharacterSprite)getChild("skeleton")).activateBushidoMode();
 				// TODO: Activate Haricot...etc
-=======
-				((CharacterSprite) getChild("skeleton")).activateBushidoMode();
-				// TODO: Activate Bushido Mode : Haricot...etc
->>>>>>> branch 'master' of https://github.com/peron1000/ArenaShooter.git
 			}
 		}
 	}
