@@ -12,10 +12,10 @@ import arenashooter.game.gameStates.Game;
 public abstract class Controller {
 	/** This controller's character information */
 	public CharacterInfo info;
-	
+
 	/** Currently possessed character */
 	private Character character;
-	
+
 	public int playerNumber;
 
 	public int team = 1;
@@ -69,13 +69,15 @@ public abstract class Controller {
 
 	/**
 	 * Event called by the controlled Character on death
+	 * 
 	 * @param deathCause
 	 */
 	public void death(DamageInfo deathCause) {
 		deadChar = true;
 
 		// Update scores
-		deaths++;
+		if (deathCause.dmgType != DamageType.MISC_ONE_SHOT)
+			deaths++;
 		if (deathCause.instigator instanceof Character) {
 			if (((Character) deathCause.instigator).controller != null) {
 				((Character) deathCause.instigator).controller.kills++;
@@ -87,7 +89,11 @@ public abstract class Controller {
 		character.controller = null;
 		character = null;
 	}
-	
+
+	public void zombieChar() {
+		deadChar = true;
+	}
+
 	public void resetScore() {
 		roundsWon = 0;
 		deaths = 0;
