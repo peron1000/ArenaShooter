@@ -18,6 +18,7 @@ import arenashooter.engine.input.Device;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.Sprite;
@@ -267,10 +268,11 @@ public class CharacterChooser extends GameState {
 			Controller currentController = pileOrdreJoueur.get(i);
 			currentController.playerNumber = i;
 
-			if (i <= 8)
+			if (i < 8)
 				sprites.get(currentController).localPosition.set(firstX + charOffset * i, -2.5);
 			else
-				sprites.get(currentController).localPosition.set(firstX + charOffset * i + secondRow.x, -2.5 + secondRow.y);
+				sprites.get(currentController).localPosition.set(firstX + charOffset * i + secondRow.x,
+						-2.5 + secondRow.y);
 
 			Sprite number = new Sprite(new Vec2f(),
 					"data/sprites/interface/Player_" + (currentController.playerNumber + 1) + "_Arrow.png");
@@ -313,10 +315,12 @@ public class CharacterChooser extends GameState {
 	@Override
 	public void init() {
 		super.init();
-
-		Text text = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Choose your failleterre");
-		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -8, 0), new Vec3f(7.3f), text);
+		Vec4f color1 = new Vec4f(1, 1, 1, 0.5);
+		Text text = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Choose your fighter");
+		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7.5, 0), new Vec3f(7.3f), text);
+		textEnt.setColor(color1);
 		textEnt.attachToParent(current, "Text_Select");
+
 //
 //		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "← → to change class");
 //		TextSpatial textEnt2 = new TextSpatial(new Vec3f(0, -6.6, 0), new Vec3f(4.25f), text2);
