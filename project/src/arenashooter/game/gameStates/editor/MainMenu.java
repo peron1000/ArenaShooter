@@ -441,7 +441,7 @@ class MainMenu extends UiElement implements MultiUi {
 	void removeEntity(Entity toRemove) {
 		Button buttonToRemove = entityToButton.remove(toRemove);
 		setMenu.removeElement(buttonToRemove);
-		mainMenu.reset();
+		mainMenu.resetCurrentList();
 		current = mainMenu;
 		toRemove.detach();
 		editor.allEditable.remove(toRemove);

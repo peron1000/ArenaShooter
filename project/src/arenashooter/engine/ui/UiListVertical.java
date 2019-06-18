@@ -3,22 +3,12 @@ package arenashooter.engine.ui;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import arenashooter.engine.math.Vec2f;
+
 public class UiListVertical<E extends UiElement> extends UiElement implements Iterable<E> {
 
 	private LinkedList<E> list = new LinkedList<>();
 	private double spacing = 1;
-
-	private void updatePositionElements() {
-		for (E e : list) {
-			if (e == list.getFirst()) {
-				e.setPosition(getPosition());
-			} else {
-				E prev = list.get(list.indexOf(e) - 1);
-				e.setPosition(getPosition().x,
-						prev.getPosition().y + spacing + prev.getScale().y / 2 + e.getScale().y / 2);
-			}
-		}
-	}
 
 	public double getSpacing() {
 		return spacing;
@@ -84,6 +74,18 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 		return list.contains(element);
 	}
 
+	private void updatePositionElements() {
+		for (E e : list) {
+			if (e == list.getFirst()) {
+				e.setPosition(getPosition());
+			} else {
+				E prev = list.get(list.indexOf(e) - 1);
+				e.setPosition(getPosition().x,
+						prev.getPosition().y + spacing + prev.getScale().y / 2 + e.getScale().y / 2);
+			}
+		}
+	}
+
 	@Override
 	public void setPosition(double x, double y) {
 		double xDif = x - getPosition().x, yDif = y - getPosition().y;
@@ -103,14 +105,28 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 	}
 
 	@Override
-	public void setScaleLerp(double x, double y, double lerp) {
-		for (UiElement uiElement : list) {
-			uiElement.setScaleLerp(x, y, lerp);
+	public void setScale(double x, double y) {
+		// Don't do anything
+	}
+	
+	@Override
+	public Vec2f getScale() {
+		if(list.isEmpty()) {
+			return new Vec2f();
+		} else {
+			double maxX = list.getFirst().getScale().x , y = 0;
+			for (E e : list) {
+				y += spacing + e.getScale().y;
+				maxX = Math.max(maxX, e.getScale().x);
+			}
+			y += spacing;
+			return new Vec2f(maxX, y);
 		}
 	}
 
 	@Override
 	public void update(double delta) {
+		super.update(delta);
 		for (UiElement uiElement : list) {
 			uiElement.update(delta);
 		}
