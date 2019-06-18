@@ -95,6 +95,8 @@ public class Mesh extends Spatial3 {
 		for (int i = 0; i < models.length; i++) {
 			if(getArena() != null) {
 				materials[i].setParamVec3f("ambient", getArena().ambientLight);
+				materials[i].setParamVec3f("fogColor", getArena().fogColor);
+				materials[i].setParamF("fogDistance", getArena().fogDistance);
 				materials[i].setLights(getArena().lights);
 			}
 
@@ -133,6 +135,8 @@ public class Mesh extends Spatial3 {
 
 			if(getArena() != null) {
 				materials[i].setParamVec3f("ambient", getArena().ambientLight);
+				materials[i].setParamVec3f("fogColor", getArena().fogColor);
+				materials[i].setParamF("fogDistance", getArena().fogDistance);
 				materials[i].setLights(getArena().lights);
 			}
 

@@ -9,12 +9,14 @@ in vec3 normal;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform float fogDistance = 3000;
 
 //Out
 out vec2 texCoord;
 out vec3 normalCamSpaceIn;
 out vec3 worldPosition;
 out vec3 worldNormalIn;
+out float fogAmount;
 
 void main() {
     mat4 modelView = view * model;
@@ -26,4 +28,8 @@ void main() {
     //normalCamSpaceIn = normalize( (inverse(mat3(modelView))) * normal );
     normalCamSpaceIn = normalize( (modelView * vec4(normal, 0.0)).xyz );
     worldPosition = (model * vec4(position, 1.0)).xyz;
+    
+    //Fog
+    fogAmount = clamp( gl_Position.z/fogDistance, 0.0, 0.9 );
+    fogAmount = fogAmount*fogAmount;
 }

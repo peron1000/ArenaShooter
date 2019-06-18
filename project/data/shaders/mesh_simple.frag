@@ -11,11 +11,13 @@ in vec2 texCoord;
 in vec3 normalCamSpaceIn;
 in vec3 worldNormalIn;
 in vec3 worldPosition;
+in float fogAmount;
 
 //Uniforms
 uniform float editorFilter = 0.0;
 uniform sampler2D baseColor;
 uniform vec4 baseColorMod = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec3 fogColor = vec3(0.929, 0.906, 0.753);
 
 uniform vec3 ambient = vec3(0.063, 0.078, 0.078);
 uniform int activeLights = 0;
@@ -70,11 +72,7 @@ void main() {
     FragmentColor = textureSample * vec4(lightColor, 1.0);
     
     //Fog
-    //vec4 fogColor = vec4(directionalLightColor, 1.0);
-	//float fogAmount = clamp( ( gl_FragCoord.z/gl_FragCoord.w )/3000, 0.0, 0.9 );
-	//fogAmount = mix(fogAmount, fogAmount*fogAmount, 0.5);
-    
-    //FragmentColor = mix(FragmentColor, fogColor, fogAmount);
+    FragmentColor = mix(FragmentColor, vec4(fogColor, FragmentColor.a), fogAmount);
 
     //FragmentColor = vec4( (normalCamSpace+1.0)/2.0, 1.0 ); //Normal viewer
     

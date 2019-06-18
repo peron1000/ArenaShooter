@@ -1,6 +1,7 @@
 package arenashooter.engine.graphics;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -14,6 +15,15 @@ import arenashooter.engine.math.Vec4f;
 public class Material {
 	private final Shader shader;
 	private final String shaderPath;
+	
+	private static final Set<String> ignoredNames = new HashSet<>();
+	static {
+		ignoredNames.add("time");
+		ignoredNames.add("ambient");
+		ignoredNames.add("activeLights");
+		ignoredNames.add("fogColor");
+		ignoredNames.add("fogDistance");
+	}
 
 	private Map<String, Integer> paramsI = new HashMap<>();
 	private Map<String, Float> paramsF = new HashMap<>();
@@ -40,7 +50,7 @@ public class Material {
 			ParamType type = shader.getUniformType(name);
 			
 			if(type == null) {
-				if(!name.equals("time") && !name.equals("activeLights") && !name.equals("ambient"))
+				if(!ignoredNames.contains(name))
 					Window.log.error("No uniform named \""+name+"\" in "+shaderPath);
 				continue;
 			}
@@ -110,7 +120,7 @@ public class Material {
 		ParamType type = shader.getUniformType(name);
 		if( type == expected ) return true;
 		
-		if(expected != ParamType.INT && !name.equals("time") && !name.equals("activeLights") && !name.equals("ambient")) //Don't print an error for the time value
+		if(expected != ParamType.INT && !ignoredNames.contains(name)) //Don't print an error for the time value
 			Window.log.warn("Type check error: uniform \""+name+"\" is "+type+", expected "+expected+" (in "+shaderPath+")");
 		return false;
 	}
