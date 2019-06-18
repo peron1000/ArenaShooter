@@ -13,7 +13,7 @@ Unzip it and launch `Super Blep.jar` as an executable jar.
 * A JDK with Java 8 support
 ### Building
 After cloning the repository,
-* Run `gradlew zipGame` from the [`/project`](/project) directory to produce an executable jar and zip it with game data into `/project/build/ditrubutions`.
+* Run `gradlew zipGame` (`gradlew.bat zipGame` on Windows) from the [`/project`](/project) directory to produce an executable jar and zip it with game data into `/project/build/ditrubutions`.
 
 or
-* Run `gradlew fatJar` from the [`/project`](/project) directory to only produce the jar and copy game data into `/project/build/libs`.
+* Run `gradlew fatJar` (`gradlew.bat fatJar` on Windows) from the [`/project`](/project) directory to only produce the jar and copy game data into `/project/build/libs`.
