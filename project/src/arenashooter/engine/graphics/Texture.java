@@ -18,9 +18,14 @@ public class Texture {
 	
 	public static final Texture default_tex = loadTexture( "data/default_texture.png" );
 	
-	private final int id;
+	private boolean ready = false;
+	private Image img;
+	private int pixelFormat;
+	
+	private int id;
 	private final String file;
 	private final int width, height;
+	private boolean filter = true;
 	
 	/** Does this texture use non-1bit transparency */
 	public final boolean transparency;
@@ -34,7 +39,8 @@ public class Texture {
 	}
 	
 	/**
-	 * Load a texture from a file
+	 * Load a texture from a file <br/>
+	 * This is safe to call from any thread
 	 * @param path image file
 	 * @return texture object (with filtering enabled) or the default texture if an error occurred
 	 */
@@ -73,17 +79,12 @@ public class Texture {
 		int width = img.width;
 		int height = img.height;
 		
-		int id = glGenTextures();
-		glBindTexture(GL_TEXTURE_2D, id);
-		glTexImage2D(GL_TEXTURE_2D, 0, pixelFormat, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, img.buffer);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		
-		unbind();
-		
 		boolean transparency = img.transparency;
 		if( pixelFormat != GL_RGBA ) transparency = false;
-		Texture tex = new Texture(path, id, width, height, transparency);
+		Texture tex = new Texture(path, -2, width, height, transparency);
+		
+		tex.img = img;
+		tex.pixelFormat = pixelFormat;
 		
 		textures.put(path, new TextureEntry(tex));
 		
@@ -91,9 +92,27 @@ public class Texture {
 	}
 	
 	/**
+	 * Only call this from a thread with an opengl context
+	 */
+	private void initTexture() {
+		ready = true;
+		
+		id = glGenTextures();
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, pixelFormat, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, img.buffer);
+
+		setFilter(filter);
+		
+		unbind();
+		img = null;
+		
+	}
+	
+	/**
 	 * Bind this texture for rendering
 	 */
 	public void bind() {
+		if(!ready) initTexture();
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 	
@@ -132,14 +151,17 @@ public class Texture {
 	 * @return <i>this</i>
 	 */
 	public Texture setFilter(boolean val) {
-		glBindTexture(GL_TEXTURE_2D, id);
-		if(val) {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		} else {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		}
+		if(ready) {
+			glBindTexture(GL_TEXTURE_2D, id);
+			if(val) {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			} else {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			}
+		} else
+			filter = val;
 		return this;
 	}
 	
