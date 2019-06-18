@@ -1,7 +1,7 @@
 package arenashooter.game;
 
 public enum CharacterClass {
-	Bird ("moineau_01", "canard_01", "canard_02"), 
+	Bird ("moineau_01", "canard_01", "perroquet_01", "ara_01", "ara_02", "ara_03"), 
 	Agile("chat_01", "renard_01", "renard_02", "renard_03", "renard_04", "ecureuil_01"),
 	Heavy("chevre_01", "vache_01","elan_01"),
 	Aqua ("poisson_01", "manchot_01", "manchot_02");
