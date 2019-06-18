@@ -148,7 +148,7 @@ public class Config extends GameState {
 		});
 		rounds.setScale(5);
 		vlist.addElement(rounds);
-		vlist.setPosition(-60, -40);
+		vlist.setPosition(-57.5, -40);
 
 		bgU.setScale(40, 10);
 		bgS.setScale(40, 10);
