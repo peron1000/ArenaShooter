@@ -178,7 +178,7 @@ public final class Window {
 		quad = Model.loadQuad();
 		
 		//Load post-processing
-		postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		postProcess = new PostProcess("data/shaders/post_process/pp_default.frag");
 
 		//Create projection matrix
 		createProjectionMatrix();

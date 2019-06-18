@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "material.dtd" >
+
+<material shaderVertex="data/shaders/color.vert" shaderFragment="data/shaders/color.frag" transparency="false">
+	<paramV4 name="baseColor" x="1.0" y="1.0" z="1.0" w="1.0" />
+	<paramF name="editorFilter" value="0.0" />
+</material>

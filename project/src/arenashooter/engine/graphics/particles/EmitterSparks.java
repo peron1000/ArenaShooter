@@ -32,8 +32,8 @@ class EmitterSparks extends Emitter {
 		super(owner, data);
 
 		this.data = data;
-		
-		shader = Shader.loadShader("data/shaders/particle_simple");
+
+		shader = Shader.loadShader("data/shaders/particle_simple.vert", "data/shaders/particle_simple.frag");
 		
 		int capacity = (remaining > 0) ? remaining : (int)(rate*lifetimeMax)+1 ;
 		positions = new ArrayList<Vec2f>(capacity);

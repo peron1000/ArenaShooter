@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT material (paramI|paramF|paramV2|paramV3|paramV4|paramM4|paramTex)*>
+
+<!-- Map info -->
+<!ATTLIST material shaderVertex CDATA #REQUIRED>
+<!ATTLIST material shaderFragment CDATA #REQUIRED>
+<!ATTLIST material transparency (true|false) #REQUIRED>
+
+<!ELEMENT paramI EMPTY>
+<!ATTLIST paramI name CDATA #REQUIRED>
+<!ATTLIST paramI value CDATA #REQUIRED>
+
+<!ELEMENT paramF EMPTY>
+<!ATTLIST paramF name CDATA #REQUIRED>
+<!ATTLIST paramF value CDATA #REQUIRED>
+
+<!ELEMENT paramV2 EMPTY>
+<!ATTLIST paramV2 name CDATA #REQUIRED>
+<!ATTLIST paramV2 x CDATA #REQUIRED>
+<!ATTLIST paramV2 y CDATA #REQUIRED>
+
+<!ELEMENT paramV3 EMPTY>
+<!ATTLIST paramV3 name CDATA #REQUIRED>
+<!ATTLIST paramV3 x CDATA #REQUIRED>
+<!ATTLIST paramV3 y CDATA #REQUIRED>
+<!ATTLIST paramV3 z CDATA #REQUIRED>
+
+<!ELEMENT paramV4 EMPTY>
+<!ATTLIST paramV4 name CDATA #REQUIRED>
+<!ATTLIST paramV4 x CDATA #REQUIRED>
+<!ATTLIST paramV4 y CDATA #REQUIRED>
+<!ATTLIST paramV4 z CDATA #REQUIRED>
+<!ATTLIST paramV4 w CDATA #REQUIRED>
+
+<!ELEMENT paramM4 EMPTY>
+<!ATTLIST paramM4 name CDATA #REQUIRED>
+
+<!ELEMENT paramTex EMPTY>
+<!ATTLIST paramTex name CDATA #REQUIRED>
+<!ATTLIST paramTex path CDATA #REQUIRED>
+<!ATTLIST paramTex filtered (true|false) #REQUIRED>
+

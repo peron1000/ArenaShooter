@@ -100,9 +100,9 @@ public class Mesh extends Spatial3 {
 				materials[i].setLights(getArena().lights);
 			}
 
-			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
-			materials[i].view = Window.getView();
-			materials[i].proj = Window.proj;
+			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+			materials[i].setParamMat4f("view", Window.getView());
+			materials[i].setParamMat4f("projection", Window.proj);
 
 			materials[i].setParamI("time", timeMs);
 
@@ -140,9 +140,9 @@ public class Mesh extends Spatial3 {
 				materials[i].setLights(getArena().lights);
 			}
 
-			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
-			materials[i].view = Window.getView();
-			materials[i].proj = Window.proj;
+			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+			materials[i].setParamMat4f("view", Window.getView());
+			materials[i].setParamMat4f("projection", Window.proj);
 
 			materials[i].setParamI("time", timeMs);
 

@@ -15,10 +15,10 @@ in float fogAmount;
 
 //Uniforms
 uniform float editorFilter = 0.0;
-uniform int time = 0;
 uniform sampler2D baseColor;
 uniform vec4 baseColorMod = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec3 fogColor = vec3(0.929, 0.906, 0.753);
+uniform int time;
 
 uniform vec3 ambient = vec3(0.063, 0.078, 0.078);
 uniform int activeLights = 0;

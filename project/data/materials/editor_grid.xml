@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "material.dtd" >
+
+<material shaderVertex="data/shaders/editor_grid.vert" shaderFragment="data/shaders/editor_grid.frag" transparency="true">
+	<paramF name="lineThickness" value="0.1" />
+</material>

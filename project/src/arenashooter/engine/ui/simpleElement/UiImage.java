@@ -25,7 +25,7 @@ public class UiImage extends UiElement {
 	 * @param color
 	 */
 	public UiImage(Vec4f color) {
-		this(new Material("data/shaders/ui/ui_rectangle"));
+		this(Material.loadMaterial("data/materials/ui/ui_rectangle.xml"));
 		material.setParamVec4f("color", color.clone());
 	}
 
@@ -38,7 +38,7 @@ public class UiImage extends UiElement {
 	 * @param transparency
 	 */
 	public UiImage(double red, double green, double blue, double transparency) {
-		this(new Material("data/shaders/ui/ui_rectangle"));
+		this(Material.loadMaterial("data/materials/ui/ui_rectangle.xml"));
 		if (red > 1 || red < 0) {
 			Exception e = new Exception("Color value red given is not valid");
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class UiImage extends UiElement {
 			e.printStackTrace();
 		}
 		if (transparency > 1 || transparency < 0) {
-			Exception e = new Exception("Color value transparency given is not valid");
+			Exception e = new Exception("Color value opacity given is not valid");
 			e.printStackTrace();
 		}
 		material.setParamVec4f("color", new Vec4f(red, green, blue, transparency));
@@ -64,7 +64,7 @@ public class UiImage extends UiElement {
 	 * @param texture
 	 */
 	public UiImage(Texture texture) {
-		this(new Material("data/shaders/ui/ui_image"));
+		this(Material.loadMaterial("data/materials/ui/ui_image.xml"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
 	}
@@ -76,7 +76,7 @@ public class UiImage extends UiElement {
 	 * @param color
 	 */
 	public UiImage(Texture texture, Vec4f color) {
-		this(new Material("data/shaders/ui/ui_image"));
+		this(Material.loadMaterial("data/materials/ui/ui_image.xml"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
 		material.setParamVec4f("color", color.clone());
@@ -100,8 +100,8 @@ public class UiImage extends UiElement {
 	@Override
 	public void draw() {
 		if (isVisible()) {
-			material.model = Mat4f.transform(getPosition(), getRotation(), getScale(), modelM);
-			material.proj = Window.projOrtho;
+			material.setParamMat4f("model", Mat4f.transform(getPosition(), getRotation(), getScale(), modelM));
+			material.setParamMat4f("projection", Window.projOrtho);
 
 			material.bind(model);
 

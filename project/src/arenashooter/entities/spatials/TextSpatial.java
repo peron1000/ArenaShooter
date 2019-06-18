@@ -22,7 +22,7 @@ public class TextSpatial extends Spatial3 {
 		super(localPosition);
 		this.scale = scale.clone();
 		this.text = text;
-		this.material = new Material("data/shaders/text_distance_field");
+		this.material = Material.loadMaterial("data/materials/text_distance_field.xml");
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, .5, 1));
@@ -64,9 +64,9 @@ public class TextSpatial extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 
 		material.setParamTex("distanceField", text.getFont().getTexture());
-		material.model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
-		material.view = Window.getView();
-		material.proj = Window.proj;
+		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+		material.setParamMat4f("view", Window.getView());
+		material.setParamMat4f("projection", Window.proj);
 		material.bind(text.getModel());
 
 		text.getModel().bind();

@@ -99,7 +99,7 @@ public class Loading extends GameState {
 		iterator = loadTexture.keySet().iterator();
 		firstStep = 0;
 
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading");
+		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading.frag");
 
 		List<Entity> entities = new ArrayList<>();
 

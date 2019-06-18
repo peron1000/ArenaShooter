@@ -35,7 +35,7 @@ class EmitterBasic extends Emitter {
 		
 		this.data = data;
 		
-		shader = Shader.loadShader("data/shaders/particle_simple");
+		shader = Shader.loadShader("data/shaders/particle_simple.vert", "data/shaders/particle_simple.frag");
 		
 		this.sizeInitial = data.sizeInitial;
 		this.sizeEnd = data.sizeEnd;
