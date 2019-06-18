@@ -236,6 +236,11 @@ public class CharacterSprite extends Spatial {
 	private void land() {
 	}
 
+	public void activateBushidoMode() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void explode(Vec2f impulse) {
 		// Head
 		RigidBody rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(head.getWorldPos(), new Vec2f(0, .5)),

@@ -81,7 +81,8 @@ public class Character extends RigidBodyContainer {
 	boolean punchedMidAir = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
-		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER, (charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 1.2f));
+		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER,
+				(charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 1.2f));
 
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
@@ -96,7 +97,7 @@ public class Character extends RigidBodyContainer {
 		case Heavy:
 			weight = 3;
 			punchDashForce = 10;
-			jumpForce = 16*weight;
+			jumpForce = 16 * weight;
 			break;
 		case Agile:
 			maxSpeed = 18;
@@ -137,9 +138,9 @@ public class Character extends RigidBodyContainer {
 			jumpTimer.setProcessing(true);
 			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 					getWorldPos());
-			if(!canJump) {
-				jumpTimer.setValue(jumpTimer.getMax()/2);
-				//TODO: Skeleton double jump feather Effects
+			if (!canJump) {
+				jumpTimer.setValue(jumpTimer.getMax() / 2);
+				// TODO: Skeleton double jump feather Effects
 			}
 			isOnGround = false;
 			jumpi = true;
@@ -148,7 +149,7 @@ public class Character extends RigidBodyContainer {
 			newVel.y = 0;
 			setLinearVelocity(newVel);
 			getBody().applyImpulse(new Vec2f(0, -jumpForce));
-			
+
 		}
 	}
 
@@ -158,7 +159,8 @@ public class Character extends RigidBodyContainer {
 				if (getLinearVelocity().y < 0 && jumpi) {
 					// vel.y += (float) (-parachuteForce * Math.expm1(1 -
 					// (jumpTimer.getValueRatio())));
-					getBody().applyForce(new Vec2f(0, -parachuteForce * weight * Math.expm1(1 - (jumpTimer.getValueRatio()))));
+					getBody().applyForce(
+							new Vec2f(0, -parachuteForce * weight * Math.expm1(1 - (jumpTimer.getValueRatio()))));
 					isOnGround = false;
 				}
 			} else {
@@ -248,7 +250,7 @@ public class Character extends RigidBodyContainer {
 			DamageInfo punchDmgInfo;
 
 			if (superPoing) {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12)*punchDashForce, 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12) * punchDashForce, 0), aimInput);
 				punchDmgInfo = new DamageInfo((float) (defaultDamage * 1.5), DamageType.MELEE,
 						Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
@@ -433,7 +435,8 @@ public class Character extends RigidBodyContainer {
 				System.out.println("bushido");
 				deathInfo = deathCause;
 				afterDeath.inProcess = true;
-				//TODO: Activate Bushido Mode : Haricot...etc
+				((CharacterSprite)getChild("skeleton")).activateBushidoMode();
+				// TODO: Activate Bushido Mode : Haricot...etc
 			}
 		}
 	}
@@ -564,7 +567,7 @@ public class Character extends RigidBodyContainer {
 				if (afterDeath.isOver()) {
 					bushidoDeath(deathInfo);
 				}
-				//TODO: Bushido Effects 
+				// TODO: Bushido Effects
 			}
 		}
 	}
