@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.util.CircleList;
@@ -17,74 +18,106 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	private Label tabTitle = new Label("");
 	private Map<UiListVertical<? extends E>, String> binding = new HashMap<>();
 	private Map<UiListVertical<? extends E>, UiListVertical<Label>> labelsInfo = new HashMap<>();
-	private double titleSpacing = 1.5 , arrowsDistance = 10 , arrowLerp = 5 , lerp = 50;
+	private double titleSpacing = 10, arrowsDistance = 10, arrowLerp = 5, lerp = 50;
 	private int indexTarget = 0;
 	private UiImage background = new UiImage(0.5, 0.5, 0.5, 1);
 	private boolean backgroundVisible = false, scissor = false;
 	private double spacing = 1;
-	private UiImage arrowRight = new UiImage(Texture.loadTexture("data/sprites/interface/WhatsRight.png").setFilter(false)),
+	private UiImage arrowRight = new UiImage(
+			Texture.loadTexture("data/sprites/interface/WhatsRight.png").setFilter(false)),
 			arrowLeft = new UiImage(Texture.loadTexture("data/sprites/interface/WhatsLeft.png").setFilter(false));
 
 	public TabList() {
-		tabTitle.addToPosition(0, -getScale().y * titleSpacing);
-		arrowLeft.addToPosition(-arrowsDistance, -getScale().y * titleSpacing);
-		arrowRight.addToPosition(arrowsDistance, -getScale().y * titleSpacing);
+		setTitleSpacing(titleSpacing);
 	}
 
 	/**
-	 * The position of the title is above the position of <i>this</i>
+	 * The position of the title is above the position of <i>this</i> update arrows
+	 * position
 	 * 
 	 * @param titleSpacing
 	 */
 	public void setTitleSpacing(double titleSpacing) {
 		this.titleSpacing = titleSpacing;
-		double y = getPosition().y - getScale().y * titleSpacing;
+		double y = getPosition().y - titleSpacing;
 		tabTitle.setPosition(getPosition().x, y);
 		arrowLeft.setPosition(-arrowsDistance, y);
 		arrowRight.setPosition(arrowsDistance, y);
 	}
 
+	public boolean isBackgroundVisible() {
+		return backgroundVisible;
+	}
+
+	public void setBackgroundVisible(boolean backgroundVisible) {
+		this.backgroundVisible = backgroundVisible;
+	}
+
+	public UiImage getBackground() {
+		return background;
+	}
+
+	public void setBackground(UiImage background) {
+		this.background = background;
+	}
+
+	public void setScissor(boolean scissor) {
+		this.scissor = scissor;
+	}
+
+	public boolean isScissor() {
+		return scissor;
+	}
+
+	public void setSpacing(double spacing) {
+		this.spacing = spacing;
+	}
+
+	public double getSpacing() {
+		return spacing;
+	}
+
 	public void setTitleVisible(boolean visible) {
 		tabTitle.setVisible(visible);
 	}
-	
-	public void setTitleScale(double x , double y) {
+
+	public void setTitleScale(double x, double y) {
 		tabTitle.setScale(x, y);
 		setTitleSpacing(titleSpacing);
 	}
 
-	public void setScaleArrows(double x , double y) {
-		arrowLeft.setScale(x ,y);
+	public void setScaleArrows(double x, double y) {
+		arrowLeft.setScale(x, y);
 		arrowRight.setScale(x, y);
 	}
-	
+
 	public double getArrowsDistance() {
 		return arrowsDistance;
 	}
-	
+
 	public double getArrowLerp() {
 		return arrowLerp;
 	}
-	
+
 	public double getArowsLerp() {
 		return lerp;
 	}
-	
+
 	public void setArrowsLerp(double lerp) {
 		this.lerp = lerp;
 	}
-	
+
 	public void setArrowLerp(double arrowLerp) {
 		this.arrowLerp = arrowLerp;
 	}
-	
+
 	public void setArrowsDistance(double arrowsDistance) {
 		this.arrowsDistance = arrowsDistance;
 		double y = getPosition().y - getScale().y * titleSpacing;
 		arrowLeft.setPosition(-arrowsDistance, y);
 		arrowRight.setPosition(arrowsDistance, y);
 	}
-	
+
 	/**
 	 * Set the position and the spacing of the uiList to match with <i>this</i>
 	 * values
@@ -99,13 +132,12 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			list = new UiListVertical<>();
 			labelsInfo.put(uiList, list);
 		}
-		list.setPosition(getPosition());
-		uiList.setPosition(getPosition().x, getPosition().y);
 		if (circleList.size() == 0) {
 			this.tabTitle.setText(tabTitle);
 		}
 		circleList.add(uiList);
 		uiList.setSpacing(spacing);
+		resetPositionOfList(uiList);
 	}
 
 	public void addLabelInfo(UiListVertical<? extends E> uiList, Label info) {
@@ -116,8 +148,20 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		}
 		list.setSpacing(spacing);
 		list.addElement(info);
-		uiList.setPosition(getPosition().x,
-				info.getPosition().y + spacing + info.getScale().y / 2 + uiList.getFisrt().getScale().y / 2);
+		resetPositionOfList(uiList);
+	}
+
+	private void resetPositionOfList(UiListVertical<? extends E> uiList) {
+		UiListVertical<Label> infos = labelsInfo.get(uiList);
+		if (infos != null && infos.size() > 0) {
+			infos.setPosition(getPosition());
+			uiList.setPosition(getPosition().x, infos.getLast().getBottom() + spacing);
+		} else {
+			uiList.setPosition(getPosition());
+		}
+		if (uiList.size() > 0) {
+			uiList.addToPosition(0, uiList.getFisrt().getScale().y / 2);
+		}
 	}
 
 	/**
@@ -154,7 +198,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public int getIndexTarget() {
 		return indexTarget;
 	}
-	
+
 	public void setPositionForeach(double x, double y) {
 		actionOnAllSimpleElement(e -> e.setPosition(x, y));
 	}
@@ -197,30 +241,60 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		c.accept(arrowRight);
 	}
 
+	private void slideUpdate() {
+		double top = topMainList(), bottom = top + getScale().y;
+		
+		if (getTarget().getTop() < top) {
+			double d = top - getTarget().getTop();
+			circleList.get().addToPositionLerp(0, d, 20);
+		} else if (bottom < getTarget().getBottom()) {
+			double d = bottom - getTarget().getBottom();
+			circleList.get().addToPositionLerp(0, d, 20);
+		}
+	}
+	
+	private float topMainList() {
+		UiListVertical<Label> vList = labelsInfo.get(circleList.get());
+		if(vList != null && vList.size() >0) {
+			return vList.getBottom();
+		} else {
+			return getPosition().y;
+		}
+	}
+
+	public void resetCurrentList() {
+		indexTarget = 0;
+		resetPositionOfList(circleList.get());
+	}
+
 	@Override
 	public void setPosition(double x, double y) {
-		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPosition(x, y);
-		actionOnAll(e -> e.setPosition(e.getPosition().x + xDif, e.getPosition().y + yDif));
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			resetPositionOfList(uiListVertical);
+		}
+		setTitleSpacing(titleSpacing);
 	}
 
 	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
-		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPositionLerp(x, y, lerp);
-		actionOnAll(e -> e.setPositionLerp(e.getPosition().x + xDif, e.getPosition().y + yDif, lerp));
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			resetPositionOfList(uiListVertical);
+		}
+		setTitleSpacing(titleSpacing);
 	}
 
 	@Override
 	public void setScale(double x, double y) {
 		super.setScale(x, y);
-		tabTitle.setPosition(getPosition().x, getPosition().y - y * titleSpacing);
+		setTitleSpacing(titleSpacing);
 	}
 
 	@Override
 	public void setScaleLerp(double x, double y, double lerp) {
 		super.setScaleLerp(x, y, lerp);
-		tabTitle.setPositionLerp(getPosition().x, getPosition().y - y * titleSpacing, lerp);
+		setTitleSpacing(titleSpacing);
 	}
 
 	@Override
@@ -228,6 +302,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		if (!getTarget().rightAction()) {
 			circleList.next();
 			indexTarget = 0;
+			resetPositionOfList(circleList.get());
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowRight.addToPositionSuperLerp(arrowLerp, 0, lerp);
 			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
@@ -238,8 +313,10 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	@Override
 	public boolean leftAction() {
 		if (!getTarget().leftAction()) {
+			circleList.get().setPosition(getPosition());
 			circleList.previous();
 			indexTarget = 0;
+			resetPositionOfList(circleList.get());
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowLeft.addToPositionSuperLerp(-arrowLerp, 0, lerp);
 			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 0.95f);
@@ -254,6 +331,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (indexTarget < 0) {
 				indexTarget = circleList.get().size() - 1;
 			}
+			if (scissor) {
+				slideUpdate();
+			}
 		}
 		return true;
 	}
@@ -264,6 +344,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			indexTarget++;
 			if (indexTarget >= circleList.get().size()) {
 				indexTarget = 0;
+			}
+			if (scissor) {
+				slideUpdate();
 			}
 		}
 		return true;
@@ -308,17 +391,23 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			}
 			tabTitle.draw();
 			UiListVertical<? extends E> vlist = circleList.get();
-			vlist.draw();
+
+			if (!scissor) {
+				vlist.draw();
+			} else {
+				Window.stackScissor(getLeft(), topMainList() + getScale().y, getScale().x, getScale().y);
+				UiImage j = new UiImage(1, 1, 0, 1);
+				j.setScale(300);
+				j.draw();
+				vlist.draw();
+				Window.popScissor();
+			}
 			labelsInfo.get(vlist).forEach(l -> l.draw());
-			if(circleList.size() > 1) {
+			if (circleList.size() > 1) {
 				arrowLeft.draw();
 				arrowRight.draw();
 			}
 		}
-	}
-
-	public void reset() {
-		indexTarget = 0;
 	}
 
 }

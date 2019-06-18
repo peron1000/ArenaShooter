@@ -11,11 +11,13 @@ import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
+import arenashooter.engine.ui.Imageinput;
 import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiGridWeak;
 import arenashooter.engine.ui.UiListVertical;
+import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
@@ -29,14 +31,34 @@ public class Config extends GameState {
 			selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
 	private InputListener inputs = new InputListener();
 	private ScrollerH<Integer> rounds;
-
+	private UiImage
+			Escape = Imageinput.ESCAPE.getImage(),
+			Space = Imageinput.SPACE.getImage(),
+			A = Imageinput.A.getImage(), B = Imageinput.B.getImage();
+	private Label Confirm, Back;
 	public Config() {
 		super(1);
 		gameParam = new GameParam();
 		GameParam.maps.clear();
 		ui();
 		fileArena();
-		
+		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
+		Space.setPosition(-70, 30);
+
+		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
+		A.setPosition(-65, 30);
+
+		Confirm = new Label(" : Toggle Selection", 3);
+		Confirm.setPosition(-50, 30);
+
+		Back = new Label(" : Back", 3);
+		Back.setPosition(-57.5, 38);
+
+		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
+		Escape.setPosition(-70, 38);
+
+		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
+		B.setPosition(-65, 38);
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
@@ -85,7 +107,7 @@ public class Config extends GameState {
 				}
 				selector.setPositionLerp(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y, 32);
 				if (menu.getTarget() == rounds) {
-					selector.setScale(55, 20);
+					selector.setScale(47, 12);
 				} else {
 					selector.setScale(12);
 				}
@@ -124,15 +146,16 @@ public class Config extends GameState {
 				gameParam.setNbRound(rounds.get());
 			}
 		});
+		rounds.setScale(5);
 		vlist.addElement(rounds);
-		vlist.setPosition(-60, -40);
+		vlist.setPosition(-57.5, -40);
 
 		bgU.setScale(40, 10);
 		bgS.setScale(40, 10);
 
 		menu.addListVertical(vlist);
 
-		selector.setScale(55, 20);
+		selector.setScale(47,12);
 	}
 
 	@Override
@@ -200,6 +223,12 @@ public class Config extends GameState {
 		background.draw();
 		menu.draw();
 		selector.draw();
+		A.draw();
+		B.draw();
+		Back.draw();
+		Confirm.draw();
+		Escape.draw();
+		Space.draw();
 		Window.endUi();
 	}
 

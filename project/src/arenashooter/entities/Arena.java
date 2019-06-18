@@ -26,6 +26,9 @@ public class Arena extends Entity {
 
 	public Vec3f ambientLight = new Vec3f(.48, .48, .5);
 	
+	public Vec3f fogColor = new Vec3f(0.929, 0.906, 0.753);
+	public float fogDistance = 3000;
+	
 	//Music
 	public String musicPath = "";
 	public float musicVolume = 1;

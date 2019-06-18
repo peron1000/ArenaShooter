@@ -6,7 +6,6 @@ import java.util.Set;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.entities.Arena;
-import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 
 public abstract class GameState {
@@ -31,7 +30,7 @@ public abstract class GameState {
 	 */
 	public void init() {
 		// Camera
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default.frag");
 		Camera cam = new Camera(current.cameraBasePos);
 		cam.attachToParent(current, "camera");
 		Window.setCamera(cam);

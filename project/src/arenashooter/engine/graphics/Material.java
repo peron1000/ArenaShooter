@@ -5,77 +5,68 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import arenashooter.engine.graphics.Shader.ParamType;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.xmlReaders.reader.MaterialXmlReader;
 
 public class Material {
+	private static Map<String, Material> cache = new HashMap<String, Material>();
+	
+	public enum ParamType {
+		INT, FLOAT, VEC2F, VEC3F, VEC4F, MAT4F, TEXTURE2D;
+	}
+	
 	private final Shader shader;
-	private final String shaderPath;
+	private final String name, shaderPathV, shaderPathF;
+	
+	/** Should this material be used during transparency pass */
+	public boolean transparency = false;
 
 	private Map<String, Integer> paramsI = new HashMap<>();
 	private Map<String, Float> paramsF = new HashMap<>();
 	private Map<String, Vec2f> paramsVec2f = new HashMap<>();
 	private Map<String, Vec3f> paramsVec3f = new HashMap<>();
 	private Map<String, Vec4f> paramsVec4f = new HashMap<>();
+	private Map<String, Mat4f> paramsMat4f = new HashMap<>();
 	private Map<String, Texture> paramsTex = new HashMap<>();
 	
-	public Mat4f model = null, view = null, proj = null;
-	
-	public Material(String shaderPath) {
-		this.shaderPath = shaderPath;
-		this.shader = Shader.loadShader(shaderPath);
-		loadDefaults();
+	private Material(String name, String shaderPathV, String shaderPathF) {
+		this.name = name;
+		this.shaderPathV = shaderPathV;
+		this.shaderPathF = shaderPathF;
+		this.shader = Shader.loadShader(shaderPathV, shaderPathF);
 	}
 	
-	/**
-	 * Copy default values from shader
-	 */
-	private void loadDefaults() {
-		Set<String> uniforms = shader.getUniformNames();
+	public static Material loadMaterial(String path) {
+		Material res = cache.get(path);
+		if(res != null) return res.clone();
 		
-		for(String name : uniforms) {
-			ParamType type = shader.getUniformType(name);
-			
-			if(type == null) {
-				if(!name.equals("time") && !name.equals("activeLights") && !name.equals("ambient"))
-					Window.log.error("No uniform named \""+name+"\" in "+shaderPath);
-				continue;
-			}
-			
-			switch(type) {
-			case INT:
-				setParamI(name, shader.defaultsParamsI.get(name).intValue());
-				break;
-			case FLOAT:
-				setParamF(name, shader.defaultsParamsF.get(name).floatValue());
-				break;
-			case VEC2F:
-				setParamVec2f(name, shader.defaultsParamsVec2f.get(name).clone());
-				break;
-			case VEC3F:
-				setParamVec3f(name, shader.defaultsParamsVec3f.get(name).clone());
-				break;
-			case VEC4F:
-				setParamVec4f(name, shader.defaultsParamsVec4f.get(name).clone());
-				break;
-			default:
-				Window.log.debug("No default value for shader parameter "+name+" (type "+type+")");
-				break;
-			}
-		}
+		MaterialXmlReader reader = new MaterialXmlReader(path);
+		
+		res = new Material(path, reader.vertexShader, reader.fragmentShader);
+		res.paramsI.putAll(reader.paramsI);
+		res.paramsF.putAll(reader.paramsF);
+		res.paramsVec2f.putAll(reader.paramsVec2f);
+		res.paramsVec3f.putAll(reader.paramsVec3f);
+		res.paramsVec4f.putAll(reader.paramsVec4f);
+		res.paramsTex.putAll(reader.paramsTex);
+		
+		//Add matrices
+		res.paramsMat4f.put("model", Mat4f.identity());
+		res.paramsMat4f.put("view", Mat4f.identity());
+		res.paramsMat4f.put("projection", Mat4f.identity());
+		
+		cache.put(path, res);
+		
+		return res.clone();
 	}
-	
+
 	public void bind(Model model) {
 		shader.bind();
 		model.bindToShader(shader);
 		
-		if(this.model != null) shader.setUniformM4("model", this.model);
-		if(this.view!= null) shader.setUniformM4("view", view);
-		if(this.proj != null) shader.setUniformM4("projection", proj);
-
 		for(Entry<String, Integer> entry : paramsI.entrySet())
 			shader.setUniformI(entry.getKey(), entry.getValue());
 		
@@ -91,6 +82,9 @@ public class Material {
 		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
 			shader.setUniformV4(entry.getKey(), entry.getValue());
 		
+		for(Entry<String, Mat4f> entry : paramsMat4f.entrySet())
+			shader.setUniformM4(entry.getKey(), entry.getValue());
+		
 		int texSlot = 0;
 		for(Entry<String, Texture> entry : paramsTex.entrySet()) {
 //			glActiveTexture(GL_TEXTURE0);
@@ -100,79 +94,60 @@ public class Material {
 		}
 	}
 	
-	/**
-	 * Check if the type of a parameter corresponds an expected type. If not, log a type check error
-	 * @param name parameter name
-	 * @param expected expected type
-	 * @return if the parameter type matches the expected type
-	 */
-	private boolean checkType(String name, ParamType expected) {
-		ParamType type = shader.getUniformType(name);
-		if( type == expected ) return true;
-		
-		if(expected != ParamType.INT && !name.equals("time") && !name.equals("activeLights") && !name.equals("ambient")) //Don't print an error for the time value
-			Window.log.warn("Type check error: uniform \""+name+"\" is "+type+", expected "+expected+" (in "+shaderPath+")");
-		return false;
-	}
-	
 	public int getParamI(String name) {
-		checkType(name, ParamType.INT);
 		return paramsI.get(name);
 	}
 
 	public void setParamI(String name, int value) {
-		if(checkType(name, ParamType.INT))
-			paramsI.put(name, value);
+		paramsI.put(name, value);
 	}
 	
 	public float getParamF(String name) {
-		checkType(name, ParamType.FLOAT);
 		return paramsF.get(name);
 	}
 
 	public void setParamF(String name, float value) {
-		if(checkType(name, ParamType.FLOAT))
-			paramsF.put(name, value);
+		paramsF.put(name, value);
 	}
 	
 	public Vec2f getParamVec2f(String name) {
-		checkType(name, ParamType.VEC2F);
 		return paramsVec2f.get(name);
 	}
 	
 	public void setParamVec2f(String name, Vec2f value) {
-		if(checkType(name, ParamType.VEC2F))
-			paramsVec2f.put(name, value);
+		paramsVec2f.put(name, value);
 	}
 	
 	public Vec3f getParamVec3f(String name) {
-		checkType(name, ParamType.VEC3F);
 		return paramsVec3f.get(name);
 	}
 
 	public void setParamVec3f(String name, Vec3f value) {
-		if(checkType(name, ParamType.VEC3F))
-			paramsVec3f.put(name, value);
+		paramsVec3f.put(name, value);
 	}
 	
 	public Vec4f getParamVec4f(String name) {
-		checkType(name, ParamType.VEC4F);
 		return paramsVec4f.get(name);
 	}
 
 	public void setParamVec4f(String name, Vec4f value) {
-		if(checkType(name, ParamType.VEC4F))
-			paramsVec4f.put(name, value);
+		paramsVec4f.put(name, value);
+	}
+	
+	public Mat4f getParamMat4f(String name) {
+		return paramsMat4f.get(name);
+	}
+
+	public void setParamMat4f(String name, Mat4f value) {
+		paramsMat4f.put(name, value);
 	}
 	
 	public Texture getParamTex(String name) {
-		checkType(name, ParamType.TEXTURE2D);
 		return paramsTex.get(name);
 	}
 
 	public void setParamTex(String name, Texture value) {
-		if(checkType(name, ParamType.TEXTURE2D))
-			paramsTex.put(name, value);
+		paramsTex.put(name, value);
 	}
 	
 	/**
@@ -208,13 +183,9 @@ public class Material {
 	 */
 	@Override
 	public Material clone() {
-		Material res = new Material(shaderPath);
-		if(model != null)
-			res.model = model.clone();
-		if(view != null)
-			res.view = view.clone();
-		if(proj != null)
-			res.proj = proj.clone();
+		Material res = new Material(name, shaderPathV, shaderPathF);
+		
+		res.transparency = transparency;
 		
 		for(Entry<String, Integer> entry : paramsI.entrySet())
 			res.paramsI.put(entry.getKey(), entry.getValue().intValue());
@@ -230,6 +201,9 @@ public class Material {
 		
 		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
 			res.paramsVec4f.put(entry.getKey(), entry.getValue().clone());
+		
+		for(Entry<String, Mat4f> entry : paramsMat4f.entrySet())
+			res.paramsMat4f.put(entry.getKey(), entry.getValue().clone());
 		
 		res.paramsTex = new HashMap<>(paramsTex);
 		

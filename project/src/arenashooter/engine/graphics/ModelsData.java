@@ -15,7 +15,7 @@ import java.util.Map;
 public class ModelsData {
 	private static final Map<String, ModelsData> cache = new HashMap<>();
 	
-	static final String default_shader = "data/shaders/mesh_simple";
+	static final String default_mat = "data/materials/mesh_simple.xml";
 	
 	public Model[] models;
 	public Material[] materials;
@@ -48,12 +48,12 @@ public class ModelsData {
 	/**
 	 * Find and parse the shader overrides file attached to a mesh file
 	 * @param path mesh file (*.obj)
-	 * @return a map of material names linked to their shaders path
+	 * @return a map of material names linked to their materials path
 	 */
-	static Map<String, String> getShadersOverrides(String path) {
+	static Map<String, String> getMaterialOverrides(String path) {
 		Map<String, String> res = new HashMap<>();
 		
-		File file = new File( path.substring(0, path.lastIndexOf('.'))+".shaders" );
+		File file = new File( path.substring(0, path.lastIndexOf('.'))+".materials" );
 		
 		if(!file.exists()) return res;
 		

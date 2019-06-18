@@ -16,7 +16,7 @@ public class Sky extends Entity {
 
 	public Sky(Vec3f colorBot, Vec3f colorTop) {
 		if(quad == null) quad = Model.loadQuad();
-		material = new Material("data/shaders/sky");
+		material = Material.loadMaterial("data/materials/sky.xml");
 		setColors(colorBot, colorTop);
 		zIndex = -9999;
 	}

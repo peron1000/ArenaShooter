@@ -39,10 +39,8 @@ public class Explosion extends Spatial {
 
 		this.radius = radius;
 		
-		Material shockwaveMat = new Material("data/shaders/sprite_simple");
-		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
-		tex.setFilter(false);
-		shockwaveMat.setParamTex("baseColor", tex);
+		Material shockwaveMat = Material.loadMaterial("data/materials/sprite_simple.xml");
+		shockwaveMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/shockwave_tr.png").setFilter(false));
 		
 		shockwaveMat.setParamVec4f("baseColorMod", new Vec4f(1, .857, .145, .9));
 		

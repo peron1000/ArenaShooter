@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "../material.dtd" >
+
+<material shaderVertex="data/shaders/ui/ui_simple.vert" shaderFragment="data/shaders/ui/ui_gradient_4.frag" transparency="true">
+	<paramV4 name="colorA" x="1.0" y="1.0" z="1.0" w="1.0" />
+	<paramV4 name="colorB" x="0.0" y="0.0" z="0.0" w="1.0" />
+	<paramV4 name="colorC" x="0.0" y="0.0" z="0.0" w="1.0" />
+	<paramV4 name="colorD" x="0.0" y="0.0" z="0.0" w="1.0" />
+</material>

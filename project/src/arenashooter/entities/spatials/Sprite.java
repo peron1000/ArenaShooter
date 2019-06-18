@@ -24,7 +24,7 @@ public class Sprite extends Spatial {
 	public Sprite(Vec2f localPosition, Texture texture) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
-		material = new Material("data/shaders/sprite_simple");
+		material = Material.loadMaterial("data/materials/sprite_simple.xml");
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
 		useTransparency = texture.transparency;
@@ -59,10 +59,10 @@ public class Sprite extends Spatial {
 		
 		//Create matrices
 		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
-		
-		material.model = Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM);
-		material.view = Window.getView();
-		material.proj = Window.proj;
+
+		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM));
+		material.setParamMat4f("view", Window.getView());
+		material.setParamMat4f("projection", Window.proj);
 		material.bind(model);
 		
 		model.bind();

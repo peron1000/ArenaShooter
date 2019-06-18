@@ -20,10 +20,10 @@ final class ModelObjLoader {
 	
 	static ModelsData loadObj( String path ) {
 		List<Model> models = new ArrayList<>(1);
-		List<String> shaders = new ArrayList<>(1);
+		List<String> materialPaths = new ArrayList<>(1);
 		List<Texture> textures = new ArrayList<>(1);
 		
-		Map<String, String> shaderOverrides = ModelsData.getShadersOverrides(path);
+		Map<String, String> materialOverrides = ModelsData.getMaterialOverrides(path);
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -60,7 +60,7 @@ final class ModelObjLoader {
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
 						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
-						shaders.add( shaderOverrides.getOrDefault(currentMat, ModelsData.default_shader) );
+						materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 						
 						//Clear faces
 						faces.clear();
@@ -70,7 +70,7 @@ final class ModelObjLoader {
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
 						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
-						shaders.add( shaderOverrides.getOrDefault(currentMat, ModelsData.default_shader) );
+						materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 						
 						//Clear faces
 						faces.clear();
@@ -134,7 +134,7 @@ final class ModelObjLoader {
 
 			models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
 			textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
-			shaders.add( shaderOverrides.getOrDefault(currentMat, ModelsData.default_shader) );
+			materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 
 			reader.close();
 			inReader.close();
@@ -148,17 +148,17 @@ final class ModelObjLoader {
 			Window.log.error("Missing textures for "+path);
 		for( int i=textures.size()-1; i<models.size(); i++ )
 			textures.add(Texture.default_tex);
-		//If shaders are missing, replace them with default shader
-		if(shaders.size()<models.size())
-			Window.log.error("Missing shaders for "+path);
-		for( int i=shaders.size()-1; i<models.size(); i++ )
-			shaders.add(ModelsData.default_shader);
+		//If materials are mmissing, replace them with default material
+		if(materialPaths.size()<models.size())
+			Window.log.error("Missing materil for "+path);
+		for( int i=materialPaths.size()-1; i<models.size(); i++ )
+			materialPaths.add(ModelsData.default_mat);
 		
 		Model[] modelsArray = models.toArray(new Model[models.size()]);
 		Material[] materialsArray = new Material[textures.size()];
 		
 		for(int i=0; i<materialsArray.length; i++) {
-			materialsArray[i] = new Material(shaders.get(i));
+			materialsArray[i] = Material.loadMaterial(materialPaths.get(i));
 			materialsArray[i].setParamTex("baseColor", textures.get(i));
 		}
 		

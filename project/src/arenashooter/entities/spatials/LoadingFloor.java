@@ -19,7 +19,7 @@ public class LoadingFloor extends Spatial {
 	private double timer = 0;
 	
 	static {
-		material = new Material("data/shaders/sprite_simple");
+		material = Material.loadMaterial("data/materials/sprite_simple.xml");
 		model = Model.loadQuad();
 		tex = new Texture[] {
 				Texture.loadTexture("data/sprites/loading_floor/floor_01.png"),
@@ -57,9 +57,9 @@ public class LoadingFloor extends Spatial {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		material.setParamTex("baseColor", tex[currentTex]);
-		material.model = Mat4f.transform(getWorldPos(), getWorldRot(), size, modelM);
-		material.view = Window.getView();
-		material.proj = Window.proj;
+		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), size, modelM));
+		material.setParamMat4f("view", Window.getView());
+		material.setParamMat4f("projection", Window.proj);
 		material.bind(model);
 		
 		model.bind();

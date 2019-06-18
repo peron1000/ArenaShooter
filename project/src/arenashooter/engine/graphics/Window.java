@@ -178,7 +178,7 @@ public final class Window {
 		quad = Model.loadQuad();
 		
 		//Load post-processing
-		postProcess = new PostProcess("data/shaders/post_process/pp_default");
+		postProcess = new PostProcess("data/shaders/post_process/pp_default.frag");
 
 		//Create projection matrix
 		createProjectionMatrix();
@@ -304,7 +304,7 @@ public final class Window {
 		
 		if(scissorStack.empty()) glEnable(GL_SCISSOR_TEST);
 		glScissor(screenX, screenY, screenW, screenH);
-		scissorStack.add(new Vec4i(screenX, screenY, screenW, screenH));
+		scissorStack.push(new Vec4i(screenX, screenY, screenW, screenH));
 	}
 	
 	/**

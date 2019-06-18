@@ -22,7 +22,7 @@ public class Label extends UiElement {
 
 	public Label(String text, Text.TextAlignH alignH) {
 		this.text = new Text(Main.font, alignH , TextAlignV.CENTER, text);
-		this.material = new Material("data/shaders/ui/ui_text_distance_field");
+		this.material = Material.loadMaterial("data/materials/ui/ui_text_distance_field.xml");
 		material.setParamTex("distanceField", this.text.getFont().getTexture());
 
 		setThickness(.3f);
@@ -93,8 +93,8 @@ public class Label extends UiElement {
 	public void draw() {
 		if (isVisible()) {
 			float ratio = 1/text.getHeight();
-			material.model = Mat4f.transform(getPosition(), getRotation(), Vec2f.multiply(getScale(), ratio), modelM);
-			material.proj = Window.projOrtho;
+			material.setParamMat4f("model", Mat4f.transform(getPosition(), getRotation(), Vec2f.multiply(getScale(), ratio), modelM));
+			material.setParamMat4f("projection", Window.projOrtho);
 			material.bind(text.getModel());
 
 			text.getModel().bind();

@@ -95,12 +95,14 @@ public class Mesh extends Spatial3 {
 		for (int i = 0; i < models.length; i++) {
 			if(getArena() != null) {
 				materials[i].setParamVec3f("ambient", getArena().ambientLight);
+				materials[i].setParamVec3f("fogColor", getArena().fogColor);
+				materials[i].setParamF("fogDistance", getArena().fogDistance);
 				materials[i].setLights(getArena().lights);
 			}
 
-			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
-			materials[i].view = Window.getView();
-			materials[i].proj = Window.proj;
+			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+			materials[i].setParamMat4f("view", Window.getView());
+			materials[i].setParamMat4f("projection", Window.proj);
 
 			materials[i].setParamI("time", timeMs);
 
@@ -133,12 +135,14 @@ public class Mesh extends Spatial3 {
 
 			if(getArena() != null) {
 				materials[i].setParamVec3f("ambient", getArena().ambientLight);
+				materials[i].setParamVec3f("fogColor", getArena().fogColor);
+				materials[i].setParamF("fogDistance", getArena().fogDistance);
 				materials[i].setLights(getArena().lights);
 			}
 
-			materials[i].model = Mat4f.transform(getWorldPos(), getWorldRot(), scale);
-			materials[i].view = Window.getView();
-			materials[i].proj = Window.proj;
+			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+			materials[i].setParamMat4f("view", Window.getView());
+			materials[i].setParamMat4f("projection", Window.proj);
 
 			materials[i].setParamI("time", timeMs);
 

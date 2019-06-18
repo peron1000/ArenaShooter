@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "material.dtd" >
+
+<material shaderVertex="data/shaders/sky.vert" shaderFragment="data/shaders/sky.frag" transparency="false">
+	<paramV3 name="colorBot" x="0.996" y="0.9098" z="0.003922" />
+	<paramV3 name="colorTop" x="0.3490196" y="0.137255" z="0.482353" />
+</material>
