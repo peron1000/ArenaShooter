@@ -41,6 +41,7 @@ public class CharacterSprite extends Spatial {
 	public boolean charging = false;
 	public boolean charged = false;
 	public boolean canParry = true;
+	private boolean afterDeath = false;
 
 	private boolean mirrorLeftFoot = false;
 	private boolean handLOnWeap = false, handROnWeap = false;
@@ -238,6 +239,7 @@ public class CharacterSprite extends Spatial {
 
 	public void activateBushidoMode() {
 		// TODO Auto-generated method stub
+		afterDeath = true;
 		
 	}
 	

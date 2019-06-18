@@ -40,7 +40,8 @@ public class Character extends RigidBodyContainer {
 	public double maxSpeed = 15;
 	boolean isOnGround = true;
 	private boolean canJump = true;
-	public float movementInput = 0;
+	public float movementInputX = 0;
+	public float movementInputY = 0;
 	/**
 	 * The Character is jumping
 	 */
@@ -48,7 +49,7 @@ public class Character extends RigidBodyContainer {
 	public int bonusJumpsMax = 0;
 	public int bonusJumpsUsed = 0;
 	public double weight = 1;
-	private double jumpForce = 16;
+	private double jumpForce = 18;
 	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.6);
@@ -57,7 +58,7 @@ public class Character extends RigidBodyContainer {
 	// Combat stats
 	private boolean bushido = false;// still has control and explodes 3s after dying;
 	private Timer afterDeath;
-	private DamageInfo deathInfo;// used for bushido Death
+	private DamageInfo upcomingDeath;// used for bushido Death
 	/** Melee attack cooldown */
 	private boolean stunned = false;
 	private Timer stun = null;
@@ -96,13 +97,13 @@ public class Character extends RigidBodyContainer {
 		switch (charInfo.getCharClass()) {
 		case Heavy:
 			weight = 3;
-			punchDashForce = 10;
-			jumpForce = 16 * weight;
+			punchDashForce = 9;
+			jumpForce = 18 * weight;
 			break;
 		case Agile:
-			maxSpeed = 18;
+			maxSpeed = 17;
 			weight = 0.8;
-			jumpForce = 18;
+			jumpForce = 20;
 			break;
 		case Aqua:
 			bushido = true;
@@ -112,7 +113,7 @@ public class Character extends RigidBodyContainer {
 			break;
 		case Bird:
 			bonusJumpsMax = 1;
-			parachuteForce = 10;
+			parachuteForce = 12;
 			jumpTimer.setMax(2);
 			break;
 		default:
@@ -144,10 +145,9 @@ public class Character extends RigidBodyContainer {
 			}
 			isOnGround = false;
 			jumpi = true;
-			// vel.y = (float) -jumpForce;
-			Vec2f newVel = getLinearVelocity();
-			newVel.y = 0;
-			setLinearVelocity(newVel);
+			// getLinearVelocity().y = 0;
+			// setLinearVelocity(Vec2f.add(getLinearVelocity(), new Vec2f(0,
+			// (float)-jumpForce)));
 			getBody().applyImpulse(new Vec2f(0, -jumpForce));
 
 		}
@@ -255,7 +255,7 @@ public class Character extends RigidBodyContainer {
 						Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
-				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
+				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8)* weight, 0), aimInput);
 				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
 				attackCombo++;
 				if (skeleton != null)
@@ -274,8 +274,12 @@ public class Character extends RigidBodyContainer {
 					}
 			}
 
-			if (impulse.y < 0)
-				impulse.y /= 4;
+			if (impulse.y < 0) {
+				if (getLinearVelocity().y < 0)
+					impulse.y = 0;
+				else
+					impulse.y = (float) (-Math.log(-impulse.y) * 4);
+			}
 			getBody().applyImpulse(impulse);
 			punching++;
 			punchedMidAir = true;
@@ -433,9 +437,9 @@ public class Character extends RigidBodyContainer {
 		} else {
 			if (!afterDeath.isProcessing()) {
 				System.out.println("bushido");
-				deathInfo = deathCause;
+				upcomingDeath = deathCause;
 				afterDeath.inProcess = true;
-				((CharacterSprite)getChild("skeleton")).activateBushidoMode();
+				((CharacterSprite) getChild("skeleton")).activateBushidoMode();
 				// TODO: Activate Bushido Mode : Haricot...etc
 			}
 		}
@@ -488,9 +492,9 @@ public class Character extends RigidBodyContainer {
 		if (!stunned) {
 			// Aim
 			if (!isAiming) {
-				if (movementInput > 0)
+				if (movementInputX > 0)
 					lookRight = true;
-				else if (movementInput < 0)
+				else if (movementInputX < 0)
 					lookRight = false;
 			} else {
 				aimInput = Utils.normalizeAngle(aimInput);
@@ -502,8 +506,16 @@ public class Character extends RigidBodyContainer {
 			if (!isAiming && !lookRight) {
 				aimInput = Math.PI;
 			}
-			double velX = Utils.lerpD(getLinearVelocity().x, movementInput * maxSpeed, Utils.clampD(d * 20, 0, 1));
-			getBody().setLinearVelocity(new Vec2f(velX, getLinearVelocity().y));
+			
+			double velX = Utils.lerpD(getLinearVelocity().x, movementInputX * maxSpeed, Utils.clampD(d * 10, 0, 1));
+			double velY = getLinearVelocity().y;
+			if (movementInputY > 0.4) {
+				velY = Utils.lerpD(getLinearVelocity().y, movementInputY * 25, Utils.clampD(d * 15, 0, 1));
+			} else if(getLinearVelocity().y > 18)
+				velY = Utils.lerpD(getLinearVelocity().y, 18, Utils.clampD(d * 15, 0, 1));
+			else if(getLinearVelocity().y < -25)
+				velY = Utils.lerpD(getLinearVelocity().y, -25, Utils.clampD(d * 15, 0, 1));
+			getBody().setLinearVelocity(new Vec2f(velX, velY));
 		} else {
 			stun.step(d);
 			if (stun.isOver()) {
@@ -565,7 +577,7 @@ public class Character extends RigidBodyContainer {
 		if (bushido) {
 			if (afterDeath.isProcessing()) {
 				if (afterDeath.isOver()) {
-					bushidoDeath(deathInfo);
+					bushidoDeath(upcomingDeath);
 				}
 				// TODO: Bushido Effects
 			}
