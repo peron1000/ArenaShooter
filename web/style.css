@@ -243,7 +243,10 @@ video {
   width: 100%;
   height: auto;
 }
-
+iframe {
+  image-rendering: auto;
+  width: 100%;
+  }
 footer {
   position: fixed;
   left: 0px;
