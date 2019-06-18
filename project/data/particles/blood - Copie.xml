@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
+<particleSystem>
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="1" lifetimeMax="1.2" rate="1" velocityMin="0" velocityMax="0" gravityScale="0">
+	<basic sizeInitial="1" sizeEnd="5"></basic>
+	<texture filtered="true" src="data/particles/blood_01.png"/>
+	<vec4 x="1" y="0" z="0" w=".6" use="colorStart"/>
+	<vec4 x=".4" y="0" z="0" w="0" use="colorEnd"/>
+	</emitter>
+
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="0.2" lifetimeMax="1" rate="5" velocityMin="8" velocityMax="20" gravityScale="4">
+	<basic sizeInitial=".2" sizeEnd="0"></basic>
+<!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented> -->
+	<texture filtered="false" src="data/particle_glow.png"/>
+	<vec4 x="1" y="0" z="0" w="1" use="colorStart"/>
+	<vec4 x="1" y=".1" z="0" w=".3" use="colorEnd"/>
+	</emitter>
+</particleSystem>

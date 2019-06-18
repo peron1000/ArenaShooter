@@ -28,7 +28,7 @@ import arenashooter.game.Controller;
 public class Character extends RigidBodyContainer {
 
 	public Controller controller = null;
-	private static final float defaultDamage = 10;
+	private float punchDamage = 10;
 	private float health, healthMax;
 	private final Vec2f spawn;
 
@@ -251,12 +251,12 @@ public class Character extends RigidBodyContainer {
 
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12) * punchDashForce, 0), aimInput);
-				punchDmgInfo = new DamageInfo((float) (defaultDamage * 1.5), DamageType.MELEE,
+				punchDmgInfo = new DamageInfo((float) (punchDamage * 1.5), DamageType.MELEE,
 						Vec2f.fromAngle(aimInput), 50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
-				punchDmgInfo = new DamageInfo(defaultDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
+				punchDmgInfo = new DamageInfo(punchDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
 				attackCombo++;
 				if (skeleton != null)
 					switch (attackCombo) {
@@ -432,11 +432,11 @@ public class Character extends RigidBodyContainer {
 			bushidoDeath(deathCause);
 		} else {
 			if (!afterDeath.isProcessing()) {
-				System.out.println("bushido");
+				controller.zombieChar();
 				deathInfo = deathCause;
 				afterDeath.inProcess = true;
 				((CharacterSprite)getChild("skeleton")).activateBushidoMode();
-				// TODO: Activate Bushido Mode : Haricot...etc
+				// TODO: Activate Haricot...etc
 			}
 		}
 	}

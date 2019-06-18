@@ -1,5 +1,6 @@
 package arenashooter.game.gameStates;
 
+import java.awt.TexturePaint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,6 +29,8 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.CharacterSprite;
+import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Controller;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameMode;
@@ -68,16 +71,18 @@ public class Game extends GameState {
 	private Timer endRound = new Timer(2);
 	private UiImage counterImage = new UiImage(Texture.default_tex);
 	private Animation startCounter = null;
+	private Animation endCounter = null;
 	private AnimationData counterAnimData = AnimationData.loadAnim("data/animations/anim_StartCounter.xml");
+	private AnimationData endAnimData = AnimationData.loadAnim("data/animations/anim_EndCounter.xml");
 	private boolean canPlay = true;
-	
+
 	private MenuPause menuPause = new MenuPause(this);
 
 	/**
 	 * @author Marin C Evaluates if one character or less is alive. (Trigger this
 	 *         function only when a character dies)
 	 */
-	private void evalOneLeft() {
+	public void evalOneLeft() {
 		int aliveChars = 0;
 		Controller c = null;
 		for (Controller controller : Main.getGameMaster().controllers) {
@@ -100,7 +105,7 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
-		
+
 		if (bgm != null) {
 			bgm.destroy();
 			bgm = null;
@@ -108,7 +113,7 @@ public class Game extends GameState {
 		bgmPath = bgmPathDefault;
 		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
-		
+
 		for (Arena map : maps) {
 			mapsToShuffle.add(map);
 		}
@@ -116,12 +121,12 @@ public class Game extends GameState {
 		current = mapsToShuffle.get(0);
 		newRound();
 	}
-	
+
 	@Override
 	public void destroy() {
 		super.destroy();
-		
-		if(bgm != null)
+
+		if (bgm != null)
 			bgm.destroy();
 	}
 
@@ -132,16 +137,16 @@ public class Game extends GameState {
 
 	private void newRound() {
 		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
-		
-		if(!current.musicPath.isEmpty()) { //Arena has custom music
-			if(!bgmPath.equals(current.musicPath)) { //Only restart music if its path changed
+
+		if (!current.musicPath.isEmpty()) { // Arena has custom music
+			if (!bgmPath.equals(current.musicPath)) { // Only restart music if its path changed
 				bgmPath = current.musicPath;
 				bgm.destroy();
 				bgm = Audio.createSource(bgmPath, AudioChannel.MUSIC, .1f, current.musicPitch);
 				bgm.setLooping(true);
 				bgm.play();
 			}
-		} else if(!bgmPath.equals(bgmPathDefault)) { //Switch to default music
+		} else if (!bgmPath.equals(bgmPathDefault)) { // Switch to default music
 			bgmPath = bgmPathDefault;
 			bgm.destroy();
 			bgm = Audio.createSource(bgmPath, AudioChannel.MUSIC, .1f, 1);
@@ -149,11 +154,12 @@ public class Game extends GameState {
 			bgm.play();
 		}
 		bgm.setVolume(.1f);
-		
+
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
 		Window.postProcess.fadeToBlack = 1;
-		endRound.reset();
+		endRound.reset();// TODO: remove
+		endCounter = null;
 		chooseWinner.reset();
 		canPlay = false;
 		for (Controller controller : Main.getGameMaster().controllers) {
@@ -172,27 +178,74 @@ public class Game extends GameState {
 		if (menuPause.isPaused()) {
 			return;
 		} else if (canPlay) {
-			if (oneLeft && !chooseWinner.inProcess) {
-				chooseWinner.setProcessing(true);
-			}
-			chooseWinner.step(d);
-			if (chooseWinner.isOver() && !endRound.inProcess) {
-				endRound.setProcessing(true);
-			}
-			endRound.step(d);
-			if (endRound.isOver()) {
-				if (currentRound < nbRounds || nbRounds == -1) {
-					currentRound++;
-					for (Controller player : Main.getGameMaster().controllers) {
-						if (player.getCharacter() != null) {
-							player.getCharacter()
-									.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
+			if (oneLeft) {
+				if (endCounter != null && !endCounter.isPlaying()) {
+					endCounter = new Animation(endAnimData);
+					endCounter.play();
+					// chooseWinner.setProcessing(true);
+				} else {
+					Queue<AnimEvent> events = endCounter.getEvents();
+					AnimEvent current = events.peek();
+					while ((current = events.poll()) != null) {
+						if (current instanceof AnimEventCustom) {
+							if (((AnimEventCustom) current).data.equals("Choose_Winner")) {
+								Controller winner = null;
+								for (Controller player : Main.getGameMaster().controllers)
+									if (!player.hasDeadChar())
+										winner = player;// Let's suppose everything works fine -> only 1 player alive
+								double rand = Math.random();
+								if (winner != null) {
+									if (rand < 0.333) {
+										Audio.playSound("data/sound/Winner_01.ogg", AudioChannel.UI, .5f, 1);
+									} else if (rand > 0.666) {
+										Audio.playSound("data/sound/Winner_03.ogg", AudioChannel.UI, .5f, 1);
+									} else {
+										Audio.playSound("data/sound/Winner_02.ogg", AudioChannel.UI, .5f, 1);
+									}
+									counterImage.getMaterial().setParamTex("image",
+											Texture.loadTexture("data/sprites/interface/Winner_Chroma02.png"));
+									((CharacterSprite)winner.getCharacter().getChild("skeleton")).rainConfetti();
+
+								} else {
+									if (rand < 0.333) {
+										Audio.playSound("data/sound/Draw_01.ogg", AudioChannel.UI, .5f, 1);
+									} else if (rand > 0.666) {
+										Audio.playSound("data/sound/Draw_03.ogg", AudioChannel.UI, .5f, 1);
+									} else {
+										Audio.playSound("data/sound/Draw_02.ogg", AudioChannel.UI, .5f, 1);
+									}
+									counterImage.getMaterial().setParamTex("image",
+											Texture.loadTexture("data/sprites/interface/Draw_Chroma02.png"));
+								}
+							}
+							if (((AnimEventCustom) current).data.equals("End_Round")) {
+								if (currentRound < nbRounds || nbRounds == -1) {
+									currentRound++;
+									for (Controller player : Main.getGameMaster().controllers) {
+										if (player.getCharacter() != null) {
+											player.getCharacter().takeDamage(
+													new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
+										}
+									}
+									newRound();
+								} else {
+									bgm.stop();
+									Main.getGameMaster().requestNextState(new Score(), "data/mapXML/menu_empty.xml");
+								}
+							}
+						} else if (current instanceof AnimEventSound) {
+							((AnimEventSound) current).play(null);
 						}
 					}
-					newRound();
-				} else {
-					bgm.stop();
-					Main.getGameMaster().requestNextState(new Score(), "data/mapXML/menu_empty.xml");
+					Texture counterTexture = counterImage.getMaterial().getParamTex("image");
+					if (endCounter.getTime() < 3.2) {
+						counterTexture = endCounter.getTrackTex("CounterSprite");
+						counterImage.getMaterial().setParamTex("image", counterTexture);
+					}
+					double size = endCounter.getTrackD("SizeOfCounterSprite");
+					counterImage.setScale(counterTexture.getSize().x * size, counterTexture.getSize().y * size);
+					counterImage.getMaterial().getParamTex("image").setFilter(false);
+					endCounter.step(d);
 				}
 			}
 
@@ -223,27 +276,28 @@ public class Game extends GameState {
 			} else {
 				Queue<AnimEvent> events = startCounter.getEvents();
 				AnimEvent current = events.peek();
-				while( (current = events.poll()) != null ) {
-					if(current instanceof AnimEventCustom) {
-						if(((AnimEventCustom)current).data.equals("CanPlayNow")) {
+				while ((current = events.poll()) != null) {
+					if (current instanceof AnimEventCustom) {
+						if (((AnimEventCustom) current).data.equals("CanPlayNow")) {
 							canPlay = true;
-							if(bgmPath.equals(bgmPathDefault))
+							if (bgmPath.equals(bgmPathDefault))
 								bgm.setVolume(.5f);
 							else
 								bgm.setVolume(this.current.musicVolume);
-							if(!bgm.isPlaying()) bgm.play();
+							if (!bgm.isPlaying())
+								bgm.play();
 						}
-					} else if(current instanceof AnimEventSound) {
+					} else if (current instanceof AnimEventSound) {
 						((AnimEventSound) current).play(null);
 					}
 				}
-				
+
 				Window.postProcess.fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
-				
+
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);
-				counterImage.setScale(counterTexture.getSize().x*size, counterTexture.getSize().y*size);
+				counterImage.setScale(counterTexture.getSize().x * size, counterTexture.getSize().y * size);
 				counterImage.getMaterial().getParamTex("image").setFilter(false);
 				startCounter.step(d);
 			}

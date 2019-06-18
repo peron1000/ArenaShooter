@@ -75,7 +75,7 @@ public class Barrel extends RigidBodyContainer {
 			for(int i = 0 ; timeSinceLastSpark >= timeUntilNewSpark && i < timeSinceLastSpark/timeUntilNewSpark ; i++) {//new Particle every 'timeUntilNewSpark' s
 				Particles particles = new Particles(getWorldPos(), "data/particles/fire_sparkles.xml");
 				particles.attachToParent(getArena(), "fire_particles" + genName());
-				Audio.playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(.1 + detonTimer.getValueRatio()), localPosition);
+				Audio.playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(.2 + detonTimer.getValueRatio()/2), localPosition);
 				timeSinceLastSpark -= timeUntilNewSpark;
 				timeUntilNewSpark = 0.05+Math.random()*0.20;
 			}

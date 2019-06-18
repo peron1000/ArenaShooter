@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animation SYSTEM "animationDTD.dtd" >
+<animation length="5.2" loop="false">
+
+	<trackEvent>
+		<keyframeEvent time ="0.001">
+			<eventSound path ="data/sound/ui/count_3.ogg" channel = "UI" volume = ".5" pitch = "0.75" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="1.0">
+			<eventSound path ="data/sound/ui/count_2.ogg" channel = "UI" volume = ".5" pitch = "1" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="2.0">
+			<eventSound path ="data/sound/ui/count_1.ogg" channel = "UI" volume = ".5" pitch = "1.2" localized = "false" />
+		</keyframeEvent>
+		<keyframeEvent time ="3.2">
+			<eventCustom data="Choose_Winner" />
+		</keyframeEvent>
+		<keyframeEvent time ="5.1999">
+			<eventCustom data="End_Round" />
+		</keyframeEvent>
+	</trackEvent>
+	
+	<trackT name="CounterSprite"> 
+		<keyframeT time="0.0001" value = "data/sprites/interface/3_Chroma2.png" />
+		<keyframeT time="1.0000" value = "data/sprites/interface/2_Chroma2.png" />
+		<keyframeT time="2.0000" value = "data/sprites/interface/1_Chroma2.png" />
+	</trackT>
+	
+	<trackD name="SizeOfCounterSprite" interpolation="linear">
+		<keyframeD time="0.0001" value = "0.01" />
+		<keyframeD time="0.2" value = "1.4" />
+		<keyframeD time="0.9999" value = "1.4" />
+		<keyframeD time="1.0" value = "0.01" />
+		<keyframeD time="1.2" value = "1.4" />
+		<keyframeD time="1.9999" value = "1.4" />	
+		<keyframeD time="2.0" value = "0.01" />
+		<keyframeD time="2.2" value = "1.4" />
+		<keyframeD time="2.9999" value = "1.4" />
+		<keyframeD time="3.0" value = "0.01" />
+		<keyframeD time="3.2" value = "1.4" />
+	</trackD>
+
+</animation>
