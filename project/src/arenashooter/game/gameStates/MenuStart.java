@@ -53,13 +53,13 @@ public class MenuStart extends GameState {
 //		Left.setPosition(-35, 43);
 
 		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
-		Space.setPosition(-5, 43);
+		Space.setPosition(-5, 47);
 
 		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
-		A.setPosition(0, 43);
+		A.setPosition(0, 47);
 
 		Confirm = new Label(" : Confirm", 3);
-		Confirm.setPosition(8, 43);
+		Confirm.setPosition(8, 47);
 
 //		Back = new Label(" : Back", 3);
 //		Back.setPosition(25, 43);
