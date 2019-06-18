@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 archivesBaseName = 'SuperBlep'
-version = '0.0.1-SNAPSHOT' 
+version = '0.0.2-SNAPSHOT' 
 
 import org.gradle.internal.os.OperatingSystem
 
