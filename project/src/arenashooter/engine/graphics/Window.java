@@ -304,7 +304,7 @@ public final class Window {
 		
 		if(scissorStack.empty()) glEnable(GL_SCISSOR_TEST);
 		glScissor(screenX, screenY, screenW, screenH);
-		scissorStack.add(new Vec4i(screenX, screenY, screenW, screenH));
+		scissorStack.push(new Vec4i(screenX, screenY, screenW, screenH));
 	}
 	
 	/**
