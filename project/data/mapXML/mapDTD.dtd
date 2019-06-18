@@ -3,7 +3,7 @@
 <!ATTLIST map name CDATA #IMPLIED>
 
 <!-- Map info -->
-<!ELEMENT information (item*, gravity, ambientLight, cameraPos, killBounds , sky)>
+<!ELEMENT information (item*, gravity, ambientLight, cameraPos, killBounds, sky, music?)>
 
 <!ELEMENT item (usable|gun|melee|shotgun|usabletimer)>
 
@@ -16,6 +16,10 @@
 <!ELEMENT killBounds EMPTY>
 <!ATTLIST killBounds minX CDATA #REQUIRED minY CDATA #REQUIRED maxX CDATA #REQUIRED maxY CDATA #REQUIRED>
 <!ELEMENT sky (vector, vector)>
+<!ELEMENT music EMPTY>
+<!ATTLIST music path CDATA #REQUIRED>
+<!ATTLIST music volume CDATA #REQUIRED>
+<!ATTLIST music pitch CDATA #IMPLIED>
 
 <!-- Entities-->
 <!ELEMENT entities (entity|spawn|rigid|mesh|directionalLight|pointLight|text|static|kinematic|jointPin)*>

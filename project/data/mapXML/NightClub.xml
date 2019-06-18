@@ -97,6 +97,8 @@
 			<vector x="0" y="0" z="0" use="bottom" />
 			<vector x="0" y="0" z="0" use="top" />
 		</sky>
+		
+		<music path="data/music/nightclub_ambient_loop_DirtyElectroHouse.ogg" volume="1"/>
 	</information>
 
 	<entities>
