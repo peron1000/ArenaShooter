@@ -17,3 +17,5 @@ After cloning the repository,
 
 or
 * Run `gradlew fatJar` (`gradlew.bat fatJar` on Windows) from the [`/project`](/project) directory to only produce the jar and copy game data into `/project/build/libs`.
+
+If you previously built another version, it is recommended to run `gradlew clean` (`gradlew.bat clean` on Windows) before building.
