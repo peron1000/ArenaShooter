@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "material.dtd" >
+
+<material shaderVertex="data/shaders/mesh_simple.vert" shaderFragment="data/shaders/mesh_emissive.frag" transparency="false">
+	<paramF name="editorFilter" value="0.0" />
+	<paramF name="fogDistance" value="3000" />
+	<paramV3 name="fogColor" x="0.929" y="0.906" z="0.753" />
+	<paramV4 name="baseColorMod" x="1.0" y="1.0" z="1.0" w="1.0" />
+	<paramTex name="baseColor" path="data/default_texture.png" filtered="false" />
+	<paramV3 name="emissiveMod" x="1.0" y="1.0" z="1.0" w="1.0" />
+	<paramTex name="emissive" path="data/default_texture.png" filtered="false" />
+</material>

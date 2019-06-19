@@ -18,7 +18,6 @@ import arenashooter.game.gameStates.Start;
 
 public class GameMaster {
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
-	public static final String mapCharChooser = "data/mapXML/menu_character_chooser.xml";
 
 	public List<Controller> controllers = new ArrayList<>();
 

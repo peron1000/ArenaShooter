@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
@@ -44,11 +45,11 @@ public class Model {
 		//Memory allocation
 		dataBuffer = MemoryUtil.memAllocFloat(data.length);
 		dataBuffer.put(data);
-		dataBuffer.flip();
+		((Buffer)dataBuffer).flip();
 
 		indicesBuffer = MemoryUtil.memAllocInt(indices.length);
 		indicesBuffer.put(indices);
-		indicesBuffer.flip();
+		((Buffer)indicesBuffer).flip();
 		indicesCount = indices.length;
 	}
 	

@@ -1,10 +1,6 @@
 package arenashooter.engine.ui;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
 public enum Imageinput {

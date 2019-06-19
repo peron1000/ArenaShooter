@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import static org.lwjgl.opengl.GL20.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL20.glActiveTexture;
+
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -18,8 +21,10 @@ public class Material {
 		INT, FLOAT, VEC2F, VEC3F, VEC4F, MAT4F, TEXTURE2D;
 	}
 	
-	private final Shader shader;
+	private Shader shader;
 	private final String name, shaderPathV, shaderPathF;
+	
+	private boolean ready = false;
 	
 	/** Should this material be used during transparency pass */
 	public boolean transparency = false;
@@ -36,7 +41,6 @@ public class Material {
 		this.name = name;
 		this.shaderPathV = shaderPathV;
 		this.shaderPathF = shaderPathF;
-		this.shader = Shader.loadShader(shaderPathV, shaderPathF);
 	}
 	
 	public static Material loadMaterial(String path) {
@@ -64,6 +68,8 @@ public class Material {
 	}
 
 	public void bind(Model model) {
+		if(!ready) initMaterial();
+		
 		shader.bind();
 		model.bindToShader(shader);
 		
@@ -87,7 +93,7 @@ public class Material {
 		
 		int texSlot = 0;
 		for(Entry<String, Texture> entry : paramsTex.entrySet()) {
-//			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0+texSlot);
 			entry.getValue().bind();
 			shader.setUniformI(entry.getKey(), texSlot);
 			texSlot++;
@@ -155,6 +161,8 @@ public class Material {
 	 * @param lights
 	 */
 	public void setLights(Set<Light> lights) {
+		if(!ready) initMaterial();
+		
 		int i = 0;
 		for(Light light : lights) {
 			//Skip 0-radius lights
@@ -176,6 +184,12 @@ public class Material {
 		}
 		
 		setParamI("activeLights", Math.min(i, 16));
+	}
+	
+	private void initMaterial() {
+		if(ready) return;
+		ready = true;
+		shader = Shader.loadShader(shaderPathV, shaderPathF);
 	}
 	
 	/**
