@@ -10,6 +10,7 @@ import static org.lwjgl.openal.EXTThreadLocalContext.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import java.lang.ref.WeakReference;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -135,7 +136,7 @@ public final class Audio {
 		listenerRot.put(up.x);
 		listenerRot.put(up.y);
 		listenerRot.put(up.z);
-		listenerRot.flip();
+		((Buffer)listenerRot).flip();
 		
 		alListenerfv( AL_ORIENTATION, listenerRot );
 	}

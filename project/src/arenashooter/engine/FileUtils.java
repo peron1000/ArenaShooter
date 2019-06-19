@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -75,7 +76,7 @@ public final class FileUtils {
 		for( int i=0; i<array.length; i++ )
 			res.put(array[i]);
 		
-		res.flip();
+		((Buffer)res).flip();
 		
 		return res;
 	}
