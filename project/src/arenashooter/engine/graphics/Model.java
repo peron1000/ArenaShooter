@@ -28,7 +28,12 @@ public class Model {
 	//Float size in bytes
 	private static final int floatByteSize = (Float.SIZE / Byte.SIZE);
 	
-	private final int vaoID, vboID, indexVBO, indicesCount;
+	private int vaoID, vboID, indexVBO;
+	private final int indicesCount;
+	
+	private boolean ready = false;
+	private FloatBuffer dataBuffer;
+	private IntBuffer indicesBuffer;
 	
 	/**
 	 * Load a model
@@ -37,15 +42,23 @@ public class Model {
 	 */
 	public Model( float[] data, int[] indices ) {
 		//Memory allocation
-		FloatBuffer dataBuffer = MemoryUtil.memAllocFloat(data.length);
+		dataBuffer = MemoryUtil.memAllocFloat(data.length);
 		dataBuffer.put(data);
 		dataBuffer.flip();
 
-		IntBuffer indicesBuffer = MemoryUtil.memAllocInt(indices.length);
+		indicesBuffer = MemoryUtil.memAllocInt(indices.length);
 		indicesBuffer.put(indices);
 		indicesBuffer.flip();
 		indicesCount = indices.length;
-
+	}
+	
+	/**
+	 * Only call this from a thread with an opengl context
+	 */
+	private void initModel() {
+		if(ready) return;
+		ready = true;
+		
 		//Create vao
 		vaoID = glGenVertexArrays();
 		glBindVertexArray(vaoID);
@@ -67,6 +80,8 @@ public class Model {
 		//Free memory
 		MemoryUtil.memFree(dataBuffer);
 		MemoryUtil.memFree(indicesBuffer);
+		dataBuffer = null;
+		indicesBuffer = null;
 	}
 	
 	/**
@@ -143,6 +158,7 @@ public class Model {
 	 * @param shader
 	 */
 	public void bindToShader( Shader shader ) {
+		if(!ready) initModel();
 		glBindVertexArray(vaoID);
 
 		glBindBuffer( GL_ARRAY_BUFFER, vboID );
@@ -170,6 +186,7 @@ public class Model {
 	 * Bind this model for drawing. Only one bind() is required if you want to draw this model multiple times.
 	 */
 	public void bind() {
+		if(!ready) initModel();
 		glBindVertexArray(vaoID);
 		glEnableVertexAttribArray(0); //Enable position
 		glEnableVertexAttribArray(1); //Enable uv

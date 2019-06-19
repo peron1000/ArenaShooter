@@ -95,6 +95,7 @@ public class Texture {
 	 * Only call this from a thread with an opengl context
 	 */
 	private void initTexture() {
+		if(ready) return;
 		ready = true;
 		
 		id = glGenTextures();
@@ -105,7 +106,6 @@ public class Texture {
 		
 		unbind();
 		img = null;
-		
 	}
 	
 	/**
