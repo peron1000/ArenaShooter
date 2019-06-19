@@ -77,7 +77,9 @@ public class Explosion extends Spatial {
 		double distance = Vec2f.distanceSquared(getWorldPos(), target.getWorldPos());
 		Vec2f direction = Vec2f.fromAngle(Vec2f.direction(getWorldPos(), target.getWorldPos()));
 		
-		float damage = (float)(dmgInfo.damage/(distance+1));
+		float damage = dmgInfo.damage;
+		if(distance > 2)
+			damage = (float)(damage / (distance - 2));
 		
 		//TODO: reduce impulse with distance
 		DamageInfo dmg = new DamageInfo(damage, dmgInfo.dmgType, direction, dmgInfo.impulse, dmgInfo.instigator);

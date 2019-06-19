@@ -15,7 +15,7 @@ public class Grenade extends Projectile {
 	private boolean launched = false;
 
 	public Grenade(Vec2f position, Vec2f vel, float damage) {
-		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 1, 1));
+		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 3, 1));
 		
 		getBody().setBullet(true);
 		
@@ -40,7 +40,7 @@ public class Grenade extends Projectile {
 
 	public void step(double d) {
 		if(grenadeTimer.isOver()) {
-			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(150, DamageType.EXPLOSION, new Vec2f(), 20, shooter), 20);
+			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(50, DamageType.EXPLOSION, new Vec2f(), 20, shooter), 20);
 			explosion.attachToParent(getArena(), explosion.genName());
 			detach();
 		}

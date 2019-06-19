@@ -14,10 +14,10 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 
 public class Barrel extends RigidBodyContainer {
-	private float damage = 75;
-	private double health = 5;
+	private float damage = 40;
+	private double health = 15;
 	private Mesh barrelMesh;
-	private Timer detonTimer = new Timer(4.25);
+	private Timer detonTimer = new Timer(2.25);
 	private Entity instigator;
 	private double timeSinceLastSpark = 0;
 	double timeUntilNewSpark = 0.2;
@@ -27,7 +27,7 @@ public class Barrel extends RigidBodyContainer {
 
 		barrelMesh = new Mesh(new Vec3f(), "data/meshes/barrels/barrel_01.obj");
 		barrelMesh.attachToParent(this, "Barrel_Mesh");
-		barrelMesh.scale.set(.95, .95, .95);
+//		barrelMesh.scale.set(1, 1, 1);
 		Quat.fromEuler(Math.random()*2*Math.PI, 0, 0, barrelMesh.localRotation);
 
 		detonTimer.attachToParent(this, "Detonation_Timer");
