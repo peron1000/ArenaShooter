@@ -136,8 +136,8 @@ public class Config extends GameState {
 		vlist.addElement(rounds);
 		vlist.setPosition(-57.5, -40);
 
-		bgU.setScale(40, 10);
-		bgS.setScale(40, 10);
+		bgU.setScale(35, 10);
+		bgS.setScale(35, 10);
 
 		menu.addListVertical(vlist);
 
