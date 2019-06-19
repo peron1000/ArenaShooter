@@ -140,7 +140,6 @@ public class Character extends RigidBodyContainer {
 			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 					getWorldPos());
 			if (!canJump) {
-				jumpTimer.setValue(jumpTimer.getMax() / 2);
 				// TODO: Skeleton double jump feather Effects
 			}
 			isOnGround = false;
@@ -148,8 +147,8 @@ public class Character extends RigidBodyContainer {
 			// getLinearVelocity().y = 0;
 			// setLinearVelocity(Vec2f.add(getLinearVelocity(), new Vec2f(0,
 			// (float)-jumpForce)));
-			getBody().applyImpulse(new Vec2f(0, -jumpForce));
-
+			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x,
+					-jumpForce + (getLinearVelocity().y < 0 ? getLinearVelocity().y / 2 : 0)));
 		}
 	}
 
@@ -251,8 +250,8 @@ public class Character extends RigidBodyContainer {
 
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12) * punchDashForce, 0), aimInput);
-				punchDmgInfo = new DamageInfo((float) (punchDamage * 1.5), DamageType.MELEE,
-						Vec2f.fromAngle(aimInput), 50, this);
+				punchDmgInfo = new DamageInfo((float) (punchDamage * 1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput),
+						50, this);
 				skeleton.punch(-1, aimInput);
 			} else {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
@@ -439,7 +438,7 @@ public class Character extends RigidBodyContainer {
 				controller.zombieChar();
 				upcomingDeath = deathCause;
 				afterDeath.inProcess = true;
-				((CharacterSprite)getChild("skeleton")).activateBushidoMode();
+				((CharacterSprite) getChild("skeleton")).activateBushidoMode();
 				// TODO: Activate Haricot...etc
 			}
 		}
@@ -506,14 +505,15 @@ public class Character extends RigidBodyContainer {
 			if (!isAiming && !lookRight) {
 				aimInput = Math.PI;
 			}
-			
+
 			double velX = Utils.lerpD(getLinearVelocity().x, movementInputX * maxSpeed, Utils.clampD(d * 10, 0, 1));
 			double velY = getLinearVelocity().y;
 			if (movementInputY > 0.4) {
-				velY = Utils.lerpD(getLinearVelocity().y, movementInputY * 25, Utils.clampD(d * 15, 0, 1));
-			} else if(getLinearVelocity().y > 18)
+				if (!canJump)
+					velY = Utils.lerpD(getLinearVelocity().y, movementInputY * 25, Utils.clampD(d * 15, 0, 1));
+			} else if (getLinearVelocity().y > 18)
 				velY = Utils.lerpD(getLinearVelocity().y, 18, Utils.clampD(d * 15, 0, 1));
-			else if(getLinearVelocity().y < -25)
+			else if (getLinearVelocity().y < -25)
 				velY = Utils.lerpD(getLinearVelocity().y, -25, Utils.clampD(d * 15, 0, 1));
 			getBody().setLinearVelocity(new Vec2f(velX, velY));
 		} else {

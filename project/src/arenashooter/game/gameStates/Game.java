@@ -179,7 +179,7 @@ public class Game extends GameState {
 			return;
 		} else if (canPlay) {
 			if (oneLeft) {
-				if (endCounter != null && !endCounter.isPlaying()) {
+				if (endCounter == null) {
 					endCounter = new Animation(endAnimData);
 					endCounter.play();
 					// chooseWinner.setProcessing(true);
@@ -196,47 +196,34 @@ public class Game extends GameState {
 								double rand = Math.random();
 								if (winner != null) {
 									if (rand < 0.333) {
-										Audio.playSound("data/sound/Winner_01.ogg", AudioChannel.UI, .5f, 1);
+										Audio.playSound("data/sound/Winner_01.ogg", AudioChannel.UI, 5f, 1);
 									} else if (rand > 0.666) {
-										Audio.playSound("data/sound/Winner_03.ogg", AudioChannel.UI, .5f, 1);
+										Audio.playSound("data/sound/Winner_03.ogg", AudioChannel.UI, 5f, 1);
 									} else {
-										Audio.playSound("data/sound/Winner_02.ogg", AudioChannel.UI, .5f, 1);
+										Audio.playSound("data/sound/Winner_02.ogg", AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
-											Texture.loadTexture("data/sprites/interface/Winner_Chroma02.png"));
-									((CharacterSprite)winner.getCharacter().getChild("skeleton")).rainConfetti();
+											Texture.loadTexture("data/sprites/interface/Winner_Chroma2.png"));
+									((CharacterSprite) winner.getCharacter().getChild("skeleton")).rainConfetti();
 
 								} else {
 									if (rand < 0.333) {
-										Audio.playSound("data/sound/Draw_01.ogg", AudioChannel.UI, .5f, 1);
+										Audio.playSound("data/sound/Draw_01.ogg", AudioChannel.UI, 5f, 1);
 									} else if (rand > 0.666) {
-										Audio.playSound("data/sound/Draw_03.ogg", AudioChannel.UI, .5f, 1);
+										Audio.playSound("data/sound/Draw_03.ogg", AudioChannel.UI, 5f, 1);
 									} else {
-										Audio.playSound("data/sound/Draw_02.ogg", AudioChannel.UI, .5f, 1);
+										Audio.playSound("data/sound/Draw_02.ogg", AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
-											Texture.loadTexture("data/sprites/interface/Draw_Chroma02.png"));
+											Texture.loadTexture("data/sprites/interface/Draw_Chroma2.png"));
 								}
+							} else if (current instanceof AnimEventSound) {
+								((AnimEventSound) current).play(null);
 							}
-							if (((AnimEventCustom) current).data.equals("End_Round")) {
-								if (currentRound < nbRounds || nbRounds == -1) {
-									currentRound++;
-									for (Controller player : Main.getGameMaster().controllers) {
-										if (player.getCharacter() != null) {
-											player.getCharacter().takeDamage(
-													new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
-										}
-									}
-									newRound();
-								} else {
-									bgm.stop();
-									Main.getGameMaster().requestNextState(new Score(), "data/mapXML/menu_empty.xml");
-								}
-							}
-						} else if (current instanceof AnimEventSound) {
-							((AnimEventSound) current).play(null);
 						}
+
 					}
+
 					Texture counterTexture = counterImage.getMaterial().getParamTex("image");
 					if (endCounter.getTime() < 3.2) {
 						counterTexture = endCounter.getTrackTex("CounterSprite");
@@ -246,6 +233,23 @@ public class Game extends GameState {
 					counterImage.setScale(counterTexture.getSize().x * size, counterTexture.getSize().y * size);
 					counterImage.getMaterial().getParamTex("image").setFilter(false);
 					endCounter.step(d);
+					
+					if (!endCounter.isPlaying()) {
+						endCounter = null;
+						if (currentRound < nbRounds || nbRounds == -1) {
+							currentRound++;
+							for (Controller player : Main.getGameMaster().controllers) {
+								if (player.getCharacter() != null) {
+									player.getCharacter().takeDamage(
+											new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
+								}
+							}
+							newRound();
+						} else {
+							bgm.stop();
+							Main.getGameMaster().requestNextState(new Score(), "data/mapXML/menu_empty.xml");
+						}
+					}
 				}
 			}
 
