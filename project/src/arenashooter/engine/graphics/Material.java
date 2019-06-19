@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import static org.lwjgl.opengl.GL20.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL20.glActiveTexture;
+
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -87,7 +90,7 @@ public class Material {
 		
 		int texSlot = 0;
 		for(Entry<String, Texture> entry : paramsTex.entrySet()) {
-//			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0+texSlot);
 			entry.getValue().bind();
 			shader.setUniformI(entry.getKey(), texSlot);
 			texSlot++;
