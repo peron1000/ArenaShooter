@@ -10,6 +10,7 @@ import java.util.Map;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
@@ -191,7 +192,9 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			UiImage picture = new UiImage(Main.loadingConfig.getTexture(file));
+			Material thumbnailMat = Material.loadMaterial("data/materials/ui/ui_arena_thumbnail.xml");
+			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
+			UiImage picture = new UiImage(thumbnailMat);
 			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));
 			double scale = 4.5;
 			picture.setScale(14);
@@ -201,7 +204,6 @@ public class Config extends GameState {
 			everyList.get(i % nbElemH).addElement(picture);
 			
 			picture.addAction("selec", new Trigger() {
-
 				@Override
 				public void make() {
 					double lerp = 10;

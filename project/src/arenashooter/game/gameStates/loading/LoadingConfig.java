@@ -26,8 +26,10 @@ public class LoadingConfig extends Thread {
 		File[] folderContent = mapFolder.listFiles();
 		for (File file : folderContent) {
 			if (file.getName().endsWith(".xml") && !file.getName().startsWith("menu_")) {
-				load.put(file, Texture.loadTexture(
-						"data/MAP_VIS/" + file.getName().substring(0, file.getName().lastIndexOf('.')) + ".png"));
+				String texture = file.getPath().substring(0, file.getPath().lastIndexOf('.')) + ".png";
+				if(!new File(texture).exists())
+					texture = "data/arena_thumbnail_default.png";
+				load.put(file, Texture.loadTexture(texture));
 			}
 		}
 		

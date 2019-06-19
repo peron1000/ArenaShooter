@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "../material.dtd" >
+
+<material shaderVertex="data/shaders/ui/ui_simple.vert" shaderFragment="data/shaders/ui/ui_arena_thumbnail.frag" transparency="true">
+	<paramTex name="image" path="data/arena_thumbnail_default.png" filtered="false" />
+	<paramTex name="shadowMask" path="data/arena_thumbnail_mask.png" filtered="false" />
+</material>
