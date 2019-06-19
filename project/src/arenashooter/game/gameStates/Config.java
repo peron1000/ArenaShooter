@@ -40,26 +40,9 @@ public class Config extends GameState {
 		super(1);
 		gameParam = new GameParam();
 		GameParam.maps.clear();
+		
 		ui();
-		fileArena();
-		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
-		Space.setPosition(-70, 30);
-
-		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
-		A.setPosition(-65, 30);
-
-		Confirm = new Label(" : Toggle Selection", 3);
-		Confirm.setPosition(-50, 30);
-
-		Back = new Label(" : Back", 3);
-		Back.setPosition(-57.5, 38);
-
-		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
-		Escape.setPosition(-70, 38);
-
-		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
-		B.setPosition(-65, 38);
-
+		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -115,16 +98,6 @@ public class Config extends GameState {
 		});
 	}
 
-	private void fileArena() {
-		File mapFolder = new File("data/mapXML");
-		File[] folderContent = mapFolder.listFiles();
-		for (int i = 0; i < folderContent.length; i++) {
-			if (folderContent[i].getName().endsWith(".xml") && !folderContent[i].getName().startsWith("menu_")) {
-				Loading.loadTexture.put(folderContent[i], Texture.default_tex);
-			}
-		}
-	}
-
 	private void ui() {
 		background.setScale(180, 100);
 
@@ -156,12 +129,35 @@ public class Config extends GameState {
 		menu.addListVertical(vlist);
 
 		selector.setScale(47,12);
+		
+		
+		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
+		Space.setPosition(-70, 30);
+
+		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
+		A.setPosition(-65, 30);
+
+		Confirm = new Label(" : Toggle Selection", 3);
+		Confirm.setPosition(-50, 30);
+
+		Back = new Label(" : Back", 3);
+		Back.setPosition(-57.5, 38);
+
+		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
+		Escape.setPosition(-70, 38);
+
+		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
+		B.setPosition(-65, 38);
 	}
 
 	@Override
 	public void init() {
-
-		List<File> maps = new ArrayList<>(Loading.loadTexture.keySet());
+		
+		while(Main.loadingConfig.isAlive()) {
+			// wait
+		}
+		
+		List<File> maps = new ArrayList<>(Main.loadingConfig.getFile());
 		maps.sort(new Comparator<File>() {
 			@Override
 			public int compare(File o1, File o2) {
@@ -182,7 +178,7 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			UiImage picture = new UiImage(Loading.loadTexture.get(file));
+			UiImage picture = new UiImage(Main.loadingConfig.getTexture(file));
 			double scale = 4.5;
 			picture.addToScale(-scale);
 			everyList.get(i % nbElemH).addElement(picture);

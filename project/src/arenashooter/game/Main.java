@@ -9,6 +9,7 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.game.gameStates.Loading;
+import arenashooter.game.gameStates.loading.LoadingConfig;
 
 public class Main {
 	private static final int minFrametimeMilli = 8;
@@ -29,6 +30,8 @@ public class Main {
 	public static final Logger log = LogManager.getLogger("Main");
 
 	private static boolean requestclose = false;
+	
+	public static LoadingConfig loadingConfig = new LoadingConfig();
 
 	public static void main(String[] args) {
 		log.info("Starting Super Blep version " + version);
@@ -50,6 +53,8 @@ public class Main {
 		long fpsTime = lastFrame;
 
 		double remaining = 0;
+		
+		loadingConfig.start();
 
 		while (!Window.requestClose() && !requestclose) {
 

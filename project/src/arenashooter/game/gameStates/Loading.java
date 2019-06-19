@@ -1,14 +1,9 @@
 package arenashooter.game.gameStates;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import arenashooter.engine.graphics.PostProcess;
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -32,8 +27,6 @@ public class Loading extends GameState {
 	public static Loading loading = new Loading();
 
 	private static String[] toLoad;
-	public static Map<File, Texture> loadTexture = new HashMap<>();
-	private static Iterator<File> iterator = loadTexture.keySet().iterator();
 	private static int indexLoading = 0;
 	private static int firstStep = 0;
 
@@ -54,33 +47,27 @@ public class Loading extends GameState {
 	}
 
 	public static void loadingStep() {
-		if(firstStep == 0) {
+		if (firstStep == 0) {
 			firstStep++;
 			return;
 		}
-		if(firstStep == 1) {
+		if (firstStep == 1) {
 			firstStep++;
 			newMapXmlReader();
 		} else {
 			boolean finish = mapXmlReader.loadNextEntity();
-	
+
 			if (finish) {
 				if (indexLoading < toLoad.length) {
 					newMapXmlReader();
-				} else if (iterator.hasNext()) {
-					File file = iterator.next();
-					Texture texture = Texture.loadTexture(
-							"data/MAP_VIS/" + file.getName().substring(0, file.getName().lastIndexOf('.')) + ".png");
-					loadTexture.put(file, texture);
 				} else {
 					onFinish.make();
-					loadTexture.clear();
 					indexLoading = 0;
 					isLoading = false;
 				}
 			}
 		}
-	
+
 	}
 
 	private static void newMapXmlReader() {
@@ -96,7 +83,6 @@ public class Loading extends GameState {
 	public void init() {
 		current = new Arena();
 		indexLoading = 0;
-		iterator = loadTexture.keySet().iterator();
 		firstStep = 0;
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading.frag");
@@ -154,16 +140,7 @@ public class Loading extends GameState {
 		}
 		Loading.next = next;
 		indexLoading = 0;
-	}
 
-	@Override
-	public void update(double delta) {
-		current.step(delta);
-	}
-
-	@Override
-	public void draw() {
-		super.draw();
 	}
 
 }
