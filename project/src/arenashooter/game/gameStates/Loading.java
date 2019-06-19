@@ -8,7 +8,6 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
@@ -16,19 +15,20 @@ import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
+import arenashooter.game.gameStates.loading.LoadingThread;
 
 public class Loading extends GameState {
 	private static GameState next = new Start();
-
-	private static MapXmlReader mapXmlReader;
 
 	private static boolean isLoading = false;
 
 	public static Loading loading = new Loading();
 
-	private static String[] toLoad;
+	private static LoadingThread loadingThread = new LoadingThread();
+
+	private static String[] arenaToLoad;
 	private static int indexLoading = 0;
-	private static int firstStep = 0;
+	private static boolean firstStep = true;
 
 	private static Trigger onFinish = new Trigger() {
 
@@ -47,33 +47,25 @@ public class Loading extends GameState {
 	}
 
 	public static void loadingStep() {
-		if (firstStep == 0) {
-			firstStep++;
+		if (firstStep) {
+			firstStep = false;
 			return;
 		}
-		if (firstStep == 1) {
-			firstStep++;
-			newMapXmlReader();
-		} else {
-			boolean finish = mapXmlReader.loadNextEntity();
 
-			if (finish) {
-				if (indexLoading < toLoad.length) {
-					newMapXmlReader();
-				} else {
-					onFinish.make();
-					indexLoading = 0;
-					isLoading = false;
-				}
+		if (indexLoading < arenaToLoad.length) {
+			if (!loadingThread.isAlive()) {
+				loadingThread = new LoadingThread(next.maps[indexLoading], arenaToLoad[indexLoading]);
+				loadingThread.start();
+				indexLoading++;
 			}
+		} else {
+			if (loadingThread.isAlive()) {
+				return;
+			}
+			indexLoading = 0;
+			isLoading = false;
+			onFinish.make();
 		}
-
-	}
-
-	private static void newMapXmlReader() {
-		mapXmlReader = new MapXmlReader(toLoad[indexLoading]);
-		mapXmlReader.load(next.maps[indexLoading]);
-		indexLoading++;
 	}
 
 	public void setOnFinish(Trigger t) {
@@ -83,7 +75,7 @@ public class Loading extends GameState {
 	public void init() {
 		current = new Arena();
 		indexLoading = 0;
-		firstStep = 0;
+		firstStep = true;
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading.frag");
 
@@ -127,20 +119,19 @@ public class Loading extends GameState {
 		if (mapPath.length < next.maps.length) {
 			Exception e = new Exception("Not enough map Path given");
 			e.printStackTrace();
-			toLoad = new String[next.maps.length];
-			for (int i = 0; i < toLoad.length; i++) {
+			arenaToLoad = new String[next.maps.length];
+			for (int i = 0; i < arenaToLoad.length; i++) {
 				if (i < mapPath.length) {
-					toLoad[i] = mapPath[i];
+					arenaToLoad[i] = mapPath[i];
 				} else {
-					toLoad[i] = mapPath[mapPath.length - 1];
+					arenaToLoad[i] = mapPath[mapPath.length - 1];
 				}
 			}
 		} else {
-			toLoad = mapPath;
+			arenaToLoad = mapPath;
 		}
 		Loading.next = next;
 		indexLoading = 0;
-
 	}
 
 }

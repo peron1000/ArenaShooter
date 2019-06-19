@@ -27,22 +27,17 @@ public class Config extends GameState {
 
 	private GameParam gameParam;
 	private UiGridWeak menu = new UiGridWeak();
-	private UiImage background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png")),
-			selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
+	private UiImage background, selector;
 	private InputListener inputs = new InputListener();
 	private ScrollerH<Integer> rounds;
-	private UiImage
-			Escape = Imageinput.ESCAPE.getImage(),
-			Space = Imageinput.SPACE.getImage(),
-			A = Imageinput.A.getImage(), B = Imageinput.B.getImage();
+	private UiImage escape, space, a, b;
 	private Label Confirm, Back;
+
 	public Config() {
 		super(1);
 		gameParam = new GameParam();
 		GameParam.maps.clear();
-		
-		ui();
-		
+
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -69,12 +64,13 @@ public class Config extends GameState {
 					case UI_CONTINUE:
 						if (!menu.continueAction()) {
 							if (!GameParam.maps.isEmpty()) {
-								Main.getGameMaster().requestNextState(new CharacterChooser(), GameMaster.mapCharChooser);
+								Main.getGameMaster().requestNextState(new CharacterChooser(),
+										GameMaster.mapEmpty);
 							}
 						}
 						break;
 					case UI_BACK:
-						if(!menu.backAction()) {
+						if (!menu.backAction()) {
 							Main.getGameMaster().requestPreviousState();
 						}
 						break;
@@ -128,14 +124,13 @@ public class Config extends GameState {
 
 		menu.addListVertical(vlist);
 
-		selector.setScale(47,12);
-		
-		
-		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
-		Space.setPosition(-70, 30);
+		selector.setScale(47, 12);
 
-		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
-		A.setPosition(-65, 30);
+		space.setScale(space.getScale().x / 2, space.getScale().y / 2);
+		space.setPosition(-70, 30);
+
+		a.setScale(a.getScale().x / 3.142, a.getScale().y / 3.142);
+		a.setPosition(-65, 30);
 
 		Confirm = new Label(" : Toggle Selection", 3);
 		Confirm.setPosition(-50, 30);
@@ -143,20 +138,29 @@ public class Config extends GameState {
 		Back = new Label(" : Back", 3);
 		Back.setPosition(-57.5, 38);
 
-		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
-		Escape.setPosition(-70, 38);
+		escape.setScale(escape.getScale().x / 2, escape.getScale().y / 2);
+		escape.setPosition(-70, 38);
 
-		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
-		B.setPosition(-65, 38);
+		b.setScale(b.getScale().x / 3.142, b.getScale().y / 3.142);
+		b.setPosition(-65, 38);
 	}
 
 	@Override
 	public void init() {
-		
-		while(Main.loadingConfig.isAlive()) {
+
+		while (Main.loadingConfig.isAlive()) {
 			// wait
 		}
+
+		background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png"));
+		selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
+		escape = Imageinput.ESCAPE.getImage();
+		space = Imageinput.SPACE.getImage();
+		a = Imageinput.A.getImage();
+		b = Imageinput.B.getImage();
 		
+		ui();
+
 		List<File> maps = new ArrayList<>(Main.loadingConfig.getFile());
 		maps.sort(new Comparator<File>() {
 			@Override
@@ -219,12 +223,12 @@ public class Config extends GameState {
 		background.draw();
 		menu.draw();
 		selector.draw();
-		A.draw();
-		B.draw();
+		a.draw();
+		b.draw();
 		Back.draw();
 		Confirm.draw();
-		Escape.draw();
-		Space.draw();
+		escape.draw();
+		space.draw();
 		Window.endUi();
 	}
 

@@ -26,6 +26,7 @@ public class Texture {
 	private final String file;
 	private final int width, height;
 	private boolean filter = true;
+	private boolean filterTarget = true;
 	
 	/** Does this texture use non-1bit transparency */
 	public final boolean transparency;
@@ -102,7 +103,14 @@ public class Texture {
 		glBindTexture(GL_TEXTURE_2D, id);
 		glTexImage2D(GL_TEXTURE_2D, 0, pixelFormat, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, img.buffer);
 
-		setFilter(filter);
+		if(filterTarget) {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		} else {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		}
+		filter = filterTarget;
 		
 		unbind();
 		img = null;
@@ -114,6 +122,18 @@ public class Texture {
 	public void bind() {
 		if(!ready) initTexture();
 		glBindTexture(GL_TEXTURE_2D, id);
+		
+		//Update texture filtering
+		if(filter != filterTarget) {
+			if(filterTarget) {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			} else {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			}
+			filter = filterTarget;
+		}
 	}
 	
 	/**
@@ -151,17 +171,7 @@ public class Texture {
 	 * @return <i>this</i>
 	 */
 	public Texture setFilter(boolean val) {
-		if(ready) {
-			glBindTexture(GL_TEXTURE_2D, id);
-			if(val) {
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			} else {
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			}
-		} else
-			filter = val;
+		filterTarget = val;
 		return this;
 	}
 	
