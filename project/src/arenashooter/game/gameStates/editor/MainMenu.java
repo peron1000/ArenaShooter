@@ -87,10 +87,10 @@ class MainMenu extends UiElement implements MultiUi {
 		// Settings mainMenu
 		mainMenu.setPosition(0, -30);
 		mainMenu.setSpacingForeachList(spacing);
-		mainMenu.setArrowsDistance(30);
 		mainMenu.setTitleScale(7, 7);
 		mainMenu.setArrowsDistance(18);
-		mainMenu.setTitleSpacing(1.2);
+		mainMenu.setTitleSpacing(8);
+		mainMenu.setScaleArrows(6, 6);
 		
 		// Settings meshChooser
 		meshChooser.setPosition(0, -30);

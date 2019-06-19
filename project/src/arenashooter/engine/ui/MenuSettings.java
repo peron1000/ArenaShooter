@@ -12,7 +12,7 @@ import arenashooter.game.Main;
 
 public class MenuSettings extends TabList<UiActionable> {
 
-	private DecimalFormat df = new DecimalFormat("0.0");
+	private DecimalFormat df = new DecimalFormat("0.00");
 	private UiActionable back = new UiActionable() {
 
 		@Override
@@ -29,7 +29,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		addBind("Audio", audio);
 		setPosition(0, y);
 		setSpacingForeachList(1);
-		setTitleSpacing(1);
+		setTitleSpacing(10);
 
 		///
 		/// Audio settings
@@ -142,11 +142,11 @@ public class MenuSettings extends TabList<UiActionable> {
 		Button backVideo = new Button("Back");
 		backVideo.setOnArm(onBack);
 		backVideo.setRectangleVisible(false);
-		backVideo.setScale(10);
+		backVideo.setScale(40 , 10);
 		Button backAudio = new Button("Back");
 		backAudio.setOnArm(onBack);
 		backAudio.setRectangleVisible(false);
-		backAudio.setScale(10);
+		backAudio.setScale(40 , 10);
 
 		video.addElements(reso, fullscreen, scale, backVideo);
 		audio.addElements(mainVolume, musicVolume, sfxVolume, uiVolume, backAudio);

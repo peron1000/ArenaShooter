@@ -41,8 +41,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		this.titleSpacing = titleSpacing;
 		double y = getPosition().y - titleSpacing;
 		tabTitle.setPosition(getPosition().x, y);
-		arrowLeft.setPosition(-arrowsDistance, y);
-		arrowRight.setPosition(arrowsDistance, y);
+		setArrowsDistance(arrowsDistance);
 	}
 
 	public boolean isBackgroundVisible() {
@@ -89,6 +88,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public void setScaleArrows(double x, double y) {
 		arrowLeft.setScale(x, y);
 		arrowRight.setScale(x, y);
+		setArrowsDistance(arrowsDistance);
 	}
 
 	public double getArrowsDistance() {
@@ -113,9 +113,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	public void setArrowsDistance(double arrowsDistance) {
 		this.arrowsDistance = arrowsDistance;
-		double y = getPosition().y - getScale().y * titleSpacing;
-		arrowLeft.setPosition(-arrowsDistance, y);
-		arrowRight.setPosition(arrowsDistance, y);
+		double y = getPosition().y - titleSpacing;
+		arrowLeft.setPosition(getPosition().x-arrowsDistance, y);
+		arrowRight.setPosition(getPosition().x + arrowsDistance, y);
 	}
 
 	/**
