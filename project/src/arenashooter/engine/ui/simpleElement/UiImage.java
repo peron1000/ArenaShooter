@@ -96,6 +96,14 @@ public class UiImage extends UiElement {
 	public void setMaterial(Material material) {
 		this.material = material;
 	}
+	
+	public void setColor(double red , double green , double blue , double transparency) {
+		material.setParamVec4f("color", new Vec4f(red, green, blue, transparency));
+	}
+	
+	public void setColor(Vec4f color) {
+		material.setParamVec4f("color", color.clone());
+	}
 
 	@Override
 	public void draw() {
