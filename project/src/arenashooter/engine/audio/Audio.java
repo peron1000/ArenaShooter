@@ -129,7 +129,7 @@ public final class Audio {
 		Vec3f forward = Vec3f.multiply(rot.forward(), -1 );
 		Vec3f up = rot.up();
 		
-		listenerRot.clear();
+		((Buffer)listenerRot).clear();
 		listenerRot.put(forward.x);
 		listenerRot.put(forward.y);
 		listenerRot.put(forward.z);
