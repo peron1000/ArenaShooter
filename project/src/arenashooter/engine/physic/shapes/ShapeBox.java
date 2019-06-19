@@ -34,10 +34,13 @@ public class ShapeBox extends PhysicShape {
 	}
 
 	private static final Model quad = Model.loadQuad();
-	private static final Shader shader = Shader.loadShader("data/shaders/debug_color.vert", "data/shaders/debug_color.frag");
+	private static Shader shader;
 	private Mat4f modelM = new Mat4f();
 	@Override
 	public void debugDraw(Vec2f pos, double rot, Vec4f color) {
+		if(shader == null)
+			shader = Shader.loadShader("data/shaders/debug_color.vert", "data/shaders/debug_color.frag");
+		
 		shader.bind();
 		
 		//Create matrices
