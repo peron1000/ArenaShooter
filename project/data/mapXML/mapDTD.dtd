@@ -33,6 +33,7 @@
 <!ATTLIST itemRef item CDATA #REQUIRED proba CDATA #REQUIRED>
 <!ELEMENT mesh (vector, vector, vector, entities?)>
 <!ATTLIST mesh name CDATA #IMPLIED>
+<!ATTLIST mesh animation CDATA #IMPLIED>
 <!ATTLIST mesh src CDATA #REQUIRED>
 <!ELEMENT directionalLight (vector, vector)>
 <!ATTLIST directionalLight name CDATA #IMPLIED>

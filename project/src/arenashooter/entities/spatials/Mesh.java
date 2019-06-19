@@ -1,6 +1,8 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
@@ -10,7 +12,8 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
-public class Mesh extends Spatial3 {
+public class Mesh extends Spatial3 implements IAnimated {
+	private Animation currentAnim = null;
 
 	private Model[] models;
 	private Material[] materials;
@@ -80,7 +83,23 @@ public class Mesh extends Spatial3 {
 	@Override
 	public void step(double d) {
 		timeMs += d * 1000;
+		
+		updateAnim(d);
+		
 		super.step(d);
+	}
+	
+	protected void updateAnim(double d) {
+		if(currentAnim != null) {
+			currentAnim.step(d);
+			if(currentAnim.hasTrackVec3f("pos"))
+				localPosition.set(currentAnim.getTrackVec3f("pos"));
+			
+			if(currentAnim.hasTrackVec3f("rot"))
+				Quat.fromEuler(currentAnim.getTrackVec3f("rot"), localRotation);
+
+			//TODO: Add Quat rotation
+		}
 	}
 
 	@Override
@@ -165,5 +184,41 @@ public class Mesh extends Spatial3 {
 		Mesh res = new Mesh(localPosition, localRotation, scale, models.clone(), cloneMats);
 		res.useTransparency = useTransparency;
 		return res;
+	}
+	
+	@Override
+	public void setAnim(Animation anim) {
+		currentAnim = anim;
+	}
+
+	@Override
+	public void playAnim() {
+		if(currentAnim != null) currentAnim.play();
+	}
+
+	@Override
+	public void stopAnim() {
+		if(currentAnim != null) currentAnim.stopPlaying();
+	}
+
+	@Override
+	public void animJumpToEnd() {
+		if(currentAnim != null) currentAnim.setTime(currentAnim.getLength());
+	}
+
+	@Override
+	public Animation getAnim() {
+		return currentAnim;
+	}
+
+	@Override
+	public void setAnimSpeed(double speed) {
+		if(currentAnim != null) currentAnim.setplaySpeed(speed);
+	}
+
+	@Override
+	public double getAnimSpeed() {
+		if(currentAnim == null) return 0;
+		return currentAnim.getPlaySpeed();
 	}
 }

@@ -49,6 +49,15 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 		super.step(d);
 		
 		//Animation
+		updateAnim(d);
+		
+		//Destroy when out of bounds
+		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
+				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
+			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
+	}
+	
+	protected void updateAnim(double d) {
 		if(currentAnim != null) {
 			//TODO: Add rotation
 			currentAnim.step(d);
@@ -58,11 +67,6 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 				body.setLinearVelocity(direction.multiply((float) (distance/d)));
 			}
 		}
-		
-		//Destroy when out of bounds
-		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
-				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
-			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 	}
 
 	@Override
@@ -92,12 +96,12 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 
 	@Override
 	public void setAnimSpeed(double speed) {
-//		if(currentAnim != null) currentAnim.sp //TODO
+		if(currentAnim != null) currentAnim.setplaySpeed(speed);
 	}
 
 	@Override
 	public double getAnimSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(currentAnim == null) return 0;
+		return currentAnim.getPlaySpeed();
 	}
 }

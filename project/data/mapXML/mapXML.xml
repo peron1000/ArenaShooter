@@ -451,11 +451,24 @@
 		</jointPin>
 
 		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
-			<vector use="position" x="225" y="280" z="-625" />
+			<vector use="position" x="215" y="290" z="-612" />
 			<vector use="rotation" x=".2" y="0" z="0" />
 			<vector use="scale" x="9.5" y="9.5" z="9.5" />
 			<entities>
-				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj">
+				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj" animation="data/animations/MapXML/anim_windmill_blades_01.xml">
+					<vector use="position" x="-20" y="-143" z="0" />
+					<vector use="rotation" x="0" y="0" z="0" />
+					<vector use="scale" x="9.5" y="9.5" z="9.5" />
+				</mesh>
+			</entities>
+		</mesh>
+
+		<mesh src="data/meshes/windmills/Windmill_01_Static.obj">
+			<vector use="position" x="-300" y="110" z="-1300" />
+			<vector use="rotation" x=".06" y="0" z="0" />
+			<vector use="scale" x="9.5" y="9.5" z="9.5" />
+			<entities>
+				<mesh src="data/meshes/windmills/Windmill_01_Blades.obj" animation="data/animations/MapXML/anim_windmill_blades_01.xml">
 					<vector use="position" x="-20" y="-143" z="0" />
 					<vector use="rotation" x="0" y="0" z="0" />
 					<vector use="scale" x="9.5" y="9.5" z="9.5" />

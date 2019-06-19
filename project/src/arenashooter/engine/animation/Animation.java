@@ -67,6 +67,10 @@ public class Animation {
 	 */
 	public double getLength() { return animData.length; }
 	
+	public double getPlaySpeed() { return playSpeed; }
+	
+	public void setplaySpeed(double speed) { playSpeed = speed; }
+	
 	/**
 	 * Update the animation and fill the event queue
 	 * @param delta time in seconds

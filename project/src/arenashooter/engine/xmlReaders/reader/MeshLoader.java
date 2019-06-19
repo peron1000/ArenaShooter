@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.w3c.dom.Element;
 
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.XmlReader;
@@ -57,7 +59,13 @@ public class MeshLoader implements EntitiesLoader<Mesh> {
 		} else {
 			m.attachToParent(parent, m.genName());
 		}
-
+		
+		// Load animation
+		if (element.hasAttribute("animation")) {
+			AnimationData animData = AnimationData.loadAnim(element.getAttribute("animation"));
+			m.setAnim(new Animation(animData));
+			m.playAnim();
+		}
 		return m;
 	}
 
