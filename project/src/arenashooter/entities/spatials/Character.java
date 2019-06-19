@@ -30,7 +30,6 @@ public class Character extends RigidBodyContainer {
 	public Controller controller = null;
 	private float punchDamage = 10;
 	private float health, healthMax;
-	private final Vec2f spawn;
 
 	public boolean lookRight = true;
 	public boolean isAiming = false;
@@ -49,7 +48,7 @@ public class Character extends RigidBodyContainer {
 	public int bonusJumpsMax = 0;
 	public int bonusJumpsUsed = 0;
 	public double weight = 1;
-	private double jumpForce = 18;
+	private double jumpForce = 23;
 	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.6);
@@ -66,7 +65,7 @@ public class Character extends RigidBodyContainer {
 	private int attackCombo = 0;
 	private Timer parry = new Timer(1.5);
 	private boolean parryCooldown = false;
-	private Timer chargePunch = new Timer(0.5);
+	private Timer chargePunch = new Timer(1.5);
 	/**
 	 * For now, this boolean is used for visuals and Sounds only.
 	 */
@@ -90,7 +89,6 @@ public class Character extends RigidBodyContainer {
 
 		healthMax = 50;
 		health = healthMax;
-		spawn = position;
 
 		localRotation = 0;
 
@@ -98,12 +96,12 @@ public class Character extends RigidBodyContainer {
 		case Heavy:
 			weight = 3;
 			punchDashForce = 9;
-			jumpForce = 18 * weight;
+			jumpForce = 23;
 			break;
 		case Agile:
 			maxSpeed = 17;
 			weight = 0.8;
-			jumpForce = 20;
+			jumpForce = 26;
 			break;
 		case Aqua:
 			bushido = true;
@@ -141,6 +139,7 @@ public class Character extends RigidBodyContainer {
 					getWorldPos());
 			if (!canJump) {
 				// TODO: Skeleton double jump feather Effects
+				((CharacterSprite) getChild("skeleton")).plum();
 			}
 			isOnGround = false;
 			jumpi = true;
@@ -231,6 +230,7 @@ public class Character extends RigidBodyContainer {
 			if (justPressed)
 				getWeapon().attackStart();
 		} else if (attackCooldown.isOver()) {
+			parryStop();
 			chargePunch.setProcessing(true);
 		}
 	}
@@ -241,6 +241,7 @@ public class Character extends RigidBodyContainer {
 		if (getWeapon() != null) {
 			getWeapon().attackStop();
 		} else if (chargePunch.isProcessing()) {
+			parryStop();
 
 			boolean superPoing = chargePunch.isOver();
 			chargePunch.reset();
@@ -440,6 +441,7 @@ public class Character extends RigidBodyContainer {
 				afterDeath.inProcess = true;
 				((CharacterSprite) getChild("skeleton")).activateBushidoMode();
 				// TODO: Activate Haricot...etc
+				getBody().setRotationLocked(false);
 			}
 		}
 	}
@@ -451,7 +453,14 @@ public class Character extends RigidBodyContainer {
 			Explosion explosion = new Explosion(getWorldPos(),
 					new DamageInfo(90, DamageType.EXPLOSION, new Vec2f(), 5f, this), 10);
 			explosion.attachToParent(getArena(), explosion.genName());
-			((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
+			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
+			skeleton.explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
+			
+			for(int i = 0 ; i < 5 ; i++) {
+			Particles blood = new Particles(new Vec2f(), "data/particles/blood.xml");
+			blood.selfDestruct = true;
+			blood.attachToParent(skeleton, blood.genName());
+			}
 		}
 
 		if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
@@ -511,8 +520,8 @@ public class Character extends RigidBodyContainer {
 			if (movementInputY > 0.4) {
 				if (!canJump)
 					velY = Utils.lerpD(getLinearVelocity().y, movementInputY * 25, Utils.clampD(d * 15, 0, 1));
-			} else if (getLinearVelocity().y > 18)
-				velY = Utils.lerpD(getLinearVelocity().y, 18, Utils.clampD(d * 15, 0, 1));
+			} else if (getLinearVelocity().y > 21)
+				velY = Utils.lerpD(getLinearVelocity().y, 21, Utils.clampD(d * 15, 0, 1));
 			else if (getLinearVelocity().y < -25)
 				velY = Utils.lerpD(getLinearVelocity().y, -25, Utils.clampD(d * 15, 0, 1));
 			getBody().setLinearVelocity(new Vec2f(velX, velY));
@@ -551,7 +560,7 @@ public class Character extends RigidBodyContainer {
 
 		if (isOnGround)
 			jumpTimer.reset();
-
+		
 		if (!canJump) {
 			float x = getWorldPos().x;
 			float y = getWorldPos().y;
@@ -562,6 +571,9 @@ public class Character extends RigidBodyContainer {
 					new Vec2f(-.5 + x, .8 + y).toB2Vec());
 			if (jumpPoints >= 2)
 				canJump = true;
+		}
+		if(!canJump) {
+			canJump = !justInTime.isOver();
 		}
 
 		if (skeleton != null) {
@@ -594,10 +606,6 @@ public class Character extends RigidBodyContainer {
 
 	public boolean isDead() {
 		return health <= 0 && (!bushido || afterDeath.isOver());
-	}
-
-	public Vec2f getSpawn() {
-		return spawn;
 	}
 
 	RayCastCallback GroundRaycastCallback = new RayCastCallback() {

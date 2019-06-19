@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
+<particleSystem>
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="0.2" lifetimeMax="0.5" rate="10" velocityMin="10" velocityMax="20" gravityScale="0">
+	<basic sizeInitial=".6" sizeEnd=".6"></basic>
+<!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented> -->
+	<texture filtered="false" src="data/particle_glow.png"/>
+	<vec4 x=".9" y=".4" z=".2" w="1" use="colorStart"/>
+	<vec4 x=".9" y=".4" z=".2" w=".3" use="colorEnd"/>
+	</emitter>
+</particleSystem>

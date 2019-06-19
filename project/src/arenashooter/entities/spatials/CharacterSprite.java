@@ -13,6 +13,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
@@ -40,18 +41,21 @@ public class CharacterSprite extends Spatial {
 	private boolean lookRight = true;
 	public boolean charging = false;
 	public boolean charged = false;
-	public boolean canParry = true;
+	boolean canParry = true;
+	private boolean parrying = false;
 	private boolean afterDeath = false;
 
 	private boolean mirrorLeftFoot = false;
 	private boolean handLOnWeap = false, handROnWeap = false;
 
+	private AnimationData redBlinks = AnimationData.loadAnim("data/animations/BlinkRed_1.xml");
 	private AnimationData punchAnim1 = AnimationData.loadAnim("data/animations/animPunch_1.xml");
 	private AnimationData punchAnim2 = AnimationData.loadAnim("data/animations/animPunch_2.xml");
 	private AnimationData punchAnim3 = AnimationData.loadAnim("data/animations/animPunch_3.xml");
 	private AnimationData superPunch = AnimationData.loadAnim("data/animations/animSuperPunch.xml");
 	private AnimationData stunStarsT = AnimationData.loadAnim("data/animations/stun.xml");
 	private AnimationData wiggleX = AnimationData.loadAnim("data/animations/brokenParryWiggle.xml");
+	private Animation blinking = null;
 	private Animation shieldWiggling = null;
 	private Animation animStun = null;
 	private Animation currentPunchAnim = null;
@@ -154,6 +158,7 @@ public class CharacterSprite extends Spatial {
 		parrySprite.size.set(parrySprite.getTexture().getWidth() * 0.04, parrySprite.getTexture().getHeight() * 0.04);
 		parrySprite.setTexture(broken ? brokenParry : parryShield);
 		if (!broken) {
+			parrying = true;
 			Vec2f targetPos = new Vec2f(1.5, 0);
 			Vec2f.rotate(targetPos, lookAngle, targetPos);
 			parrySprite.localPosition.set(targetPos);
@@ -164,6 +169,7 @@ public class CharacterSprite extends Spatial {
 
 	public void parryStop() {
 		parrySprite.size.set(0, 0);
+		parrying = false;
 	}
 
 	public void breakParry() {
@@ -237,13 +243,24 @@ public class CharacterSprite extends Spatial {
 	private void land() {
 	}
 
+	public void plum() {
+//		Particles feathers = new Particles(new Vec2f(), "data/particles/Feathers.xml");
+//		feathers.selfDestruct = true;
+//		feathers.attachToParent(this, feathers.genName());
+	}
+
 	public void activateBushidoMode() {
 		// TODO Auto-generated method stub
 		afterDeath = true;
-		
+		blinking = new Animation(redBlinks);
+		blinking.play();
+		//Audio.playSound2D("data/sound/Bushido_Trigger.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random()*0.1), localPosition);
+		Audio.playSound2D("data/sound/Draw_03.ogg", AudioChannel.SFX, 5f, (float) (0.95 + Math.random()*0.1), localPosition);
+		Particles rageBits = new Particles(new Vec2f(), "data/particles/Rage.xml");
+		rageBits.selfDestruct = true;
+		rageBits.attachToParent(this, rageBits.genName());
 	}
-
-
+	
 	public void rainConfetti() {
 		Particles confett1 = new Particles(new Vec2f(), "data/particles/Confetti1.xml");
 		Particles confett2 = new Particles(new Vec2f(), "data/particles/Confetti2.xml");
@@ -378,7 +395,19 @@ public class CharacterSprite extends Spatial {
 				parrySprite.localPosition.set((float) shieldWiggling.getTrackD("BrokenShieldPosX"), 0);
 				parrySprite.localRotation = 0;
 			}
-		} else {
+		} else if(parrying) {
+			handL.localPosition.set(.2, -.2);
+			handR.localPosition.set(.3, -.25);
+			handL.localRotation = lookAngle;
+			handL.localRotation = lookAngle;
+			if(lookRight) {
+				handL.flipY = false;
+				handR.flipY = false;
+			} else {
+				handL.flipY = true;
+				handR.flipY = true;
+			}
+			
 			Vec2f targetParryPosition = new Vec2f(0.5, 0);
 			Vec2f.rotate(targetParryPosition, lookAngle, targetParryPosition);
 			parrySprite.localPosition.set(targetParryPosition);
@@ -386,6 +415,19 @@ public class CharacterSprite extends Spatial {
 			parrySprite.flipY = !lookRight;
 		}
 
+		if(blinking != null) {
+			blinking.step(d);
+			if (blinking.isPlaying()) {
+				Vec4f blinkColor = new Vec4f(blinking.getTrackVec3f("BlinkColor"), 1f);
+				body.material.setParamVec4f("baseColorMode", blinkColor);
+				head.material.setParamVec4f("baseColorMode", blinkColor);
+				footL.material.setParamVec4f("baseColorMode", blinkColor);
+				footR.material.setParamVec4f("baseColorMode", blinkColor);
+				handL.material.setParamVec4f("baseColorMode", blinkColor);
+				handR.material.setParamVec4f("baseColorMode", blinkColor);
+			}
+		} 
+		
 		if (currentPunchAnim != null) {
 			currentPunchAnim.step(d);
 			if (currentPunchAnim.isPlaying()) {
