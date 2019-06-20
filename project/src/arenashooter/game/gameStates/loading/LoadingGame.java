@@ -6,6 +6,7 @@ import java.util.List;
 
 import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
 import arenashooter.game.Main;
 
 public class LoadingGame extends Thread {
@@ -73,10 +74,16 @@ public class LoadingGame extends Thread {
 
 			while (!reader.loadNextEntity()) {
 			}
+			
+			if(arena.getChildren().values().size() < 3) {
+				System.err.println(arena+" not well loaded");
+			}
 
 			loadedArena.add(arena);
 			Main.log.info("Arena loaded: " + toShuffel.get(i % toShuffel.size()));
 		}
+		
+		Main.log.info("All Arena loaded");
 
 	}
 }

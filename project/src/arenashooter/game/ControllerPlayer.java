@@ -16,7 +16,11 @@ public class ControllerPlayer extends Controller {
 		
 		this.device = device;
 		
-		Main.log.info("Added controller for: " + Input.getDeviceInfo(device));
+		try {
+			Main.log.info("Added controller for: " + Input.getDeviceInfo(device));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	@Override
@@ -35,12 +39,13 @@ public class ControllerPlayer extends Controller {
 					mouseCentered.y /= Window.getHeight();
 					mouseCentered.y -= .5;
 					mouseCentered.multiply(2);
-					
+
 					getCharacter().aimInput = Vec2f.direction(charPos, mouseCentered);
 					getCharacter().isAiming = true;
 				} else {
-					if(isAiming())
-						getCharacter().aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X), Input.getAxis(device, Axis.AIM_Y)).angle();
+					if (isAiming())
+						getCharacter().aimInput = new Vec2f(Input.getAxis(device, Axis.AIM_X),
+								Input.getAxis(device, Axis.AIM_Y)).angle();
 					getCharacter().isAiming = isAiming();
 				}
 
