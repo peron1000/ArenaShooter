@@ -14,6 +14,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionCategory;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeCharacter;
@@ -67,7 +68,7 @@ public class Character extends RigidBodyContainer {
 	private int attackCombo = 0;
 	private Timer parry = new Timer(1.5);
 	private boolean parryCooldown = false;
-	private Timer chargePunch = new Timer(1.5);
+	private Timer chargePunch = new Timer(1.2);
 	/**
 	 * For now, this boolean is used for visuals and Sounds only.
 	 */
@@ -136,7 +137,7 @@ public class Character extends RigidBodyContainer {
 	public void jump() {
 		float y = getLinearVelocity().y;
 		float x = getLinearVelocity().x;
-		if (jumpTimer.getValue() > .5 || jumpTimer.getValue() == 0) {
+		if (jumpTimer.getValue() > .4 || jumpTimer.getValue() == 0) {
 			if (canJump || (!justInTime.isOver() && lastJumpCouldMake == 0)) {
 				jumpTimer.reset();
 				jumpTimer.setProcessing(true);
@@ -294,11 +295,11 @@ public class Character extends RigidBodyContainer {
 			if (superPoing) {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 25 : 12) * punchDashForce, 0), aimInput);
 				punchDmgInfo = new DamageInfo((float) (punchDamage * 1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput),
-						50, this);
+						20, this);
 				skeleton.punch(-1, aimInput);
 			} else {
 				impulse = Vec2f.rotate(new Vec2f((!punchedMidAir ? 16 : 8), 0), aimInput);
-				punchDmgInfo = new DamageInfo(punchDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 20, this);
+				punchDmgInfo = new DamageInfo(punchDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 10, this);
 				attackCombo++;
 				if (skeleton != null)
 					switch (attackCombo) {
@@ -490,7 +491,7 @@ public class Character extends RigidBodyContainer {
 	private void bushidoDeath(DamageInfo deathCause) {
 		if (deathCause.dmgType != DamageType.MISC_ONE_SHOT) {
 			Explosion explosion = new Explosion(getWorldPos(),
-					new DamageInfo(90, DamageType.EXPLOSION, new Vec2f(), 5f, this), 10);
+					new DamageInfo(90, DamageType.EXPLOSION, new Vec2f(), 30, this), 10);
 			explosion.attachToParent(getArena(), explosion.genName());
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			skeleton.explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
@@ -736,7 +737,7 @@ public class Character extends RigidBodyContainer {
 			// Ignore sensors
 			if (fixture.isSensor())
 				return -1;
-
+				
 			// Ignore anything the character doesn't collide with
 			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
 				return -1;
@@ -769,6 +770,9 @@ public class Character extends RigidBodyContainer {
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
 			// Ignore sensors
 			if (fixture.isSensor())
+				return -1;
+			
+			if((fixture.getFilterData().categoryBits & CollisionCategory.CAT_CHARACTER.bits) != 0 )
 				return -1;
 
 			// Ignore anything the character doesn't collide with

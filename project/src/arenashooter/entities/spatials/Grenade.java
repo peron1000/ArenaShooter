@@ -15,7 +15,7 @@ public class Grenade extends Projectile {
 	private boolean launched = false;
 
 	public Grenade(Vec2f position, Vec2f vel, float damage) {
-		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 3, 1));
+		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 4, 1));
 		
 		getBody().setBullet(true);
 		
