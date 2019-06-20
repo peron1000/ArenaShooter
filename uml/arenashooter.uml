@@ -1831,6 +1831,7 @@
               </packagedElement>
               <packagedElement xmi:type="uml:Class" xmi:id="_S3TFQHviEemtSbXqvSvPoQ" name="ShapeCharacter" visibility="public">
                 <generalization xmi:type="uml:Generalization" xmi:id="_S3WIkHviEemtSbXqvSvPoQ" general="_8iLs8HurEem9A9zbMJW8SQ"/>
+                <generalization xmi:type="uml:Generalization" xmi:id="_hjEFEJNaEemh0dZBK_gSyA" general="_8iLs8HurEem9A9zbMJW8SQ"/>
                 <ownedAttribute xmi:type="uml:Property" xmi:id="_S3X9wXviEemtSbXqvSvPoQ" name="model" visibility="private" type="_8AmC0HurEem9A9zbMJW8SQ" isUnique="false"/>
                 <ownedAttribute xmi:type="uml:Property" xmi:id="_S3Zy8XviEemtSbXqvSvPoQ" name="vec1" visibility="private" isLeaf="true" isStatic="true" type="_8dpyQHurEem9A9zbMJW8SQ" isUnique="false">
                   <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_S3Zy8nviEemtSbXqvSvPoQ" name="defaultValue">
@@ -3476,7 +3477,9 @@
           <packagedElement xmi:type="uml:Class" xmi:id="_zmLtMHupEemZOa7va52DCQ" name="Controller"/>
           <packagedElement xmi:type="uml:Class" xmi:id="_zmnyEHupEemZOa7va52DCQ" name="Entity"/>
           <packagedElement xmi:type="uml:Class" xmi:id="_zmsqkHupEemZOa7va52DCQ" name="Map"/>
-          <packagedElement xmi:type="uml:Class" xmi:id="_3n7rYHupEemZOa7va52DCQ" name="Timer"/>
+          <packagedElement xmi:type="uml:Class" xmi:id="_3n7rYHupEemZOa7va52DCQ" name="Timer">
+            <generalization xmi:type="uml:Generalization" xmi:id="_VQDl4JNbEemh0dZBK_gSyA" general="_82beoHurEem9A9zbMJW8SQ"/>
+          </packagedElement>
         </packagedElement>
         <packagedElement xmi:type="uml:Package" xmi:id="_tdc0YHupEemZOa7va52DCQ" name="game">
           <packagedElement xmi:type="uml:Package" xmi:id="_tddbcHupEemZOa7va52DCQ" name="gameStates">

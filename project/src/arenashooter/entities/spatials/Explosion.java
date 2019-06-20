@@ -50,7 +50,7 @@ public class Explosion extends Spatial {
 		
 		Mesh shockwave = Mesh.quad(new Vec3f(), new Quat(temp.x, temp.y, temp.z, temp.w), new Vec3f(1), shockwaveMat);
 		shockwave.attachRot = false;
-		shockwave.useTransparency = true;
+		shockwave.getMaterial(0).transparency = true;
 		shockwave.attachToParent(this, "shockwave_mesh");
 		
 		int bitsCount = (int)((Math.random()*5)+5);

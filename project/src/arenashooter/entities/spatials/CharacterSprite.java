@@ -140,7 +140,7 @@ public class CharacterSprite extends Spatial {
 		chargeSprite.zIndex = getZIndex() + 2;
 
 		parrySprite.attachToParent(this, "Parry");
-		parrySprite.useTransparency = true;
+		parrySprite.material.transparency = true;
 		parrySprite.size.set(0, 0);
 		parrySprite.getTexture().setFilter(false);
 		parrySprite.zIndex = getZIndex() + 2;

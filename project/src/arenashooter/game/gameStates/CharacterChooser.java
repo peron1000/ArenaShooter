@@ -120,7 +120,7 @@ public class CharacterChooser extends GameState {
 					case UI_CONTINUE:
 						// Device needs to have a controller to start the game
 						if (!controllers.containsKey(event.getDevice())) {
-							Main.log.warn(event.getDevice() + " tried to start the game but doesn't have a controller");
+							Main.log.warn(event.getDevice() + " tried to start the game but doesn't have a controller -> fdp Incoming");
 							break;
 						}
 

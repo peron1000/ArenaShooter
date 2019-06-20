@@ -16,9 +16,6 @@ public class Sprite extends Spatial {
 	public Vec2f size = new Vec2f(1, 1);
 	private Mat4f modelM = new Mat4f();
 	
-	/** Does this sprite require transparency */
-	public boolean useTransparency = false;
-	
 	public boolean flipX = false, flipY = false;
 	
 	public Sprite(Vec2f localPosition, Texture texture) {
@@ -27,7 +24,8 @@ public class Sprite extends Spatial {
 		material = Material.loadMaterial("data/materials/sprite_simple.xml");
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
-		useTransparency = texture.transparency;
+		if(texture.transparency)
+			material.transparency = true;
 	}
 	
 	public Sprite(Vec2f localPosition, Material material) {
@@ -49,7 +47,7 @@ public class Sprite extends Spatial {
 	public void setTexture(Texture newTex) { material.setParamTex("baseColor", newTex); };
 	
 	@Override
-	public boolean drawAsTransparent(){ return useTransparency; }
+	public boolean drawAsTransparent(){ return material.transparency; }
 	
 	@Override
 	public void draw() {
@@ -93,7 +91,6 @@ public class Sprite extends Spatial {
 	public Sprite clone() {
 		Sprite res = new Sprite(localPosition, material.clone());
 		res.size.set(size);
-		res.useTransparency = useTransparency;
 		res.flipX = flipX;
 		res.flipY = flipY;
 		
