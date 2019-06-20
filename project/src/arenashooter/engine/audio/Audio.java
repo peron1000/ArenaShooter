@@ -317,7 +317,10 @@ public final class Audio {
 		for ( BufferEntry entry : buffers.values() ) {
 		    if( entry.sound.get() == null ) {
 		    	toRemove.add(entry.file);
-				alDeleteBuffers(entry.buffer);
+		    	if(entry.buffer == -2)
+		    		log.warn("Buffer \""+entry.file+"\" was not valid");
+		    	else
+		    		alDeleteBuffers(entry.buffer);
 		    }
 		}
 		
@@ -327,13 +330,17 @@ public final class Audio {
 		log.info("Cleaned up "+toRemove.size()+" buffers.");
 	}
 	
+	protected static void updateBufferId(String path, int bufferId) {
+		buffers.get(path).buffer = bufferId;
+	}
+	
 	private static class BufferEntry {
 		int buffer;
 		String file;
 		WeakReference<SoundBuffer> sound;
 		
 		BufferEntry(String file, SoundBuffer sound) {
-			buffer = sound.getBufferId();
+			buffer = -2;
 			this.file = file;
 			this.sound = new WeakReference<SoundBuffer>(sound);
 		}

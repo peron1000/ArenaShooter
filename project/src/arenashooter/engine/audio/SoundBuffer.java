@@ -23,12 +23,23 @@ import static org.lwjgl.stb.STBVorbis.*;
 public class SoundBuffer {
 	private int bufferId;
 
-	private SoundBuffer(int buffer) {
-		this.bufferId = buffer;
+	private final String path;
+	private boolean ready = false;
+	private final int channels;
+	private final int sampleRate;
+	private ShortBuffer pcm;
+
+	private SoundBuffer(String path, ShortBuffer pcm, int channels, int sampleRate) {
+		this.bufferId = -2;
+		this.pcm = pcm;
+		this.channels = channels;
+		this.path = path;
+		this.sampleRate = sampleRate;
 	}
 
 	/**
-	 * Load a sound file (ogg vorbis) into a buffer.
+	 * Load a sound from a file or cache <br/>
+	 * This is safe to call from any thread
 	 * @param path sound file
 	 * @return buffer object (new or existing if already loaded)
 	 */
@@ -44,14 +55,7 @@ public class SoundBuffer {
 					return null;
 				}
 				
-				int buffer = alGenBuffers();
-				
-				if(Audio.printError("Cannot create buffer for "+path) != AL10.AL_NO_ERROR)
-					Audio.cleanBuffers();
-				
-				alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
-				
-				SoundBuffer res = new SoundBuffer(buffer);
+				SoundBuffer res = new SoundBuffer(path, pcm, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, info.sample_rate());
 				Audio.registerSound(path, res);
 				return res;
 				
@@ -61,7 +65,28 @@ public class SoundBuffer {
 		return snd;
 	}
 	
-	protected int getBufferId() { return bufferId; }
+	private void initSoundBuffer() {
+		if(ready) return;
+		ready = true;
+		
+		bufferId = alGenBuffers();
+		
+		if(Audio.printError("Cannot create buffer for "+path) != AL10.AL_NO_ERROR)
+			Audio.cleanBuffers();
+		
+		alBufferData(bufferId, channels, pcm, sampleRate);
+	
+		Audio.updateBufferId(path, bufferId);
+	}
+	
+	/**
+	 * Only call this from a thread with an openal context
+	 * @return
+	 */
+	protected int getBufferId() {
+		if(!ready) initSoundBuffer();
+		return bufferId;
+	}
 	
 	private static ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
 		ByteBuffer vorbis;
