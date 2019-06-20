@@ -14,6 +14,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
+import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Imageinput;
 import arenashooter.engine.ui.ScrollerH;
@@ -31,18 +32,18 @@ public class Config extends GameState {
 
 	private GameParam gameParam;
 	private UiGridWeak menu = new UiGridWeak();
-	private UiImage background, selector;
+	private UiImage background, selector,enter;
 	private InputListener inputs = new InputListener();
 	private ScrollerH<Integer> rounds;
 	private UiImage escape, space, a, b;
-	private Label confirm, back , arenaName = new Label("Test", 8);
+	private Label confirm, back,nextgm=new Label("Character Chooser", 2), arenaName = new Label("Test", 8);
 	private Map<UiImage, String> pictureName = new HashMap<>();
-
+	
 	public Config() {
 		super(1);
 		gameParam = new GameParam();
 		GameParam.maps.clear();
-
+		//Button_Start.png
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -104,6 +105,11 @@ public class Config extends GameState {
 	private void ui() {
 		background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png"));
 		selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
+		//boutton_start
+		Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
+		enter = new UiImage(enterTex);
+		enter.setPosition(new Vec2f(72, 39));
+		enter.setScale(enterTex.getWidth()/3, enterTex.getHeight()/3);
 		
 		escape = Imageinput.ESCAPE.getImage();
 		space = Imageinput.SPACE.getImage();
@@ -111,6 +117,8 @@ public class Config extends GameState {
 		b = Imageinput.B.getImage();
 		
 		background.setScale(180, 100);
+		
+
 		
 		arenaName.setPosition(30, -40);
 
@@ -138,11 +146,11 @@ public class Config extends GameState {
 
 		bgU.setScale(35, 10);
 		bgS.setScale(35, 10);
-
+		
 		menu.addListVertical(vlist);
 
 		selector.setScale(47, 12);
-
+		//TODO
 		space.setScale(space.getScale().x / 2, space.getScale().y / 2);
 		space.setPosition(-70, 30);
 		space.getMaterial().getParamTex("image").setFilter(false);
@@ -157,6 +165,9 @@ public class Config extends GameState {
 		back = new Label(" : Back", 3);
 		back.setPosition(-57.5, 38);
 
+		//enter 
+		nextgm.setPosition(new Vec2f(79, 42));
+		
 		escape.setScale(escape.getScale().x / 2, escape.getScale().y / 2);
 		escape.setPosition(-70, 38);
 		escape.getMaterial().getParamTex("image").setFilter(false);
@@ -249,9 +260,11 @@ public class Config extends GameState {
 		a.draw();
 		b.draw();
 		back.draw();
+		enter.draw();
 		confirm.draw();
 		escape.draw();
 		space.draw();
+		//nextgm.draw();
 		Window.endUi();
 	}
 
