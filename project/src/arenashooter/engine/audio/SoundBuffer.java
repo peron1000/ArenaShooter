@@ -3,6 +3,8 @@ package arenashooter.engine.audio;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
@@ -21,47 +23,72 @@ import static org.lwjgl.stb.STBVorbis.*;
  * Container for OpenAL buffer
  */
 public class SoundBuffer {
+	private static Map<String, SoundBuffer> buffers = new HashMap<>();
+	
 	private int bufferId;
 
-	private SoundBuffer(int buffer) {
-		this.bufferId = buffer;
+	private final String path;
+	private boolean ready = false;
+	private final int channels;
+	private final int sampleRate;
+	private ShortBuffer pcm;
+
+	private SoundBuffer(String path, ShortBuffer pcm, int channels, int sampleRate) {
+		this.bufferId = -2;
+		this.pcm = pcm;
+		this.channels = channels;
+		this.path = path;
+		this.sampleRate = sampleRate;
 	}
 
 	/**
-	 * Load a sound file (ogg vorbis) into a buffer.
+	 * Load a sound from a file or cache <br/>
+	 * This is safe to call from any thread
 	 * @param path sound file
 	 * @return buffer object (new or existing if already loaded)
 	 */
 	public static SoundBuffer loadSound(String path) {
-		SoundBuffer snd = Audio.getSound(path);
+		SoundBuffer snd = buffers.get(path);
+		if(snd != null) return snd;
 
-		if( snd == null ) {
-			try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
-				ShortBuffer pcm = loadVorbis(path, info);
-				
-				if( pcm == null ) {
-					Audio.log.error("Cannot load sound : "+path);
-					return null;
-				}
-				
-				int buffer = alGenBuffers();
-				
-				if(Audio.printError("Cannot create buffer for "+path) != AL10.AL_NO_ERROR)
-					Audio.cleanBuffers();
-				
-				alBufferData(buffer, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, pcm, info.sample_rate());
-				
-				SoundBuffer res = new SoundBuffer(buffer);
-				Audio.registerSound(path, res);
-				return res;
-				
-			}
-		}
+		long time = System.currentTimeMillis();
 		
-		return snd;
+		try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
+			ShortBuffer pcm = loadVorbis(path, info);
+
+			if( pcm == null ) {
+				Audio.log.error("Cannot load sound : "+path);
+				return null;
+			}
+
+			SoundBuffer res = new SoundBuffer(path, pcm, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, info.sample_rate());
+			buffers.put(path, res);
+			
+			Audio.log.debug("Loading new sound \""+path+"\": "+(System.currentTimeMillis() - time)+" ms");
+			return res;
+		}
 	}
 	
-	protected int getBufferId() { return bufferId; }
+	private void initSoundBuffer() {
+		if(ready) return;
+		ready = true;
+		
+		bufferId = alGenBuffers();
+		
+		if(Audio.printError("Cannot create buffer for "+path) != AL10.AL_NO_ERROR)
+			Audio.cleanBuffers();
+		
+		alBufferData(bufferId, channels, pcm, sampleRate);
+	}
+	
+	/**
+	 * Only call this from a thread with an openal context
+	 * @return
+	 */
+	protected int getBufferId() {
+		if(!ready) initSoundBuffer();
+		return bufferId;
+	}
 	
 	private static ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
 		ByteBuffer vorbis;

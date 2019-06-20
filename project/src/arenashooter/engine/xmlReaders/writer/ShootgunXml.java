@@ -7,31 +7,6 @@ import org.w3c.dom.Element;
 import arenashooter.entities.spatials.items.Shotgun;
 
 public class ShootgunXml extends AbstractElement {
-
-//	private String name = "";
-//	private int weight = 0;
-//	private String pathSprite = "";
-//	private String soundPickup = "";
-//	private double cooldown = 0;
-//	private int uses = 0;
-//	private String animPath = "";
-//	private double warmup = 0;
-//	private String soundWarmup = "";
-//	private String attackSound = "";
-//	private String noAmmoSound = "";
-//	private float damage = 0f;
-//	private double size = 0;
-//	private int bulletType = 0;
-//	private float bulletSpeed = 0f;
-//	private double cannonLength = 0;
-//	private double recoil = 0;
-//	private double thrust = 0;
-//			 multiShot CDATA #REQUIRED
-//	 dispersion CDATA #REQUIRED>
-//	private float xpos1 = -.8f;
-//	private float ypos1 = -.1f;
-//	private float xpos2 = 0f;
-//	private float ypos2 = -0.28f;
 	private String handl = "handPosL", handr = "handPosR";
 	private Element shot;
 

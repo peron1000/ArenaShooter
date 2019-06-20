@@ -117,7 +117,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		});
 
 		ScrollerH<Float> scale = new ScrollerH<>();
-		for (int i = 5; i <= 40; i++) {
+		for (int i = 10; i <= 40; i++) {
 			Float f = Float.valueOf((float) (i * 0.05));
 			scale.add(f);
 			scale.changeValueView(f, df.format(f.floatValue()));

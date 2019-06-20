@@ -10,6 +10,7 @@ import java.util.Map;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
@@ -135,8 +136,8 @@ public class Config extends GameState {
 		vlist.addElement(rounds);
 		vlist.setPosition(-57.5, -40);
 
-		bgU.setScale(40, 10);
-		bgS.setScale(40, 10);
+		bgU.setScale(35, 10);
+		bgS.setScale(35, 10);
 
 		menu.addListVertical(vlist);
 
@@ -144,9 +145,11 @@ public class Config extends GameState {
 
 		space.setScale(space.getScale().x / 2, space.getScale().y / 2);
 		space.setPosition(-70, 30);
+		space.getMaterial().getParamTex("image").setFilter(false);
 
 		a.setScale(a.getScale().x / 3.142, a.getScale().y / 3.142);
 		a.setPosition(-65, 30);
+		a.getMaterial().getParamTex("image").setFilter(false);
 
 		confirm = new Label(" : Toggle Selection", 3);
 		confirm.setPosition(-50, 30);
@@ -156,9 +159,11 @@ public class Config extends GameState {
 
 		escape.setScale(escape.getScale().x / 2, escape.getScale().y / 2);
 		escape.setPosition(-70, 38);
+		escape.getMaterial().getParamTex("image").setFilter(false);
 
 		b.setScale(b.getScale().x / 3.142, b.getScale().y / 3.142);
 		b.setPosition(-65, 38);
+		b.getMaterial().getParamTex("image").setFilter(false);
 	}
 
 	@Override
@@ -191,7 +196,9 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			UiImage picture = new UiImage(Main.loadingConfig.getTexture(file));
+			Material thumbnailMat = Material.loadMaterial("data/materials/ui/ui_arena_thumbnail.xml");
+			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
+			UiImage picture = new UiImage(thumbnailMat);
 			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));
 			double scale = 4.5;
 			picture.setScale(14);
@@ -201,7 +208,6 @@ public class Config extends GameState {
 			everyList.get(i % nbElemH).addElement(picture);
 			
 			picture.addAction("selec", new Trigger() {
-
 				@Override
 				public void make() {
 					double lerp = 10;

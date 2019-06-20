@@ -419,12 +419,12 @@ public class CharacterSprite extends Spatial {
 			blinking.step(d);
 			if (blinking.isPlaying()) {
 				Vec4f blinkColor = new Vec4f(blinking.getTrackVec3f("BlinkColor"), 1f);
-				body.material.setParamVec4f("baseColorMode", blinkColor);
-				head.material.setParamVec4f("baseColorMode", blinkColor);
-				footL.material.setParamVec4f("baseColorMode", blinkColor);
-				footR.material.setParamVec4f("baseColorMode", blinkColor);
-				handL.material.setParamVec4f("baseColorMode", blinkColor);
-				handR.material.setParamVec4f("baseColorMode", blinkColor);
+				body.material.setParamVec4f("color", blinkColor);
+				head.material.setParamVec4f("color", blinkColor);
+				footL.material.setParamVec4f("color", blinkColor);
+				footR.material.setParamVec4f("color", blinkColor);
+				handL.material.setParamVec4f("color", blinkColor);
+				handR.material.setParamVec4f("color", blinkColor);
 			}
 		} 
 		

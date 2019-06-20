@@ -185,6 +185,9 @@ public final class Window {
 		
 		//Show the window
 		glfwShowWindow(window);
+		
+		//Hide cursor
+		setCurorVisibility(false);
 	}
 	
 	/**
@@ -611,5 +614,12 @@ public final class Window {
 			log.error("Error loading window icons");
 			e.printStackTrace();
 		}
+	}
+	
+	public static void setCurorVisibility(boolean visibility) {
+		if(visibility)
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		else
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
 }

@@ -2,10 +2,10 @@
 <!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
 <particleSystem>
 
-	<emitter angleMin="1.007" angleMax="2.007" delay="0" duration="6" lifetimeMin="4" lifetimeMax="6" rate="22" velocityMin="4" velocityMax="5" gravityScale=".7">
-	<basic sizeInitial=".2" sizeEnd=".45"></basic>
+	<emitter angleMin="0.507" angleMax="2.507" delay="0" duration="6" lifetimeMin="1" lifetimeMax="3" rate="22" velocityMin="0.1" velocityMax="2" gravityScale=".3">
+	<basic sizeInitial=".15" sizeEnd=".3"></basic>
 <!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented> -->
-	<texture filtered="false" src="data/particle_glow.png"/>
+	<texture filtered="false" src="data/white_pixel.png"/>
 	<vec4 x="1" y="1" z=".2" w="1" use="colorStart"/>
 	<vec4 x="1" y="1" z=".2" w=".5" use="colorEnd"/>
 	</emitter>
