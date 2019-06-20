@@ -186,7 +186,8 @@ public final class Window {
 		//Show the window
 		glfwShowWindow(window);
 		
-		//Hide cursor
+		//Cursor
+		setCursor("data/cursor.png");
 		setCurorVisibility(false);
 	}
 	
@@ -614,6 +615,17 @@ public final class Window {
 			log.error("Error loading window icons");
 			e.printStackTrace();
 		}
+	}
+	
+	private static void setCursor(String path) {
+		Image image = Image.loadImage(path);
+		
+		GLFWImage glfwImg = GLFWImage.create();
+		glfwImg.set(image.width, image.height, image.buffer);
+		
+		long cursor = glfwCreateCursor(glfwImg, image.width/2, image.height/2);
+
+		glfwSetCursor(window, cursor);
 	}
 	
 	public static void setCurorVisibility(boolean visibility) {
