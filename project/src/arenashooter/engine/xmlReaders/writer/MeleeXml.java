@@ -7,23 +7,6 @@ import org.w3c.dom.Element;
 import arenashooter.entities.spatials.items.Melee;
 
 public class MeleeXml extends AbstractElement {
-//	private String name = "";
-//	private int weight = 0;
-//	private String pathSprite = "";
-//	private String soundPickup = "";
-//	private double cooldown = 0;
-//	private int uses = 0;
-//	private String animPath = "";
-//	private double warmup = 0;
-//	private String soundWarmup = "";
-//	private String attackSound = "";
-//	private float damage = 0f;
-//	private double size = 0;
-
-//	private float xpos1 = -.8f;
-//	private float ypos1 = -.1f;
-//	private float xpos2 = 0f;
-//	private float ypos2 = -0.28f;
 	private String handl = "handPosL", handr = "handPosR";
 	private Element shot;
 

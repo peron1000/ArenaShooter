@@ -32,22 +32,10 @@ public class SpawnXml extends AbstractElement {
 		for (Element e : vectorGun.getVectors()) {
 			spawn.appendChild(e);
 		}
-		
-		loadChildren(map, elementParent);
 	}
 	
-	protected static void loadChildren(Entity parent, Element parentBalise) {
-//		for (String str : parent.getChildren().keySet()) {
-//			Entity child = parent.getChildren().get(str);
-//		}
-	}
-
 	public void setVector(float x, float y) {
 		XmlVector vec = new XmlVector(spawn);
-	}
-
-	public void addGun() {
-		GunXml gun = new GunXml(doc, spawn);
 	}
 	
 	public void addMesh() {
