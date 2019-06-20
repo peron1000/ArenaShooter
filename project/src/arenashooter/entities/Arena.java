@@ -12,7 +12,6 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
-import arenashooter.entities.spatials.Barrel;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.Main;
@@ -60,8 +59,6 @@ public class Arena extends Entity {
 
 	public Arena() {
 		physic = new PhysicWorld(this);
-		Barrel bb = new Barrel(new Vec2f(0, 0));
-		bb.attachToParent(getArena(), "zasqdw");
 	}
 	
 
