@@ -145,9 +145,11 @@ public class Config extends GameState {
 
 		space.setScale(space.getScale().x / 2, space.getScale().y / 2);
 		space.setPosition(-70, 30);
+		space.getMaterial().getParamTex("image").setFilter(false);
 
 		a.setScale(a.getScale().x / 3.142, a.getScale().y / 3.142);
 		a.setPosition(-65, 30);
+		a.getMaterial().getParamTex("image").setFilter(false);
 
 		confirm = new Label(" : Toggle Selection", 3);
 		confirm.setPosition(-50, 30);
@@ -157,9 +159,11 @@ public class Config extends GameState {
 
 		escape.setScale(escape.getScale().x / 2, escape.getScale().y / 2);
 		escape.setPosition(-70, 38);
+		escape.getMaterial().getParamTex("image").setFilter(false);
 
 		b.setScale(b.getScale().x / 3.142, b.getScale().y / 3.142);
 		b.setPosition(-65, 38);
+		b.getMaterial().getParamTex("image").setFilter(false);
 	}
 
 	@Override

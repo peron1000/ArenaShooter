@@ -209,7 +209,7 @@ public class CharacterChooser extends GameState {
 			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png";
 			break;
 		case Aqua:
-			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png";
+			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Aqua.png";
 			break;
 		case Bird:
 			texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png";
@@ -223,8 +223,9 @@ public class CharacterChooser extends GameState {
 		float iconHeigth = (float) (classIcon.getTexture().getHeight() * .02);
 		classIcon.size.set(iconWidth, iconHeigth);
 		classIcon.attachToParent(current, "class_Icon_Player_" + newController.playerNumber);
+		classIcon.getTexture().setFilter(false);
 
-		Audio.playSound("data/sound/ui/zboui_01.ogg", AudioChannel.UI, 1, 1);
+		Audio.playSound("data/sound/ui/ui_join.ogg", AudioChannel.UI, 1, 1);
 	}
 
 	private void removeController(Device device) {
@@ -261,7 +262,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
 		Main.log.info("GameMaster.gm.controllers.size()" + Main.getGameMaster().controllers.size());
 
-		Audio.playSound("data/sound/ui/zboui_02.ogg", AudioChannel.UI, 1, 1);
+		Audio.playSound("data/sound/ui/ui_leave.ogg", AudioChannel.UI, 1, 1);
 	}
 
 	/**
@@ -301,7 +302,7 @@ public class CharacterChooser extends GameState {
 				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png";
 				break;
 			case Aqua:
-				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png";
+				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Aqua.png";
 				break;
 			case Bird:
 				texName = "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png";
@@ -315,6 +316,7 @@ public class CharacterChooser extends GameState {
 			float iconHeigth = (float) (classIcon.getTexture().getHeight() * .02);
 			classIcon.size.set(iconWidth, iconHeigth);
 			classIcon.attachToParent(current, "class_Icon_Player_" + currentController.playerNumber);
+			classIcon.getTexture().setFilter(false);
 		}
 	}
 
@@ -338,9 +340,11 @@ public class CharacterChooser extends GameState {
 		
 		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
 		Space.setPosition(10, 39);
+		Space.getMaterial().getParamTex("image").setFilter(false);
 
 		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
 		A.setPosition(15, 39);
+		A.getMaterial().getParamTex("image").setFilter(false);
 		
 		//Back
 				Text text77 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "  : Back");
@@ -409,7 +413,7 @@ public class CharacterChooser extends GameState {
 		agileIcon.attachToParent(current, "Icon_Agile");
 		agileIcon.size.set(iconWidth, iconHeigth);
 		agileIcon.getTexture().setFilter(false);
-		Sprite aquaIcon = new Sprite(new Vec2f(-7, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Bushi.png");
+		Sprite aquaIcon = new Sprite(new Vec2f(-7, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Aqua.png");
 		aquaIcon.attachToParent(current, "Icon_Aqua");
 		aquaIcon.size.set(iconWidth, iconHeigth);
 		aquaIcon.getTexture().setFilter(false);
