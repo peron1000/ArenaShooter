@@ -84,7 +84,7 @@ public class Character extends RigidBodyContainer {
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER,
-				(charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 0));
+				(charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 1));
 
 		getBody().setBullet(true);
 		getBody().setRotationLocked(true);
@@ -688,8 +688,6 @@ public class Character extends RigidBodyContainer {
 		else {
 			canWallJump = 0;
 		}
-
-		System.out.println(autoSlideUp);
 
 		if (canJump) {
 			lastJumpCouldMake = 0;
