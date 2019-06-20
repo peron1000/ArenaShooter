@@ -45,11 +45,12 @@ import arenashooter.entities.spatials.items.Shotgun;
 
 public class MapXmlWriter {
 	public static final Logger log = LogManager.getLogger("Xml");
-	
+
 	public static final MapXmlWriter writer = new MapXmlWriter();
 	public static Document doc;
 
-	private MapXmlWriter() { }
+	private MapXmlWriter() {
+	}
 
 	public static void exportArena(Arena arena, String name) {
 		try {
@@ -79,33 +80,33 @@ public class MapXmlWriter {
 				} else if (entry instanceof Melee) {
 					new MeleeXml(doc, item, (Melee) entry.getValue());
 				} else {
-					log.warn("Unsupported item "+entry.getValue().getClass());
+					log.warn("Unsupported item " + entry.getValue().getClass());
 					continue;
 				}
 				info.appendChild(item);
 			}
 
-			//Gravity
+			// Gravity
 			Element gravity = doc.createElement("gravity");
 			gravity.setAttribute("x", String.valueOf(arena.gravity.x));
 			gravity.setAttribute("y", String.valueOf(arena.gravity.y));
 			info.appendChild(gravity);
 
-			//Ambient light
+			// Ambient light
 			Element ambientLight = doc.createElement("ambientLight");
 			ambientLight.setAttribute("r", String.valueOf(arena.ambientLight.x));
 			ambientLight.setAttribute("g", String.valueOf(arena.ambientLight.y));
 			ambientLight.setAttribute("b", String.valueOf(arena.ambientLight.z));
 			info.appendChild(ambientLight);
 
-			//Camera pos
+			// Camera pos
 			Element camera = doc.createElement("cameraPos");
 			camera.setAttribute("x", String.valueOf(arena.cameraBasePos.x));
 			camera.setAttribute("y", String.valueOf(arena.cameraBasePos.y));
 			camera.setAttribute("z", String.valueOf(arena.cameraBasePos.z));
 			info.appendChild(camera);
 
-			//Kill bounds
+			// Kill bounds
 			Element killbounds = doc.createElement("killBounds");
 			killbounds.setAttribute("minX", "" + arena.killBound.x);
 			killbounds.setAttribute("minY", "" + arena.killBound.y);
@@ -118,13 +119,13 @@ public class MapXmlWriter {
 			boolean foundSky = false;
 			for (Entry<String, Entity> entry : arena.getChildren().entrySet()) {
 				if (entry.getValue() instanceof Sky) {
-					if(foundSky) {
+					if (foundSky) {
 						log.warn("Multiple skies found in Arena, only the first has been written");
 					} else {
 						Sky s = (Sky) entry.getValue();
 
-						sky.appendChild( createVec3(doc, "top", s.material.getParamVec3f("colorTop")) );
-						sky.appendChild( createVec3(doc, "bottom", s.material.getParamVec3f("colorBot")) );
+						sky.appendChild(createVec3(doc, "top", s.material.getParamVec3f("colorTop")));
+						sky.appendChild(createVec3(doc, "bottom", s.material.getParamVec3f("colorBot")));
 
 						foundSky = true;
 					}
@@ -132,11 +133,11 @@ public class MapXmlWriter {
 			}
 			info.appendChild(sky);
 
-			//Write entities
+			// Write entities
 			Element entities = doc.createElement("entities");
 			map.appendChild(entities);
 			addChildren(entities, arena, arena);
-			
+
 			// Create arenas folder if necessary
 			File file1 = new File("data/mapXML");
 			if (!file1.exists()) {
@@ -145,13 +146,13 @@ public class MapXmlWriter {
 
 			File file = new File("data/mapXML/" + name + ".xml");
 
-			//Set file encoding
+			// Set file encoding
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-			//Enable indentation
+			// Enable indentation
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
-			//Add DOCTYPE
+			// Add DOCTYPE
 			DOMImplementation domImpl = doc.getImplementation();
 			DocumentType docType = domImpl.createDocumentType("doctype", "", "mapDTD.dtd");
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, docType.getSystemId());
@@ -161,9 +162,9 @@ public class MapXmlWriter {
 			DOMSource source = new DOMSource(doc);
 			transformer.transform(source, resultat);
 
-			log.info("Successfully exported Arena to "+file.getPath());
+			log.info("Successfully exported Arena to " + file.getPath());
 
-		} catch ( ParserConfigurationException pce) {
+		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 			System.out.println(pce);
 		} catch (TransformerException e) {
@@ -177,12 +178,14 @@ public class MapXmlWriter {
 
 	/**
 	 * Write entities
+	 * 
 	 * @param entitiesElem Element to fill
-	 * @param entity parent Entity
-	 * @param arena containing Arena
+	 * @param entity       parent Entity
+	 * @param arena        containing Arena
 	 */
 	private static void addChildren(Element entitiesElem, Entity parent, Arena arena) {
-		if( parent.getChildren() == null || parent.getChildren().isEmpty() ) return;
+		if (parent.getChildren() == null || parent.getChildren().isEmpty())
+			return;
 
 		/** Current entity's Element */
 		Element elem;
@@ -207,20 +210,20 @@ public class MapXmlWriter {
 
 			// Spawner
 			else if (entry.getValue() instanceof Spawner) {
-				Spawner entity = ((Spawner)entry.getValue());
+				Spawner entity = ((Spawner) entry.getValue());
 
 				elem = doc.createElement("spawn");
 
-				//Player Spawn
-				elem.setAttribute("playerSpawn", String.valueOf( arena.playerSpawns.contains(entity) ));
+				// Player Spawn
+				elem.setAttribute("playerSpawn", String.valueOf(arena.playerSpawns.contains(entity)));
 
-				//Cooldown
-				elem.setAttribute("cooldown", String.valueOf( entity.getCooldown() ) );
+				// Cooldown
+				elem.setAttribute("cooldown", String.valueOf(entity.getCooldown()));
 
-				//Position
-				elem.appendChild( createVec2(doc, "position", entity.localPosition) );
+				// Position
+				elem.appendChild(createVec2(doc, "position", entity.localPosition));
 
-				//Item references
+				// Item references
 				for (Entry<String, Integer> itemEntry : entity.getAvailableItems().entrySet()) {
 					Element itemRef = doc.createElement("itemRef");
 					itemRef.setAttribute("item", itemEntry.getKey());
@@ -233,28 +236,29 @@ public class MapXmlWriter {
 			else if (entry.getValue() instanceof Mesh) {
 				Mesh entity = ((Mesh) entry.getValue());
 
-				if (entity.getModelPath() == null) continue; //Mesh was created from code and cannot be saved in XML
+				if (entity.getModelPath() == null)
+					continue; // Mesh was created from code and cannot be saved in XML
 
 				elem = doc.createElement("mesh");
 
 				elem.setAttribute("src", entity.getModelPath());
 
-				elem.appendChild( createVec3(doc, "position", entity.localPosition) );
+				elem.appendChild(createVec3(doc, "position", entity.localPosition));
 
-				elem.appendChild( createQuat(doc, "rotation", entity.localRotation) );
+				elem.appendChild(createQuat(doc, "rotation", entity.localRotation));
 
-				elem.appendChild( createVec3(doc, "scale", entity.scale) );
+				elem.appendChild(createVec3(doc, "scale", entity.scale));
 			}
 
 			// Lights
 			else if (entry.getValue() instanceof LightContainer) {
-				LightContainer entity = ((LightContainer)entry.getValue());
+				LightContainer entity = ((LightContainer) entry.getValue());
 
-				switch(entity.getLight().getType()) {
+				switch (entity.getLight().getType()) {
 				case POINT:
 					elem = doc.createElement("pointLight");
 
-					elem.appendChild(createVec3(doc, "position", entity.localPosition) );
+					elem.appendChild(createVec3(doc, "position", entity.localPosition));
 
 					elem.setAttribute("radius", String.valueOf(entity.getLight().radius));
 
@@ -262,27 +266,28 @@ public class MapXmlWriter {
 				case DIRECTIONAL:
 					elem = doc.createElement("directionalLight");
 
-					elem.appendChild( createQuat(doc, "rotation", entity.localRotation) );
+					elem.appendChild(createQuat(doc, "rotation", entity.localRotation));
 
 					break;
 				default:
-					log.warn("Unsupported light type for \""+entityName+"\" will not be saved to XML");
+					log.warn("Unsupported light type for \"" + entityName + "\" will not be saved to XML");
 					elem = null;
 					break;
 				}
 
-				if(elem != null) elem.appendChild( createVec3(doc, "color", entity.getLight().color) );
+				if (elem != null)
+					elem.appendChild(createVec3(doc, "color", entity.getLight().color));
 			}
 
 			// Text
 			else if (entry.getValue() instanceof TextSpatial) {
-				TextSpatial entity = ((TextSpatial)entry.getValue());
+				TextSpatial entity = ((TextSpatial) entry.getValue());
 
 				elem = doc.createElement("text");
 
-				elem.appendChild( createVec3(doc, "position", entity.localPosition) );
+				elem.appendChild(createVec3(doc, "position", entity.localPosition));
 
-				elem.appendChild( createQuat(doc, "rotation", entity.localRotation) );
+				elem.appendChild(createQuat(doc, "rotation", entity.localRotation));
 
 				elem.setAttribute("content", entity.getText().getText());
 
@@ -295,19 +300,19 @@ public class MapXmlWriter {
 
 				elem = doc.createElement("rigid");
 
-				//Position
-				elem.appendChild( createVec2(doc, "position", entity.getWorldPos()) );
+				// Position
+				elem.appendChild(createVec2(doc, "position", entity.getWorldPos()));
 
-				//Rotation
-				elem.setAttribute( "rotation", String.valueOf(entity.getWorldRot()) );
+				// Rotation
+				elem.setAttribute("rotation", String.valueOf(entity.getWorldRot()));
 
-				//Shape
-				if(entity.getBody().getShape() instanceof ShapeBox)
-					elem.appendChild( createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()) );
+				// Shape
+				if (entity.getBody().getShape() instanceof ShapeBox)
+					elem.appendChild(createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()));
 				else if (entity.getBody().getShape() instanceof ShapeDisk)
-					elem.setAttribute("radius", String.valueOf( ((ShapeDisk) entity.getBody().getShape()).getRadius() ));
+					elem.setAttribute("radius", String.valueOf(((ShapeDisk) entity.getBody().getShape()).getRadius()));
 
-				//TODO: Write density and friction
+				// TODO: Write density and friction
 			}
 
 			// Static body
@@ -316,17 +321,17 @@ public class MapXmlWriter {
 
 				elem = doc.createElement("static");
 
-				//Position
-				elem.appendChild( createVec2(doc, "position", entity.getWorldPos()) );
+				// Position
+				elem.appendChild(createVec2(doc, "position", entity.getWorldPos()));
 
-				//Rotation
-				elem.setAttribute( "rotation", String.valueOf(entity.getWorldRot()) );
+				// Rotation
+				elem.setAttribute("rotation", String.valueOf(entity.getWorldRot()));
 
-				//Shape
-				if(entity.getBody().getShape() instanceof ShapeBox)
-					elem.appendChild( createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()) );
+				// Shape
+				if (entity.getBody().getShape() instanceof ShapeBox)
+					elem.appendChild(createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()));
 				else if (entity.getBody().getShape() instanceof ShapeDisk)
-					elem.setAttribute("radius", String.valueOf( ((ShapeDisk) entity.getBody().getShape()).getRadius() ));
+					elem.setAttribute("radius", String.valueOf(((ShapeDisk) entity.getBody().getShape()).getRadius()));
 			}
 
 			// Kinematic body
@@ -335,22 +340,24 @@ public class MapXmlWriter {
 
 				elem = doc.createElement("static");
 
-				//Position
-				elem.appendChild( createVec2(doc, "position", entity.getWorldPos()) );
+				// Position
+				elem.appendChild(createVec2(doc, "position", entity.getWorldPos()));
 
-				//Rotation
-				elem.setAttribute( "rotation", String.valueOf(entity.getWorldRot()) );
+				// Rotation
+				elem.setAttribute("rotation", String.valueOf(entity.getWorldRot()));
 
-				//Shape
-				if(entity.getBody().getShape() instanceof ShapeBox)
-					elem.appendChild( createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()) );
+				// Shape
+				if (entity.getBody().getShape() instanceof ShapeBox)
+					elem.appendChild(createVec2(doc, "extent", ((ShapeBox) entity.getBody().getShape()).getExtent()));
 				else if (entity.getBody().getShape() instanceof ShapeDisk)
-					elem.setAttribute("radius", String.valueOf( ((ShapeDisk) entity.getBody().getShape()).getRadius() ));
+					elem.setAttribute("radius", String.valueOf(((ShapeDisk) entity.getBody().getShape()).getRadius()));
 
-				//				if(entity.getAnim() != null) elem.setAttribute("animation", entity.getAnim().); //TODO: Get anim path if it has been loaded from XML
+				// if(entity.getAnim() != null) elem.setAttribute("animation",
+				// entity.getAnim().); //TODO: Get anim path if it has been loaded from XML
 			}
 
-			//TODO: Add other classes while being careful of condition order (everything is an instance of Entity)
+			// TODO: Add other classes while being careful of condition order (everything is
+			// an instance of Entity)
 
 			// Spatial
 			else if (entry.getValue() instanceof Spatial) {
@@ -358,7 +365,7 @@ public class MapXmlWriter {
 
 				elem = doc.createElement("spatial");
 
-				elem.appendChild( createVec2(doc, "position", entity.localPosition) );
+				elem.appendChild(createVec2(doc, "position", entity.localPosition));
 
 				elem.setAttribute("rotation", String.valueOf(entity.localRotation));
 			}
@@ -368,14 +375,14 @@ public class MapXmlWriter {
 				elem = doc.createElement("entity");
 			}
 
-			//Add current entity to parent
+			// Add current entity to parent
 			entitiesElem.appendChild(elem);
 
-			//Name
+			// Name
 			elem.setAttribute("name", entityName);
 
-			//Write children
-			if( !entry.getValue().getChildren().isEmpty() ) {
+			// Write children
+			if (!entry.getValue().getChildren().isEmpty()) {
 				Element children = doc.createElement("entities");
 				elem.appendChild(children);
 				addChildren(children, entry.getValue(), arena);
@@ -387,6 +394,7 @@ public class MapXmlWriter {
 
 	/**
 	 * Create a vector xml element from a Vec2f
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param vec
@@ -398,6 +406,7 @@ public class MapXmlWriter {
 
 	/**
 	 * Create a vector xml element from a set of (x, y) coordinates
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param x
@@ -414,6 +423,7 @@ public class MapXmlWriter {
 
 	/**
 	 * Create a vector xml element from a Vec3f
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param vec
@@ -425,6 +435,7 @@ public class MapXmlWriter {
 
 	/**
 	 * Create a vector xml element from a set of (x, y, z) coordinates
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param x
@@ -440,9 +451,10 @@ public class MapXmlWriter {
 		elem.setAttribute("z", String.valueOf(z));
 		return elem;
 	}
-	
+
 	/**
 	 * Create a vector xml element from a Quat
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param quat
@@ -454,6 +466,7 @@ public class MapXmlWriter {
 
 	/**
 	 * Create a vector xml element from a Vec4f
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param vec
@@ -465,6 +478,7 @@ public class MapXmlWriter {
 
 	/**
 	 * Create a vector xml element from a set of (x, y, z, w) coordinates
+	 * 
 	 * @param doc
 	 * @param use
 	 * @param x
@@ -482,36 +496,4 @@ public class MapXmlWriter {
 		elem.setAttribute("w", String.valueOf(w));
 		return elem;
 	}
-
-
-	//	public static void main(String argv[]) {
-	//		try {
-	//			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-	//			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-	//			Document doc = docBuilder.newDocument();
-	//			System.out.print("Nom map : ");
-	//			Scanner sc = new Scanner(System.in);
-	//			String line = sc.nextLine();
-	//			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	//			Transformer transformer = transformerFactory.newTransformer();
-	//			DOMSource source = new DOMSource(doc);
-	//			File file = new File("data/testMap");
-	//			if (!file.exists()) {
-	//				file.mkdirs();
-	//			}
-	//			StreamResult result = new StreamResult(new File("data/testMap/" + line + ".xml"));
-	//
-	//			// Creation of the test arena
-	//			Arena arena = new Arena();
-	//			Mesh mesh = new Mesh(new Vec3f(), "data/meshes/item_pickup/weapon_pickup.obj");
-	//			mesh.attachToParent(arena, "meshTest");
-	//
-	//			transformer.transform(source, result);
-	//			System.out.println("File saved!");
-	//		} catch (ParserConfigurationException pce) {
-	//			pce.printStackTrace();
-	//		} catch (TransformerException tfe) {
-	//			tfe.printStackTrace();
-	//		}
-	//	}
 }

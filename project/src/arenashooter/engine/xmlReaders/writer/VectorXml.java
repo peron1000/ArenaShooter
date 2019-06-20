@@ -20,8 +20,6 @@ public class VectorXml extends AbstractElement{
 		elementParent.appendChild(vec);
 		if(use != "") {
 			vec.setAttribute("use", use);
-		} else {
-			//vec.setAttribute("", null);
 		}
 		for (int i = 0; i < fs.length; i++) {
 			String f = Float.toString(fs[i]);
