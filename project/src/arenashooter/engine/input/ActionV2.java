@@ -54,7 +54,9 @@ public enum ActionV2 {
 
 		@Override
 		public boolean gamepadInput(GLFWGamepadState gamePad) {
-			return gamePad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS;
+			boolean y = gamePad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS;
+			boolean x = gamePad.buttons(GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER) == GLFW_PRESS;
+			return y||x;
 		}
 	},
 	UI_LEFT {

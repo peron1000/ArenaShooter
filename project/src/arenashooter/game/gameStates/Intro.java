@@ -77,7 +77,7 @@ public class Intro extends GameState {
 		///Fill map with intro-specific stuff TODO: De-harcode this
 		//Logo
 		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Material.loadMaterial("data/materials/sprite_simple.xml"));
-		logo.useTransparency = true;
+		logo.getMaterial(0).transparency = true;
 		logo.attachToParent(current, "logo");
 		
 		//Logo bg

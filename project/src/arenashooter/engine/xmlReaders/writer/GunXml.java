@@ -99,7 +99,7 @@ public class GunXml extends AbstractElement {
 		gun.setAttributeNode(damage);
 
 		Attr size = doc.createAttribute("size");
-		size.setValue(g.getSize() + "");
+		size.setValue(g.getExtent() + "");
 		gun.setAttributeNode(size);
 
 		Attr bulletType = doc.createAttribute("bulletType");
@@ -123,14 +123,14 @@ public class GunXml extends AbstractElement {
 		gun.setAttributeNode(thrust);
 
 		VectorXml vectorGun = new VectorXml(doc, gun);
-		if(g.handPosL != null)
+		if (g.handPosL != null)
 			vectorGun.addVector(handl, g.handPosL.x, g.handPosL.y);
-		if(g.handPosR != null)	vectorGun.addVector(handr, g.handPosR.x, g.handPosR.y);
+		if (g.handPosR != null)
+			vectorGun.addVector(handr, g.handPosR.x, g.handPosR.y);
 		for (Element e : vectorGun.getVectors()) {
 			gun.appendChild(e);
 		}
 	}
-	
 
 	/**
 	 * @param name the name to set

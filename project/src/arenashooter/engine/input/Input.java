@@ -182,7 +182,7 @@ public final class Input {
 
 					actions[Action.JUMP.id][i] = getActionState(actions[Action.JUMP.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_A) == GLFW_PRESS || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_LEFT_BUMPER) == GLFW_PRESS  || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_LEFT_THUMB) == GLFW_PRESS);
 					actions[Action.GET_ITEM.id][i] = getActionState(actions[Action.GET_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_B) == GLFW_PRESS);
-					actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS);
+					actions[Action.DROP_ITEM.id][i] = getActionState(actions[Action.DROP_ITEM.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_Y) == GLFW_PRESS  || currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER) == GLFW_PRESS );
 
 					actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_LEFT) == GLFW_PRESS);
 					actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], currentGamepad.buttons(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT) == GLFW_PRESS);

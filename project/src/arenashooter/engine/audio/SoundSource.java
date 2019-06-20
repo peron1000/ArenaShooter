@@ -52,6 +52,7 @@ public class SoundSource {
 	 */
 	public void destroy() {
 		alDeleteSources(sourceId);
+		Audio.printError("Cannot destroy source "+sourceId);
 		Audio.unregisterSource(this);
 	}
 	
@@ -102,6 +103,7 @@ public class SoundSource {
 	
 	protected void updateVolume() {
 		alSourcef(sourceId, AL_GAIN, volume*channel.volume*Audio.getMainVolume());
+		Audio.printError("Cannot set volume value for source "+sourceId);
 	}
 	
 	public float getPitch() { return pitch; }
@@ -109,6 +111,7 @@ public class SoundSource {
 	public void setPitch(float newPitch) {
 		pitch = newPitch;
 		alSourcef(sourceId, AL_PITCH, newPitch);
+		Audio.printError("Cannot set pitch value for source "+sourceId);
 	}
 	
 	public boolean isLooping() { return looping; }
@@ -116,10 +119,12 @@ public class SoundSource {
 	public void setLooping(boolean isLooping) {
 		looping = isLooping;
 		alSourcei(sourceId, AL_LOOPING, AL_TRUE);
+		Audio.printError("Cannot set loop value for source "+sourceId);
 	}
 	
 	public void setBuffer(SoundBuffer buffer) {
 		alSourcei(sourceId, AL_BUFFER, buffer.getBufferId());
+		Audio.printError("Cannot set buffer "+buffer.getPath()+" for source "+sourceId);
 	}
 	
 	int getSourceId() { return sourceId; }

@@ -76,8 +76,8 @@ public class Gun extends Usable {
 	/**
 	 * @return the size
 	 */
-	public double getSize() {
-		return size;
+	public Vec2f getExtent() {
+		return extent;
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class Gun extends Usable {
 	protected float damage = 0f;
 	protected double warmupDuration = 0;
 	protected String soundNoAmmo = "";
-	protected double size = 0;
+	protected Vec2f extent = new Vec2f();
 	protected Timer timerCooldown = null;
 
 	/** Time before the first bullet is fired */
@@ -158,12 +158,12 @@ public class Gun extends Usable {
 	 * @param size
 	 */
 	public Gun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
-			String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage, double cannonLength,
-			double recoil, double thrust, double size) {
-		
-		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
-				warmupDuration, soundWarmup, soundFire);
+			Vec2f extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
+			String soundWarmup, String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage,
+			double cannonLength, double recoil, double thrust) {
+
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses,
+				animPath, warmupDuration, soundWarmup, soundFire);
 
 		this.nbAmmo = uses;
 		this.bulletType = bulletType;
@@ -174,22 +174,22 @@ public class Gun extends Usable {
 		this.thrust = (float) thrust;
 		this.warmupDuration = warmupDuration;
 		this.soundNoAmmo = soundNoAmmo;
-		this.size = size;
+		this.extent = extent;
 
-		if(soundWarmup == null || soundWarmup.isEmpty()) {
+		if (soundWarmup == null || soundWarmup.isEmpty()) {
 			sndWarmup = null;
 		} else {
 			sndWarmup = new SoundEffect(new Vec2f(), soundWarmup, AudioChannel.SFX, 0, 1, 1, true);
 			sndWarmup.attachToParent(this, "snd_Warmup");
 		}
-		
-		//Warmup
+
+		// Warmup
 		this.timerWarmup = new Timer(warmupDuration);
 		this.timerWarmup.setIncreasing(false);
 		this.timerWarmup.setProcessing(true);
 		this.timerWarmup.attachToParent(this, "timer_warmup");
-		
-		//Cooldown
+
+		// Cooldown
 		this.timerCooldown = new Timer(fireRate);
 		this.timerCooldown.setIncreasing(true);
 		this.timerCooldown.setProcessing(true);
@@ -203,7 +203,7 @@ public class Gun extends Usable {
 	@Override
 	public void attackStart() {
 		timerWarmup.setIncreasing(true);
-		if(sndWarmup != null && !sndWarmup.isPlaying())
+		if (sndWarmup != null && !sndWarmup.isPlaying())
 			sndWarmup.play();
 	}
 
@@ -225,8 +225,8 @@ public class Gun extends Usable {
 			sndWarmup.setVolume(sndChargeVol);
 			sndWarmup.setPitch(sndChargePitch);
 		}
-		
-		//Spawn projectile
+
+		// Spawn projectile
 		if (timerWarmup.isIncreasing() && timerWarmup.isOver() && timerCooldown.isOver()) {
 			timerCooldown.restart();
 
@@ -238,7 +238,7 @@ public class Gun extends Usable {
 				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;
-				
+
 				nbAmmo--;
 
 				switch (bulletType) {
@@ -265,7 +265,7 @@ public class Gun extends Usable {
 					bull.attachToParent(getArena(), ("bullet_" + bull.genName()));
 					bull2.attachToParent(getArena(), ("bullet_" + bull2.genName()));
 					break;
-					
+
 				case 2:
 					Grenade bul2 = new Grenade(bulletPos, bulSpeed, damage);
 					bul2.attachToParent(getArena(), ("grenade_" + bul2.genName()));
@@ -274,14 +274,14 @@ public class Gun extends Usable {
 //					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
 //					flash.attachToParent(getChild("particle_container"), "particles_flash");
 					break;
-					
+
 				case 3:
 					StarBullet star = new StarBullet(bulletPos, bulSpeed, damage);
 					star.attachToParent(getArena(), ("star_" + star.genName()));
 					if (isEquipped())
 						star.shooter = ((Character) getParent());
 					break;
-					
+
 				default:
 					Bullet bul1 = new Bullet(bulletPos, bulSpeed, damage);
 					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));
@@ -291,8 +291,8 @@ public class Gun extends Usable {
 					flash.attachToParent(getChild("particle_container"), "particles_flash");
 					break;
 				}
-				
-				//Recoil
+
+				// Recoil
 				Vec2f recoilDir = Vec2f.rotate(aim, Math.PI);
 				if (isEquipped()) {
 					getVel().add(Vec2f.multiply(recoilDir, recoil * 5000));
@@ -302,7 +302,8 @@ public class Gun extends Usable {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+						getWorldPos());
 
 				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -313,7 +314,8 @@ public class Gun extends Usable {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.028f);
 			} else {
-				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+						getWorldPos());
 			}
 
 		}
@@ -327,10 +329,12 @@ public class Gun extends Usable {
 	protected void setLocalPositionOfSprite() {
 		Vec2f.rotate(new Vec2f(1, 0), getWorldRot(), localPosition);
 	}
-	
+
 	@Override
 	public Gun clone() {
-		Gun gun = new Gun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+		Gun gun = new Gun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent, soundPickup,
+				fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed,
+				damage, cannonLength, recoil, thrust);
 		return gun;
 	}
 }

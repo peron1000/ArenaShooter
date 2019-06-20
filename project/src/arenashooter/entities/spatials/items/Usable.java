@@ -16,9 +16,10 @@ public class Usable extends Item {
 	protected String soundWarmup = "";
 	protected String soundFire = "";
 
-	public Usable(Vec2f localPosition, String name, double weight , String pathSprite, Vec2f handPosL, Vec2f handPosR, String soundPickup, double fireRate, int uses, String animPath,
-			double warmup, String soundWarmup, String soundFire) {
-		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup);
+	public Usable(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+			Vec2f size, String soundPickup, double fireRate, int uses, String animPath, double warmup,
+			String soundWarmup, String soundFire) {
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, size, soundPickup);
 		timerCooldown = new Timer(fireRate);
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 		this.fireRate = fireRate;
@@ -28,7 +29,6 @@ public class Usable extends Item {
 		this.soundWarmup = soundWarmup;
 		this.soundFire = soundFire;
 	}
-
 
 	/**
 	 * @return the fireRate
@@ -91,10 +91,11 @@ public class Usable extends Item {
 		}
 		super.step(d);
 	}
-	
+
 	@Override
 	public Usable clone() {
-		Usable clone = new Usable(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
+		Usable clone = new Usable(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
+				soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
 		};
 		return clone;
 	}

@@ -20,9 +20,6 @@ public class Mesh extends Spatial3 implements IAnimated {
 	
 	private String modelPath = null;
 
-	/** Does this sprite require transparency */
-	public boolean useTransparency = false;
-
 	private int timeMs = 0;
 
 	public Vec3f scale;
@@ -102,9 +99,17 @@ public class Mesh extends Spatial3 implements IAnimated {
 		}
 	}
 
+	/**
+	 * This will return true is at least one material is transparent
+	 * @return should this entity be drawn during transparency pass
+	 */
 	@Override
 	public boolean drawAsTransparent() {
-		return useTransparency;
+		for(int i=0; i<materials.length; i++) {
+			if(materials[i].transparency)
+				return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -182,7 +187,6 @@ public class Mesh extends Spatial3 implements IAnimated {
 			cloneMats[i] = materials[i].clone();
 		
 		Mesh res = new Mesh(localPosition, localRotation, scale, models.clone(), cloneMats);
-		res.useTransparency = useTransparency;
 		return res;
 	}
 	
