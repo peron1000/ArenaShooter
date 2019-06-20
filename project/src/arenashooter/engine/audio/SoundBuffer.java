@@ -3,6 +3,8 @@ package arenashooter.engine.audio;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
@@ -21,6 +23,8 @@ import static org.lwjgl.stb.STBVorbis.*;
  * Container for OpenAL buffer
  */
 public class SoundBuffer {
+	private static Map<String, SoundBuffer> buffers = new HashMap<>();
+	
 	private int bufferId;
 
 	private final String path;
@@ -44,25 +48,25 @@ public class SoundBuffer {
 	 * @return buffer object (new or existing if already loaded)
 	 */
 	public static SoundBuffer loadSound(String path) {
-		SoundBuffer snd = Audio.getSound(path);
+		SoundBuffer snd = buffers.get(path);
+		if(snd != null) return snd;
 
-		if( snd == null ) {
-			try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
-				ShortBuffer pcm = loadVorbis(path, info);
-				
-				if( pcm == null ) {
-					Audio.log.error("Cannot load sound : "+path);
-					return null;
-				}
-				
-				SoundBuffer res = new SoundBuffer(path, pcm, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, info.sample_rate());
-				Audio.registerSound(path, res);
-				return res;
-				
-			}
-		}
+		long time = System.currentTimeMillis();
 		
-		return snd;
+		try(STBVorbisInfo info = STBVorbisInfo.malloc()) {
+			ShortBuffer pcm = loadVorbis(path, info);
+
+			if( pcm == null ) {
+				Audio.log.error("Cannot load sound : "+path);
+				return null;
+			}
+
+			SoundBuffer res = new SoundBuffer(path, pcm, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, info.sample_rate());
+			buffers.put(path, res);
+			
+			Audio.log.debug("Loading new sound \""+path+"\": "+(System.currentTimeMillis() - time)+" ms");
+			return res;
+		}
 	}
 	
 	private void initSoundBuffer() {
@@ -75,8 +79,6 @@ public class SoundBuffer {
 			Audio.cleanBuffers();
 		
 		alBufferData(bufferId, channels, pcm, sampleRate);
-	
-		Audio.updateBufferId(path, bufferId);
 	}
 	
 	/**

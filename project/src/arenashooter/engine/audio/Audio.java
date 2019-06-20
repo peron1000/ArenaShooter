@@ -1,6 +1,5 @@
 package arenashooter.engine.audio;
 
-import static org.lwjgl.openal.AL10.alDeleteBuffers;
 import static org.lwjgl.openal.AL10.alListener3f;
 import static org.lwjgl.openal.AL10.alListenerfv;
 import static org.lwjgl.openal.AL10.AL_POSITION;
@@ -9,16 +8,12 @@ import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.EXTThreadLocalContext.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import java.lang.ref.WeakReference;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,8 +38,7 @@ public final class Audio {
 	private static long device, context;
 	
 	private static float mainVolume = 1;
-	
-	private static Map<String, BufferEntry> buffers = new HashMap<>();
+
 	private static Set<SoundSource> sources = new HashSet<>();
 	private static Set<SoundSource> autoDestroySources = new HashSet<>();
 	
@@ -157,7 +151,7 @@ public final class Audio {
 			return;
 		}
 		
-		SoundSource source = new SoundSource(channel);
+		SoundSource source = new SoundSource(file, channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -187,7 +181,7 @@ public final class Audio {
 			return;
 		}
 		
-		SoundSource source = new SoundSource(channel);
+		SoundSource source = new SoundSource(file, channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -216,7 +210,7 @@ public final class Audio {
 			return null;
 		}
 		
-		SoundSource source = new SoundSource(channel);
+		SoundSource source = new SoundSource(file, channel);
 
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -289,60 +283,15 @@ public final class Audio {
 		return error;
 	}
 	
-	protected static void registerSound(String file, SoundBuffer sound) {
-		BufferEntry newEntry = new BufferEntry(file, sound);
-		if(buffers.get(file) != null && buffers.get(file).sound.get() != null) log.error("Sound already registered: "+file);
-		buffers.put(file, newEntry);
-	}
-	
-	/**
-	 * Get a sound from a filename if it is already loaded and available
-	 * @param file
-	 * @return the Sound, null if not loaded
-	 */
-	protected static SoundBuffer getSound(String file) {
-		BufferEntry entry = buffers.get(file);
-		if( entry != null && entry.sound.get() != null )
-			return entry.sound.get();
-		return null;
-	}
-	
 	/**
 	 * Remove unused buffers from memory
 	 */
 	public static void cleanBuffers() {
 		log.info("Cleaning buffers...");
 		
-		List<String> toRemove = new ArrayList<String>(0);
-		for ( BufferEntry entry : buffers.values() ) {
-		    if( entry.sound.get() == null ) {
-		    	toRemove.add(entry.file);
-		    	if(entry.buffer == -2)
-		    		log.warn("Buffer \""+entry.file+"\" was not valid");
-		    	else
-		    		alDeleteBuffers(entry.buffer);
-		    }
-		}
+		log.warn("Not implemented yet");
+		//TODO
 		
-		for( String s : toRemove )
-			buffers.remove(s);
-		
-		log.info("Cleaned up "+toRemove.size()+" buffers.");
-	}
-	
-	protected static void updateBufferId(String path, int bufferId) {
-		buffers.get(path).buffer = bufferId;
-	}
-	
-	private static class BufferEntry {
-		int buffer;
-		String file;
-		WeakReference<SoundBuffer> sound;
-		
-		BufferEntry(String file, SoundBuffer sound) {
-			buffer = -2;
-			this.file = file;
-			this.sound = new WeakReference<SoundBuffer>(sound);
-		}
+//		log.info("Cleaned up "+toRemove.size()+" buffers.");
 	}
 }

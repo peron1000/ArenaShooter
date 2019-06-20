@@ -34,11 +34,11 @@ public class SoundSource {
 	
 	private final AudioChannel channel;
 	
-	SoundSource(AudioChannel channel) {
+	SoundSource(String path, AudioChannel channel) {
 		this.channel = channel;
 		this.sourceId = alGenSources();
 
-		if(Audio.printError("Cannot create source") != AL10.AL_NO_ERROR)
+		if(Audio.printError("Cannot create source for \""+path+"\"") != AL10.AL_NO_ERROR)
 			Audio.cleanBuffers();
 		
 		alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
