@@ -1,5 +1,8 @@
 package arenashooter.entities.spatials;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
@@ -11,6 +14,8 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Entity;
+import arenashooter.game.Main;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
@@ -19,9 +24,6 @@ public class Mesh extends Spatial3 implements IAnimated {
 	private Material[] materials;
 	
 	private String modelPath = null;
-
-	/** Does this sprite require transparency */
-	public boolean useTransparency = false;
 
 	private int timeMs = 0;
 
@@ -104,7 +106,11 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 	@Override
 	public boolean drawAsTransparent() {
-		return useTransparency;
+		for(int i=0; i<materials.length; i++) {
+			if(materials[i].transparency)
+				return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -182,7 +188,6 @@ public class Mesh extends Spatial3 implements IAnimated {
 			cloneMats[i] = materials[i].clone();
 		
 		Mesh res = new Mesh(localPosition, localRotation, scale, models.clone(), cloneMats);
-		res.useTransparency = useTransparency;
 		return res;
 	}
 	
