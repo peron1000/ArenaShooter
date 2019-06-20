@@ -8,7 +8,7 @@
 				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
 				soundWarmup="warmup_minigun_01" bangSound="Bang1"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.9" recoil="0.2" thrust="2.6" size="64">
+				cannonLength="1.5" recoil="0.2" thrust="2.6" size="64">
 
 				<vector use="handPosL" x="-.8" y="-.1" />
 				<vector use="handPosR" x="0" y="-.28" />
@@ -20,7 +20,7 @@
 				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
 				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.38" recoil="0.4" thrust="2.00" size="64">
+				cannonLength="0.75" recoil="0.4" thrust="2.00" size="64">
 
 				<vector use="handPosL" x="-.32" y=".15" />
 				<vector use="handPosR" x=".25" y=".05" />
@@ -44,7 +44,7 @@
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
 				soundWarmup="IonCharge3" bangSound="BangIonGun"
 				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
-				cannonLength="1.38" recoil="1" thrust="2.00" size="64">
+				cannonLength="0.75" recoil="1" thrust="2.00" size="64">
 
 				<vector use="handPosL" x="-.32" y=".2" />
 				<vector use="handPosR" x=".3" y=".1" />

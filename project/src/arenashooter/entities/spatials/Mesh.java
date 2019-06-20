@@ -1,8 +1,5 @@
 package arenashooter.entities.spatials;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
@@ -14,8 +11,6 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.entities.Entity;
-import arenashooter.game.Main;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
@@ -104,6 +99,10 @@ public class Mesh extends Spatial3 implements IAnimated {
 		}
 	}
 
+	/**
+	 * This will return true is at least one material is transparent
+	 * @return should this entity be drawn during transparency pass
+	 */
 	@Override
 	public boolean drawAsTransparent() {
 		for(int i=0; i<materials.length; i++) {
