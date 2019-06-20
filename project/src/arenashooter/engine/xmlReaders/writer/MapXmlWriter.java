@@ -378,7 +378,7 @@ public class MapXmlWriter {
 			// Add current entity to parent
 			entitiesElem.appendChild(elem);
 
-			// Name//TODO
+			// Name
 			elem.setAttribute("name", entityName);
 
 			// Write children
