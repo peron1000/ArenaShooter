@@ -149,14 +149,15 @@ public class MenuStart extends GameState {
 						current.selectAction();
 						break;
 					case UI_CONTINUE:
-						current.continueAction();
+						//current.continueAction();
+						current.selectAction();
 						break;
 					case UI_BACK:
 						if (!current.backAction()) {
 							Main.getGameMaster().requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
 						}
 						break;
-
+					
 					default:
 						break;
 					}
