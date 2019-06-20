@@ -68,7 +68,7 @@ public class MapXmlReader extends XmlReader {
 				return false;
 			}
 		}
-		if(!joinPinToLoad.isEmpty()) {
+		if (!joinPinToLoad.isEmpty()) {
 			Tuple<Element, Entity> tuple = joinPinToLoad.pollFirst();
 			loadJointPin(tuple.x, tuple.y);
 			return false;
@@ -144,6 +144,7 @@ public class MapXmlReader extends XmlReader {
 		List<Element> vectors = getListElementByName("vector", usableTimer);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
+		Vec2f size = new Vec2f();
 		for (Element vector : vectors) {
 			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
@@ -153,12 +154,15 @@ public class MapXmlReader extends XmlReader {
 			case "handPosR":
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
+			case "size":
+				size = new Vec2f(vec.x, vec.y);
+				break;
 			default:
 				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		UsableTimer item = new UsableTimer(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup,
+		UsableTimer item = new UsableTimer(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, size, soundPickup,
 				cooldown, duration, animPath, warmup, soundWarmup, soundAttack);
 		arena.spawnList.put(name, item);
 	}
@@ -178,12 +182,12 @@ public class MapXmlReader extends XmlReader {
 			soundWarmup = preloadSound("data/sound/" + soundWarmup + ".ogg");
 		String attackSound = preloadSound("data/sound/" + melee.getAttribute("bangSound") + ".ogg");
 		float damage = Float.parseFloat(melee.getAttribute("damage"));
-		double size = Double.parseDouble(melee.getAttribute("size"));
-
+		double size = 0;
 		// Vectors
 		List<Element> vectors = getListElementByName("vector", melee);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
+		Vec2f extent = new Vec2f();
 		for (Element vector : vectors) {
 			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
@@ -193,14 +197,17 @@ public class MapXmlReader extends XmlReader {
 			case "handPosR":
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
+			case "extent":
+				extent = new Vec2f(vec.x, vec.y);
+				break;
 			default:
 				log.error("Invalid use attribute");
 				break;
 			}
 		}
 
-		Melee item = new Melee(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
-				animPath, warmup, soundWarmup, attackSound, damage, size);
+		Melee item = new Melee(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown,
+				uses, animPath, warmup, soundWarmup, attackSound, damage);
 		arena.spawnList.put(name, item);
 	}
 
@@ -220,7 +227,6 @@ public class MapXmlReader extends XmlReader {
 		String soundAttack = preloadSound("data/sound/" + gun.getAttribute("bangSound") + ".ogg");
 		String soundNoAmmo = preloadSound("data/sound/" + gun.getAttribute("noAmmoSound") + ".ogg");
 		float damage = Float.parseFloat(gun.getAttribute("damage"));
-		double size = Double.parseDouble(gun.getAttribute("size"));
 		int bulletType = Integer.parseInt(gun.getAttribute("bulletType"));
 		float bulletSpeed = Float.parseFloat(gun.getAttribute("bulletSpeed"));
 		double cannonLength = Double.parseDouble(gun.getAttribute("cannonLength"));
@@ -231,6 +237,7 @@ public class MapXmlReader extends XmlReader {
 		List<Element> vectors = getListElementByName("vector", gun);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
+		Vec2f extent = new Vec2f();
 		for (Element vector : vectors) {
 			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
@@ -240,15 +247,18 @@ public class MapXmlReader extends XmlReader {
 			case "handPosR":
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
+			case "extent":
+				extent = new Vec2f(vec.x, vec.y);
+				break;
 			default:
 				log.error("Invalid use attribute");
 				break;
 			}
 		}
 
-		Gun item = new Gun(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
-				animPath, warmup, soundWarmup, soundAttack, soundNoAmmo, bulletType, bulletSpeed, damage, cannonLength,
-				recoil, thrust, size);
+		Gun item = new Gun(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown,
+				uses, animPath, warmup, soundWarmup, soundAttack, soundNoAmmo, bulletType, bulletSpeed, damage,
+				cannonLength, recoil, thrust);
 		arena.spawnList.put(name, item);
 	}
 
@@ -268,7 +278,6 @@ public class MapXmlReader extends XmlReader {
 		String soundAttack = preloadSound("data/sound/" + shotgun.getAttribute("bangSound") + ".ogg");
 		String soundNoAmmo = preloadSound("data/sound/" + shotgun.getAttribute("noAmmoSound") + ".ogg");
 		float damage = Float.parseFloat(shotgun.getAttribute("damage"));
-		double size = Double.parseDouble(shotgun.getAttribute("size"));
 		int bulletType = Integer.parseInt(shotgun.getAttribute("bulletType"));
 		float bulletSpeed = Float.parseFloat(shotgun.getAttribute("bulletSpeed"));
 		double cannonLength = Double.parseDouble(shotgun.getAttribute("cannonLength"));
@@ -281,6 +290,7 @@ public class MapXmlReader extends XmlReader {
 		List<Element> vectors = getListElementByName("vector", shotgun);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
+		Vec2f extent = new Vec2f();
 		for (Element vector : vectors) {
 			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
@@ -290,14 +300,17 @@ public class MapXmlReader extends XmlReader {
 			case "handPosR":
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
+			case "extent":
+				extent = new Vec2f(vec.x, vec.y);
+				break;
 			default:
 				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		Shotgun item = new Shotgun(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown,
-				uses, animPath, warmup, soundWarmup, soundAttack, soundNoAmmo, multiShot, dispersion, bulletType,
-				bulletSpeed, damage, cannonLength, recoil, thrust, size);
+		Shotgun item = new Shotgun(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, extent, soundPickup,
+				cooldown, uses, animPath, warmup, soundWarmup, soundAttack, soundNoAmmo, multiShot, dispersion,
+				bulletType, bulletSpeed, damage, cannonLength, recoil, thrust);
 		arena.spawnList.put(name, item);
 	}
 
@@ -320,6 +333,7 @@ public class MapXmlReader extends XmlReader {
 		List<Element> vectors = getListElementByName("vector", usable);
 		Vec2f handPosL = new Vec2f();
 		Vec2f handPosR = new Vec2f();
+		Vec2f size = new Vec2f();
 		for (Element vector : vectors) {
 			XmlVector vec = loadVector(vector);
 			switch (vec.use) {
@@ -329,13 +343,15 @@ public class MapXmlReader extends XmlReader {
 			case "handPosR":
 				handPosR = new Vec2f(vec.x, vec.y);
 				break;
+			case "size":
+				size = new Vec2f(vec.x, vec.y);
 			default:
 				log.error("Invalid use attribute");
 				break;
 			}
 		}
-		Usable item = new Usable(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses,
-				animPath, warmup, soundWarmup, soundAttack);
+		Usable item = new Usable(new Vec2f(), name, weight, pathSprite, handPosL, handPosR, size, soundPickup, cooldown,
+				uses, animPath, warmup, soundWarmup, soundAttack);
 		arena.spawnList.put(name, item);
 	}
 
@@ -449,10 +465,11 @@ public class MapXmlReader extends XmlReader {
 
 		arena.ambientLight.set(x, y, z);
 	}
-	
+
 	private void loadFog(Element elem, Arena arena) {
-		if(elem == null) return;
-		
+		if (elem == null)
+			return;
+
 		float x = arena.fogColor.x;
 		if (elem.hasAttribute("r"))
 			x = Float.parseFloat(elem.getAttribute("r"));
@@ -472,22 +489,23 @@ public class MapXmlReader extends XmlReader {
 			log.error("Missing blue channel in fog");
 
 		arena.fogColor.set(x, y, z);
-		
+
 		float distance = arena.fogDistance;
-		if(elem.hasAttribute("distance"))
+		if (elem.hasAttribute("distance"))
 			distance = Float.parseFloat(elem.getAttribute("distance"));
 		else
 			log.error("Missing attribute distance in fog");
-		
+
 		arena.fogDistance = distance;
 	}
-	
+
 	private void loadMusic(Element elem, Arena arena) {
-		if(elem == null) return; //No custom music
+		if (elem == null)
+			return; // No custom music
 		arena.musicPath = preloadSound(elem.getAttribute("path"));
 		arena.musicVolume = Float.parseFloat(elem.getAttribute("volume"));
 		arena.musicPitch = 1;
-		if(elem.hasAttribute("pitch"))
+		if (elem.hasAttribute("pitch"))
 			arena.musicPitch = Float.parseFloat(elem.getAttribute("pitch"));
 	}
 

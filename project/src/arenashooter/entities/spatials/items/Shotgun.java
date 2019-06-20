@@ -41,13 +41,13 @@ public class Shotgun extends Gun {
 	 * @param size
 	 */
 	public Shotgun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
-			String soundFire, String noAmmoSound, int multiShot, double dispersion, int bulletType, float bulletSpeed,
-			float damage, double cannonLength, double recoil, double thrust, double size) {
+			Vec2f extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
+			String soundWarmup, String soundFire, String noAmmoSound, int multiShot, double dispersion, int bulletType,
+			float bulletSpeed, float damage, double cannonLength, double recoil, double thrust) {
 
-		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
-				warmupDuration, soundWarmup, soundFire, noAmmoSound, bulletType, bulletSpeed, damage, cannonLength,
-				recoil, thrust, size);
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses,
+				animPath, warmupDuration, soundWarmup, soundFire, noAmmoSound, bulletType, bulletSpeed, damage,
+				cannonLength, recoil, thrust);
 		this.multiShot = multiShot;
 		this.dispersion = dispersion;
 	}
@@ -101,18 +101,22 @@ public class Shotgun extends Gun {
 
 						if (i > 3) {
 							double rand = Math.random();
-							Bullet bul = new Bullet(
-									bulletPos, Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed, 1 + (1 - rand) * 0.2),
-															(Math.random()>=0.5 ? 1 : -1)* rand * dispersion)),
-													1 + Math.random() / 4),
+							Bullet bul = new Bullet(bulletPos,
+									Vec2f.multiply(
+											(Vec2f.rotate(Vec2f.multiply(bulSpeed, 1 + (1 - rand) * 0.2),
+													(Math.random() >= 0.5 ? 1 : -1) * rand * dispersion)),
+											1 + Math.random() / 4),
 									damage);
 							bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 							if (isEquipped())
 								bul.shooter = ((Character) getParent());
 						} else {
-							Bullet bul = new Bullet(bulletPos,
-									Vec2f.multiply((Vec2f.rotate(Vec2f.multiply(bulSpeed,1.2), (Math.random() - 0.5) * 0.5 * dispersion)),
-											1 + Math.random() / 4),
+							Bullet bul = new Bullet(
+									bulletPos, Vec2f
+											.multiply(
+													(Vec2f.rotate(Vec2f.multiply(bulSpeed, 1.2),
+															(Math.random() - 0.5) * 0.5 * dispersion)),
+													1 + Math.random() / 4),
 									damage);
 							bul.attachToParent(getArena(), ("bullet_" + bul.genName()));
 							if (isEquipped())
@@ -166,7 +170,8 @@ public class Shotgun extends Gun {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+						getWorldPos());
 
 				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
 				shell.selfDestruct = true;
@@ -177,7 +182,8 @@ public class Shotgun extends Gun {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.029f);
 			} else {
-				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+						getWorldPos());
 			}
 
 		}
@@ -187,9 +193,9 @@ public class Shotgun extends Gun {
 
 	@Override
 	public Shotgun clone() {
-		Shotgun gun = new Shotgun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, soundPickup,
-				fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, multiShot, dispersion,
-				bulletType, bulletSpeed, damage, cannonLength, recoil, thrust, size);
+		Shotgun gun = new Shotgun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
+				soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, multiShot,
+				dispersion, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust);
 		return gun;
 	}
 }

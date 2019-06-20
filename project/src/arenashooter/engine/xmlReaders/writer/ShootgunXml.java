@@ -63,7 +63,7 @@ public class ShootgunXml extends AbstractElement {
 		shot.setAttributeNode(damage);
 
 		Attr size = doc.createAttribute("size");
-		size.setValue(shotgun.getSize() + "");
+		size.setValue(shotgun.getExtent() + "");
 		shot.setAttributeNode(size);
 
 		Attr bulletType = doc.createAttribute("bulletType");

@@ -47,15 +47,16 @@ public class Melee extends Usable {
 	private boolean dealingDamage = false;
 	private float bladeRayFraction = 1;
 	private double size = 0;
+	private Vec2f extent = new Vec2f();
 	
-	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,Vec2f extent,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
-			String attackSound, float damage, double size) {
-		super(localPosition, name, weight, pathSprite, handPosL, handPosR, soundPickup, cooldown, uses, animPath,
+			String attackSound, float damage) {
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
 		this.size = size;
 		this.animMelee = new AnimMelee(new Vec2f(), this);
-
+		this.extent = extent;
 		getSprite().attachRot = true;
 		
 		//TODO: Read these values per-weapon
@@ -156,8 +157,8 @@ public class Melee extends Usable {
 
 	@Override
 	public Melee clone() {
-		Melee clone = new Melee(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup, warmup,
-				uses, animPath, warmup, animPath, animPath, damage, warmup) {
+		Melee clone = new Melee(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, extent, soundPickup, warmup,
+				uses, animPath, warmup, animPath, animPath, damage) {
 		};
 		return clone;
 	}

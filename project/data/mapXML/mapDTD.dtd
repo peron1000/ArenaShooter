@@ -84,7 +84,7 @@
 				 soundWarmup CDATA #REQUIRED
 				 bangSound CDATA #REQUIRED>
 				 
-<!ELEMENT gun (vector, vector , entities?)>
+<!ELEMENT gun (vector, vector, vector, entities?)>
 <!ATTLIST gun	
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -102,10 +102,9 @@
 				 damage CDATA #REQUIRED
 				 cannonLength CDATA #REQUIRED
 				 recoil CDATA #REQUIRED
-				 thrust CDATA #REQUIRED
-				 size CDATA #REQUIRED>
+				 thrust CDATA #REQUIRED>
 
-<!ELEMENT melee (vector, vector, entities?)>
+<!ELEMENT melee (vector, vector, vector, entities?)>
 <!ATTLIST melee 
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -117,10 +116,9 @@
 				 warmupDuration CDATA #REQUIRED
 				 soundWarmup CDATA #REQUIRED
 				 bangSound CDATA #REQUIRED
-				 damage CDATA #REQUIRED
-				 size CDATA #REQUIRED>
+				 damage CDATA #REQUIRED>
 				 
-<!ELEMENT usabletimer (vector, vector, entities?)>
+<!ELEMENT usabletimer (vector, vector, vector, entities?)>
 <!ATTLIST usabletimer
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -131,10 +129,9 @@
 				 animPath CDATA #REQUIRED
 				 warmupDuration CDATA #REQUIRED
 				 soundWarmup CDATA #REQUIRED
-				 bangSound CDATA #REQUIRED
-				 size CDATA #REQUIRED>
+				 bangSound CDATA #REQUIRED>
 				 
-<!ELEMENT shotgun (vector, vector , entities?)>
+<!ELEMENT shotgun (vector, vector , vector, entities?)>
 <!ATTLIST shotgun	
 				 name CDATA #REQUIRED
 				 weight CDATA #REQUIRED
@@ -153,7 +150,6 @@
 				 cannonLength CDATA #REQUIRED
 				 recoil CDATA #REQUIRED
 				 thrust CDATA #REQUIRED
-				 size CDATA #REQUIRED
 				 multiShot CDATA #REQUIRED
 				 dispersion CDATA #REQUIRED>
 

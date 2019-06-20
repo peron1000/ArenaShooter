@@ -17,6 +17,7 @@ public abstract class Item extends Spatial {
 	private Vec2f vel = new Vec2f();
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
+	public Vec2f extent = new Vec2f();
 	public String name = "";
 	protected double weight = 0;
 	protected String pathSprite = "";
@@ -27,7 +28,7 @@ public abstract class Item extends Spatial {
 
 	private boolean isEquipped = false;
 
-	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,Vec2f extent,
 			String soundPickup) {
 		super(localPosition);
 
@@ -46,6 +47,7 @@ public abstract class Item extends Spatial {
 		this.handPosL = handPosL;
 		this.handPosR = handPosR;
 		this.soundPickup = soundPickup;
+		this.extent = extent;
 	}
 
 	/**
@@ -118,7 +120,7 @@ public abstract class Item extends Spatial {
 	 */
 	private void updateRigidBodyState() {
 		if (!isEquipped() && rigidBody == null) {
-			RigidBody body = new RigidBody(new ShapeBox(new Vec2f(1, .2)), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1);
+			RigidBody body = new RigidBody(new ShapeBox(extent), getWorldPos(), 0, CollisionFlags.ITEM, 1, 1);
 			body.setRotation((float) getWorldRot());
 			rigidBody = new RigidBodyContainer(body);
 			rigidBody.attachToParent(this, "rigid_body");
@@ -214,7 +216,7 @@ public abstract class Item extends Spatial {
 	 */
 	@Override
 	public Item clone() {
-		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosL, soundPickup) {
+		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent, soundPickup) {
 		};
 		return clone;
 	}
