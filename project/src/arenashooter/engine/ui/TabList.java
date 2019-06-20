@@ -300,6 +300,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	@Override
 	public boolean rightAction() {
 		if (!getTarget().rightAction()) {
+			if(circleList.size() <= 1) return false;
+			
 			circleList.next();
 			indexTarget = 0;
 			resetPositionOfList(circleList.get());
@@ -313,6 +315,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	@Override
 	public boolean leftAction() {
 		if (!getTarget().leftAction()) {
+			if(circleList.size() <= 1) return false;
+			
 			circleList.get().setPosition(getPosition());
 			circleList.previous();
 			indexTarget = 0;
