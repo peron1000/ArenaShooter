@@ -90,6 +90,13 @@ public class SoundBuffer {
 		return bufferId;
 	}
 	
+	/**
+	 * @return path to the sound file
+	 */
+	protected String getPath() {
+		return path;
+	}
+	
 	private static ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
 		ByteBuffer vorbis;
 		
