@@ -39,6 +39,7 @@ public class Character extends RigidBodyContainer {
 	public double maxSpeed = 15;
 	boolean isOnGround = true;
 	private boolean canJump = true;
+	private int canWallJump = 0;// -1 if the wall is on the left, 1 if on the right, 0 else
 	public float movementInputX = 0;
 	public float movementInputY = 0;
 	/**
@@ -132,15 +133,34 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public void jump() {
-		if (canJump || bonusJumpsUsed++ < bonusJumpsMax) {
+		if (canJump) {
 			jumpTimer.reset();
 			jumpTimer.setProcessing(true);
 			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 					getWorldPos());
-			if (!canJump) {
-				// TODO: Skeleton double jump feather Effects
-				((CharacterSprite) getChild("skeleton")).plum();
-			}
+
+			isOnGround = false;
+			jumpi = true;
+			// getLinearVelocity().y = 0;
+			// setLinearVelocity(Vec2f.add(getLinearVelocity(), new Vec2f(0,
+			// (float)-jumpForce)));
+			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x,
+					-jumpForce + (getLinearVelocity().y < 0 ? getLinearVelocity().y / 2 : 0)));
+		} else if (canWallJump != 0) {
+			jumpTimer.reset();
+			jumpTimer.setProcessing(true);
+			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+					getWorldPos());
+			jumpi = true;
+			getBody().setLinearVelocity(new Vec2f((canWallJump > 0 ? -2 : 2),
+					-jumpForce / 2 + (getLinearVelocity().y < 0 ? getLinearVelocity().y / 2 : 0)));
+		} else if (bonusJumpsUsed++ < bonusJumpsMax) {
+			jumpTimer.reset();
+			jumpTimer.setProcessing(true);
+			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+					getWorldPos());
+			// TODO: Skeleton double jump feather Effects
+			((CharacterSprite) getChild("skeleton")).plum();
 			isOnGround = false;
 			jumpi = true;
 			// getLinearVelocity().y = 0;
@@ -455,11 +475,11 @@ public class Character extends RigidBodyContainer {
 			explosion.attachToParent(getArena(), explosion.genName());
 			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
 			skeleton.explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
-			
-			for(int i = 0 ; i < 5 ; i++) {
-			Particles blood = new Particles(new Vec2f(), "data/particles/blood.xml");
-			blood.selfDestruct = true;
-			blood.attachToParent(skeleton, blood.genName());
+
+			for (int i = 0; i < 5; i++) {
+				Particles blood = new Particles(new Vec2f(), "data/particles/blood.xml");
+				blood.selfDestruct = true;
+				blood.attachToParent(skeleton, blood.genName());
 			}
 		}
 
@@ -477,6 +497,8 @@ public class Character extends RigidBodyContainer {
 	}
 
 	private int jumpPoints = 0;
+	private boolean checkingForRightWall;
+	private boolean autoSlideUp = false;
 
 	@Override
 	public void step(double d) {
@@ -557,22 +579,50 @@ public class Character extends RigidBodyContainer {
 		}
 
 		canJump = isOnGround;
+		autoSlideUp = false;
 
 		if (isOnGround)
 			jumpTimer.reset();
-		
+
+		canWallJump = 0;
 		if (!canJump) {
 			float x = getWorldPos().x;
 			float y = getWorldPos().y;
-			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(.5 + x, y).toB2Vec(),
+			getArena().physic.getB2World().raycast(JumpRaycastCallback, new Vec2f(.5 + x, y).toB2Vec(),
 					new Vec2f(.5 + x, .8 + y).toB2Vec());
 
-			getArena().physic.getB2World().raycast(GroundRaycastCallback, new Vec2f(-.5 + x, y).toB2Vec(),
+			getArena().physic.getB2World().raycast(JumpRaycastCallback, new Vec2f(-.5 + x, y).toB2Vec(),
 					new Vec2f(-.5 + x, .8 + y).toB2Vec());
 			if (jumpPoints >= 2)
 				canJump = true;
+			checkingForRightWall = true;
+			for (int i = 0; i < 5; i++) {
+				getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(.49 + x, y).toB2Vec(),
+						new Vec2f(.5 + x, .8 + y).toB2Vec());
+			}
+			int oldCanWallJump = canWallJump;
+			for (int i = 0; i < 5; i++) {
+				getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(.49 + x, y).toB2Vec(),
+						new Vec2f(.5 + x, .8 + y).toB2Vec());
+			}
+			if (canWallJump != oldCanWallJump)
+				autoSlideUp = true;
+
+			checkingForRightWall = false;
+
+			for (int i = 0; i < 5; i++) {
+				getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(.49 + x, y).toB2Vec(),
+						new Vec2f(.5 + x, .8 + y).toB2Vec());
+			}
+			oldCanWallJump = canWallJump;
+			for (int i = 0; i < 5; i++) {
+				getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(.49 + x, y).toB2Vec(),
+						new Vec2f(.5 + x, .8 + y).toB2Vec());
+			}
+
 		}
-		if(!canJump) {
+
+		if (!canJump) {
 			canJump = !justInTime.isOver();
 		}
 
@@ -654,7 +704,12 @@ public class Character extends RigidBodyContainer {
 			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
 				return -1;
 
-			jumpPoints++;
+			if (checkingForRightWall) {
+				canWallJump++;
+			} else {
+				canWallJump--;
+			}
+
 			return fraction;
 		}
 	};
