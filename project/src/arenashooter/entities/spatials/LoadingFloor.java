@@ -33,6 +33,7 @@ public class LoadingFloor extends Spatial {
 	public LoadingFloor(Vec2f position) {
 		super(position);
 		currentTex = (int)Math.floor( Math.random()*(tex.length-1) );
+		zIndex = 100;
 	}
 	
 	@Override
