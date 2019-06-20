@@ -1,8 +1,6 @@
 package arenashooter.game.gameStates;
 
-import java.awt.TexturePaint;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
@@ -21,25 +19,26 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.input.Device;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.MenuPause;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CharacterSprite;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Controller;
+import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
+import arenashooter.game.gameStates.loading.LoadingGame;
+import arenashooter.game.gameStates.loading.LoadingInterRound;
 
 public class Game extends GameState {
 	private int nbPlayers = Main.getGameMaster().controllers.size();
 	private List<Character> players = new ArrayList<>(nbPlayers);
-	private List<Arena> mapsToShuffle = new ArrayList<Arena>();
 
 	int currentRound = 1;
 	private final GameMode gameMode = GameParam.getGameMode();
@@ -77,6 +76,16 @@ public class Game extends GameState {
 	private boolean canPlay = true;
 
 	private MenuPause menuPause = new MenuPause(this);
+	
+	private LoadingInterRound loading;
+	private boolean readyForNextRound = false, firstUpdate = true;
+	
+	public Game(String[] strings) {
+		counterImage.setPosition(0, -25);
+		LoadingGame loadingGame = new LoadingGame(GameParam.getRound(), strings);
+		loading = new LoadingInterRound(this, loadingGame);
+		loadingGame.start();
+	}
 
 	/**
 	 * @author Marin C Evaluates if one character or less is alive. (Trigger this
@@ -98,14 +107,10 @@ public class Game extends GameState {
 		}
 	}
 
-	public Game(int nbMap) {
-		super(nbMap);
-		counterImage.setPosition(0, -25);
-	}
-
 	@Override
 	public void init() {
-
+		loading.init();
+		
 		if (bgm != null) {
 			bgm.destroy();
 			bgm = null;
@@ -113,15 +118,9 @@ public class Game extends GameState {
 		bgmPath = bgmPathDefault;
 		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
-
-		for (Arena map : maps) {
-			mapsToShuffle.add(map);
-		}
-		Collections.shuffle(mapsToShuffle);
-		current = mapsToShuffle.get(0);
-		newRound();
+		
 	}
-
+	
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -134,9 +133,14 @@ public class Game extends GameState {
 		players.remove(character);
 		evalOneLeft();
 	}
+	
+	public int getCurrentRound() {
+		return currentRound;
+	}
 
 	private void newRound() {
-		current = mapsToShuffle.get(currentRound % mapsToShuffle.size());
+		current = loading.getArenaForNewRound();
+		
 
 		if (!current.musicPath.isEmpty()) { // Arena has custom music
 			if (!bgmPath.equals(current.musicPath)) { // Only restart music if its path changed
@@ -170,10 +174,24 @@ public class Game extends GameState {
 		}
 		oneLeft = false;
 		super.init();
+		
+		for(ControllerPlayer c : Main.getGameMaster().getPlayerControllers()) {
+			if(c.getDevice() == Device.KEYBOARD)
+				Window.setCurorVisibility(true);
+		}
 	}
 
 	@Override
 	public void update(double d) {
+		readyForNextRound = loading.isReady();
+		if(!readyForNextRound) {
+			loading.update(d);
+			return;
+		}
+		if(firstUpdate) {
+			newRound();
+			firstUpdate = false;
+		}
 		menuPause.update(d);
 		if (menuPause.isPaused()) {
 			return;
@@ -217,9 +235,9 @@ public class Game extends GameState {
 									counterImage.getMaterial().setParamTex("image",
 											Texture.loadTexture("data/sprites/interface/Draw_Chroma2.png"));
 								}
-							} else if (current instanceof AnimEventSound) {
-								((AnimEventSound) current).play(null);
-							}
+							} 
+						} else if (current instanceof AnimEventSound) {
+							((AnimEventSound) current).play(null);
 						}
 
 					}
@@ -312,6 +330,10 @@ public class Game extends GameState {
 
 	@Override
 	public void draw() {
+		if(!readyForNextRound) {
+			loading.draw();
+			return;
+		}
 		super.draw();
 		Window.beginUi();
 		counterImage.draw();

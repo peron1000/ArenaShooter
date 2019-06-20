@@ -39,8 +39,6 @@ public class Intro extends GameState {
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
 	
 	public Intro() {
-		super(1);
-		
 		anim = new Animation(AnimationData.loadAnim("data/animations/anim_intro.xml"));
 
 		bgm = Audio.createSource("data/music/Juhani Junkala [Chiptune Adventures] 4. Stage Select [Edited].ogg", AudioChannel.MUSIC, .67f, 1);

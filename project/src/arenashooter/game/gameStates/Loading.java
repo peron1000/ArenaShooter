@@ -15,19 +15,15 @@ import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
-import arenashooter.game.gameStates.loading.LoadingThread;
+import arenashooter.game.gameStates.loading.LoadingArena;
 
 public class Loading extends GameState {
-	private static GameState next = new Start();
-
 	private static boolean isLoading = false;
 
 	public static Loading loading = new Loading();
 
-	private static LoadingThread loadingThread = new LoadingThread();
+	private static LoadingArena loadingThread = new LoadingArena();
 
-	private static String[] arenaToLoad;
-	private static int indexLoading = 0;
 	private static boolean firstStep = true;
 
 	private static Trigger onFinish = new Trigger() {
@@ -38,8 +34,7 @@ public class Loading extends GameState {
 		}
 	};
 
-	private Loading() {
-		super(1);
+	protected Loading() {
 	}
 
 	public static boolean isLoading() {
@@ -51,18 +46,10 @@ public class Loading extends GameState {
 			firstStep = false;
 			return;
 		}
-
-		if (indexLoading < arenaToLoad.length) {
-			if (!loadingThread.isAlive()) {
-				loadingThread = new LoadingThread(next.maps[indexLoading], arenaToLoad[indexLoading]);
-				loadingThread.start();
-				indexLoading++;
-			}
+		
+		if (loadingThread.isAlive()) {
+			return;
 		} else {
-			if (loadingThread.isAlive()) {
-				return;
-			}
-			indexLoading = 0;
 			isLoading = false;
 			onFinish.make();
 		}
@@ -74,7 +61,6 @@ public class Loading extends GameState {
 
 	public void init() {
 		current = new Arena();
-		indexLoading = 0;
 		firstStep = true;
 
 		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading.frag");
@@ -114,24 +100,15 @@ public class Loading extends GameState {
 	 * @param next
 	 * @param mapPath list of maps to load
 	 */
-	public void setNextState(GameState next, String... mapPath) {
+	public void setNextState(GameState next, String mapPath) {
 		isLoading = true;
-		if (mapPath.length < next.maps.length) {
-			Exception e = new Exception("Not enough map Path given");
-			e.printStackTrace();
-			arenaToLoad = new String[next.maps.length];
-			for (int i = 0; i < arenaToLoad.length; i++) {
-				if (i < mapPath.length) {
-					arenaToLoad[i] = mapPath[i];
-				} else {
-					arenaToLoad[i] = mapPath[mapPath.length - 1];
-				}
-			}
-		} else {
-			arenaToLoad = mapPath;
+		
+		while (loadingThread.isAlive()) {
+			Main.log.error("Previous LoadingThread stil running");
 		}
-		Loading.next = next;
-		indexLoading = 0;
+		
+		loadingThread = new LoadingArena(next.current, mapPath);
+		loadingThread.start();
 	}
 
 }

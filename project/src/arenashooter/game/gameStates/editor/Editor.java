@@ -45,8 +45,6 @@ public class Editor extends GameState {
 	private Sprite grid2d;
 
 	public Editor() {
-		super(1);
-		
 		grid2d = new Sprite(new Vec2f(), Material.loadMaterial("data/materials/editor_grid.xml"));
 
 		background.setPosition(forVisible, 0);

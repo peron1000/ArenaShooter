@@ -36,7 +36,6 @@ public class MenuStart extends GameState {
 	private InputListener inputs = new InputListener();
 
 	public MenuStart() {
-		super(1);
 		selector.setScale(100, 8);
 
 		// logo

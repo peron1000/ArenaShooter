@@ -42,7 +42,7 @@ public abstract class XmlReader {
 		// Can not be instantiate
 	}
 
-	protected static void parse(String path) {
+	protected synchronized static void parse(String path) {
 		try {
 			document = builder.parse(path);
 		} catch (SAXException e) {

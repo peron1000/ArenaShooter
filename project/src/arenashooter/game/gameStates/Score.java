@@ -23,10 +23,6 @@ public class Score extends GameState {
 
 	private UiGroup<UiElement> group = new UiGroup<>();
 
-	public Score() {
-		super(1);
-	}
-
 	private void setPositions(UiGroup<UiImage> group, double y, double scale) {
 		final double x = 100 * Window.getRatio() / 4;
 		double i = -1.5;
@@ -160,7 +156,8 @@ public class Score extends GameState {
 					switch (event.getAction()) {
 					case UI_OK: //TODO: Use UI action
 						// Rematch
-						Main.getGameMaster().requestNextState(new Game(GameParam.maps.size()), GameParam.mapsString());
+						Main.getGameMaster().requestNewGame(GameParam.mapsString());
+						Main.getGameMaster().requestGame();
 						break;
 					case DROP_ITEM: //TODO: Use UI action
 						// New Game

@@ -47,7 +47,6 @@ public class CharacterChooser extends GameState {
 			A = Imageinput.A.getImage(), B = Imageinput.B.getImage(),enter;
 //	private Label Confirm, Back, Class , Skins;
 	public CharacterChooser() {
-		super(1);
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void launch(InputActionEvent event) {
@@ -133,8 +132,7 @@ public class CharacterChooser extends GameState {
 						for (int i = 0; i < variable.length; i++) {
 							chosenMaps[i] = (String) variable[i];
 						}
-						Game game = new Game(GameParam.maps.size());
-						Main.getGameMaster().requestNextState(game, GameParam.mapsString());
+						Main.getGameMaster().requestGame();
 						break;
 
 					case UI_OK:

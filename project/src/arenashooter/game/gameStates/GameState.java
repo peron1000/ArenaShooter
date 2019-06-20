@@ -9,20 +9,10 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.spatials.Camera;
 
 public abstract class GameState {
-	protected Arena[] maps;
 	protected Arena current;
 
-	public GameState(int nbMap) {
-		if(nbMap < 1) {
-			Exception e = new Exception("Not enough arenas selected (at least one required)");
-			e.printStackTrace();
-			nbMap = 1;
-		}
-		maps = new Arena[nbMap];
-		for (int i = 0; i < maps.length; i++) {
-			maps[i] = new Arena();
-		}
-		current = maps[0];
+	public GameState() {
+		current = new Arena();
 	}
 
 	/**
@@ -34,6 +24,8 @@ public abstract class GameState {
 		Camera cam = new Camera(current.cameraBasePos);
 		cam.attachToParent(current, "camera");
 		Window.setCamera(cam);
+		
+		Window.setCurorVisibility(false);
 	}
 	
 	/**

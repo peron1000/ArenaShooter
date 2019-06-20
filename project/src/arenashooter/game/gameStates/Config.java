@@ -40,7 +40,6 @@ public class Config extends GameState {
 	private Map<UiImage, String> pictureName = new HashMap<>();
 	
 	public Config() {
-		super(1);
 		gameParam = new GameParam();
 		GameParam.maps.clear();
 		//Button_Start.png
@@ -70,6 +69,7 @@ public class Config extends GameState {
 					case UI_CONTINUE:
 						if (!menu.continueAction()) {
 							if (!GameParam.maps.isEmpty()) {
+								Main.getGameMaster().requestNewGame(GameParam.mapsString());
 								Main.getGameMaster().requestNextState(new CharacterChooser(),
 										GameMaster.mapEmpty);
 							}
