@@ -90,7 +90,7 @@ public class Quat {
      * @param target
      * @return <i>target</i> (modified)
      */
-    public static Quat fromEuler(double yaw, double pitch, double roll, Quat target) { //TODO: test
+    public static Quat fromEuler(double yaw, double pitch, double roll, Quat target) { //TODO: fix this
     	double c1 = Math.cos(yaw/2);
     	double c3 = Math.cos(pitch/2);
     	double c2 = Math.cos(roll/2);

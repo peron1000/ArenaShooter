@@ -114,7 +114,7 @@ public class Editor extends GameState {
 							onSetting.editorAddScale(new Vec2f(0, -scaleSpeed));
 							break;
 						case DEEP:
-							onSetting.editorAddDeep((float) positionSpeed);
+							onSetting.editorAddDepth((float) positionSpeed);
 							break;
 						default:
 							break;
@@ -138,7 +138,7 @@ public class Editor extends GameState {
 							onSetting.editorAddScale(new Vec2f(0, scaleSpeed));
 							break;
 						case DEEP:
-							onSetting.editorAddDeep(-(float) positionSpeed);
+							onSetting.editorAddDepth(-(float) positionSpeed);
 							break;
 						default:
 							break;
@@ -196,10 +196,10 @@ public class Editor extends GameState {
 				} else if(event.getActionState() == ActionState.PRESSED) {
 					switch (event.getAction()) {
 					case UI_ZOOMR:
-						cam.editorAddDeep(-0.1f);
+						cam.editorAddDepth(-0.1f);
 						break;
 					case UI_ZOOML:
-						cam.editorAddDeep(0.1f);
+						cam.editorAddDepth(0.1f);
 						break;
 					default:
 						break;

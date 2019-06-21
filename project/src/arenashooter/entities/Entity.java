@@ -227,7 +227,7 @@ public class Entity implements Editable {
 	public void editorDraw() { }
 
 	@Override
-	public void editorAddDeep(float deep) {
+	public void editorAddDepth(float depth) {
 		// Nothing		
 	}
 

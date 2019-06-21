@@ -26,25 +26,27 @@ public class Spatial3 extends Entity {
 	public Quat localRotation = new Quat();
 	/** World space rotation */
 	private Quat worldRotation = new Quat();
-	private Vec3f editorLocalRotation = new Vec3f();
+	
+	/** Yaw, Pitch, Roll used in editor */
+	private Vec3f editorLocalRotEuler = new Vec3f();
 	
 	public Spatial3() {
 		super();
 		this.localPosition = new Vec3f();
-		this.localRotation.toEuler(editorLocalRotation);
+		this.localRotation.toEuler(editorLocalRotEuler);
 	}
 	
 	public Spatial3(Vec3f localPosition) {
 		super();
 		this.localPosition = localPosition.clone();
-		this.localRotation.toEuler(editorLocalRotation);
+		this.localRotation.toEuler(editorLocalRotEuler);
 	}
 
 	public Spatial3(Vec3f localPosition, Quat localRotation) {
 		super();
 		this.localPosition = localPosition.clone();
 		this.localRotation.set(localRotation);
-		this.localRotation.toEuler(editorLocalRotation);
+		this.localRotation.toEuler(editorLocalRotEuler);
 	}
 	
 	@Override
@@ -88,35 +90,35 @@ public class Spatial3 extends Entity {
 	}
 	
 	@Override
-	public void editorAddRotationZ(double angle) {
-		editorLocalRotation.z += angle;
-		Quat.fromEuler(editorLocalRotation, localRotation);
+	public void editorAddRotationX(double angle) { // Yaw
+		editorLocalRotEuler.x += angle;
+		Quat.fromEuler(editorLocalRotEuler, localRotation);
 
 		for(Entity e : getChildren().values())
 			e.updateAttachment();
 	}
 	
 	@Override
-	public void editorAddRotationX(double angle) {
-		editorLocalRotation.x += angle;
-		Quat.fromEuler(editorLocalRotation, localRotation);
+	public void editorAddRotationY(double angle) { // Pitch
+		editorLocalRotEuler.y += angle;
+		Quat.fromEuler(editorLocalRotEuler, localRotation);
 
 		for(Entity e : getChildren().values())
 			e.updateAttachment();
 	}
 	
 	@Override
-	public void editorAddRotationY(double angle) {
-		editorLocalRotation.y += angle;
-		Quat.fromEuler(editorLocalRotation, localRotation);
+	public void editorAddRotationZ(double angle) { // Roll
+		editorLocalRotEuler.z += angle;
+		Quat.fromEuler(editorLocalRotEuler, localRotation);
 
 		for(Entity e : getChildren().values())
 			e.updateAttachment();
 	}
 	
 	@Override
-	public void editorAddDeep(float deep) {
-		localPosition.z += deep;
+	public void editorAddDepth(float depth) {
+		localPosition.z += depth;
 	}
 
 	@Override
