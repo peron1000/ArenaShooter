@@ -25,11 +25,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		back.setOnArm(onBack);
 
 		UiListVertical<UiActionable> audio = new UiListVertical<>(), video = new UiListVertical<>();
-		addBind("Video", video);
-		addBind("Audio", audio);
 		setPosition(0, y);
-		setSpacingForeachList(1);
-		setTitleSpacing(10);
 
 		///
 		/// Audio settings
@@ -82,7 +78,8 @@ public class MenuSettings extends TabList<UiActionable> {
 		///
 		/// Video settings
 		///
-
+		final double xScaleScH = 40 , yScaleScH = 8;
+		final float ratio = 0.8f;
 		ScrollerH<int[]> reso = new ScrollerH<>();
 		for (int[] is : Window.getAvailableResolutions()) {
 			reso.add(is);
@@ -92,6 +89,8 @@ public class MenuSettings extends TabList<UiActionable> {
 					Main.log.warn("Couldn't set resolution button initial value");
 			}
 		}
+		reso.setScale(xScaleScH, yScaleScH);
+		reso.setLabelRatio(ratio);
 		reso.setTitle("Resolution");
 		reso.setOnValidation(new Trigger() {
 
@@ -107,6 +106,8 @@ public class MenuSettings extends TabList<UiActionable> {
 		fullscreen.add(true);
 		fullscreen.changeValueView(true, "fullscreen");
 		fullscreen.setTitle("Mode");
+		fullscreen.setScale(xScaleScH, yScaleScH);
+		fullscreen.setLabelRatio(ratio);
 		if (!fullscreen.setValue(Window.isFullscreen()))
 			Main.log.warn("Couldn't set fullscreen button initial value");
 		fullscreen.setOnValidation(new Trigger() {
@@ -117,6 +118,8 @@ public class MenuSettings extends TabList<UiActionable> {
 		});
 
 		ScrollerH<Float> scale = new ScrollerH<>();
+		scale.setScale(xScaleScH, yScaleScH);
+		scale.setLabelRatio(ratio);
 		for (int i = 10; i <= 40; i++) {
 			Float f = Float.valueOf((float) (i * 0.05));
 			scale.add(f);
@@ -154,7 +157,11 @@ public class MenuSettings extends TabList<UiActionable> {
 		backVideo.addToPosition(0, 2.5);
 		backAudio.addToPosition(0, 2.5);
 		
+		addBind("Video", video);
+		addBind("Audio", audio);
+		setTitleSpacing(10);
 		addToScaleForeach(-4, -4);
+		setSpacingForeachList(0.5);
 		setArrowsDistance(15);
 		setScaleArrows(5, 5);
 

@@ -176,18 +176,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public void setSpacingForeachList(double spacing) {
 		this.spacing = spacing;
 		for (UiListVertical<? extends E> uiListVertical : circleList) {
-			UiListVertical<Label> listInfos = labelsInfo.get(uiListVertical);
-
-			if (listInfos.size() > 0) {
-				Label last = listInfos.getLast();
-				listInfos.setSpacing(spacing);
-
-				uiListVertical.setPosition(getPosition().x, last.getPosition().y + last.getScale().y / 2 + spacing
-						+ uiListVertical.getFisrt().getScale().y / 2);
-				uiListVertical.setSpacing(spacing);
-			} else {
-				uiListVertical.setSpacing(spacing);
-			}
+			uiListVertical.setSpacing(spacing);
+			resetPositionOfList(uiListVertical);
 		}
 	}
 
@@ -213,11 +203,16 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	public void setScaleForeach(double x, double y) {
 		actionOnAllSimpleElement(e -> e.setScale(x, y));
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			resetPositionOfList(uiListVertical);
+		}
 	}
 
 	public void addToScaleForeach(double x, double y) {
 		actionOnAllSimpleElement(e -> e.addToScale(x, y));
-		setSpacingForeachList(spacing);
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			resetPositionOfList(uiListVertical);
+		}
 	}
 
 	private void actionOnAllSimpleElement(Consumer<UiElement> c) {
