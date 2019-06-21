@@ -3,6 +3,9 @@ package arenashooter.engine.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.fonts.Text.TextAlignH;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
@@ -24,6 +27,8 @@ public class ScrollerH<E> extends UiActionable {
 		}
 	};
 	private Map<E, String> viewOfValue = new HashMap<>();
+	private TextAlignH oldAlignH;
+	private float labelOffset = 0 , labelRatio = 0.6f;
 
 	public ScrollerH(E[] enumValues) {
 		for (E e : enumValues) {
@@ -31,11 +36,13 @@ public class ScrollerH<E> extends UiActionable {
 		}
 		label = new Label(get().toString());
 		setScale(8);
+		oldAlignH = label.getAlignH();
 	}
 
 	public ScrollerH() {
 		label = new Label("no value");
 		setScale(8);
+		oldAlignH = label.getAlignH();
 	}
 
 	public boolean isSelected() {
@@ -59,6 +66,20 @@ public class ScrollerH<E> extends UiActionable {
 	}
 	
 	/**
+	 * @return the labelRatio
+	 */
+	public float getLabelRatio() {
+		return labelRatio;
+	}
+
+	/**
+	 * @param labelRatio the labelRatio to set
+	 */
+	public void setLabelRatio(float labelRatio) {
+		this.labelRatio = labelRatio;
+	}
+
+	/**
 	 * Used only if <i>backgroundChange</i> is true
 	 * @param background
 	 */
@@ -74,11 +95,6 @@ public class ScrollerH<E> extends UiActionable {
 		this.backgroundUnselect = background;
 	}
 	
-	public void setBackgroundScale(double x , double y) {
-		backgroundSelect.setScale(x, y);
-		backgroundUnselect.setScale(x, y);
-	}
-
 	public void changeValueView(E value, String view) {
 		viewOfValue.put(value, view);
 		if(get() == value) {
@@ -182,7 +198,7 @@ public class ScrollerH<E> extends UiActionable {
 
 	@Override
 	public void setScale(double x, double y) {
-		label.setScale(x, y);
+		label.setScale(y*labelRatio, y*labelRatio);
 		backgroundSelect.setScale(x, y);
 		backgroundUnselect.setScale(x, y);
 		super.setScale(x, y);
@@ -190,7 +206,7 @@ public class ScrollerH<E> extends UiActionable {
 
 	@Override
 	public void setScaleLerp(double x, double y, double lerp) {
-		label.setScaleLerp(x, y, lerp);
+		label.setScaleLerp(y*labelRatio, y*labelRatio, lerp);
 		backgroundSelect.setScaleLerp(x, y, lerp);
 		backgroundUnselect.setScaleLerp(x, y, lerp);
 		super.setScaleLerp(x, y, lerp);
@@ -225,6 +241,32 @@ public class ScrollerH<E> extends UiActionable {
 		backgroundSelect.update(delta);
 		backgroundUnselect.update(delta);
 		super.update(delta);
+		
+		if (getScale().x < label.getTextWidth()) { // Text is too long to fit in button
+			if (label.getAlignH() != TextAlignH.LEFT) { // Set horizontal alignment to left
+				oldAlignH = label.getAlignH();
+				label.setAlignH(TextAlignH.LEFT);
+			}
+
+			float minOffset = (getScale().x / 2) - label.getTextWidth();
+			float maxOffset = -getScale().x / 2;
+
+			if (labelOffset  < minOffset - 12)
+				labelOffset = maxOffset + 6;
+			labelOffset -= delta * 6;
+
+			labelOffset = Math.min(labelOffset, maxOffset + 6);
+
+			float posX = Utils.clampF(labelOffset, minOffset, maxOffset),
+					xDif = getPosition().x - label.getPosition().x;
+
+			label.addToPositionSafely(xDif+posX, 0);
+
+		} else { // Text fit in button
+			if (label.getAlignH() != oldAlignH) // Restore alignment
+				label.setAlignH(oldAlignH);
+			label.setPosition(getPosition());
+		}
 	}
 	
 	@Override
@@ -242,7 +284,13 @@ public class ScrollerH<E> extends UiActionable {
 					backgroundUnselect.draw();
 				}
 			}
-			label.draw();
+			if(isScissorOk()) {
+				Window.stackScissor(getLeft(), getBottom(), getScale().x, getScale().y);
+				label.draw();
+				Window.popScissor();
+			} else {
+				label.draw();
+			}
 		}
 	}
 

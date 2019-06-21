@@ -11,7 +11,7 @@ public class Button extends UiActionable {
 	public final double defaultXScale = 10, defaultYScale = defaultXScale / ratio;
 	private UiImage rect;
 	private Label label;
-	private float labelOffset = 0;
+	private float labelOffset = 0, labelRatio = 0.6f;
 	private TextAlignH oldAlignH;
 
 	public Button(String text, Vec4f color) {
@@ -32,6 +32,20 @@ public class Button extends UiActionable {
 	public void setRatio(double ratio) {
 		this.ratio = ratio;
 		setScale(getScale().x, getScale().x / ratio);
+	}
+
+	/**
+	 * @return the labelRatio
+	 */
+	public float getLabelRatio() {
+		return labelRatio;
+	}
+
+	/**
+	 * @param labelRatio the labelRatio to set
+	 */
+	public void setLabelRatio(float labelRatio) {
+		this.labelRatio = labelRatio;
 	}
 
 	public void setRectangleVisible(boolean visible) {
@@ -87,7 +101,7 @@ public class Button extends UiActionable {
 	@Override
 	public void setScale(double x, double y) {
 		rect.setScale(x, y);
-		label.setScale(y * 0.6, y * 0.6);
+		label.setScale(y * labelRatio, y * labelRatio);
 		super.setScale(x, y);
 	}
 
@@ -104,7 +118,7 @@ public class Button extends UiActionable {
 	@Override
 	public void setScaleLerp(double x, double y, double lerp) {
 		rect.setScaleLerp(x, y, lerp);
-		label.setScaleLerp(y, y, lerp);
+		label.setScaleLerp(y * labelRatio, y * labelRatio, lerp);
 		super.setScaleLerp(x, y, lerp);
 	}
 
@@ -170,7 +184,7 @@ public class Button extends UiActionable {
 			float posX = Utils.clampF(labelOffset, minOffset, maxOffset),
 					xDif = getPosition().x - label.getPosition().x;
 
-			label.addToPositionSafely(xDif+posX, 0);
+			label.addToPositionSafely(xDif + posX, 0);
 
 		} else { // Text fit in button
 			if (label.getAlignH() != oldAlignH) // Restore alignment

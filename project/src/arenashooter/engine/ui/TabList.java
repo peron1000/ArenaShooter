@@ -63,7 +63,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public void setScissor(boolean scissor) {
 		this.scissor = scissor;
 		for (UiListVertical<? extends E> uiListVertical : circleList) {
-			uiListVertical.forEach(e -> e.setScissorOk(false));
+			uiListVertical.forEach(e -> e.setScissorOk(!scissor));
 		}
 	}
 

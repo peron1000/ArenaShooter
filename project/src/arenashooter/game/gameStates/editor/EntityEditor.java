@@ -54,9 +54,8 @@ class EntityEditor extends UiElement implements MultiUi {
 
 		ScrollerH<TypeEntites> newChild = new ScrollerH<>(TypeEntites.values());
 		newChild.setTitle("New Child");
-		newChild.setScale(5);
+		newChild.setScale(30 , 5);
 		newChild.setBackgroundVisible(true);
-		newChild.setBackgroundScale(30, 5);
 		newChild.setOnValidation(new Trigger() {
 
 			@Override
@@ -68,7 +67,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		modification.setTitle("Setting");
 		modification.setScale(5);
 		modification.setBackgroundVisible(true);
-		modification.setBackgroundScale(30, 5);
+		modification.setScale(30, 5);
 
 		// add
 		UiListVertical<UiElement> vList = new UiListVertical<>();
