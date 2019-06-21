@@ -81,11 +81,9 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	}
 
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		if (Main.drawCollisions)
 			body.debugDraw();
-
-		super.draw();
 	}
 
 	@Override

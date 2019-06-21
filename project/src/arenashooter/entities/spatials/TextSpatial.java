@@ -60,7 +60,7 @@ public class TextSpatial extends Spatial3 {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.MESHES);
 
 		material.setParamTex("distanceField", text.getFont().getTexture());
@@ -73,8 +73,6 @@ public class TextSpatial extends Spatial3 {
 		text.getModel().draw();
 
 		Profiler.endTimer(Profiler.MESHES);
-
-		super.draw();
 	}
 
 	@Override
@@ -84,7 +82,6 @@ public class TextSpatial extends Spatial3 {
 		} else {
 			material.setParamF("editorFilter", 0);
 		}
-		draw();
 	}
 
 	@Override

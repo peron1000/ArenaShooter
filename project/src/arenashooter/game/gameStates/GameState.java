@@ -6,7 +6,9 @@ import java.util.Set;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
 import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
+import arenashooter.game.Main;
 
 public abstract class GameState {
 	protected Arena current;
@@ -46,9 +48,15 @@ public abstract class GameState {
 	}
 
 	public void draw() {
-		current.drawSelfAndChildren();
+		current.renderFirstPass();
 
-		Window.endTransparency(); // Make sure to end transparency
+		if(!Main.skipTransparency) {
+			Window.beginTransparency();
+			for(Entity e : current.transparent)
+				e.draw(true);
+			current.transparent.clear();
+			Window.endTransparency();
+		}
 	}
 
 	public Arena getMap() {

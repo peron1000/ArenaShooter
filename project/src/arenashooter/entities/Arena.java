@@ -3,6 +3,7 @@ package arenashooter.entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +28,10 @@ public class Arena extends Entity {
 	
 	public Vec3f fogColor = new Vec3f(0.929, 0.906, 0.753);
 	public float fogDistance = 3000;
+	
+	//Rendering
+	/** Entities to render during transparency pass */
+	public List<Entity> transparent = new LinkedList<>();
 	
 	//Music
 	public String musicPath = "";
@@ -79,20 +84,6 @@ public class Arena extends Entity {
 	}
 
 	/**
-	 * @author SnPop GetRandomRespawn : rend un spawn aleatoire entre 0 inclus et
-	 *         taille de spawn exclus<br/>
-	 *         Utiliser pour donner un spawn aleatoire a chaque joueur different du
-	 *         dernier utilise
-	 * @return Vec2f
-	 */
-	/*
-	 * public Vec2f GetRandomRespawn() { int randomNum =
-	 * ThreadLocalRandom.current().nextInt(0, spawn.size()); while (dernierspawn ==
-	 * randomNum) { randomNum = ThreadLocalRandom.current().nextInt(0,
-	 * spawn.size()); } dernierspawn = randomNum; return spawn.get(randomNum); }
-	 */
-
-	/**
 	 * Get a spawn location that is not currently occupied by a Character <br/>
 	 * Use this to give a random spawn to each Character
 	 * 
@@ -100,12 +91,6 @@ public class Arena extends Entity {
 	 * @return Vec2f
 	 */
 	public Vec2f GetRandomRespawnch() {
-		/*
-		 * int rand = ThreadLocalRandom.current().nextInt(spawn.size()); if
-		 * (!spawnch.isEmpty()) { while (spawnch.contains(spawn.get(rand))) { rand =
-		 * ThreadLocalRandom.current().nextInt(0, spawn.size()); spawn.get(rand); } } if
-		 * (!spawnch.contains(spawn.get(rand))) { spawnch.add(spawn.get(rand)); }
-		 */
 		Vec2f rand = new Vec2f(0, 0);
 		return rand;
 	}
@@ -130,8 +115,5 @@ public class Arena extends Entity {
 		}
 		usedSpawns.add(randi);
 		return randi;
-
 	}
-	
-	
 }

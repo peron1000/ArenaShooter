@@ -41,9 +41,7 @@ public class Sky extends Entity {
 	}
 
 	@Override
-	public void draw() {
-		super.draw();
-		
+	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		material.bind(quad);

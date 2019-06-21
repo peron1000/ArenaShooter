@@ -33,8 +33,7 @@ public class Particles extends Spatial {
 	public boolean drawAsTransparent() { return true; } //TODO: Remove this
 	
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		system.draw();
-		super.draw();
 	}
 }

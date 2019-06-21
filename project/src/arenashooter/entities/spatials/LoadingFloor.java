@@ -52,9 +52,7 @@ public class LoadingFloor extends Spatial {
 	}
 	
 	@Override
-	public void draw() {
-		super.draw();
-		
+	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		material.setParamTex("baseColor", tex[currentTex]);

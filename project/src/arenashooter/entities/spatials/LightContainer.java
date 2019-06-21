@@ -81,15 +81,12 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	}
 	
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		updateLight();
-		super.draw();
 	}
 	
 	@Override
 	public void editorDraw() {
-		updateLight();
-		
 		if(editorSprite == null) {
 			editorSpriteMat = Material.loadMaterial("data/materials/sprite_simple.xml");
 			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
@@ -98,7 +95,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 		editorSpriteMat.setParamVec4f("baseColorMod", new Vec4f(light.color.x,light.color.y,light.color.z,1));
 		editorSprite.localPosition.set(getWorldPos());
 		editorSprite.localRotation.set(getWorldRot());
-		editorSprite.draw();
+		editorSprite.draw(false);
 	}
 
 	@Override

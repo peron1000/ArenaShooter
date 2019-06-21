@@ -8,7 +8,6 @@ import java.util.Map;
 
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.graphics.fonts.Font.FontChar;
 
 /**
  * Represents a distance field font generated using <a href="https://github.com/libgdx/libgdx/wiki/Hiero">Hiero</a><br/>

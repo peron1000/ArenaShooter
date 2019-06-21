@@ -15,7 +15,6 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
-import arenashooter.game.Main;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
@@ -118,31 +117,29 @@ public class Mesh extends Spatial3 implements IAnimated {
 	}
 	
 	/**
-	 * Draw this entity collection<br/>
-	 * This will call this function of every children
-	 * 
+	 * Render opaque/masked entities and add transparent ones to Arena's list
 	 */
-	@Override
-	public void drawSelfAndChildren() {
-		draw();
+	public void renderFirstPass() {
+		if(drawAsTransparent())
+			getArena().transparent.add(this);
+		draw(false);
 
 		List<Entity> toDraw = new ArrayList<>(getChildren().values());
 		toDraw.sort(comparatorZindex);
 
 		for (Entity e : toDraw)
-			e.drawSelfAndChildren();
+			e.renderFirstPass();
 	}
-
+	
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.MESHES);
 
 		for (int i = 0; i < models.length; i++)
-			drawModel(i);
+			if(materials[i].transparency == transparency)
+				drawModel(i);
 
 		Profiler.endTimer(Profiler.MESHES);
-
-		super.draw();
 	}
 	
 	@Override
@@ -150,30 +147,12 @@ public class Mesh extends Spatial3 implements IAnimated {
 		this.scale.x += scale.x;
 		this.scale.y += scale.y;
 	}
-
-	@Override
-	public void editorDraw() {
-		float editorFilter = 0;
-		if(isEditorTarget())
-			editorFilter = (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f;
-		
-		for (int i = 0; i < models.length; i++) {
-			materials[i].setParamF("editorFilter", editorFilter);
-			drawModel(i);
-		}
-	}
 	
 	/**
 	 * Draw one of the models from this Mesh
 	 * @param i
 	 */
 	private void drawModel(int i) {
-		if(materials[i].transparency)  {
-			if(Main.skipTransparency) return;
-			Window.beginTransparency();
-		} else
-			Window.endTransparency();
-		
 		if(getArena() != null) {
 			materials[i].setParamVec3f("ambient", getArena().ambientLight);
 			materials[i].setParamVec3f("fogColor", getArena().fogColor);
@@ -191,6 +170,15 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 		models[i].bind();
 		models[i].draw();
+	}
+	
+	@Override
+	public void editorDraw() {
+		float editorFilter = 0;
+		if (isEditorTarget())
+			editorFilter = (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f;
+		for(int i=0; i<materials.length; i++)
+			materials[i].setParamF("editorFilter", editorFilter);
 	}
 
 	/**

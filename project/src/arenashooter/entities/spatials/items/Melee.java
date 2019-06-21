@@ -54,7 +54,6 @@ public class Melee extends Usable {
 			String attackSound, float damage) {
 		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
-		this.size = size;
 		this.animMelee = new AnimMelee(new Vec2f(), this);
 		this.extent = extent;
 		getSprite().attachRot = true;

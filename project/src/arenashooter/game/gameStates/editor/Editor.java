@@ -259,6 +259,8 @@ public class Editor extends GameState {
 	
 	@Override
 	public void draw() {
+		super.draw();
+		
 		for (Editable editable : allEditable) {
 			editable.editorDraw();
 		}
@@ -268,7 +270,7 @@ public class Editor extends GameState {
 		grid2d.size.set(gridSize, gridSize);
 		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
 		grid2d.material.setParamF("lineThickness", gridSize*.002f);
-		grid2d.draw();
+		grid2d.draw(true);
 		Window.endTransparency();
 		
 		Window.beginUi();
