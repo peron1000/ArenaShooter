@@ -43,7 +43,7 @@ public class MenuStart extends GameState {
 		logo = new UiImage(logoTex);
 		logo.setScale(logoTex.getWidth() / 6, logoTex.getHeight() / 6);
 		logo.setPosition(-2.25, -24);
-
+		logo.getMaterial().getParamTex("image").setFilter(false);
 		// Text explanation
 //		Right.setScale(Right.getScale().x / 3.142, Right.getScale().y / 3.142);
 //		Right.setPosition(-30, 43);
@@ -53,10 +53,12 @@ public class MenuStart extends GameState {
 
 		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
 		Space.setPosition(-5, 47);
-
+		Space.getMaterial().getParamTex("image").setFilter(false);
+		
 		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
 		A.setPosition(0, 47);
-
+		A.getMaterial().getParamTex("image").setFilter(false);
+		
 		Confirm = new Label(" : Confirm", 3);
 		Confirm.setPosition(8, 47);
 

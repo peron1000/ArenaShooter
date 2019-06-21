@@ -42,9 +42,10 @@ public class CharacterChooser extends GameState {
 	private final double charOffset = 3.121;
 	// Menu menu = new Menu(6);
 	private InputListener inputs = new InputListener();
-	private UiImage Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(), Down = Imageinput.DOWN.getImage(),
-			Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(), Space = Imageinput.SPACE.getImage(),
-			A = Imageinput.A.getImage(), B = Imageinput.B.getImage(),enter;
+	private UiImage Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(),
+			Down = Imageinput.DOWN.getImage(), Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(),
+			Space = Imageinput.SPACE.getImage(), A = Imageinput.A.getImage(), B = Imageinput.B.getImage(), enter;
+
 //	private Label Confirm, Back, Class , Skins;
 	public CharacterChooser() {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
@@ -119,7 +120,8 @@ public class CharacterChooser extends GameState {
 					case UI_CONTINUE:
 						// Device needs to have a controller to start the game
 						if (!controllers.containsKey(event.getDevice())) {
-							Main.log.warn(event.getDevice() + " tried to start the game but doesn't have a controller -> fdp Incoming");
+							Main.log.warn(event.getDevice()
+									+ " tried to start the game but doesn't have a controller -> fdp Incoming");
 							break;
 						}
 
@@ -321,21 +323,19 @@ public class CharacterChooser extends GameState {
 	@Override
 	public void init() {
 		super.init();
-		
 
-		
 		Vec4f color1 = new Vec4f(1, 1, 1, 0.5);
 		Text text = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Choose your Failleterre");
 		TextSpatial textEnt = new TextSpatial(new Vec3f(0, -7.5, 0), new Vec3f(7.3f), text);
 		textEnt.setColor(color1);
 		textEnt.attachToParent(current, "Text_Select");
-		
-		//Join
+
+		// Join
 		Text text66 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : Join");
 		TextSpatial textEnt66 = new TextSpatial(new Vec3f(1.5, 5.55, 0), new Vec3f(5f), text66);
 		textEnt66.setColor(color1);
 		textEnt66.attachToParent(current, "Text66");
-		
+
 		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
 		Space.setPosition(-3, 37);
 		Space.getMaterial().getParamTex("image").setFilter(false);
@@ -343,51 +343,57 @@ public class CharacterChooser extends GameState {
 		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
 		A.setPosition(2, 37);
 		A.getMaterial().getParamTex("image").setFilter(false);
-		
-		//Back
-				Text text77 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "  : Back");
-				TextSpatial textEnt77 = new TextSpatial(new Vec3f(1.5, 6.55, 0), new Vec3f(5f), text77);
-				textEnt77.setColor(color1);
-				textEnt77.attachToParent(current, "Text77");
-				
-				Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
-				Escape.setPosition(-3, 43);
 
-				B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
-				B.setPosition(2, 43);
-		//Skins
-			
-				Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : change skin");
-				TextSpatial textEnt2 = new TextSpatial(new Vec3f(7, 5.55, 0), new Vec3f(4.25f), text2);
-				textEnt2.attachToParent(current, "Text_char");
-				Left.setScale(Left.getScale().x / 3.142, Left.getScale().y / 3.142);
-				Left.setPosition(27, 37);
+		// Back
+		Text text77 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "  : Back");
+		TextSpatial textEnt77 = new TextSpatial(new Vec3f(1.5, 6.55, 0), new Vec3f(5f), text77);
+		textEnt77.setColor(color1);
+		textEnt77.attachToParent(current, "Text77");
 
-				Right.setScale(Right.getScale().x / 3.142, Right.getScale().y / 3.142);
-				Right.setPosition(32, 37);
-		//Class
+		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
+		Escape.setPosition(-3, 43);
+		Escape.getMaterial().getParamTex("image").setFilter(false);
 		
+		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
+		B.setPosition(2, 43);
+		B.getMaterial().getParamTex("image").setFilter(false);
+		// Skins
+
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : change skin");
+		TextSpatial textEnt2 = new TextSpatial(new Vec3f(7, 5.55, 0), new Vec3f(4.25f), text2);
+		textEnt2.attachToParent(current, "Text_char");
+		
+		Left.setScale(Left.getScale().x / 3.142, Left.getScale().y / 3.142);
+		Left.setPosition(27, 37);
+		Left.getMaterial().getParamTex("image").setFilter(false);
+		
+		Right.setScale(Right.getScale().x / 3.142, Right.getScale().y / 3.142);
+		Right.setPosition(32, 37);
+		Right.getMaterial().getParamTex("image").setFilter(false);
+		
+		// Class
+
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "   : change class");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(7, 6.55, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(current, "Text_touch");
 
 		Up.setScale(Up.getScale().x / 3.142, Up.getScale().y / 3.142);
 		Up.setPosition(27, 43);
-
+		Up.getMaterial().getParamTex("image").setFilter(false);
 		Down.setScale(Down.getScale().x / 3.142, Down.getScale().y / 3.142);
 		Down.setPosition(32, 43);
-		
-		
-		
+		Down.getMaterial().getParamTex("image").setFilter(false);
+
 //		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Start' to begin");
 //		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, -5.65, 0), new Vec3f(7.15f), text4);
 //		textEnt4.attachToParent(current, "Text_touch2");
-		//boutton_start
-				Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
-				enter = new UiImage(enterTex);
-				enter.setPosition(new Vec2f(72, 39));
-				enter.setScale(enterTex.getWidth()/3, enterTex.getHeight()/3);
-		
+		// boutton_start
+		Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
+		enter = new UiImage(enterTex);
+		enter.setPosition(new Vec2f(72, 39));
+		enter.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
+		enter.getMaterial().getParamTex("image").setFilter(false);
+
 //		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Jump' to join");
 //		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
 //		textEnt5.attachToParent(current, "Text_touch3");
