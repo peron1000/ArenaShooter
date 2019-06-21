@@ -85,12 +85,14 @@ class MainMenu extends UiElement implements MultiUi {
 		this.editor = editor;
 
 		// Settings mainMenu
+		mainMenu.setScale(xRect+spacing*2, 70);
 		mainMenu.setPosition(0, -30);
 		mainMenu.setSpacingForeachList(spacing);
 		mainMenu.setTitleScale(7, 7);
 		mainMenu.setArrowsDistance(18);
 		mainMenu.setTitleSpacing(8);
 		mainMenu.setScaleArrows(6, 6);
+		mainMenu.setScissor(true);
 		
 		// Settings meshChooser
 		meshChooser.setPosition(0, -30);
@@ -302,8 +304,6 @@ class MainMenu extends UiElement implements MultiUi {
 	}
 
 	private void addMenuConstruction() {
-		final int mod = 8;
-		int i = 0, j = 1;
 		UiListVertical<Button> addMenu = new UiListVertical<>();
 		for (TypeEntites type : TypeEntites.values()) {
 			char first = type.name().charAt(0);
@@ -375,16 +375,6 @@ class MainMenu extends UiElement implements MultiUi {
 					}
 				}
 			});
-			i++;
-			if (i / mod >= j) {
-				for (Button b : addMenu) {
-					b.setScale(xRect, yRect);
-					b.setColorRect(new Vec4f(0, 0, 0, 0.5));
-				}
-				mainMenu.addBind("Adding" + j, addMenu);
-				addMenu = new UiListVertical<>();
-				j++;
-			}
 		}
 		Button animation = new Button("Animation");
 		addMenu.addElement(animation);
@@ -402,7 +392,7 @@ class MainMenu extends UiElement implements MultiUi {
 			button.setColorRect(new Vec4f(0, 0, 0, 0.5));
 		}
 
-		mainMenu.addBind("Adding" + j, addMenu);
+		mainMenu.addBind("Adding", addMenu);
 	}
 
 	private void createNewEntity(Entity entity, TypeEntites type) {
@@ -413,6 +403,7 @@ class MainMenu extends UiElement implements MultiUi {
 		setMenu.addElement(toSetMenu);
 		editor.allEditable.add(entity);
 		entityToButton.put(entity, toSetMenu);
+		toSetMenu.setScissorOk(false);
 		toSetMenu.setOnArm(new Trigger() {
 
 			@Override
@@ -450,6 +441,7 @@ class MainMenu extends UiElement implements MultiUi {
 
 	public void constructCamerabutton(Camera cam) {
 		Button toSetMenu = new Button("camera");
+		toSetMenu.setScissorOk(false);
 		toSetMenu.setScale(xRect, yRect);
 		setMenu.addElement(toSetMenu);
 		entityToButton.put(cam, toSetMenu);

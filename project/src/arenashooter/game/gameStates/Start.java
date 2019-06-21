@@ -1,6 +1,8 @@
 package arenashooter.game.gameStates;
 
+import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
+import arenashooter.game.gameStates.editor.Editor;
 
 /**
  * Startup State
@@ -8,7 +10,7 @@ import arenashooter.game.Main;
 public class Start extends GameState {
 	@Override
 	public void update(double delta) {
-		Main.getGameMaster().requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
+		Main.getGameMaster().requestNextState(new Editor(), GameMaster.mapEmpty);
 	}
 
 }

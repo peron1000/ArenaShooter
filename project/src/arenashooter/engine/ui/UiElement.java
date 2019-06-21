@@ -12,8 +12,9 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	private Vec2f pos = new Vec2f(), scale = new Vec2f(10), toLerpPos = pos.clone(), reScale = scale.clone(),
 			toSuperLerpPos = pos.clone();
-	private double rotation = 0, lerp = defaultLerp;
-	private boolean visible = true, onSuperLerp = false;
+	private double rotation = 0;
+	private double lerp = defaultLerp;
+	private boolean visible = true, onSuperLerp = false , scissorOk = true;
 
 	public UiElement(float xPos, float yPos, float xScale, float yScale, double rot) {
 		rotation = rot;
@@ -33,6 +34,21 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
+	}
+
+	/**
+	 * @return the scissorOk
+	 */
+	public boolean isScissorOk() {
+		return scissorOk;
+	}
+
+	/**
+	 * Set to false to avoid scissor conflicts
+	 * @param scissorOk the scissorOk to set
+	 */
+	public void setScissorOk(boolean scissorOk) {
+		this.scissorOk = scissorOk;
 	}
 
 	public boolean isVisible() {
@@ -97,6 +113,31 @@ public abstract class UiElement implements Navigable, NoStatic {
 		setPositionLerp(x + pos.x, y + pos.y, lerp);
 	}
 
+	/**
+	 * Don't break a setPositionLerp call
+	 * 
+	 * @param x
+	 * @param y
+	 * @param lerp
+	 */
+	public void addToPositionSafely(double x, double y) {
+		if (onSuperLerp) {
+			toLerpPos.x += x;
+			toLerpPos.y += y;
+			toSuperLerpPos.x += x;
+			toSuperLerpPos.y += y;
+		} else if (isOnlerp()) {
+			toLerpPos.x += x;
+			toLerpPos.y += y;
+		} else {
+			pos.x += x;
+			pos.y += y;
+			toLerpPos.set(pos);
+			toSuperLerpPos.set(pos);
+		}
+
+	}
+
 	public void addToPositionSuperLerp(double x, double y, double lerp) {
 		setPositionSuperLerp(x + pos.x, y + pos.y, lerp);
 	}
@@ -142,6 +183,10 @@ public abstract class UiElement implements Navigable, NoStatic {
 	 */
 	public void addToScale(double square) {
 		setScale(square + scale.x, square + scale.y);
+	}
+
+	public boolean isOnlerp() {
+		return !toLerpPos.equals(pos, 0.05f);
 	}
 
 	@Override

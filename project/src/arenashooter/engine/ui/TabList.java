@@ -62,6 +62,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	public void setScissor(boolean scissor) {
 		this.scissor = scissor;
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			uiListVertical.forEach(e -> e.setScissorOk(false));
+		}
 	}
 
 	public boolean isScissor() {
@@ -114,7 +117,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	public void setArrowsDistance(double arrowsDistance) {
 		this.arrowsDistance = arrowsDistance;
 		double y = getPosition().y - titleSpacing;
-		arrowLeft.setPosition(getPosition().x-arrowsDistance, y);
+		arrowLeft.setPosition(getPosition().x - arrowsDistance, y);
 		arrowRight.setPosition(getPosition().x + arrowsDistance, y);
 	}
 
@@ -138,6 +141,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		circleList.add(uiList);
 		uiList.setSpacing(spacing);
 		resetPositionOfList(uiList);
+		setScissor(scissor);
 	}
 
 	public void addLabelInfo(UiListVertical<? extends E> uiList, Label info) {
@@ -224,6 +228,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			uiList.forEach(e -> c.accept(e));
 		}
 		c.accept(tabTitle);
+		c.accept(arrowLeft);
+		c.accept(arrowRight);
 	}
 
 	private void actionOnAll(Consumer<NoStatic> c) {
@@ -243,7 +249,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	private void slideUpdate() {
 		double top = topMainList(), bottom = top + getScale().y;
-		
+
 		if (getTarget().getTop() < top) {
 			double d = top - getTarget().getTop();
 			circleList.get().addToPositionLerp(0, d, 20);
@@ -252,10 +258,10 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			circleList.get().addToPositionLerp(0, d, 20);
 		}
 	}
-	
+
 	private float topMainList() {
 		UiListVertical<Label> vList = labelsInfo.get(circleList.get());
-		if(vList != null && vList.size() >0) {
+		if (vList != null && vList.size() > 0) {
 			return vList.getBottom();
 		} else {
 			return getPosition().y;
@@ -269,20 +275,16 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public void setPosition(double x, double y) {
+		double xDif = x - getPosition().x , yDif = y - getPosition().y;
 		super.setPosition(x, y);
-		for (UiListVertical<? extends E> uiListVertical : circleList) {
-			resetPositionOfList(uiListVertical);
-		}
-		setTitleSpacing(titleSpacing);
+		actionOnAllSimpleElement(e -> e.addToPosition(xDif, yDif));
 	}
 
 	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
+		double xDif = x - getPosition().x , yDif = y - getPosition().y;
 		super.setPositionLerp(x, y, lerp);
-		for (UiListVertical<? extends E> uiListVertical : circleList) {
-			resetPositionOfList(uiListVertical);
-		}
-		setTitleSpacing(titleSpacing);
+		actionOnAllSimpleElement(e -> e.addToPositionLerp(xDif, yDif, lerp));
 	}
 
 	@Override
@@ -300,8 +302,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	@Override
 	public boolean rightAction() {
 		if (!getTarget().rightAction()) {
-			if(circleList.size() <= 1) return false;
-			
+			if (circleList.size() <= 1)
+				return false;
+
 			circleList.next();
 			indexTarget = 0;
 			resetPositionOfList(circleList.get());
@@ -315,8 +318,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	@Override
 	public boolean leftAction() {
 		if (!getTarget().leftAction()) {
-			if(circleList.size() <= 1) return false;
-			
+			if (circleList.size() <= 1)
+				return false;
+
 			circleList.get().setPosition(getPosition());
 			circleList.previous();
 			indexTarget = 0;
@@ -400,9 +404,6 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 				vlist.draw();
 			} else {
 				Window.stackScissor(getLeft(), topMainList() + getScale().y, getScale().x, getScale().y);
-				UiImage j = new UiImage(1, 1, 0, 1);
-				j.setScale(300);
-				j.draw();
 				vlist.draw();
 				Window.popScissor();
 			}
