@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd" >
+<map>
+	<information>
+		
+		<gravity x="0" y="9.807" />
+		
+		<ambientLight r="0.78" g="0.78" b="0.63"/>
+
+		<fog distance="3000" r="0.929" g="0.906" b="0.753" />
+
+		<cameraPos x="0" y="0" z="40" />
+		
+		<killBounds minX="-100" minY="-100" maxX="100" maxY="40" />
+
+		<sky>
+			<vector x="0.659" y="0.835" z="0.996" use="bottom" />
+			<vector x="0.016" y="0.145" z="0.565" use="top" />
+		</sky>
+	</information>
+
+	<entities>
+		<directionalLight>
+			<vector use="color" x="0.929" y="0.906" z="0.753" />
+			<vector use="rotation" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609" w="-0.11692503839731216" />
+		</directionalLight>
+	</entities>
+</map>
