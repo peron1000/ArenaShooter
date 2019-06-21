@@ -100,7 +100,7 @@ class MainMenu extends UiElement implements MultiUi {
 		meshChooser.setArrowsDistance(30);
 		meshChooser.setTitleScale(6, 6);
 		meshChooser.setArrowsDistance(20);
-		meshChooser.setTitleSpacing(1.2);
+		meshChooser.setTitleSpacing(8);
 
 		setPosition(Editor.forVisible, 0);
 
@@ -114,9 +114,9 @@ class MainMenu extends UiElement implements MultiUi {
 		mainMenu.addBind("Set", setMenu);
 		setMenu.setSpacing(spacing);
 
-		saveQuitMenuConstruction();
-
 		arenaInfoMenuConstruction();
+		
+		saveQuitMenuConstruction();
 
 		meshChooserMenuConstruction();
 
