@@ -64,7 +64,7 @@ public class Character extends RigidBodyContainer {
 	/** Melee attack cooldown */
 	private boolean stunned = false;
 	private Timer stun = null;
-	private Timer attackCooldown = new Timer(0.2);
+	private Timer attackCooldown = new Timer(0.35);
 	private int attackCombo = 0;
 	private Timer parry = new Timer(1.5);
 	private boolean parryCooldown = false;
@@ -157,11 +157,11 @@ public class Character extends RigidBodyContainer {
 						getWorldPos());
 				jumpi = true;
 				if (canWallJump != 0)
-					getBody().setLinearVelocity(Vec2f.rotate(new Vec2f(x, -jumpForce * 1.3 + (y < 0 ? y / 2 : 0)),
+					getBody().setLinearVelocity(Vec2f.rotate(new Vec2f(x, -jumpForce * 1.55 + (y < 0 ? y / 2 : 0)),
 							(canWallJump > 0 ? -1 : 1)));
 				else
-					getBody().setLinearVelocity(Vec2f.rotate(new Vec2f(x, -jumpForce * 1.3 + (y < 0 ? y / 2 : 0)),
-							(lastJumpCouldMake > 0 ? -1 : 1)));
+					getBody().setLinearVelocity(Vec2f.rotate(new Vec2f(x, -jumpForce * 1.55 + (y < 0 ? y / 2 : 0)),
+							(lastJumpCouldMake > 0 ? -.9 : .9)));
 			} else if (bonusJumpsUsed++ < bonusJumpsMax) {
 				jumpTimer.reset();
 				jumpTimer.setProcessing(true);
@@ -564,8 +564,8 @@ public class Character extends RigidBodyContainer {
 					velY = Utils.lerpD(velY, movementInputY * 25, Utils.clampD(d * 15, 0, 1));
 			} else if (getLinearVelocity().y > 75)
 				velY = Utils.lerpD(velY, 75, Utils.clampD(d * 15, 0, 1));
-			else if (getLinearVelocity().y < -75)
-				velY = Utils.lerpD(velY, -75, Utils.clampD(d * 15, 0, 1));
+			else if (getLinearVelocity().y < -65)
+				velY = Utils.lerpD(velY, -65, Utils.clampD(d * 15, 0, 1));
 			getBody().setLinearVelocity(new Vec2f(velX, velY));
 		} else {
 			stun.step(d);
