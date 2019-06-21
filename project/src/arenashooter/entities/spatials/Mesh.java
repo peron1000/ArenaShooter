@@ -1,5 +1,8 @@
 package arenashooter.entities.spatials;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
@@ -11,6 +14,8 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Entity;
+import arenashooter.game.Main;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
@@ -111,30 +116,29 @@ public class Mesh extends Spatial3 implements IAnimated {
 		}
 		return false;
 	}
+	
+	/**
+	 * Draw this entity collection<br/>
+	 * This will call this function of every children
+	 * 
+	 */
+	@Override
+	public void drawSelfAndChildren() {
+		draw();
+
+		List<Entity> toDraw = new ArrayList<>(getChildren().values());
+		toDraw.sort(comparatorZindex);
+
+		for (Entity e : toDraw)
+			e.drawSelfAndChildren();
+	}
 
 	@Override
 	public void draw() {
 		Profiler.startTimer(Profiler.MESHES);
 
-		for (int i = 0; i < models.length; i++) {
-			if(getArena() != null) {
-				materials[i].setParamVec3f("ambient", getArena().ambientLight);
-				materials[i].setParamVec3f("fogColor", getArena().fogColor);
-				materials[i].setParamF("fogDistance", getArena().fogDistance);
-				materials[i].setLights(getArena().lights);
-			}
-
-			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
-			materials[i].setParamMat4f("view", Window.getView());
-			materials[i].setParamMat4f("projection", Window.proj);
-
-			materials[i].setParamI("time", timeMs);
-
-			materials[i].bind(models[i]);
-
-			models[i].bind();
-			models[i].draw();
-		}
+		for (int i = 0; i < models.length; i++)
+			drawModel(i);
 
 		Profiler.endTimer(Profiler.MESHES);
 
@@ -149,32 +153,44 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 	@Override
 	public void editorDraw() {
+		float editorFilter = 0;
+		if(isEditorTarget())
+			editorFilter = (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f;
+		
 		for (int i = 0; i < models.length; i++) {
-			
-			if (isEditorTarget()) {
-				materials[i].setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
-			} else {
-				materials[i].setParamF("editorFilter", 0);
-			}
-
-			if(getArena() != null) {
-				materials[i].setParamVec3f("ambient", getArena().ambientLight);
-				materials[i].setParamVec3f("fogColor", getArena().fogColor);
-				materials[i].setParamF("fogDistance", getArena().fogDistance);
-				materials[i].setLights(getArena().lights);
-			}
-
-			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
-			materials[i].setParamMat4f("view", Window.getView());
-			materials[i].setParamMat4f("projection", Window.proj);
-
-			materials[i].setParamI("time", timeMs);
-
-			materials[i].bind(models[i]);
-
-			models[i].bind();
-			models[i].draw();
+			materials[i].setParamF("editorFilter", editorFilter);
+			drawModel(i);
 		}
+	}
+	
+	/**
+	 * Draw one of the models from this Mesh
+	 * @param i
+	 */
+	private void drawModel(int i) {
+		if(materials[i].transparency)  {
+			if(Main.skipTransparency) return;
+			Window.beginTransparency();
+		} else
+			Window.endTransparency();
+		
+		if(getArena() != null) {
+			materials[i].setParamVec3f("ambient", getArena().ambientLight);
+			materials[i].setParamVec3f("fogColor", getArena().fogColor);
+			materials[i].setParamF("fogDistance", getArena().fogDistance);
+			materials[i].setLights(getArena().lights);
+		}
+
+		materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+		materials[i].setParamMat4f("view", Window.getView());
+		materials[i].setParamMat4f("projection", Window.proj);
+
+		materials[i].setParamI("time", timeMs);
+
+		materials[i].bind(models[i]);
+
+		models[i].bind();
+		models[i].draw();
 	}
 
 	/**
