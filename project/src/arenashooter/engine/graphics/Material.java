@@ -8,6 +8,7 @@ import java.util.Set;
 import static org.lwjgl.opengl.GL20.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL20.glActiveTexture;
 
+import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -178,9 +179,10 @@ public class Material {
 			//Skip black lights
 			if(light.color.x == 0 && light.color.y == 0 && light.color.z == 0) continue;
 			//Skip invalid directional lights
-			if(light.radius < 0 && light.position.x == 0 && light.position.y == 0 && light.position.z == 0) continue;
+			if(light.getType() == LightType.DIRECTIONAL && light.direction.x == 0 && light.direction.y == 0 && light.direction.z == 0) continue;
 
 			setParamVec3f("lights["+i+"].position", light.position);
+			setParamVec3f("lights["+i+"].direction", light.direction);
 			setParamF("lights["+i+"].radius", light.radius);
 			setParamVec3f("lights["+i+"].color", light.color);
 			i++;

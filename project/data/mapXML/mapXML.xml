@@ -92,7 +92,9 @@
 
 		<gravity  x="0" y="9.807" />
 		
-		<ambientLight r="0.595" g="0.7" b="0.7"/>
+		<ambientLight r="0.78" g="0.78" b="0.63"/>
+
+		<fog distance="3000" r="0.929" g="0.906" b="0.753" />
 
 		<cameraPos x="0" y="-15" z="100" />
 
@@ -106,8 +108,8 @@
 
 	<entities>
 		<directionalLight>
-			<vector use="color" x="1" y="1" z="0.99" />
-			<vector use="rotation" x="-0.2414757" y="-0.3917141" z="-0.887009" w="0.03828" />
+			<vector use="color" x="0.929" y="0.906" z="0.753" />
+			<vector use="rotation" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609" w="-0.11692503839731216" />
 		</directionalLight>
 		<spawn playerSpawn="true" cooldown="2">
 			<vector x="-7" y="1" use="position" />
