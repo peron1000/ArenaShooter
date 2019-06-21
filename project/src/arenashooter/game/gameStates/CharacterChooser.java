@@ -20,7 +20,6 @@ import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.Imageinput;
-import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
@@ -40,18 +39,15 @@ public class CharacterChooser extends GameState {
 	private final Vec2f secondRow = new Vec2f(-26.621, 4.6);
 	private double nextSpriteX = firstX;
 	private final double charOffset = 3.121;
-	// Menu menu = new Menu(6);
 	private InputListener inputs = new InputListener();
 	private UiImage Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(),
 			Down = Imageinput.DOWN.getImage(), Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(),
 			Space = Imageinput.SPACE.getImage(), A = Imageinput.A.getImage(), B = Imageinput.B.getImage(), enter;
 
-//	private Label Confirm, Back, Class , Skins;
 	public CharacterChooser() {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void launch(InputActionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_UP:
@@ -120,8 +116,7 @@ public class CharacterChooser extends GameState {
 					case UI_CONTINUE:
 						// Device needs to have a controller to start the game
 						if (!controllers.containsKey(event.getDevice())) {
-							Main.log.warn(event.getDevice()
-									+ " tried to start the game but doesn't have a controller -> fdp Incoming");
+							Main.log.warn(event.getDevice()+" tried to start the game but doesn't have a controller");
 							break;
 						}
 
@@ -138,7 +133,6 @@ public class CharacterChooser extends GameState {
 						break;
 
 					case UI_OK:
-						// if (controllers.get(event.getDevice()) == null)
 						if (!controllers.keySet().contains(event.getDevice())) {
 							addController(event.getDevice());
 						}
@@ -192,7 +186,7 @@ public class CharacterChooser extends GameState {
 		newNumber.attachToParent(current.getChild("PlayerSprite_" + pileOrdreJoueur.size()).getChild("body"),
 				"Player_Number");
 
-		Main.log.info("CharacterSprite added at coordinates x = " + nextSpriteX);
+		Main.log.debug("CharacterSprite added at coordinates x = " + nextSpriteX);
 		Main.log.info("Player Number : " + newController.playerNumber);
 
 		nextSpriteX += charOffset;
@@ -249,10 +243,7 @@ public class CharacterChooser extends GameState {
 		// Reposition sprites
 		for (Map.Entry<Controller, CharacterSprite> entry : sprites.entrySet()) {
 			CharacterSprite sprite = entry.getValue();
-//			float currentPos = sprite.localPosition.x;
 			if (sprite.localPosition.x > charSprite.localPosition.x) {
-//				currentPos -= charOffset;
-//				Vec2f pos = new Vec2f(currentPos, 0);
 				sprite.localPosition.x -= charOffset;
 			}
 		}
@@ -353,7 +344,7 @@ public class CharacterChooser extends GameState {
 		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
 		Escape.setPosition(-3, 43);
 		Escape.getMaterial().getParamTex("image").setFilter(false);
-		
+
 		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
 		B.setPosition(2, 43);
 		B.getMaterial().getParamTex("image").setFilter(false);
@@ -362,15 +353,15 @@ public class CharacterChooser extends GameState {
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : change skin");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(7, 5.55, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(current, "Text_char");
-		
+
 		Left.setScale(Left.getScale().x / 3.142, Left.getScale().y / 3.142);
 		Left.setPosition(27, 37);
 		Left.getMaterial().getParamTex("image").setFilter(false);
-		
+
 		Right.setScale(Right.getScale().x / 3.142, Right.getScale().y / 3.142);
 		Right.setPosition(32, 37);
 		Right.getMaterial().getParamTex("image").setFilter(false);
-		
+
 		// Class
 
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "   : change class");
@@ -384,19 +375,12 @@ public class CharacterChooser extends GameState {
 		Down.setPosition(32, 43);
 		Down.getMaterial().getParamTex("image").setFilter(false);
 
-//		Text text4 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Start' to begin");
-//		TextSpatial textEnt4 = new TextSpatial(new Vec3f(0, -5.65, 0), new Vec3f(7.15f), text4);
-//		textEnt4.attachToParent(current, "Text_touch2");
-		// boutton_start
+		// botton_start
 		Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
 		enter = new UiImage(enterTex);
 		enter.setPosition(new Vec2f(72, 39));
 		enter.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
 		enter.getMaterial().getParamTex("image").setFilter(false);
-
-//		Text text5 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Press 'Jump' to join");
-//		TextSpatial textEnt5 = new TextSpatial(new Vec3f(0, 4.5, 0), new Vec3f(4.25f), text5);
-//		textEnt5.attachToParent(current, "Text_touch3");
 
 		// TODO: Classes explanation.
 
@@ -432,9 +416,6 @@ public class CharacterChooser extends GameState {
 		cam.setFOV(90);
 		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
-
-		// Add a controller for keyboard
-//		addController(Device.KEYBOARD);
 	}
 
 	@Override
