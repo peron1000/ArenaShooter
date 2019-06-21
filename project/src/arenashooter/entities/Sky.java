@@ -44,10 +44,10 @@ public class Sky extends Entity {
 	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.SPRITES);
 		
-		material.bind(quad);
-		
-		quad.bind();
-		quad.draw();
+		if(material.bind(quad)) {
+			quad.bind();
+			quad.draw();
+		}
 		
 		Profiler.endTimer(Profiler.SPRITES);
 	}

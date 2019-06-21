@@ -166,10 +166,10 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 		materials[i].setParamI("time", timeMs);
 
-		materials[i].bind(models[i]);
-
-		models[i].bind();
-		models[i].draw();
+		if(materials[i].bind(models[i])) {
+			models[i].bind();
+			models[i].draw();
+		}
 	}
 	
 	@Override

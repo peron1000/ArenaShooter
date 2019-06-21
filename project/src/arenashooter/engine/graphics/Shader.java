@@ -50,7 +50,7 @@ public class Shader {
 		Shader cached = cache.get(key);
 		if(cached != null) return cached;
 		
-		Shader shader = loadShaderFil(pathVertex, pathFragment);
+		Shader shader = loadShaderFromDisk(pathVertex, pathFragment);
 		cache.put(key, shader);
 		return shader;
 	}
@@ -61,7 +61,7 @@ public class Shader {
 	 * @param fragmentPath resource path to the fragment shader
 	 * @return 
 	 */
-	private static Shader loadShaderFil(String vertexPath, String fragmentPath) {
+	private static Shader loadShaderFromDisk(String vertexPath, String fragmentPath) {
 		//Vertex shader
 		String vertexSrc;
 		
@@ -109,7 +109,9 @@ public class Shader {
 			Window.log.error(glGetProgramInfoLog(program));
 		}
 		glValidateProgram(program);
-		if( glGetProgrami(program, GL_VALIDATE_STATUS) != GL_TRUE ) {
+		
+		boolean success = glGetProgrami(program, GL_VALIDATE_STATUS) == GL_TRUE;
+		if( !success ) {
 			Window.log.error("Cannot validate shaders: "+vertexPath+", "+fragmentPath);
 			Window.log.error(glGetProgramInfoLog(program));
 		}
@@ -122,7 +124,10 @@ public class Shader {
 		glDetachShader(program, fragment);
 		glDeleteShader(fragment);
 		
-		return new Shader(program);
+		if(success)
+			return new Shader(program);
+		else
+			return null;
 	}
 	
 	public int getAttribLocation(String name) { return glGetAttribLocation(program, name); }

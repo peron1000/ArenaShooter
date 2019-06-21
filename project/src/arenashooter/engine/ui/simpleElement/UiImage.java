@@ -111,10 +111,10 @@ public class UiImage extends UiElement {
 			material.setParamMat4f("model", Mat4f.transform(getPosition(), getRotation(), getScale(), modelM));
 			material.setParamMat4f("projection", Window.projOrtho);
 
-			material.bind(model);
-
-			model.bind();
-			model.draw();
+			if(material.bind(model)) {
+				model.bind();
+				model.draw();
+			}
 		}
 	}
 

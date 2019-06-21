@@ -59,10 +59,11 @@ public class Sprite extends Spatial {
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM));
 		material.setParamMat4f("view", Window.getView());
 		material.setParamMat4f("projection", Window.proj);
-		material.bind(model);
 		
-		model.bind();
-		model.draw();
+		if(material.bind(model)) {
+			model.bind();
+			model.draw();
+		}
 		
 		Profiler.endTimer(Profiler.SPRITES);
 	}

@@ -67,10 +67,11 @@ public class TextSpatial extends Spatial3 {
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
 		material.setParamMat4f("view", Window.getView());
 		material.setParamMat4f("projection", Window.proj);
-		material.bind(text.getModel());
-
-		text.getModel().bind();
-		text.getModel().draw();
+		
+		if(material.bind(text.getModel())) {
+			text.getModel().bind();
+			text.getModel().draw();
+		}
 
 		Profiler.endTimer(Profiler.MESHES);
 	}

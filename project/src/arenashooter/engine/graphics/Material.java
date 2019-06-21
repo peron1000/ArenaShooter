@@ -67,8 +67,14 @@ public class Material {
 		return res.clone();
 	}
 
-	public void bind(Model model) {
+	/**
+	 * Attempt to bind this Material for rendering
+	 * @param model
+	 * @return success
+	 */
+	public boolean bind(Model model) {
 		if(!ready) initMaterial();
+		if(shader == null) return false;
 		
 		shader.bind();
 		model.bindToShader(shader);
@@ -98,6 +104,8 @@ public class Material {
 			shader.setUniformI(entry.getKey(), texSlot);
 			texSlot++;
 		}
+		
+		return true;
 	}
 	
 	public int getParamI(String name) {
