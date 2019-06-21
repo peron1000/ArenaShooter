@@ -112,7 +112,7 @@ public class Loading extends GameState {
 		firstStep = true;
 		currentTime = 0;
 
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default.frag");
+		Window.postProcess = new PostProcess("data/shaders/post_process/pp_loading.frag");
 
 		bouleMagique.attachToParent(current, "BouleMagique");
 		bouleMagique.size.set(3, 3);
