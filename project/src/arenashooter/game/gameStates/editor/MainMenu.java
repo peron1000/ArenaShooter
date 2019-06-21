@@ -85,7 +85,7 @@ class MainMenu extends UiElement implements MultiUi {
 		this.editor = editor;
 
 		// Settings mainMenu
-		mainMenu.setScale(xRect+spacing*2, 70);
+		mainMenu.setScale(xRect + spacing * 2, 70);
 		mainMenu.setPosition(0, -30);
 		mainMenu.setSpacingForeachList(spacing);
 		mainMenu.setTitleScale(7, 7);
@@ -93,7 +93,7 @@ class MainMenu extends UiElement implements MultiUi {
 		mainMenu.setTitleSpacing(8);
 		mainMenu.setScaleArrows(6, 6);
 		mainMenu.setScissor(true);
-		
+
 		// Settings meshChooser
 		meshChooser.setPosition(0, -30);
 		meshChooser.setSpacingForeachList(spacing);
@@ -115,7 +115,7 @@ class MainMenu extends UiElement implements MultiUi {
 		setMenu.setSpacing(spacing);
 
 		arenaInfoMenuConstruction();
-		
+
 		saveQuitMenuConstruction();
 
 		meshChooserMenuConstruction();
@@ -201,7 +201,7 @@ class MainMenu extends UiElement implements MultiUi {
 				b.setScale(xRect, yRect);
 			}
 		}
-		
+
 		mainMenu.addBind("Arena Info", arenaInfo);
 
 	}
@@ -451,6 +451,8 @@ class MainMenu extends UiElement implements MultiUi {
 			public void make() {
 				editor.onSetting = cam;
 				editor.setCurrentMenu(new EntityEditor(MainMenu.this, cam, TypeEntites.ENTITY));
+
+				setCamera(arenaConstruction.getArena().cameraBasePos);
 			}
 		});
 	}
@@ -464,9 +466,15 @@ class MainMenu extends UiElement implements MultiUi {
 		Sky sky = (Sky) arenaConstruction.getChild("sky");
 		sky.setColorBot(color);
 	}
-	
+
 	private void setAmbientLight(Vec3f ambient) {
 		arenaConstruction.ambientLight.set(ambient);
+	}
+
+	private void setCamera(Vec3f pos) {
+		Camera cam = (Camera) arenaConstruction.getChild("camera");
+		cam.localPosition = pos;
+		;
 	}
 
 	@Override
