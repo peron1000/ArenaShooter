@@ -23,6 +23,8 @@ abstract class Emitter {
 	int remaining;
 	/** Particles to spawn this frame */
 	double particlesToSpawn = 0;
+	/** World Angle */
+	double angle = 0;
 	//Visuals
 	Material material;
 	Shader shader;
@@ -75,7 +77,9 @@ abstract class Emitter {
 	 * @param gravity world gravity vector
 	 * @return emitter ended and can be destroyed
 	 */
-	boolean update(double delta, Vec2f gravity) {
+	boolean update(double delta, Vec2f gravity, double worldRotation) {
+		angle = worldRotation;
+		
 		if( delay > 0 ) {
 			delay -= delta;
 			return false;

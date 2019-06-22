@@ -43,8 +43,8 @@ class EmitterSparks extends Emitter {
 	}
 	
 	@Override
-	boolean update(double delta, Vec2f gravity) {
-		super.update(delta, gravity);
+	boolean update(double delta, Vec2f gravity, double worldRotation) {
+		super.update(delta, gravity, worldRotation);
 		
 		//Force = current map gravity
 		Vec2f force = Vec2f.multiply(gravity, data.gravityScale);
@@ -73,6 +73,7 @@ class EmitterSparks extends Emitter {
 			
 			//Random velocity vector from angle and velocity
 			Vec2f vel = Vec2f.fromAngle( Utils.lerpF(angleMin, angleMax, Math.random()) );
+			vel = Vec2f.rotate(vel, angle);
 			vel.multiply( Utils.lerpF(velocityMin, velocityMax, Math.random()) );
 			velocities.add( vel );
 

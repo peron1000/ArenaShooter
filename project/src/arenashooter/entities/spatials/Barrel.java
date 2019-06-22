@@ -14,10 +14,10 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 
 public class Barrel extends RigidBodyContainer {
-	private float damage = 40;
+	private float damage = 50;
 	private double health = 15;
 	private Mesh barrelMesh;
-	private Timer detonTimer = new Timer(2.25);
+	private Timer detonTimer = new Timer(1.25);
 	private Entity instigator;
 	private double timeSinceLastSpark = 0;
 	double timeUntilNewSpark = 0.2;

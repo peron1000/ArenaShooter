@@ -5,25 +5,27 @@
 		<item>
 			<gun name="minigun" weight="43"
 				pathSprite="data/weapons/Minigun_1.png" soundPickup="GunCock_02"
-				cooldown="0.03" uses="350" animPath="" warmupDuration="0.25"
+				cooldown="0.015" uses="350" animPath="" warmupDuration="0.3"
 				soundWarmup="warmup_minigun_01" bangSound="Bang1"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="1.5" recoil="0.2" thrust="2.6" size="64">
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="40" damage=".5"
+				cannonLength="1.9" recoil="0.2" thrust="1.5">
 
 				<vector use="handPosL" x="-.8" y="-.1" />
 				<vector use="handPosR" x="0" y="-.28" />
+				<vector use="extent" x="1" y="0.2" />
 			</gun>
 		</item>
 		<item>
 			<gun name="assault" weight="43"
 				pathSprite="data/weapons/Assaut_1.png" soundPickup="GunCock_01"
-				cooldown="0.09" uses="100" animPath="" warmupDuration="0"
+				cooldown="0.09" uses="50" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_tommy_gun_01"
-				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="35" damage="1"
-				cannonLength="0.75" recoil="0.4" thrust="2.00" size="64">
+				noAmmoSound="no_ammo_01" bulletType="0" bulletSpeed="60" damage="2"
+				cannonLength="1" recoil="0.4" thrust="2.00">
 
 				<vector use="handPosL" x="-.32" y=".15" />
 				<vector use="handPosR" x=".25" y=".05" />
+				<vector use="extent" x="1" y="0.2" />
 			</gun>
 		</item>
 		<item>
@@ -31,11 +33,12 @@
 				pathSprite="data/weapons/GLauncher1.png" soundPickup="GunCock_01"
 				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="grenade_launcher_01"
-				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="30" damage="95"
-				cannonLength="1.38" recoil="1" thrust="2.00" size="64">
+				noAmmoSound="no_ammo_01" bulletType="2" bulletSpeed="25" damage="50"
+				cannonLength="1.38" recoil="1" thrust="2.00">
 
 				<vector use="handPosL" x="-.32" y=".2" />
 				<vector use="handPosR" x=".3" y=".1" />
+				<vector use="extent" x="1" y="0.2" />
 			</gun>
 		</item>
 		<item>
@@ -44,10 +47,11 @@
 				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
 				soundWarmup="IonCharge3" bangSound="BangIonGun"
 				noAmmoSound="no_ammo_01" bulletType="1" bulletSpeed="30" damage="1"
-				cannonLength="0.75" recoil="1" thrust="2.00" size="64">
+				cannonLength="1.38" recoil="1" thrust="2.00">
 
 				<vector use="handPosL" x="-.32" y=".2" />
 				<vector use="handPosR" x=".3" y=".1" />
+				<vector use="extent" x="1" y="0.2" />
 			</gun>
 		</item>
 		<item>
@@ -56,33 +60,24 @@
 				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
 				soundWarmup="" bangSound="bang_shotgun_01" noAmmoSound="no_ammo_01"
 				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
-				damage="2" cannonLength=".6" recoil="2" thrust="25.00" size="2">
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00">
 
 				<vector use="handPosL" x="-.65" y=".15" />
 				<vector use="handPosR" x=".067" y=".125" />
+				<vector use="extent" x="1" y="0.2" />
 			</shotgun>
 		</item>
 		<item>
 			<gun name="stargun" weight="43"
 				pathSprite="data/weapons/StunGun.png" soundPickup="mbggnea1"
-				cooldown="0.2" uses="60" animPath="" warmupDuration="1"
-				soundWarmup="wabada" bangSound="ni"
-				noAmmoSound="he" bulletType="3" bulletSpeed="35" damage="0.25"
-				cannonLength="0.9" recoil="3.3" thrust="0.3" size="64">
-
+				cooldown="1" uses="10" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="ni"
+				noAmmoSound="he" bulletType="3" bulletSpeed="40" damage="2"
+				cannonLength="0.6" recoil="3.3" thrust="0.3">
+				<vector use="extent" x="1" y="0.2" />
 				<vector use="handPosL" x="-0.4" y="-.1" />
 				<vector use="handPosR" x="-0.6" y=".2" />
 			</gun>
-		</item>
-		<item>
-			<melee name="kata" weight="5"
-				pathSprite="data/weapons/sword_01.png" soundPickup="sword_draw_01"
-				cooldown="1.0" uses="350" animPath="" warmupDuration="0.1"
-				soundWarmup="" damage="3" bangSound="woosh_01" size="2">
-
-				<vector use="handPosL" x="-50" y="0" />
-				<vector use="handPosR" x="0" y="0" />
-			</melee>
 		</item>
 		
 		<gravity x="0" y="9.807" />

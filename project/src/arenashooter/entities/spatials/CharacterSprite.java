@@ -228,6 +228,8 @@ public class CharacterSprite extends Spatial {
 		Particles blood = new Particles(new Vec2f(), bloodParticles);
 		blood.selfDestruct = true;
 		blood.attachToParent(this, blood.genName());
+		blood.lockRotation(info.direction.angle());
+		blood.zIndex = zIndex + 5;
 	}
 
 	public void stopCharge() {
@@ -259,38 +261,20 @@ public class CharacterSprite extends Spatial {
 		Particles rageBits = new Particles(new Vec2f(), "data/particles/Rage.xml");
 		rageBits.selfDestruct = true;
 		rageBits.attachToParent(this, rageBits.genName());
+		
+		Particles fuse = new Particles(new Vec2f(), "data/particles/Fuse.xml");
+		fuse.selfDestruct = true;
+		fuse.attachToParent(this, fuse.genName());
 	}
 	
 	public void rainConfetti() {
 		Particles confett1 = new Particles(new Vec2f(), "data/particles/Confetti1.xml");
-		Particles confett2 = new Particles(new Vec2f(), "data/particles/Confetti2.xml");
-		Particles confett3 = new Particles(new Vec2f(), "data/particles/Confetti3.xml");
-		Particles confett4 = new Particles(new Vec2f(), "data/particles/Confetti4.xml");
-		Particles confett5 = new Particles(new Vec2f(), "data/particles/Confetti5.xml");
-		Particles confett6 = new Particles(new Vec2f(), "data/particles/Confetti6.xml");
-		Particles confett7 = new Particles(new Vec2f(), "data/particles/Confetti7.xml");
 		confett1.localPosition.set(0, -5);
-		confett2.localPosition.set(0, -5);
-		confett3.localPosition.set(0, -5);
-		confett4.localPosition.set(0, -5);
-		confett5.localPosition.set(0, -5);
-		confett6.localPosition.set(0, -5);
-		confett7.localPosition.set(0, -5);
 		confett1.selfDestruct = true;
-		confett2.selfDestruct = true;
-		confett3.selfDestruct = true;
-		confett4.selfDestruct = true;
-		confett5.selfDestruct = true;
-		confett6.selfDestruct = true;
-		confett7.selfDestruct = true;
 		confett1.attachToParent(this, confett1.genName());
-		confett2.attachToParent(this, confett2.genName());
-		confett3.attachToParent(this, confett3.genName());
-		confett4.attachToParent(this, confett4.genName());
-		confett5.attachToParent(this, confett5.genName());
-		confett6.attachToParent(this, confett6.genName());
-		confett7.attachToParent(this, confett7.genName());
+		confett1.zIndex = zIndex + 5;
 	}
+	
 	public void explode(Vec2f impulse) {
 		// Head
 		RigidBody rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(head.getWorldPos(), new Vec2f(0, .5)),

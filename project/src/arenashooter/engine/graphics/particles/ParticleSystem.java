@@ -12,48 +12,50 @@ import arenashooter.engine.xmlReaders.ParticlesXmlReader;
 
 public class ParticleSystem {
 	private static Map<String, EmitterTemplate[]> cache = new HashMap<>();
-	
+
 	private List<Emitter> emitters;
 	/** System's world position */
 	public Vec3f position;
-	
-	private ParticleSystem( EmitterTemplate[] data ) {
+
+	private ParticleSystem(EmitterTemplate[] data) {
 		this.position = new Vec3f();
 		emitters = new ArrayList<Emitter>();
-		
-		for( EmitterTemplate emitterData : data ) {
-			if(emitterData instanceof EmitterTemplateBasic)
-				emitters.add(new EmitterBasic(this, (EmitterTemplateBasic)emitterData));
-			else if(emitterData instanceof EmitterTemplateSparks)
-				emitters.add(new EmitterSparks(this, (EmitterTemplateSparks)emitterData));
+
+		for (EmitterTemplate emitterData : data) {
+			if (emitterData instanceof EmitterTemplateBasic)
+				emitters.add(new EmitterBasic(this, (EmitterTemplateBasic) emitterData));
+			else if (emitterData instanceof EmitterTemplateSparks)
+				emitters.add(new EmitterSparks(this, (EmitterTemplateSparks) emitterData));
 		}
 	}
-	
+
 	public static ParticleSystem load(String path) {
 		EmitterTemplate[] emitters = cache.get(path);
-		
-		if(emitters != null) return new ParticleSystem( emitters );
-		
+
+		if (emitters != null)
+			return new ParticleSystem(emitters);
+
 		emitters = ParticlesXmlReader.read(path);
-		
+
 		cache.put(path, emitters);
-		
-		return new ParticleSystem( emitters );
+
+		return new ParticleSystem(emitters);
 	}
-	
-	public void update(double delta, Vec2f gravity) {
-		for( int i=emitters.size()-1; i>=0; i-- ) {
-			if( emitters.get(i).update(delta, gravity) ) emitters.remove(i);
+
+	public void update(double delta, Vec2f gravity, double worldRotation) {
+		for (int i = emitters.size() - 1; i >= 0; i--) {
+			if (emitters.get(i).update(delta, gravity, worldRotation))
+				emitters.remove(i);
 		}
 	}
-	
+
 	public boolean ended() {
 		return emitters.isEmpty();
 	}
-	
+
 	public void draw() {
 		Profiler.startTimer(Profiler.PARTICLES);
-		for(Emitter e : emitters)
+		for (Emitter e : emitters)
 			e.draw();
 		Profiler.endTimer(Profiler.PARTICLES);
 	}

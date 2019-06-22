@@ -518,7 +518,8 @@ public class Character extends RigidBodyContainer {
 
 	private int jumpPoints = 0;
 	private boolean autoSlideUp = false;
-	private boolean rayTouchedWall = false;
+	private boolean rayTouched = false;
+	private boolean touchedAWall = false;
 
 	@Override
 	public void step(double d) {
@@ -560,8 +561,8 @@ public class Character extends RigidBodyContainer {
 			}
 
 			if (movementInputY > 0.4) {
-				if (!isOnGround)
-					velY = Utils.lerpD(velY, movementInputY * 25, Utils.clampD(d * 15, 0, 1));
+				if (!isOnGround && velY < 40)
+					velY = Utils.lerpD(velY, movementInputY * 40, Utils.clampD(d * 15, 0, 1));
 			} else if (getLinearVelocity().y > 75)
 				velY = Utils.lerpD(velY, 75, Utils.clampD(d * 15, 0, 1));
 			else if (getLinearVelocity().y < -65)
@@ -620,36 +621,36 @@ public class Character extends RigidBodyContainer {
 
 		//
 		// deciding WallJump
-		rayTouchedWall = false;
+		rayTouched = false;
 		for (int i = 1; i < 6; i++) {
 			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y + .18 * i).toB2Vec(),
 					new Vec2f(x + (i == 5 ? .4 : .55), y + .18 * i).toB2Vec());
 		}
-		if (rayTouchedWall)
+		if (rayTouched)
 			touchingRightWall = true;
 
-		rayTouchedWall = false;
-		for (int i = 0; i < 5 && !rayTouchedWall; i++) {
+		rayTouched = false;
+		for (int i = 0; i < 5 && !rayTouched; i++) {
 			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y - .2 * i).toB2Vec(),
 					new Vec2f(x + .55, y - .2 * i).toB2Vec());
 		}
-		if (!rayTouchedWall && touchingRightWall)
+		if (!rayTouched && touchingRightWall)
 			autoSlideUp = true;
 
-		rayTouchedWall = false;
+		rayTouched = false;
 		for (int i = 1; i < 6; i++) {
 			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y + .18 * i).toB2Vec(),
 					new Vec2f(x - (i == 5 ? .4 : .55), y + .18 * i).toB2Vec());
 		}
-		if (rayTouchedWall)
+		if (rayTouched)
 			touchingLeftWall = true;
 
-		rayTouchedWall = false;
-		for (int i = 0; i < 5 && !rayTouchedWall; i++) {
+		rayTouched = false;
+		for (int i = 0; i < 5 && !rayTouched; i++) {
 			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y - .2 * i).toB2Vec(),
 					new Vec2f(x - .55, y - .2 * i).toB2Vec());
 		}
-		if (!rayTouchedWall && touchingLeftWall)
+		if (!rayTouched && touchingLeftWall)
 			autoSlideUp = true;
 
 		if (touchingLeftWall) {
@@ -772,14 +773,14 @@ public class Character extends RigidBodyContainer {
 			if (fixture.isSensor())
 				return -1;
 
-			if ((fixture.getFilterData().categoryBits & CollisionCategory.CAT_CHARACTER.bits) != 0)
+			if ((fixture.getFilterData().categoryBits & CollisionCategory.CAT_CHARACTER.bits) != 0 || (fixture.getFilterData().categoryBits & CollisionCategory.CAT_CORPSE.bits) != 0 || (fixture.getFilterData().categoryBits & CollisionCategory.CAT_EXPLOSION.bits) != 0 || (fixture.getFilterData().categoryBits & CollisionCategory.CAT_ITEM.bits) != 0 || (fixture.getFilterData().categoryBits & CollisionCategory.CAT_PROJ.bits) != 0 || (fixture.getFilterData().categoryBits & CollisionCategory.CAT_RIGIDBODY.bits) != 0)
 				return -1;
 
 			// Ignore anything the character doesn't collide with
 			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
 				return -1;
 
-			rayTouchedWall = true;
+			rayTouched = true;
 
 			return fraction;
 		}

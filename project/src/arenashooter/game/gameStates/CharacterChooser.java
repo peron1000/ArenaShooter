@@ -225,7 +225,7 @@ public class CharacterChooser extends GameState {
 		classIcon.attachToParent(current, "class_Icon_Player_" + newController.playerNumber);
 		classIcon.getTexture().setFilter(false);
 
-		Audio.playSound("data/sound/ui/ui_join.ogg", AudioChannel.UI, 1, 1);
+		Audio.playSound("data/sound/ui/ui_join.ogg", AudioChannel.UI, .5f, 1);
 	}
 
 	private void removeController(Device device) {
@@ -262,7 +262,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
 		Main.log.info("GameMaster.gm.controllers.size()" + Main.getGameMaster().controllers.size());
 
-		Audio.playSound("data/sound/ui/ui_leave.ogg", AudioChannel.UI, 1, 1);
+		Audio.playSound("data/sound/ui/ui_leave.ogg", AudioChannel.UI, .5f, 1);
 	}
 
 	/**
