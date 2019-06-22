@@ -140,12 +140,12 @@ public class Config extends GameState {
 				gameParam.setNbRound(rounds.get());
 			}
 		});
-		rounds.setScale(5);
+		rounds.setScale(35 , 10);
 		vlist.addElement(rounds);
 		vlist.setPosition(-57.5, -40);
 
-		bgU.setScale(35, 10);
-		bgS.setScale(35, 10);
+//		bgU.setScale(35, 10);
+//		bgS.setScale(35, 10);
 		
 		menu.addListVertical(vlist);
 

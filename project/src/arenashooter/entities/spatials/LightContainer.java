@@ -5,6 +5,7 @@ import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -16,6 +17,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	
 	private Mesh editorSprite;
 	private Material editorSpriteMat;
+	private Mesh editorMesh;
 	
 	private Animation anim;
 
@@ -51,7 +53,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 			light.position.set(getWorldPos());
 			break;
 		case DIRECTIONAL:
-			light.position.set(getWorldRot().forward());
+			light.direction.set(getWorldRot().forward());
 			break;
 		default:
 			break;
@@ -81,24 +83,35 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	}
 	
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		updateLight();
-		super.draw();
 	}
 	
 	@Override
 	public void editorDraw() {
-		updateLight();
-		
 		if(editorSprite == null) {
 			editorSpriteMat = Material.loadMaterial("data/materials/sprite_simple.xml");
 			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
 			editorSprite = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(1), editorSpriteMat);
 		}
-		editorSpriteMat.setParamVec4f("baseColorMod", new Vec4f(light.color.x,light.color.y,light.color.z,1));
+		if(editorMesh == null) {
+			editorMesh = new Mesh(new Vec3f(), "data/meshes/arrow.obj");
+		}
+		
+		Vec4f lightColor = new Vec4f(light.color, 1);
+		
+		editorSpriteMat.setParamVec4f("baseColorMod", lightColor);
 		editorSprite.localPosition.set(getWorldPos());
-		editorSprite.localRotation.set(getWorldRot());
-		editorSprite.draw();
+		editorSprite.draw(false);
+		
+		if(light.getType() != LightType.POINT) {
+			editorMesh.localPosition.set(getWorldPos());
+			editorMesh.localRotation.set(getWorldRot());
+			editorMesh.getMaterial(0).setParamVec4f("baseColor", lightColor);
+			editorMesh.draw(false);
+		}
+		System.out.println(light.direction);
+		System.out.println(getWorldRot());
 	}
 
 	@Override

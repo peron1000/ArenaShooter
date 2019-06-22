@@ -96,6 +96,12 @@ public class Editor extends GameState {
 					EntityEditor edit = (EntityEditor) currentMenu;
 					final double scaleSpeed = 0.005, positionSpeed = 0.02, rotationSpeed = 0.005;
 					switch (event.getAction()) {
+					case UI_ZOOMR:
+						cam.editorAddDepth(-0.1f);
+						break;
+					case UI_ZOOML:
+						cam.editorAddDepth(0.1f);
+						break;
 					case UI_DOWN2:
 						switch (edit.getModificationType()) {
 						case POSITION:
@@ -113,8 +119,8 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(0, -scaleSpeed));
 							break;
-						case DEEP:
-							onSetting.editorAddDeep((float) positionSpeed);
+						case DEPTH:
+							onSetting.editorAddDepth((float) positionSpeed);
 							break;
 						default:
 							break;
@@ -137,8 +143,8 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(0, scaleSpeed));
 							break;
-						case DEEP:
-							onSetting.editorAddDeep(-(float) positionSpeed);
+						case DEPTH:
+							onSetting.editorAddDepth(-(float) positionSpeed);
 							break;
 						default:
 							break;
@@ -161,7 +167,7 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(scaleSpeed, 0));
 							break;
-						case DEEP:
+						case DEPTH:
 							break;
 						default:
 							break;
@@ -184,7 +190,7 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(-scaleSpeed, 0));
 							break;
-						case DEEP:
+						case DEPTH:
 							break;
 						default:
 							break;
@@ -196,10 +202,10 @@ public class Editor extends GameState {
 				} else if(event.getActionState() == ActionState.PRESSED) {
 					switch (event.getAction()) {
 					case UI_ZOOMR:
-						cam.editorAddDeep(-0.1f);
+						cam.editorAddDepth(-0.1f);
 						break;
 					case UI_ZOOML:
-						cam.editorAddDeep(0.1f);
+						cam.editorAddDepth(0.1f);
 						break;
 					default:
 						break;
@@ -259,6 +265,8 @@ public class Editor extends GameState {
 	
 	@Override
 	public void draw() {
+		super.draw();
+		
 		for (Editable editable : allEditable) {
 			editable.editorDraw();
 		}
@@ -268,7 +276,7 @@ public class Editor extends GameState {
 		grid2d.size.set(gridSize, gridSize);
 		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
 		grid2d.material.setParamF("lineThickness", gridSize*.002f);
-		grid2d.draw();
+		grid2d.draw(true);
 		Window.endTransparency();
 		
 		Window.beginUi();

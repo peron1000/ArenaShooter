@@ -20,6 +20,7 @@ import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.gameStates.editor.editorEnum.SetEditable;
@@ -72,7 +73,8 @@ class EntityEditor extends UiElement implements MultiUi {
 		// add
 		UiListVertical<UiElement> vList = new UiListVertical<>();
 		vList.addElements(newChild, modification);
-
+if(entity instanceof Camera) {}
+else {
 		Button rename = new Button("Rename Entity");
 		rename.setOnArm(new Trigger() {
 
@@ -110,7 +112,7 @@ class EntityEditor extends UiElement implements MultiUi {
 			}
 		});
 		vList.addElement(removeEntity);
-
+}
 		switch (type) {
 		case RIGID_BOX:
 		case STATIC_BOX:

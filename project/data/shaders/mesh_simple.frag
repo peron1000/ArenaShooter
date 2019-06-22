@@ -2,6 +2,7 @@
 
 struct lightStruct {
   vec3 position;
+  vec3 direction;
   float radius;
   vec3 color;
 };
@@ -27,18 +28,18 @@ uniform lightStruct lights[16];
 out vec4 FragmentColor;
 
 vec3 directionalLight(lightStruct light, vec3 worldNormal) {
-    float dotN = dot(light.position*-1, worldNormal);
+    float dotN = dot(light.direction, worldNormal);
     
     return light.color * max(dotN, 0);
 }
 
 vec3 pointLight(lightStruct light, vec3 worldNormal) {
-    vec3 direction = worldPosition - light.position;
+    vec3 direction = light.position - worldPosition;
     float distance = length(direction);
     
-    float intensity = 1-min( distance/light.radius, 1 );
+    float intensity = 1.0-min( distance/light.radius, 1.0 );
     
-    intensity *= max( 1, dot(direction*-1, worldNormal) );
+    intensity *= max( dot(direction, worldNormal), 0.0 );
     
     return light.color*( intensity );
 }

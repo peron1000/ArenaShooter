@@ -1,5 +1,8 @@
 package arenashooter.entities.spatials;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
@@ -11,6 +14,7 @@ import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.entities.Entity;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
@@ -111,34 +115,31 @@ public class Mesh extends Spatial3 implements IAnimated {
 		}
 		return false;
 	}
+	
+	/**
+	 * Render opaque/masked entities and add transparent ones to Arena's list
+	 */
+	public void renderFirstPass() {
+		if(drawAsTransparent())
+			getArena().transparent.add(this);
+		draw(false);
 
+		List<Entity> toDraw = new ArrayList<>(getChildren().values());
+		toDraw.sort(comparatorZindex);
+
+		for (Entity e : toDraw)
+			e.renderFirstPass();
+	}
+	
 	@Override
-	public void draw() {
+	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.MESHES);
 
-		for (int i = 0; i < models.length; i++) {
-			if(getArena() != null) {
-				materials[i].setParamVec3f("ambient", getArena().ambientLight);
-				materials[i].setParamVec3f("fogColor", getArena().fogColor);
-				materials[i].setParamF("fogDistance", getArena().fogDistance);
-				materials[i].setLights(getArena().lights);
-			}
-
-			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
-			materials[i].setParamMat4f("view", Window.getView());
-			materials[i].setParamMat4f("projection", Window.proj);
-
-			materials[i].setParamI("time", timeMs);
-
-			materials[i].bind(models[i]);
-
-			models[i].bind();
-			models[i].draw();
-		}
+		for (int i = 0; i < models.length; i++)
+			if(materials[i].transparency == transparency)
+				drawModel(i);
 
 		Profiler.endTimer(Profiler.MESHES);
-
-		super.draw();
 	}
 	
 	@Override
@@ -146,35 +147,38 @@ public class Mesh extends Spatial3 implements IAnimated {
 		this.scale.x += scale.x;
 		this.scale.y += scale.y;
 	}
+	
+	/**
+	 * Draw one of the models from this Mesh
+	 * @param i
+	 */
+	private void drawModel(int i) {
+		if(getArena() != null) {
+			materials[i].setParamVec3f("ambient", getArena().ambientLight);
+			materials[i].setParamVec3f("fogColor", getArena().fogColor);
+			materials[i].setParamF("fogDistance", getArena().fogDistance);
+			materials[i].setLights(getArena().lights);
+		}
 
-	@Override
-	public void editorDraw() {
-		for (int i = 0; i < models.length; i++) {
-			
-			if (isEditorTarget()) {
-				materials[i].setParamF("editorFilter", (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f);
-			} else {
-				materials[i].setParamF("editorFilter", 0);
-			}
+		materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+		materials[i].setParamMat4f("view", Window.getView());
+		materials[i].setParamMat4f("projection", Window.proj);
 
-			if(getArena() != null) {
-				materials[i].setParamVec3f("ambient", getArena().ambientLight);
-				materials[i].setParamVec3f("fogColor", getArena().fogColor);
-				materials[i].setParamF("fogDistance", getArena().fogDistance);
-				materials[i].setLights(getArena().lights);
-			}
+		materials[i].setParamI("time", timeMs);
 
-			materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
-			materials[i].setParamMat4f("view", Window.getView());
-			materials[i].setParamMat4f("projection", Window.proj);
-
-			materials[i].setParamI("time", timeMs);
-
-			materials[i].bind(models[i]);
-
+		if(materials[i].bind(models[i])) {
 			models[i].bind();
 			models[i].draw();
 		}
+	}
+	
+	@Override
+	public void editorDraw() {
+		float editorFilter = 0;
+		if (isEditorTarget())
+			editorFilter = (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f;
+		for(int i=0; i<materials.length; i++)
+			materials[i].setParamF("editorFilter", editorFilter);
 	}
 
 	/**

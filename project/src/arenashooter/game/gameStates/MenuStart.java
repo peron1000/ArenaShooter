@@ -18,7 +18,6 @@ import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.editor.Editor;
 
@@ -103,7 +102,7 @@ public class MenuStart extends GameState {
 		buttonEditor.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Main.getGameMaster().requestNextState(new Editor(), "data/mapXML/menu_empty.xml");
+				Main.getGameMaster().requestNextState(new Editor(), "data/mapXML/menu_editor_new.xml");
 			}
 		});
 

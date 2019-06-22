@@ -134,6 +134,6 @@ public class Spawner extends Spatial {
 	
 	@Override
 	public void editorDraw() {
-		editorView.draw();
+		editorView.draw(false);
 	}
 }

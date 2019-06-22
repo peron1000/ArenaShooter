@@ -10,6 +10,6 @@ public interface Editable {
 	public void editorAddRotationX(double angle);
 	public void editorAddRotationY(double angle);
 	public void editorAddRotationZ(double angle);
-	public void editorAddDeep(float deep);
+	public void editorAddDepth(float depth);
 	public void editorDraw();
 }

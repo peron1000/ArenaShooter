@@ -5,7 +5,6 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;

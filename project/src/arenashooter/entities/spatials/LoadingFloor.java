@@ -52,19 +52,18 @@ public class LoadingFloor extends Spatial {
 	}
 	
 	@Override
-	public void draw() {
-		super.draw();
-		
+	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		material.setParamTex("baseColor", tex[currentTex]);
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), size, modelM));
 		material.setParamMat4f("view", Window.getView());
 		material.setParamMat4f("projection", Window.proj);
-		material.bind(model);
 		
-		model.bind();
-		model.draw();
+		if(material.bind(model)) {
+			model.bind();
+			model.draw();
+		}
 		
 		Profiler.endTimer(Profiler.SPRITES);
 	}

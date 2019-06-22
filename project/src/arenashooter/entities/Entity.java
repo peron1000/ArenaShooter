@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
 
@@ -169,56 +168,28 @@ public class Entity implements Editable {
 		return zIndex;
 	}
 
-//	/**
-//	 * Draw this entity if opaque/masked or add it to the transparency
-//	 * collection<br/>
-//	 * This will call this function of every children
-//	 * 
-//	 * @param transparent
-//	 *            collection of transparent entities
-//	 */
-//	public void drawOpaque(Collection<Entity> transparent) {
-//		if (drawAsTransparent())
-//			transparent.add(this);
-//		{Window.beginTransparency();
-//		draw();
-//		Window.endTransparency();}
-//		else
-//			draw();
-//
-//		List<Entity> toDraw = new ArrayList<>(children.values());
-//		toDraw.sort(comparator);
-//		
-//		for (Entity e : toDraw)
-//			e.drawOpaque(transparent);
-//	}
-
 	/**
-	 * Draw this entity collection<br/>
-	 * This will call this function of every children
-	 * 
+	 * Render opaque/masked entities and add transparent ones to Arena's list
 	 */
-	public void drawSelfAndChildren() {
-		if (drawAsTransparent())
-			Window.beginTransparency();
+	public void renderFirstPass() {
+		if(drawAsTransparent())
+			getArena().transparent.add(this);
 		else
-			Window.endTransparency();
-		
-		if( !Main.skipTransparency || !drawAsTransparent() )
-			draw();
+			draw(false);
 
 		List<Entity> toDraw = new ArrayList<>(children.values());
 		toDraw.sort(comparatorZindex);
 
 		for (Entity e : toDraw)
-			e.drawSelfAndChildren();
+			e.renderFirstPass();
 	}
 
 	/**
 	 * Draw this entity<br/>
 	 * This will be called during the opaque pass or the transparency pass if drawAsTransparent()
+	 * @param transparency is this called during transparency pass
 	 */
-	public void draw() { }
+	public void draw(boolean transparency) { }
 
 	public String genName() {
 		return String.valueOf(toString()+System.nanoTime());
@@ -249,13 +220,14 @@ public class Entity implements Editable {
 		// Nothing
 	}
 
+	/**
+	 * This is used to draw additional elements such as icons in arena editor
+	 */
 	@Override
-	public void editorDraw() {
-		draw();
-	}
+	public void editorDraw() { }
 
 	@Override
-	public void editorAddDeep(float deep) {
+	public void editorAddDepth(float depth) {
 		// Nothing		
 	}
 

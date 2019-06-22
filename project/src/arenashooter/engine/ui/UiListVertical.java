@@ -29,6 +29,7 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 			element.setPosition(getPosition().x, getPosition().y);
 		}
 		list.add(element);
+		updatePositionElements();
 	}
 
 	public void addElements(E... elements) {

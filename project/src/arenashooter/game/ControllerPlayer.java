@@ -36,6 +36,7 @@ public class ControllerPlayer extends Controller {
 					Vec2f mouseCentered = Input.mousePos.clone();
 					mouseCentered.x /= Window.getWidth();
 					mouseCentered.x -= .5;
+					mouseCentered.x *= Window.getRatio();
 					mouseCentered.y /= Window.getHeight();
 					mouseCentered.y -= .5;
 					mouseCentered.multiply(2);
