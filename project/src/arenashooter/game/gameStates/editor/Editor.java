@@ -96,6 +96,12 @@ public class Editor extends GameState {
 					EntityEditor edit = (EntityEditor) currentMenu;
 					final double scaleSpeed = 0.005, positionSpeed = 0.02, rotationSpeed = 0.005;
 					switch (event.getAction()) {
+					case UI_ZOOMR:
+						cam.editorAddDepth(-0.1f);
+						break;
+					case UI_ZOOML:
+						cam.editorAddDepth(0.1f);
+						break;
 					case UI_DOWN2:
 						switch (edit.getModificationType()) {
 						case POSITION:
@@ -113,7 +119,7 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(0, -scaleSpeed));
 							break;
-						case DEEP:
+						case DEPTH:
 							onSetting.editorAddDepth((float) positionSpeed);
 							break;
 						default:
@@ -137,7 +143,7 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(0, scaleSpeed));
 							break;
-						case DEEP:
+						case DEPTH:
 							onSetting.editorAddDepth(-(float) positionSpeed);
 							break;
 						default:
@@ -161,7 +167,7 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(scaleSpeed, 0));
 							break;
-						case DEEP:
+						case DEPTH:
 							break;
 						default:
 							break;
@@ -184,7 +190,7 @@ public class Editor extends GameState {
 						case SCALE:
 							onSetting.editorAddScale(new Vec2f(-scaleSpeed, 0));
 							break;
-						case DEEP:
+						case DEPTH:
 							break;
 						default:
 							break;
