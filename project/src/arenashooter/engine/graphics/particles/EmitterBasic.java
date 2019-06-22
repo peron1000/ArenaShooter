@@ -80,7 +80,8 @@ class EmitterBasic extends Emitter {
 
 			//Random velocity vector from angle and velocity
 			Vec2f vel = Vec2f.fromAngle( Utils.lerpF(angleMin, angleMax, Math.random()) );
-			vel = Vec2f.rotate(vel, angle);
+			Vec2f.rotate(vel, angle, vel);
+			
 			vel.multiply( Utils.lerpF(velocityMin, velocityMax, Math.random()) );
 			velocities.add( vel );
 			
