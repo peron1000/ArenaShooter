@@ -113,14 +113,9 @@ section {
 
 div.gallery {
   margin: 5px;
-  border: 1px solid #ccc;
   display: inline-block;
   /*float: left;*/
   width: 180px;
-}
-
-div.gallery:hover {
-  border: 1px solid #777;
 }
 
 div.gallery img {
@@ -134,6 +129,15 @@ div.desc {
   text-align: center;
   color: white;
   text-decoration: none;
+}
+
+.quote {
+  font-style: italic;
+  font-family: Arial, Gadget, sans-serif;
+  font-weight: bold;
+  margin-left: 8px;
+  text-shadow: 1px 1px 2px rgba(250, 250, 250, 0.2);
+  font-size: 1.25em;
 }
 
 /*
@@ -243,10 +247,12 @@ video {
   width: 100%;
   height: auto;
 }
+
 iframe {
   image-rendering: auto;
   width: 100%;
-  }
+}
+
 footer {
   position: fixed;
   left: 0px;
