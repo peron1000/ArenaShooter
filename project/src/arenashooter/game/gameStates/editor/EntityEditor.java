@@ -73,46 +73,46 @@ class EntityEditor extends UiElement implements MultiUi {
 		// add
 		UiListVertical<UiElement> vList = new UiListVertical<>();
 		vList.addElements(newChild, modification);
-if(entity instanceof Camera) {}
-else {
-		Button rename = new Button("Rename Entity");
-		rename.setOnArm(new Trigger() {
+		if(entity instanceof Camera) {}
+		else {
+			Button rename = new Button("Rename Entity");
+			rename.setOnArm(new Trigger() {
 
-			@Override
-			public void make() {
-				uiInputState = Ui_Input.TEXT;
-				textInput.reset();
-				textInput.setPosition(entityNameLabel.getPosition().x, entityNameLabel.getPosition().y);
-				textInput.setScale(10);
-				entityNameLabel.setVisible(false);
-				textInput.setOnFinish(new Trigger() {
+				@Override
+				public void make() {
+					uiInputState = Ui_Input.TEXT;
+					textInput.reset();
+					textInput.setPosition(entityNameLabel.getPosition().x, entityNameLabel.getPosition().y);
+					textInput.setScale(10);
+					entityNameLabel.setVisible(false);
+					textInput.setOnFinish(new Trigger() {
 
-					@Override
-					public void make() {
-						uiInputState = Ui_Input.NOTHING;
-						Entity parent = entity.getParent();
-						entityNameString = textInput.getText();
-						entity.detach();
-						entity.attachToParent(parent, entityNameString);
-						entityNameLabel.setText("Name : " + entityNameString);
-						entityNameLabel.setVisible(true);
-						mainMenu.setButtonName(entity, entityNameString);
-					}
-				});
-			}
-		});
-		vList.addElement(rename);
+						@Override
+						public void make() {
+							uiInputState = Ui_Input.NOTHING;
+							Entity parent = entity.getParent();
+							entityNameString = textInput.getText();
+							entity.detach();
+							entity.attachToParent(parent, entityNameString);
+							entityNameLabel.setText("Name : " + entityNameString);
+							entityNameLabel.setVisible(true);
+							mainMenu.setButtonName(entity, entityNameString);
+						}
+					});
+				}
+			});
+			vList.addElement(rename);
 
-		Button removeEntity = new Button("Remove Entity");
-		removeEntity.setOnArm(new Trigger() {
+			Button removeEntity = new Button("Remove Entity");
+			removeEntity.setOnArm(new Trigger() {
 
-			@Override
-			public void make() {
-				mainMenu.removeEntity(entity);
-			}
-		});
-		vList.addElement(removeEntity);
-}
+				@Override
+				public void make() {
+					mainMenu.removeEntity(entity);
+				}
+			});
+			vList.addElement(removeEntity);
+		}
 		switch (type) {
 		case RIGID_BOX:
 		case STATIC_BOX:

@@ -16,6 +16,7 @@ import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
 import arenashooter.entities.Sky;
+import arenashooter.entities.spatials.Spatial3;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Main;
@@ -105,7 +106,10 @@ public class Editor extends GameState {
 					case UI_DOWN2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							onSetting.editorAddPosition(new Vec2f(0, positionSpeed));
+							if(onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(0, positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z)));
+							else
+								onSetting.editorAddPosition(new Vec2f(0, positionSpeed));
 							break;
 						case ROTATION_Z:
 							onSetting.editorAddRotationZ(-rotationSpeed);
@@ -129,7 +133,10 @@ public class Editor extends GameState {
 					case UI_UP2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							onSetting.editorAddPosition(new Vec2f(0, -positionSpeed));
+							if(onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(0, -positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z)));
+							else
+								onSetting.editorAddPosition(new Vec2f(0, -positionSpeed));
 							break;
 						case ROTATION_Z:
 							onSetting.editorAddRotationZ(rotationSpeed);
@@ -153,7 +160,10 @@ public class Editor extends GameState {
 					case UI_RIGHT2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							onSetting.editorAddPosition(new Vec2f(positionSpeed, 0));
+							if(onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z), 0));
+							else
+								onSetting.editorAddPosition(new Vec2f(positionSpeed, 0));
 							break;
 						case ROTATION_Z:
 							onSetting.editorAddRotationZ(rotationSpeed);
@@ -176,7 +186,10 @@ public class Editor extends GameState {
 					case UI_LEFT2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							onSetting.editorAddPosition(new Vec2f(-positionSpeed, 0));
+							if(onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(-positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z), 0));
+							else
+								onSetting.editorAddPosition(new Vec2f(-positionSpeed, 0));
 							break;
 						case ROTATION_Z:
 							onSetting.editorAddRotationZ(-rotationSpeed);
@@ -275,7 +288,7 @@ public class Editor extends GameState {
 		float gridSize = (float) (getCamera().getWorldPos().z * 1.5);
 		grid2d.size.set(gridSize, gridSize);
 		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
-		grid2d.material.setParamF("lineThickness", gridSize*.002f);
+		grid2d.material.setParamF("lineThickness", (float)Math.min(.5, gridSize*.002));
 		grid2d.draw(true);
 		Window.endTransparency();
 		
