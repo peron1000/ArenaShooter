@@ -143,9 +143,9 @@ public class Vec4f {
 	
 	public static Vec4f lerp( Vec4f a, Vec4f b, double f, Vec4f target ) {
 		target.x = Utils.lerpF(a.x, b.x, f);
-		target.x = Utils.lerpF(a.y, b.y, f);
-		target.x = Utils.lerpF(a.z, b.z, f);
-		target.x = Utils.lerpF(a.w, b.w, f);
+		target.y = Utils.lerpF(a.y, b.y, f);
+		target.z = Utils.lerpF(a.z, b.z, f);
+		target.w = Utils.lerpF(a.w, b.w, f);
 		
 		return target;
 	}
