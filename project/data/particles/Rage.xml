@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
 <particleSystem>
+	<emitter delay="0" duration="0" lifetimeMin=".2" lifetimeMax=".5" rate="10" initialRotMin="-3.14159" initialRotMax="3.14159">
+		<texture filtered="false" src="data/particle_glow.png"/>
+		<modules>
+			<colorOverLife>
+				<vec4 x=".9" y=".4" z=".2" w="1" use="colorStart"/>
+				<vec4 x=".9" y=".4" z=".2" w=".7" use="colorEnd"/>
+			</colorOverLife>
+			<sizeOverLife>
+				<vec2 x=".5" y=".5" use="sizeStart"/>
+				<vec2 x=".65" y=".65" use="sizeEnd"/>
+			</sizeOverLife>
+			<gravity gravityScale=".01"/>
+			<initialVelCone angleMin="-3.14159" angleMax="3.14159" velMin="10" velMax="20"/>
+		</modules>
+	</emitter>
+	<!-- 
 	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="0.2" lifetimeMax="0.5" rate="10" velocityMin="10" velocityMax="20" gravityScale="0.01">
 	<basic sizeInitial=".5" sizeEnd=".65"></basic>
-<!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented> -->
 	<texture filtered="false" src="data/particle_glow.png"/>
 	<vec4 x=".9" y=".4" z=".2" w="1" use="colorStart"/>
 	<vec4 x=".9" y=".4" z=".2" w=".7" use="colorEnd"/>
 	</emitter>
+	 -->
 </particleSystem>
