@@ -1,70 +1,37 @@
 package arenashooter.engine.graphics.particles;
 
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.math.Vec4f;
+import java.util.LinkedList;
+import java.util.List;
 
-public abstract class EmitterTemplate {
-	///Emitter parameters
+import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.particles.modules.ParticleModule;
+
+public class EmitterTemplate {
+	final Texture tex;
+	
+	final float lifetimeMin, lifetimeMax;
+
 	/** Total duration of emission, 0 for single burst, -1 for infinite */
 	final float duration;
 	/** Delay before starting the emitter */
-	float delay;
+	final float delay;
 	/** Spawn rate, in particles per second or particle count for burst emitter */
 	final float rate;
-	/** Remaining number of particles to spawn */
-	int remaining;
-	/** Particles to spawn this frame */
-	double particlesToSpawn = 0;
-	/** Gravity scale */
-	float gravityScale = 1;
-	//Visuals
-//	Shader shader;
-	Texture tex;
 	
-	///Particles parameters
-	//Lifetime values of a particle
-	float lifetimeMin, lifetimeMax;
-	//Color
-	final Vec4f colorStart, colorEnd;
-	//Initial angle
-	final float angleMin, angleMax;
-	//Initial velocity
-	final float velocityMin, velocityMax;
+	final float initialRotMin, initialRotMax;
 	
-	EmitterTemplate( Texture texture, float duration, float delay, float rate,
-			float lifetimeMin, float lifetimeMax, 
-			Vec4f colorStart, Vec4f colorEnd, 
-			float angleMin, float angleMax, 
-			float velocityMin, float velocityMax,
-			float gravityScale) {
-		tex = texture;
-		this.duration = duration;
+	final List<ParticleModule> modules;
+
+	public EmitterTemplate(Texture tex, float delay, float duration, float rate, float lifetimeMin, float lifetimeMax, float initialRotMin, float initialRotMax, List<ParticleModule> modules) {
+		this.tex = tex;
 		this.delay = delay;
+		this.duration = duration;
 		this.rate = rate;
-		if( duration == 0 ) //Burst
-			remaining = (int) rate;
-		else if( duration < 0 ) //Infinite
-			remaining = -1;
-		else
-			remaining = (int) Math.max(1, rate*duration);
-		
-		//Lifetime
 		this.lifetimeMin = lifetimeMin;
 		this.lifetimeMax = lifetimeMax;
-		
-		//Colors
-		this.colorStart = colorStart;
-		this.colorEnd = colorEnd;
-		
-		//Angle
-		this.angleMin = angleMin;
-		this.angleMax = angleMax;
-		
-		//Initial velocity
-		this.velocityMin = velocityMin;
-		this.velocityMax = velocityMax;
-		
-		//Gravity scale
-		this.gravityScale = gravityScale;
+		this.initialRotMin = initialRotMin;
+		this.initialRotMax = initialRotMax;
+		this.modules = new LinkedList<>(modules);
 	}
+
 }

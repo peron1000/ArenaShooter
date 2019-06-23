@@ -110,6 +110,18 @@ public class Vec2f {
 		y += v.y;
 		return this;
 	}
+	
+	/**
+	 * Adds a vector to <i>this</i>
+	 * @param x
+	 * @param y
+	 * @return <i>this</i> (modified)
+	 */
+	public Vec2f add(float x, float y) {
+		this.x += x;
+		this.y += y;
+		return this;
+	}
 
 	/**
 	 * Multiplies the vector. <i>This</i> becomes <i>this</i>*a

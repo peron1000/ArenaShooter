@@ -1,7 +1,7 @@
 package arenashooter.engine.math;
 
 /**
- * Mutable 4 dimensional vector of floats (x, y, z, w)
+ * Mutable 4 dimensional vector of floats (x, y, z, w), (r, g, b, a) for colors
  */
 public class Vec4f {
 	
@@ -81,6 +81,19 @@ public class Vec4f {
 	}
 
 	/**
+	 * <i>This</i> becomes other and return <i>this</i>
+	 * @param other
+	 * @return <i>this</i> (modified)
+	 */
+	public Vec4f set(Vec4f other) {
+		this.x = other.x;
+		this.y = other.y;
+		this.z = other.z;
+		this.w = other.w;
+		return this;
+	}
+	
+	/**
 	 * Add two vectors together.
 	 * This becomes this+v
 	 * @param v
@@ -125,10 +138,16 @@ public class Vec4f {
 	}
 	
 	public static Vec4f lerp( Vec4f a, Vec4f b, double f ) {
-		return new Vec4f( Utils.lerpF(a.x, b.x, f),
-						  Utils.lerpF(a.y, b.y, f),
-						  Utils.lerpF(a.z, b.z, f),
-						  Utils.lerpF(a.w, b.w, f));
+		return lerp(a, b, f, new Vec4f());
+	}
+	
+	public static Vec4f lerp( Vec4f a, Vec4f b, double f, Vec4f target ) {
+		target.x = Utils.lerpF(a.x, b.x, f);
+		target.x = Utils.lerpF(a.y, b.y, f);
+		target.x = Utils.lerpF(a.z, b.z, f);
+		target.x = Utils.lerpF(a.w, b.w, f);
+		
+		return target;
 	}
 	
 	public Vec4f clone() {
@@ -157,6 +176,16 @@ public class Vec4f {
 	 */
 	public static Vec4f add(Vec4f a, Vec4f b) {
 		return new Vec4f(a.x+b.x, a.y+b.y, a.z+b.z, a.w+b.w);
+	}
+	
+	/**
+	 * Subtract a vector from another
+	 * @param a
+	 * @param b
+	 * @return a-b (original vectors are unchanged)
+	 */
+	public static Vec4f sub(Vec4f a, Vec4f b) {
+		return new Vec4f(a.x-b.x, a.y-b.y, a.z-b.z, a.w-b.w);
 	}
 	
 	/**

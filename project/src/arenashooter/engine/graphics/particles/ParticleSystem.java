@@ -16,16 +16,15 @@ public class ParticleSystem {
 	private List<Emitter> emitters;
 	/** System's world position */
 	public Vec3f position;
+	
+	public Vec2f gravity = new Vec2f(0, 9.807);
 
 	private ParticleSystem(EmitterTemplate[] data) {
 		this.position = new Vec3f();
-		emitters = new ArrayList<Emitter>();
+		emitters = new ArrayList<>();
 
 		for (EmitterTemplate emitterData : data) {
-			if (emitterData instanceof EmitterTemplateBasic)
-				emitters.add(new EmitterBasic(this, (EmitterTemplateBasic) emitterData));
-			else if (emitterData instanceof EmitterTemplateSparks)
-				emitters.add(new EmitterSparks(this, (EmitterTemplateSparks) emitterData));
+			emitters.add(new Emitter(this, emitterData));
 		}
 	}
 
@@ -43,6 +42,8 @@ public class ParticleSystem {
 	}
 
 	public void update(double delta, Vec2f gravity, double worldRotation) {
+		this.gravity.set(gravity);
+		
 		for (int i = emitters.size() - 1; i >= 0; i--) {
 			if (emitters.get(i).update(delta, gravity, worldRotation))
 				emitters.remove(i);

@@ -1,93 +1,86 @@
 package arenashooter.engine.graphics.particles;
 
-import arenashooter.engine.graphics.Material;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
-import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.particles.modules.ParticleModule;
+import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 
-abstract class Emitter {
+public class Emitter {
 	static final protected Model model = Model.loadQuad();
 	
-	protected final ParticleSystem owner;
+	/** Remaining time before starting this emitter */
+	private float delay;
 	
-	///Emitter parameters
-	/** Total duration of emission, 0 for single burst, -1 for infinite */
-	final float duration;
-	/** Delay before starting the emitter */
-	float delay;
-	/** Spawn rate, in particles per second or particle count for burst emitter */
-	final float rate;
 	/** Remaining number of particles to spawn */
 	int remaining;
-	/** Particles to spawn this frame */
-	double particlesToSpawn = 0;
-	/** World Angle */
-	double angle = 0;
-	//Visuals
-	Material material;
-	Shader shader;
-	Texture tex;
+
+	private Shader shader;
+
+	/** World space positions */
+	public List<Vec2f> positions = new ArrayList<>();
+	/** World space rotations */
+	public List<Float> rotations = new ArrayList<>();
+	/** World space scales */
+	public List<Vec2f> scales = new ArrayList<>();
+	public List<Vec2f> velocities = new ArrayList<>();
+	public List<Vec4f> colors = new ArrayList<>();
+	/** Particles lives, starts at 0, ends at livesTotal */
+	public List<Float> lives = new ArrayList<>();
+	public List<Float> livesTotal = new ArrayList<>();
 	
-	///Particles parameters
-	//Lifetime values of a particle
-	float lifetimeMin, lifetimeMax;
-	//Color
-	final Vec4f colorStart, colorEnd;
-	//Initial angle
-	final float angleMin, angleMax;
-	//Initial velocity
-	final float velocityMin, velocityMax;
+	public final ParticleSystem owner;
 	
-	Emitter( ParticleSystem owner, EmitterTemplate data ) {
+	private final EmitterTemplate data;
+	
+	/** Particles to create */
+	private int particlesToSpawn = 0;
+	
+	public Emitter(ParticleSystem owner, EmitterTemplate data) {
 		this.owner = owner;
-		tex = data.tex;
-		duration = data.duration;
+
+		this.data = data;
+		
 		delay = data.delay;
-		rate = data.rate;
-		if( duration == 0 ) //Burst
-			remaining = (int) rate;
-		else if( duration < 0 ) //Infinite
+		
+		if( data.duration == 0 ) //Burst
+			remaining = (int) data.rate;
+		else if( data.duration < 0 ) //Infinite
 			remaining = -1;
 		else
-			remaining = (int) Math.max(1, rate*duration);
+			remaining = (int) Math.max(1, data.rate*data.duration);
 		
-		//Lifetime
-		lifetimeMin = data.lifetimeMin;
-		lifetimeMax = data.lifetimeMax;
-		
-		//Colors
-		colorStart = data.colorStart;
-		colorEnd = data.colorEnd;
-		
-		//Angle
-		angleMin = data.angleMin;
-		angleMax = data.angleMax;
-		
-		//Initial velocity
-		velocityMin = data.velocityMin;
-		velocityMax = data.velocityMax;
+		shader = Shader.loadShader("data/shaders/particle_simple.vert", "data/shaders/particle_simple.frag");
 	}
 	
 	/**
-	 * Update this emitter. Handles delay and particle spawning. 
-	 * Particle behavior needs to be implemented in override
-	 * @param delta frame time in seconds
-	 * @param gravity world gravity vector
-	 * @return emitter ended and can be destroyed
+	 * Update this emitter
+	 * @param delta
+	 * @param gravity
+	 * @param worldRotation
+	 * @return true if emitter ended
 	 */
 	boolean update(double delta, Vec2f gravity, double worldRotation) {
-		angle = worldRotation;
-		
+		// Delay
 		if( delay > 0 ) {
 			delay -= delta;
 			return false;
 		}
 		
 		if( remaining == -1 ) { //Inifinite
-			//Add particle count, depending on framerate
-			particlesToSpawn += rate*delta;
+			//Add particle count, depending on spawn rate
+			particlesToSpawn += data.rate*delta;
 			
 			//Floor the value to get the number of full particles
 			int newParticles = (int)Math.floor(particlesToSpawn);
@@ -95,16 +88,16 @@ abstract class Emitter {
 			//Spawn the particles
 			spawn(newParticles);
 			
-			//Update counters
+			// Update counters
 			particlesToSpawn -= newParticles;
 			
 		} else if( remaining > 0 ) //Need to spawn more particles
-			if( duration == 0 ) { //Burst
+			if( data.duration == 0 ) { //Burst
 				spawn(remaining);
 				remaining = 0;
 			} else { //Spawn over time
-				//Add particle count, depending on framerate
-				particlesToSpawn += rate*delta;
+				//Add particle count, depending on spawn rate
+				particlesToSpawn += data.rate*delta;
 				
 				//Floor the value to get the number of full particles
 				int newParticles = (int)Math.floor(particlesToSpawn);
@@ -117,13 +110,83 @@ abstract class Emitter {
 				
 				//Update counters
 				remaining -= newParticles;
-				particlesToSpawn -= newParticles;
 			}
 		
-		return false;
+		// Update modules
+		if(positions.size() > 0)
+			for(ParticleModule module : data.modules)
+				module.apply(this, delta);
+		
+		// Update particles and delete dead ones
+		Vec2f temp = new Vec2f();
+		for( int i=positions.size()-1; i>=0; i-- ) {
+			if( lives.get(i) < livesTotal.get(i) ) {
+				Vec2f.multiply(velocities.get(i), delta, temp);
+				positions.get(i).add(temp);
+				lives.set(i, lives.get(i)+(float)delta);
+			} else {
+				positions.remove(i);
+				rotations.remove(i);
+				scales.remove(i);
+				velocities.remove(i);
+				colors.remove(i);
+				lives.remove(i);
+				livesTotal.remove(i);
+			}
+		}
+		
+		// Return true if all particles are dead and none are left to spawn
+		return remaining == 0 && positions.isEmpty();
 	}
 	
-	abstract void spawn(int count);
-	
-	abstract void draw();
+	private void spawn(int n) {
+		for(int i=0; i<n; i++) {
+			positions.add(new Vec2f(owner.position.x, owner.position.y));
+			rotations.add(Utils.lerpF(data.initialRotMin, data.initialRotMax, Math.random()));
+			scales.add(new Vec2f(1));
+			velocities.add(new Vec2f());
+			colors.add(new Vec4f(1));
+			lives.add(0f);
+			livesTotal.add(Utils.lerpF(data.lifetimeMin, data.lifetimeMax, Math.random()));
+		}
+		particlesToSpawn -= n;
+	}
+
+	void draw() {
+		shader.bind();
+		
+		//Get matrices
+		shader.setUniformM4("view", Window.getView());
+		shader.setUniformM4("projection", Window.proj);
+		
+		model.bindToShader(shader);
+		
+		//Bind texture
+		glActiveTexture(GL_TEXTURE0);
+		data.tex.bind();
+		shader.setUniformI("baseColor", 0);
+		
+		model.bind();
+		
+		Vec3f pos = new Vec3f(0, 0, owner.position.z);
+		Quat rot = new Quat();
+		Vec3f scale = new Vec3f(1);
+		Mat4f modelM = new Mat4f();
+		
+		for( int i=0; i<positions.size(); i++ ) {
+			pos.x = positions.get(i).x;
+			pos.y = positions.get(i).y;
+			Quat.fromAngle(rotations.get(i), rot);
+			scale.x = scales.get(i).y;
+			scale.y = scales.get(i).y;
+//			Mat4f.transform(pos, rot, scale, modelM);
+			modelM = Mat4f.transform(pos, rot, scale); //TODO: replace this to avoid creating a new matrix
+			
+			shader.setUniformM4("model", modelM);
+			
+			shader.setUniformV4("baseColorMod", colors.get(i));
+			
+			model.draw();
+		}
+	}
 }

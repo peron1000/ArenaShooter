@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT particleSystem (emitter+)>
 
-<!-- vec4->colorStart, vec4->colorEnd -->
-<!ELEMENT emitter ((basic|oriented), texture, vec4, vec4)>
+<!ELEMENT emitter (texture, modules)>
 <!ATTLIST emitter duration CDATA #REQUIRED>
 <!ATTLIST emitter delay CDATA #REQUIRED>
 <!ATTLIST emitter rate CDATA #REQUIRED>
 <!ATTLIST emitter lifetimeMin CDATA #REQUIRED>
 <!ATTLIST emitter lifetimeMax CDATA #REQUIRED>
-<!ATTLIST emitter angleMin CDATA #REQUIRED>
-<!ATTLIST emitter angleMax CDATA #REQUIRED>
-<!-- Random initial velocity -->
-<!ATTLIST emitter velocityMin CDATA #REQUIRED>
-<!ATTLIST emitter velocityMax CDATA #REQUIRED>
-<!ATTLIST emitter gravityScale CDATA #REQUIRED>
+<!ATTLIST emitter initialRotMin CDATA #REQUIRED>
+<!ATTLIST emitter initialRotMax CDATA #REQUIRED>
 
-<!ELEMENT basic EMPTY>
-<!ATTLIST basic sizeInitial CDATA #REQUIRED>
-<!ATTLIST basic sizeEnd CDATA #REQUIRED>
+<!ELEMENT modules (accelConstant|colorOverLife|gravity|initialPosCircle|initialVelCone|sizeOverLife)*>
 
-<!-- vec2->scale -->
-<!ELEMENT oriented (vec2)>
+<!-- Modules -->
+
+<!ELEMENT accelConstant (vec2)>
+
+<!-- colorStart, colorEnd -->
+<!ELEMENT colorOverLife (vec4, vec4)>
+
+<!ELEMENT gravity EMPTY>
+<!ATTLIST gravity gravityScale CDATA #REQUIRED>
+
+<!ELEMENT initialPosCircle EMPTY>
+<!ATTLIST initialPosCircle radiusMin CDATA #REQUIRED>
+<!ATTLIST initialPosCircle radiusMax CDATA #REQUIRED>
+
+<!ELEMENT initialVelCone EMPTY>
+<!ATTLIST initialVelCone angleMin CDATA #REQUIRED>
+<!ATTLIST initialVelCone angleMax CDATA #REQUIRED>
+<!ATTLIST initialVelCone velMin CDATA #REQUIRED>
+<!ATTLIST initialVelCone velMax CDATA #REQUIRED>
+
+<!-- sizeStart, sizeEnd -->
+<!ELEMENT sizeOverLife (vec2, vec2)>
+
+
+<!-- Misc -->
 
 <!ELEMENT vec2 EMPTY>
 <!ATTLIST vec2 use CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd">
+<map>
+  <information>
+    <gravity x="0.0" y="9.807"/>
+    <ambientLight b="0.48" g="0.48" r="0.48"/>
+    <cameraPos x="0.0" y="0.0" z="8.0"/>
+    <killBounds maxX="1000.0" maxY="1000.0" minX="-1000.0" minY="-1000.0"/>
+    <sky>
+      <vector use="top" x="0.0" y="0.0" z="0.0"/>
+      <vector use="bottom" x="0.0" y="0.0" z="0.0"/>
+    </sky>
+  </information>
+  <entities>
+    <rigid name="zasqdw" rotation="0.0">
+      <vector use="position" x="0.0" y="0.0"/>
+      <vector use="extent" x="0.75" y="1.0"/>
+      <entities>
+        <mesh name="Barrel_Mesh" src="data/meshes/barrels/barrel_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" x="-2.1319046020507812" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="1.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+  </entities>
+</map>

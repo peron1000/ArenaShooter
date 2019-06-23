@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
 <particleSystem>
+	<emitter delay="0" duration="0" lifetimeMin=".05" lifetimeMax=".1" rate="1" initialRotMin="-3.14159" initialRotMax="3.14159">
+		<texture filtered="true" src="data/particles/flash_01.png"/>
+		<modules>
+			<colorOverLife>
+				<vec4 x="1" y="1" z="1" w="1" use="colorStart"/>
+				<vec4 x="1" y="1" z="1" w=".5" use="colorEnd"/>
+			</colorOverLife>
+			<sizeOverLife>
+				<vec2 x="3" y="3" use="sizeStart"/>
+				<vec2 x="9" y="9" use="sizeEnd"/>
+			</sizeOverLife>
+		</modules>
+	</emitter>
+	
+	<!--
 	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin=".05" lifetimeMax=".1" rate="1" velocityMin="0" velocityMax="0" gravityScale="0">
 	<basic sizeInitial="3" sizeEnd="9"></basic>
 	<texture filtered="true" src="data/particles/flash_01.png"/>
 	<vec4 x="1" w="1" z="1" y="1" use="colorStart"/>
 	<vec4 x="1" w=".5" z="1" y="1" use="colorEnd"/>
 	</emitter>
+	-->
 </particleSystem>
