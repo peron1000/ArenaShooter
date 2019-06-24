@@ -518,8 +518,7 @@ public class Character extends RigidBodyContainer {
 
 	private int jumpPoints = 0;
 	private boolean autoSlideUp = false;
-	private boolean rayTouched = false;
-	private boolean touchedAWall = false;
+	private boolean wallRayHit = false;
 
 	@Override
 	public void step(double d) {
@@ -527,9 +526,6 @@ public class Character extends RigidBodyContainer {
 			return;
 
 		CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
-
-		// if (Math.random() > 0.6)// ???
-		// jumpTimer.isOver();// ??? What is the fuque ?
 
 		if (parry.isOver()) {
 			parryCooldown = true;
@@ -583,8 +579,9 @@ public class Character extends RigidBodyContainer {
 		jumpPoints = 0;
 
 		if (!jumpTimer.isProcessing() || (jumpTimer.isProcessing() && jumpTimer.getValue() > 0.2)) {
+			Vec2f start = new Vec2f(), end = new Vec2f();
 			for (int i = 0; i < 4; i++) {
-				Vec2f start = getWorldPos().clone();
+				start.set(getWorldPos());
 				if (i == 0 || i == 3)
 					start.y += .7;
 				else
@@ -592,10 +589,10 @@ public class Character extends RigidBodyContainer {
 				start.x -= .4;
 				start.x += i * .2;
 
-				Vec2f end = start.clone();
+				end.set(start);
 				end.y += .1;
 
-				getArena().physic.getB2World().raycast(GroundRaycastCallback, start.toB2Vec(), end.toB2Vec());
+				getArena().physic.raycast(start, end, GroundRaycastCallback);
 			}
 		}
 
@@ -610,47 +607,41 @@ public class Character extends RigidBodyContainer {
 		float y = getWorldPos().y;
 
 		if (!canJump) {
-			getArena().physic.getB2World().raycast(JumpRaycastCallback, new Vec2f(.5 + x, y).toB2Vec(),
-					new Vec2f(.5 + x, .8 + y).toB2Vec());
+			getArena().physic.raycast(new Vec2f(.5 + x, y), new Vec2f(.5 + x, .8 + y), JumpRaycastCallback);
 
-			getArena().physic.getB2World().raycast(JumpRaycastCallback, new Vec2f(-.5 + x, y).toB2Vec(),
-					new Vec2f(-.5 + x, .8 + y).toB2Vec());
+			getArena().physic.raycast(new Vec2f(-.5 + x, y), new Vec2f(-.5 + x, .8 + y), JumpRaycastCallback);
 			if (jumpPoints >= 2)
 				canJump = true;
 		}
 
 		//
 		// deciding WallJump
-		rayTouched = false;
+		wallRayHit = false;
 		for (int i = 1; i < 6; i++) {
-			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y + .18 * i).toB2Vec(),
-					new Vec2f(x + (i == 5 ? .4 : .55), y + .18 * i).toB2Vec());
+			getArena().physic.raycast(new Vec2f(x, y + .18 * i), new Vec2f(x + (i == 5 ? .4 : .55), y + .18 * i), WallRaycastCallback);
 		}
-		if (rayTouched)
+		if (wallRayHit)
 			touchingRightWall = true;
 
-		rayTouched = false;
-		for (int i = 0; i < 5 && !rayTouched; i++) {
-			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y - .2 * i).toB2Vec(),
-					new Vec2f(x + .55, y - .2 * i).toB2Vec());
+		wallRayHit = false;
+		for (int i = 0; i < 5 && !wallRayHit; i++) {
+			getArena().physic.raycast(new Vec2f(x, y - .2 * i), new Vec2f(x + .55, y - .2 * i), WallRaycastCallback);
 		}
-		if (!rayTouched && touchingRightWall)
+		if (!wallRayHit && touchingRightWall)
 			autoSlideUp = true;
 
-		rayTouched = false;
+		wallRayHit = false;
 		for (int i = 1; i < 6; i++) {
-			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y + .18 * i).toB2Vec(),
-					new Vec2f(x - (i == 5 ? .4 : .55), y + .18 * i).toB2Vec());
+			getArena().physic.raycast(new Vec2f(x, y + .18 * i), new Vec2f(x - (i == 5 ? .4 : .55), y + .18 * i), WallRaycastCallback);
 		}
-		if (rayTouched)
+		if (wallRayHit)
 			touchingLeftWall = true;
 
-		rayTouched = false;
-		for (int i = 0; i < 5 && !rayTouched; i++) {
-			getArena().physic.getB2World().raycast(WallRaycastCallback, new Vec2f(x, y - .2 * i).toB2Vec(),
-					new Vec2f(x - .55, y - .2 * i).toB2Vec());
+		wallRayHit = false;
+		for (int i = 0; i < 5 && !wallRayHit; i++) {
+			getArena().physic.raycast(new Vec2f(x, y - .2 * i), new Vec2f(x - .55, y - .2 * i), WallRaycastCallback);
 		}
-		if (!rayTouched && touchingLeftWall)
+		if (!wallRayHit && touchingLeftWall)
 			autoSlideUp = true;
 
 		if (touchingLeftWall) {
@@ -732,6 +723,9 @@ public class Character extends RigidBodyContainer {
 		return health <= 0 && (!bushido || afterDeath.isOver());
 	}
 
+	/**
+	 * Used to check if the Character is on the ground
+	 */
 	RayCastCallback GroundRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
@@ -750,6 +744,9 @@ public class Character extends RigidBodyContainer {
 		}
 	};
 
+	/**
+	 * Used to check if the Character can jump
+	 */
 	RayCastCallback JumpRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
@@ -766,6 +763,9 @@ public class Character extends RigidBodyContainer {
 		}
 	};
 
+	/**
+	 * Used to check if the Character is touching a wall
+	 */
 	RayCastCallback WallRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
@@ -780,7 +780,7 @@ public class Character extends RigidBodyContainer {
 			if ((fixture.getFilterData().categoryBits & CollisionFlags.CHARACTER.maskBits) == 0)
 				return -1;
 
-			rayTouched = true;
+			wallRayHit = true;
 
 			return fraction;
 		}

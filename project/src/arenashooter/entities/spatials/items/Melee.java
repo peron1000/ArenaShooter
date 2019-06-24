@@ -132,10 +132,10 @@ public class Melee extends Usable {
 				bladeRayFraction = 1;
 				
 				//Top raycast
-				getArena().physic.getB2World().raycast(DamageRaycastCallback, lastBladeBot.toB2Vec(), bladeBot.getWorldPos().toB2Vec());
+				getArena().physic.raycast(lastBladeBot, bladeBot.getWorldPos(), DamageRaycastCallback);
 				
 				//Bottom raycast
-				getArena().physic.getB2World().raycast(DamageRaycastCallback, lastBladeTop.toB2Vec(), bladeTop.getWorldPos().toB2Vec());
+				getArena().physic.raycast(lastBladeTop, bladeTop.getWorldPos(), DamageRaycastCallback);
 				
 				DamageInfo dmgInfo = new DamageInfo(damage, DamageType.MELEE, Vec2f.fromAngle(Vec2f.direction(lastBladeTop, bladeTop.getWorldPos())), 10, getCharacter());
 				

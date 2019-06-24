@@ -7,7 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.collision.Manifold;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
@@ -121,6 +123,17 @@ public class PhysicWorld {
 	
 	public Contact getContacts() {
 		return world.getContactList();
+	}
+	
+	private Vec2 raycastStartB2 = new Vec2(), raycastEndB2 = new Vec2();
+	/**
+	 * Performs a raycast in the physic world
+	 * @param start world space ray start point
+	 * @param end world space ray end point
+	 * @param callback
+	 */
+	public void raycast(Vec2f start, Vec2f end, RayCastCallback callback) {
+		world.raycast(callback, start.toB2Vec(raycastStartB2), end.toB2Vec(raycastEndB2));
 	}
 	
 	private class MyContactListener implements ContactListener {

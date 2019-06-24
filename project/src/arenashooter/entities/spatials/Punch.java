@@ -142,7 +142,7 @@ public class Punch extends Spatial {
 
 		if (getArena() == null)
 			return;
-		getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
+		getArena().physic.raycast(getWorldPos(), raycastEnd, PunchRaycastCallback);
 	}
 
 	private Map<Spatial, Float> punchHit = new HashMap<>();

@@ -145,12 +145,12 @@ public class Explosion extends Spatial {
 		raycastEnd.multiply(length);
 		raycastEnd.add(getWorldPos());
 		
-		getArena().physic.getB2World().raycast(PunchRaycastCallback, getWorldPos().toB2Vec(), raycastEnd.toB2Vec());
+		getArena().physic.raycast(getWorldPos(), raycastEnd, explosionRaycastCallback);
 	}
 
 	private Set<Spatial> touched = new HashSet<>();
 	/** Farthest blocking entity hit by the punch */
-	RayCastCallback PunchRaycastCallback = new RayCastCallback() {
+	RayCastCallback explosionRaycastCallback = new RayCastCallback() {
 		@Override
 		public float reportFixture(Fixture fixture, Vec2 point, Vec2 normal, float fraction) {
 			//Ignore sensors
