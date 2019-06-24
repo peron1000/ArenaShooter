@@ -172,7 +172,7 @@ public class Material {
 	public void setLights(Set<Light> lights) {
 		if(!ready) initMaterial();
 		
-		int i = 0;
+		int lightsDir = 0, lightsPoint = 0, lightsSpot = 0;
 		for(Light light : lights) {
 			//Skip 0-radius lights
 			if(light.radius == 0) continue;
@@ -180,20 +180,40 @@ public class Material {
 			if(light.color.x == 0 && light.color.y == 0 && light.color.z == 0) continue;
 			//Skip invalid directional lights
 			if(light.getType() == LightType.DIRECTIONAL && light.direction.x == 0 && light.direction.y == 0 && light.direction.z == 0) continue;
-
-			setParamVec3f("lights["+i+"].position", light.position);
-			setParamVec3f("lights["+i+"].direction", light.direction);
-			setParamF("lights["+i+"].radius", light.radius);
-			setParamVec3f("lights["+i+"].color", light.color);
-			i++;
 			
-			if(i >= 16) {
-				Window.log.warn("Too many lights (16 max)");
+			switch(light.getType()) {
+			case DIRECTIONAL:
+				setParamVec3f("lightsDir["+lightsDir+"].color", light.color);
+				setParamVec3f("lightsDir["+lightsDir+"].direction", light.direction);
+				lightsDir++;
+				break;
+			case POINT:
+				setParamVec3f("lightsPoint["+lightsPoint+"].color", light.color);
+				setParamVec3f("lightsPoint["+lightsPoint+"].position", light.position);
+				setParamF("lightsPoint["+lightsPoint+"].radius", light.radius);
+				lightsPoint++;
+				break;
+			case SPOT:
+				setParamVec3f("lightsSpot["+lightsSpot+"].color", light.color);
+				setParamVec3f("lightsSpot["+lightsSpot+"].position", light.position);
+				setParamF("lightsSpot["+lightsSpot+"].radius", light.radius);
+				setParamVec3f("lightsSpot["+lightsSpot+"].direction", light.direction);
+				setParamF("lightsSpot["+lightsSpot+"].angle", light.angle);
+				lightsSpot++;
 				break;
 			}
+			
+			if(lightsDir >= 2)
+				Window.log.warn("Too many directional lights (2 max)");
+			else if(lightsPoint >= 8)
+				Window.log.warn("Too many point lights (8 max)");
+			else if(lightsSpot >= 8)
+				Window.log.warn("Too many spot lights (8 max)");
 		}
 		
-		setParamI("activeLights", Math.min(i, 16));
+		setParamI("activeLightsDir", Math.min(lightsDir, 2));
+		setParamI("activeLightsPoint", Math.min(lightsPoint, 8));
+		setParamI("activeLightsSpot", Math.min(lightsSpot, 8));
 	}
 	
 	private void initMaterial() {

@@ -55,7 +55,9 @@ public class LightContainer extends Spatial3 implements IAnimated {
 		case DIRECTIONAL:
 			light.direction.set(getWorldRot().forward());
 			break;
-		default:
+		case SPOT:
+			light.position.set(getWorldPos());
+			light.direction.set(getWorldRot().forward());
 			break;
 		}
 	}
