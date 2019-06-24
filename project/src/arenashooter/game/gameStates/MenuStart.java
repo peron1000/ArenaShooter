@@ -25,10 +25,10 @@ public class MenuStart extends GameState {
 	/* MenuStart Menu */
 	private UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_MainMenu_tr.png")),
 			background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png")), logo,
-			Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(), Down = Imageinput.DOWN.getImage(),
-			Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(), Space = Imageinput.SPACE.getImage(),
-			A = Imageinput.A.getImage(), B = Imageinput.B.getImage();
-	private Label Confirm, Back, Change;
+			/*Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(), Down = Imageinput.DOWN.getImage(),
+			Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(),*/ Space = Imageinput.SPACE.getImage(),
+			A = Imageinput.A.getImage()/*, B = Imageinput.B.getImage()*/;
+	private Label Confirm/*, Back, Change*/;
 	private TabList<UiActionable> mainMenu = new TabList<>();
 	private TabList<UiActionable> current = mainMenu;
 
