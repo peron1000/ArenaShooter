@@ -36,9 +36,9 @@ public class MenuPause {
 		uiList.addElement(options);
 		uiList.addElement(back);
 		mainMenu.addBind("Pause", uiList);
-		mainMenu.setPosition(0, -10);
+		mainMenu.setPosition(0, -8);
 		mainMenu.setScale(8);
-		uiList.setSpacing(15);
+		uiList.setSpacing(8);
 		uiList.setScale(6, 6);
 
 		final double xScaleButton = 30, yScaleButton = 8;
