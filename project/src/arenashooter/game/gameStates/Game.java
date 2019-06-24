@@ -43,7 +43,6 @@ public class Game extends GameState {
 	int currentRound = 1;
 	private final GameMode gameMode = GameParam.getGameMode();
 	private final int nbRounds = GameParam.getRound();
-	private final boolean teams = GameParam.getTeam();
 	private InputListener inputs = new InputListener();
 
 	private static SoundSource bgm;

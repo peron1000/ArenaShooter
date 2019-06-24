@@ -37,10 +37,6 @@ public class SpawnXml extends AbstractElement {
 	public void setVector(float x, float y) {
 		XmlVector vec = new XmlVector(spawn);
 	}
-	
-	public void addMesh() {
-		MeshXml r = new MeshXml(doc, spawn);
-	}
 
 	@Override
 	public Element getElement() {
