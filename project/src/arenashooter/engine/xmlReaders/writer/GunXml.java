@@ -19,7 +19,7 @@ public class GunXml extends AbstractElement {
 	 * y="-.28" /> </gun>
 	 * 
 	 */
-/*	private String name = "";
+	private String name = "";
 	private int weight = 0;
 	private String pathSprite = "";
 	private String soundPickup = "";
@@ -42,7 +42,7 @@ public class GunXml extends AbstractElement {
 	private float xpos1 = -.8f;
 	private float ypos1 = -.1f;
 	private float xpos2 = 0f;
-	private float ypos2 = -0.28f;*/
+	private float ypos2 = -0.28f;
 	private String handl = "handPosL", handr = "handPosR";
 	private Element gun;
 
@@ -130,6 +130,181 @@ public class GunXml extends AbstractElement {
 		for (Element e : vectorGun.getVectors()) {
 			gun.appendChild(e);
 		}
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param weight the weight to set
+	 */
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	/**
+	 * @param pathSprite the pathSprite to set
+	 */
+	public void setPathSprite(String pathSprite) {
+		this.pathSprite = pathSprite;
+	}
+
+	/**
+	 * @param soundPickup the soundPickup to set
+	 */
+	public void setSoundPickup(String soundPickup) {
+		this.soundPickup = soundPickup;
+	}
+
+	/**
+	 * @param cooldown the cooldown to set
+	 */
+	public void setCooldown(double cooldown) {
+		this.cooldown = cooldown;
+	}
+
+	/**
+	 * @param uses the uses to set
+	 */
+	public void setUses(int uses) {
+		this.uses = uses;
+	}
+
+	/**
+	 * @param animPath the animPath to set
+	 */
+	public void setAnimPath(String animPath) {
+		this.animPath = animPath;
+	}
+
+	/**
+	 * @param warmup the warmup to set
+	 */
+	public void setWarmup(double warmup) {
+		this.warmup = warmup;
+	}
+
+	/**
+	 * @param soundWarmup the soundWarmup to set
+	 */
+	public void setSoundWarmup(String soundWarmup) {
+		this.soundWarmup = soundWarmup;
+	}
+
+	/**
+	 * @param attackSound the attackSound to set
+	 */
+	public void setAttackSound(String attackSound) {
+		this.attackSound = attackSound;
+	}
+
+	/**
+	 * @param noAmmoSound the noAmmoSound to set
+	 */
+	public void setNoAmmoSound(String noAmmoSound) {
+		this.noAmmoSound = noAmmoSound;
+	}
+
+	/**
+	 * @param damage the damage to set
+	 */
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+
+	/**
+	 * @param size the size to set
+	 */
+	public void setSize(double size) {
+		this.size = size;
+	}
+
+	/**
+	 * @param bulletType the bulletType to set
+	 */
+	public void setBulletType(int bulletType) {
+		this.bulletType = bulletType;
+	}
+
+	/**
+	 * @param bulletSpeed the bulletSpeed to set
+	 */
+	public void setBulletSpeed(float bulletSpeed) {
+		this.bulletSpeed = bulletSpeed;
+	}
+
+	/**
+	 * @param cannonLength the cannonLength to set
+	 */
+	public void setCannonLength(double cannonLength) {
+		this.cannonLength = cannonLength;
+	}
+
+	/**
+	 * @param recoil the recoil to set
+	 */
+	public void setRecoil(double recoil) {
+		this.recoil = recoil;
+	}
+
+	/**
+	 * @param thrust the thrust to set
+	 */
+	public void setThrust(double thrust) {
+		this.thrust = thrust;
+	}
+
+	/**
+	 * @param proba the proba to set
+	 */
+	public void setProba(int proba) {
+		this.proba = proba;
+	}
+
+	/**
+	 * @param xpos1 the xpos1 to set
+	 */
+	public void setXpos1(float xpos1) {
+		this.xpos1 = xpos1;
+	}
+
+	/**
+	 * @param ypos1 the ypos1 to set
+	 */
+	public void setYpos1(float ypos1) {
+		this.ypos1 = ypos1;
+	}
+
+	/**
+	 * @param xpos2 the xpos2 to set
+	 */
+	public void setXpos2(float xpos2) {
+		this.xpos2 = xpos2;
+	}
+
+	/**
+	 * @param ypos2 the ypos2 to set
+	 */
+	public void setYpos2(float ypos2) {
+		this.ypos2 = ypos2;
+	}
+
+	/**
+	 * @param handl the handl to set
+	 */
+	public void setHandl(String handl) {
+		this.handl = handl;
+	}
+
+	/**
+	 * @param handr the handr to set
+	 */
+	public void setHandr(String handr) {
+		this.handr = handr;
 	}
 
 	/**

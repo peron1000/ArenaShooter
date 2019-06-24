@@ -6,6 +6,7 @@ import java.util.List;
 
 import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
 import arenashooter.game.Main;
 
 public class LoadingGame extends Thread {

@@ -31,7 +31,7 @@ import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.game.Controller;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
-//import arenashooter.game.gameStates.engineParam.GameMode;
+import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 import arenashooter.game.gameStates.loading.LoadingGame;
 import arenashooter.game.gameStates.loading.LoadingInterRound;
@@ -41,9 +41,9 @@ public class Game extends GameState {
 	private List<Character> players = new ArrayList<>(nbPlayers);
 
 	int currentRound = 1;
-	//private final GameMode gameMode = GameParam.getGameMode();
+	private final GameMode gameMode = GameParam.getGameMode();
 	private final int nbRounds = GameParam.getRound();
-	//private final boolean teams = GameParam.getTeam();
+	private final boolean teams = GameParam.getTeam();
 	private InputListener inputs = new InputListener();
 
 	private static SoundSource bgm;

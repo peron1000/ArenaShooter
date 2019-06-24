@@ -9,8 +9,7 @@ import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class StarBullet extends Projectile {
 	
-	
-	//private Vec2f fallSpeed = new Vec2f(0, 2);
+	private Vec2f fallSpeed = new Vec2f(0, 2);
 
 	public StarBullet(Vec2f position, Vec2f vel, float damage) {
 		super(new RigidBody(new ShapeDisk(.25), position, vel.angle(), CollisionFlags.PROJ, (float)0.5, 138));

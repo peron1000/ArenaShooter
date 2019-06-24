@@ -4,7 +4,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-//import arenashooter.engine.xmlReaders.XmlVector;
+import arenashooter.engine.xmlReaders.XmlVector;
 import arenashooter.entities.Entity;
 
 public class SpawnXml extends AbstractElement {
@@ -34,13 +34,13 @@ public class SpawnXml extends AbstractElement {
 		}
 	}
 	
-//	public void setVector(float x, float y) {
-//		XmlVector vec = new XmlVector(spawn);
-//	}
-//	
-//	public void addMesh() {
-//		MeshXml r = new MeshXml(doc, spawn);
-//	}
+	public void setVector(float x, float y) {
+		XmlVector vec = new XmlVector(spawn);
+	}
+	
+	public void addMesh() {
+		MeshXml r = new MeshXml(doc, spawn);
+	}
 
 	@Override
 	public Element getElement() {

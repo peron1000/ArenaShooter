@@ -9,7 +9,6 @@ import org.w3c.dom.Element;
 
 public class MeshXml extends AbstractElement {
 	Element mesh;
-	@SuppressWarnings("unused")
 	private List<Element> meshes = new ArrayList<>();
 
 	// Vector 1 position du mesh

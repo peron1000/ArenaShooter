@@ -15,7 +15,7 @@ public class ColorPicker extends UiElement {
 	
 	private UiImage background = new UiImage(new Vec4f(0, 0, 0, 0.8));
 	
-	private UiImage lumiSat, hueImg, lumiSatSelector, hueSelector/*, alphaSelector*/;
+	private UiImage lumiSat, hueImg, lumiSatSelector, hueSelector, alphaSelector;
 	private Vec3f rgb = new Vec3f();
 	private float hue, saturation, value;
 	private float alpha = 1;
