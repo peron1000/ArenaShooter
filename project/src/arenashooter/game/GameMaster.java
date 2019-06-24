@@ -3,7 +3,6 @@ package arenashooter.game;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import java.util.function.Function;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.events.EventListener;
@@ -17,9 +16,6 @@ import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.Start;
-import arenashooter.game.gameStates.engineParam.GameParam;
-import arenashooter.game.gameStates.loading.LoadingGame;
-import arenashooter.game.gameStates.loading.LoadingInterRound;
 
 public class GameMaster {
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
@@ -120,6 +116,7 @@ public class GameMaster {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void goBackTo(Class<GameState> stateClass) {
 		boolean boo = false;
 		for (GameState gameState : stateStack) {

@@ -57,6 +57,7 @@ public class AnimEditor extends UiElement {
 	
 	private float screenLeft() { return -screenWidth()/2; }
 	
+	@SuppressWarnings("unused")
 	private float screenRight() { return screenWidth()/2; }
 
 	@Override

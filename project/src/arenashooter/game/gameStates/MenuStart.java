@@ -25,10 +25,12 @@ public class MenuStart extends GameState {
 	/* MenuStart Menu */
 	private UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_MainMenu_tr.png")),
 			background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png")), logo,
-			Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(), Down = Imageinput.DOWN.getImage(),
-			Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(), Space = Imageinput.SPACE.getImage(),
-			A = Imageinput.A.getImage(), B = Imageinput.B.getImage();
-	private Label Confirm, Back, Change;
+			/*
+			 * Escape = Imageinput.ESCAPE.getImage(), /*Up = Imageinput.UP.getImage(), Down
+			 * = Imageinput.DOWN.getImage(), Right = Imageinput.RIGHT.getImage(), Left =
+			 * Imageinput.LEFT.getImage(),
+			 */ Space = Imageinput.SPACE.getImage(), A = Imageinput.A.getImage()/* , B = Imageinput.B.getImage() */;
+	private Label Confirm/* , Back, Change */;
 	private TabList<UiActionable> mainMenu = new TabList<>();
 	private TabList<UiActionable> current = mainMenu;
 
@@ -53,11 +55,11 @@ public class MenuStart extends GameState {
 		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
 		Space.setPosition(-5, 47);
 		Space.getMaterial().getParamTex("image").setFilter(false);
-		
+
 		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
 		A.setPosition(0, 47);
 		A.getMaterial().getParamTex("image").setFilter(false);
-		
+
 		Confirm = new Label(" : Confirm", 3);
 		Confirm.setPosition(8, 47);
 
@@ -149,7 +151,7 @@ public class MenuStart extends GameState {
 						current.selectAction();
 						break;
 					case UI_CONTINUE:
-						//current.continueAction();
+						// current.continueAction();
 						current.selectAction();
 						break;
 					case UI_BACK:
@@ -157,7 +159,7 @@ public class MenuStart extends GameState {
 							Main.getGameMaster().requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
 						}
 						break;
-					
+
 					default:
 						break;
 					}
@@ -179,7 +181,7 @@ public class MenuStart extends GameState {
 		c.accept(A);
 		c.accept(Space);
 		c.accept(Confirm);
-		
+
 		c.accept(current);
 		c.accept(selector);
 	}

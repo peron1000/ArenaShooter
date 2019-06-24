@@ -43,6 +43,7 @@ public class CharacterSprite extends Spatial {
 	public boolean charged = false;
 	boolean canParry = true;
 	private boolean parrying = false;
+	@SuppressWarnings("unused")
 	private boolean afterDeath = false;
 
 	private boolean mirrorLeftFoot = false;
