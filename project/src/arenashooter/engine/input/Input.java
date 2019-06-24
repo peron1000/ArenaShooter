@@ -53,13 +53,14 @@ public final class Input {
 		
 		//Load gamepad mappings
 		try {
-			InputStream in = new FileInputStream(new File("data/gamecontrollerdb.txt"));
+			File file = new File("data/gamecontrollerdb.txt");
+			InputStream in = new FileInputStream(file);
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);
 			
 			String line = "";
 			while( (line = reader.readLine()) != null )
-					if(!glfwUpdateGamepadMappings(line))
+					if(!glfwUpdateGamepadMappings(ByteBuffer.wrap(line.getBytes())))
 						Main.log.error("Error reading gamepad mapping: "+line);
 		
 			reader.close();

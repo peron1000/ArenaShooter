@@ -1,0 +1,26 @@
+{
+  "build": "release",
+  "mode": "zip",
+  "selectedAddons": [],
+  "platform": [
+    "linux",
+    "macos",
+    "windows"
+  ],
+  "descriptions": false,
+  "compact": false,
+  "hardcoded": false,
+  "javadoc": true,
+  "source": true,
+  "osgi": false,
+  "language": "groovy",
+  "contents": [
+    "lwjgl",
+    "lwjgl-stb",
+    "lwjgl-glfw",
+    "lwjgl-openal",
+    "lwjgl-opengl"
+  ],
+  "version": "3.2.2",
+  "versionLatest": "3.2.2"
+}
