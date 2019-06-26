@@ -83,8 +83,8 @@ public class Character extends RigidBodyContainer {
 	 */
 	private boolean punchedMidAir = false;
 
-	public Character(Vec2f position, CharacterInfo charInfo) {
-		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER,
+	public Character(Vec2f position, CharacterInfo charInfo , boolean demo) {
+		super(new RigidBody(new ShapeCharacter(), position, 0, (demo? CollisionFlags.NONE: CollisionFlags.CHARACTER),
 				(charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 1));
 
 		getBody().setBullet(true);

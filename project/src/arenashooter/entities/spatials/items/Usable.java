@@ -33,7 +33,7 @@ public class Usable extends Item {
 		this.animPath = animPath;
 		this.warmup = warmup;
 		this.soundWarmup = soundWarmup;
-		this.soundFire = soundFire;
+		this.setSoundFire(soundFire);
 	}
 
 	/**
@@ -91,6 +91,13 @@ public class Usable extends Item {
 	 */
 	public String getSoundFire() {
 		return soundFire;
+	}
+
+	/**
+	 * @param soundFire the soundFire to set
+	 */
+	public void setSoundFire(String soundFire) {
+		this.soundFire = soundFire;
 	}
 
 	public void attackStart(boolean demo) {

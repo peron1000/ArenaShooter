@@ -146,6 +146,7 @@ public class Gun extends Usable {
 
 	public void setSndWarmup(SoundEffect sndWarmup) {
 		this.sndWarmup = sndWarmup;
+		sndWarmup.attachToParent(this, "snd_Warmup");
 	}
 
 	/**
@@ -284,9 +285,12 @@ public class Gun extends Usable {
 				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;
-				
-				if (!demo)
+				float damage = 0;
+
+				if (!demo) {
 					uses--;
+					damage = this.damage;
+				}
 
 				switch (bulletType) {
 				case 0:

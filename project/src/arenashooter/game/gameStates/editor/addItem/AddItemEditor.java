@@ -8,6 +8,9 @@ import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.entities.Arena;
+import arenashooter.game.gameStates.editor.ArenaEditor;
+import arenashooter.game.gameStates.editor.Editor;
 
 public class AddItemEditor extends UiElement {
 
@@ -15,7 +18,7 @@ public class AddItemEditor extends UiElement {
 
 	private MultiUi current = typeChoice;
 
-	public AddItemEditor() {
+	public AddItemEditor(Arena arenaConstruction, Editor editor, ArenaEditor arenaEditor) {
 
 		UiListVertical<UiActionable> list = new UiListVertical<UiActionable>();
 		for (ItemType type : ItemType.values()) {
@@ -28,8 +31,9 @@ public class AddItemEditor extends UiElement {
 
 				@Override
 				public void make() {
-					if (type.getEditor() != null)
-						current = type.getEditor();
+					MultiUi ui = type.getEditor(arenaConstruction , editor , arenaEditor);
+					if (ui != null)
+						current = ui;
 				}
 			});
 			list.addElement(button);

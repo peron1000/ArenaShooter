@@ -12,5 +12,6 @@ public enum DamageType {
 	/** Bullet-based weapon */
 	BULLET, 
 	FIRE, 
-	EXPLOSION
+	EXPLOSION,
+	DEMONSTRATION
 }

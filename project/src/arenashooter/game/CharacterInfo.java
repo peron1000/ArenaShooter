@@ -43,7 +43,7 @@ public class CharacterInfo {
 	}
 
 	public Character createNewCharacter(Vec2f spawn) {
-		return new Character(spawn, this);
+		return new Character(spawn, this , false);
 	}
 
 }

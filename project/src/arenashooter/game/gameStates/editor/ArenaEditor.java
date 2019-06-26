@@ -48,7 +48,7 @@ import arenashooter.game.gameStates.editor.addItem.AddItemEditor;
 import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
-class ArenaEditor extends UiElement implements MultiUi {
+public class ArenaEditor extends UiElement implements MultiUi {
 
 	// Save & Quit variables
 	private Arena arenaConstruction;
@@ -221,7 +221,7 @@ class ArenaEditor extends UiElement implements MultiUi {
 			
 			@Override
 			public void make() {
-				editor.setCurrentMenu(new AddItemEditor());
+				editor.setCurrentMenu(new AddItemEditor(arenaConstruction , editor , ArenaEditor.this));
 			}
 		});
 		
