@@ -26,6 +26,7 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Character;
+import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.CharacterClass;
 import arenashooter.game.CharacterInfo;
@@ -37,17 +38,18 @@ class AddGunEditor extends UiElement implements MultiUi {
 	private Arena arena = new Arena();
 	private Character character;
 	private Gun gun;
+	private Sprite canonLenght = new Sprite(new Vec2f(0, 0),
+			Texture.loadTexture("data/sprites/Bullet.png"));
 
 	// UI
 	private TabList<UiActionable> menu = new TabList<>();
 	private final ScrollerH<String> spriteScroller = getScrollerSprite();
 	private UiGroup<UiElement> popup = null;
 	private Label labelSensibility = new Label("Sensibility : @");
-	private UiImage rectangle = null;
 
 	// State
 	private enum State {
-		NOTHING, EXTENT, HAND_R, HAND_L;
+		NOTHING, EXTENT, HAND_R, HAND_L, BULLET_START;
 	}
 
 	private State state = State.NOTHING;
@@ -113,6 +115,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		character.attachToParent(arena, "CharTest");
 		gun = new Gun(spriteScroller.get());
 		gun.attachToParent(character, "Item_Weapon");
+		canonLenght.size = new Vec2f(canonLenght.getTexture().getWidth()*.018, canonLenght.getTexture().getHeight()*.018);
+		canonLenght.getTexture().setFilter(false);
 
 		// Inputs
 		input.actions.add(new EventListener<InputActionEvent>() {
@@ -123,11 +127,14 @@ class AddGunEditor extends UiElement implements MultiUi {
 				case ATTACK:
 					switch (event.getActionState()) {
 					case JUST_PRESSED:
-						character.attackStart(true);
+						character.attackStartDemo(true);
+						break;
 					case JUST_RELEASED:
 						character.attackStopDemo();
+						break;
 					case PRESSED:
 						character.attackStart(false);
+						break;
 					default:
 						break;
 					}
@@ -146,21 +153,20 @@ class AddGunEditor extends UiElement implements MultiUi {
 	}
 
 	private UiActionable[] setButtons() {
-		UiActionable[] ret = {new Button("Set extent"), new Button("Set Hand Right"), new Button("Set Hand Left") };
+		UiActionable[] ret = { new Button("Set extent"), new Button("Set Hand Right"), new Button("Set Hand Left"),
+				new Button("Set bullet start position") };
 		for (UiActionable a : ret) {
 			a.setScale(30, 5);
 		}
 
 		// Triggers
 		ret[0].setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
 				AddGunEditor.this.state = State.EXTENT;
-				popup = getPopup("Setting extent", ": rescale th extent");
-				rectangle = new UiImage(0.9, 0.2, 0.2, 0.5);
-				rectangle.setScale(gun.extent);
-				rectangle.setPosition(Vec2f.worldToScreen(gun.getWorldPos()));
+				popup = getPopup("Setting extent", ": rescale the extent");
+				// TODO : rajouter visuel
 			}
 		});
 		ret[1].setOnArm(new Trigger() {
@@ -177,6 +183,16 @@ class AddGunEditor extends UiElement implements MultiUi {
 			public void make() {
 				AddGunEditor.this.state = State.HAND_L;
 				popup = getPopup("Setting the left hand position", ": move the hand position");
+			}
+		});
+		ret[3].setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				AddGunEditor.this.state = State.BULLET_START;
+				popup = getPopup("Setting bullet start position", ": move the bullet start position");
+				canonLenght.attachToParent(gun, "canonLenght");
+				addToCanonLenght(0);
 			}
 		});
 
@@ -202,8 +218,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		});
 		return scSprite;
 	}
-	
-	private UiGroup<UiElement> getPopup(String title ,String instr){
+
+	private UiGroup<UiElement> getPopup(String title, String instr) {
 		UiGroup<UiElement> ret = new UiGroup<>();
 		double textScale = 2.5;
 
@@ -227,12 +243,12 @@ class AddGunEditor extends UiElement implements MultiUi {
 		moveRight.setScale(textScale);
 		moveUp.setScale(textScale);
 		moveDown.setScale(textScale);
-		
+
 		moveLeft.setPosition(-20, -2.5);
 		moveRight.setPosition(-15, -2.5);
 		moveUp.setPosition(-17.5, -5);
 		moveDown.setPosition(-17.5, 0);
-		
+
 		Label instruction1 = new Label(instr);
 		instruction1.setScale(textScale);
 		instruction1.setPosition(-10, -2.5);
@@ -244,17 +260,43 @@ class AddGunEditor extends UiElement implements MultiUi {
 
 		labelSensibility.setScale(textScale);
 		labelSensibility.setPosition(0, 10);
-		ret.addElements(border, bg, titleLabel, moveLeft, moveRight, moveDown , moveUp, instruction1, instruction2, labelSensibility);
+		ret.addElements(border, bg, titleLabel, moveLeft, moveRight, moveDown, moveUp, instruction1, instruction2,
+				labelSensibility);
 		ret.setPosition(40, -30);
 		return ret;
 	}
-	
+
+	private void addToCanonLenght(double add) {
+		gun.setCannonLength(gun.getCannonLength()+add);
+		canonLenght.localPosition.set(gun.getCannonLength(), 0);
+	}
+
 	private void stopSetting() {
 		state = State.NOTHING;
 		popup = null;
-		rectangle = null;
+		canonLenght.detach();
 	}
-	
+
+	private boolean setting(Vec2f add) {
+		switch (state) {
+		case HAND_L:
+			gun.handPosL.add(add);
+			return true;
+		case HAND_R:
+			gun.handPosR.add(add);
+			return true;
+		case EXTENT:
+			gun.getExtent().add(add);
+			return true;
+		case BULLET_START:
+			addToCanonLenght(add.x);
+			return true;
+		case NOTHING:
+		default:
+			return false;
+		}
+	}
+
 	@Override
 	public boolean continueAction() {
 		if (state != State.NOTHING) {
@@ -264,7 +306,7 @@ class AddGunEditor extends UiElement implements MultiUi {
 			return menu.continueAction();
 		}
 	}
-	
+
 	@Override
 	public boolean selectAction() {
 		if (state != State.NOTHING) {
@@ -287,81 +329,41 @@ class AddGunEditor extends UiElement implements MultiUi {
 
 	@Override
 	public boolean downAction() {
-		Vec2f add = new Vec2f(0,sensibility.getValue());
-		switch (state) {
-		case HAND_L:
-			gun.handPosL.add(add);
-			return true;
-		case HAND_R:
-			gun.handPosR.add(add);
-			return true;
-		case EXTENT:
-			gun.getExtent().add(add);
-			rectangle.setScale(gun.extent);
-			return true;
-		case NOTHING:
-		default:
+		Vec2f add = new Vec2f(0, sensibility.getValue());
+		if (!setting(add)) {
 			return menu.downAction();
+		} else {
+			return true;
 		}
 	}
 
 	@Override
 	public boolean upAction() {
-		Vec2f add = new Vec2f(0,-sensibility.getValue());
-		switch (state) {
-		case HAND_L:
-			gun.handPosL.add(add);
-			return true;
-		case HAND_R:
-			gun.handPosR.add(add);
-			return true;
-		case EXTENT:
-			gun.getExtent().add(add);
-			rectangle.setScale(gun.extent);
-			return true;
-		case NOTHING:
-		default:
+		Vec2f add = new Vec2f(0, -sensibility.getValue());
+		if (!setting(add)) {
 			return menu.upAction();
+		} else {
+			return true;
 		}
 	}
 
 	@Override
 	public boolean leftAction() {
 		Vec2f add = new Vec2f(-sensibility.getValue(), 0);
-		switch (state) {
-		case HAND_L:
-			gun.handPosL.add(add);
-			return true;
-		case HAND_R:
-			gun.handPosR.add(add);
-			return true;
-		case EXTENT:
-			gun.getExtent().add(add);
-			rectangle.setScale(gun.extent);
-			return true;
-		case NOTHING:
-		default:
+		if (!setting(add)) {
 			return menu.leftAction();
+		} else {
+			return true;
 		}
 	}
 
 	@Override
 	public boolean rightAction() {
-		Vec2f add = new Vec2f(sensibility.getValue() ,0);
-		switch (state) {
-		case HAND_L:
-			gun.handPosL.add(add);
-			return true;
-		case HAND_R:
-			gun.handPosR.add(add);
-			return true;
-		case EXTENT:
-			gun.getExtent().add(add);
-			rectangle.setScale(gun.extent);
-			return true;
-		case NOTHING:
-		default:
+		Vec2f add = new Vec2f(sensibility.getValue(), 0);
+		if (!setting(add)) {
 			return menu.rightAction();
+		} else {
+			return true;
 		}
 	}
 
@@ -378,9 +380,6 @@ class AddGunEditor extends UiElement implements MultiUi {
 		menu.draw();
 		if (popup != null) {
 			popup.draw();
-		}
-		if(rectangle != null) {
-			rectangle.draw();
 		}
 		Window.endUi();
 		arena.renderFirstPass();

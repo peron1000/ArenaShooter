@@ -20,17 +20,14 @@ public class Gun extends Usable {
 	protected float thrust = 0;//
 	protected double cannonLength = 1.0;
 	protected int bulletType = 0;
-	protected float bulletSpeed = 1;
+	protected float bulletSpeed = 10;
 	protected float damage = 0f;
-	protected double warmupDuration = 0;
-	protected String soundNoAmmo = "";
-	protected Timer timerCooldown = new Timer(0.1);
+	protected String soundNoAmmo = "data/sound/no_ammo_01.ogg";
 	/** Time before the first bullet is fired */
-	protected Timer timerWarmup = new Timer(0.1);
+	protected Timer timerWarmup = new Timer(warmup);
 	protected SoundEffect sndWarmup = null;
 	protected float sndChargeVol;
 	protected float sndChargePitch;
-	protected int nbAmmo = 10;
 
 	/**
 	 * 
@@ -64,14 +61,12 @@ public class Gun extends Usable {
 		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses,
 				animPath, warmupDuration, soundWarmup, soundFire);
 
-		this.nbAmmo = uses;
 		this.bulletType = bulletType;
 		this.bulletSpeed = bulletSpeed;
 		this.cannonLength = cannonLength;
 		this.damage = damage;
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
-		this.warmupDuration = warmupDuration;
 		this.soundNoAmmo = soundNoAmmo;
 		this.extent = extent;
 
@@ -88,13 +83,6 @@ public class Gun extends Usable {
 		this.timerWarmup.setProcessing(true);
 		this.timerWarmup.attachToParent(this, "timer_warmup");
 
-		// Cooldown
-		this.timerCooldown = new Timer(fireRate);
-		this.timerCooldown.setIncreasing(true);
-		this.timerCooldown.setProcessing(true);
-		this.timerCooldown.setValue(fireRate);
-		this.timerCooldown.attachToParent(this, "timer_cooldown");
-
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
 	}
@@ -107,6 +95,13 @@ public class Gun extends Usable {
 	 */
 	public Gun(String sprite) {
 		super(sprite);
+		// Warmup
+		this.timerWarmup.setIncreasing(false);
+		this.timerWarmup.setProcessing(true);
+		this.timerWarmup.attachToParent(this, "timer_warmup");
+
+		Entity particleContainer = new Entity();
+		particleContainer.attachToParent(this, "particle_container");
 	}
 
 	public Timer getTimerWarmup() {
@@ -141,10 +136,6 @@ public class Gun extends Usable {
 		this.damage = damage;
 	}
 
-	public void setWarmupDuration(double warmupDuration) {
-		this.warmupDuration = warmupDuration;
-	}
-
 	public void setSoundNoAmmo(String soundNoAmmo) {
 		this.soundNoAmmo = soundNoAmmo;
 	}
@@ -155,10 +146,6 @@ public class Gun extends Usable {
 
 	public void setSndWarmup(SoundEffect sndWarmup) {
 		this.sndWarmup = sndWarmup;
-	}
-
-	public void setNbAmmo(int nbAmmo) {
-		this.nbAmmo = nbAmmo;
 	}
 
 	/**
@@ -207,7 +194,7 @@ public class Gun extends Usable {
 	 * @return the warmupDuration
 	 */
 	public double getWarmupDuration() {
-		return warmupDuration;
+		return warmup;
 	}
 
 	/**
@@ -256,11 +243,12 @@ public class Gun extends Usable {
 	 * @return the nbAmmo
 	 */
 	public int getNbAmmo() {
-		return nbAmmo;
+		return uses;
 	}
 
 	@Override
-	public void attackStart() {
+	public void attackStart(boolean demo) {
+		this.demo = demo;
 		timerWarmup.setIncreasing(true);
 		if (sndWarmup != null && !sndWarmup.isPlaying())
 			sndWarmup.play();
@@ -288,8 +276,7 @@ public class Gun extends Usable {
 		// Spawn projectile
 		if (timerWarmup.isIncreasing() && timerWarmup.isOver() && timerCooldown.isOver()) {
 			timerCooldown.restart();
-
-			if (nbAmmo > 0) {
+			if (uses > 0) {
 				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
 				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
@@ -297,8 +284,9 @@ public class Gun extends Usable {
 				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;
-
-				nbAmmo--;
+				
+				if (!demo)
+					uses--;
 
 				switch (bulletType) {
 				case 0:
@@ -392,8 +380,8 @@ public class Gun extends Usable {
 	@Override
 	public Gun clone() {
 		Gun gun = new Gun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent, soundPickup,
-				fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed,
-				damage, cannonLength, recoil, thrust);
+				fireRate, uses, animPath, warmup, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage,
+				cannonLength, recoil, thrust);
 		return gun;
 	}
 }
