@@ -22,10 +22,10 @@ public class Barrel extends RigidBodyContainer {
 	private double timeSinceLastSpark = 0;
 	double timeUntilNewSpark = 0.2;
 
-	public Barrel(Vec2f worldPosition) {
+	public Barrel(Vec2f worldPosition, boolean shortTimer) {
 		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), worldPosition, 0, CollisionFlags.RIGIDBODY, 3, 1));
 
-		barrelMesh = new Mesh(new Vec3f(), "data/meshes/barrels/barrel_01.obj");
+		barrelMesh = new Mesh(new Vec3f(), ( shortTimer ? "data/meshes/barrels/barrel_01.obj" : "data/meshes/barrels/barrel_02.obj"));
 		barrelMesh.attachToParent(this, "Barrel_Mesh");
 //		barrelMesh.scale.set(1, 1, 1);
 		Quat.fromEuler(Math.random()*2*Math.PI, 0, 0, barrelMesh.localRotation);
