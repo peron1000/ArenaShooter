@@ -12,6 +12,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.particles.EmitterTemplate;
 import arenashooter.engine.graphics.particles.modules.AccelConstant;
 import arenashooter.engine.graphics.particles.modules.ColorOverLife;
+import arenashooter.engine.graphics.particles.modules.Drag;
 import arenashooter.engine.graphics.particles.modules.Gravity;
 import arenashooter.engine.graphics.particles.modules.InitialPosCircle;
 import arenashooter.engine.graphics.particles.modules.InitialVelCone;
@@ -74,6 +75,8 @@ public class ParticlesXmlReader extends XmlReader {
 			case "colorOverLife":
 				module = colorOverLife(elem);
 				break;
+			case "drag":
+				module = drag(elem);
 			case "gravity":
 				module = gravity(elem);
 				break;
@@ -120,6 +123,11 @@ public class ParticlesXmlReader extends XmlReader {
 		}
 		
 		return new ColorOverLife(start, end);
+	}
+	
+	private static ParticleModule drag(Element elem) {
+		float strength = Float.parseFloat("strength");
+		return new Drag(strength);
 	}
 	
 	private static ParticleModule gravity(Element elem) {
