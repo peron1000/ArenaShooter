@@ -26,7 +26,6 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Character;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.items.Gun;
 import arenashooter.game.CharacterClass;
 import arenashooter.game.CharacterInfo;
@@ -38,8 +37,7 @@ class AddGunEditor extends UiElement implements MultiUi {
 	private Arena arena = new Arena();
 	private Character character;
 	private Gun gun;
-	private Sprite canonLenght = new Sprite(new Vec2f(0, 0),
-			Texture.loadTexture("data/sprites/Bullet.png"));
+	private BulletType bulletType = BulletType.DEFAULT;
 
 	// UI
 	private TabList<UiActionable> menu = new TabList<>();
@@ -115,8 +113,9 @@ class AddGunEditor extends UiElement implements MultiUi {
 		character.attachToParent(arena, "CharTest");
 		gun = new Gun(spriteScroller.get());
 		gun.attachToParent(character, "Item_Weapon");
-		canonLenght.size = new Vec2f(canonLenght.getTexture().getWidth()*.018, canonLenght.getTexture().getHeight()*.018);
-		canonLenght.getTexture().setFilter(false);
+		bulletType.getSprite().size = new Vec2f(bulletType.getSprite().getTexture().getWidth() * .018,
+				bulletType.getSprite().getTexture().getHeight() * .018);
+		bulletType.getSprite().getTexture().setFilter(false);
 
 		// Inputs
 		input.actions.add(new EventListener<InputActionEvent>() {
@@ -153,8 +152,12 @@ class AddGunEditor extends UiElement implements MultiUi {
 	}
 
 	private UiActionable[] setButtons() {
+		ScrollerH<BulletType> bt = new ScrollerH<>(BulletType.values());
+		bt.setBackgroundVisible(true);
+		bt.setTitle("Bullet type");
+		
 		UiActionable[] ret = { new Button("Set extent"), new Button("Set Hand Right"), new Button("Set Hand Left"),
-				new Button("Set bullet start position") };
+				new Button("Set bullet start position"), bt };
 		for (UiActionable a : ret) {
 			a.setScale(30, 5);
 		}
@@ -191,8 +194,34 @@ class AddGunEditor extends UiElement implements MultiUi {
 			public void make() {
 				AddGunEditor.this.state = State.BULLET_START;
 				popup = getPopup("Setting bullet start position", ": move the bullet start position");
-				canonLenght.attachToParent(gun, "canonLenght");
+				bulletType.getSprite().attachToParent(gun, "canonLenght");
 				addToCanonLenght(0);
+			}
+		});
+		bt.setOnArm(new Trigger() {
+			
+			@Override
+			public void make() {
+				bulletType.getSprite().attachToParent(gun, "bulletType");
+				bulletType.getSprite().localPosition.set(gun.getCannonLength(), 0);
+			}
+		});
+		bt.setOnChange(new Trigger() {
+			
+			@Override
+			public void make() {
+				bulletType.getSprite().detach();
+				bulletType = bt.get();
+				bulletType.getSprite().attachToParent(gun, "bulletType");
+				bulletType.getSprite().localPosition.set(gun.getCannonLength(), 0);
+			}
+		});
+		bt.setOnValidation(new Trigger() {
+			
+			@Override
+			public void make() {
+				bulletType.getSprite().detach();
+				gun.setBulletType(bulletType.getId());
 			}
 		});
 
@@ -267,14 +296,14 @@ class AddGunEditor extends UiElement implements MultiUi {
 	}
 
 	private void addToCanonLenght(double add) {
-		gun.setCannonLength(gun.getCannonLength()+add);
-		canonLenght.localPosition.set(gun.getCannonLength(), 0);
+		gun.setCannonLength(gun.getCannonLength() + add);
+		bulletType.getSprite().localPosition.set(gun.getCannonLength(), 0);
 	}
-
+	
 	private void stopSetting() {
 		state = State.NOTHING;
 		popup = null;
-		canonLenght.detach();
+		bulletType.getSprite().detach();
 	}
 
 	private boolean setting(Vec2f add) {

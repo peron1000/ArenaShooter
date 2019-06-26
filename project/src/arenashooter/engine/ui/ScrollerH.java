@@ -366,6 +366,7 @@ public class ScrollerH<E> extends UiActionable {
 			} else {
 				label.setColor(colorOnSelect);
 				selected = true;
+				arm();
 			}
 		}
 		return true;
