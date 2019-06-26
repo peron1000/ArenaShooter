@@ -11,9 +11,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiElement;
-import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Editable;
 import arenashooter.entities.Sky;
 import arenashooter.entities.spatials.Spatial3;
@@ -21,38 +19,30 @@ import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.GameState;
+import arenashooter.game.gameStates.editor.addItem.AddItemEditor;
 
 public class Editor extends GameState {
 
-	static float forVisible = -64;
-
-	static float forNotVisible = -110;
-
-	private UiImage background = new UiImage(new Vec4f(.5, .5, .5, .2));
-
-	private boolean menuVisible = true;
+	static float forVisible = -64, forNotVisible = -110;
 
 	private InputListener inputs = new InputListener();
 
 	List<Editable> allEditable = new LinkedList<>();
 	Editable onSetting = null;
 
-	private MainMenu mainMenu = new MainMenu(current, this);
+	private ArenaEditor mainMenu = new ArenaEditor(current, this);
 
 	private UiElement currentMenu = mainMenu;
-	
+
 	AnimEditor animEditor = new AnimEditor();
 
 	private Camera cam;
-	
+
 	private Sprite grid2d;
 
 	public Editor() {
 		grid2d = new Sprite(new Vec2f(), Material.loadMaterial("data/materials/editor_grid.xml"));
 
-		background.setPosition(forVisible, 0);
-		background.setScale(50, 150);
-		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -75,12 +65,10 @@ public class Editor extends GameState {
 						currentMenu.selectAction();
 						break;
 					case UI_CONTINUE:
-						if (!currentMenu.continueAction()) {
-							setMenuVisible(!menuVisible);
-						}
+						currentMenu.continueAction();
 						break;
 					case UI_BACK:
-						if(!currentMenu.backAction()) {
+						if (!currentMenu.backAction()) {
 							currentMenu = mainMenu;
 							onSetting = null;
 						}
@@ -108,8 +96,9 @@ public class Editor extends GameState {
 					case UI_DOWN2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							if(onSetting == getCamera())
-								onSetting.editorAddPosition(new Vec2f(0, positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z)));
+							if (onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(0,
+										positionSpeed * 0.1 * Math.max(1, ((Spatial3) onSetting).getWorldPos().z)));
 							else
 								onSetting.editorAddPosition(new Vec2f(0, positionSpeed));
 							break;
@@ -135,8 +124,9 @@ public class Editor extends GameState {
 					case UI_UP2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							if(onSetting == getCamera())
-								onSetting.editorAddPosition(new Vec2f(0, -positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z)));
+							if (onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(0,
+										-positionSpeed * 0.1 * Math.max(1, ((Spatial3) onSetting).getWorldPos().z)));
 							else
 								onSetting.editorAddPosition(new Vec2f(0, -positionSpeed));
 							break;
@@ -162,8 +152,9 @@ public class Editor extends GameState {
 					case UI_RIGHT2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							if(onSetting == getCamera())
-								onSetting.editorAddPosition(new Vec2f(positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z), 0));
+							if (onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(
+										positionSpeed * 0.1 * Math.max(1, ((Spatial3) onSetting).getWorldPos().z), 0));
 							else
 								onSetting.editorAddPosition(new Vec2f(positionSpeed, 0));
 							break;
@@ -188,8 +179,9 @@ public class Editor extends GameState {
 					case UI_LEFT2:
 						switch (edit.getModificationType()) {
 						case POSITION:
-							if(onSetting == getCamera())
-								onSetting.editorAddPosition(new Vec2f(-positionSpeed*0.1*Math.max(1, ((Spatial3)onSetting).getWorldPos().z), 0));
+							if (onSetting == getCamera())
+								onSetting.editorAddPosition(new Vec2f(
+										-positionSpeed * 0.1 * Math.max(1, ((Spatial3) onSetting).getWorldPos().z), 0));
 							else
 								onSetting.editorAddPosition(new Vec2f(-positionSpeed, 0));
 							break;
@@ -214,7 +206,7 @@ public class Editor extends GameState {
 					default:
 						break;
 					}
-				} else if(event.getActionState() == ActionState.PRESSED) {
+				} else if (event.getActionState() == ActionState.PRESSED && !(currentMenu instanceof AddItemEditor)) {
 					switch (event.getAction()) {
 					case UI_ZOOMR:
 						cam.editorAddDepth(-0.1f);
@@ -228,10 +220,10 @@ public class Editor extends GameState {
 				}
 			}
 		});
-		
+
 	}
 
-	void setCurrentMenu(UiElement currentMenu) {
+	public void setCurrentMenu(UiElement currentMenu) {
 		this.currentMenu = currentMenu;
 	}
 
@@ -241,9 +233,9 @@ public class Editor extends GameState {
 		cam = (Camera) current.getChild("camera");
 		cam.interpolate = false;
 		mainMenu.constructCamerabutton(cam);
-		
+
 		Sky sky = (Sky) current.getChild("sky");
-		if(sky == null) {
+		if (sky == null) {
 			sky = new Sky(new Vec3f(), new Vec3f());
 			sky.attachToParent(current, "sky");
 			Main.log.warn("Sky not correctly named or not existing from the xml");
@@ -252,24 +244,12 @@ public class Editor extends GameState {
 		sky.setColors(new Vec3f(.016, .145, .565), new Vec3f(.659, .835, .996));
 	}
 
-	private void setMenuVisible(boolean visible) {
-		if (visible) {
-			background.setPositionLerp(forVisible, 0, 30);
-			currentMenu.setPositionLerp(forVisible, 0, 40);
-		} else {
-			background.setPositionLerp(forNotVisible, 0, 30);
-			currentMenu.setPositionLerp(forNotVisible, 0, 40);
-		}
-		menuVisible = visible;
-	}
-
 	@Override
 	public void update(double delta) {
-		forNotVisible = -50*Window.getRatio()-background.getScale().x/2;
-		forVisible = -50*Window.getRatio()+background.getScale().x/2;
+		forNotVisible = -50*Window.getRatio()-25;
+		forVisible = -50*Window.getRatio()+25;
 		
 		inputs.step(delta);
-		background.update(delta);
 		currentMenu.update(delta);
 		cam.step(delta);
 		for (Editable editable : allEditable) {
@@ -280,25 +260,24 @@ public class Editor extends GameState {
 			}
 		}
 	}
-	
+
 	@Override
 	public void draw() {
 		super.draw();
-		
+
 		for (Editable editable : allEditable) {
 			editable.editorDraw();
 		}
-		
+
 		Window.beginTransparency();
 		float gridSize = (float) (getCamera().getWorldPos().z * 1.5);
 		grid2d.size.set(gridSize, gridSize);
 		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
-		grid2d.material.setParamF("lineThickness", (float)Math.min(.5, gridSize*.002));
+		grid2d.material.setParamF("lineThickness", (float) Math.min(.5, gridSize * .002));
 		grid2d.draw(true);
 		Window.endTransparency();
-		
+
 		Window.beginUi();
-		background.draw();
 		currentMenu.draw();
 		Window.endUi();
 	}

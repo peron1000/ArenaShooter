@@ -48,7 +48,7 @@ class EntityEditor extends UiElement implements MultiUi {
 		}
 	};
 
-	public EntityEditor(MainMenu mainMenu, Entity entity, TypeEntites type) {
+	public EntityEditor(ArenaEditor mainMenu, Entity entity, TypeEntites type) {
 
 		// Make Label for entity name and parent entity name
 		makeLabelsForEntity(entity);

@@ -24,6 +24,8 @@ public class InputListener {
 	 */
 	public List<EventListener<InputAxisEvent>> axis = new LinkedList<>();
 	
+	public List<EventListener<InputAngleEvent>> angleSticks = new LinkedList<>(); 
+	
 	public void step(double delta) {
 		for (Device device : Device.values()) {
 			if(!actions.isEmpty()) {
@@ -42,6 +44,15 @@ public class InputListener {
 					axis.forEach(a -> a.launch(event));
 				}
 			}
+			if(device.getAxisFloat(AxisV2.AIM_X) != 0 || device.getAxisFloat(AxisV2.AIM_Y) != 0 ) {
+				InputAngleEvent event = new InputAngleEvent(device, device.getAngle(true), true);
+				angleSticks.forEach(a -> a.launch(event));
+			}
+			if(device.getAxisFloat(AxisV2.MOVE_X) != 0 || device.getAxisFloat(AxisV2.MOVE_Y) != 0 ) {
+				InputAngleEvent event = new InputAngleEvent(device, device.getAngle(false), false);
+				angleSticks.forEach(a -> a.launch(event));
+			}
+			
 		}
 	}
 }

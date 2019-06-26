@@ -8,7 +8,7 @@ import arenashooter.entities.spatials.Character;
 public class Usable extends Item {
 
 	/** Time in between attacks */
-	protected Timer timerCooldown = null;
+	protected Timer timerCooldown = new Timer(0.9);
 	protected double fireRate = 0;
 	protected int uses = 0;
 	protected String animPath = "";
@@ -28,6 +28,15 @@ public class Usable extends Item {
 		this.warmup = warmup;
 		this.soundWarmup = soundWarmup;
 		this.soundFire = soundFire;
+	}
+	
+	/**
+	 * Constructor for the Editor to avoid a new Item creation for each change state
+	 * @author Nathan
+	 * @param sprite 
+	 */
+	public Usable(String sprite) {
+		super(sprite);
 	}
 
 	/**

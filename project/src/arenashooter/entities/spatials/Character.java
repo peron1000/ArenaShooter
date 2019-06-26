@@ -81,7 +81,7 @@ public class Character extends RigidBodyContainer {
 	 * 
 	 * The Character has already punched mid-air
 	 */
-	boolean punchedMidAir = false;
+	private boolean punchedMidAir = false;
 
 	public Character(Vec2f position, CharacterInfo charInfo) {
 		super(new RigidBody(new ShapeCharacter(), position, 0, CollisionFlags.CHARACTER,
@@ -275,6 +275,51 @@ public class Character extends RigidBodyContainer {
 		} else if (attackCooldown.isOver()) {
 			parryStop();
 			chargePunch.setProcessing(true);
+		}
+	}
+	
+	public void attackStopDemo() {
+		if (getWeapon() != null) {
+			getWeapon().attackStop();
+		} else if (chargePunch.isProcessing()) {
+
+			boolean superPoing = chargePunch.isOver();
+			chargePunch.reset();
+			CharacterSprite skeleton = ((CharacterSprite) getChild("skeleton"));
+			DamageInfo punchDmgInfo;
+
+			if (superPoing) {
+				punchDmgInfo = new DamageInfo((float) (punchDamage * 1.5), DamageType.MELEE, Vec2f.fromAngle(aimInput),
+						0, this);
+				skeleton.punch(-1, aimInput);
+			} else {
+				punchDmgInfo = new DamageInfo(punchDamage, DamageType.MELEE, Vec2f.fromAngle(aimInput), 0, this);
+				attackCombo++;
+				if (skeleton != null)
+					switch (attackCombo) {
+					case 1:
+						skeleton.punch(1, aimInput);
+						break;
+					case 2:
+						skeleton.punch(2, aimInput);
+						break;
+					case 3:
+						skeleton.punch(3, aimInput);
+						break;
+					default:
+						break;
+					}
+			}
+
+			punching++;
+			attackCooldown.restart();
+			skeleton.stopCharge();
+
+			Punch ponch = new Punch(punchDmgInfo, hitWidth, range, superPoing);
+			ponch.attachToParent(this, "punch_" + genName());
+
+			attackCombo %= 3;
+
 		}
 	}
 

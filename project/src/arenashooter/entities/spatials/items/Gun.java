@@ -16,6 +16,151 @@ import arenashooter.entities.spatials.SoundEffect;
 import arenashooter.entities.spatials.StarBullet;
 
 public class Gun extends Usable {
+	protected float recoil = 0.4f;// High
+	protected float thrust = 0;//
+	protected double cannonLength = 1.0;
+	protected int bulletType = 0;
+	protected float bulletSpeed = 1;
+	protected float damage = 0f;
+	protected double warmupDuration = 0;
+	protected String soundNoAmmo = "";
+	protected Timer timerCooldown = new Timer(0.1);
+	/** Time before the first bullet is fired */
+	protected Timer timerWarmup = new Timer(0.1);
+	protected SoundEffect sndWarmup = null;
+	protected float sndChargeVol;
+	protected float sndChargePitch;
+	protected int nbAmmo = 10;
+
+	/**
+	 * 
+	 * @param localPosition
+	 * @param name
+	 * @param weight
+	 * @param pathSprite
+	 * @param handPosL
+	 * @param handPosR
+	 * @param soundPickup
+	 * @param cooldown
+	 * @param uses
+	 * @param animPath
+	 * @param warmupDuration
+	 * @param soundWarmup
+	 * @param soundFire
+	 * @param soundNoAmmo
+	 * @param bulletType
+	 * @param bulletSpeed
+	 * @param damage
+	 * @param cannonLength
+	 * @param recoil
+	 * @param thrust
+	 * @param size
+	 */
+	public Gun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+			Vec2f extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
+			String soundWarmup, String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage,
+			double cannonLength, double recoil, double thrust) {
+
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses,
+				animPath, warmupDuration, soundWarmup, soundFire);
+
+		this.nbAmmo = uses;
+		this.bulletType = bulletType;
+		this.bulletSpeed = bulletSpeed;
+		this.cannonLength = cannonLength;
+		this.damage = damage;
+		this.recoil = (float) recoil;
+		this.thrust = (float) thrust;
+		this.warmupDuration = warmupDuration;
+		this.soundNoAmmo = soundNoAmmo;
+		this.extent = extent;
+
+		if (soundWarmup == null || soundWarmup.isEmpty()) {
+			sndWarmup = null;
+		} else {
+			sndWarmup = new SoundEffect(new Vec2f(), soundWarmup, AudioChannel.SFX, 0, 1, 1, true);
+			sndWarmup.attachToParent(this, "snd_Warmup");
+		}
+
+		// Warmup
+		this.timerWarmup = new Timer(warmupDuration);
+		this.timerWarmup.setIncreasing(false);
+		this.timerWarmup.setProcessing(true);
+		this.timerWarmup.attachToParent(this, "timer_warmup");
+
+		// Cooldown
+		this.timerCooldown = new Timer(fireRate);
+		this.timerCooldown.setIncreasing(true);
+		this.timerCooldown.setProcessing(true);
+		this.timerCooldown.setValue(fireRate);
+		this.timerCooldown.attachToParent(this, "timer_cooldown");
+
+		Entity particleContainer = new Entity();
+		particleContainer.attachToParent(this, "particle_container");
+	}
+
+	/**
+	 * Constructor for the Editor to avoid a new Item creation for each change state
+	 * 
+	 * @author Nathan
+	 * @param sprite
+	 */
+	public Gun(String sprite) {
+		super(sprite);
+	}
+
+	public Timer getTimerWarmup() {
+		return timerWarmup;
+	}
+
+	public void setTimerWarmup(Timer timerWarmup) {
+		this.timerWarmup = timerWarmup;
+	}
+
+	public void setRecoil(float recoil) {
+		this.recoil = recoil;
+	}
+
+	public void setThrust(float thrust) {
+		this.thrust = thrust;
+	}
+
+	public void setCannonLength(double cannonLength) {
+		this.cannonLength = cannonLength;
+	}
+
+	public void setBulletType(int bulletType) {
+		this.bulletType = bulletType;
+	}
+
+	public void setBulletSpeed(float bulletSpeed) {
+		this.bulletSpeed = bulletSpeed;
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+
+	public void setWarmupDuration(double warmupDuration) {
+		this.warmupDuration = warmupDuration;
+	}
+
+	public void setSoundNoAmmo(String soundNoAmmo) {
+		this.soundNoAmmo = soundNoAmmo;
+	}
+
+	public void setExtent(Vec2f extent) {
+		this.extent = extent;
+	}
+
+	public void setSndWarmup(SoundEffect sndWarmup) {
+		this.sndWarmup = sndWarmup;
+	}
+
+	public void setNbAmmo(int nbAmmo) {
+		this.nbAmmo = nbAmmo;
+	}
+
 	/**
 	 * @return the recoil
 	 */
@@ -112,91 +257,6 @@ public class Gun extends Usable {
 	 */
 	public int getNbAmmo() {
 		return nbAmmo;
-	}
-
-	protected float recoil = 0.4f;// High
-	protected float thrust = 0;//
-	protected double cannonLength = 1.0;
-	protected int bulletType = 0;
-	protected float bulletSpeed = 1;
-	protected float damage = 0f;
-	protected double warmupDuration = 0;
-	protected String soundNoAmmo = "";
-	protected Vec2f extent = new Vec2f();
-	protected Timer timerCooldown = null;
-
-	/** Time before the first bullet is fired */
-	protected Timer timerWarmup = null;
-	protected SoundEffect sndWarmup = null;
-	protected float sndChargeVol, sndChargePitch;
-
-	protected int nbAmmo;
-
-	/**
-	 * 
-	 * @param localPosition
-	 * @param name
-	 * @param weight
-	 * @param pathSprite
-	 * @param handPosL
-	 * @param handPosR
-	 * @param soundPickup
-	 * @param cooldown
-	 * @param uses
-	 * @param animPath
-	 * @param warmupDuration
-	 * @param soundWarmup
-	 * @param soundFire
-	 * @param soundNoAmmo
-	 * @param bulletType
-	 * @param bulletSpeed
-	 * @param damage
-	 * @param cannonLength
-	 * @param recoil
-	 * @param thrust
-	 * @param size
-	 */
-	public Gun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			Vec2f extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
-			String soundWarmup, String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage,
-			double cannonLength, double recoil, double thrust) {
-
-		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses,
-				animPath, warmupDuration, soundWarmup, soundFire);
-
-		this.nbAmmo = uses;
-		this.bulletType = bulletType;
-		this.bulletSpeed = bulletSpeed;
-		this.cannonLength = cannonLength;
-		this.damage = damage;
-		this.recoil = (float) recoil;
-		this.thrust = (float) thrust;
-		this.warmupDuration = warmupDuration;
-		this.soundNoAmmo = soundNoAmmo;
-		this.extent = extent;
-
-		if (soundWarmup == null || soundWarmup.isEmpty()) {
-			sndWarmup = null;
-		} else {
-			sndWarmup = new SoundEffect(new Vec2f(), soundWarmup, AudioChannel.SFX, 0, 1, 1, true);
-			sndWarmup.attachToParent(this, "snd_Warmup");
-		}
-
-		// Warmup
-		this.timerWarmup = new Timer(warmupDuration);
-		this.timerWarmup.setIncreasing(false);
-		this.timerWarmup.setProcessing(true);
-		this.timerWarmup.attachToParent(this, "timer_warmup");
-
-		// Cooldown
-		this.timerCooldown = new Timer(fireRate);
-		this.timerCooldown.setIncreasing(true);
-		this.timerCooldown.setProcessing(true);
-		this.timerCooldown.setValue(fireRate);
-		this.timerCooldown.attachToParent(this, "timer_cooldown");
-
-		Entity particleContainer = new Entity();
-		particleContainer.attachToParent(this, "particle_container");
 	}
 
 	@Override
