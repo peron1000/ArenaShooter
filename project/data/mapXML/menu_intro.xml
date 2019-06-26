@@ -4,9 +4,9 @@
 	<information>
 		<gravity x="0" y="9.807" />
 		
-		<ambientLight r="0.48" g="0.48" b="0.5"/>
+		<ambientLight r="0.71" g="0.71" b="0.56"/>
 		
-		<fog r="0.929" g="0.906" b="0.753" distance="300"/>
+		<fog distance="300" r="0.929" g="0.906" b="0.753"/>
 
 		<cameraPos x="0" y="0" z="50" />
 		
@@ -19,6 +19,11 @@
 	</information>
 
 	<entities>
+		<directionalLight> <!-- Sun -->
+			<vector use="color" x="1.3" y="1.3" z="1" />
+			<vector use="rotation" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609" w="-0.11692503839731216" />
+		</directionalLight>
+		
 		<mesh src="data/meshes/intro/intro.obj"> <!--  Background -->
 			<vector use="position" x="0" y="0" z="0" />
 			<vector use="rotation" x="0" y="0" z="0" />
