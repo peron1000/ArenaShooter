@@ -426,8 +426,14 @@ public final class Window {
 		log.info("Set resolution scale to: "+Window.resolutionScale);
 	}
 	
+	/**
+	 * @return window's width
+	 */
 	public static int getWidth() { return width; }
 
+	/**
+	 * @return window's height
+	 */
 	public static int getHeight() { return height; }
 	
 	/**

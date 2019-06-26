@@ -155,7 +155,7 @@ class EntityEditor extends UiElement implements MultiUi {
 					light.getLight().setType(lightType.get());
 				}
 			});
-			lightType.setScale(5);
+			lightType.setScale(30, 5);
 			lightType.setBackgroundVisible(true);
 			UiImage background = new UiImage(new Vec4f(0, 0, 0, 1));
 			background.setScale(30, 5);

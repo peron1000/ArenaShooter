@@ -66,6 +66,8 @@ vec3 spotLight(spotLightStruct light, vec3 worldNormal) {
     
     intensity *= max( dot(direction, worldNormal), 0.0 );
     
+    if( dot(direction, light.direction) < light.angle ) intensity = 0;
+    
     return light.color*( intensity );
 }
 

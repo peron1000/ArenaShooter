@@ -23,7 +23,7 @@ public class Light {
 	public LightType getType() {
 		if(radius < 0)
 			return LightType.DIRECTIONAL;
-		return angle >= 0 ? LightType.POINT : LightType.SPOT;
+		return angle <= 0 ? LightType.POINT : LightType.SPOT;
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class Light {
 			break;
 		case SPOT:
 			radius = Math.max(0, radius);
-			angle = 1;
+			angle = .5f;
 		default:
 			break;
 		}

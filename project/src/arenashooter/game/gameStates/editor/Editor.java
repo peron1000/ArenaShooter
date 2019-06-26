@@ -24,7 +24,9 @@ import arenashooter.game.gameStates.GameState;
 
 public class Editor extends GameState {
 
-	static final float forVisible = -64, forNotVisible = -110;
+	static float forVisible = -64;
+
+	static float forNotVisible = -110;
 
 	private UiImage background = new UiImage(new Vec4f(.5, .5, .5, .2));
 
@@ -263,6 +265,9 @@ public class Editor extends GameState {
 
 	@Override
 	public void update(double delta) {
+		forNotVisible = -50*Window.getRatio()-background.getScale().x/2;
+		forVisible = -50*Window.getRatio()+background.getScale().x/2;
+		
 		inputs.step(delta);
 		background.update(delta);
 		currentMenu.update(delta);
