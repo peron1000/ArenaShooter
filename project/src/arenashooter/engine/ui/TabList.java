@@ -73,6 +73,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	public void setSpacing(double spacing) {
 		this.spacing = spacing;
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			uiListVertical.setSpacing(spacing);
+		}
 	}
 
 	public double getSpacing() {
@@ -189,42 +192,72 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		return circleList.get().get(indexTarget);
 	}
 
+	public <T extends E> void setTarget(T target) {
+		UiListVertical<? extends E> save = circleList.get();
+		UiListVertical<? extends E> current;
+		do {
+			circleList.next();
+			current = circleList.get();
+		} while (!current.contain(target) && current != save);
+		if (current.contain(target)) {
+			int index = current.getIndexOf(target);
+			if (index != -1) {
+				indexTarget = index;
+			} else {
+				Exception e = new Exception(
+						"The index of the target has not been find even if TabList contain as well the target");
+				e.printStackTrace();
+			}
+		} else {
+			Exception e = new Exception("UiElement is not inside this TabList");
+			e.printStackTrace();
+		}
+	}
+
 	public int getIndexTarget() {
 		return indexTarget;
 	}
 
-	public void setPositionForeach(double x, double y) {
-		actionOnAllSimpleElement(e -> e.setPosition(x, y));
-	}
-
-	public void addToPositionForeach(double x, double y) {
-		actionOnAllSimpleElement(e -> e.addToPosition(x, y));
-	}
-
-	public void setScaleForeach(double x, double y) {
-		actionOnAllSimpleElement(e -> e.setScale(x, y));
+	public void setPositionForeach(double x, double y, boolean titleInculde) {
+		actionOnAllSimpleElement(e -> e.setPosition(x, y), titleInculde);
 		for (UiListVertical<? extends E> uiListVertical : circleList) {
 			resetPositionOfList(uiListVertical);
 		}
 	}
 
-	public void addToScaleForeach(double x, double y) {
-		actionOnAllSimpleElement(e -> e.addToScale(x, y));
+	public void addToPositionForeach(double x, double y, boolean titleInculde) {
+		actionOnAllSimpleElement(e -> e.addToPosition(x, y), titleInculde);
 		for (UiListVertical<? extends E> uiListVertical : circleList) {
 			resetPositionOfList(uiListVertical);
 		}
 	}
 
-	private void actionOnAllSimpleElement(Consumer<UiElement> c) {
+	public void setScaleForeach(double x, double y, boolean titleInculde) {
+		actionOnAllSimpleElement(e -> e.setScale(x, y), titleInculde);
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			resetPositionOfList(uiListVertical);
+		}
+	}
+
+	public void addToScaleForeach(double x, double y, boolean titleInculde) {
+		actionOnAllSimpleElement(e -> e.addToScale(x, y), titleInculde);
+		for (UiListVertical<? extends E> uiListVertical : circleList) {
+			resetPositionOfList(uiListVertical);
+		}
+	}
+
+	private void actionOnAllSimpleElement(Consumer<UiElement> c, boolean title) {
 		for (UiListVertical<Label> info : labelsInfo.values()) {
 			info.forEach(l -> c.accept(l));
 		}
 		for (UiListVertical<? extends E> uiList : circleList) {
 			uiList.forEach(e -> c.accept(e));
 		}
-		c.accept(tabTitle);
-		c.accept(arrowLeft);
-		c.accept(arrowRight);
+		if (title) {
+			c.accept(tabTitle);
+			c.accept(arrowLeft);
+			c.accept(arrowRight);
+		}
 	}
 
 	private void actionOnAll(Consumer<NoStatic> c) {
@@ -268,18 +301,30 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 		resetPositionOfList(circleList.get());
 	}
 
+	public double getScaleY(boolean titleInclude) {
+		UiListVertical<? extends E> list = circleList.get();
+		UiListVertical<Label> labels = labelsInfo.get(list);
+		if (labels.size() > 0) {
+			return list.getScale().y + spacing + labelsInfo.get(list).getScale().y
+					+ (titleInclude ? tabTitle.getScale().y + spacing : 0);
+		} else {
+			return list.getScale().y + (titleInclude ? tabTitle.getScale().y + spacing : 0);
+		}
+
+	}
+
 	@Override
 	public void setPosition(double x, double y) {
-		double xDif = x - getPosition().x , yDif = y - getPosition().y;
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPosition(x, y);
-		actionOnAllSimpleElement(e -> e.addToPosition(xDif, yDif));
+		actionOnAllSimpleElement(e -> e.addToPosition(xDif, yDif), true);
 	}
 
 	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
-		double xDif = x - getPosition().x , yDif = y - getPosition().y;
+		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPositionLerp(x, y, lerp);
-		actionOnAllSimpleElement(e -> e.addToPositionLerp(xDif, yDif, lerp));
+		actionOnAllSimpleElement(e -> e.addToPositionLerp(xDif, yDif, lerp), true);
 	}
 
 	@Override
@@ -393,6 +438,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 				background.draw();
 			}
 			tabTitle.draw();
+			if(circleList.isEmpty())return;
+			
 			UiListVertical<? extends E> vlist = circleList.get();
 
 			if (!scissor) {

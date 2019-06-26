@@ -84,7 +84,7 @@ public class Shotgun extends Gun {
 		if (timerWarmup.isIncreasing() && timerWarmup.isOver() && timerCooldown.isOver()) {
 			timerCooldown.restart();
 
-			if (nbAmmo > 0) {
+			if (uses > 0) {
 				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
 				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
@@ -93,7 +93,7 @@ public class Shotgun extends Gun {
 
 				Particles flash;
 
-				nbAmmo--;
+				uses--;
 
 				switch (bulletType) {
 				case 0:
@@ -194,7 +194,7 @@ public class Shotgun extends Gun {
 	@Override
 	public Shotgun clone() {
 		Shotgun gun = new Shotgun(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
-				soundPickup, fireRate, uses, animPath, warmupDuration, soundWarmup, soundFire, soundNoAmmo, multiShot,
+				soundPickup, fireRate, uses, animPath, warmup, soundWarmup, soundFire, soundNoAmmo, multiShot,
 				dispersion, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust);
 		return gun;
 	}

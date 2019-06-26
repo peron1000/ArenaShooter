@@ -80,7 +80,7 @@ public class Melee extends Usable {
 	}
 	
 	@Override
-	public void attackStart() {
+	public void attackStart(boolean demo) {
 		animMelee.attachToParent(this, "anim_attack_01");
 		animMelee.stopAnim();
 		animMelee.playAnim();

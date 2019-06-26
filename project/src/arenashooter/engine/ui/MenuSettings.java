@@ -160,7 +160,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		addBind("Video", video);
 		addBind("Audio", audio);
 		setTitleSpacing(10);
-		addToScaleForeach(-4, -4);
+		addToScaleForeach(-4, -4 ,true);
 		setSpacingForeachList(0.5);
 		setArrowsDistance(15);
 		setScaleArrows(5, 5);

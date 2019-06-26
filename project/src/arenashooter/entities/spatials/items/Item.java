@@ -17,7 +17,7 @@ public abstract class Item extends Spatial {
 	private Vec2f vel = new Vec2f();
 	public Vec2f handPosL = null;
 	public Vec2f handPosR = null;
-	public Vec2f extent = new Vec2f();
+	public Vec2f extent = new Vec2f(1 , .2);
 	public String name = "";
 	protected double weight = 0;
 	protected String pathSprite = "";
@@ -27,16 +27,17 @@ public abstract class Item extends Spatial {
 	public boolean canDealDamage;
 
 	private boolean isEquipped = false;
+	private Sprite sprite;
 
-	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,Vec2f extent,
-			String soundPickup) {
+	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
+			Vec2f extent, String soundPickup) {
 		super(localPosition);
 
 		attachRot = false;
 		canDealDamage = false;
 
 		// Set sprite
-		Sprite sprite = new Sprite(new Vec2f(), pathSprite);
+		sprite = new Sprite(new Vec2f(), pathSprite);
 		sprite.attachToParent(this, "Item_Sprite");
 
 		setSizeOfSprite();
@@ -51,7 +52,24 @@ public abstract class Item extends Spatial {
 	}
 
 	/**
-	 * Attach this item to a new parent and update its eqipped status
+	 * Constructor for the Editor to avoid a new Item creation for each change state
+	 * 
+	 * @author Nathan
+	 * @param sprite
+	 */
+	public Item(String sprite) {
+		this(new Vec2f(), "", 1, sprite, new Vec2f(), new Vec2f(), new Vec2f(1, .2), "GunCock_01");
+	}
+
+	public void setSprite(String sprite) {
+		this.sprite = new Sprite(new Vec2f(), sprite);
+		this.sprite.attachToParent(this, "Item_Sprite");
+		pathSprite = sprite;
+		setSizeOfSprite();
+	}
+
+	/**
+	 * Attach this item to a new parent and update its equipped status
 	 * 
 	 * @param newParent new parent Entity
 	 * @param name      used as a key in parent's children
@@ -161,7 +179,7 @@ public abstract class Item extends Spatial {
 	}
 
 	public void setVel(Vec2f vel) {
-		vel.set(vel);
+		this.vel.set(vel);
 	}
 
 	/**
@@ -216,7 +234,8 @@ public abstract class Item extends Spatial {
 	 */
 	@Override
 	public Item clone() {
-		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent, soundPickup) {
+		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
+				soundPickup) {
 		};
 		return clone;
 	}

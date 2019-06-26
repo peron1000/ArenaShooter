@@ -26,6 +26,13 @@ public class ScrollerH<E> extends UiActionable {
 			// Nothing by default
 		}
 	};
+	private Trigger onChange =  new Trigger() {
+
+		@Override
+		public void make() {
+			// Nothing by default
+		}
+	};
 	private Map<E, String> viewOfValue = new HashMap<>();
 	private TextAlignH oldAlignH;
 	private float labelOffset = 0 , labelRatio = 0.6f;
@@ -104,6 +111,13 @@ public class ScrollerH<E> extends UiActionable {
 
 	public void setOnValidation(Trigger t) {
 		valid = t;
+	}
+
+	/**
+	 * @param onChange the onChange to set
+	 */
+	public void setOnChange(Trigger onChange) {
+		this.onChange = onChange;
 	}
 
 	public void add(E e) {
@@ -319,6 +333,7 @@ public class ScrollerH<E> extends UiActionable {
 			} else {
 				label.setText(title + get().toString());
 			}
+			onChange.make();
 			return true;
 		}
 		return false;
@@ -333,6 +348,7 @@ public class ScrollerH<E> extends UiActionable {
 			} else {
 				label.setText(title + get().toString());
 			}
+			onChange.make();
 			return true;
 		}
 		return false;
@@ -350,6 +366,7 @@ public class ScrollerH<E> extends UiActionable {
 			} else {
 				label.setColor(colorOnSelect);
 				selected = true;
+				arm();
 			}
 		}
 		return true;

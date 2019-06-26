@@ -59,12 +59,12 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 		return list.getLast();
 	}
 
-	public int getSize() {
-		return list.size();
-	}
-
 	public UiElement get(int i) {
 		return list.get(i);
+	}
+	
+	public int getIndexOf(UiElement element) {
+		return list.indexOf(element);
 	}
 
 	public int size() {
@@ -129,7 +129,6 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 				y += spacing + e.getScale().y;
 				maxX = Math.max(maxX, e.getScale().x);
 			}
-			y += spacing;
 			return new Vec2f(maxX, y);
 		}
 	}

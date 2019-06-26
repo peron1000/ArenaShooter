@@ -12,6 +12,10 @@ public enum CharacterClass {
 		this.skins = skins;
 	}
 	
+	public int getNbOfSkins() {
+		return skins.length;
+	}
+	
 	public int nextSkin (int current) {
 		return (current+1)%skins.length;
 	}

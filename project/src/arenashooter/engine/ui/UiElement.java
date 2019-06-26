@@ -14,7 +14,8 @@ public abstract class UiElement implements Navigable, NoStatic {
 			toSuperLerpPos = pos.clone();
 	private double rotation = 0;
 	private double lerp = defaultLerp;
-	private boolean visible = true, onSuperLerp = false , scissorOk = true;
+	private boolean visible = true, onSuperLerp = false, scissorOk = true;
+	private UiElement delegation = null;
 
 	public UiElement(float xPos, float yPos, float xScale, float yScale, double rot) {
 		rotation = rot;
@@ -45,6 +46,7 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	/**
 	 * Set to false to avoid scissor conflicts
+	 * 
 	 * @param scissorOk the scissorOk to set
 	 */
 	public void setScissorOk(boolean scissorOk) {
@@ -65,6 +67,15 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	public boolean hasAction(String name) {
 		return actions.containsKey(name);
+	}
+	
+	/**
+	 * The actions implemented from {@link Navigable} will be the actions of <i>element</i>. </br>
+	 * Put <i>element</i> to <code>null</code> to cancel the delegation
+	 * @param element
+	 */
+	protected void delegationActionsTo(UiElement element) {
+		delegation = element;
 	}
 
 	public void lunchAction(String name) {
@@ -191,46 +202,73 @@ public abstract class UiElement implements Navigable, NoStatic {
 
 	@Override
 	public boolean continueAction() {
+		if(delegation != null) {
+			return delegation.continueAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean backAction() {
+		if(delegation != null) {
+			return delegation.backAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean downAction() {
+		if(delegation != null) {
+			return delegation.downAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean leftAction() {
+		if(delegation != null) {
+			return delegation.leftAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean rightAction() {
+		if(delegation != null) {
+			return delegation.rightAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean upAction() {
+		if(delegation != null) {
+			return delegation.upAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean selectAction() {
+		if(delegation != null) {
+			return delegation.selectAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean cancelAction() {
+		if(delegation != null) {
+			return delegation.cancelAction();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean changeAction() {
+		if(delegation != null) {
+			return delegation.changeAction();
+		}
 		return false;
 	}
 
