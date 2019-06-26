@@ -19,6 +19,9 @@
 <!-- colorStart, colorEnd -->
 <!ELEMENT colorOverLife (vec4, vec4)>
 
+<!ELEMENT drag EMPTY>
+<!ATTLIST drag strength CDATA #REQUIRED>
+
 <!ELEMENT gravity EMPTY>
 <!ATTLIST gravity gravityScale CDATA #REQUIRED>
 
