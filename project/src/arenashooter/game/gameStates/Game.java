@@ -201,6 +201,10 @@ public class Game extends GameState {
 					endCounter.play();
 					// chooseWinner.setProcessing(true);
 				} else {
+					double chromaAbbIntensity = 1 - endCounter.getTime()/endCounter.getLength();
+					chromaAbbIntensity = .3 * (chromaAbbIntensity*chromaAbbIntensity);
+					Window.postProcess.chromaAbbIntensity = (float) chromaAbbIntensity;
+					
 					Queue<AnimEvent> events = endCounter.getEvents();
 					AnimEvent current = events.peek();
 					while ((current = events.poll()) != null) {
