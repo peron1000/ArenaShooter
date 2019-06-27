@@ -93,7 +93,7 @@ public class Shotgun extends Gun {
 
 				Particles flash;
 
-				uses--;
+				setUses(uses - 1);
 
 				switch (bulletType) {
 				case 0:

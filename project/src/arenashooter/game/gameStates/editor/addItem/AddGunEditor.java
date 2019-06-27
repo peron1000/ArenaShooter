@@ -2,6 +2,7 @@ package arenashooter.game.gameStates.editor.addItem;
 
 import java.io.File;
 import java.util.List;
+import java.util.function.Consumer;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.audio.Audio;
@@ -13,6 +14,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MultiUi;
 import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.TabList;
@@ -22,12 +24,14 @@ import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiGroup;
 import arenashooter.engine.ui.UiListVertical;
+import arenashooter.engine.ui.UiValuableButton;
 import arenashooter.engine.ui.Valuable;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.SoundEffect;
 import arenashooter.entities.spatials.items.Gun;
@@ -60,10 +64,12 @@ class AddGunEditor extends UiElement implements MultiUi {
 	private UiGroup<UiElement> popup = null;
 	private Label labelSensibility = new Label("Sensibility : @");
 	private TextInput textInput = new TextInput();
+	private DoubleInput doubleInput = new DoubleInput();
 
 	// State
 	private enum State {
-		NOTHING, EXTENT, HAND_R, HAND_L, BULLET_START, SOUND_PICKUP, SOUND_WARMUP, SOUND_NOAMMO, SOUND_BANG, SAVING;
+		NOTHING, EXTENT, HAND_R, HAND_L, BULLET_START, SOUND_PICKUP, SOUND_WARMUP, SOUND_NOAMMO, SOUND_BANG, SAVING,
+		DOUBLE_INPUT;
 	}
 
 	private State state = State.NOTHING;
@@ -100,6 +106,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		this.arenaToConstruct = arenaToConstruct;
 		this.editor = editor;
 		this.arenaEditor = arenaEditor;
+		gun = new Gun(spriteScroller.get());
+
 		// Menu
 		labelSensibility.bindToValuable(sensibility);
 		UiImage bg = new UiImage(0.8, 0.7, 0.6, 0.5);
@@ -120,8 +128,12 @@ class AddGunEditor extends UiElement implements MultiUi {
 		UiListVertical<UiActionable> sounds = new UiListVertical<>();
 		sounds.addElements(getButtonsSounds(sounds));
 
+		UiListVertical<UiActionable> other = new UiListVertical<>();
+		other.addElements(getButtonsOther());
+
 		menu.addBind("View", view);
 		menu.addBind("Sound", sounds);
+		menu.addBind("Other", other);
 		delegationActionsTo(menu);
 		UiImage.selector.setPosition(getTarget().getPosition());
 
@@ -138,7 +150,6 @@ class AddGunEditor extends UiElement implements MultiUi {
 		character = new Character(new Vec2f(2.5, 0), ci, true);
 
 		character.attachToParent(arena, "CharTest");
-		gun = new Gun(spriteScroller.get());
 		gun.attachToParent(character, "Item_Weapon");
 		bulletType.getSprite().size = new Vec2f(bulletType.getSprite().getTexture().getWidth() * .018,
 				bulletType.getSprite().getTexture().getHeight() * .018);
@@ -177,6 +188,66 @@ class AddGunEditor extends UiElement implements MultiUi {
 			}
 
 		});
+	}
+
+	private UiActionable[] getButtonsOther() {
+		UiValuableButton<Double> damage = new UiValuableButton<Double>("Set damage", (double) gun.getDamage()),
+				bulletSpeed = new UiValuableButton<Double>("Set bullet speed", (double) gun.getBulletSpeed()),
+				recoil = new UiValuableButton<Double>("Set recoil", (double) gun.getRecoil()),
+				thrust = new UiValuableButton<Double>("Set thrust", (double) gun.getThrust()),
+				cooldown = new UiValuableButton<Double>("Set cooldown", gun.getTimerCooldown().getMax()),
+				uses = new UiValuableButton<Double>("Set uses", (double) gun.getNbAmmo()),
+				warmup = new UiValuableButton<Double>("Set warmup duration", gun.getWarmupDuration()),
+				weight = new UiValuableButton<Double>("Set weight", gun.getWeight());
+
+		damage.setOnArm(otherTriggerMaker("Setting damage", damage, f -> gun.setDamage(f.floatValue())));
+		bulletSpeed.setOnArm(
+				otherTriggerMaker("Setting bullet speed", bulletSpeed, f -> gun.setBulletSpeed(f.floatValue())));
+		recoil.setOnArm(otherTriggerMaker("Setting recoil", recoil, f -> gun.setRecoil(f.floatValue())));
+		thrust.setOnArm(otherTriggerMaker("Setting thrust", thrust, f -> gun.setThrust(f.floatValue())));
+		cooldown.setOnArm(otherTriggerMaker("Setting cooldown", cooldown, d -> gun.setFireRate(d)));
+		uses.setOnArm(otherTriggerMaker("Setting nb ammo", uses, f -> gun.setUses(f.intValue())));
+		warmup.setOnArm(otherTriggerMaker("Setting warmup duration", warmup,
+				f -> gun.setTimerWarmup(new Timer(f.doubleValue()))));
+		weight.setOnArm(otherTriggerMaker("Setting weight", weight, f -> gun.setWeight(f.doubleValue())));
+
+		UiValuableButton<?>[] ret = { damage, bulletSpeed, recoil, thrust, cooldown, uses, warmup, weight };
+		for (UiValuableButton<?> a : ret) {
+			a.setScale(xScale, yScale);
+			a.setRectangleVisible(true);
+		}
+		return ret;
+	}
+
+	private Trigger otherTriggerMaker(String titlePopup, UiValuableButton<Double> buttonValuable,
+			Consumer<Double> function) {
+		return new Trigger() {
+
+			@Override
+			public void make() {
+				popup = getPopupDoubleInput(titlePopup);
+				state = State.DOUBLE_INPUT;
+				doubleInput.setOnFinish(new Trigger() {
+
+					@Override
+					public void make() {
+						popup = null;
+						state = State.NOTHING;
+						double d = doubleInput.getDouble();
+						function.accept(d);
+						buttonValuable.setValue(d);
+					}
+				});
+				doubleInput.setOnCancel(new Trigger() {
+
+					@Override
+					public void make() {
+						popup = null;
+						state = State.NOTHING;
+					}
+				});
+			}
+		};
 	}
 
 	private UiActionable[] getButtonsView() {
@@ -265,123 +336,44 @@ class AddGunEditor extends UiElement implements MultiUi {
 		}
 
 		// Triggers
-		ret[0].setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				state = State.SOUND_PICKUP;
-				popup = getPopupSounds("Setting sound pickup");
-				list.replaceElement(scrollersSound, ret[0]);
-				scrollersSound.setOnArm(new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[0], scrollersSound);
-						popup = null;
-						gun.soundPickup = scrollersSound.get();
-						state = State.NOTHING;
-					}
-				});
-				cancelSettingSound = new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[0], scrollersSound);
-						popup = null;
-						state = State.NOTHING;
-					}
-				};
-			}
-		});
-		ret[1].setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				state = State.SOUND_WARMUP;
-				popup = getPopupSounds("Setting sound warmup");
-				list.replaceElement(scrollersSound, ret[1]);
-				scrollersSound.setOnArm(new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[1], scrollersSound);
-						popup = null;
-						gun.soundPickup = scrollersSound.get();
-						SoundEffect se = new SoundEffect(new Vec2f(), scrollersSound.get(), AudioChannel.SFX, 0, 1, 1,
-								true);
-						gun.setSndWarmup(se);
-						state = State.NOTHING;
-					}
-				});
-				cancelSettingSound = new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[1], scrollersSound);
-						popup = null;
-						state = State.NOTHING;
-					}
-				};
-			}
-		});
-		ret[2].setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				state = State.SOUND_NOAMMO;
-				popup = getPopupSounds("Setting sound no ammo");
-				list.replaceElement(scrollersSound, ret[2]);
-				scrollersSound.setOnArm(new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[2], scrollersSound);
-						popup = null;
-						gun.setSoundNoAmmo(scrollersSound.get());
-						state = State.NOTHING;
-					}
-				});
-				cancelSettingSound = new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[2], scrollersSound);
-						popup = null;
-						state = State.NOTHING;
-					}
-				};
-			}
-		});
-		ret[3].setOnArm(new Trigger() {
-
-			@Override
-			public void make() {
-				state = State.SOUND_BANG;
-				popup = getPopupSounds("Setting sound bang");
-				list.replaceElement(scrollersSound, ret[3]);
-				scrollersSound.setOnArm(new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[3], scrollersSound);
-						popup = null;
-						gun.setSoundFire(scrollersSound.get());
-						state = State.NOTHING;
-					}
-				});
-				cancelSettingSound = new Trigger() {
-
-					@Override
-					public void make() {
-						list.replaceElement(ret[3], scrollersSound);
-						popup = null;
-						state = State.NOTHING;
-					}
-				};
-			}
-		});
+		ret[0].setOnArm(soundTriggerMaker(State.SOUND_PICKUP, ret[0], list, s -> gun.soundPickup = s));
+		ret[1].setOnArm(soundTriggerMaker(State.SOUND_WARMUP, ret[1], list,
+				s -> gun.setSndWarmup(new SoundEffect(new Vec2f(), s, AudioChannel.SFX, 0, 1, 1, true))));
+		ret[2].setOnArm(soundTriggerMaker(State.SOUND_NOAMMO, ret[2], list, s -> gun.setSoundNoAmmo(s)));
+		ret[3].setOnArm(soundTriggerMaker(State.SOUND_BANG, ret[3], list, s -> gun.setSoundFire(s)));
 
 		return ret;
+	}
+
+	private Trigger soundTriggerMaker(State s, Button b, UiListVertical<UiActionable> list, Consumer<String> consumer) {
+		return new Trigger() {
+
+			@Override
+			public void make() {
+				state = s;
+				popup = getPopupSounds("Setting sound bang");
+				list.replaceElement(scrollersSound, b);
+				scrollersSound.setOnArm(new Trigger() {
+
+					@Override
+					public void make() {
+						list.replaceElement(b, scrollersSound);
+						popup = null;
+						consumer.accept(scrollersSound.get());
+						state = State.NOTHING;
+					}
+				});
+				cancelSettingSound = new Trigger() {
+
+					@Override
+					public void make() {
+						list.replaceElement(b, scrollersSound);
+						popup = null;
+						state = State.NOTHING;
+					}
+				};
+			}
+		};
 	}
 
 	private ScrollerH<String> getScrollerSprite() {
@@ -389,10 +381,10 @@ class AddGunEditor extends UiElement implements MultiUi {
 		File weapons = new File("data/weapons");
 		List<File> listFile = FileUtils.listFilesByType(weapons, ".png");
 		for (File file : listFile) {
-			scSprite.add(file.getAbsolutePath());
-			scSprite.changeValueView(file.getAbsolutePath(), file.getName());
+			scSprite.add(file.getPath());
+			scSprite.changeValueView(file.getPath(), file.getName());
 		}
-		scSprite.setValue(listFile.get(0).getAbsolutePath());
+		scSprite.setValue(listFile.get(0).getPath());
 		scSprite.setScale(30, 10);
 		scSprite.setOnChange(new Trigger() {
 
@@ -498,6 +490,26 @@ class AddGunEditor extends UiElement implements MultiUi {
 		return ret;
 	}
 
+	private UiGroup<UiElement> getPopupDoubleInput(String title) {
+		// background
+		UiImage bg = new UiImage(.85, .8, .75, .7), border = new UiImage(0, 0, 0, 1);
+		bg.setScale(60, 35);
+		double toBorder = 1.5;
+		border.setScale(bg.getScale().x + toBorder, bg.getScale().y + toBorder);
+
+		// Title
+		Label titleLabel = new Label(title);
+		titleLabel.setScale(4.5);
+		titleLabel.setPosition(0, -10);
+
+		doubleInput.reset();
+
+		UiGroup<UiElement> ret = new UiGroup<UiElement>();
+
+		ret.addElements(border, bg, titleLabel, doubleInput);
+		return ret;
+	}
+
 	private ScrollerH<String> scrollerSounds() {
 		ScrollerH<String> sc = new ScrollerH<String>() {
 			@Override
@@ -567,6 +579,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
 			return scrollersSound.selectAction();
+		case DOUBLE_INPUT:
+			return doubleInput.continueAction();
 		case SAVING:
 			gun.name = textInput.getText();
 			arenaToConstruct.items.add(gun);
@@ -594,6 +608,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
 			return scrollersSound.selectAction();
+		case DOUBLE_INPUT:
+			return doubleInput.selectAction();
 		case SAVING:
 			return textInput.selectAction();
 		case NOTHING:
@@ -617,6 +633,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_WARMUP:
 			scrollersSound.cancelAction();
 			return true;
+		case DOUBLE_INPUT:
+			return doubleInput.backAction();
 		case SAVING:
 			state = State.NOTHING;
 			popup = null;
@@ -644,6 +662,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
 			return scrollersSound.downAction();
+		case DOUBLE_INPUT:
+			return doubleInput.downAction();
 		case SAVING:
 			return textInput.downAction();
 		default:
@@ -667,6 +687,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
 			return scrollersSound.upAction();
+		case DOUBLE_INPUT:
+			return doubleInput.upAction();
 		case SAVING:
 			return textInput.upAction();
 		default:
@@ -690,6 +712,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
 			return scrollersSound.leftAction();
+		case DOUBLE_INPUT:
+			return doubleInput.leftAction();
 		case SAVING:
 			return textInput.leftAction();
 		default:
@@ -713,6 +737,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
 			return scrollersSound.rightAction();
+		case DOUBLE_INPUT:
+			return doubleInput.rightAction();
 		case SAVING:
 			return textInput.rightAction();
 		default:
@@ -732,6 +758,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 			return true;
 		case SAVING:
 			return textInput.changeAction();
+		case DOUBLE_INPUT:
+			return doubleInput.changeAction();
 		case BULLET_START:
 		case EXTENT:
 		case HAND_L:
@@ -747,8 +775,14 @@ class AddGunEditor extends UiElement implements MultiUi {
 		input.step(delta);
 		menu.update(delta);
 		arena.step(delta);
-		if(state == State.SAVING) {
+		switch (state) {
+		case SAVING:
 			textInput.update(delta);
+			break;
+		case DOUBLE_INPUT:
+			doubleInput.update(delta);
+		default:
+			break;
 		}
 		super.update(delta);
 	}

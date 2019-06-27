@@ -24,12 +24,10 @@ public class Usable extends Item {
 
 		// Cooldown
 		timerCooldown = new Timer(fireRate);
-		timerCooldown.attachToParent(this, timerCooldown.genName());
-		this.timerCooldown.setIncreasing(true);
-		this.timerCooldown.setProcessing(true);
+		attachCooldownTimer();
 
-		this.fireRate = fireRate;
-		this.uses = uses;
+		this.setFireRate(fireRate);
+		this.setUses(uses);
 		this.animPath = animPath;
 		this.warmup = warmup;
 		this.soundWarmup = soundWarmup;
@@ -44,8 +42,10 @@ public class Usable extends Item {
 	 */
 	public Usable(String sprite) {
 		super(sprite);
+		attachCooldownTimer();
+	}
 
-		// Cooldown
+	private void attachCooldownTimer() {
 		timerCooldown.attachToParent(this, timerCooldown.genName());
 		this.timerCooldown.setIncreasing(true);
 		this.timerCooldown.setProcessing(true);
@@ -63,6 +63,13 @@ public class Usable extends Item {
 	 */
 	public int getUses() {
 		return uses;
+	}
+
+	/**
+	 * @param uses the uses to set
+	 */
+	public void setUses(int uses) {
+		this.uses = uses;
 	}
 
 	/**
@@ -91,6 +98,15 @@ public class Usable extends Item {
 	 */
 	public String getSoundFire() {
 		return soundFire;
+	}
+
+	/**
+	 * @param fireRate the fireRate to set
+	 */
+	public void setFireRate(double fireRate) {
+		this.fireRate = fireRate;
+		timerCooldown = new Timer(fireRate);
+		attachCooldownTimer();
 	}
 
 	/**

@@ -43,7 +43,7 @@ public abstract class Item extends Spatial {
 		setSizeOfSprite();
 
 		this.name = name;
-		this.weight = weight;
+		this.setWeight(weight);
 		this.pathSprite = pathSprite;
 		this.handPosL = handPosL;
 		this.handPosR = handPosR;
@@ -100,6 +100,13 @@ public abstract class Item extends Spatial {
 	 */
 	public double getWeight() {
 		return weight;
+	}
+
+	/**
+	 * @param weight the weight to set
+	 */
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 	/**

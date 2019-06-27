@@ -78,10 +78,7 @@ public class Gun extends Usable {
 		}
 
 		// Warmup
-		this.timerWarmup = new Timer(warmupDuration);
-		this.timerWarmup.setIncreasing(false);
-		this.timerWarmup.setProcessing(true);
-		this.timerWarmup.attachToParent(this, "timer_warmup");
+		setTimerWarmup(new Timer(warmupDuration));
 
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
@@ -96,9 +93,7 @@ public class Gun extends Usable {
 	public Gun(String sprite) {
 		super(sprite);
 		// Warmup
-		this.timerWarmup.setIncreasing(false);
-		this.timerWarmup.setProcessing(true);
-		this.timerWarmup.attachToParent(this, "timer_warmup");
+		setTimerWarmup(new Timer(warmup));
 
 		Entity particleContainer = new Entity();
 		particleContainer.attachToParent(this, "particle_container");
@@ -110,6 +105,9 @@ public class Gun extends Usable {
 
 	public void setTimerWarmup(Timer timerWarmup) {
 		this.timerWarmup = timerWarmup;
+		this.timerWarmup.setIncreasing(false);
+		this.timerWarmup.setProcessing(true);
+		this.timerWarmup.attachToParent(this, "timer_warmup");
 	}
 
 	public void setRecoil(float recoil) {
@@ -288,7 +286,7 @@ public class Gun extends Usable {
 				float damage = 0;
 
 				if (!demo) {
-					uses--;
+					setUses(uses - 1);
 					damage = this.damage;
 				}
 
