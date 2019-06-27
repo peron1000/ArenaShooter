@@ -28,7 +28,7 @@
 <!ELEMENT entity (entities?)>
 <!ATTLIST entity name CDATA #IMPLIED>
 <!ELEMENT spawn (vector, itemRef*,entities?)>
-<!ATTLIST spawn playerSpawn (false|true) "true" cooldown CDATA #REQUIRED>
+<!ATTLIST spawn playerSpawn (false|true) "true" cooldown CDATA #REQUIRED name CDATA #IMPLIED>
 <!ELEMENT itemRef EMPTY>
 <!ATTLIST itemRef item CDATA #REQUIRED proba CDATA #REQUIRED>
 <!ELEMENT mesh (vector, vector, vector, entities?)>

@@ -1,6 +1,7 @@
 package arenashooter.engine.xmlReaders.writer;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -71,16 +72,16 @@ public class MapXmlWriter {
 			map.appendChild(info);
 
 			// Items
-			for (Entry<String, Item> entry : arena.spawnList.entrySet()) {
+			for (Item entry : arena.items) {
 				Element item = doc.createElement("item");
 				if (entry instanceof Shotgun) {
-					new ShootgunXml(doc, item, (Shotgun) entry.getValue());
+					new ShootgunXml(doc, item, (Shotgun) entry);
 				} else if (entry instanceof Gun) {
-					new GunXml(doc, item, (Gun) entry.getValue());
+					new GunXml(doc, item, (Gun) entry);
 				} else if (entry instanceof Melee) {
-					new MeleeXml(doc, item, (Melee) entry.getValue());
+					new MeleeXml(doc, item, (Melee) entry);
 				} else {
-					log.warn("Unsupported item " + entry.getValue().getClass());
+					log.warn("Unsupported item " + entry.getClass());
 					continue;
 				}
 				info.appendChild(item);
