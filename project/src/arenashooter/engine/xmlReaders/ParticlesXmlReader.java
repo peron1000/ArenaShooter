@@ -77,6 +77,7 @@ public class ParticlesXmlReader extends XmlReader {
 				break;
 			case "drag":
 				module = drag(elem);
+				break;
 			case "gravity":
 				module = gravity(elem);
 				break;
