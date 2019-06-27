@@ -233,7 +233,8 @@ public class ColorPicker extends UiElement {
 	}
 	
 	public void setColorRGB(Vec3f color) {
-		//TODO: Convert RGB to HSV
+		Vec3f hsv = new Vec3f();
+		Vec3f.rgbToHsv(rgb.x, rgb.y, rgb.z, hsv);
 		updateMaterials();
 	}
 	
@@ -242,9 +243,10 @@ public class ColorPicker extends UiElement {
 		return new Vec4f(rgb.x, rgb.y, rgb.z, alpha);
 	}
 	
-	public void setColorRGBA(Vec4f color) {
-		alpha = color.w;
-		//TODO: Convert RGB to HSV
+	public void setColorRGBA(Vec4f rgba) {
+		alpha = rgba.w;
+		Vec3f hsv = new Vec3f();
+		Vec3f.rgbToHsv(rgba.x, rgba.y, rgba.z, hsv);
 		updateMaterials();
 	}
 

@@ -227,6 +227,37 @@ public class Vec3f {
 		}
 	}
 	
+	/**
+	 * Convert a color from RGB format to HSV. Input values are all normalized (0-1 range). 
+	 * @param r red
+	 * @param g green
+	 * @param b blue
+	 * @param target
+	 * @return (hue, saturation, value) stored in <i>target</i>
+	 */
+	public static Vec3f rgbToHsv(float r, float g, float b, Vec3f target) { //TODO: Test
+		float max = Math.max(Math.max(r, g), b);
+		float min = Math.min(Math.min(r, g), b);
+
+		float delta = max - min;
+		
+		if(max == 0)
+			return target.set(0, 0, 0);
+
+		// Hue
+		float d = (r==min) ? g-b : ((b==min) ? r-g : b-r);
+		float h = (r==min) ? 3 : ((b==min) ? 1 : 5);
+		target.x = (60f*(h - d/delta))/360f;
+
+		// Saturation
+		target.y = delta/max;
+
+		// Value
+		target.z = max;
+			
+		return target;
+	}
+	
 	public static Vec3f lerp( Vec3f a, Vec3f b, double f ) {
 		return lerp(a, b, f, new Vec3f());
 	}
