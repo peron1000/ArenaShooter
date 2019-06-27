@@ -16,7 +16,7 @@ public class LoadingInterRound extends Loading {
 	}
 	
 	public boolean isReady() {
-		return loading.hasNum(game.getCurrentRound());
+		return !Main.preLoadMainSound.isAlive() && loading.hasNum(game.getCurrentRound());
 	}
 	
 	public Arena getArenaForNewRound() {
