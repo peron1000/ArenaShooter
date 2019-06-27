@@ -36,8 +36,16 @@ public class Sky extends Entity {
 		material.setParamVec3f("colorBot", newColorBot);
 	}
 	
+	public Vec3f getColorBot() {
+		return material.getParamVec3f("colorBot");
+	}
+	
 	public void setColorTop(Vec3f newColorTop) {
 		material.setParamVec3f("colorTop", newColorTop);
+	}
+	
+	public Vec3f getColorTop() {
+		return material.getParamVec3f("colorTop");
 	}
 
 	@Override
