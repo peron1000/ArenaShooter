@@ -48,6 +48,7 @@ import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.addItem.AddItemEditor;
 import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
+import arenashooter.game.gameStates.loading.LoadingConfig;
 
 public class ArenaEditor extends UiElement implements MultiUi {
 
@@ -296,6 +297,8 @@ public class ArenaEditor extends UiElement implements MultiUi {
 			@Override
 			public void make() {
 				MapXmlWriter.exportArena(arenaConstruction, fileName);
+				Main.loadingConfig = new LoadingConfig();
+				Main.loadingConfig.start();
 			}
 		});
 		rename.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
