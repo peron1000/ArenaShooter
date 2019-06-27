@@ -509,8 +509,8 @@ class AddGunEditor extends UiElement implements MultiUi {
 		File sounds = new File("data/sound");
 		List<File> files = FileUtils.listFilesByType(sounds, ".ogg");
 		for (File file : files) {
-			sc.add(file.getAbsolutePath());
-			sc.changeValueView(file.getAbsolutePath(), file.getName());
+			sc.add(file.getPath());
+			sc.changeValueView(file.getPath(), file.getName());
 		}
 		sc.setScale(xScale, yScale);
 		sc.setAlwaysScrollable(true);
