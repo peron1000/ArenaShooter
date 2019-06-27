@@ -31,6 +31,7 @@ public class ControllerPlayer extends Controller {
 				getCharacter().movementInputY = Input.getAxis(device, Axis.MOVE_Y);
 				if (device == Device.KEYBOARD) {
 					Vec2f charPos = Vec2f.worldToScreen(getCharacter().getWorldPos());
+					charPos.x *= Window.getRatio();
 					charPos.y *= -1;
 
 					Vec2f mouseCentered = Input.mousePos.clone();
