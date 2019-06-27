@@ -128,7 +128,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadUsableTimer(Element usableTimer, Arena arena) {
 		// Attributs
 		String name = usableTimer.getAttribute("name");
-		int weight = Integer.parseInt(usableTimer.getAttribute("weight"));
+		double weight = Double.parseDouble(usableTimer.getAttribute("weight"));
 		String pathSprite = usableTimer.getAttribute("pathSprite");
 		double cooldown = Double.parseDouble(usableTimer.getAttribute("cooldown"));
 		int duration = Integer.parseInt(usableTimer.getAttribute("duration"));
@@ -170,7 +170,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadMelee(Element melee, Arena arena) {
 		// Attributs
 		String name = melee.getAttribute("name");
-		int weight = Integer.parseInt(melee.getAttribute("weight"));
+		double weight = Double.parseDouble(melee.getAttribute("weight"));
 		String pathSprite = melee.getAttribute("pathSprite");
 		double cooldown = Double.parseDouble(melee.getAttribute("cooldown"));
 		int uses = Integer.parseInt(melee.getAttribute("uses"));
@@ -214,7 +214,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadGun(Element gun, Arena arena) {
 		// Attributs
 		String name = gun.getAttribute("name");
-		int weight = Integer.parseInt(gun.getAttribute("weight"));
+		double weight = Double.parseDouble(gun.getAttribute("weight"));
 		String pathSprite = gun.getAttribute("pathSprite");
 		double cooldown = Double.parseDouble(gun.getAttribute("cooldown"));
 		int uses = Integer.parseInt(gun.getAttribute("uses"));
@@ -265,7 +265,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadShotgun(Element shotgun, Arena arena) {
 		// Attributs
 		String name = shotgun.getAttribute("name");
-		int weight = Integer.parseInt(shotgun.getAttribute("weight"));
+		double weight = Double.parseDouble(shotgun.getAttribute("weight"));
 		String pathSprite = shotgun.getAttribute("pathSprite");
 		double cooldown = Double.parseDouble(shotgun.getAttribute("cooldown"));
 		int uses = Integer.parseInt(shotgun.getAttribute("uses"));
@@ -317,7 +317,7 @@ public class MapXmlReader extends XmlReader {
 	private void loadUsable(Element usable, Arena arena) {
 		// Attributs
 		String name = usable.getAttribute("name");
-		int weight = Integer.parseInt(usable.getAttribute("weight"));
+		double weight = Double.parseDouble(usable.getAttribute("weight"));
 		String pathSprite = usable.getAttribute("pathSprite");
 		double cooldown = Double.parseDouble(usable.getAttribute("cooldown"));
 		int uses = Integer.parseInt(usable.getAttribute("uses"));
