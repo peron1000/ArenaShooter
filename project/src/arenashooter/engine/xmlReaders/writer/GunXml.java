@@ -16,7 +16,7 @@ public class GunXml extends AbstractElement {
 	 * cannonLength="1.9" recoil="0.2" thrust="2.6" size="64" proba="1">
 	 * 
 	 * <vector use="handPosL" x="-.8" y="-.1" /> <vector use="handPosR" x="0"
-	 * y="-.28" /> </gun>
+	 * y="-.28" /> + extent </gun>
 	 * 
 	 */
 	private String handl = "handPosL", handr = "handPosR";
@@ -73,10 +73,11 @@ public class GunXml extends AbstractElement {
 		Attr damage = doc.createAttribute("damage");
 		damage.setValue(g.getDamage() + "");
 		gun.setAttributeNode(damage);
-
-		Attr size = doc.createAttribute("size");
-		size.setValue(g.getExtent() + "");
-		gun.setAttributeNode(size);
+		
+		// size="Vec2f( 1.0, 0.2 )"?
+		// Attr size = doc.createAttribute("size");
+		// size.setValue(g.getExtent() + "");
+		// gun.setAttributeNode(size);
 
 		Attr bulletType = doc.createAttribute("bulletType");
 		bulletType.setValue(g.getBulletType() + "");
@@ -103,10 +104,14 @@ public class GunXml extends AbstractElement {
 			vectorGun.addVector(handl, g.handPosL.x, g.handPosL.y);
 		if (g.handPosR != null)
 			vectorGun.addVector(handr, g.handPosR.x, g.handPosR.y);
+
+		vectorGun.addVector("extent", g.extent.x, g.extent.y);
+
 		for (Element e : vectorGun.getVectors()) {
 			gun.appendChild(e);
 		}
 	}
+
 	/**
 	 * @param handl the handl to set
 	 */
