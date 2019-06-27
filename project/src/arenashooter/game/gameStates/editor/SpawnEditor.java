@@ -8,14 +8,13 @@ import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 
 public class SpawnEditor extends EntityEditor {
 
 	private TabList<Button> itemChooser = new TabList<>();
 
 	public SpawnEditor(ArenaEditor mainMenu, Entity entity) {
-		super(mainMenu, entity, EntityTypes.SPAWN);
+		super(mainMenu, entity, "SPAWNER");
 
 		if (mainMenu.arenaConstruction.items.isEmpty()) {
 			Label info = new Label("No items available");
@@ -43,17 +42,19 @@ public class SpawnEditor extends EntityEditor {
 				listChoice.addElement(b);
 			}
 			itemChooser.addBind("Choose an Item", listChoice);
-			itemChooser.setPosition(0 , yMenuPosition);
+			itemChooser.setPosition(menu.getPosition());
 			itemChooser.setTitleScale(titleScale, titleScale);
-			
+
 		}
+		
+		initPosition();
 	}
 	
 	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
 		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPositionLerp(x, y, lerp);
-		itemChooser.addToPositionLerp(xDif, yDif , lerp);
+		itemChooser.addToPositionLerp(xDif, yDif, lerp);
 	}
 
 	@Override

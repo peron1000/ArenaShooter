@@ -29,16 +29,15 @@ class EntityEditor extends ArenaEditor {
 	protected UiListVertical<UiElement> vList = new UiListVertical<>();
 	private ScrollerH<SetEditable> modification = new ScrollerH<>(SetEditable.values());
 
+	protected final double labelScale = 3.5, buttonXScale = 30, buttonYScale = 5;
 
-	protected final double labelScale = 3.5 , buttonXScale = 30 , buttonYScale = 5;
-
-	public EntityEditor(ArenaEditor mainMenu, Entity entity, EntityTypes type) {
+	protected EntityEditor(ArenaEditor mainMenu, Entity entity , String title) {
 		// Make Label for entity name and parent entity name
 		makeLabelsForEntity(entity);
 
 		ScrollerH<EntityTypes> newChild = new ScrollerH<>(EntityTypes.values());
 		newChild.setTitle("New Child");
-		newChild.setScale(30 , 5);
+		newChild.setScale(30, 5);
 		newChild.setBackgroundVisible(true);
 		newChild.setOnValidation(new Trigger() {
 
@@ -55,8 +54,8 @@ class EntityEditor extends ArenaEditor {
 
 		// add
 		vList.addElements(newChild, modification);
-		if(entity instanceof Camera) {}
-		else {
+		if (entity instanceof Camera) {
+		} else {
 			Button rename = new Button("Rename Entity");
 			rename.setOnArm(new Trigger() {
 
@@ -95,6 +94,27 @@ class EntityEditor extends ArenaEditor {
 			});
 			vList.addElement(removeEntity);
 		}
+		
+
+		menu.addBind(title + " Editor", vList);
+		menu.addLabelInfo(vList, entityNameLabel);
+		menu.addLabelInfo(vList, parent);
+		menu.setSpacingForeachList(2);
+		menu.setTitleSpacing(8);
+		menu.setTitleScale(6, 6);
+		menu.setPosition(0, yMenuPosition);
+		for (UiElement e : vList) {
+			if (e instanceof Button) {
+				Button b = (Button) e;
+				b.setScale(buttonXScale, buttonYScale);
+			}
+		}
+
+		current = menu;
+	}
+
+	public EntityEditor(ArenaEditor mainMenu, Entity entity, EntityTypes type) {
+		this(mainMenu, entity , type.name());
 		switch (type) {
 		case TEXT:
 			Button setText = new Button("Set Text");
@@ -217,25 +237,12 @@ class EntityEditor extends ArenaEditor {
 		default:
 			break;
 		}
+		initPosition();
+	}
 
-		menu.addBind(type.name() + " Editor", vList);
-		menu.addLabelInfo(vList, entityNameLabel);
-		menu.addLabelInfo(vList, parent);
-		menu.setSpacingForeachList(2);
-		menu.setTitleSpacing(8);
-		menu.setTitleScale(6, 6);
-		menu.setPosition(0, yMenuPosition);
-		for (UiElement e : vList) {
-			if (e instanceof Button) {
-				Button b = (Button) e;
-				b.setScale(buttonXScale, buttonYScale);
-			}
-		}
-
-		current = menu;
-		
+	protected void initPosition() {
 		setPosition(Editor.forVisible, 0);
-		
+
 		UiImage.selector.setPosition(getTarget().getPosition());
 	}
 
@@ -277,7 +284,7 @@ class EntityEditor extends ArenaEditor {
 	public void setPositionLerp(double x, double y, double lerp) {
 		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPositionLerp(x, y, lerp);
-		menu.addToPositionLerp(xDif, yDif , lerp);
+		menu.addToPositionLerp(xDif, yDif, lerp);
 	}
 
 	@Override
