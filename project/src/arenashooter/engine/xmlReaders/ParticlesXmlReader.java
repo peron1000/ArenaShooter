@@ -77,6 +77,7 @@ public class ParticlesXmlReader extends XmlReader {
 				break;
 			case "drag":
 				module = drag(elem);
+				break;
 			case "gravity":
 				module = gravity(elem);
 				break;
@@ -126,7 +127,7 @@ public class ParticlesXmlReader extends XmlReader {
 	}
 	
 	private static ParticleModule drag(Element elem) {
-		float strength = Float.parseFloat("strength");
+		float strength = Float.parseFloat(elem.getAttribute("strength"));
 		return new Drag(strength);
 	}
 	

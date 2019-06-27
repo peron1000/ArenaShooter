@@ -12,7 +12,6 @@
 				<vec2 x=".5" y=".5" use="sizeStart"/>
 				<vec2 x=".65" y=".65" use="sizeEnd"/>
 			</sizeOverLife>
-			<gravity gravityScale=".01"/>
 			<initialVelCone angleMin="-3.14159" angleMax="3.14159" velMin="10" velMax="20"/>
 		</modules>
 	</emitter>

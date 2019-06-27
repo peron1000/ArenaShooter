@@ -8,14 +8,14 @@ import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.items.Item;
-import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
+import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 
 public class SpawnEditor extends EntityEditor {
 
 	private TabList<Button> itemChooser = new TabList<>();
 
 	public SpawnEditor(ArenaEditor mainMenu, Entity entity) {
-		super(mainMenu, entity, TypeEntites.SPAWN);
+		super(mainMenu, entity, EntityTypes.SPAWN);
 
 		if (mainMenu.arenaConstruction.items.isEmpty()) {
 			Label info = new Label("No items available");
