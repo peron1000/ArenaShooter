@@ -62,9 +62,9 @@ public class ShootgunXml extends AbstractElement {
 		damage.setValue(shotgun.getDamage() + "");
 		shot.setAttributeNode(damage);
 
-		Attr size = doc.createAttribute("size");
-		size.setValue(shotgun.getExtent() + "");
-		shot.setAttributeNode(size);
+//		Attr size = doc.createAttribute("size");
+//		size.setValue(shotgun.getExtent() + "");
+//		shot.setAttributeNode(size);
 
 		Attr bulletType = doc.createAttribute("bulletType");
 		bulletType.setValue(shotgun.getBulletType() + "");
@@ -99,6 +99,9 @@ public class ShootgunXml extends AbstractElement {
 			vectorshotgun.addVector(handl, shotgun.handPosL.x, shotgun.handPosL.y);
 		if (shotgun.handPosR != null)
 			vectorshotgun.addVector(handr, shotgun.handPosR.x, shotgun.handPosR.y);
+		
+		vectorshotgun.addVector("extent", shotgun.extent.x, shotgun.extent.y);
+		
 		for (Element e : vectorshotgun.getVectors()) {
 			shot.appendChild(e);
 		}
