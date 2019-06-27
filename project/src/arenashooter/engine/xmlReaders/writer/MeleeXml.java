@@ -59,17 +59,20 @@ public class MeleeXml extends AbstractElement {
 		damage.setValue(melee.getDamage() + "");
 		shot.setAttributeNode(damage);
 
-		Attr size = doc.createAttribute("size");
-		size.setValue(melee.getSize() + "");
-		shot.setAttributeNode(size);
+//		Attr size = doc.createAttribute("size");
+//		size.setValue(melee.getSize() + "");
+//		shot.setAttributeNode(size);
 	
 
-		VectorXml vectorshotgun = new VectorXml(doc, shot);
+		VectorXml vectormelee = new VectorXml(doc, shot);
 		if (melee.handPosL != null)
-			vectorshotgun.addVector(handl, melee.handPosL.x, melee.handPosL.y);
+			vectormelee.addVector(handl, melee.handPosL.x, melee.handPosL.y);
 		if (melee.handPosR != null)
-			vectorshotgun.addVector(handr, melee.handPosR.x, melee.handPosR.y);
-		for (Element e : vectorshotgun.getVectors()) {
+			vectormelee.addVector(handr, melee.handPosR.x, melee.handPosR.y);
+		
+		//vectormelee.addVector("extent", melee.extent.x, melee.extent.y);
+
+		for (Element e : vectormelee.getVectors()) {
 			shot.appendChild(e);
 		}
 	}
