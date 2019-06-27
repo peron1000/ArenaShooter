@@ -45,7 +45,7 @@ import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.addItem.AddItemEditor;
-import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
+import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
 public class ArenaEditor extends UiElement implements MultiUi {
@@ -69,7 +69,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private Editor editor;
 
 	private Map<Entity, Button> entityToButton = new HashMap<>();
-	private Map<TypeEntites, Button> typeToButton = new HashMap<>();
+	private Map<EntityTypes, Button> typeToButton = new HashMap<>();
 	private Entity parent;
 	private Ui_Input ui_InputState = Ui_Input.NOTHING;
 	private DoubleInput doubleInput = new DoubleInput();
@@ -255,7 +255,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 				@Override
 				public void make() {
 					Mesh mesh = new Mesh(new Vec3f(), file.getPath().replace('\\', '/'));
-					createNewEntity(mesh, TypeEntites.MESH);
+					createNewEntity(mesh, EntityTypes.MESH);
 				}
 			});
 			i++;
@@ -336,7 +336,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 	private void addMenuConstruction() {
 		UiListVertical<Button> addMenu = new UiListVertical<>();
-		for (TypeEntites type : TypeEntites.values()) {
+		for (EntityTypes type : EntityTypes.values()) {
 			char first = type.name().charAt(0);
 			String name = type.name().substring(1).toLowerCase();
 
@@ -426,7 +426,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		mainMenu.addBind("Adding", addMenu);
 	}
 
-	private void createNewEntity(Entity entity, TypeEntites type) {
+	private void createNewEntity(Entity entity, EntityTypes type) {
 		String entityName = entity.genName();
 		entity.attachToParent(parent, entityName);
 		Button toSetMenu = new Button(entityName);
@@ -448,7 +448,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		this.parent = arenaConstruction;
 	}
 
-	void newEntity(Entity parent, TypeEntites type) {
+	void newEntity(Entity parent, EntityTypes type) {
 		this.parent = parent;
 		typeToButton.get(type).arm();
 	}
@@ -481,7 +481,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 			@Override
 			public void make() {
 				editor.onSetting = cam;
-				editor.setCurrentMenu(new EntityEditor(ArenaEditor.this, cam, TypeEntites.ENTITY));
+				editor.setCurrentMenu(new EntityEditor(ArenaEditor.this, cam, EntityTypes.ENTITY));
 
 				setCamera(arenaConstruction.getArena().cameraBasePos);
 			}

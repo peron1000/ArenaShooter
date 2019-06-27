@@ -24,7 +24,7 @@ import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.gameStates.editor.editorEnum.SetEditable;
-import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
+import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
 class EntityEditor extends UiElement implements MultiUi {
@@ -48,12 +48,12 @@ class EntityEditor extends UiElement implements MultiUi {
 		}
 	};
 
-	public EntityEditor(ArenaEditor mainMenu, Entity entity, TypeEntites type) {
+	public EntityEditor(ArenaEditor mainMenu, Entity entity, EntityTypes type) {
 
 		// Make Label for entity name and parent entity name
 		makeLabelsForEntity(entity);
 
-		ScrollerH<TypeEntites> newChild = new ScrollerH<>(TypeEntites.values());
+		ScrollerH<EntityTypes> newChild = new ScrollerH<>(EntityTypes.values());
 		newChild.setTitle("New Child");
 		newChild.setScale(30 , 5);
 		newChild.setBackgroundVisible(true);
