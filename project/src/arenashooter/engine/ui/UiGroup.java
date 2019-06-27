@@ -12,6 +12,13 @@ public class UiGroup<E extends UiElement> extends UiElement implements Iterable<
 	
 	private List<E> list = new LinkedList<>();
 	
+	public UiGroup(E... elements) {
+		addElements(elements);
+	}
+	
+	public UiGroup() {
+	}
+	
 	public void addElement(E uiElement) {
 		list.add(uiElement);
 	}

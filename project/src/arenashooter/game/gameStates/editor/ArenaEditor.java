@@ -25,6 +25,7 @@ import arenashooter.engine.ui.TabList;
 import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiElement;
+import arenashooter.engine.ui.UiGroup;
 import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
@@ -72,7 +73,9 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private Map<EntityTypes, Button> typeToButton = new HashMap<>();
 	private Entity parent;
 	protected Ui_Input ui_InputState = Ui_Input.NOTHING;
+	protected UiGroup<UiElement> doubleInputGroup = new UiGroup<UiElement>();
 	protected DoubleInput doubleInput = new DoubleInput();
+	protected UiGroup<UiElement> textInputGroup = new UiGroup<UiElement>();
 	protected TextInput textInput = new TextInput();
 	protected ColorPicker colorPicker = new ColorPicker(false);
 
@@ -448,7 +451,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 				editor.onSetting = entity;
 				switch (type) {
 				case SPAWN:
-					editor.setCurrentMenu(new SpawnEditor(ArenaEditor.this, entity));
+					editor.setCurrentMenu(new SpawnEditor(ArenaEditor.this, (Spawner) entity));
 					break;
 
 				default:
@@ -597,6 +600,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		background.update(delta);
 		switch (ui_InputState) {
 		case TEXT:
+			textInputGroup.update(delta);
 			textInput.update(delta);
 			break;
 		case COLOR_PICKER:
@@ -625,12 +629,14 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		current.draw();
 		switch (ui_InputState) {
 		case TEXT:
+			textInputGroup.draw();
 			textInput.draw();
 			break;
 		case COLOR_PICKER:
 			colorPicker.draw();
 			break;
 		case DOUBLE:
+			doubleInputGroup.draw();
 			doubleInput.draw();
 			break;
 		default:

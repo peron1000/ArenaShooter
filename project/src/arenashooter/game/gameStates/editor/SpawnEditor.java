@@ -3,18 +3,21 @@ package arenashooter.game.gameStates.editor;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.TabList;
 import arenashooter.engine.ui.Trigger;
+import arenashooter.engine.ui.UiGroup;
 import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
-import arenashooter.entities.Entity;
+import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.items.Item;
+import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
 public class SpawnEditor extends EntityEditor {
 
 	private TabList<Button> itemChooser = new TabList<>();
 
-	public SpawnEditor(ArenaEditor mainMenu, Entity entity) {
-		super(mainMenu, entity, "SPAWNER");
+	public SpawnEditor(ArenaEditor mainMenu, Spawner spawner) {
+		super(mainMenu, spawner, "SPAWNER");
 
 		if (mainMenu.arenaConstruction.items.isEmpty()) {
 			Label info = new Label("No items available");
@@ -39,8 +42,44 @@ public class SpawnEditor extends EntityEditor {
 			for (Item item : mainMenu.arenaConstruction.items) {
 				Button b = new Button(item.name);
 				b.setScale(buttonXScale, buttonYScale);
+				b.setOnArm(new Trigger() {
+					
+					@Override
+					public void make() {
+						ui_InputState = Ui_Input.DOUBLE;
+						
+						UiImage border = new UiImage(0, 0, 0, 1) , bg = new UiImage(.8, .8, .8, .5);
+						border.setScale(41);
+						bg.setScale(39);
+						Label title = new Label("Enter item proba");
+						title.setScale(scaleText);
+						title.setPosition(0, -12);
+						doubleInputGroup = new UiGroup<>(border , bg , title);
+						
+						doubleInput.setPosition(0, 0);
+						doubleInput.reset();
+						doubleInput.setOnFinish(new Trigger() {
+							
+							@Override
+							public void make() {
+								ui_InputState = Ui_Input.NOTHING;
+								spawner.addItem(item.name, (int) doubleInput.getDouble());
+								current = menu;
+							}
+						});
+						doubleInput.setOnCancel(new Trigger() {
+							
+							@Override
+							public void make() {
+								ui_InputState = Ui_Input.NOTHING;
+							}
+						});
+						
+					}
+				});
 				listChoice.addElement(b);
 			}
+			
 			itemChooser.addBind("Choose an Item", listChoice);
 			itemChooser.setPosition(menu.getPosition());
 			itemChooser.setTitleScale(titleScale, titleScale);
