@@ -505,7 +505,6 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private void setCamera(Vec3f pos) {
 		Camera cam = (Camera) arenaConstruction.getChild("camera");
 		cam.localPosition = pos;
-		;
 	}
 
 	@Override
