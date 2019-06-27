@@ -40,9 +40,9 @@ public class CharacterChooser extends GameState {
 	private double nextSpriteX = firstX;
 	private final double charOffset = 3.121;
 	private InputListener inputs = new InputListener();
-	private UiImage Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(),
-			Down = Imageinput.DOWN.getImage(), Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(),
-			Space = Imageinput.SPACE.getImage(), A = Imageinput.A.getImage(), B = Imageinput.B.getImage(), enter;
+	private UiImage escapeImage = Imageinput.ESCAPE.getImage(), upImage = Imageinput.UP.getImage(),
+			downImage = Imageinput.DOWN.getImage(), rightImage = Imageinput.RIGHT.getImage(), leftImage = Imageinput.LEFT.getImage(),
+			spaceImage = Imageinput.SPACE.getImage(), aImage = Imageinput.A.getImage(), bImage = Imageinput.B.getImage(), enterImage;
 
 	public CharacterChooser() {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
@@ -327,13 +327,13 @@ public class CharacterChooser extends GameState {
 		textEnt66.setColor(color1);
 		textEnt66.attachToParent(current, "Text66");
 
-		Space.setScale(Space.getScale().x / 2, Space.getScale().y / 2);
-		Space.setPosition(-3, 37);
-		Space.getMaterial().getParamTex("image").setFilter(false);
+		spaceImage.setScale(spaceImage.getScale().x / 2, spaceImage.getScale().y / 2);
+		spaceImage.setPosition(-3, 37);
+		spaceImage.getMaterial().getParamTex("image").setFilter(false);
 
-		A.setScale(A.getScale().x / 3.142, A.getScale().y / 3.142);
-		A.setPosition(2, 37);
-		A.getMaterial().getParamTex("image").setFilter(false);
+		aImage.setScale(aImage.getScale().x / 3.142, aImage.getScale().y / 3.142);
+		aImage.setPosition(2, 37);
+		aImage.getMaterial().getParamTex("image").setFilter(false);
 
 		// Back
 		Text text77 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "  : Back");
@@ -341,46 +341,46 @@ public class CharacterChooser extends GameState {
 		textEnt77.setColor(color1);
 		textEnt77.attachToParent(current, "Text77");
 
-		Escape.setScale(Escape.getScale().x / 2, Escape.getScale().y / 2);
-		Escape.setPosition(-3, 43);
-		Escape.getMaterial().getParamTex("image").setFilter(false);
+		escapeImage.setScale(escapeImage.getScale().x / 2, escapeImage.getScale().y / 2);
+		escapeImage.setPosition(-3, 43);
+		escapeImage.getMaterial().getParamTex("image").setFilter(false);
 
-		B.setScale(B.getScale().x / 3.142, B.getScale().y / 3.142);
-		B.setPosition(2, 43);
-		B.getMaterial().getParamTex("image").setFilter(false);
+		bImage.setScale(bImage.getScale().x / 3.142, bImage.getScale().y / 3.142);
+		bImage.setPosition(2, 43);
+		bImage.getMaterial().getParamTex("image").setFilter(false);
 		// Skins
 
-		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : change skin");
+		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : change class");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(7, 5.55, 0), new Vec3f(4.25f), text2);
 		textEnt2.attachToParent(current, "Text_char");
 
-		Left.setScale(Left.getScale().x / 3.142, Left.getScale().y / 3.142);
-		Left.setPosition(27, 37);
-		Left.getMaterial().getParamTex("image").setFilter(false);
+		leftImage.setScale(leftImage.getScale().x / 3.142, leftImage.getScale().y / 3.142);
+		leftImage.setPosition(27, 37);
+		leftImage.getMaterial().getParamTex("image").setFilter(false);
 
-		Right.setScale(Right.getScale().x / 3.142, Right.getScale().y / 3.142);
-		Right.setPosition(32, 37);
-		Right.getMaterial().getParamTex("image").setFilter(false);
+		rightImage.setScale(rightImage.getScale().x / 3.142, rightImage.getScale().y / 3.142);
+		rightImage.setPosition(32, 37);
+		rightImage.getMaterial().getParamTex("image").setFilter(false);
 
 		// Class
 
-		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "   : change class");
+		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "   : change skin");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(7, 6.55, 0), new Vec3f(4.25f), text3);
 		textEnt3.attachToParent(current, "Text_touch");
 
-		Up.setScale(Up.getScale().x / 3.142, Up.getScale().y / 3.142);
-		Up.setPosition(27, 43);
-		Up.getMaterial().getParamTex("image").setFilter(false);
-		Down.setScale(Down.getScale().x / 3.142, Down.getScale().y / 3.142);
-		Down.setPosition(32, 43);
-		Down.getMaterial().getParamTex("image").setFilter(false);
+		upImage.setScale(upImage.getScale().x / 3.142, upImage.getScale().y / 3.142);
+		upImage.setPosition(27, 43);
+		upImage.getMaterial().getParamTex("image").setFilter(false);
+		downImage.setScale(downImage.getScale().x / 3.142, downImage.getScale().y / 3.142);
+		downImage.setPosition(32, 43);
+		downImage.getMaterial().getParamTex("image").setFilter(false);
 
 		// botton_start
 		Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
-		enter = new UiImage(enterTex);
-		enter.setPosition(new Vec2f(72, 39));
-		enter.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
-		enter.getMaterial().getParamTex("image").setFilter(false);
+		enterImage = new UiImage(enterTex);
+		enterImage.setPosition(new Vec2f(72, 39));
+		enterImage.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
+		enterImage.getMaterial().getParamTex("image").setFilter(false);
 
 		// TODO: Classes explanation.
 
@@ -426,15 +426,15 @@ public class CharacterChooser extends GameState {
 
 	public void draw() {
 		super.draw();
-		A.draw();
-		Space.draw();
-		B.draw();
-		Escape.draw();
-		Down.draw();
-		Up.draw();
-		Left.draw();
-		Right.draw();
-		enter.draw();
+		aImage.draw();
+		spaceImage.draw();
+		bImage.draw();
+		escapeImage.draw();
+		downImage.draw();
+		upImage.draw();
+		leftImage.draw();
+		rightImage.draw();
+		enterImage.draw();
 	}
 
 }
