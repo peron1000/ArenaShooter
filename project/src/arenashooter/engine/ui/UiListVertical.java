@@ -60,6 +60,7 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 	}
 
 	public UiElement get(int i) {
+		if(list.isEmpty()) return null;
 		return list.get(i);
 	}
 	
@@ -89,11 +90,8 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 
 	@Override
 	public void setPosition(double x, double y) {
-		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPosition(x, y);
-		for (UiElement uiElement : list) {
-			uiElement.addToPosition(xDif, yDif);
-		}
+		updatePositionElements();
 	}
 
 	@Override

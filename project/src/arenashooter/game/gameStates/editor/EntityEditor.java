@@ -1,16 +1,10 @@
 package arenashooter.game.gameStates.editor;
 
-import java.util.function.Consumer;
-
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.ui.ColorPicker;
-import arenashooter.engine.ui.DoubleInput;
-import arenashooter.engine.ui.MultiUi;
 import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.TabList;
-import arenashooter.engine.ui.TextInput;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.UiListVertical;
@@ -27,29 +21,18 @@ import arenashooter.game.gameStates.editor.editorEnum.SetEditable;
 import arenashooter.game.gameStates.editor.editorEnum.TypeEntites;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
-class EntityEditor extends UiElement implements MultiUi {
+class EntityEditor extends ArenaEditor {
 
 	private String entityNameString = "";
 	private Label entityNameLabel, parent;
-	private TabList<UiElement> menu = new TabList<>();
-	private Ui_Input uiInputState = Ui_Input.NOTHING;
+	protected TabList<UiElement> menu = new TabList<>();
+	protected UiListVertical<UiElement> vList = new UiListVertical<>();
 	private ScrollerH<SetEditable> modification = new ScrollerH<>(SetEditable.values());
-	private TextInput textInput = new TextInput();
-	private DoubleInput doubleInput = new DoubleInput();
-	private ColorPicker colorPicker = new ColorPicker(false);
 
-	private final double labelScale = 3.5;
 
-	private Trigger colorPickerModification = new Trigger() {
-
-		@Override
-		public void make() {
-			// Nothing by default
-		}
-	};
+	protected final double labelScale = 3.5 , buttonXScale = 30 , buttonYScale = 5;
 
 	public EntityEditor(ArenaEditor mainMenu, Entity entity, TypeEntites type) {
-
 		// Make Label for entity name and parent entity name
 		makeLabelsForEntity(entity);
 
@@ -68,10 +51,9 @@ class EntityEditor extends UiElement implements MultiUi {
 		modification.setTitle("Setting");
 		modification.setScale(5);
 		modification.setBackgroundVisible(true);
-		modification.setScale(30, 5);
+		modification.setScale(buttonXScale, buttonYScale);
 
 		// add
-		UiListVertical<UiElement> vList = new UiListVertical<>();
 		vList.addElements(newChild, modification);
 		if(entity instanceof Camera) {}
 		else {
@@ -80,7 +62,7 @@ class EntityEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					uiInputState = Ui_Input.TEXT;
+					ui_InputState = Ui_Input.TEXT;
 					textInput.reset();
 					textInput.setPosition(entityNameLabel.getPosition().x, entityNameLabel.getPosition().y);
 					textInput.setScale(10);
@@ -89,7 +71,7 @@ class EntityEditor extends UiElement implements MultiUi {
 
 						@Override
 						public void make() {
-							uiInputState = Ui_Input.NOTHING;
+							ui_InputState = Ui_Input.NOTHING;
 							Entity parent = entity.getParent();
 							entityNameString = textInput.getText();
 							entity.detach();
@@ -114,10 +96,6 @@ class EntityEditor extends UiElement implements MultiUi {
 			vList.addElement(removeEntity);
 		}
 		switch (type) {
-		case RIGID_BOX:
-		case STATIC_BOX:
-			// TODO : shape
-			break;
 		case TEXT:
 			Button setText = new Button("Set Text");
 			vList.addElement(setText);
@@ -125,7 +103,7 @@ class EntityEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					uiInputState = Ui_Input.TEXT;
+					ui_InputState = Ui_Input.TEXT;
 					setText.setVisible(false);
 					textInput.reset();
 					textInput.setPosition(setText.getPosition().x, setText.getPosition().y);
@@ -134,7 +112,7 @@ class EntityEditor extends UiElement implements MultiUi {
 
 						@Override
 						public void make() {
-							uiInputState = Ui_Input.NOTHING;
+							ui_InputState = Ui_Input.NOTHING;
 							((TextSpatial) entity).setText(textInput.getText());
 							setText.setVisible(true);
 						}
@@ -189,13 +167,13 @@ class EntityEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					uiInputState = Ui_Input.COLOR_PICKER;
+					ui_InputState = Ui_Input.COLOR_PICKER;
 					vList.addElement(colorPicker);
 					colorPicker.setOnFinish(new Trigger() {
 
 						@Override
 						public void make() {
-							uiInputState = Ui_Input.NOTHING;
+							ui_InputState = Ui_Input.NOTHING;
 							vList.removeElement(colorPicker);
 						}
 					});
@@ -212,14 +190,14 @@ class EntityEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					uiInputState = Ui_Input.DOUBLE;
+					ui_InputState = Ui_Input.DOUBLE;
 					vList.replaceElement(doubleInput, buttonRadius);
 					doubleInput.reset();
 					doubleInput.setOnFinish(new Trigger() {
 
 						@Override
 						public void make() {
-							uiInputState = Ui_Input.NOTHING;
+							ui_InputState = Ui_Input.NOTHING;
 							vList.replaceElement(buttonRadius, doubleInput);
 							light.getLight().radius = (float) doubleInput.getDouble();
 							buttonRadius.setValue(doubleInput.getDouble());
@@ -229,7 +207,7 @@ class EntityEditor extends UiElement implements MultiUi {
 
 						@Override
 						public void make() {
-							uiInputState = Ui_Input.NOTHING;
+							ui_InputState = Ui_Input.NOTHING;
 							vList.replaceElement(buttonRadius, doubleInput);
 						}
 					});
@@ -246,16 +224,19 @@ class EntityEditor extends UiElement implements MultiUi {
 		menu.setSpacingForeachList(2);
 		menu.setTitleSpacing(8);
 		menu.setTitleScale(6, 6);
-		menu.setPosition(0, -35);
+		menu.setPosition(0, yMenuPosition);
 		for (UiElement e : vList) {
 			if (e instanceof Button) {
 				Button b = (Button) e;
-				b.setScale(30, 5);
+				b.setScale(buttonXScale, buttonYScale);
 			}
 		}
 
+		current = menu;
+		
 		setPosition(Editor.forVisible, 0);
-		UiImage.selector.setPosition(menu.getTarget().getPosition().x, menu.getTarget().getPosition().y);
+		
+		UiImage.selector.setPosition(getTarget().getPosition());
 	}
 
 	private void makeLabelsForEntity(Entity entity) {
@@ -293,195 +274,21 @@ class EntityEditor extends UiElement implements MultiUi {
 	}
 
 	@Override
-	public boolean upAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.upAction();
-		case COLOR_PICKER:
-			return colorPicker.upAction();
-		case DOUBLE:
-			return doubleInput.upAction();
-		default:
-			return menu.upAction();
-		}
-	}
-
-	@Override
-	public boolean downAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.downAction();
-		case COLOR_PICKER:
-			return colorPicker.downAction();
-		case DOUBLE:
-			return doubleInput.downAction();
-		default:
-			return menu.downAction();
-		}
-	}
-
-	@Override
-	public boolean rightAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.rightAction();
-		case COLOR_PICKER:
-			return colorPicker.rightAction();
-		case DOUBLE:
-			return doubleInput.rightAction();
-		default:
-			return menu.rightAction();
-		}
-	}
-
-	@Override
-	public boolean leftAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.leftAction();
-		case COLOR_PICKER:
-			return colorPicker.leftAction();
-		case DOUBLE:
-			return doubleInput.leftAction();
-		default:
-			return menu.leftAction();
-		}
-	}
-
-	@Override
-	public boolean selectAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.selectAction();
-		case COLOR_PICKER:
-			return colorPicker.selectAction();
-		case DOUBLE:
-			return doubleInput.selectAction();
-		default:
-			return menu.selectAction();
-		}
-	}
-
-	@Override
-	public boolean continueAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.continueAction();
-		case COLOR_PICKER:
-			return colorPicker.continueAction();
-		case DOUBLE:
-			return doubleInput.continueAction();
-		default:
-			return menu.continueAction();
-		}
-	}
-
-	@Override
-	public void update(double delta) {
-		super.update(delta);
-		onAll(e -> e.update(delta));
-		switch (uiInputState) {
-		case TEXT:
-			textInput.update(delta);
-			break;
-		case COLOR_PICKER:
-			colorPicker.update(delta);
-			colorPickerModification.make();
-			break;
-		case DOUBLE:
-			doubleInput.update(delta);
-			break;
-		default:
-			break;
-		}
-		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 10);
-		UiImage.selector.update(delta);
-	}
-
-	@Override
-	public void draw() {
-		onAll(e -> e.draw());
-		switch (uiInputState) {
-		case TEXT:
-			textInput.draw();
-			break;
-		case COLOR_PICKER:
-			colorPicker.draw();
-			break;
-		case DOUBLE:
-			doubleInput.draw();
-			break;
-		default:
-			UiImage.selector.draw();
-			break;
-		}
-	}
-
-	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
 		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPositionLerp(x, y, lerp);
-		onAll(e -> e.addToPositionLerp(xDif, yDif, lerp));
+		menu.addToPositionLerp(xDif, yDif , lerp);
 	}
 
 	@Override
 	public void setPosition(double x, double y) {
 		double xDif = x - getPosition().x, yDif = y - getPosition().y;
 		super.setPosition(x, y);
-		onAll(e -> e.addToPosition(xDif, yDif));
-	}
-
-	private void onAll(Consumer<UiElement> c) {
-		c.accept(menu);
-	}
-
-	public boolean changeAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.changeAction();
-		case COLOR_PICKER:
-			return colorPicker.changeAction();
-		case DOUBLE:
-			return doubleInput.changeAction();
-		default:
-			return menu.changeAction();
-		}
-	}
-
-	public boolean cancelAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.cancelAction();
-		case COLOR_PICKER:
-			return colorPicker.cancelAction();
-		case DOUBLE:
-			return doubleInput.cancelAction();
-		default:
-			return menu.cancelAction();
-		}
+		menu.addToPosition(xDif, yDif);
 	}
 
 	public SetEditable getModificationType() {
 		return modification.get();
-	}
-
-	@Override
-	public boolean backAction() {
-		switch (uiInputState) {
-		case TEXT:
-			return textInput.backAction();
-		case COLOR_PICKER:
-			return colorPicker.backAction();
-		case DOUBLE:
-			return doubleInput.backAction();
-		default:
-			return menu.backAction();
-		}
-	}
-
-	@Override
-	public UiElement getTarget() {
-		return menu.getTarget();
 	}
 
 }

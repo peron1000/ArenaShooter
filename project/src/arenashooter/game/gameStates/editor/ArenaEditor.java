@@ -51,7 +51,7 @@ import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 public class ArenaEditor extends UiElement implements MultiUi {
 
 	// Save & Quit variables
-	private Arena arenaConstruction;
+	protected Arena arenaConstruction;
 	private String fileName = "NewArena";
 
 	private UiImage background = new UiImage(new Vec4f(.5, .5, .5, .2));
@@ -63,7 +63,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private UiListVertical<Button> setMenu = new UiListVertical<>();
 	private UiListVertical<UiElement> saveQuitMenu = new UiListVertical<>();
 	private UiListVertical<UiElement> arenaInfo = new UiListVertical<>();
-	private TabList<UiElement> current = mainMenu;
+	protected MultiUi current = mainMenu;
 	private Button quitButton = null;
 
 	private Editor editor;
@@ -71,12 +71,12 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private Map<Entity, Button> entityToButton = new HashMap<>();
 	private Map<TypeEntites, Button> typeToButton = new HashMap<>();
 	private Entity parent;
-	private Ui_Input ui_InputState = Ui_Input.NOTHING;
-	private DoubleInput doubleInput = new DoubleInput();
-	private TextInput textInput = new TextInput();
-	private ColorPicker colorPicker = new ColorPicker(false);
+	protected Ui_Input ui_InputState = Ui_Input.NOTHING;
+	protected DoubleInput doubleInput = new DoubleInput();
+	protected TextInput textInput = new TextInput();
+	protected ColorPicker colorPicker = new ColorPicker(false);
 
-	private Trigger colorPickerModification = new Trigger() {
+	protected Trigger colorPickerModification = new Trigger() {
 
 		@Override
 		public void make() {
@@ -85,7 +85,13 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	};
 
 	// default values for buttons
-	private final double scaleText = 5, xRect = 30, yRect = 8, spacing = 1;
+	protected final double scaleText = 5, xRect = 30, yRect = 8, spacing = 1 , titleScale = 7, yMenuPosition = -30;
+
+	protected ArenaEditor() {
+		// Background
+		background.setPosition(Editor.forVisible, 0);
+		background.setScale(50, 150);
+	}
 
 	public ArenaEditor(Arena toConstruct, Editor editor) {
 		this.editor = editor;
@@ -96,16 +102,16 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 		// Settings mainMenu
 		mainMenu.setScale(xRect + spacing * 2, 70);
-		mainMenu.setPosition(0, -30);
+		mainMenu.setPosition(0, yMenuPosition);
 		mainMenu.setSpacingForeachList(spacing);
-		mainMenu.setTitleScale(7, 7);
+		mainMenu.setTitleScale(titleScale, titleScale);
 		mainMenu.setArrowsDistance(18);
 		mainMenu.setTitleSpacing(8);
 		mainMenu.setScaleArrows(6, 6);
 		mainMenu.setScissor(true);
 
 		// Settings meshChooser
-		meshChooser.setPosition(0, -30);
+		meshChooser.setPosition(0, yMenuPosition);
 		meshChooser.setSpacingForeachList(spacing);
 		meshChooser.setArrowsDistance(30);
 		meshChooser.setTitleScale(6, 6);
@@ -147,7 +153,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private void arenaInfoMenuConstruction() {
 		Button top = new Button("Sky top"), bottom = new Button("Sky bottom"), ambient = new Button("Ambient light"),
 				addItem = new Button("Add new Item");
-		arenaInfo.addElements(top, bottom, ambient , addItem);
+		arenaInfo.addElements(top, bottom, ambient, addItem);
 
 		// Trigger
 		top.setOnArm(new Trigger() {
@@ -218,13 +224,13 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		});
 
 		addItem.setOnArm(new Trigger() {
-			
+
 			@Override
 			public void make() {
-				editor.setCurrentMenu(new AddItemEditor(arenaConstruction , editor , ArenaEditor.this));
+				editor.setCurrentMenu(new AddItemEditor(arenaConstruction, editor, ArenaEditor.this));
 			}
 		});
-		
+
 		for (UiElement uiElement : arenaInfo) {
 			if (uiElement instanceof Button) {
 				Button b = (Button) uiElement;
@@ -440,7 +446,15 @@ public class ArenaEditor extends UiElement implements MultiUi {
 			@Override
 			public void make() {
 				editor.onSetting = entity;
-				editor.setCurrentMenu(new EntityEditor(ArenaEditor.this, entity, type));
+				switch (type) {
+				case SPAWN:
+					editor.setCurrentMenu(new SpawnEditor(ArenaEditor.this, entity));
+					break;
+
+				default:
+					editor.setCurrentMenu(new EntityEditor(ArenaEditor.this, entity, type));
+					break;
+				}
 			}
 		});
 		current = mainMenu;
@@ -582,20 +596,47 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	public void update(double delta) {
 		super.update(delta);
 		background.update(delta);
-		current.update(delta);
-		if (ui_InputState == Ui_Input.COLOR_PICKER) {
+		switch (ui_InputState) {
+		case TEXT:
+			textInput.update(delta);
+			break;
+		case COLOR_PICKER:
+			colorPicker.update(delta);
 			colorPickerModification.make();
+			break;
+		case DOUBLE:
+			doubleInput.update(delta);
+			break;
+		default:
+			current.update(delta);
+			break;
 		}
-		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 32);
-		UiImage.selector.update(delta);
+		if (getTarget() != null) {
+			UiImage.selector.setVisible(true);
+			UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 32);
+			UiImage.selector.update(delta);
+		} else {
+			UiImage.selector.setVisible(false);
+		}
 	}
 
 	@Override
 	public void draw() {
 		background.draw();
 		current.draw();
-		if (ui_InputState == Ui_Input.NOTHING) {
+		switch (ui_InputState) {
+		case TEXT:
+			textInput.draw();
+			break;
+		case COLOR_PICKER:
+			colorPicker.draw();
+			break;
+		case DOUBLE:
+			doubleInput.draw();
+			break;
+		default:
 			UiImage.selector.draw();
+			break;
 		}
 	}
 
@@ -671,7 +712,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 			if (current == meshChooser) {
 				current = mainMenu;
 				return true;
-			} else if(current == mainMenu && quitButton != null) {
+			} else if (current == mainMenu && quitButton != null) {
 				mainMenu.setTarget(quitButton);
 			}
 			return false;
