@@ -236,6 +236,9 @@ public class Vec3f {
 	 * @return (hue, saturation, value) stored in <i>target</i>
 	 */
 	public static Vec3f rgbToHsv(float r, float g, float b, Vec3f target) { //TODO: Test
+		r = Utils.clampF(r, 0, 1);
+		g = Utils.clampF(g, 0, 1);
+		b = Utils.clampF(b, 0, 1);
 		float max = Math.max(Math.max(r, g), b);
 		float min = Math.min(Math.min(r, g), b);
 

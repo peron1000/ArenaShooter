@@ -194,7 +194,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 				arenaInfo.addElement(colorPicker);
 				Sky sky = (Sky) arenaConstruction.getChild("sky");
 				if(sky != null) {
-					colorPicker.setColorRGB(sky.getColorTop());
+					colorPicker.setColorRGB(sky.getColorBot());
 				}
 				colorPickerModification = new Trigger() {
 
@@ -218,6 +218,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 			@Override
 			public void make() {
 				ui_InputState = Ui_Input.COLOR_PICKER;
+				colorPicker.setColorRGB(getAmbientLight());
 				arenaInfo.addElement(colorPicker);
 				colorPickerModification = new Trigger() {
 					@Override
@@ -524,6 +525,10 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	private void setSkyColorBottom(Vec3f color) {
 		Sky sky = (Sky) arenaConstruction.getChild("sky");
 		sky.setColorBot(color);
+	}
+	
+	private Vec3f getAmbientLight() {
+		return arenaConstruction.ambientLight;
 	}
 
 	private void setAmbientLight(Vec3f ambient) {

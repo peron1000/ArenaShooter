@@ -232,9 +232,12 @@ public class ColorPicker extends UiElement {
 		return new Vec3f(rgb.x, rgb.y, rgb.z);
 	}
 	
-	public void setColorRGB(Vec3f color) {
+	public void setColorRGB(Vec3f rgb) {
 		Vec3f hsv = new Vec3f();
 		Vec3f.rgbToHsv(rgb.x, rgb.y, rgb.z, hsv);
+		hue = hsv.x;
+		saturation = hsv.y;
+		value = hsv.z;
 		updateMaterials();
 	}
 	
@@ -247,6 +250,9 @@ public class ColorPicker extends UiElement {
 		alpha = rgba.w;
 		Vec3f hsv = new Vec3f();
 		Vec3f.rgbToHsv(rgba.x, rgba.y, rgba.z, hsv);
+		hue = hsv.x;
+		saturation = hsv.y;
+		value = hsv.z;
 		updateMaterials();
 	}
 

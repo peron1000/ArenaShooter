@@ -188,6 +188,7 @@ class EntityEditor extends ArenaEditor {
 				@Override
 				public void make() {
 					ui_InputState = Ui_Input.COLOR_PICKER;
+					colorPicker.setColorRGB(light.getLight().color);
 					vList.addElement(colorPicker);
 					colorPicker.setOnFinish(new Trigger() {
 
