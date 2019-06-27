@@ -60,6 +60,7 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 	}
 
 	public UiElement get(int i) {
+		if(list.isEmpty()) return null;
 		return list.get(i);
 	}
 	

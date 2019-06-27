@@ -585,7 +585,8 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		if (ui_InputState == Ui_Input.COLOR_PICKER) {
 			colorPickerModification.make();
 		}
-		UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 32);
+		if(getTarget() != null)
+				UiImage.selector.setPositionLerp(getTarget().getPosition().x, getTarget().getPosition().y, 32);
 		UiImage.selector.update(delta);
 	}
 

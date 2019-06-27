@@ -278,12 +278,14 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	private void slideUpdate() {
 		double top = topMainList(), bottom = top + getScale().y;
 
-		if (getTarget().getTop() < top) {
-			double d = top - getTarget().getTop();
-			circleList.get().addToPositionLerp(0, d, 20);
-		} else if (bottom < getTarget().getBottom()) {
-			double d = bottom - getTarget().getBottom();
-			circleList.get().addToPositionLerp(0, d, 20);
+		if(getTarget() != null) {
+			if (getTarget().getTop() < top) {
+				double d = top - getTarget().getTop();
+				circleList.get().addToPositionLerp(0, d, 20);
+			} else if (bottom < getTarget().getBottom()) {
+				double d = bottom - getTarget().getBottom();
+				circleList.get().addToPositionLerp(0, d, 20);
+			}
 		}
 	}
 
@@ -341,7 +343,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public boolean rightAction() {
-		if (!getTarget().rightAction()) {
+		if(getTarget() == null || !getTarget().rightAction()) {
 			if (circleList.size() <= 1)
 				return false;
 
@@ -357,7 +359,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public boolean leftAction() {
-		if (!getTarget().leftAction()) {
+		if(getTarget() == null || !getTarget().leftAction()) {
 			if (circleList.size() <= 1)
 				return false;
 
@@ -374,7 +376,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public boolean upAction() {
-		if (!getTarget().upAction()) {
+		if(getTarget() == null || !getTarget().upAction()) {
 			indexTarget--;
 			if (indexTarget < 0) {
 				indexTarget = circleList.get().size() - 1;
@@ -388,7 +390,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public boolean downAction() {
-		if (!getTarget().downAction()) {
+		if(getTarget() == null || !getTarget().downAction()) {
 			indexTarget++;
 			if (indexTarget >= circleList.get().size()) {
 				indexTarget = 0;
@@ -402,26 +404,31 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public boolean backAction() {
+		if(getTarget() == null) return false;
 		return getTarget().backAction();
 	}
 
 	@Override
 	public boolean continueAction() {
+		if(getTarget() == null) return false;
 		return getTarget().continueAction();
 	}
 
 	@Override
 	public boolean changeAction() {
+		if(getTarget() == null) return false;
 		return getTarget().changeAction();
 	}
 
 	@Override
 	public boolean cancelAction() {
+		if(getTarget() == null) return false;
 		return getTarget().cancelAction();
 	}
 
 	@Override
 	public boolean selectAction() {
+		if(getTarget() == null) return false;
 		return getTarget().selectAction();
 	}
 
