@@ -233,10 +233,10 @@ public final class Input {
 						actions[Action.UI_BACK.id][i] = getActionState(actions[Action.UI_BACK.id][i], joyButtons[i].get(1) == GLFW_PRESS);
 					}
 					
-					actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], axes[Axis.MOVE_X.id][i] < - deadzone );
-					actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], axes[Axis.MOVE_X.id][i] > deadzone);
-					actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], axes[Axis.MOVE_Y.id][i] > deadzone );
-					actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], axes[Axis.MOVE_Y.id][i] < -deadzone);
+					actions[Action.UI_LEFT.id][i] = getActionState(actions[Action.UI_LEFT.id][i], axes[Axis.MOVE_X.id][i] < - 0.75 );
+					actions[Action.UI_RIGHT.id][i] = getActionState(actions[Action.UI_RIGHT.id][i], axes[Axis.MOVE_X.id][i] > 0.75);
+					actions[Action.UI_UP.id][i] = getActionState(actions[Action.UI_UP.id][i], axes[Axis.MOVE_Y.id][i] > 0.75 );
+					actions[Action.UI_DOWN.id][i] = getActionState(actions[Action.UI_DOWN.id][i], axes[Axis.MOVE_Y.id][i] < - 0.75);
 				}
 			}
 		}

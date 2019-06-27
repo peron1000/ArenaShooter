@@ -13,7 +13,7 @@
 				<vec2 x="0" y="0" use="sizeEnd"/>
 			</sizeOverLife>
 			<initialVelCone angleMin="-.1" angleMax=".1" velMin="60" velMax="100"/>
-			<drag strength="1"/>
+			<drag strength = "1"/>
 		</modules>
 	</emitter>
 
