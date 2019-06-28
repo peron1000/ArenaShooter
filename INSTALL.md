@@ -5,7 +5,7 @@
 * A JRE or JDK with Java 8 support
 * OpenGL 3.2 support
 ### Installing
-Grab a release on [`/release`](/release).
+Grab a release on the [releases](https://github.com/peron1000/ArenaShooter/releases) page.
 Unzip it and launch `Super Blep.jar` as an executable jar.
 
 ## Building from source
