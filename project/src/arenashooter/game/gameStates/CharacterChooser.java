@@ -323,32 +323,32 @@ public class CharacterChooser extends GameState {
 
 		// Join
 		Text text66 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : Join");
-		TextSpatial textEnt66 = new TextSpatial(new Vec3f(1.5, 5.55, 0), new Vec3f(5f), text66);
+		TextSpatial textEnt66 = new TextSpatial(new Vec3f(2.75, 5.55, 0), new Vec3f(5f), text66);
 		textEnt66.setColor(color1);
 		textEnt66.attachToParent(current, "Text66");
 
 		spaceImage.setScale(spaceImage.getScale().x / 2, spaceImage.getScale().y / 2);
-		spaceImage.setPosition(-3, 37);
+		spaceImage.setPosition(5, 37);
 		spaceImage.getMaterial().getParamTex("image").setFilter(false);
 
 		aImage.setScale(aImage.getScale().x / 3.142, aImage.getScale().y / 3.142);
-		aImage.setPosition(2, 37);
+		aImage.setPosition(10, 37);
 		aImage.getMaterial().getParamTex("image").setFilter(false);
 
 		// Back
 		Text text77 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "  : Back");
-		TextSpatial textEnt77 = new TextSpatial(new Vec3f(1.5, 6.55, 0), new Vec3f(5f), text77);
+		TextSpatial textEnt77 = new TextSpatial(new Vec3f(2.75, 6.55, 0), new Vec3f(5f), text77);
 		textEnt77.setColor(color1);
 		textEnt77.attachToParent(current, "Text77");
 
 		escapeImage.setScale(escapeImage.getScale().x / 2, escapeImage.getScale().y / 2);
-		escapeImage.setPosition(-3, 43);
+		escapeImage.setPosition(5, 43);
 		escapeImage.getMaterial().getParamTex("image").setFilter(false);
 
 		bImage.setScale(bImage.getScale().x / 3.142, bImage.getScale().y / 3.142);
-		bImage.setPosition(2, 43);
+		bImage.setPosition(10, 43);
 		bImage.getMaterial().getParamTex("image").setFilter(false);
-		// Skins
+		// Class
 
 		Text text2 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, " : change class");
 		TextSpatial textEnt2 = new TextSpatial(new Vec3f(7, 5.55, 0), new Vec3f(4.25f), text2);
@@ -362,7 +362,7 @@ public class CharacterChooser extends GameState {
 		rightImage.setPosition(32, 37);
 		rightImage.getMaterial().getParamTex("image").setFilter(false);
 
-		// Class
+		// Skins
 
 		Text text3 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "   : change skin");
 		TextSpatial textEnt3 = new TextSpatial(new Vec3f(7, 6.55, 0), new Vec3f(4.25f), text3);
@@ -382,8 +382,48 @@ public class CharacterChooser extends GameState {
 		enterImage.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
 		enterImage.getMaterial().getParamTex("image").setFilter(false);
 
-		// TODO: Classes explanation.
+		// Classes explanation.
 
+				// Heavier
+				Text text771 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Heavier");
+				TextSpatial textEnt771 = new TextSpatial(new Vec3f(-8.5, 6.85, 0), new Vec3f(3f), text771);
+				textEnt771.setColor(new Vec4f(1, 0, 0, 1));
+				textEnt771.attachToParent(current, "Text771");
+				
+				Text text772 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Rush when Charged");
+				TextSpatial textEnt772 = new TextSpatial(new Vec3f(-8.5, 7.35, 0), new Vec3f(3f), text772);
+				textEnt772.setColor(new Vec4f(1, 0, 0, 1));
+				textEnt772.attachToParent(current, "Text772");
+		
+				// boshido
+				Text text773 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Honorable Death");
+				TextSpatial textEnt773 = new TextSpatial(new Vec3f(-1.5, 7, 0), new Vec3f(3f), text773);
+				textEnt773.setColor(new Vec4f(0, 0, 1, 1));
+				textEnt773.attachToParent(current, "Text773");
+		
+				// agile
+				Text text774 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Faster");
+				TextSpatial textEnt774 = new TextSpatial(new Vec3f(-5, 6.85, 0), new Vec3f(3f), text774);
+				textEnt774.setColor(new Vec4f(1, 1, 0, 1));
+				textEnt774.attachToParent(current, "Text774");
+				
+				Text text775 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Higher Jumps");
+				TextSpatial textEnt775 = new TextSpatial(new Vec3f(-5, 7.35, 0), new Vec3f(3f), text775);
+				textEnt775.setColor(new Vec4f(1, 1, 0, 1));
+				textEnt775.attachToParent(current, "Text775");
+		
+				// fly
+				Text text776 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Longer Jumps");
+				TextSpatial textEnt776 = new TextSpatial(new Vec3f(-12, 6.85, 0), new Vec3f(3f), text776);
+				textEnt776.setColor(new Vec4f(0.5, 1, 0.25, 1));
+				textEnt776.attachToParent(current, "Text776");
+		
+				Text text777 = new Text(Main.font, Text.TextAlignH.CENTER, Text.TextAlignV.TOP, "Double Jump");
+				TextSpatial textEnt777 = new TextSpatial(new Vec3f(-12, 7.35, 0), new Vec3f(3f), text777);
+				textEnt777.setColor(new Vec4f(0.5, 1, 0.25, 1));
+				textEnt777.attachToParent(current, "Text777");
+		
+		
 		Sprite backGroundCharacChooser = new Sprite(new Vec2f(),
 				"data/sprites/interface/BackGround_CharacterChooser_PreRendered.png");
 		backGroundCharacChooser.attachToParent(current, "BackGround");
@@ -392,21 +432,21 @@ public class CharacterChooser extends GameState {
 		backGroundCharacChooser.zIndex = -126;
 		backGroundCharacChooser.getTexture().setFilter(false);
 
-		Sprite birdsIcon = new Sprite(new Vec2f(-13, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png");
+		Sprite birdsIcon = new Sprite(new Vec2f(-12, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Birbs.png");
 		birdsIcon.attachToParent(current, "Icon_Bird");
 		float iconWidth = (float) (birdsIcon.getTexture().getWidth() * .05);
 		float iconHeigth = (float) (birdsIcon.getTexture().getHeight() * .05);
 		birdsIcon.size.set(iconWidth, iconHeigth);
 		birdsIcon.getTexture().setFilter(false);
-		Sprite heavyIcon = new Sprite(new Vec2f(-11, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png");
+		Sprite heavyIcon = new Sprite(new Vec2f(-8.5, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Heavy.png");
 		heavyIcon.attachToParent(current, "Icon_Heavy");
 		heavyIcon.size.set(iconWidth, iconHeigth);
 		heavyIcon.getTexture().setFilter(false);
-		Sprite agileIcon = new Sprite(new Vec2f(-9, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png");
+		Sprite agileIcon = new Sprite(new Vec2f(-5, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Fast.png");
 		agileIcon.attachToParent(current, "Icon_Agile");
 		agileIcon.size.set(iconWidth, iconHeigth);
 		agileIcon.getTexture().setFilter(false);
-		Sprite aquaIcon = new Sprite(new Vec2f(-7, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Aqua.png");
+		Sprite aquaIcon = new Sprite(new Vec2f(-1.5, 6), "data/sprites/characters/All_Icon_For_Classes/Icon_Aqua.png");
 		aquaIcon.attachToParent(current, "Icon_Aqua");
 		aquaIcon.size.set(iconWidth, iconHeigth);
 		aquaIcon.getTexture().setFilter(false);
