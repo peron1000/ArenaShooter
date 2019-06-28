@@ -10,7 +10,7 @@
 <!ATTLIST emitter initialRotMin CDATA #REQUIRED>
 <!ATTLIST emitter initialRotMax CDATA #REQUIRED>
 
-<!ELEMENT modules (accelConstant|colorOverLife|gravity|initialPosCircle|initialVelCone|sizeOverLife)*>
+<!ELEMENT modules (accelConstant|colorOverLife|drag|gravity|initialPosCircle|initialVelCone|sizeOverLife)*>
 
 <!-- Modules -->
 
