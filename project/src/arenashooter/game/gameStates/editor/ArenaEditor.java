@@ -4,18 +4,21 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
+import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.engine.ui.ColorPicker;
@@ -30,6 +33,7 @@ import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
@@ -89,7 +93,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	};
 
 	// default values for buttons
-	protected final double scaleText = 5, xRect = 30, yRect = 8, spacing = 1 , titleScale = 7, yMenuPosition = -30;
+	protected final double scaleText = 5, xRect = 30, yRect = 8, spacing = 1, titleScale = 7, yMenuPosition = -30;
 
 	protected ArenaEditor() {
 		// Background
@@ -165,7 +169,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 			public void make() {
 				ui_InputState = Ui_Input.COLOR_PICKER;
 				Sky sky = (Sky) arenaConstruction.getChild("sky");
-				if(sky != null) {
+				if (sky != null) {
 					colorPicker.setColorRGB(sky.getColorTop());
 				}
 				arenaInfo.addElement(colorPicker);
@@ -193,7 +197,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 				ui_InputState = Ui_Input.COLOR_PICKER;
 				arenaInfo.addElement(colorPicker);
 				Sky sky = (Sky) arenaConstruction.getChild("sky");
-				if(sky != null) {
+				if (sky != null) {
 					colorPicker.setColorRGB(sky.getColorBot());
 				}
 				colorPickerModification = new Trigger() {
@@ -290,7 +294,8 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	}
 
 	private void saveQuitMenuConstruction() {
-		Button save = new Button("Save"), rename = new Button("Rename File"), quit = new Button("Quit");
+		Button save = new Button("Save"), rename = new Button("Rename File"), quit = new Button("Quit"),
+				load = new Button("Load");
 		save.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
 		save.setScale(xRect, yRect);
 		save.setOnArm(new Trigger() {
@@ -334,6 +339,15 @@ public class ArenaEditor extends UiElement implements MultiUi {
 				});
 			}
 		});
+		load.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
+		load.setScale(xRect, yRect);
+		load.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				current = getLoadArena();
+			}
+		});
 		quit.setOnArm(new Trigger() {
 
 			@Override
@@ -347,12 +361,84 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 		saveQuitMenu.setSpacing(spacing);
 
-		saveQuitMenu.addElements(save, rename, quit);
+		saveQuitMenu.addElements(save, load, rename, quit);
 
 		mainMenu.addBind("Exit", saveQuitMenu);
 
 		mainMenu.addLabelInfo(saveQuitMenu, fileNameLabel);
 		fileNameLabel.setScale(scaleText);
+	}
+
+	private MultiUi getLoadArena() {
+		TabList<Button> list = new TabList<Button>();
+		UiListVertical<Button> vList = new UiListVertical<>();
+		File mapXML = new File("data/mapXML");
+		List<File> maps = FileUtils.listFilesByType(mapXML, ".xml");
+		for (File file : maps) {
+			String fileName = file.getName().substring(0, file.getName().indexOf('.'));
+			Button b = new Button(fileName);
+			b.setScale(xRect, yRect);
+			b.setOnArm(new Trigger() {
+
+				@Override
+				public void make() {
+					current = mainMenu;
+					MapXmlReader reader = new MapXmlReader(file.getPath());
+					reader.load(arenaConstruction);
+					while (!reader.loadNextEntity())
+						;
+					ArenaEditor.this.fileName = fileName;
+					fileNameLabel.setText(fileName);
+					loadArenaEntities(arenaConstruction);
+				}
+			});
+			vList.addElement(b);
+		}
+		list.setPosition(mainMenu.getPosition());
+		list.addBind("Choose Arena", vList);
+		return list;
+	}
+
+	private void loadArenaEntities(Entity parent) {
+		System.out.println(parent);
+		for (Entry<String, Entity> entry : parent.getChildren().entrySet()) {
+			if (entry instanceof Mesh) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.MESH , entry.getKey());
+			} else if (entry instanceof RigidBodyContainer) {
+				RigidBodyContainer b = (RigidBodyContainer) entry;
+				PhysicShape s = b.getBody().getShape();
+				if (s instanceof ShapeBox) {
+					createNewEntityToLoad(entry.getValue(), EntityTypes.RIGID_BOX , entry.getKey());
+				} else if (s instanceof ShapeDisk) {
+					createNewEntityToLoad(entry.getValue(), EntityTypes.RIGID_DISK , entry.getKey());
+				}
+			} else if (entry instanceof StaticBodyContainer) {
+				StaticBodyContainer b = (StaticBodyContainer) entry;
+				PhysicShape s = b.getBody().getShape();
+				if (s instanceof ShapeBox) {
+					createNewEntityToLoad(entry.getValue(), EntityTypes.STATIC_BOX , entry.getKey());
+				} else if (s instanceof ShapeDisk) {
+					createNewEntityToLoad(entry.getValue(), EntityTypes.STATIC_DISK , entry.getKey());
+				}
+			} else if (entry instanceof KinematicBodyContainer) {
+				KinematicBodyContainer b = (KinematicBodyContainer) entry;
+				PhysicShape s = b.getBody().getShape();
+				if (s instanceof ShapeBox) {
+					createNewEntityToLoad(entry.getValue(), EntityTypes.KINEMATIC_BOX , entry.getKey());
+				} else if (s instanceof ShapeDisk) {
+					createNewEntityToLoad(entry.getValue(), EntityTypes.KINEMATIC_DISK , entry.getKey());
+				}
+			} else if (entry instanceof Spawner) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.SPAWN , entry.getKey());
+			} else if (entry instanceof TextSpatial) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.TEXT , entry.getKey());
+			} else if(entry instanceof LightContainer) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.LIGHT , entry.getKey());
+			}else {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.ENTITY , entry.getKey());
+			}
+			loadArenaEntities(entry.getValue());
+		}
 	}
 
 	private void addMenuConstruction() {
@@ -476,6 +562,31 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		toSetMenu.arm();
 		this.parent = arenaConstruction;
 	}
+	
+	private void createNewEntityToLoad(Entity entity, EntityTypes type , String name) {
+		Button toSetMenu = new Button(name);
+		toSetMenu.setScale(xRect, yRect);
+		setMenu.addElement(toSetMenu);
+		editor.allEditable.add(entity);
+		entityToButton.put(entity, toSetMenu);
+		toSetMenu.setScissorOk(false);
+		toSetMenu.setOnArm(new Trigger() {
+
+			@Override
+			public void make() {
+				editor.onSetting = entity;
+				switch (type) {
+				case SPAWN:
+					editor.setCurrentMenu(new SpawnEditor(ArenaEditor.this, (Spawner) entity));
+					break;
+
+				default:
+					editor.setCurrentMenu(new EntityEditor(ArenaEditor.this, entity, type));
+					break;
+				}
+			}
+		});
+	}
 
 	void newEntity(Entity parent, EntityTypes type) {
 		this.parent = parent;
@@ -526,7 +637,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		Sky sky = (Sky) arenaConstruction.getChild("sky");
 		sky.setColorBot(color);
 	}
-	
+
 	private Vec3f getAmbientLight() {
 		return arenaConstruction.ambientLight;
 	}
