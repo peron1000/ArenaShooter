@@ -29,7 +29,7 @@ public class Editor extends GameState {
 	List<Editable> allEditable = new LinkedList<>();
 	Editable onSetting = null;
 
-	private ArenaEditor mainMenu = new ArenaEditor(current, this);
+	private ArenaEditor mainMenu = new ArenaEditor(current , this);
 
 	private UiElement currentMenu = mainMenu;
 
@@ -226,6 +226,8 @@ public class Editor extends GameState {
 	@Override
 	public void init() {
 		super.init();
+		mainMenu = new ArenaEditor(current, this);
+		currentMenu = mainMenu;
 		cam = (Camera) current.getChild("camera");
 		cam.interpolate = false;
 
