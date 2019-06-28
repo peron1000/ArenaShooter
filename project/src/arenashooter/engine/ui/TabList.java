@@ -278,7 +278,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	private void slideUpdate() {
 		double top = topMainList(), bottom = top + getScale().y;
 
-		if(getTarget() != null) {
+		if (getTarget() != null) {
 			if (getTarget().getTop() < top) {
 				double d = top - getTarget().getTop();
 				circleList.get().addToPositionLerp(0, d, 20);
@@ -345,7 +345,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
 	@Override
 	public boolean rightAction() {
-		if(getTarget() == null || !getTarget().rightAction()) {
+		if (getTarget() == null || !getTarget().rightAction()) {
 			if (circleList.size() <= 1)
 				return false;
 
@@ -354,14 +354,15 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			resetPositionOfList(circleList.get());
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowRight.addToPositionSuperLerp(arrowLerp, 0, lerp);
-			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+			if (!circleList.isEmpty())
+				Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
 
 	@Override
 	public boolean leftAction() {
-		if(getTarget() == null || !getTarget().leftAction()) {
+		if (getTarget() == null || !getTarget().leftAction()) {
 			if (circleList.size() <= 1)
 				return false;
 
@@ -371,14 +372,15 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			resetPositionOfList(circleList.get());
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowLeft.addToPositionSuperLerp(-arrowLerp, 0, lerp);
-			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 0.95f);
+			if (!circleList.isEmpty())
+				Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
 
 	@Override
 	public boolean upAction() {
-		if(getTarget() == null || !getTarget().upAction()) {
+		if (getTarget() == null || !getTarget().upAction()) {
 			indexTarget--;
 			if (indexTarget < 0) {
 				indexTarget = circleList.get().size() - 1;
@@ -386,13 +388,14 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (scissor) {
 				slideUpdate();
 			}
+			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
 
 	@Override
 	public boolean downAction() {
-		if(getTarget() == null || !getTarget().downAction()) {
+		if (getTarget() == null || !getTarget().downAction()) {
 			indexTarget++;
 			if (indexTarget >= circleList.get().size()) {
 				indexTarget = 0;
@@ -400,37 +403,43 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (scissor) {
 				slideUpdate();
 			}
+			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
 
 	@Override
 	public boolean backAction() {
-		if(getTarget() == null) return false;
+		if (getTarget() == null)
+			return false;
 		return getTarget().backAction();
 	}
 
 	@Override
 	public boolean continueAction() {
-		if(getTarget() == null) return false;
+		if (getTarget() == null)
+			return false;
 		return getTarget().continueAction();
 	}
 
 	@Override
 	public boolean changeAction() {
-		if(getTarget() == null) return false;
+		if (getTarget() == null)
+			return false;
 		return getTarget().changeAction();
 	}
 
 	@Override
 	public boolean cancelAction() {
-		if(getTarget() == null) return false;
+		if (getTarget() == null)
+			return false;
 		return getTarget().cancelAction();
 	}
 
 	@Override
 	public boolean selectAction() {
-		if(getTarget() == null) return false;
+		if (getTarget() == null)
+			return false;
 		return getTarget().selectAction();
 	}
 
@@ -447,8 +456,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 				background.draw();
 			}
 			tabTitle.draw();
-			if(circleList.isEmpty())return;
-			
+			if (circleList.isEmpty())
+				return;
+
 			UiListVertical<? extends E> vlist = circleList.get();
 
 			if (!scissor) {
