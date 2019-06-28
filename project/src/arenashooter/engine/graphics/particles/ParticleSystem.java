@@ -15,12 +15,14 @@ public class ParticleSystem {
 
 	private List<Emitter> emitters;
 	/** System's world position */
-	public Vec3f position;
+	public Vec3f position = new Vec3f();
+	
+	/** System's world rotation */
+	public float rotation = 0;
 	
 	public Vec2f gravity = new Vec2f(0, 9.807);
 
 	private ParticleSystem(EmitterTemplate[] data) {
-		this.position = new Vec3f();
 		emitters = new ArrayList<>();
 
 		for (EmitterTemplate emitterData : data) {
@@ -41,11 +43,11 @@ public class ParticleSystem {
 		return new ParticleSystem(emitters);
 	}
 
-	public void update(double delta, Vec2f gravity, double worldRotation) {
+	public void update(double delta, Vec2f gravity) {
 		this.gravity.set(gravity);
 		
 		for (int i = emitters.size() - 1; i >= 0; i--) {
-			if (emitters.get(i).update(delta, gravity, worldRotation))
+			if (emitters.get(i).update(delta, gravity))
 				emitters.remove(i);
 		}
 	}

@@ -12,7 +12,7 @@ public class AccelConstant extends ParticleModule {
 	}
 
 	@Override
-	public void apply(Emitter emitter, double delta, double worldRotation) {
+	public void apply(Emitter emitter, double delta) {
 		Vec2f force = accel.clone().multiply((float) delta);
 		for(Vec2f position : emitter.positions)
 			position.add(force);

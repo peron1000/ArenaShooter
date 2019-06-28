@@ -71,7 +71,7 @@ public class Emitter {
 	 * @param worldRotation
 	 * @return true if emitter ended
 	 */
-	boolean update(double delta, Vec2f gravity, double worldRotation) {
+	boolean update(double delta, Vec2f gravity) {
 		// Delay
 		if( delay > 0 ) {
 			delay -= delta;
@@ -115,7 +115,7 @@ public class Emitter {
 		// Update modules
 		if(positions.size() > 0)
 			for(ParticleModule module : data.modules)
-				module.apply(this, delta, worldRotation);
+				module.apply(this, delta);
 		
 		// Update particles and delete dead ones
 		Vec2f temp = new Vec2f();

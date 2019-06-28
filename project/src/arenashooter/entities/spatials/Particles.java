@@ -44,10 +44,11 @@ public class Particles extends Spatial {
 	public void step(double d) {
 		system.position.x = getWorldPos().x;
 		system.position.y = getWorldPos().y;
+		system.rotation = (float) (locked ? lockedAngle : getWorldRot());
 		if(getArena() == null)
-			system.update(d, new Vec2f(), (locked ? lockedAngle : getWorldRot()) );
+			system.update(d, new Vec2f() );
 		else
-			system.update(d, getArena().gravity, (locked ? lockedAngle : getWorldRot()) );
+			system.update(d, getArena().gravity );
 		
 		if(selfDestruct && system.ended()) detach();
 		

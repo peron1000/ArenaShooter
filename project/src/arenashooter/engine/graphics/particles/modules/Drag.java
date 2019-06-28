@@ -11,7 +11,7 @@ public class Drag extends ParticleModule {
 	}
 
 	@Override
-	public void apply(Emitter emitter, double delta, double worldRotation) {
+	public void apply(Emitter emitter, double delta) {
 		if(strength == 0) return;
 		float factor = (float) (1/(delta*strength));
 		for(Vec2f vel : emitter.velocities)
