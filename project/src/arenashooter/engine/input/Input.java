@@ -60,8 +60,7 @@ public final class Input {
 			
 			String line = "";
 			while( (line = reader.readLine()) != null ) {
-				ByteBuffer buf = ByteBuffer.wrap((line+" ; \n").getBytes());
-				if(!glfwUpdateGamepadMappings(buf))
+				if(!glfwUpdateGamepadMappings(line))
 					Main.log.error("Error reading gamepad mapping: "+line);
 			}
 		
