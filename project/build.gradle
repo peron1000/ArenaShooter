@@ -3,7 +3,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 apply plugin: 'eclipse'
 archivesBaseName = 'SuperBlep'
-version = '0.0.2-SNAPSHOT' 
+version = '0.1.0-SNAPSHOT' 
 
 import org.gradle.internal.os.OperatingSystem
 

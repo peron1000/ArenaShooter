@@ -15,7 +15,7 @@ import arenashooter.game.gameStates.loading.PreLoadMainSound;
 public class Main {
 	private static final int minFrametimeMilli = 8;
 
-	public static final String version = "0.0.2";
+	public static final String version = "0.1.0";
 
 	/**
 	 * Maximum duration of a step, longer steps will be broken down into sub-steps
