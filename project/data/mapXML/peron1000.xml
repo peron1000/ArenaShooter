@@ -90,7 +90,7 @@
   </information>
   <entities>
     <spawn cooldown="0.0" name="S3" playerSpawn="true">
-      <vector use="position" x="-9.740033149719238" y="2.5599982738494873"/>
+      <vector use="position" x="-11.9000825881958" y="2.5599982738494873"/>
       <itemRef item="assault" proba="1"/>
       <itemRef item="shotgun" proba="1"/>
       <itemRef item="kata" proba="1"/>
@@ -107,7 +107,7 @@
       </entities>
     </spawn>
     <directionalLight name="arenashooter.entities.spatials.LightContainer@643e7d081116020637247327">
-      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
+      <vector use="rotation" w="-0.11692503094673157" x="-0.25009599328041077" y="-0.46358489990234375" z="0.8419438600540161"/>
       <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
     </directionalLight>
     <rigid name="pinned_crate_05" rotation="0.0">
@@ -142,7 +142,7 @@
       <vector use="scale" x="0.7150002717971802" y="0.8550002574920654" z="1.0"/>
     </mesh>
     <directionalLight name="arenashooter.entities.spatials.LightContainer@6ed82ec51113440170648481">
-      <vector use="rotation" w="-0.11692503094673157" x="-0.25009599328041077" y="-0.46358489990234375" z="0.8419438600540161"/>
+      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
       <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
     </directionalLight>
     <rigid name="arenashooter.entities.spatials.RigidBodyContainer@5b1f29fa1112457230904093" rotation="0.0">
@@ -157,7 +157,7 @@
       </entities>
     </rigid>
     <spawn cooldown="0.0" name="SM4" playerSpawn="true">
-      <vector use="position" x="10.240044593811035" y="2.51999831199646"/>
+      <vector use="position" x="12.620099067687988" y="2.51999831199646"/>
       <itemRef item="assault" proba="1"/>
       <itemRef item="shotgun" proba="1"/>
       <itemRef item="kata" proba="1"/>
@@ -167,7 +167,7 @@
       <itemRef item="minigun" proba="1"/>
       <entities>
         <mesh name="S4" src="data/meshes/item_pickup/weapon_pickup.obj">
-          <vector use="position" x="-0.23999996483325958" y="0.2799999713897705" z="0.0"/>
+          <vector use="position" x="-0.03999985009431839" y="0.21999993920326233" z="0.0"/>
           <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
           <vector use="scale" x="0.48000049591064453" y="0.6950002908706665" z="1.0"/>
         </mesh>
@@ -217,17 +217,6 @@
         </mesh>
       </entities>
     </rigid>
-    <rigid name="arenashooter.entities.spatials.RigidBodyContainer@625abb971112457230774682" rotation="0.0">
-      <vector use="position" x="-5.0" y="-3.0"/>
-      <vector use="extent" x="0.5" y="0.5"/>
-      <entities>
-        <mesh name="arenashooter.entities.spatials.Mesh@774698ab1112457232870993" src="data/meshes/crate/crate_01.obj">
-          <vector use="position" x="0.0" y="0.0" z="0.0"/>
-          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
-          <vector use="scale" x="1.0" y="1.0" z="1.0"/>
-        </mesh>
-      </entities>
-    </rigid>
     <static name="P1" rotation="0.0">
       <vector use="position" x="0.03999999910593033" y="-0.03999985009431839"/>
       <vector use="extent" x="5.2200727462768555" y="0.7550002336502075"/>
@@ -239,8 +228,19 @@
         </mesh>
       </entities>
     </static>
+    <rigid name="arenashooter.entities.spatials.RigidBodyContainer@625abb971112457230774682" rotation="0.0">
+      <vector use="position" x="-5.0" y="-3.0"/>
+      <vector use="extent" x="0.5" y="0.5"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@774698ab1112457232870993" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="1.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
     <static name="P2" rotation="0.0">
-      <vector use="position" x="-10.160042762756348" y="-2.9199986457824707"/>
+      <vector use="position" x="-12.32009220123291" y="-2.9199986457824707"/>
       <vector use="extent" x="3.4400320053100586" y="0.6800003051757812"/>
       <entities>
         <mesh name="M2" src="data/meshes/catwalk/catwalk_10.obj">
@@ -251,11 +251,11 @@
       </entities>
     </static>
     <directionalLight name="arenashooter.entities.spatials.LightContainer@305cdfcd1112452350175868">
-      <vector use="rotation" w="-0.11692503094673157" x="-0.25009599328041077" y="-0.46358489990234375" z="0.8419438600540161"/>
+      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
       <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
     </directionalLight>
     <static name="P3" rotation="0.0">
-      <vector use="position" x="10.18004322052002" y="-2.939997911453247"/>
+      <vector use="position" x="12.580098152160645" y="-2.939997911453247"/>
       <vector use="extent" x="3.4400320053100586" y="0.6450003385543823"/>
       <entities>
         <mesh name="M3" src="data/meshes/catwalk/catwalk_10.obj">
@@ -266,7 +266,7 @@
       </entities>
     </static>
     <static name="P4" rotation="0.0">
-      <vector use="position" x="-10.320046424865723" y="3.5199973583221436"/>
+      <vector use="position" x="-12.140088081359863" y="3.5199973583221436"/>
       <vector use="extent" x="3.4150314331054688" y="0.7450002431869507"/>
       <entities>
         <mesh name="M4" src="data/meshes/catwalk/catwalk_10.obj">
@@ -277,7 +277,7 @@
       </entities>
     </static>
     <static name="P5" rotation="0.0">
-      <vector use="position" x="10.060040473937988" y="3.5199975967407227"/>
+      <vector use="position" x="12.560097694396973" y="3.5199975967407227"/>
       <vector use="extent" x="3.520033836364746" y="0.6900002956390381"/>
       <entities>
         <mesh name="M5" src="data/meshes/catwalk/catwalk_10.obj">
@@ -288,22 +288,26 @@
       </entities>
     </static>
     <static name="arenashooter.entities.spatials.StaticBodyContainer@e7006411113507349091569" rotation="0.0">
-      <vector use="position" x="0.14000001549720764" y="7.799993991851807"/>
-      <vector use="extent" x="4.905065536499023" y="0.5500004291534424"/>
+      <vector use="position" x="0.10000002384185791" y="7.919993877410889"/>
+      <vector use="extent" x="5.520079612731934" y="0.845000147819519"/>
       <entities>
         <mesh name="arenashooter.entities.spatials.Mesh@6bd0047f1113520066146791" src="data/meshes/catwalk/catwalk_10.obj">
-          <vector use="position" x="0.0" y="0.2399999350309372" z="0.0"/>
+          <vector use="position" x="-0.019999999552965164" y="0.2399999350309372" z="0.0"/>
           <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
-          <vector use="scale" x="0.9200000762939453" y="-4.900063514709473" z="1.0"/>
+          <vector use="scale" x="1.09499990940094" y="-5.900086402893066" z="1.0"/>
         </mesh>
       </entities>
     </static>
     <directionalLight name="arenashooter.entities.spatials.LightContainer@2afa654b1116139603160509">
+      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
+      <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
+    </directionalLight>
+    <directionalLight name="arenashooter.entities.spatials.LightContainer@35304e871116683566464323">
       <vector use="rotation" w="-0.11692503094673157" x="-0.25009599328041077" y="-0.46358489990234375" z="0.8419438600540161"/>
       <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
     </directionalLight>
     <spawn cooldown="0.0" name="S1" playerSpawn="true">
-      <vector use="position" x="-9.680030822753906" y="-4.219996929168701"/>
+      <vector use="position" x="-12.040084838867188" y="-4.219996929168701"/>
       <itemRef item="assault" proba="1"/>
       <itemRef item="shotgun" proba="1"/>
       <itemRef item="kata" proba="1"/>
@@ -320,7 +324,7 @@
       </entities>
     </spawn>
     <spawn cooldown="0.0" name="S2" playerSpawn="true">
-      <vector use="position" x="10.220044136047363" y="-4.0199971199035645"/>
+      <vector use="position" x="12.680100440979004" y="-4.0199971199035645"/>
       <itemRef item="assault" proba="1"/>
       <itemRef item="shotgun" proba="1"/>
       <itemRef item="kata" proba="1"/>
