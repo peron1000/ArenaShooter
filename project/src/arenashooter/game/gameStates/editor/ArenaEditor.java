@@ -11,7 +11,6 @@ import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
-import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -135,8 +134,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 		addMenuConstruction();
 
-		mainMenu.addBind("Set", setMenu);
-		setMenu.setSpacing(spacing);
+		setMenuConstruction();
 
 		arenaInfoMenuConstruction();
 
@@ -145,6 +143,12 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		meshChooserMenuConstruction();
 
 		UiImage.selector.setPosition(current.getTarget().getPosition().x, current.getTarget().getPosition().y);
+	}
+
+	private void setMenuConstruction() {
+		loadArenaEntities(arenaConstruction);
+		
+		mainMenu.addBind("Set", setMenu);
 	}
 
 	private void setMenuVisible(boolean visible) {
@@ -382,14 +386,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					current = mainMenu;
-					MapXmlReader reader = new MapXmlReader(file.getPath());
-					reader.load(arenaConstruction);
-					while (!reader.loadNextEntity())
-						;
-					ArenaEditor.this.fileName = fileName;
-					fileNameLabel.setText(fileName);
-					loadArenaEntities(arenaConstruction);
+					Main.getGameMaster().requestNextState(new Editor(), file.getPath());
 				}
 			});
 			vList.addElement(b);
@@ -400,42 +397,41 @@ public class ArenaEditor extends UiElement implements MultiUi {
 	}
 
 	private void loadArenaEntities(Entity parent) {
-		System.out.println(parent);
 		for (Entry<String, Entity> entry : parent.getChildren().entrySet()) {
-			if (entry instanceof Mesh) {
-				createNewEntityToLoad(entry.getValue(), EntityTypes.MESH , entry.getKey());
-			} else if (entry instanceof RigidBodyContainer) {
-				RigidBodyContainer b = (RigidBodyContainer) entry;
+			if (entry.getValue() instanceof Mesh) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.MESH, entry.getKey());
+			} else if (entry.getValue() instanceof RigidBodyContainer) {
+				RigidBodyContainer b = (RigidBodyContainer) entry.getValue();
 				PhysicShape s = b.getBody().getShape();
 				if (s instanceof ShapeBox) {
-					createNewEntityToLoad(entry.getValue(), EntityTypes.RIGID_BOX , entry.getKey());
+					createNewEntityToLoad(entry.getValue(), EntityTypes.RIGID_BOX, entry.getKey());
 				} else if (s instanceof ShapeDisk) {
-					createNewEntityToLoad(entry.getValue(), EntityTypes.RIGID_DISK , entry.getKey());
+					createNewEntityToLoad(entry.getValue(), EntityTypes.RIGID_DISK, entry.getKey());
 				}
-			} else if (entry instanceof StaticBodyContainer) {
-				StaticBodyContainer b = (StaticBodyContainer) entry;
+			} else if (entry.getValue() instanceof StaticBodyContainer) {
+				StaticBodyContainer b = (StaticBodyContainer) entry.getValue();
 				PhysicShape s = b.getBody().getShape();
 				if (s instanceof ShapeBox) {
-					createNewEntityToLoad(entry.getValue(), EntityTypes.STATIC_BOX , entry.getKey());
+					createNewEntityToLoad(entry.getValue(), EntityTypes.STATIC_BOX, entry.getKey());
 				} else if (s instanceof ShapeDisk) {
-					createNewEntityToLoad(entry.getValue(), EntityTypes.STATIC_DISK , entry.getKey());
+					createNewEntityToLoad(entry.getValue(), EntityTypes.STATIC_DISK, entry.getKey());
 				}
-			} else if (entry instanceof KinematicBodyContainer) {
-				KinematicBodyContainer b = (KinematicBodyContainer) entry;
+			} else if (entry.getValue() instanceof KinematicBodyContainer) {
+				KinematicBodyContainer b = (KinematicBodyContainer) entry.getValue();
 				PhysicShape s = b.getBody().getShape();
 				if (s instanceof ShapeBox) {
-					createNewEntityToLoad(entry.getValue(), EntityTypes.KINEMATIC_BOX , entry.getKey());
+					createNewEntityToLoad(entry.getValue(), EntityTypes.KINEMATIC_BOX, entry.getKey());
 				} else if (s instanceof ShapeDisk) {
-					createNewEntityToLoad(entry.getValue(), EntityTypes.KINEMATIC_DISK , entry.getKey());
+					createNewEntityToLoad(entry.getValue(), EntityTypes.KINEMATIC_DISK, entry.getKey());
 				}
-			} else if (entry instanceof Spawner) {
-				createNewEntityToLoad(entry.getValue(), EntityTypes.SPAWN , entry.getKey());
-			} else if (entry instanceof TextSpatial) {
-				createNewEntityToLoad(entry.getValue(), EntityTypes.TEXT , entry.getKey());
-			} else if(entry instanceof LightContainer) {
-				createNewEntityToLoad(entry.getValue(), EntityTypes.LIGHT , entry.getKey());
-			}else {
-				createNewEntityToLoad(entry.getValue(), EntityTypes.ENTITY , entry.getKey());
+			} else if (entry.getValue() instanceof Spawner) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.SPAWN, entry.getKey());
+			} else if (entry.getValue() instanceof TextSpatial) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.TEXT, entry.getKey());
+			} else if (entry.getValue() instanceof LightContainer) {
+				createNewEntityToLoad(entry.getValue(), EntityTypes.LIGHT, entry.getKey());
+			} else if(!(entry.getValue() instanceof Camera) && !(entry.getValue() instanceof Sky)){
+				createNewEntityToLoad(entry.getValue(), EntityTypes.ENTITY, entry.getKey());
 			}
 			loadArenaEntities(entry.getValue());
 		}
@@ -562,8 +558,8 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		toSetMenu.arm();
 		this.parent = arenaConstruction;
 	}
-	
-	private void createNewEntityToLoad(Entity entity, EntityTypes type , String name) {
+
+	private void createNewEntityToLoad(Entity entity, EntityTypes type, String name) {
 		Button toSetMenu = new Button(name);
 		toSetMenu.setScale(xRect, yRect);
 		setMenu.addElement(toSetMenu);

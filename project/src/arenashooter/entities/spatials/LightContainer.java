@@ -112,8 +112,8 @@ public class LightContainer extends Spatial3 implements IAnimated {
 			editorMesh.getMaterial(0).setParamVec4f("baseColor", lightColor);
 			editorMesh.draw(false);
 		}
-		System.out.println(light.direction);
-		System.out.println(getWorldRot());
+//		System.out.println(light.direction);
+//		System.out.println(getWorldRot());
 	}
 
 	@Override
