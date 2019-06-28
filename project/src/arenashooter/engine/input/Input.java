@@ -59,15 +59,18 @@ public final class Input {
 			BufferedReader reader = new BufferedReader(inReader);
 			
 			String line = "";
-			while( (line = reader.readLine()) != null )
-					if(!glfwUpdateGamepadMappings(ByteBuffer.wrap(line.getBytes())))
-						Main.log.error("Error reading gamepad mapping: "+line);
+			while( (line = reader.readLine()) != null ) {
+				ByteBuffer buf = ByteBuffer.wrap((line+" ; \n").getBytes());
+				if(!glfwUpdateGamepadMappings(buf))
+					Main.log.error("Error reading gamepad mapping: "+line);
+			}
 		
 			reader.close();
 			inReader.close();
 			in.close();
 		} catch(Exception e) {
 			Main.log.error("Cannot load gamepad mappings!");
+			e.printStackTrace();
 		}
 	}
 

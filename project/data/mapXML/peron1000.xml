@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE map SYSTEM "mapDTD.dtd">
+<map>
+  <information>
+  <item>
+			<gun name="minigun" weight="43"
+				pathSprite="data/weapons/Minigun_1.png" soundPickup="data/sound/GunCock_02.ogg"
+				cooldown="0.015" uses="350" animPath="" warmupDuration="0.3"
+				soundWarmup="data/sound/warmup_minigun_01.ogg" bangSound="data/sound/Bang1.ogg"
+				noAmmoSound="data/sound/no_ammo_01.ogg" bulletType="0" bulletSpeed="40" damage=".5"
+				cannonLength="1.9" recoil="0.2" thrust="1.5">
+
+				<vector use="handPosL" x="-.8" y="-.1" />
+				<vector use="handPosR" x="0" y="-.28" />
+				<vector use="extent" x="1" y="0.2" />
+			</gun>
+		</item>
+		<item>
+			<gun name="assault" weight="43"
+				pathSprite="data/weapons/Assaut_1.png" soundPickup="data/sound/GunCock_01.ogg"
+				cooldown="0.09" uses="50" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="data/sound/bang_tommy_gun_01.ogg"
+				noAmmoSound="data/sound/no_ammo_01.ogg" bulletType="0" bulletSpeed="60" damage="2"
+				cannonLength="1" recoil="0.4" thrust="2.00">
+
+				<vector use="handPosL" x="-.32" y=".15" />
+				<vector use="handPosR" x=".25" y=".05" />
+				<vector use="extent" x="1" y="0.2" />
+			</gun>
+		</item>
+		<item>
+			<gun name="grenade_launcher" weight="50"
+				pathSprite="data/weapons/GLauncher1.png" soundPickup="data/sound/GunCock_01.ogg"
+				cooldown="0.9" uses="10" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="data/sound/grenade_launcher_01.ogg"
+				noAmmoSound="data/sound/no_ammo_01.ogg" bulletType="2" bulletSpeed="25" damage="50"
+				cannonLength="1.38" recoil="1" thrust="2.00">
+
+				<vector use="handPosL" x="-.32" y=".2" />
+				<vector use="handPosR" x=".3" y=".1" />
+				<vector use="extent" x="1" y="0.2" />
+			</gun>
+		</item>
+		<item>
+			<gun name="ion" weight="50"
+				pathSprite="data/weapons/RayGun1_tr.png" soundPickup="data/sound/GunCock_03.ogg"
+				cooldown="0.12" uses="100" animPath="" warmupDuration="0.8"
+				soundWarmup="data/sound/IonCharge3.ogg" bangSound="data/sound/BangIonGun.ogg"
+				noAmmoSound="data/sound/no_ammo_01.ogg" bulletType="1" bulletSpeed="30" damage="1"
+				cannonLength="1.38" recoil="1" thrust="2.00">
+
+				<vector use="handPosL" x="-.32" y=".2" />
+				<vector use="handPosR" x=".3" y=".1" />
+				<vector use="extent" x="1" y="0.2" />
+			</gun>
+		</item>
+		<item>
+			<shotgun name="shotgun" weight="100"
+				pathSprite="data/weapons/shotgun1.png" soundPickup="data/sound/GunCock_02.ogg"
+				cooldown="1.2" uses="8" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="data/sound/bang_shotgun_01.ogg" noAmmoSound="data/sound/no_ammo_01.ogg"
+				multiShot="25" dispersion="0.18" bulletType="0" bulletSpeed="45"
+				damage="2" cannonLength=".6" recoil="2" thrust="25.00">
+
+				<vector use="handPosL" x="-.65" y=".15" />
+				<vector use="handPosR" x=".067" y=".125" />
+				<vector use="extent" x="1" y="0.2" />
+			</shotgun>
+		</item>
+		<item>
+			<gun name="stargun" weight="43"
+				pathSprite="data/weapons/StunGun.png" soundPickup="data/sound/mbggnea1.ogg"
+				cooldown="1" uses="10" animPath="" warmupDuration="0"
+				soundWarmup="" bangSound="data/sound/ni.ogg"
+				noAmmoSound="data/sound/he.ogg" bulletType="3" bulletSpeed="40" damage="2"
+				cannonLength="0.6" recoil="3.3" thrust="0.3">
+				<vector use="extent" x="1" y="0.2" />
+				<vector use="handPosL" x="-0.4" y="-.1" />
+				<vector use="handPosR" x="-0.6" y=".2" />
+			</gun>
+		</item>
+    <gravity x="0.0" y="9.807"/>
+    <ambientLight b="1.0" g="1.0" r="1.0"/>
+    <cameraPos x="0.0" y="0.0" z="20.0"/>
+    <killBounds maxX="20.0" maxY="40.0" minX="-20.0" minY="-20.0"/>
+    <sky>
+      <vector use="top" x="0.31360000371932983" y="0.617761492729187" z="0.8959999680519104"/>
+      <vector use="bottom" x="0.39524999260902405" y="0.4649999737739563" z="0.4346606731414795"/>
+    </sky>
+  </information>
+  <entities>
+    <spawn cooldown="0.0" name="S3" playerSpawn="true">
+      <vector use="position" x="-11.9000825881958" y="2.5599982738494873"/>
+      <itemRef item="assault" proba="1"/>
+      <itemRef item="shotgun" proba="1"/>
+      <itemRef item="kata" proba="1"/>
+      <itemRef item="stargun" proba="1"/>
+      <itemRef item="grenade_launcher" proba="1"/>
+      <itemRef item="ion" proba="1"/>
+      <itemRef item="minigun" proba="1"/>
+      <entities>
+        <mesh name="SM3" src="data/meshes/item_pickup/weapon_pickup.obj">
+          <vector use="position" x="-0.19999994337558746" y="0.25999993085861206" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.46000051498413086" y="0.5800004005432129" z="1.0"/>
+        </mesh>
+      </entities>
+    </spawn>
+    <directionalLight name="arenashooter.entities.spatials.LightContainer@643e7d081116020637247327">
+      <vector use="rotation" w="-0.11692503094673157" x="-0.25009599328041077" y="-0.46358489990234375" z="0.8419438600540161"/>
+      <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
+    </directionalLight>
+    <rigid name="pinned_crate_05" rotation="0.0">
+      <vector use="position" x="7.0" y="-11.0"/>
+      <vector use="extent" x="0.5" y="1.0"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@2a2c13a81112457233224668" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="2.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <rigid name="pinned_crate_06" rotation="0.0">
+      <vector use="position" x="7.0" y="-9.0"/>
+      <vector use="extent" x="0.5" y="1.0"/>
+      <entities>
+        <pointLight name="arenashooter.entities.spatials.LightContainer@aeab9a11112457232391433" radius="10.0">
+          <vector use="position" x="0.0" y="2.0" z="0.0"/>
+          <vector use="color" x="1.0" y="1.0" z="0.5"/>
+        </pointLight>
+        <mesh name="arenashooter.entities.spatials.Mesh@b6b19871112457233281087" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="2.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <mesh name="arenashooter.entities.spatials.Mesh@35d9d10b1112600259065176" src="data/meshes/landscape_field/Hill.obj">
+      <vector use="position" x="3.2199976444244385" y="44.880836486816406" z="-32.00054168701172"/>
+      <vector use="rotation" w="0.9923077821731567" x="-0.1221693903207779" y="-0.01984880305826664" z="-0.0024437138345092535"/>
+      <vector use="scale" x="0.7150002717971802" y="0.8550002574920654" z="1.0"/>
+    </mesh>
+    <directionalLight name="arenashooter.entities.spatials.LightContainer@6ed82ec51113440170648481">
+      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
+      <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
+    </directionalLight>
+    <rigid name="arenashooter.entities.spatials.RigidBodyContainer@5b1f29fa1112457230904093" rotation="0.0">
+      <vector use="position" x="-5.0" y="-10.0"/>
+      <vector use="extent" x="1.0" y="0.5"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@55342f401112457232930232" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="2.0" y="1.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <spawn cooldown="0.0" name="SM4" playerSpawn="true">
+      <vector use="position" x="12.620099067687988" y="2.51999831199646"/>
+      <itemRef item="assault" proba="1"/>
+      <itemRef item="shotgun" proba="1"/>
+      <itemRef item="kata" proba="1"/>
+      <itemRef item="stargun" proba="1"/>
+      <itemRef item="grenade_launcher" proba="1"/>
+      <itemRef item="ion" proba="1"/>
+      <itemRef item="minigun" proba="1"/>
+      <entities>
+        <mesh name="S4" src="data/meshes/item_pickup/weapon_pickup.obj">
+          <vector use="position" x="-0.03999985009431839" y="0.21999993920326233" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.48000049591064453" y="0.6950002908706665" z="1.0"/>
+        </mesh>
+      </entities>
+    </spawn>
+    <rigid name="pinned_crate_03" rotation="0.0">
+      <vector use="position" x="7.0" y="-15.0"/>
+      <vector use="extent" x="0.5" y="1.0"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@31aa3ca51112457233108304" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="2.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <rigid name="pinned_crate_04" rotation="0.0">
+      <vector use="position" x="7.0" y="-13.0"/>
+      <vector use="extent" x="0.5" y="1.0"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@45905bff1112457233169307" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="2.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <rigid name="pinned_crate_01" rotation="0.0">
+      <vector use="position" x="7.0" y="-19.0"/>
+      <vector use="extent" x="0.5" y="1.0"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@a4ca3f61112457232989825" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="2.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <rigid name="pinned_crate_02" rotation="0.0">
+      <vector use="position" x="7.0" y="-17.0"/>
+      <vector use="extent" x="0.5" y="1.0"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@72ea61931112457233051533" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="2.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <static name="P1" rotation="0.0">
+      <vector use="position" x="0.03999999910593033" y="-0.03999985009431839"/>
+      <vector use="extent" x="5.2200727462768555" y="0.7550002336502075"/>
+      <entities>
+        <mesh name="M1" src="data/meshes/catwalk/catwalk_10.obj">
+          <vector use="position" x="0.0" y="-0.4200000762939453" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.9900000095367432" y="6.3350982666015625" z="1.0"/>
+        </mesh>
+      </entities>
+    </static>
+    <rigid name="arenashooter.entities.spatials.RigidBodyContainer@625abb971112457230774682" rotation="0.0">
+      <vector use="position" x="-5.0" y="-3.0"/>
+      <vector use="extent" x="0.5" y="0.5"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@774698ab1112457232870993" src="data/meshes/crate/crate_01.obj">
+          <vector use="position" x="0.0" y="0.0" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.0" y="1.0" z="1.0"/>
+        </mesh>
+      </entities>
+    </rigid>
+    <static name="P2" rotation="0.0">
+      <vector use="position" x="-12.32009220123291" y="-2.9199986457824707"/>
+      <vector use="extent" x="3.4400320053100586" y="0.6800003051757812"/>
+      <entities>
+        <mesh name="M2" src="data/meshes/catwalk/catwalk_10.obj">
+          <vector use="position" x="0.020000029355287552" y="-0.21999996900558472" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.6450003385543823" y="4.950066566467285" z="1.0"/>
+        </mesh>
+      </entities>
+    </static>
+    <directionalLight name="arenashooter.entities.spatials.LightContainer@305cdfcd1112452350175868">
+      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
+      <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
+    </directionalLight>
+    <static name="P3" rotation="0.0">
+      <vector use="position" x="12.580098152160645" y="-2.939997911453247"/>
+      <vector use="extent" x="3.4400320053100586" y="0.6450003385543823"/>
+      <entities>
+        <mesh name="M3" src="data/meshes/catwalk/catwalk_10.obj">
+          <vector use="position" x="-0.11999912559986115" y="-0.22000011801719666" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.6500003337860107" y="4.305051803588867" z="1.0"/>
+        </mesh>
+      </entities>
+    </static>
+    <static name="P4" rotation="0.0">
+      <vector use="position" x="-12.140088081359863" y="3.5199973583221436"/>
+      <vector use="extent" x="3.4150314331054688" y="0.7450002431869507"/>
+      <entities>
+        <mesh name="M4" src="data/meshes/catwalk/catwalk_10.obj">
+          <vector use="position" x="0.23999996483325958" y="0.09999999403953552" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.6150003671646118" y="-3.6250343322753906" z="1.0"/>
+        </mesh>
+      </entities>
+    </static>
+    <static name="P5" rotation="0.0">
+      <vector use="position" x="12.560097694396973" y="3.5199975967407227"/>
+      <vector use="extent" x="3.520033836364746" y="0.6900002956390381"/>
+      <entities>
+        <mesh name="M5" src="data/meshes/catwalk/catwalk_10.obj">
+          <vector use="position" x="-0.17999997735023499" y="0.11999998986721039" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.6200003623962402" y="-4.065044403076172" z="1.0"/>
+        </mesh>
+      </entities>
+    </static>
+    <static name="arenashooter.entities.spatials.StaticBodyContainer@e7006411113507349091569" rotation="0.0">
+      <vector use="position" x="0.10000002384185791" y="7.919993877410889"/>
+      <vector use="extent" x="5.520079612731934" y="0.845000147819519"/>
+      <entities>
+        <mesh name="arenashooter.entities.spatials.Mesh@6bd0047f1113520066146791" src="data/meshes/catwalk/catwalk_10.obj">
+          <vector use="position" x="-0.019999999552965164" y="0.2399999350309372" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="1.09499990940094" y="-5.900086402893066" z="1.0"/>
+        </mesh>
+      </entities>
+    </static>
+    <directionalLight name="arenashooter.entities.spatials.LightContainer@2afa654b1116139603160509">
+      <vector use="rotation" w="-0.11692503839731216" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609"/>
+      <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
+    </directionalLight>
+    <directionalLight name="arenashooter.entities.spatials.LightContainer@35304e871116683566464323">
+      <vector use="rotation" w="-0.11692503094673157" x="-0.25009599328041077" y="-0.46358489990234375" z="0.8419438600540161"/>
+      <vector use="color" x="0.9290000200271606" y="0.906000018119812" z="0.753000020980835"/>
+    </directionalLight>
+    <spawn cooldown="0.0" name="S1" playerSpawn="true">
+      <vector use="position" x="-12.040084838867188" y="-4.219996929168701"/>
+      <itemRef item="assault" proba="1"/>
+      <itemRef item="shotgun" proba="1"/>
+      <itemRef item="kata" proba="1"/>
+      <itemRef item="stargun" proba="1"/>
+      <itemRef item="grenade_launcher" proba="1"/>
+      <itemRef item="ion" proba="1"/>
+      <itemRef item="minigun" proba="1"/>
+      <entities>
+        <mesh name="SM1" src="data/meshes/item_pickup/weapon_pickup.obj">
+          <vector use="position" x="-0.25999996066093445" y="0.6799998879432678" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.42500054836273193" y="0.49000048637390137" z="1.0"/>
+        </mesh>
+      </entities>
+    </spawn>
+    <spawn cooldown="0.0" name="S2" playerSpawn="true">
+      <vector use="position" x="12.680100440979004" y="-4.0199971199035645"/>
+      <itemRef item="assault" proba="1"/>
+      <itemRef item="shotgun" proba="1"/>
+      <itemRef item="kata" proba="1"/>
+      <itemRef item="stargun" proba="1"/>
+      <itemRef item="grenade_launcher" proba="1"/>
+      <itemRef item="ion" proba="1"/>
+      <itemRef item="minigun" proba="1"/>
+      <entities>
+        <mesh name="SM2" src="data/meshes/item_pickup/weapon_pickup.obj">
+          <vector use="position" x="-0.15999995172023773" y="0.5600000023841858" z="0.0"/>
+          <vector use="rotation" w="1.0" x="0.0" y="0.0" z="0.0"/>
+          <vector use="scale" x="0.4650005102157593" y="0.5550004243850708" z="1.0"/>
+        </mesh>
+      </entities>
+    </spawn>
+  </entities>
+</map>
