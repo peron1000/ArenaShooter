@@ -54,7 +54,7 @@ public class Character extends RigidBodyContainer {
 	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.6);
-	private Timer justInTime = new Timer(0.20);
+	private Timer justInTime = new Timer(0.2);
 	private int lastJumpCouldMake = 0;
 
 	// Combat stats
@@ -700,7 +700,7 @@ public class Character extends RigidBodyContainer {
 		if (!wallRayHit && touchingLeftWall)
 			autoSlideUp = true;
 		if (wallRayHit)
-			touchingRightWall = true;
+			touchingLeftWall = true;
 
 		if (touchingLeftWall) {
 			canWallJump = -1;
