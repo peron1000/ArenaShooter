@@ -48,7 +48,7 @@ public class Grenade extends Projectile {
 			blinking = new Animation(redBlinks);
 			blinking.play();
 		}
-		if(blinking != null && grenadeTimer.getValue() < 1)
+		if(blinking != null)
 			((Sprite)getChild("bul_Sprite")).material.setParamVec4f("baseColorMod", new Vec4f(blinking.getTrackVec3f("BlinkColor"), 1f));
 			
 		if(grenadeTimer.isOver()) {
