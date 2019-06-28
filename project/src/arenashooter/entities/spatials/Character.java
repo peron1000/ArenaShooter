@@ -54,7 +54,7 @@ public class Character extends RigidBodyContainer {
 	private double punchDashForce = 1;
 	private double parachuteForce = 8.5;
 	private Timer jumpTimer = new Timer(0.6);
-	private Timer justInTime = new Timer(0.25);
+	private Timer justInTime = new Timer(0.20);
 	private int lastJumpCouldMake = 0;
 
 	// Combat stats
