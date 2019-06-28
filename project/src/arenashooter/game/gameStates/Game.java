@@ -196,6 +196,7 @@ public class Game extends GameState {
 			return;
 		} else if (canPlay) {
 			if (oneLeft) {
+				System.out.println("oneLeft");
 				if (endCounter == null) {
 					endCounter = new Animation(endAnimData);
 					endCounter.play();

@@ -15,7 +15,7 @@ public class InitialPosCircle extends ParticleModule {
 	}
 
 	@Override
-	public void apply(Emitter emitter, double delta) {
+	public void apply(Emitter emitter, double delta, double worldRotation) {
 		for(int i=0; i<emitter.lives.size(); i++) {
 			if(emitter.lives.get(i) != 0) continue;
 			

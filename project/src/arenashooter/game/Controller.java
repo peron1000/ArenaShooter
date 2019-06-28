@@ -91,9 +91,9 @@ public abstract class Controller {
 	}
 
 	public void zombieChar() {
-		if(Main.getGameMaster().getCurrent() instanceof Game)
-			((Game)Main.getGameMaster().getCurrent()).evalOneLeft();
 		deadChar = true;
+		if(Main.getGameMaster().getGame() != null)
+			Main.getGameMaster().getGame().evalOneLeft();
 	}
 
 	public void resetScore() {

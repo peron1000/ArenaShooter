@@ -49,6 +49,7 @@ public class CharacterSprite extends Spatial {
 	private boolean handLOnWeap = false, handROnWeap = false;
 
 	private AnimationData redBlinks = AnimationData.loadAnim("data/animations/BlinkRed_1.xml");
+	private AnimationData oneRedBlink = AnimationData.loadAnim("data/animations/Single_Blink_Red.xml");
 	private AnimationData punchAnim1 = AnimationData.loadAnim("data/animations/animPunch_1.xml");
 	private AnimationData punchAnim2 = AnimationData.loadAnim("data/animations/animPunch_2.xml");
 	private AnimationData punchAnim3 = AnimationData.loadAnim("data/animations/animPunch_3.xml");
@@ -225,6 +226,10 @@ public class CharacterSprite extends Spatial {
 	}
 
 	public void damageEffects(DamageInfo info) {
+		if(blinking == null) {
+		blinking = new Animation(oneRedBlink);
+		blinking.play();
+		}
 		Particles blood = new Particles(new Vec2f(), bloodParticles);
 		blood.selfDestruct = true;
 		blood.attachToParent(this, blood.genName());
@@ -262,9 +267,9 @@ public class CharacterSprite extends Spatial {
 		rageBits.selfDestruct = true;
 		rageBits.attachToParent(this, rageBits.genName());
 		
-		Particles fuse = new Particles(new Vec2f(), "data/particles/Fuse.xml");
-		fuse.selfDestruct = true;
-		fuse.attachToParent(this, fuse.genName());
+//		Particles fuse = new Particles(new Vec2f(), "data/particles/Fuse.xml");
+//		fuse.selfDestruct = true;
+//		fuse.attachToParent(this, fuse.genName());
 	}
 	
 	public void rainConfetti() {
@@ -409,6 +414,8 @@ public class CharacterSprite extends Spatial {
 				footR.material.setParamVec4f("baseColorMod", blinkColor);
 				handL.material.setParamVec4f("baseColorMod", blinkColor);
 				handR.material.setParamVec4f("baseColorMod", blinkColor);
+			} else {
+				blinking = null;
 			}
 		} 
 		

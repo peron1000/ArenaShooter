@@ -15,7 +15,7 @@ public class SizeOverLife extends ParticleModule {
 	}
 
 	@Override
-	public void apply(Emitter emitter, double delta) {
+	public void apply(Emitter emitter, double delta, double worldRotation) {
 		for(int i=0; i<emitter.lives.size(); i++)
 			Vec2f.lerp(sizeStart, sizeEnd, emitter.lives.get(i)/emitter.livesTotal.get(i), emitter.scales.get(i));
 	}

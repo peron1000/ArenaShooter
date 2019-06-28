@@ -18,12 +18,12 @@ public class InitialVelCone extends ParticleModule {
 	}
 
 	@Override
-	public void apply(Emitter emitter, double delta) {
+	public void apply(Emitter emitter, double delta, double worldRotation) {
 		for(int i=0; i<emitter.lives.size(); i++) {
 			if(emitter.lives.get(i) != 0) continue;
 			
 			emitter.velocities.get(i).set( Utils.lerpF(velMin, velMax, Math.random()), 0 );
-			Vec2f.rotate(emitter.velocities.get(i), Utils.lerpF(angleMin, angleMax, Math.random()), emitter.velocities.get(i));
+			Vec2f.rotate(emitter.velocities.get(i), Utils.lerpF(angleMin, angleMax, Math.random()) + worldRotation, emitter.velocities.get(i));
 		}
 	}
 

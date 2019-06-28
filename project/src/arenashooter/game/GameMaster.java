@@ -54,6 +54,10 @@ public class GameMaster {
 	public GameState getCurrent() {
 		return current;
 	}
+	
+	public Game getGame() {
+		return game;
+	}
 
 	public void requestNewGame(String... strings) {
 		game = new Game(strings);

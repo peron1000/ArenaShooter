@@ -2,7 +2,10 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
@@ -13,6 +16,8 @@ public class Grenade extends Projectile {
 	private Timer grenadeTimer;
 	
 	private boolean launched = false;
+	private AnimationData redBlinks = AnimationData.loadAnim("data/animations/BlinkRed_1.xml");
+	private Animation blinking = null;
 
 	public Grenade(Vec2f position, Vec2f vel, float damage) {
 		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 4, 1));
@@ -39,6 +44,13 @@ public class Grenade extends Projectile {
 	public void impact(Spatial other) { } //Don't do anything special on impact, just bounce around
 
 	public void step(double d) {
+		if(blinking == null && grenadeTimer.getMax()- grenadeTimer.getValue() < 1 ) {
+			blinking = new Animation(redBlinks);
+			blinking.play();
+		}
+		if(blinking != null && grenadeTimer.getValue() < 1)
+			((Sprite)getChild("bul_Sprite")).material.setParamVec4f("baseColorMod", new Vec4f(blinking.getTrackVec3f("BlinkColor"), 1f));
+			
 		if(grenadeTimer.isOver()) {
 			Explosion explosion = new Explosion(getWorldPos(), new DamageInfo(50, DamageType.EXPLOSION, new Vec2f(), 20, shooter), 20);
 			explosion.attachToParent(getArena(), explosion.genName());

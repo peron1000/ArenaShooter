@@ -15,7 +15,7 @@ public class Gravity extends ParticleModule {
 	}
 
 	@Override
-	public void apply(Emitter emitter, double delta) {
+	public void apply(Emitter emitter, double delta, double worldRotation) {
 		Vec2f force = emitter.owner.gravity.clone().multiply(scale).multiply((float) delta);
 		for(Vec2f vel : emitter.velocities)
 			vel.add(force);

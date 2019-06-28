@@ -99,10 +99,10 @@ public class Character extends RigidBodyContainer {
 		case Heavy:
 			weight = 3;
 			punchDashForce = 9;
-			jumpForce = 23;
+			jumpForce = 23 * 1;
 			break;
 		case Agile:
-			maxSpeed = 17;
+			maxSpeed = 18.5;
 			weight = 0.8;
 			jumpForce = 26;
 			break;

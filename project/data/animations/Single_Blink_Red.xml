@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animation SYSTEM "animationDTD.dtd" >
+<animation length="0.1" loop="false">
+
+	<trackVec3f name="BlinkColor" interpolation="linear">
+		<keyframeVec2f time="0.0001" x = "1.5" y = "0.3" z = "0.3" />
+		<keyframeVec2f time="0.0900" x = "1.5" y = "0.3" z = "0.3" />
+		<keyframeVec2f time="0.0999" x = "1" y = "1" z = "1" />
+	</trackVec3f>
+
+</animation>

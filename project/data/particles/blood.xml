@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE particleSystem SYSTEM "particlesDTD.dtd" >
 <particleSystem>
-	<emitter delay="0" duration="0" lifetimeMin="0.1" lifetimeMax="0.25" rate="3" initialRotMin="-3.14159" initialRotMax="3.14159">
+	<emitter delay="0" duration="0" lifetimeMin="0.1" lifetimeMax="0.2" rate="5" initialRotMin="-3.14159" initialRotMax="3.14159">
 		<texture filtered="false" src="data/white_pixel.png"/>
 		<modules>
 			<colorOverLife>
@@ -9,11 +9,10 @@
 				<vec4 x="1" y="0.1" z="0" w="0.3" use="colorEnd"/>
 			</colorOverLife>
 			<sizeOverLife>
-				<vec2 x=".2" y=".2" use="sizeStart"/>
-				<vec2 x="0" y="0" use="sizeEnd"/>
+				<vec2 x=".1" y=".1" use="sizeStart"/>
+				<vec2 x=".25" y=".25" use="sizeEnd"/>
 			</sizeOverLife>
-			<initialVelCone angleMin="-.1" angleMax=".1" velMin="60" velMax="100"/>
-			<drag strength = "1"/>
+			<initialVelCone angleMin="-.1" angleMax=".1" velMin="35" velMax="50"/>
 		</modules>
 	</emitter>
 

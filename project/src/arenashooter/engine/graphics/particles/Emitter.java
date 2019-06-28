@@ -115,7 +115,7 @@ public class Emitter {
 		// Update modules
 		if(positions.size() > 0)
 			for(ParticleModule module : data.modules)
-				module.apply(this, delta);
+				module.apply(this, delta, worldRotation);
 		
 		// Update particles and delete dead ones
 		Vec2f temp = new Vec2f();
