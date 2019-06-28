@@ -683,6 +683,8 @@ public class Character extends RigidBodyContainer {
 		}
 		if (!wallRayHit && touchingRightWall)
 			autoSlideUp = true;
+		if (wallRayHit)
+			touchingRightWall = true;
 
 		wallRayHit = false;
 		for (int i = 1; i < 6; i++) {
@@ -697,6 +699,8 @@ public class Character extends RigidBodyContainer {
 		}
 		if (!wallRayHit && touchingLeftWall)
 			autoSlideUp = true;
+		if (wallRayHit)
+			touchingRightWall = true;
 
 		if (touchingLeftWall) {
 			canWallJump = -1;
