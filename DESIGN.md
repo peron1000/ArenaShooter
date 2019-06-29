@@ -2,11 +2,11 @@
 
 ## UML
 
-To see the links between the different java classes and what they do, click on the following link 
+Here is a (simplified) UML diagram of the project
 
-![UML](/uml/arenashooterUML.png)
+![Simplified UML](/uml/arenashooterUML.png)
 
-link to the folder : [UML](/uml/)
+Link to the folder : [UML](/uml/)
 
 
 ## Packages structure
