@@ -2,6 +2,8 @@
 # Super Blep
 A fun little 2D local-multiplayer game written in Java.
 
+See this [video](https://www.youtube.com/watch?v=3FEmbhD7SG8) made on an old version of the game.
+
 ## Installing or building from source
 See instructions [here](INSTALL.md).
 
