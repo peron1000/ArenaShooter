@@ -37,3 +37,12 @@ The project is structured in 3 main packages:
     * editor
     * loading
     * engineParam
+
+    
+## Libraries
+We are using Gradle to manage dependencies (libraries are are also available in [`/project/lib`](/project/lib)).
+
+We are currently using:
+* [LWJGL 3](https://www.lwjgl.org/) (GLFW, OpenGL, OpenAL, STB)
+* [JBox-2D](https://github.com/jbox2d/jbox2d)
+* [Log4j 2](https://logging.apache.org/log4j/2.x/)
