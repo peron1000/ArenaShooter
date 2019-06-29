@@ -67,8 +67,7 @@
 
 <!-- Misc -->
 <!ELEMENT vector EMPTY>
-<!ATTLIST vector w CDATA #IMPLIED x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED use CDATA #IMPLIED >
-<!ELEMENT fichier (#PCDATA)>
+<!ATTLIST vector x CDATA #REQUIRED y CDATA #REQUIRED z CDATA #IMPLIED w CDATA #IMPLIED use CDATA #IMPLIED >
 
 <!-- Items allowed -->
 <!ELEMENT usable (vector, vector, entities?)>
