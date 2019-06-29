@@ -6,7 +6,10 @@
 * OpenGL 3.2 support
 ### Installing
 Grab a release on the [releases](https://github.com/peron1000/ArenaShooter/releases) page.
+
 Unzip it and launch `Super Blep.jar` as an executable jar.
+
+If you encounter issues running the game, check our [wiki](https://github.com/peron1000/ArenaShooter/wiki/Troubleshooting).
 
 ## Building from source
 ### Prerequisites
