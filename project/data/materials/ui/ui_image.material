@@ -1,0 +1,10 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/ui/ui_simple.vert",
+    "shaderFragment": "data/shaders/ui/ui_image.frag",
+    "transparent": true,
+    "params": {
+        "color": [1.0, 1.0, 1.0, 1.0],
+        "image": { "path": "data/default_texture.png", "filtered": false }
+    }
+}

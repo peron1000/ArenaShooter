@@ -1,0 +1,10 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/sky.vert",
+    "shaderFragment": "data/shaders/sky.frag",
+    "transparent": false,
+    "params": {
+        "colorTop": [0.3490196, 0.137255, 0.482353],
+        "colorBot": [0.996, 0.9098, 0.003922]
+    }
+}
