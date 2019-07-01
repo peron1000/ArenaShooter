@@ -98,7 +98,7 @@ public class Character extends RigidBodyContainer {
 		switch (charInfo.getCharClass()) {
 		case Heavy:
 			weight = 3;
-			punchDashForce = 9;
+			punchDashForce = 11;
 			jumpForce = 23 * 1;
 			break;
 		case Agile:
@@ -270,8 +270,7 @@ public class Character extends RigidBodyContainer {
 			return;
 
 		if (getWeapon() != null) {
-			if (justPressed)
-				getWeapon().attackStart(false);
+				getWeapon().attackStart(justPressed);
 		} else if (attackCooldown.isOver()) {
 			parryStop();
 			chargePunch.setProcessing(true);
@@ -495,6 +494,7 @@ public class Character extends RigidBodyContainer {
 		if (info.dmgType == DamageType.MELEE) {
 			charged = false;
 			chargePunch.reset();
+			((CharacterSprite)getChild("skeleton")).stopCharge();
 		}
 
 		((CharacterSprite) getChild("skeleton")).damageEffects(info);
