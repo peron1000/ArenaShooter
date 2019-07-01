@@ -122,4 +122,7 @@ dependencies {
   
   // JBox-2d
   compile files('lib/jbox-2d/jbox2d-library.jar')
+  
+  // Gson
+  implementation 'com.google.code.gson:gson:2.8.5'
 } 
