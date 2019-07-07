@@ -227,17 +227,13 @@ public class Texture implements Jsonable {
 		}
 	}
 	
-	public JsonObject toJsonObject() {
-		return new JsonObject().putChain("path", getPath()).putChain("filtered", filterTarget);
-	}
-
 	@Override
 	public String toJson() {
-		return toJsonObject().toJson();
+		return new JsonObject().putChain("path", getPath()).putChain("filtered", filterTarget).toJson();
 	}
 
 	@Override
 	public void toJson(Writer writable) throws IOException {
-		toJsonObject().toJson(writable);
+		new JsonObject().putChain("path", getPath()).putChain("filtered", filterTarget).toJson(writable);
 	}
 }

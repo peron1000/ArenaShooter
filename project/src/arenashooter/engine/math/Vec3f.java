@@ -278,17 +278,13 @@ public class Vec3f implements Jsonable {
 		return target;
 	}
 
-	public JsonArray toJsonArray() {
-		return new JsonArray().addChain(x).addChain(y).addChain(z);
-	}
-
 	@Override
 	public String toJson() {
-		return toJsonArray().toJson();
+		return new JsonArray().addChain(x).addChain(y).addChain(z).toJson();
 	}
 
 	@Override
 	public void toJson(Writer writable) throws IOException {
-		toJsonArray().toJson(writable);
+		new JsonArray().addChain(x).addChain(y).addChain(z).toJson(writable);
 	}
 }

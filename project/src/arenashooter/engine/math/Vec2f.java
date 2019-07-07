@@ -440,18 +440,14 @@ public class Vec2f implements Jsonable {
 		
 		return Math.abs(vec1.angle()-vec2.angle()) <= angleTolerated;
 	}
-	
-	public JsonArray toJsonArray() {
-		return new JsonArray().addChain(x).addChain(y);
-	}
 
 	@Override
 	public String toJson() {
-		return toJsonArray().toJson();
+		return new JsonArray().addChain(x).addChain(y).toJson();
 	}
 
 	@Override
 	public void toJson(Writer writable) throws IOException {
-		toJsonArray().toJson(writable);
+		new JsonArray().addChain(x).addChain(y).toJson(writable);
 	}
 }

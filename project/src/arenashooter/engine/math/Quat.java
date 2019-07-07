@@ -1,12 +1,18 @@
 package arenashooter.engine.math;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 import arenashooter.game.Main;
 
 /**
  * Mutable rotation quaternion
  */
 
-public class Quat {
+public class Quat implements Jsonable {
 	protected float w, x, y, z;
 	
 	public Quat() {
@@ -316,5 +322,15 @@ public class Quat {
 	
 	public String toString() {
 		return "Quat("+w+", "+x+", "+y+", "+z+")";
+	}
+
+	@Override
+	public String toJson() {
+		return new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w).toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w).toJson(writable);
 	}
 }

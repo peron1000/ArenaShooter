@@ -1,7 +1,11 @@
 package arenashooter.entities.spatials;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.math.Vec2f;
@@ -126,5 +130,18 @@ public class Spatial extends Entity {
 				e.step(d);
 			}
 		}
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		JsonObject json = new JsonObject();
+		json.put("type", "entity_spatial");
+		
+		json.put("position", localPosition);
+		json.put("rotation", localRotation);
+		
+		json.putAll(getChildren());
+		
+		json.toJson(writable);
 	}
 }

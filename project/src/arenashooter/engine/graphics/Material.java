@@ -260,7 +260,7 @@ public class Material implements Jsonable {
 		return res;
 	}
 	
-	public JsonObject toJsonObject() { //TODO: Test
+	private JsonObject toJsonObject() {
 		final JsonObject json = new JsonObject();
 		json.put("type", "material");
 		json.put("shaderVertex", shaderPathV);
@@ -269,21 +269,14 @@ public class Material implements Jsonable {
 		
 		JsonObject jsonParams = new JsonObject();
 		jsonParams.putAll(paramsI);
+		jsonParams.putAll(paramsVec2f);
+		jsonParams.putAll(paramsVec3f);
+		jsonParams.putAll(paramsVec4f);
+		jsonParams.putAll(paramsTex);
 		
+		//Special case for float parameters which are stored as an array with a single element
 		for(Entry<String, Float> entry : paramsF.entrySet())
 			jsonParams.put( entry.getKey(), new JsonArray().addChain(entry.getValue()) );
-
-		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet())
-			jsonParams.put(entry.getKey(), entry.getValue().toJsonArray());
-		
-		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet())
-			jsonParams.put(entry.getKey(), entry.getValue().toJsonArray());
-		
-		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
-			jsonParams.put(entry.getKey(), entry.getValue().toJsonArray());
-		
-		for(Entry<String, Texture> entry : paramsTex.entrySet())
-			jsonParams.put(entry.getKey(), entry.getValue().toJsonObject());
 		
 		json.put("params", jsonParams);
 		

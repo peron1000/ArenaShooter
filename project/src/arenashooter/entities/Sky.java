@@ -1,5 +1,10 @@
 package arenashooter.entities;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
@@ -66,6 +71,19 @@ public class Sky extends Entity {
 	@Override
 	public Sky clone() {
 		return new Sky(material.clone());
+	}
+	
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		JsonObject json = new JsonObject();
+		json.put("type", "entity_sky");
+		
+		json.put("colorTop", getColorTop());
+		json.put("colorBot", getColorBot());
+		
+		json.putAll(getChildren());
+		
+		json.toJson(writable);
 	}
 	
 }

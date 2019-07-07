@@ -1,5 +1,8 @@
 package arenashooter.entities;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,10 +10,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
 
-public class Entity implements Editable {
+public class Entity implements Editable, Jsonable {
 	/** Arena containing this */
 	private Arena arena = null;
 	/** Arena value needs to be refreshed */
@@ -239,5 +245,26 @@ public class Entity implements Editable {
 	@Override
 	public void editorAddRotationY(double angle) {
 		// Nothing
+	}
+
+	@Override
+	public String toJson() {
+		final StringWriter writable = new StringWriter();
+		try {
+			this.toJson(writable);
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+		return writable.toString();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		JsonObject json = new JsonObject();
+		json.put("type", "entity");
+		
+		json.putAll(getChildren());
+		
+		json.toJson(writable);
 	}
 }
