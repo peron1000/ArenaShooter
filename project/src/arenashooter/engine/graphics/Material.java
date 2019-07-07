@@ -1,21 +1,28 @@
 package arenashooter.engine.graphics;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 import static org.lwjgl.opengl.GL20.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL20.glActiveTexture;
 
 import arenashooter.engine.graphics.Light.LightType;
+import arenashooter.engine.json.MaterialJsonReader;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.engine.xmlReaders.reader.MaterialXmlReader;
 
-public class Material {
+public class Material implements Jsonable {
 	private static Map<String, Material> cache = new HashMap<String, Material>();
 	
 	public enum ParamType {
@@ -48,7 +55,7 @@ public class Material {
 		Material res = cache.get(path);
 		if(res != null) return res.clone();
 		
-		MaterialXmlReader reader = new MaterialXmlReader(path);
+		MaterialJsonReader reader = new MaterialJsonReader(path);
 		
 		res = new Material(path, reader.vertexShader, reader.fragmentShader);
 		res.paramsI.putAll(reader.paramsI);
@@ -252,5 +259,67 @@ public class Material {
 		res.paramsTex = new HashMap<>(paramsTex);
 		
 		return res;
+	}
+
+	@Override
+	public String toJson() {
+		final StringWriter writable = new StringWriter();
+		try {
+			this.toJson(writable);
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+        return writable.toString();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException { //TODO: Test
+		final JsonObject json = new JsonObject();
+		json.put("type", "material");
+		json.put("shaderVertex", shaderPathV);
+		json.put("shaderFragment", shaderPathF);
+		json.put("transparent", transparency);
+		
+		JsonObject jsonParams = new JsonObject();
+		jsonParams.putAll(paramsI);
+		
+		for(Entry<String, Float> entry : paramsF.entrySet()) {
+			JsonArray jsonArray = new JsonArray();
+			jsonArray.add(entry.getValue());
+			jsonParams.put(entry.getKey(), jsonArray);
+		}
+
+		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet()) {
+			JsonArray jsonArray = new JsonArray();
+			jsonArray.add(entry.getValue().x);
+			jsonArray.add(entry.getValue().y);
+			jsonParams.put(entry.getKey(), jsonArray);
+		}
+		
+		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet()) {
+			JsonArray jsonArray = new JsonArray();
+			jsonArray.add(entry.getValue().x);
+			jsonArray.add(entry.getValue().y);
+			jsonArray.add(entry.getValue().z);
+			jsonParams.put(entry.getKey(), jsonArray);
+		}
+		
+		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet()) {
+			JsonArray jsonArray = new JsonArray();
+			jsonArray.add(entry.getValue().x);
+			jsonArray.add(entry.getValue().y);
+			jsonArray.add(entry.getValue().z);
+			jsonArray.add(entry.getValue().w);
+			jsonParams.put(entry.getKey(), jsonArray);
+		}
+		
+		for(Entry<String, Texture> entry : paramsTex.entrySet()) {
+			JsonObject jsonTexture = new JsonObject();
+			jsonTexture.put("path", entry.getValue().getPath());
+			jsonTexture.put("filtered", entry.getValue().isFiltered());
+			jsonParams.put(entry.getKey(), jsonTexture);
+		}
+		
+		json.put("params", jsonParams);
 	}
 }

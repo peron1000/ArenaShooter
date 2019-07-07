@@ -22,7 +22,7 @@ public class TextSpatial extends Spatial3 {
 		super(localPosition);
 		this.scale = scale.clone();
 		this.text = text;
-		this.material = Material.loadMaterial("data/materials/text_distance_field.xml");
+		this.material = Material.loadMaterial("data/materials/text_distance_field.material");
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, .5, 1));

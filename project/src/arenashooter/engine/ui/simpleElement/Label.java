@@ -25,7 +25,7 @@ public class Label extends UiElement {
 
 	public Label(String text, Text.TextAlignH alignH) {
 		this.text = new Text(Main.font, alignH, TextAlignV.CENTER, text);
-		this.material = Material.loadMaterial("data/materials/ui/ui_text_distance_field.xml");
+		this.material = Material.loadMaterial("data/materials/ui/ui_text_distance_field.material");
 		material.setParamTex("distanceField", this.text.getFont().getTexture());
 		noModifiedText = text;
 

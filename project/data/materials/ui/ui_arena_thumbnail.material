@@ -1,0 +1,10 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/ui/ui_simple.vert",
+    "shaderFragment": "data/shaders/ui/ui_arena_thumbnail.frag",
+    "transparent": true,
+    "params": {
+        "image": { "path": "data/default_texture.png", "filtered": false },
+        "shadowMask": { "path": "data/arena_thumbnail_mask.png", "filtered": true }
+    }
+}

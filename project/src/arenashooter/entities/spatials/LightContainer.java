@@ -92,7 +92,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	@Override
 	public void editorDraw() {
 		if(editorSprite == null) {
-			editorSpriteMat = Material.loadMaterial("data/materials/sprite_simple.xml");
+			editorSpriteMat = Material.loadMaterial("data/materials/sprite_simple.material");
 			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
 			editorSprite = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(1), editorSpriteMat);
 		}

@@ -175,6 +175,13 @@ public class Texture {
 		return this;
 	}
 	
+	/**
+	 * @return true if this texture is using filtering
+	 */
+	public boolean isFiltered() {
+		return filterTarget;
+	}
+	
 	//
 	//Memory management
 	//

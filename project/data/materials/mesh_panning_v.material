@@ -1,0 +1,14 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/mesh_simple.vert",
+    "shaderFragment": "data/shaders/mesh_panning_v.frag",
+    "transparent": false,
+    "params": {
+        "editorFilter": [0.0],
+        "fogDistance": [3000],
+        "fogColor": [0.929, 0.906, 0.753],
+        "baseColor": { "path": "data/default_texture.png", "filtered": false },
+        "baseColorMod": [1.0, 1.0, 1.0, 1.0],
+        "time": [0.0]
+    }
+}

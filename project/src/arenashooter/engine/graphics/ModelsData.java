@@ -15,7 +15,7 @@ import java.util.Map;
 public class ModelsData {
 	private static final Map<String, ModelsData> cache = new HashMap<>();
 	
-	static final String default_mat = "data/materials/mesh_simple.xml";
+	static final String default_mat = "data/materials/mesh_simple.material";
 	
 	public Model[] models;
 	public Material[] materials;

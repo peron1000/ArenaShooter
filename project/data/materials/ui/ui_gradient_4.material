@@ -1,0 +1,12 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/ui/ui_simple.vert",
+    "shaderFragment": "data/shaders/ui/ui_gradient_4.frag",
+    "transparent": true,
+    "params": {
+        "colorA": [1.0, 1.0, 1.0, 1.0],
+        "colorB": [0.0, 0.0, 0.0, 1.0],
+        "colorC": [0.0, 0.0, 0.0, 1.0],
+        "colorD": [0.0, 0.0, 0.0, 1.0]
+    }
+}
