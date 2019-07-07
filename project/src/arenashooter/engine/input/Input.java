@@ -12,6 +12,7 @@ import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWCharCallback;
 import org.lwjgl.glfw.GLFWGamepadState;
 
 import arenashooter.engine.math.Vec2f;
@@ -71,6 +72,14 @@ public final class Input {
 			Main.log.error("Cannot load gamepad mappings!");
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Set current char callback. This will replace the previous one.
+	 * @param callback
+	 */
+	public static void setCharCallback(GLFWCharCallback callback) {
+		glfwSetCharCallback(window, callback);
 	}
 
 	public static float getAxis(Device device, Axis axis) {
