@@ -1,13 +1,19 @@
 package arenashooter.engine.math;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import org.jbox2d.common.Vec2;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.Jsonable;
 
 import arenashooter.engine.graphics.Window;
 
 /**
  * Mutable 2 dimensional vector of floats (x, y)
  */
-public class Vec2f {
+public class Vec2f implements Jsonable {
 
 	public float x, y;
 
@@ -433,5 +439,19 @@ public class Vec2f {
 		System.out.println(vec2.angle());
 		
 		return Math.abs(vec1.angle()-vec2.angle()) <= angleTolerated;
+	}
+	
+	public JsonArray toJsonArray() {
+		return new JsonArray().addChain(x).addChain(y);
+	}
+
+	@Override
+	public String toJson() {
+		return toJsonArray().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		toJsonArray().toJson(writable);
 	}
 }

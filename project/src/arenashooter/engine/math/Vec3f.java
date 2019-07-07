@@ -1,9 +1,15 @@
 package arenashooter.engine.math;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 /**
  * Mutable 3 dimensional vector of floats (x, y, z)
  */
-public class Vec3f {
+public class Vec3f implements Jsonable {
 	
 	public float x, y, z;
 	
@@ -270,5 +276,19 @@ public class Vec3f {
 		target.y = Utils.lerpF(a.y, b.y, f);
 		target.z = Utils.lerpF(a.z, b.z, f);
 		return target;
+	}
+
+	public JsonArray toJsonArray() {
+		return new JsonArray().addChain(x).addChain(y).addChain(z);
+	}
+
+	@Override
+	public String toJson() {
+		return toJsonArray().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		toJsonArray().toJson(writable);
 	}
 }

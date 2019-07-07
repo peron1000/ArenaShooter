@@ -1,7 +1,6 @@
 package arenashooter.engine.graphics;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -260,20 +259,8 @@ public class Material implements Jsonable {
 		
 		return res;
 	}
-
-	@Override
-	public String toJson() {
-		final StringWriter writable = new StringWriter();
-		try {
-			this.toJson(writable);
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-        return writable.toString();
-	}
-
-	@Override
-	public void toJson(Writer writable) throws IOException { //TODO: Test
+	
+	public JsonObject toJsonObject() { //TODO: Test
 		final JsonObject json = new JsonObject();
 		json.put("type", "material");
 		json.put("shaderVertex", shaderPathV);
@@ -283,43 +270,33 @@ public class Material implements Jsonable {
 		JsonObject jsonParams = new JsonObject();
 		jsonParams.putAll(paramsI);
 		
-		for(Entry<String, Float> entry : paramsF.entrySet()) {
-			JsonArray jsonArray = new JsonArray();
-			jsonArray.add(entry.getValue());
-			jsonParams.put(entry.getKey(), jsonArray);
-		}
+		for(Entry<String, Float> entry : paramsF.entrySet())
+			jsonParams.put( entry.getKey(), new JsonArray().addChain(entry.getValue()) );
 
-		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet()) {
-			JsonArray jsonArray = new JsonArray();
-			jsonArray.add(entry.getValue().x);
-			jsonArray.add(entry.getValue().y);
-			jsonParams.put(entry.getKey(), jsonArray);
-		}
+		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet())
+			jsonParams.put(entry.getKey(), entry.getValue().toJsonArray());
 		
-		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet()) {
-			JsonArray jsonArray = new JsonArray();
-			jsonArray.add(entry.getValue().x);
-			jsonArray.add(entry.getValue().y);
-			jsonArray.add(entry.getValue().z);
-			jsonParams.put(entry.getKey(), jsonArray);
-		}
+		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet())
+			jsonParams.put(entry.getKey(), entry.getValue().toJsonArray());
 		
-		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet()) {
-			JsonArray jsonArray = new JsonArray();
-			jsonArray.add(entry.getValue().x);
-			jsonArray.add(entry.getValue().y);
-			jsonArray.add(entry.getValue().z);
-			jsonArray.add(entry.getValue().w);
-			jsonParams.put(entry.getKey(), jsonArray);
-		}
+		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
+			jsonParams.put(entry.getKey(), entry.getValue().toJsonArray());
 		
-		for(Entry<String, Texture> entry : paramsTex.entrySet()) {
-			JsonObject jsonTexture = new JsonObject();
-			jsonTexture.put("path", entry.getValue().getPath());
-			jsonTexture.put("filtered", entry.getValue().isFiltered());
-			jsonParams.put(entry.getKey(), jsonTexture);
-		}
+		for(Entry<String, Texture> entry : paramsTex.entrySet())
+			jsonParams.put(entry.getKey(), entry.getValue().toJsonObject());
 		
 		json.put("params", jsonParams);
+		
+		return json;
+	}
+
+	@Override
+	public String toJson() {
+		return toJsonObject().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		toJsonObject().toJson(writable);
 	}
 }

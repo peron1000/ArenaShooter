@@ -1,9 +1,15 @@
 package arenashooter.engine.math;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 /**
  * Mutable 4 dimensional vector of floats (x, y, z, w), (r, g, b, a) for colors
  */
-public class Vec4f {
+public class Vec4f implements Jsonable {
 	
 	public float x, y, z, w;
 	
@@ -196,5 +202,19 @@ public class Vec4f {
 	 */
 	public static Vec4f multiply( Vec4f v, double a ) {
 		return new Vec4f( v.x*a, v.y*a, v.z*a, v.w*a );
+	}
+	
+	public JsonArray toJsonArray() {
+		return new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w);
+	}
+
+	@Override
+	public String toJson() {
+		return toJsonArray().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		toJsonArray().toJson(writable);
 	}
 }
