@@ -3,6 +3,7 @@ package arenashooter.engine.json;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
@@ -25,7 +26,7 @@ public class MaterialJsonReader extends JsonReader {
 
 			@Override
 			public Object getValue() {
-				return "material";
+				return "";
 			}
 		}, 
 		shaderVertex {
@@ -91,6 +92,16 @@ public class MaterialJsonReader extends JsonReader {
 		try (FileReader fileReader = new FileReader((path))) {
 
             JsonObject deserialize = (JsonObject) Jsoner.deserialize(fileReader);
+            
+            try {
+            	deserialize.requireKeys(Keys.values());
+            } catch(NoSuchElementException e) {
+            	log.error("Missing element in material definition "+e.getLocalizedMessage());
+            	e.printStackTrace();
+            }
+            
+            if( !deserialize.getStringOrDefault(Keys.type).equals("material") )
+            	log.error(path+" is not a material.");
             
             vertexShader = deserialize.getStringOrDefault(Keys.shaderVertex);
             fragmentShader = deserialize.getStringOrDefault(Keys.shaderFragment);

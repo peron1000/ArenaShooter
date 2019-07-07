@@ -136,7 +136,7 @@ public class JsonReader {
 	
 	protected static Texture readTexture(JsonObject obj) {
 		try {
-		obj.requireKeys(TextureKeys.values());
+			obj.requireKeys(TextureKeys.values());
 		} catch(NoSuchElementException e) {
 			log.error("Missing element in texture definition "+e.getLocalizedMessage());
 			e.printStackTrace();
