@@ -14,9 +14,8 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
-import arenashooter.game.Main;
 
-public class MaterialJsonReader {
+public class MaterialJsonReader extends JsonReader {
 	private enum Keys implements JsonKey {
 		type {
 			@Override
@@ -74,30 +73,6 @@ public class MaterialJsonReader {
 			}
 		}
 	}
-	private enum TextureKeys implements JsonKey {
-		path {
-			@Override
-			public String getKey() {
-				return "path";
-			}
-
-			@Override
-			public Object getValue() {
-				return Texture.default_tex.getPath();
-			}
-		}, 
-		filtered {
-			@Override
-			public String getKey() {
-				return "filtered";
-			}
-
-			@Override
-			public Object getValue() {
-				return false;
-			}
-		}
-	}
 	
 	public String vertexShader;
 	public String fragmentShader;
@@ -112,6 +87,7 @@ public class MaterialJsonReader {
 	public Map<String, Texture> paramsTex = new HashMap<>();
 
 	public MaterialJsonReader(String path) {
+		super(path);
 		try (FileReader fileReader = new FileReader((path))) {
 
             JsonObject deserialize = (JsonObject) Jsoner.deserialize(fileReader);
@@ -128,29 +104,31 @@ public class MaterialJsonReader {
             		JsonArray array = ((JsonArray)entry.getValue());
             		switch ( array.size() ) {
             		case 1:
-            			paramsF.put( entry.getKey(), array.getFloat(0) );
+            			paramsF.put( entry.getKey(), readFloat(array) );
             			break;
             		case 2:
-            			paramsVec2f.put( entry.getKey(), new Vec2f(array.getFloat(0), array.getFloat(1)) );
+            			paramsVec2f.put( entry.getKey(), readVec2f(array) );
             			break;
             		case 3:
-            			paramsVec3f.put( entry.getKey(), new Vec3f(array.getFloat(0), array.getFloat(1), array.getFloat(2)) );
+            			paramsVec3f.put( entry.getKey(), readVec3f(array) );
             			break;
             		case 4:
-            			paramsVec4f.put( entry.getKey(), new Vec4f(array.getFloat(0), array.getFloat(1), array.getFloat(2), array.getFloat(3)) );
+            			paramsVec4f.put( entry.getKey(), readVec4f(array) );
             			break;
+            		default:
+            			log.error("Invalid vector size: "+array.size());
             		}
             	} else if( entry.getValue() instanceof JsonObject ) {
             		JsonObject object = ((JsonObject)entry.getValue());
             		
-            		paramsTex.put( entry.getKey(), Texture.loadTexture(object.getStringOrDefault(TextureKeys.path)).setFilter(object.getBooleanOrDefault(TextureKeys.filtered)) );
+            		paramsTex.put( entry.getKey(), readTexture(object) );
             	} else {
             		paramsI.put(entry.getKey(), ((Integer)entry.getValue()));
             		System.out.println(paramsI.get(entry.getKey()));
             	}
             }
         } catch(Exception e) {
-        	Main.log.error("Error parsing "+path);
+        	log.error("Error parsing "+path);
         	e.printStackTrace();
         }
 	}
