@@ -1,5 +1,10 @@
 package arenashooter.entities.spatials.items;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
@@ -245,5 +250,18 @@ public abstract class Item extends Spatial {
 				soundPickup) {
 		};
 		return clone;
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException { //TODO: Finish this
+		JsonObject json = new JsonObject();
+		json.put("type", "entity_item");
+		
+		json.put("position", localPosition);
+		json.put("rotation", localRotation);
+		
+		json.putAll(getChildren());
+		
+		json.toJson(writable);
 	}
 }

@@ -18,7 +18,7 @@ public class Sky extends Entity {
 
 	public Sky(Vec3f colorBot, Vec3f colorTop) {
 		if(quad == null) quad = Model.loadQuad();
-		material = Material.loadMaterial("data/materials/sky.xml");
+		material = Material.loadMaterial("data/materials/sky.material");
 		setColors(colorBot, colorTop);
 		zIndex = -9999;
 	}
@@ -71,13 +71,10 @@ public class Sky extends Entity {
 	}
 	
 	@Override
-	public String toJson() {
-		JsonObject sky = new JsonObject();
+	protected JsonObject getJson() {
+		JsonObject sky = super.getJson();
 		sky.putChain("colorBottom", getColorBot());
 		sky.putChain("colorTop", getColorTop());
-		JsonObject children = new JsonObject(getChildren());
-		sky.putChain("children", children);
-		return sky.toJson();
+		return sky;
 	}
-	
 }

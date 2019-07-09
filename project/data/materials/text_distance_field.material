@@ -1,0 +1,12 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/text_distance_field.vert",
+    "shaderFragment": "data/shaders/text_distance_field.frag",
+    "transparent": false,
+    "params": {
+        "editorFilter": [0.0],
+        "thickness": [0.25],
+        "distanceField": { "path": "data/default_texture.png", "filtered": true },
+        "baseColor": [1.0, 1.0, 1.0, 1.0]
+    }
+}

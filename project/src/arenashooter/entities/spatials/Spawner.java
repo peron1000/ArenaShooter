@@ -146,8 +146,8 @@ public class Spawner extends Spatial {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject spawner = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject spawner = super.getJson();
 		spawner.putChain("cooldown", timerWarmup.getMax());
 		return spawner;
 	}

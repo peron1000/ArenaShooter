@@ -19,7 +19,7 @@ public class LoadingFloor extends Spatial {
 	private double timer = 0;
 	
 	static {
-		material = Material.loadMaterial("data/materials/sprite_simple.xml");
+		material = Material.loadMaterial("data/materials/sprite_simple.material");
 		model = Model.loadQuad();
 		tex = new Texture[] {
 				Texture.loadTexture("data/sprites/loading_floor/floor_01.png"),

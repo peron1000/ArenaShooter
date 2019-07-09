@@ -3,7 +3,7 @@ package arenashooter.engine.math;
 import java.io.IOException;
 import java.io.Writer;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
 /**
@@ -204,22 +204,18 @@ public class Vec4f implements Jsonable {
 		return new Vec4f( v.x*a, v.y*a, v.z*a, v.w*a );
 	}
 	
-	private JsonObject getJsonObject() {
-		JsonObject vec = new JsonObject();
-		vec.putChain("w", w);
-		vec.putChain("x", x);
-		vec.putChain("y", y);
-		vec.putChain("z", z);
-		return vec;
+	private JsonArray getJson() {
+		return new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w);
 	}
 	
 	@Override
 	public String toJson() {
-		return getJsonObject().toJson();
+		return getJson().toJson();
 	}
+
 
 	@Override
 	public void toJson(Writer writable) throws IOException {
-		writable.write(toJson());
+		getJson().toJson(writable);
 	}
 }

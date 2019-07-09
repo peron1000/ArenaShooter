@@ -5,7 +5,7 @@ import java.io.Writer;
 
 import org.jbox2d.common.Vec2;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
 import arenashooter.engine.graphics.Window;
@@ -441,20 +441,13 @@ public class Vec2f implements Jsonable {
 		return Math.abs(vec1.angle()-vec2.angle()) <= angleTolerated;
 	}
 	
-	private JsonObject getJsonObject() {
-		JsonObject vec = new JsonObject();
-		vec.putChain("x", x);
-		vec.putChain("y", y);
-		return vec;
-	}
-
 	@Override
 	public String toJson() {
-		return getJsonObject().toJson();
+		return new JsonArray().addChain(x).addChain(y).toJson();
 	}
 
 	@Override
 	public void toJson(Writer writable) throws IOException {
-		writable.write(getJsonObject().toJson());
+		new JsonArray().addChain(x).addChain(y).toJson(writable);
 	}
 }

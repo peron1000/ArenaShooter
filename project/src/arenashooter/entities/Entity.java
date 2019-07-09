@@ -16,7 +16,7 @@ import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
 
-public class Entity implements Editable , Jsonable {
+public class Entity implements Editable, Jsonable {
 	/** Arena containing this */
 	private Arena arena = null;
 	/** Arena value needs to be refreshed */
@@ -251,7 +251,7 @@ public class Entity implements Editable , Jsonable {
 		return EntityTypes.ENTITY;
 	}
 	
-	protected JsonObject getJsonObject() {
+	protected JsonObject getJson() {
 		JsonObject entity = new JsonObject();
 		entity.putChain("type", getType().name());
 		if (!getChildren().isEmpty())
@@ -261,11 +261,11 @@ public class Entity implements Editable , Jsonable {
 
 	@Override
 	public String toJson() {
-		return getJsonObject().toJson();
+		return getJson().toJson();
 	}
 
 	@Override
 	public void toJson(Writer writable) throws IOException {
-		writable.write(toJson());
+		getJson().toJson(writable);
 	}
 }

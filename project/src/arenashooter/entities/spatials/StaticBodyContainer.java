@@ -49,8 +49,8 @@ public class StaticBodyContainer extends PhysicBodyContainer<StaticBody> {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject statiq = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject statiq = super.getJson();
 		statiq.putChain("worldPosition", getWorldPos());
 		statiq.putChain("worldRotation", getWorldRot());
 		return statiq;

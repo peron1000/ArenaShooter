@@ -131,15 +131,12 @@ public class Spatial extends Entity {
 	}
 	
 	@Override
-	public String toJson() {
-		JsonObject spatial = new JsonObject();
+	protected JsonObject getJson() {
+		JsonObject spatial = super.getJson();
+
 		spatial.putChain("localPosition", localPosition);
 		spatial.putChain("localRotation", localRotation);
-		spatial.putChain("ignoreKillBounds", ignoreKillBounds);
-		spatial.putChain("attachPos", attachPos);
-		spatial.putChain("attachRot", attachRot);
-		if (!getChildren().isEmpty())
-			spatial.putChain("children", new JsonObject(getChildren()));
-		return super.toJson();
+		
+		return spatial;
 	}
 }

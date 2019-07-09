@@ -124,8 +124,8 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject k = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject k = super.getJson();
 		k.putChain("density", getBody().getDensity());
 		return k;
 	}

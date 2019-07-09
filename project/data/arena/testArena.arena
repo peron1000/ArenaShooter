@@ -2,34 +2,44 @@
 	"spawn items":{
 		"Name Item":{
 			"children":{
+				"arenashooter.entities.Timer@16aa0a0a336279049696506":{
+					"timeUpTo":0.1
+				},
 				"Item_Sprite":{
-					"type":"ENTITY"
+					"localPosition":[
+						0.0,
+						0.0
+					],
+					"type":"ENTITY",
+					"localRotation":0.0
 				},
 				"particle_container":{
 					"type":"ENTITY"
-				},
-				"arenashooter.entities.Timer@123f1134112372998711958":{
-					"timeUpTo":0.1
 				},
 				"timer_warmup":{
 					"timeUpTo":0.1
 				}
 			},
-			"type":"ENTITY"
+			"localPosition":[
+				0.0,
+				0.0
+			],
+			"type":"ENTITY",
+			"localRotation":0.0
 		}
 	},
-	"ambient light":{
-		"x":51.0,
-		"y":65.0,
-		"z":651.0
-	},
+	"ambient light":[
+		51.0,
+		65.0,
+		651.0
+	],
 	"music path":"kjbsef",
 	"fog distance":656511.0,
-	"fog color":{
-		"x":6.0,
-		"y":21.0,
-		"z":13.0
-	},
+	"fog color":[
+		6.0,
+		21.0,
+		13.0
+	],
 	"musicPitch":1.0,
 	"players spawn":[
 		{
@@ -39,7 +49,12 @@
 				}
 			},
 			"cooldown":2.0,
-			"type":"SPAWN"
+			"localPosition":[
+				0.0,
+				0.0
+			],
+			"type":"SPAWN",
+			"localRotation":0.0
 		}
 	],
 	"children":{
@@ -47,60 +62,70 @@
 			"type":"ENTITY"
 		}
 	},
-	"gravity":{
-		"x":9.8,
-		"y":6.3
-	},
-	"killBound":{
-		"w":15.0,
-		"x":51.0,
-		"y":1600.0,
-		"z":345.0
-	},
+	"gravity":[
+		9.8,
+		6.3
+	],
+	"killBound":[
+		51.0,
+		1600.0,
+		345.0,
+		15.0
+	],
 	"spawnList":{
 		"Name Item":{
 			"children":{
+				"arenashooter.entities.Timer@16aa0a0a336279049696506":{
+					"timeUpTo":0.1
+				},
 				"Item_Sprite":{
-					"type":"ENTITY"
+					"localPosition":[
+						0.0,
+						0.0
+					],
+					"type":"ENTITY",
+					"localRotation":0.0
 				},
 				"particle_container":{
 					"type":"ENTITY"
-				},
-				"arenashooter.entities.Timer@123f1134112372998711958":{
-					"timeUpTo":0.1
 				},
 				"timer_warmup":{
 					"timeUpTo":0.1
 				}
 			},
-			"type":"ENTITY"
+			"localPosition":[
+				0.0,
+				0.0
+			],
+			"type":"ENTITY",
+			"localRotation":0.0
 		}
 	},
-	"cameraBasePos":{
-		"x":48.0,
-		"y":5818.0,
-		"z":15.0
-	},
+	"cameraBasePos":[
+		48.0,
+		5818.0,
+		15.0
+	],
 	"musicVolume":1.0,
 	"lights":[
 		{
-			"color":{
-				"x":0.0,
-				"y":0.0,
-				"z":0.0
-			},
+			"color":[
+				0.0,
+				0.0,
+				0.0
+			],
 			"angle":-1.0,
-			"position":{
-				"x":0.0,
-				"y":0.0,
-				"z":0.0
-			},
+			"position":[
+				0.0,
+				0.0,
+				0.0
+			],
 			"radius":0.0,
-			"direction":{
-				"x":0.0,
-				"y":0.0,
-				"z":0.0
-			}
+			"direction":[
+				0.0,
+				0.0,
+				0.0
+			]
 		}
 	]
 }

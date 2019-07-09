@@ -168,13 +168,10 @@ public class Spatial3 extends Entity {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject spatial = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject spatial = super.getJson();
 		spatial.putChain("localPosition", localPosition);
 		spatial.putChain("localRotation", localRotation);
-		spatial.putChain("attachPos", attachPos);
-		spatial.putChain("attachRot", attachRot);
 		return spatial;
 	}
-	
 }

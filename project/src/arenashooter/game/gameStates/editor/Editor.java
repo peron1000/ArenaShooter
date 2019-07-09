@@ -42,7 +42,7 @@ public class Editor extends GameState {
 	final double scaleSpeed = 0.005, positionSpeed = 0.02, rotationSpeed = 0.005;
 
 	public Editor() {
-		grid2d = new Sprite(new Vec2f(), Material.loadMaterial("data/materials/editor_grid.xml"));
+		grid2d = new Sprite(new Vec2f(), Material.loadMaterial("data/materials/editor_grid.material"));
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 

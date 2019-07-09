@@ -163,12 +163,12 @@ public class JsonTransformer {
 		jsonExport(arena, "testArena");
 		
 		
-		MapXmlReader reader = new MapXmlReader("data/mapXML/mapXML.xml");
-		Arena a = new Arena();
-		reader.load(a);
-		while(!reader.loadNextEntity());
-		
-		jsonExport(a, "mapXML");
+//		MapXmlReader reader = new MapXmlReader("data/mapXML/mapXML.xml");
+//		Arena a = new Arena();
+//		reader.load(a);
+//		while(!reader.loadNextEntity());
+//		
+//		jsonExport(a, "mapXML");
 
 //		Arena a = jsonImportArena("data/arena/testArena.arena");
 //		Field[] fields = a.getClass().getDeclaredFields();

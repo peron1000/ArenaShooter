@@ -25,7 +25,7 @@ public class TextSpatial extends Spatial3 {
 		super(localPosition);
 		this.scale = scale.clone();
 		this.text = text;
-		this.material = Material.loadMaterial("data/materials/text_distance_field.xml");
+		this.material = Material.loadMaterial("data/materials/text_distance_field.material");
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, .5, 1));
@@ -100,8 +100,8 @@ public class TextSpatial extends Spatial3 {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject textS = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject textS = super.getJson();
 		textS.putChain("text", text);
 		textS.putChain("scale", scale);
 		return textS;

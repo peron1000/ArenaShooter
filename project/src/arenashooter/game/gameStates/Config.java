@@ -207,7 +207,7 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			Material thumbnailMat = Material.loadMaterial("data/materials/ui/ui_arena_thumbnail.xml");
+			Material thumbnailMat = Material.loadMaterial("data/materials/ui/ui_arena_thumbnail.material");
 			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
 			UiImage picture = new UiImage(thumbnailMat);
 			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));

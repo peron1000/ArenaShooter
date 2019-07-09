@@ -119,8 +119,8 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject pBody = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject pBody = super.getJson();
 		PhysicShape shape = getBody().getShape();
 		if(shape instanceof ShapeBox) {
 			ShapeBox sBox = (ShapeBox) shape;

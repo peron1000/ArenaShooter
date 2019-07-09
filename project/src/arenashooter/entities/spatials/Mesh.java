@@ -239,8 +239,8 @@ public class Mesh extends Spatial3 implements IAnimated {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject mesh = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject mesh = super.getJson();
 		mesh.putChain("path", modelPath);
 		return mesh;
 	}

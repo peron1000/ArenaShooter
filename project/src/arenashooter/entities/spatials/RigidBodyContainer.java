@@ -99,8 +99,8 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject rigid = super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject rigid = super.getJson();
 		rigid.putChain("density", getBody().getDensity());
 		rigid.putChain("friction", getBody().getFriction());
 		rigid.putChain("worldPosition", getWorldPos());

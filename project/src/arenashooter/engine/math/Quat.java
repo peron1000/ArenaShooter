@@ -3,7 +3,7 @@ package arenashooter.engine.math;
 import java.io.IOException;
 import java.io.Writer;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
 import arenashooter.game.Main;
@@ -326,12 +326,7 @@ public class Quat implements Jsonable {
 
 	@Override
 	public String toJson() {
-		JsonObject quat = new JsonObject();
-		quat.putChain("w", w);
-		quat.putChain("x", x);
-		quat.putChain("y", y);
-		quat.putChain("z", z);
-		return quat.toJson();
+		return new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w).toJson();
 	}
 
 	@Override

@@ -95,7 +95,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	@Override
 	public void editorDraw() {
 		if(editorSprite == null) {
-			editorSpriteMat = Material.loadMaterial("data/materials/sprite_simple.xml");
+			editorSpriteMat = Material.loadMaterial("data/materials/sprite_simple.material");
 			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
 			editorSprite = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(1), editorSpriteMat);
 		}
@@ -164,8 +164,8 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	}
 	
 	@Override
-	protected JsonObject getJsonObject() {
-		JsonObject l= super.getJsonObject();
+	protected JsonObject getJson() {
+		JsonObject l= super.getJson();
 		l.putChain("angle", light.angle);
 		l.putChain("color", light.color);
 		l.putChain("direction", light.direction);

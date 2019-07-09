@@ -2,18 +2,23 @@ package arenashooter.engine.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 import arenashooter.engine.math.Vec2f;
 
 /**
  * Container for OpenGL texture
  */
-public class Texture {
+public class Texture implements Jsonable {
 	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
 	public static final Texture default_tex = loadTexture( "data/default_texture.png" );
@@ -175,6 +180,13 @@ public class Texture {
 		return this;
 	}
 	
+	/**
+	 * @return true if this texture is using filtering
+	 */
+	public boolean isFiltered() {
+		return filterTarget;
+	}
+	
 	//
 	//Memory management
 	//
@@ -213,5 +225,15 @@ public class Texture {
 			this.file = texture.getPath();
 			this.texture = new WeakReference<Texture>(texture);
 		}
+	}
+	
+	@Override
+	public String toJson() {
+		return new JsonObject().putChain("path", getPath()).putChain("filtered", filterTarget).toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		new JsonObject().putChain("path", getPath()).putChain("filtered", filterTarget).toJson(writable);
 	}
 }
