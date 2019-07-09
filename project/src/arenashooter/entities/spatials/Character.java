@@ -536,6 +536,7 @@ public class Character extends RigidBodyContainer {
 				controller.zombieChar();
 				upcomingDeath = deathCause;
 				afterDeath.inProcess = true;
+				maxSpeed += 4;
 				((CharacterSprite) getChild("skeleton")).activateBushidoMode();
 				getBody().setRotationLocked(false);
 			}
