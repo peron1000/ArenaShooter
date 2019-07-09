@@ -1,0 +1,106 @@
+{
+	"spawn items":{
+		"Name Item":{
+			"children":{
+				"Item_Sprite":{
+					"type":"ENTITY"
+				},
+				"particle_container":{
+					"type":"ENTITY"
+				},
+				"arenashooter.entities.Timer@123f1134112372998711958":{
+					"timeUpTo":0.1
+				},
+				"timer_warmup":{
+					"timeUpTo":0.1
+				}
+			},
+			"type":"ENTITY"
+		}
+	},
+	"ambient light":{
+		"x":51.0,
+		"y":65.0,
+		"z":651.0
+	},
+	"music path":"kjbsef",
+	"fog distance":656511.0,
+	"fog color":{
+		"x":6.0,
+		"y":21.0,
+		"z":13.0
+	},
+	"musicPitch":1.0,
+	"players spawn":[
+		{
+			"children":{
+				"timer_spawn":{
+					"timeUpTo":2.0
+				}
+			},
+			"cooldown":2.0,
+			"type":"SPAWN"
+		}
+	],
+	"children":{
+		"mon entite":{
+			"type":"ENTITY"
+		}
+	},
+	"gravity":{
+		"x":9.8,
+		"y":6.3
+	},
+	"killBound":{
+		"w":15.0,
+		"x":51.0,
+		"y":1600.0,
+		"z":345.0
+	},
+	"spawnList":{
+		"Name Item":{
+			"children":{
+				"Item_Sprite":{
+					"type":"ENTITY"
+				},
+				"particle_container":{
+					"type":"ENTITY"
+				},
+				"arenashooter.entities.Timer@123f1134112372998711958":{
+					"timeUpTo":0.1
+				},
+				"timer_warmup":{
+					"timeUpTo":0.1
+				}
+			},
+			"type":"ENTITY"
+		}
+	},
+	"cameraBasePos":{
+		"x":48.0,
+		"y":5818.0,
+		"z":15.0
+	},
+	"musicVolume":1.0,
+	"lights":[
+		{
+			"color":{
+				"x":0.0,
+				"y":0.0,
+				"z":0.0
+			},
+			"angle":-1.0,
+			"position":{
+				"x":0.0,
+				"y":0.0,
+				"z":0.0
+			},
+			"radius":0.0,
+			"direction":{
+				"x":0.0,
+				"y":0.0,
+				"z":0.0
+			}
+		}
+	]
+}

@@ -1,5 +1,7 @@
 package arenashooter.entities;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
@@ -66,6 +68,16 @@ public class Sky extends Entity {
 	@Override
 	public Sky clone() {
 		return new Sky(material.clone());
+	}
+	
+	@Override
+	public String toJson() {
+		JsonObject sky = new JsonObject();
+		sky.putChain("colorBottom", getColorBot());
+		sky.putChain("colorTop", getColorTop());
+		JsonObject children = new JsonObject(getChildren());
+		sky.putChain("children", children);
+		return sky.toJson();
 	}
 	
 }

@@ -1,9 +1,15 @@
 package arenashooter.entities.spatials;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.RigidBody;
+import arenashooter.engine.physic.shapes.PhysicShape;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 
@@ -78,6 +84,28 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 
+	}
+	
+	@Override
+	protected EntityTypes getType() {
+		PhysicShape shape = getBody().getShape();
+		if(shape instanceof ShapeBox) {
+			return EntityTypes.RIGID_BOX;
+		} else if(shape instanceof ShapeDisk){
+			return EntityTypes.RIGID_DISK;
+		} else {
+			return super.getType();
+		}
+	}
+	
+	@Override
+	protected JsonObject getJsonObject() {
+		JsonObject rigid = super.getJsonObject();
+		rigid.putChain("density", getBody().getDensity());
+		rigid.putChain("friction", getBody().getFriction());
+		rigid.putChain("worldPosition", getWorldPos());
+		rigid.putChain("worldRotation", getWorldRot());
+		return rigid;
 	}
 
 }

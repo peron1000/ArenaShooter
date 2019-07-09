@@ -11,6 +11,7 @@ import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -49,7 +50,6 @@ import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.addItem.AddItemEditor;
-import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 import arenashooter.game.gameStates.loading.LoadingConfig;
 

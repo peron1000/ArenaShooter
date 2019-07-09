@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -114,5 +116,19 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	@Override
 	public void editorDraw() {
 		body.debugDraw();
+	}
+	
+	@Override
+	protected JsonObject getJsonObject() {
+		JsonObject pBody = super.getJsonObject();
+		PhysicShape shape = getBody().getShape();
+		if(shape instanceof ShapeBox) {
+			ShapeBox sBox = (ShapeBox) shape;
+			pBody.putChain("extent", sBox.getExtent());
+		} else if(shape instanceof ShapeDisk){
+			ShapeDisk sDisk = (ShapeDisk) shape;
+			pBody.putChain("radius", sDisk.getRadius());
+		}
+		return pBody;
 	}
 }

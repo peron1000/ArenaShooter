@@ -3,6 +3,8 @@ package arenashooter.entities.spatials;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
@@ -10,6 +12,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -228,5 +231,17 @@ public class Mesh extends Spatial3 implements IAnimated {
 	public double getAnimSpeed() {
 		if(currentAnim == null) return 0;
 		return currentAnim.getPlaySpeed();
+	}
+	
+	@Override
+	protected EntityTypes getType() {
+		return EntityTypes.MESH;
+	}
+	
+	@Override
+	protected JsonObject getJsonObject() {
+		JsonObject mesh = super.getJsonObject();
+		mesh.putChain("path", modelPath);
+		return mesh;
 	}
 }

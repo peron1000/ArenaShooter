@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
@@ -135,5 +138,17 @@ public class Spawner extends Spatial {
 	@Override
 	public void editorDraw() {
 		editorView.draw(false);
+	}
+	
+	@Override
+	protected EntityTypes getType() {
+		return EntityTypes.SPAWN;
+	}
+	
+	@Override
+	protected JsonObject getJsonObject() {
+		JsonObject spawner = super.getJsonObject();
+		spawner.putChain("cooldown", timerWarmup.getMax());
+		return spawner;
 	}
 }

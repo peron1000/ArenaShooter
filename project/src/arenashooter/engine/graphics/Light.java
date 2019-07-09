@@ -1,8 +1,14 @@
 package arenashooter.engine.graphics;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 import arenashooter.engine.math.Vec3f;
 
-public class Light {
+public class Light implements Jsonable {
 	public static enum LightType { POINT, DIRECTIONAL, SPOT };
 	
 	/** Position of this light */
@@ -46,5 +52,21 @@ public class Light {
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public String toJson() {
+		JsonObject light = new JsonObject();
+		light.putChain("position", position);
+		light.putChain("direction", direction);
+		light.putChain("radius", radius);
+		light.putChain("angle", angle);
+		light.putChain("color", color);
+		return light.toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		writable.write(toJson());
 	}
 }

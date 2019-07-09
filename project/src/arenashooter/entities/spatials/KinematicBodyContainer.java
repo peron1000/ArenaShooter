@@ -1,11 +1,17 @@
 package arenashooter.entities.spatials;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.bodies.KinematicBody;
+import arenashooter.engine.physic.shapes.PhysicShape;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> implements IAnimated {
 
@@ -103,5 +109,24 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 	public double getAnimSpeed() {
 		if(currentAnim == null) return 0;
 		return currentAnim.getPlaySpeed();
+	}
+	
+	@Override
+	protected EntityTypes getType() {
+		PhysicShape shape = getBody().getShape();
+		if(shape instanceof ShapeBox) {
+			return EntityTypes.KINEMATIC_BOX;
+		} else if(shape instanceof ShapeDisk){
+			return EntityTypes.KINEMATIC_DISK;
+		} else {
+			return super.getType();
+		}
+	}
+	
+	@Override
+	protected JsonObject getJsonObject() {
+		JsonObject k = super.getJsonObject();
+		k.putChain("density", getBody().getDensity());
+		return k;
 	}
 }

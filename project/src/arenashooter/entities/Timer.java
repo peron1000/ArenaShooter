@@ -1,5 +1,7 @@
 package arenashooter.entities;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 /**
  * @author Nathan Timer until a given integer<br/>
  *         To change the border integer, you have to create a new Timer
@@ -96,6 +98,15 @@ public class Timer extends Entity {
 		}
 		over = (current >= max);
 		super.step(d);
+	}
+	
+	@Override
+	public String toJson() {
+		JsonObject timer = new JsonObject();
+		timer.putChain("timeUpTo", max);
+		if (!getChildren().isEmpty())
+			timer.putChain("children", new JsonObject(getChildren()));
+		return timer.toJson();
 	}
 
 }

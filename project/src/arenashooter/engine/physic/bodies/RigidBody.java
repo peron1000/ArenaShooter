@@ -126,5 +126,13 @@ public class RigidBody extends PhysicBody {
 		
 		return body;
 	}
+	
+	public float getDensity() {
+		return density;
+	}
+	
+	public float getFriction() {
+		return friction;
+	}
 
 }

@@ -3,6 +3,8 @@ package arenashooter.entities.spatials;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Arena;
@@ -126,5 +128,18 @@ public class Spatial extends Entity {
 				e.step(d);
 			}
 		}
+	}
+	
+	@Override
+	public String toJson() {
+		JsonObject spatial = new JsonObject();
+		spatial.putChain("localPosition", localPosition);
+		spatial.putChain("localRotation", localRotation);
+		spatial.putChain("ignoreKillBounds", ignoreKillBounds);
+		spatial.putChain("attachPos", attachPos);
+		spatial.putChain("attachRot", attachRot);
+		if (!getChildren().isEmpty())
+			spatial.putChain("children", new JsonObject(getChildren()));
+		return super.toJson();
 	}
 }

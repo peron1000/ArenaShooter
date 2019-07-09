@@ -16,6 +16,7 @@ import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.Start;
+import arenashooter.game.gameStates.Test;
 
 public class GameMaster {
 	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
@@ -110,6 +111,10 @@ public class GameMaster {
 //			current.init();
 //			Loading.loading.setNextState(nextState, nextStateMap);
 //		}
+	}
+	
+	public void requestNextTest() {
+		current = new Test();
 	}
 
 	public void requestPreviousState() {

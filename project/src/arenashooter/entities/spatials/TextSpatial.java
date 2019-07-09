@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
@@ -7,6 +9,7 @@ import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -89,6 +92,19 @@ public class TextSpatial extends Spatial3 {
 	public void editorAddScale(Vec2f scale) {
 		this.scale.x += scale.x;
 		this.scale.y += scale.y;
+	}
+	
+	@Override
+	protected EntityTypes getType() {
+		return EntityTypes.TEXT;
+	}
+	
+	@Override
+	protected JsonObject getJsonObject() {
+		JsonObject textS = super.getJsonObject();
+		textS.putChain("text", text);
+		textS.putChain("scale", scale);
+		return textS;
 	}
 
 	/**
