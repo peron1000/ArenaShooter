@@ -127,6 +127,8 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 	protected JsonObject getJson() {
 		JsonObject k = super.getJson();
 		k.putChain("density", getBody().getDensity());
+		k.put("world position", getBody().getPosition());
+		k.put("world rotation", getBody().getRotation());
 		return k;
 	}
 }

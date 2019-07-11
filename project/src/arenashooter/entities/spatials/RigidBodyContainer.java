@@ -103,8 +103,15 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 		JsonObject rigid = super.getJson();
 		rigid.putChain("density", getBody().getDensity());
 		rigid.putChain("friction", getBody().getFriction());
-		rigid.putChain("worldPosition", getWorldPos());
-		rigid.putChain("worldRotation", getWorldRot());
+		rigid.putChain("world position", getWorldPos());
+		rigid.putChain("world rotation", getWorldRot());
+		if(getType() == EntityTypes.RIGID_BOX) {
+			ShapeBox shape = (ShapeBox) getBody().getShape();
+			rigid.put("extent", shape.getExtent());
+		} else if(getType() == EntityTypes.RIGID_DISK) {
+			ShapeDisk shape = (ShapeDisk) getBody().getShape();
+			rigid.put("radius", shape.getRadius());
+		}
 		return rigid;
 	}
 

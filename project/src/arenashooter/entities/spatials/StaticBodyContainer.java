@@ -51,8 +51,15 @@ public class StaticBodyContainer extends PhysicBodyContainer<StaticBody> {
 	@Override
 	protected JsonObject getJson() {
 		JsonObject statiq = super.getJson();
-		statiq.putChain("worldPosition", getWorldPos());
-		statiq.putChain("worldRotation", getWorldRot());
+		statiq.putChain("world position", getWorldPos());
+		statiq.putChain("world rotation", getWorldRot());
+		if(getType() == EntityTypes.STATIC_BOX) {
+			ShapeBox shape = (ShapeBox) getBody().getShape();
+			statiq.put("extent", shape.getExtent());
+		} else if(getType() == EntityTypes.STATIC_DISK) {
+			ShapeDisk shape = (ShapeDisk) getBody().getShape();
+			statiq.put("radius", shape.getRadius());
+		}
 		return statiq;
 	}
 }

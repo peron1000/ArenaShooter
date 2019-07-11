@@ -1,12 +1,17 @@
 package arenashooter.engine.graphics.fonts;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
 
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.fonts.Font.FontChar;
 
-public class Text {
+public class Text implements Jsonable {
 	
 	public static enum TextAlignH {	LEFT, RIGHT, CENTER; }
 	public static enum TextAlignV {	TOP, BOTTOM, CENTER; }
@@ -155,5 +160,24 @@ public class Text {
 	@Override
 	public Text clone() {
 		return new Text(font, alignH, alignV, text);
+	}
+	
+	private JsonObject getJsonObject() {
+		JsonObject json = new JsonObject();
+		json.put("text", text);
+		json.put("align H", alignH.name());
+		json.put("align V", alignV.name());
+		json.put("font path", font.getPath());
+		return json;
+	}
+
+	@Override
+	public String toJson() {
+		return getJsonObject().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		getJsonObject().toJson(writable);
 	}
 }

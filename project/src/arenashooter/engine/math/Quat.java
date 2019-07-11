@@ -320,6 +320,14 @@ public class Quat implements Jsonable {
 		return new Vec4f(x, y, z, w);
 	}
 	
+	public static Quat jsonImport(JsonArray array) {
+		float x = ((Number) array.get(0)).floatValue();
+		float y = ((Number) array.get(1)).floatValue();
+		float z = ((Number) array.get(2)).floatValue();
+		float w = ((Number) array.get(3)).floatValue();
+		return new Quat(x, y, z, w);
+	}
+	
 	public String toString() {
 		return "Quat("+w+", "+x+", "+y+", "+z+")";
 	}

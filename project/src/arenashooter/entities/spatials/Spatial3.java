@@ -1,10 +1,14 @@
 package arenashooter.entities.spatials;
 
+import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 
+import arenashooter.engine.annotation.JsonField;
+import arenashooter.engine.annotation.JsonType;
+import arenashooter.engine.json.JsonTransformer;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -170,8 +174,9 @@ public class Spatial3 extends Entity {
 	@Override
 	protected JsonObject getJson() {
 		JsonObject spatial = super.getJson();
-		spatial.putChain("localPosition", localPosition);
-		spatial.putChain("localRotation", localRotation);
+		spatial.put("position", localPosition);
+		spatial.put("rotation", localRotation);
 		return spatial;
 	}
+	
 }

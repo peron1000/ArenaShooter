@@ -134,8 +134,8 @@ public class Spatial extends Entity {
 	protected JsonObject getJson() {
 		JsonObject spatial = super.getJson();
 
-		spatial.putChain("localPosition", localPosition);
-		spatial.putChain("localRotation", localRotation);
+		spatial.putChain("position", localPosition);
+		spatial.putChain("rotation", localRotation);
 		
 		return spatial;
 	}

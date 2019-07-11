@@ -441,6 +441,12 @@ public class Vec2f implements Jsonable {
 		return Math.abs(vec1.angle()-vec2.angle()) <= angleTolerated;
 	}
 	
+	public static Vec2f jsonImport(JsonArray array) {
+		double x = ((Number) array.get(0)).doubleValue();
+		double y = ((Number) array.get(1)).doubleValue();
+		return new Vec2f(x, y);
+	}
+	
 	@Override
 	public String toJson() {
 		return new JsonArray().addChain(x).addChain(y).toJson();

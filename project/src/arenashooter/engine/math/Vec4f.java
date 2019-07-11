@@ -204,6 +204,14 @@ public class Vec4f implements Jsonable {
 		return new Vec4f( v.x*a, v.y*a, v.z*a, v.w*a );
 	}
 	
+	public static Vec4f jsonImport(JsonArray array) {
+		double x = ((Number) array.get(0)).doubleValue();
+		double y = ((Number) array.get(1)).doubleValue();
+		double z = ((Number) array.get(2)).doubleValue();
+		double w = ((Number) array.get(3)).doubleValue();
+		return new Vec4f(x, y, z, w);
+	}
+	
 	private JsonArray getJson() {
 		return new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w);
 	}

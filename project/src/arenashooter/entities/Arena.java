@@ -15,7 +15,7 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
-import arenashooter.engine.annotation.JsonElement;
+import arenashooter.engine.annotation.JsonField;
 import arenashooter.engine.annotation.JsonRoot;
 import arenashooter.engine.annotation.JsonType;
 import arenashooter.engine.graphics.Light;
@@ -29,21 +29,21 @@ import arenashooter.game.Main;
 
 @JsonRoot(extension = ".arena", directory = "data/arena")
 public class Arena extends Entity implements Jsonable {
-	@JsonElement(tagName = "players spawn" , type = JsonType.LIST)
+	@JsonField(tagName = "players spawn" , type = JsonType.LIST)
 	/** Character spawn points */
 	public List<Spawner> playerSpawns = new ArrayList<>();
 
 	/** World gravity vector */
-	@JsonElement(tagName = "gravity" , type = JsonType.VEC2F)
+	@JsonField(tagName = "gravity" , type = JsonType.VECTOR)
 	public Vec2f gravity = new Vec2f(0);
 
-	@JsonElement(tagName = "ambient light" , type = JsonType.VEC3F)
+	@JsonField(tagName = "ambient light" , type = JsonType.VECTOR)
 	public Vec3f ambientLight = new Vec3f(.48, .48, .5);
 
-	@JsonElement(tagName = "fog color" , type = JsonType.VEC3F)
+	@JsonField(tagName = "fog color" , type = JsonType.VECTOR)
 	public Vec3f fogColor = new Vec3f(0.929, 0.906, 0.753);
 
-	@JsonElement(tagName = "fog distance" , type = JsonType.FLOAT)
+	@JsonField(tagName = "fog distance" , type = JsonType.FLOAT)
 	public float fogDistance = 3000;
 
 	// Rendering
@@ -51,16 +51,16 @@ public class Arena extends Entity implements Jsonable {
 	public List<Entity> transparent = new LinkedList<>();
 
 	// Music
-	@JsonElement(tagName = "music path" , type = JsonType.STRING)
+	@JsonField(tagName = "music path" , type = JsonType.STRING)
 	public String musicPath = "";
-	@JsonElement(tagName = "musicVolume" , type = JsonType.FLOAT)
+	@JsonField(tagName = "musicVolume" , type = JsonType.FLOAT)
 	public float musicVolume = 1;
-	@JsonElement(tagName = "musicPitch" , type = JsonType.FLOAT)
+	@JsonField(tagName = "musicPitch" , type = JsonType.FLOAT)
 	public float musicPitch = 1;
 
 	public PhysicWorld physic;
 
-	@JsonElement(tagName = "spawn items" , type = JsonType.MAP)
+	@JsonField(tagName = "spawn items" , type = JsonType.MAP)
 	/** Map of all items available to item spawners */
 	public Map<String, Item> spawnList = new HashMap<>();
 
@@ -70,18 +70,18 @@ public class Arena extends Entity implements Jsonable {
 	/** All items currently on the map */
 	public List<Item> items = new ArrayList<>();
 
-	@JsonElement(tagName = "killBound", type = JsonType.VEC4F)
+	@JsonField(tagName = "killBound", type = JsonType.VECTOR)
 	/** Kill every Spatial that touches these bounds (min X, min Y, max X, max Y) */
 	public Vec4f killBound = new Vec4f(-100, -100, 100, 100);
 
-	@JsonElement(tagName = "cameraBasePos", type = JsonType.VEC3F)
+	@JsonField(tagName = "cameraBasePos", type = JsonType.VECTOR)
 	/**
 	 * Base camera position, camera movement will be restricted into this field of
 	 * view
 	 */
 	public Vec3f cameraBasePos = new Vec3f(0, 0, 8);
 
-	@JsonElement(tagName = "lights" , type = JsonType.SET)
+	@JsonField(tagName = "lights" , type = JsonType.SET)
 	public Set<Light> lights = new HashSet<>();
 
 //	Timer spawnWeapon = new Timer(4); // TODO : verifier que c'est bien inutile
@@ -140,13 +140,13 @@ public class Arena extends Entity implements Jsonable {
 		usedSpawns.add(randi);
 		return randi;
 	}
-
-	private JsonObject arenaToJson() {
-		JsonObject arena = new JsonObject();
-
+	
+	@Override
+	protected JsonObject getJson() {
+		JsonObject arena = super.getJson();
 		Field[] fields = getClass().getDeclaredFields();
 		for (Field field : fields) {
-			JsonElement jsonElement = field.getAnnotation(JsonElement.class);
+			JsonField jsonElement = field.getAnnotation(JsonField.class);
 			try {
 				if (jsonElement != null) {
 					arena.putChain(jsonElement.tagName(), field.get(this));
@@ -154,7 +154,6 @@ public class Arena extends Entity implements Jsonable {
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
-
 		}
 
 		JsonObject spawnList = new JsonObject(this.spawnList);
@@ -162,16 +161,12 @@ public class Arena extends Entity implements Jsonable {
 
 		JsonArray lights = new JsonArray(this.lights);
 		arena.putChain("lights", lights);
-
-		JsonObject children = new JsonObject(getChildren());
-		arena.putChain("children", children);
-
 		return arena;
 	}
 
 	@Override
 	public String toJson() {
-		return arenaToJson().toJson();
+		return getJson().toJson();
 	}
 
 	@Override

@@ -278,6 +278,13 @@ public class Vec3f implements Jsonable {
 		target.z = Utils.lerpF(a.z, b.z, f);
 		return target;
 	}
+	
+	public static Vec3f jsonImport(JsonArray array) {
+		double x = ((Number) array.get(0)).doubleValue();
+		double y = ((Number) array.get(1)).doubleValue();
+		double z = ((Number) array.get(2)).doubleValue();
+		return new Vec3f(x, y, z);
+	}
 
 	private JsonArray getJson() {
 		return new JsonArray().addChain(x).addChain(y).addChain(z);

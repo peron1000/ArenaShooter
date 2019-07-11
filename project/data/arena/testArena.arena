@@ -1,31 +1,12 @@
 {
 	"spawn items":{
 		"Name Item":{
-			"children":{
-				"arenashooter.entities.Timer@16aa0a0a336279049696506":{
-					"timeUpTo":0.1
-				},
-				"Item_Sprite":{
-					"localPosition":[
-						0.0,
-						0.0
-					],
-					"type":"ENTITY",
-					"localRotation":0.0
-				},
-				"particle_container":{
-					"type":"ENTITY"
-				},
-				"timer_warmup":{
-					"timeUpTo":0.1
-				}
-			},
-			"localPosition":[
+			"rotation":0.0,
+			"position":[
 				0.0,
 				0.0
 			],
-			"type":"ENTITY",
-			"localRotation":0.0
+			"type":"ENTITY"
 		}
 	},
 	"ambient light":[
@@ -40,26 +21,47 @@
 		21.0,
 		13.0
 	],
+	"type":"ENTITY",
 	"musicPitch":1.0,
 	"players spawn":[
 		{
-			"children":{
-				"timer_spawn":{
-					"timeUpTo":2.0
-				}
-			},
+			"rotation":0.0,
 			"cooldown":2.0,
-			"localPosition":[
+			"position":[
 				0.0,
 				0.0
 			],
-			"type":"SPAWN",
-			"localRotation":0.0
+			"type":"SPAWN"
 		}
 	],
 	"children":{
 		"mon entite":{
 			"type":"ENTITY"
+		},
+		"Mon mesh":{
+			"model path":"data\/meshes\/arrow.obj",
+			"rotation":[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale":[
+				1.0,
+				1.0,
+				1.0
+			],
+			"position":[
+				0.0,
+				0.0,
+				0.0
+			],
+			"type":"MESH",
+			"children":{
+				"testChild":{
+					"type":"ENTITY"
+				}
+			}
 		}
 	},
 	"gravity":[
@@ -74,31 +76,12 @@
 	],
 	"spawnList":{
 		"Name Item":{
-			"children":{
-				"arenashooter.entities.Timer@16aa0a0a336279049696506":{
-					"timeUpTo":0.1
-				},
-				"Item_Sprite":{
-					"localPosition":[
-						0.0,
-						0.0
-					],
-					"type":"ENTITY",
-					"localRotation":0.0
-				},
-				"particle_container":{
-					"type":"ENTITY"
-				},
-				"timer_warmup":{
-					"timeUpTo":0.1
-				}
-			},
-			"localPosition":[
+			"rotation":0.0,
+			"position":[
 				0.0,
 				0.0
 			],
-			"type":"ENTITY",
-			"localRotation":0.0
+			"type":"ENTITY"
 		}
 	},
 	"cameraBasePos":[

@@ -1,6 +1,6 @@
 package arenashooter.entities;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
+import arenashooter.engine.json.EntityTypes;
 
 /**
  * @author Nathan Timer until a given integer<br/>
@@ -101,12 +101,8 @@ public class Timer extends Entity {
 	}
 	
 	@Override
-	public String toJson() {
-		JsonObject timer = new JsonObject();
-		timer.putChain("timeUpTo", max);
-		if (!getChildren().isEmpty())
-			timer.putChain("children", new JsonObject(getChildren()));
-		return timer.toJson();
+	protected EntityTypes getType() {
+		return null;
 	}
 
 }

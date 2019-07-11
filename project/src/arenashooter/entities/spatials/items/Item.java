@@ -252,16 +252,4 @@ public abstract class Item extends Spatial {
 		return clone;
 	}
 
-	@Override
-	public void toJson(Writer writable) throws IOException { //TODO: Finish this
-		JsonObject json = new JsonObject();
-		json.put("type", "entity_item");
-		
-		json.put("position", localPosition);
-		json.put("rotation", localRotation);
-		
-		json.putAll(getChildren());
-		
-		json.toJson(writable);
-	}
 }

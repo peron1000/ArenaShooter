@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
@@ -28,9 +29,9 @@ public class Entity implements Editable, Jsonable {
 
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
-	
+
 	private boolean isEditorTarget = false;
-	
+
 	// Entity comparator based on zIndex
 	protected static Comparator<Entity> comparatorZindex = new Comparator<Entity>() {
 		@Override
@@ -51,9 +52,10 @@ public class Entity implements Editable, Jsonable {
 			Main.log.warn("Trying to attach an entity to itself!");
 			return null;
 		}
-		
-		//Trying to attach the entity to its current parent, nothing to do
-		if(newParent == parent) return null;
+
+		// Trying to attach the entity to its current parent, nothing to do
+		if (newParent == parent)
+			return null;
 
 		// Detach this from current parent
 		if (parent != null)
@@ -70,7 +72,7 @@ public class Entity implements Editable, Jsonable {
 		this.parent = newParent;
 
 		recursiveAttach(this.parent);
-		
+
 		return previousChild;
 	}
 
@@ -85,23 +87,24 @@ public class Entity implements Editable, Jsonable {
 		name = "";
 		recursiveDetach(arena);
 	}
-	
+
 	protected void recursiveAttach(Entity newParent) {
 		arenaDirty = true;
-		for(Entity e : children.values())
+		for (Entity e : children.values())
 			e.recursiveAttach(newParent);
 	}
-	
+
 	protected void recursiveDetach(Arena oldArena) {
 		arenaDirty = true;
-		for(Entity e : children.values())
+		for (Entity e : children.values())
 			e.recursiveDetach(oldArena);
 	}
-	
+
 	/**
-	 * Update position/rotation according to parent	
+	 * Update position/rotation according to parent
 	 */
-	public void updateAttachment() {} //Entities aren't spatials, they don't need that
+	public void updateAttachment() {
+	} // Entities aren't spatials, they don't need that
 
 	/**
 	 * @return this Entity's parent (null if not attached)
@@ -111,15 +114,19 @@ public class Entity implements Editable, Jsonable {
 	}
 
 	/**
-	 * Get the entire children map. 
-	 * If you intend to use this for get(), you should use getChild() instead.
+	 * Get the entire children map. If you intend to use this for get(), you should
+	 * use getChild() instead.
+	 * 
 	 * @return this Entity's children map (name->child)
 	 */
-	public Map<String, Entity> getChildren() { return children; }
-	
+	public Map<String, Entity> getChildren() {
+		return children;
+	}
+
 	/**
-	 * Get a child Entity from its name.
-	 * <br/> This is a shortcut for getChildren().get(<i>name</i>).
+	 * Get a child Entity from its name. <br/>
+	 * This is a shortcut for getChildren().get(<i>name</i>).
+	 * 
 	 * @param name
 	 * @return child Entity attached as <i>name</i> or null if none
 	 */
@@ -144,18 +151,19 @@ public class Entity implements Editable, Jsonable {
 	/**
 	 * @return Arena containing this entity
 	 */
-	public Arena getArena() { //TODO: test
-		if(!arenaDirty && arena != null) return arena;
-		
+	public Arena getArena() { // TODO: test
+		if (!arenaDirty && arena != null)
+			return arena;
+
 		Entity current = parent;
 		while (current != null && !(current instanceof Arena))
 			current = current.parent;
 
 		if (current instanceof Arena)
-			arena = (Arena)current;
+			arena = (Arena) current;
 		else
 			arena = null;
-		
+
 		arenaDirty = false;
 		return arena;
 	}
@@ -178,7 +186,7 @@ public class Entity implements Editable, Jsonable {
 	 * Render opaque/masked entities and add transparent ones to Arena's list
 	 */
 	public void renderFirstPass() {
-		if(drawAsTransparent())
+		if (drawAsTransparent())
 			getArena().transparent.add(this);
 		else
 			draw(false);
@@ -192,13 +200,16 @@ public class Entity implements Editable, Jsonable {
 
 	/**
 	 * Draw this entity<br/>
-	 * This will be called during the opaque pass or the transparency pass if drawAsTransparent()
+	 * This will be called during the opaque pass or the transparency pass if
+	 * drawAsTransparent()
+	 * 
 	 * @param transparency is this called during transparency pass
 	 */
-	public void draw(boolean transparency) { }
+	public void draw(boolean transparency) {
+	}
 
 	public String genName() {
-		return String.valueOf(toString()+System.nanoTime());
+		return String.valueOf(toString() + System.nanoTime());
 	}
 
 	@Override
@@ -230,11 +241,12 @@ public class Entity implements Editable, Jsonable {
 	 * This is used to draw additional elements such as icons in arena editor
 	 */
 	@Override
-	public void editorDraw() { }
+	public void editorDraw() {
+	}
 
 	@Override
 	public void editorAddDepth(float depth) {
-		// Nothing		
+		// Nothing
 	}
 
 	@Override
@@ -246,21 +258,34 @@ public class Entity implements Editable, Jsonable {
 	public void editorAddRotationY(double angle) {
 		// Nothing
 	}
-	
+
 	protected EntityTypes getType() {
 		return EntityTypes.ENTITY;
 	}
-	
+
 	protected JsonObject getJson() {
 		JsonObject entity = new JsonObject();
-		entity.putChain("type", getType().name());
-		if (!getChildren().isEmpty())
-			entity.putChain("children", new JsonObject(getChildren()));
+		if (getType() == null)
+			return null;
+		entity.put("type", getType().name());
+		if (!children.isEmpty()) {
+			JsonObject c = new JsonObject();
+			for (Entry<String, Entity> e : children.entrySet()) {
+				JsonObject json = e.getValue().getJson();
+				if (json == null)
+					break;
+				c.put(e.getKey(), json);
+			}
+			if (!c.isEmpty())
+				entity.put("children", c);
+		}
 		return entity;
 	}
 
 	@Override
 	public String toJson() {
+		if (getJson() == null)
+			return null;
 		return getJson().toJson();
 	}
 
