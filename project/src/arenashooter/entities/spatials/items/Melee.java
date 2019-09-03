@@ -50,13 +50,13 @@ public class Melee extends Usable {
 	private double size = 0;
 	private Vec2f extent = new Vec2f();
 	
-	public Melee(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,Vec2f extent,
+	public Melee(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,Vec2fi extent,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage) {
 		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses, animPath,
 				warmupDuration, soundWarmup, attackSound);
 		this.animMelee = new AnimMelee(new Vec2f(), this);
-		this.extent = extent;
+		this.extent.set(extent);
 		getSprite().attachRot = true;
 		
 		//TODO: Read these values per-weapon

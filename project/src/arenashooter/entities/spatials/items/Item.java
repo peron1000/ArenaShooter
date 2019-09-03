@@ -189,7 +189,7 @@ public abstract class Item extends Spatial {
 		return vel;
 	}
 
-	public void setVel(Vec2f vel) {
+	public void setVel(Vec2fi vel) {
 		this.vel.set(vel);
 	}
 

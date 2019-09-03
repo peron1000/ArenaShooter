@@ -139,8 +139,8 @@ public class Gun extends Usable {
 		this.soundNoAmmo = soundNoAmmo;
 	}
 
-	public void setExtent(Vec2f extent) {
-		this.extent = extent;
+	public void setExtent(Vec2fi extent) {
+		this.extent.set(extent);
 	}
 
 	public void setSndWarmup(SoundEffect sndWarmup) {
