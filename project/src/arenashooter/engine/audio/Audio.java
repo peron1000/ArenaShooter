@@ -28,8 +28,9 @@ import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALUtil;
 
 import arenashooter.engine.math.Quat;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 
 /**
  * Audio manager
@@ -117,8 +118,8 @@ public final class Audio {
 	 * @param loc
 	 * @param rot
 	 */
-	public static void setListener(Vec3f loc, Quat rot) {
-		alListener3f( AL_POSITION, loc.x, loc.y, loc.z );
+	public static void setListener(Vec3fi loc, Quat rot) {
+		alListener3f( AL_POSITION, loc.x(), loc.y(), loc.z() );
 		
 		Vec3f forward = Vec3f.multiply(rot.forward(), -1 );
 		Vec3f up = rot.up();
@@ -172,7 +173,7 @@ public final class Audio {
 	 * @param pitch
 	 * @param position
 	 */
-	public static void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2f position) {
+	public static void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2fi position) {
 		if(channel.volume <= 0 || volume <= 0 ||  file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = SoundBuffer.loadSound(file);

@@ -5,6 +5,7 @@ import arenashooter.engine.DamageType;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.bodies.KinematicBody;
 
 public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> implements IAnimated {
@@ -34,13 +35,13 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 	/**
 	 * @return linear velocity at center of mass
 	 */
-	public Vec2f getLinearVelocity() { return body.getLinearVelocity(); }
+	public Vec2fi getLinearVelocity() { return body.getLinearVelocity(); }
 	
 	/**
 	 * Set linear velocity at center of mass
 	 * @param newVelocity
 	 */
-	public void setLinearVelocity(Vec2f newVelocity) {
+	public void setLinearVelocity(Vec2fi newVelocity) {
 		body.setLinearVelocity(newVelocity);
 	}
 	
@@ -52,8 +53,8 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 		updateAnim(d);
 		
 		//Destroy when out of bounds
-		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
-				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
+		if (getArena() != null && (getWorldPos().x() < getArena().killBound.x || getWorldPos().x() > getArena().killBound.z
+				|| getWorldPos().y() < getArena().killBound.y || getWorldPos().y() > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 	}
 	

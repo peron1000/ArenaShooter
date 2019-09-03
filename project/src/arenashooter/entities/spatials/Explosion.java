@@ -9,6 +9,7 @@ import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
@@ -32,7 +33,7 @@ public class Explosion extends Spatial {
 	
 	private float radius;
 	
-	public Explosion(Vec2f position, DamageInfo dmgInfo, float radius) {
+	public Explosion(Vec2fi position, DamageInfo dmgInfo, float radius) {
 		super(position);
 		
 		this.dmgInfo = dmgInfo.clone();

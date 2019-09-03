@@ -10,6 +10,7 @@ import java.util.Set;
 
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
@@ -44,7 +45,7 @@ public class Arena extends Entity {
 	public Map<String, Item> spawnList = new HashMap<>();
 
 	/** Character spawns that have been used */
-	public List<Vec2f> usedSpawns = new ArrayList<>();
+	public List<Vec2fi> usedSpawns = new ArrayList<>();
 
 	/** All items currently on the map */
 	public List<Item> items = new ArrayList<>();
@@ -90,13 +91,13 @@ public class Arena extends Entity {
 	 * @author Shervin
 	 * @return Vec2f
 	 */
-	public Vec2f GetRandomRespawnch() {
+	public Vec2fi GetRandomRespawnch() {
 		Vec2f rand = new Vec2f(0, 0);
 		return rand;
 	}
 
-	public Vec2f GetRandomRespawnch2() {
-		Vec2f randi = new Vec2f();
+	public Vec2fi GetRandomRespawnch2() {
+		Vec2fi randi = new Vec2f();
 
 		try {
 			int rand = (int) (Math.random()*playerSpawns.size());

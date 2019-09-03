@@ -4,7 +4,7 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Arena;
 
 /**
@@ -25,7 +25,7 @@ public class SoundEffect extends Spatial {
 	 * @param path audio file
 	 * @param channel
 	 */
-	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel ) {
+	public SoundEffect( Vec2fi localPosition, String path, AudioChannel channel ) {
 		this(localPosition, path, channel, 1, 1, 1, false);
 	}
 	
@@ -38,7 +38,7 @@ public class SoundEffect extends Spatial {
 	 * @param pitch
 	 * @param looping
 	 */
-	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel, float volume, float pitch, boolean looping ) {
+	public SoundEffect( Vec2fi localPosition, String path, AudioChannel channel, float volume, float pitch, boolean looping ) {
 		this(localPosition, path, channel, volume, pitch, pitch, looping);
 	}
 	
@@ -52,7 +52,7 @@ public class SoundEffect extends Spatial {
 	 * @param pitchMax maximum pitch
 	 * @param looping
 	 */
-	public SoundEffect( Vec2f localPosition, String path, AudioChannel channel, float volume, float pitchMin, float pitchMax, boolean looping ) {
+	public SoundEffect( Vec2fi localPosition, String path, AudioChannel channel, float volume, float pitchMin, float pitchMax, boolean looping ) {
 		super(localPosition);
 		
 		this.path = path;

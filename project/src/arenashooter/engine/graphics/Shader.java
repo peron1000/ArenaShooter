@@ -7,9 +7,9 @@ import java.util.Map;
 
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec2fi;
+import arenashooter.engine.math.Vec3fi;
+import arenashooter.engine.math.Vec4fi;
 
 /**
  * Container for a shader program
@@ -156,7 +156,7 @@ public class Shader {
 	 * @param name uniform's name
 	 * @param value uniform value
 	 */
-	public void setUniformV2(String name, Vec2f value) {
+	public void setUniformV2(String name, Vec2fi value) {
 		glUniform2fv(getUniformLocation(name), value.toArray(floatBuffer2));
 	}
 	
@@ -165,7 +165,7 @@ public class Shader {
 	 * @param name uniform's name
 	 * @param value uniform value
 	 */
-	public void setUniformV3(String name, Vec3f value) {
+	public void setUniformV3(String name, Vec3fi value) {
 		glUniform3fv(getUniformLocation(name), value.toArray(floatBuffer3));
 	}
 	
@@ -174,7 +174,7 @@ public class Shader {
 	 * @param name uniform's name
 	 * @param value uniform value
 	 */
-	public void setUniformV4(String name, Vec4f value) {
+	public void setUniformV4(String name, Vec4fi value) {
 		glUniform4fv(getUniformLocation(name), value.toArray(floatBuffer4));
 	}
 	

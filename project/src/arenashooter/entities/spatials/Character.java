@@ -14,6 +14,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionCategory;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -83,7 +84,7 @@ public class Character extends RigidBodyContainer {
 	 */
 	private boolean punchedMidAir = false;
 
-	public Character(Vec2f position, CharacterInfo charInfo , boolean demo) {
+	public Character(Vec2fi position, CharacterInfo charInfo , boolean demo) {
 		super(new RigidBody(new ShapeCharacter(), position, 0, (demo? CollisionFlags.NONE: CollisionFlags.CHARACTER),
 				(charInfo.getCharClass() == CharacterClass.Heavy ? 1.5f : .5f), 1));
 
@@ -135,8 +136,8 @@ public class Character extends RigidBodyContainer {
 	}
 
 	public void jump() {
-		float y = getLinearVelocity().y;
-		float x = getLinearVelocity().x;
+		float y = getLinearVelocity().y();
+		float x = getLinearVelocity().x();
 		if (jumpTimer.getValue() > .4 || jumpTimer.getValue() == 0) {
 			if (canJump || (!justInTime.isOver() && lastJumpCouldMake == 0)) {
 				jumpTimer.reset();
@@ -197,7 +198,7 @@ public class Character extends RigidBodyContainer {
 	public void planer() {
 		if (!isOnGround) {
 			if (!jumpTimer.isOver() && jumpTimer.inProcess) {
-				if (getLinearVelocity().y < 0 && jumpi) {
+				if (getLinearVelocity().y() < 0 && jumpi) {
 					// vel.y += (float) (-parachuteForce * Math.expm1(1 -
 					// (jumpTimer.getValueRatio())));
 					getBody().applyForce(
@@ -214,8 +215,8 @@ public class Character extends RigidBodyContainer {
 
 	public void jumpStop() {
 		jumpi = false;
-		if (getLinearVelocity().y < 0) {
-			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x, getLinearVelocity().y / 2));
+		if (getLinearVelocity().y() < 0) {
+			getBody().setLinearVelocity(new Vec2f(getLinearVelocity().x(), getLinearVelocity().y() / 2));
 			// vel.y = vel.y / 2;
 		}
 	}
@@ -371,7 +372,7 @@ public class Character extends RigidBodyContainer {
 			}
 
 			if (impulse.y < 0) {
-				if (getLinearVelocity().y < 0)
+				if (getLinearVelocity().y() < 0)
 					impulse.y = 0;
 				else
 					impulse.y = (float) (-Math.log(-impulse.y) * 4);
@@ -422,8 +423,8 @@ public class Character extends RigidBodyContainer {
 			for (Entity e : getArena().getChildren().values()) { // TODO: Remove this
 				if (!hasWeapon && e instanceof Usable) {
 					Usable usable = (Usable) e;
-					float xDiff = Math.abs(getWorldPos().x - usable.getWorldPos().x);
-					float yDiff = Math.abs(getWorldPos().y - usable.getWorldPos().y);
+					float xDiff = Math.abs(getWorldPos().x() - usable.getWorldPos().x());
+					float yDiff = Math.abs(getWorldPos().y() - usable.getWorldPos().y());
 					if (xDiff < 1.75 && yDiff < 1.75)
 						arme = usable;
 				}
@@ -591,8 +592,8 @@ public class Character extends RigidBodyContainer {
 			skeleton.canParry = true;
 		}
 
-		double velX = Utils.lerpD(getLinearVelocity().x, movementInputX * maxSpeed, Utils.clampD(d * 15, 0, 1));
-		double velY = getLinearVelocity().y;
+		double velX = Utils.lerpD(getLinearVelocity().x(), movementInputX * maxSpeed, Utils.clampD(d * 15, 0, 1));
+		double velY = getLinearVelocity().y();
 		if (!stunned) {
 			// Aim
 			if (!isAiming) {
@@ -614,9 +615,9 @@ public class Character extends RigidBodyContainer {
 			if (movementInputY > 0.4) {
 				if (!isOnGround && velY < 40)
 					velY = Utils.lerpD(velY, movementInputY * 40, Utils.clampD(d * 15, 0, 1));
-			} else if (getLinearVelocity().y > 75)
+			} else if (getLinearVelocity().y() > 75)
 				velY = Utils.lerpD(velY, 75, Utils.clampD(d * 15, 0, 1));
-			else if (getLinearVelocity().y < -65)
+			else if (getLinearVelocity().y() < -65)
 				velY = Utils.lerpD(velY, -65, Utils.clampD(d * 15, 0, 1));
 			getBody().setLinearVelocity(new Vec2f(velX, velY));
 		} else {
@@ -658,8 +659,8 @@ public class Character extends RigidBodyContainer {
 		boolean touchingRightWall = false;
 		boolean touchingLeftWall = false;
 
-		float x = getWorldPos().x;
-		float y = getWorldPos().y;
+		float x = getWorldPos().x();
+		float y = getWorldPos().y();
 
 		if (!canJump) {
 			getArena().physic.raycast(new Vec2f(.5 + x, y), new Vec2f(.5 + x, .8 + y), JumpRaycastCallback);

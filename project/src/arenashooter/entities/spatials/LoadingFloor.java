@@ -7,6 +7,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 
 public class LoadingFloor extends Spatial {
 	private static final Texture[] tex;
@@ -30,7 +31,7 @@ public class LoadingFloor extends Spatial {
 		};
 	}
 	
-	public LoadingFloor(Vec2f position) {
+	public LoadingFloor(Vec2fi position) {
 		super(position);
 		currentTex = (int)Math.floor( Math.random()*(tex.length-1) );
 		zIndex = 100;

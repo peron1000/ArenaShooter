@@ -6,6 +6,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class Punch extends Spatial {
 	private float radius;
 	private float hitWidth;
 
-	public Punch(Vec2f localPosition, DamageInfo dmgInfo, float hitWidth, float radius, boolean superPoing) {
+	public Punch(Vec2fi localPosition, DamageInfo dmgInfo, float hitWidth, float radius, boolean superPoing) {
 		super(localPosition);
 
 		this.dmgInfo = dmgInfo.clone();
@@ -66,8 +67,7 @@ public class Punch extends Spatial {
 					if (getParent() instanceof Character) {
 						Character parent = (Character) getParent();
 						parent.stun(1);
-						Vec2f parentVel = parent.getBody().getLinearVelocity();
-						parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
+						parent.getBody().setLinearVelocity(Vec2f.multiply(parent.getBody().getLinearVelocity(), -0.5));
 					}
 				} else {
 					Audio.playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f,
@@ -79,8 +79,7 @@ public class Punch extends Spatial {
 			} else if (target.punching > 0 && getParent() instanceof Character
 					&& Vec2f.areOpposed(dmgInfo.direction, Vec2f.fromAngle(target.aimInput), hitWidth/2)) {
 				Character parent = (Character) getParent();
-				Vec2f parentVel = parent.getBody().getLinearVelocity();
-				parent.getBody().setLinearVelocity(Vec2f.multiply(parentVel, -0.5));
+				parent.getBody().setLinearVelocity(Vec2f.multiply(parent.getBody().getLinearVelocity(), -0.5));
 				Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 50, (float) (0.95 + Math.random() * 0.1),
 						getWorldPos());
 			} else {

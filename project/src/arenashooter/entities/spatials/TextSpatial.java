@@ -8,8 +8,9 @@ import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
 import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
 
 public class TextSpatial extends Spatial3 {
@@ -18,9 +19,9 @@ public class TextSpatial extends Spatial3 {
 
 	public Vec3f scale;
 
-	public TextSpatial(Vec3f localPosition, Vec3f scale, Text text) {
+	public TextSpatial(Vec3fi localPosition, Vec3fi scale, Text text) {
 		super(localPosition);
-		this.scale = scale.clone();
+		this.scale = new Vec3f(scale);
 		this.text = text;
 		this.material = Material.loadMaterial("data/materials/text_distance_field.xml");
 
@@ -86,9 +87,9 @@ public class TextSpatial extends Spatial3 {
 	}
 
 	@Override
-	public void editorAddScale(Vec2f scale) {
-		this.scale.x += scale.x;
-		this.scale.y += scale.y;
+	public void editorAddScale(Vec2fi scale) {
+		this.scale.x += scale.x();
+		this.scale.y += scale.y();
 	}
 
 	/**

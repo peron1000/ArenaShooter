@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -18,7 +19,7 @@ public class KinematicBody extends PhysicBody {
 	
 	private Vec2f linearVelocity = new Vec2f();
 
-	public KinematicBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags, float density) {
+	public KinematicBody(PhysicShape shape, Vec2fi worldPosition, double worldRotation, CollisionFlags collFlags, float density) {
 		super(shape, worldPosition, worldRotation, collFlags);
 
 		this.density = density;
@@ -32,7 +33,7 @@ public class KinematicBody extends PhysicBody {
 	 * Apply an impulse at center of mass
 	 * @param impulse
 	 */
-	public void applyImpulse(Vec2f impulse) {
+	public void applyImpulse(Vec2fi impulse) {
 		body.applyLinearImpulse(impulse.toB2Vec(), body.getPosition(), true);
 	}
 	
@@ -41,7 +42,7 @@ public class KinematicBody extends PhysicBody {
 	 * @param impulse
 	 * @param location world position
 	 */
-	public void applyImpulse(Vec2f impulse, Vec2f location) {
+	public void applyImpulse(Vec2fi impulse, Vec2fi location) {
 		if(body != null)
 			body.applyLinearImpulse(impulse.toB2Vec(), location.toB2Vec(), true);
 	}
@@ -49,7 +50,7 @@ public class KinematicBody extends PhysicBody {
 	/**
 	 * @return linear velocity at center of mass
 	 */
-	public Vec2f getLinearVelocity() {
+	public Vec2fi getLinearVelocity() {
 		if(body == null)
 			return linearVelocity.set(bodyDef.getLinearVelocity());
 		else
@@ -60,7 +61,7 @@ public class KinematicBody extends PhysicBody {
 	 * Set linear velocity at center of mass
 	 * @param newVelocity
 	 */
-	public void setLinearVelocity(Vec2f newVelocity) {
+	public void setLinearVelocity(Vec2fi newVelocity) {
 		newVelocity.toB2Vec(bodyDef.getLinearVelocity());
 		if(body != null)
 			newVelocity.toB2Vec(body.getLinearVelocity());

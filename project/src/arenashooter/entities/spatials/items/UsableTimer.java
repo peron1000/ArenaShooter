@@ -2,6 +2,7 @@ package arenashooter.entities.spatials.items;
 
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 
@@ -16,8 +17,8 @@ public class UsableTimer extends Item {
 	protected String soundWarmup = "";
 	protected String soundFire = "";
 
-	public UsableTimer(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL,
-			Vec2f handPosR, Vec2f size, String soundPickup, double fireRate, int duration, String animPath,
+	public UsableTimer(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL,
+			Vec2fi handPosR, Vec2fi size, String soundPickup, double fireRate, int duration, String animPath,
 			double warmup, String soundWarmup, String soundFire) {
 		super(localPosition, name, weight, pathSprite, handPosL, handPosR, size, soundPickup);
 		timerCooldown = new Timer(fireRate);

@@ -13,6 +13,7 @@ import org.jbox2d.dynamics.Fixture;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
@@ -49,7 +50,7 @@ public class Melee extends Usable {
 	private double size = 0;
 	private Vec2f extent = new Vec2f();
 	
-	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,Vec2f extent,
+	public Melee(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,Vec2f extent,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
 			String attackSound, float damage) {
 		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup, cooldown, uses, animPath,
@@ -125,8 +126,8 @@ public class Melee extends Usable {
 		
 		if(dealingDamage) {
 			if(lastBladeBot == null || lastBladeTop == null) {
-				lastBladeBot = bladeBot.getWorldPos().clone();
-				lastBladeTop = bladeTop.getWorldPos().clone();
+				lastBladeBot = new Vec2f(bladeBot.getWorldPos());
+				lastBladeTop = new Vec2f(bladeTop.getWorldPos());
 			} else {
 				hitEntities.clear();
 				bladeRayFraction = 1;

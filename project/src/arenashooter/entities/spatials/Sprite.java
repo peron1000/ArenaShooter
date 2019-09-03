@@ -7,6 +7,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
 
 public class Sprite extends Spatial {
@@ -18,7 +19,7 @@ public class Sprite extends Spatial {
 	
 	public boolean flipX = false, flipY = false;
 	
-	public Sprite(Vec2f localPosition, Texture texture) {
+	public Sprite(Vec2fi localPosition, Texture texture) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		material = Material.loadMaterial("data/materials/sprite_simple.xml");
@@ -28,17 +29,17 @@ public class Sprite extends Spatial {
 			material.transparency = true;
 	}
 	
-	public Sprite(Vec2f localPosition, Material material) {
+	public Sprite(Vec2fi localPosition, Material material) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		this.material = material;
 	}
 	
-	public Sprite(Vec2f localPosition, String texture) {
+	public Sprite(Vec2fi localPosition, String texture) {
 		this(localPosition, Texture.loadTexture(texture));
 	}
 	
-	public Sprite(Vec2f localPosition) {
+	public Sprite(Vec2fi localPosition) {
 		this(localPosition, defaultTex);
 	}
 	
@@ -54,7 +55,7 @@ public class Sprite extends Spatial {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		//Create matrices
-		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
+		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y ); //TODO: Remove vector creation
 
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM));
 		material.setParamMat4f("view", Window.getView());
@@ -77,7 +78,7 @@ public class Sprite extends Spatial {
 	}
 	
 	@Override
-	public void editorAddScale(Vec2f scale) {
+	public void editorAddScale(Vec2fi scale) {
 		this.size.add(scale);
 	}
 	

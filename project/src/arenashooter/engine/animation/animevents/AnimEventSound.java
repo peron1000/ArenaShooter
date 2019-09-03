@@ -2,7 +2,7 @@ package arenashooter.engine.animation.animevents;
 
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 
 public class AnimEventSound extends AnimEvent {
 	public final String path;
@@ -22,7 +22,7 @@ public class AnimEventSound extends AnimEvent {
 	 * Play this sound
 	 * @param position ignored if spatialized = false (can be left to null in this case)
 	 */
-	public void play(Vec2f position) {
+	public void play(Vec2fi position) {
 		if(spatialized)
 			Audio.playSound2D(path, channel, volume, pitch, position);
 		else

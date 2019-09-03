@@ -5,6 +5,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Bullet;
@@ -53,8 +54,8 @@ public class Gun extends Usable {
 	 * @param thrust
 	 * @param size
 	 */
-	public Gun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			Vec2f extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
+	public Gun(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,
+			Vec2fi extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
 			String soundWarmup, String soundFire, String soundNoAmmo, int bulletType, float bulletSpeed, float damage,
 			double cannonLength, double recoil, double thrust) {
 
@@ -68,7 +69,7 @@ public class Gun extends Usable {
 		this.recoil = (float) recoil;
 		this.thrust = (float) thrust;
 		this.soundNoAmmo = soundNoAmmo;
-		this.extent = extent;
+		this.extent.set(extent);
 
 		if (soundWarmup == null || soundWarmup.isEmpty()) {
 			sndWarmup = null;
@@ -279,7 +280,7 @@ public class Gun extends Usable {
 				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
 				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
-				Vec2f bulletPos = getWorldPos();
+				Vec2f bulletPos = new Vec2f(getWorldPos());
 				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;

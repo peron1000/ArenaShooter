@@ -13,6 +13,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -280,7 +281,7 @@ public class CharacterSprite extends Spatial {
 		confett1.zIndex = zIndex + 5;
 	}
 	
-	public void explode(Vec2f impulse) {
+	public void explode(Vec2fi impulse) {
 		// Head
 		RigidBody rb = new RigidBody(new ShapeDisk(.45), Vec2f.subtract(head.getWorldPos(), new Vec2f(0, .5)),
 				head.getWorldRot(), CollisionFlags.CORPSE, 2.9f, .9f);
@@ -335,7 +336,7 @@ public class CharacterSprite extends Spatial {
 		if (getParent() instanceof Character) {
 			lookAngle = ((Character) getParent()).aimInput;
 			isOnGround = ((Character) getParent()).isOnGround;
-			moveSpeed = ((Character) getParent()).getLinearVelocity().x;
+			moveSpeed = ((Character) getParent()).getLinearVelocity().x();
 		} else {
 			lookAngle = 0;
 			isOnGround = true;

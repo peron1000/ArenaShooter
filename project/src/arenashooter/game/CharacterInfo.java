@@ -1,6 +1,6 @@
 package arenashooter.game;
 
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.spatials.Character;
 
 public class CharacterInfo {
@@ -42,7 +42,7 @@ public class CharacterInfo {
 		return charClass;
 	}
 
-	public Character createNewCharacter(Vec2f spawn) {
+	public Character createNewCharacter(Vec2fi spawn) {
 		return new Character(spawn, this , false);
 	}
 

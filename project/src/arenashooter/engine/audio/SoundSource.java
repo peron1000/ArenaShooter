@@ -23,8 +23,8 @@ import static org.lwjgl.openal.AL10.alSourcei;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.AL11;
 
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec2fi;
+import arenashooter.engine.math.Vec3fi;
 
 public class SoundSource {
 	private final int sourceId;
@@ -64,28 +64,28 @@ public class SoundSource {
 	
 	public void stop() { alSourceStop(sourceId); }
 	
-	public void setPosition2D(Vec2f position) {
+	public void setPosition2D(Vec2fi position) {
 		if(position == null) {
 			alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
 			alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_TRUE );
 			alSourcef( sourceId, AL11.AL_REFERENCE_DISTANCE, 0 );
 			alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, 0 );
 		} else {
-			alSource3f( sourceId, AL_POSITION, position.x, position.y, 0 );
+			alSource3f( sourceId, AL_POSITION, position.x(), position.y(), 0 );
 			alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_FALSE );
 			alSourcef( sourceId, AL11.AL_REFERENCE_DISTANCE, 10 );
 			alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, .0055f );
 		}
 	}
 	
-	public void setPosition3D(Vec3f position) {
+	public void setPosition3D(Vec3fi position) {
 		if(position == null) {
 			alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
 			alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_TRUE );
 			alSourcef( sourceId, AL11.AL_REFERENCE_DISTANCE, 0 );
 			alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, 0 );
 		} else {
-			alSource3f( sourceId, AL_POSITION, position.x, position.y, position.z );
+			alSource3f( sourceId, AL_POSITION, position.x(), position.y(), position.z() );
 			alSourcei( sourceId, AL_SOURCE_RELATIVE, AL_FALSE );
 			alSourcef( sourceId, AL11.AL_REFERENCE_DISTANCE, 10 );
 			alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, .0055f );

@@ -7,7 +7,7 @@ import arenashooter.engine.graphics.Window;
 /**
  * Mutable 2 dimensional vector of floats (x, y)
  */
-public class Vec2f {
+public class Vec2f implements Vec2fi {
 
 	public float x, y;
 
@@ -49,17 +49,25 @@ public class Vec2f {
 	}
 	
 	/**
-	 * @return creates a Box-2d vector from <i>this</i>
+	 * Create a copy of a vector
 	 */
+	public Vec2f(Vec2fi v) {
+		x = v.x();
+		y = v.y();
+	}
+	
+	@Override
+	public float x() { return x; }
+
+	@Override
+	public float y() { return y; }
+	
+	@Override
 	public Vec2 toB2Vec() {
 		return new Vec2(x, y);
 	}
 	
-	/**
-	 * Set <i>b2Vec</i> to <i>this</i>
-	 * @param b2Vec
-	 * @return <i>b2Vec</i> (modified)
-	 */
+	@Override
 	public Vec2 toB2Vec(Vec2 b2Vec) {
 		b2Vec.set(x, y);
 		return b2Vec;
@@ -82,9 +90,9 @@ public class Vec2f {
 	 * @param other
 	 *            vector to copy
 	 */
-	public void set(Vec2f other) {
-		x = other.x;
-		y = other.y;
+	public void set(Vec2fi other) {
+		x = other.x();
+		y = other.y();
 	}
 	
 	/**
@@ -105,9 +113,9 @@ public class Vec2f {
 	 * @param v
 	 * @return <i>this</i> (modified)
 	 */
-	public Vec2f add(Vec2f v) {
-		x += v.x;
-		y += v.y;
+	public Vec2f add(Vec2fi v) {
+		x += v.x();
+		y += v.y();
 		return this;
 	}
 	
@@ -135,17 +143,12 @@ public class Vec2f {
 		return this;
 	}
 
-	/**
-	 * @return vector length
-	 */
+	@Override
 	public double length() {
 		return Math.sqrt((x * x) + (y * y));
 	}
 
-	/**
-	 * This is cheaper than length() because it avoids using a square root
-	 * @return vector length squared
-	 */
+	@Override
 	public double lengthSquared() {
 		return (x * x) + (y * y);
 	}
@@ -156,19 +159,16 @@ public class Vec2f {
 	 * @param v
 	 * @return new normalized vector, or (0,0) if length is 0
 	 */
-	public static Vec2f normalize(Vec2f v) {
+	public static Vec2f normalize(Vec2fi v) {
 		double len = v.length();
 
 		if (len == 0)
 			return new Vec2f();
 
-		return new Vec2f(v.x / len, v.y / len);
+		return new Vec2f(v.x() / len, v.y() / len);
 	}
 
-	/** 
-	 * 
-	 * @return angle de <i>this</i> in radians
-	 */
+	@Override
 	public double angle() {
 		return Math.atan2(y, x);
 	}
@@ -181,6 +181,7 @@ public class Vec2f {
 		return new Vec2f(x, y);
 	}
 	
+	@Override
 	public float[] toArray(float[] target) {
 		target[0] = x;
 		target[1] = y;
@@ -194,8 +195,9 @@ public class Vec2f {
 		return false;
 	}
 	
-	public boolean equals(Vec2f other, float errorMargin) {
-		return Math.abs(other.x-x) < errorMargin && Math.abs(other.y-y) < errorMargin;
+	@Override
+	public boolean equals(Vec2fi other, float errorMargin) {
+		return Math.abs(other.x()-x) < errorMargin && Math.abs(other.y()-y) < errorMargin;
 	}
 
 	@Override
@@ -222,8 +224,8 @@ public class Vec2f {
 	 * @param b
 	 * @return a+b (original vectors are unchanged)
 	 */
-	public static Vec2f add(Vec2f a, Vec2f b) {
-		return new Vec2f(a.x + b.x, a.y + b.y);
+	public static Vec2f add(Vec2fi a, Vec2fi b) {
+		return new Vec2f(a.x() + b.x(), a.y() + b.y());
 	}
 	
 	/**
@@ -235,9 +237,9 @@ public class Vec2f {
 	 * @param target
 	 * @return target (a+b)
 	 */
-	public static Vec2f add(Vec2f a, Vec2f b, Vec2f target) {
-		target.x = a.x+b.x;
-		target.y = a.y+b.y;
+	public static Vec2f add(Vec2fi a, Vec2fi b, Vec2f target) {
+		target.x = a.x()+b.x();
+		target.y = a.y()+b.y();
 		return target;
 	}
 
@@ -248,8 +250,8 @@ public class Vec2f {
 	 * @param b
 	 * @return a-b (original vector is unchanged)
 	 */
-	public static Vec2f subtract(Vec2f a, Vec2f b) {
-		return new Vec2f(a.x - b.x, a.y - b.y);
+	public static Vec2f subtract(Vec2fi a, Vec2fi b) {
+		return new Vec2f(a.x() - b.x(), a.y() - b.y());
 	}
 
 	/**
@@ -259,8 +261,8 @@ public class Vec2f {
 	 * @param a the double
 	 * @return v*a (original vector is unchanged)
 	 */
-	public static Vec2f multiply(Vec2f v, double a) {
-		return new Vec2f(v.x * a, v.y * a);
+	public static Vec2f multiply(Vec2fi v, double a) {
+		return new Vec2f(v.x() * a, v.y() * a);
 	}
 	
 	/**
@@ -271,9 +273,9 @@ public class Vec2f {
 	 * @param target
 	 * @return target (modified)
 	 */
-	public static Vec2f multiply(Vec2f v, double a, Vec2f target) {
-		target.x = (float) (v.x*a);
-		target.y = (float) (v.y*a);
+	public static Vec2f multiply(Vec2fi v, double a, Vec2f target) {
+		target.x = (float) (v.x()*a);
+		target.y = (float) (v.y()*a);
 		return target;
 	}
 
@@ -284,8 +286,8 @@ public class Vec2f {
 	 * @param b
 	 * @return ( a.x*b.x, a.y*b.y ) (original vectors are unchanged)
 	 */
-	public static Vec2f multiply(Vec2f a, Vec2f b) {
-		return new Vec2f(a.x * b.x, a.y * b.y);
+	public static Vec2f multiply(Vec2fi a, Vec2fi b) {
+		return new Vec2f(a.x() * b.x(), a.y() * b.y());
 	}
 
 	/**
@@ -295,8 +297,8 @@ public class Vec2f {
 	 * @param b
 	 * @return a.b (original vectors are unchanged)
 	 */
-	public static double dot(Vec2f a, Vec2f b) {
-		return a.x * b.x + a.y * b.y;
+	public static double dot(Vec2fi a, Vec2fi b) {
+		return a.x() * b.x() + a.y() * b.y();
 	}
 	
 	/**
@@ -305,9 +307,9 @@ public class Vec2f {
 	 * @param to
 	 * @return
 	 */
-	public static double direction(Vec2f from, Vec2f to) {
-		double x = to.x - from.x;
-		double y = to.y - from.y;
+	public static double direction(Vec2fi from, Vec2fi to) {
+		double x = to.x() - from.x();
+		double y = to.y() - from.y();
 		return Math.atan2(y, x);
 	}
 	
@@ -317,9 +319,9 @@ public class Vec2f {
 	 * @param b
 	 * @return
 	 */
-	public static double distance(Vec2f a, Vec2f b) {
-		float x = b.x-a.x;
-		float y = b.y-a.y;
+	public static double distance(Vec2fi a, Vec2fi b) {
+		float x = b.x()-a.x();
+		float y = b.y()-a.y();
 		
 		return Math.sqrt( (x*x) + (y*y) );
 	}
@@ -330,9 +332,9 @@ public class Vec2f {
 	 * @param b
 	 * @return
 	 */
-	public static double distanceSquared(Vec2f a, Vec2f b) {
-		float x = b.x-a.x;
-		float y = b.y-a.y;
+	public static double distanceSquared(Vec2fi a, Vec2fi b) {
+		float x = b.x()-a.x();
+		float y = b.y()-a.y();
 		
 		return (x*x) + (y*y);
 	}
@@ -343,10 +345,10 @@ public class Vec2f {
 	 * @param r angle
 	 * @return new rotated vector (original is unchanged)
 	 */
-	public static Vec2f rotate(Vec2f v, double r) {
+	public static Vec2f rotate(Vec2fi v, double r) {
 		double cos = Math.cos(r);
 		double sin = Math.sin(r);
-		return new Vec2f(cos * v.x - sin * v.y, sin * v.x + cos * v.y);
+		return new Vec2f(cos * v.x() - sin * v.y(), sin * v.x() + cos * v.y());
 	}
 	
 	/**
@@ -357,27 +359,27 @@ public class Vec2f {
 	 * @param target vector storing the result
 	 * @return target (modified)
 	 */
-	public static Vec2f rotate(Vec2f v, double r, Vec2f target) {
+	public static Vec2f rotate(Vec2fi v, double r, Vec2f target) {
 		double cos = Math.cos(r);
 		double sin = Math.sin(r);
-		float vx = v.x, vy = v.y;
+		float vx = v.x(), vy = v.y();
 		
 		target.x = (float)(cos * vx - sin * vy);
 		target.y = (float)(sin * vx + cos * vy);
 		return target;
 	}
 
-	public static Vec2f rotate90(Vec2f v) {
-		return new Vec2f(-v.y, v.x);
+	public static Vec2f rotate90(Vec2fi v) {
+		return new Vec2f(-v.y(), v.x());
 	}
 	
-	public static Vec2f lerp( Vec2f a, Vec2f b, double f ) {
+	public static Vec2f lerp( Vec2fi a, Vec2fi b, double f ) {
 		return lerp(a, b, f, new Vec2f());
 	}
 	
-	public static Vec2f lerp( Vec2f a, Vec2f b, double f, Vec2f target ) {
-		target.x = Utils.lerpF(a.x, b.x, f);
-		target.y = Utils.lerpF(a.y, b.y, f);
+	public static Vec2f lerp( Vec2fi a, Vec2fi b, double f, Vec2f target ) {
+		target.x = Utils.lerpF(a.x(), b.x(), f);
+		target.y = Utils.lerpF(a.y(), b.y(), f);
 		return target;
 	}
 	
@@ -386,7 +388,7 @@ public class Vec2f {
 	 * @param world point to project
 	 * @return screen space projection
 	 */
-	public static Vec2f worldToScreen(Vec3f world) { //TODO: test
+	public static Vec2f worldToScreen(Vec3fi world) { //TODO: test
 		Mat4f viewProj = Mat4f.mul(Window.proj, Window.getView());
 		Mat4f model = Mat4f.translation(world);
 		float res[] = Mat4f.mul(viewProj, model).val[3];
@@ -402,7 +404,7 @@ public class Vec2f {
 	 * @param world point to project
 	 * @return screen space projection
 	 */
-	public static Vec2f worldToScreen(Vec2f world) { //TODO: test
+	public static Vec2f worldToScreen(Vec2fi world) { //TODO: test
 		Mat4f viewProj = Mat4f.mul(Window.proj, Window.getView());
 		Mat4f model = Mat4f.translation(world);
 		float res[] = Mat4f.mul(viewProj, model).val[3];

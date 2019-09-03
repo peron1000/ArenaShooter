@@ -8,6 +8,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
@@ -21,7 +22,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	
 	private Animation anim;
 
-	public LightContainer(Vec3f localPosition, Light light) {
+	public LightContainer(Vec3fi localPosition, Light light) {
 		super(localPosition);
 		this.light = light;
 	}

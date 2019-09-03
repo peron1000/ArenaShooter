@@ -16,7 +16,7 @@ import org.jbox2d.dynamics.World;
 import org.jbox2d.dynamics.contacts.Contact;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.joints.PhysicJoint;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -113,9 +113,9 @@ public class PhysicWorld {
 	
 	public World getB2World() { return world; }
 	
-	public void createStaticBody(PhysicShape shape, Vec2f pos, double rot) {
+	public void createStaticBody(PhysicShape shape, Vec2fi pos, double rot) {
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(pos.x, pos.y*-1);
+		bodyDef.position.set(pos.x(), pos.y()*-1);
 
 		Body body = world.createBody(bodyDef);
 		body.createFixture(shape.getB2Shape(), 0);
@@ -132,7 +132,7 @@ public class PhysicWorld {
 	 * @param end world space ray end point
 	 * @param callback
 	 */
-	public void raycast(Vec2f start, Vec2f end, RayCastCallback callback) {
+	public void raycast(Vec2fi start, Vec2fi end, RayCastCallback callback) {
 		world.raycast(callback, start.toB2Vec(raycastStartB2), end.toB2Vec(raycastEndB2));
 	}
 	

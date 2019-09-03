@@ -5,6 +5,7 @@ import arenashooter.engine.DamageType;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -19,12 +20,12 @@ public class Grenade extends Projectile {
 	private AnimationData redBlinks = AnimationData.loadAnim("data/animations/BlinkRed_1.xml");
 	private Animation blinking = null;
 
-	public Grenade(Vec2f position, Vec2f vel, float damage) {
+	public Grenade(Vec2fi position, Vec2fi vel, float damage) {
 		super(new RigidBody(new ShapeBox(new Vec2f(.25, .15)), position, vel.angle(), CollisionFlags.PROJ, 4, 1));
 		
 		getBody().setBullet(true);
 		
-		this.vel = vel.clone();
+		this.vel = new Vec2f(vel);
 
 		this.damage = damage;
 //		localRotation = vel.angle();

@@ -6,6 +6,7 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
@@ -20,7 +21,7 @@ public class CircleBullet extends Projectile {
 	private Vec2f finalVel = new Vec2f();
 	private static float frequency = 45, amplitude = 10;
 	
-	public CircleBullet(Vec2f position, Vec2f vel, float damage, boolean sens) {
+	public CircleBullet(Vec2fi position, Vec2fi vel, float damage, boolean sens) {
 		super(new RigidBody(new ShapeDisk(.25), position, 0, CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
@@ -29,7 +30,7 @@ public class CircleBullet extends Projectile {
 		this.sens = sens;
 		movementTime += (Math.random()-0.5)/2;
 		
-		this.vel = vel.clone();
+		this.vel = new Vec2f(vel);
 		direction = Vec2f.fromAngle(vel.angle());
 
 		this.damage = damage;
@@ -66,7 +67,7 @@ public class CircleBullet extends Projectile {
 		
 		getBody().setLinearVelocity(finalVel);
 		
-		if (Math.abs(getWorldPos().x) > 1000 || Math.abs(getWorldPos().y) > 1000) {
+		if (Math.abs(getWorldPos().x()) > 1000 || Math.abs(getWorldPos().y()) > 1000) {
 			detach();
 		}
 

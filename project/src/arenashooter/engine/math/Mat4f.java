@@ -84,19 +84,19 @@ public class Mat4f {
 	 * @param q unit quaternion
 	 * @return
 	 */
-	public static Mat4f rotation(Quat q) {
+	public static Mat4f rotation(QuatI q) {
 		Mat4f res = new Mat4f();
 		
-		double ww = q.w * q.w;
-        double xx = q.x * q.x;
-        double yy = q.y * q.y;
-        double zz = q.z * q.z;
-        double zw = q.z * q.w;
-        double xy = q.x * q.y;
-        double xz = q.x * q.z;
-        double yw = q.y * q.w;
-        double yz = q.y * q.z;
-        double xw = q.x * q.w;
+		double ww = q.w() * q.w();
+        double xx = q.x() * q.x();
+        double yy = q.y() * q.y();
+        double zz = q.z() * q.z();
+        double zw = q.z() * q.w();
+        double xy = q.x() * q.y();
+        double xz = q.x() * q.z();
+        double yw = q.y() * q.w();
+        double yz = q.y() * q.z();
+        double xw = q.x() * q.w();
 		
 		//First column
         res.val[0][0] = (float) (ww + xx - zz - yy);
@@ -156,12 +156,12 @@ public class Mat4f {
 	 * @param v
 	 * @return
 	 */
-	public static Mat4f translation(Vec3f v) {
+	public static Mat4f translation(Vec3fi v) {
 		Mat4f res = identity();
 		
-		res.val[3][0] = v.x;
-		res.val[3][1] = v.y;
-		res.val[3][2] = v.z;
+		res.val[3][0] = v.x();
+		res.val[3][1] = v.y();
+		res.val[3][2] = v.z();
 		
 		return res;
 	}
@@ -171,11 +171,11 @@ public class Mat4f {
 	 * @param v
 	 * @return
 	 */
-	public static Mat4f translation(Vec2f v) {
+	public static Mat4f translation(Vec2fi v) {
 		Mat4f res = identity();
 		
-		res.val[3][0] = v.x;
-		res.val[3][1] = v.y;
+		res.val[3][0] = v.x();
+		res.val[3][1] = v.y();
 		
 		return res;
 	}
@@ -185,12 +185,12 @@ public class Mat4f {
 	 * @param v
 	 * @return
 	 */
-	public static Mat4f scale(Vec3f v) {
+	public static Mat4f scale(Vec3fi v) {
 		Mat4f res = new Mat4f();
 		
-		res.val[0][0] = v.x;
-		res.val[1][1] = v.y;
-		res.val[2][2] = v.z;
+		res.val[0][0] = v.x();
+		res.val[1][1] = v.y();
+		res.val[2][2] = v.z();
 		res.val[3][3] = 1;
 		
 		return res;
@@ -201,11 +201,11 @@ public class Mat4f {
 	 * @param v
 	 * @return
 	 */
-	public static Mat4f scale(Vec2f v) {
+	public static Mat4f scale(Vec2fi v) {
 		Mat4f res = new Mat4f();
 		
-		res.val[0][0] = v.x;
-		res.val[1][1] = v.y;
+		res.val[0][0] = v.x();
+		res.val[1][1] = v.y();
 		res.val[2][2] = 1;
 		res.val[3][3] = 1;
 		
@@ -219,7 +219,7 @@ public class Mat4f {
 	 * @param scale
 	 * @return
 	 */
-	public static Mat4f transform( Vec3f loc, Quat rot, Vec3f scale ) {
+	public static Mat4f transform( Vec3fi loc, QuatI rot, Vec3fi scale ) {
 		Mat4f res = new Mat4f();
 		mul(translation(loc), rotation(rot), res);
 		mul(res, scale(scale), res);
@@ -235,7 +235,7 @@ public class Mat4f {
 	 * @param target
 	 * @return <i>target</i> (modified)
 	 */
-	public static Mat4f transform( Vec2f loc, double rot, Vec2f scale, Mat4f target ) {
+	public static Mat4f transform( Vec2fi loc, double rot, Vec2fi scale, Mat4f target ) {
 		double w = Math.cos(rot/2);
 		double z = Math.sin(rot/2);
 		
@@ -244,13 +244,13 @@ public class Mat4f {
 		double zw2 = 2*(z * w);
         
         //First column
-        target.val[0][0] = (float)((ww - zz)*scale.x);
-        target.val[0][1] = (float)(zw2*scale.x);
+        target.val[0][0] = (float)((ww - zz)*scale.x());
+        target.val[0][1] = (float)(zw2*scale.x());
         target.val[0][2] = 0;
         target.val[0][3] = 0;
 		//Second column
-        target.val[1][0] = (float)(-zw2*scale.y);
-        target.val[1][1] = (float)((-zz + ww)*scale.y);
+        target.val[1][0] = (float)(-zw2*scale.y());
+        target.val[1][1] = (float)((-zz + ww)*scale.y());
         target.val[1][2] = 0;
         target.val[1][3] = 0;
 		//Third column
@@ -259,8 +259,8 @@ public class Mat4f {
         target.val[2][2] = (float)(zz + ww);
         target.val[2][3] = 0;
         //Fourth column
-        target.val[3][0] = loc.x;
-        target.val[3][1] = loc.y;
+        target.val[3][0] = loc.x();
+        target.val[3][1] = loc.y();
         target.val[3][2] = 0;
         target.val[3][3] = 1;
         
@@ -274,12 +274,12 @@ public class Mat4f {
 	 * @param target
 	 * @return <i>target</i> (modified)
 	 */
-	public static Mat4f viewMatrix(Vec3f loc, Quat rot, Mat4f target) {
+	public static Mat4f viewMatrix(Vec3fi loc, Quat rot, Mat4f target) {
 		target.setToIdentity();
-		target.val[3][0] = -loc.x;
-		target.val[3][1] = -loc.y;
-		target.val[3][2] = -loc.z;
-		return mul(rotation(Quat.conjugate(rot)), target, target);
+		target.val[3][0] = -loc.x();
+		target.val[3][1] = -loc.y();
+		target.val[3][2] = -loc.z();
+		return mul(rotation(Quat.conjugate(rot)), target, target); //TODO: Remove new Quat() caused by conjugate
 	}
 	
 	/**

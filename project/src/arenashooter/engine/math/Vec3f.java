@@ -3,7 +3,7 @@ package arenashooter.engine.math;
 /**
  * Mutable 3 dimensional vector of floats (x, y, z)
  */
-public class Vec3f {
+public class Vec3f implements Vec3fi {
 	
 	public float x, y, z;
 	
@@ -58,13 +58,31 @@ public class Vec3f {
 	}
 	
 	/**
+	 * Create a copy of a vector
+	 */
+	public Vec3f(Vec3fi v) {
+		x = v.x();
+		y = v.y();
+		z = v.z();
+	}
+	
+	@Override
+	public float x() { return x; }
+
+	@Override
+	public float y() { return y; }
+
+	@Override
+	public float z() { return z; }
+	
+	/**
 	 * This becomes Other
 	 * @param other vector to copy
 	 */
-	public void set(Vec3f other) {
-		x = other.x;
-		y = other.y;
-		z = other.z;
+	public void set(Vec3fi other) {
+		x = other.x();
+		y = other.y();
+		z = other.z();
 	}
 	
 	/**
@@ -105,9 +123,7 @@ public class Vec3f {
 		return this;
 	}
 	
-	/**
-	 * @return vector length
-	 */
+	@Override
 	public double length() {
 		return Math.sqrt( (x*x)+(y*y)+(z*z) );
 	}
@@ -117,18 +133,19 @@ public class Vec3f {
 	 * @param v
 	 * @return normalized vector, or (0,0, 0) if length is 0
 	 */
-	public static Vec3f normalize( Vec3f v ) {
+	public static Vec3f normalize( Vec3fi v ) {
 		double len = v.length();
 		
 		if( len == 0 ) return new Vec3f();
 		
-		return new Vec3f( v.x/len, v.y/len, v.z/len );
+		return new Vec3f( v.x()/len, v.y()/len, v.z()/len );
 	}
 	
 	public Vec3f clone() {
 		return new Vec3f(x, y, z);
 	}
 	
+	@Override
 	public float[] toArray(float[] target) {
 		target[0] = x;
 		target[1] = y;
@@ -151,10 +168,10 @@ public class Vec3f {
 	 * @param target
 	 * @return target (a+b)
 	 */
-	public static Vec3f add(Vec3f a, Vec3f b, Vec3f target) {
-		target.x = a.x+b.x;
-		target.y = a.y+b.y;
-		target.z = a.z+b.z;
+	public static Vec3f add(Vec3fi a, Vec3fi b, Vec3f target) {
+		target.x = a.x()+b.x();
+		target.y = a.y()+b.y();
+		target.z = a.z()+b.z();
 		return target;
 	}
 	
@@ -164,8 +181,8 @@ public class Vec3f {
 	 * @param b
 	 * @return a-b (original vectors are unchanged)
 	 */
-	public static Vec3f subtract(Vec3f a, Vec3f b) {
-		return new Vec3f( a.x-b.x, a.y-b.y, a.z-b.z );
+	public static Vec3f subtract(Vec3fi a, Vec3fi b) {
+		return new Vec3f( a.x()-b.x(), a.y()-b.y(), a.z()-b.z() );
 	}
 	
 	/**
@@ -174,8 +191,8 @@ public class Vec3f {
 	 * @param a the double
 	 * @return v*a (original vector is unchanged)
 	 */
-	public static Vec3f multiply( Vec3f v, double a ) {
-		return new Vec3f( v.x*a, v.y*a, v.z*a );
+	public static Vec3f multiply( Vec3fi v, double a ) {
+		return new Vec3f( v.x()*a, v.y()*a, v.z()*a );
 	}
 	
 	/**
@@ -184,12 +201,12 @@ public class Vec3f {
 	 * @param b
 	 * @return a x b (original vectors are unchanged)
 	 */
-	public static Vec3f cross( Vec3f a, Vec3f b ) {
+	public static Vec3f cross( Vec3fi a, Vec3fi b ) {
 		Vec3f res = new Vec3f();
 		
-		res.x = a.y*b.z - a.z*b.y;
-		res.y = a.z*b.x - a.x*b.z;
-		res.z = a.x*b.y - a.y*b.x;
+		res.x = a.y()*b.z() - a.z()*b.y();
+		res.y = a.z()*b.x() - a.x()*b.z();
+		res.z = a.x()*b.y() - a.y()*b.x();
 		
 		return res;
 	}
@@ -261,14 +278,14 @@ public class Vec3f {
 		return target;
 	}
 	
-	public static Vec3f lerp( Vec3f a, Vec3f b, double f ) {
+	public static Vec3f lerp( Vec3fi a, Vec3fi b, double f ) {
 		return lerp(a, b, f, new Vec3f());
 	}
 	
-	public static Vec3f lerp( Vec3f a, Vec3f b, double f, Vec3f target ) {
-		target.x = Utils.lerpF(a.x, b.x, f);
-		target.y = Utils.lerpF(a.y, b.y, f);
-		target.z = Utils.lerpF(a.z, b.z, f);
+	public static Vec3f lerp( Vec3fi a, Vec3fi b, double f, Vec3f target ) {
+		target.x = Utils.lerpF(a.x(), b.x(), f);
+		target.y = Utils.lerpF(a.y(), b.y(), f);
+		target.z = Utils.lerpF(a.z(), b.z(), f);
 		return target;
 	}
 }

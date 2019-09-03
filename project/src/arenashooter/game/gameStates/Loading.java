@@ -1,17 +1,10 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import arenashooter.engine.events.EventListener;
-import arenashooter.engine.events.input.InputAxisEvent;
-import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.PostProcess;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.input.AxisV2;
-import arenashooter.engine.input.Device;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.ui.Trigger;
@@ -20,7 +13,6 @@ import arenashooter.entities.Entity;
 import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.entities.spatials.LoadingFloor;
-import arenashooter.entities.spatials.Sprite;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.loading.LoadingArena;

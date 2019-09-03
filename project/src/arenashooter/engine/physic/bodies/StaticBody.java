@@ -4,7 +4,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.Filter;
 import org.jbox2d.dynamics.FixtureDef;
 
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.shapes.PhysicShape;
@@ -15,7 +15,7 @@ import arenashooter.engine.physic.shapes.PhysicShape;
 public class StaticBody extends PhysicBody {
 	float friction = 0.3f, restitution = 0.25f;
 	
-	public StaticBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags) {
+	public StaticBody(PhysicShape shape, Vec2fi worldPosition, double worldRotation, CollisionFlags collFlags) {
 		super(shape, worldPosition, worldRotation, collFlags);
 		
 		debugColor = new Vec4f(.2, .2, 1, 1);

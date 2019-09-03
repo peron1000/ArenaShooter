@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.Main;
@@ -23,7 +23,7 @@ public class Spawner extends Spatial {
 	
 	private Sprite editorView;
 
-	public Spawner(Vec2f localPosition, double cooldown) {
+	public Spawner(Vec2fi localPosition, double cooldown) {
 		super(localPosition);
 		this.timerWarmup = new Timer(cooldown);
 		timerWarmup.attachToParent(this, "timer_spawn");
@@ -121,7 +121,7 @@ public class Spawner extends Spatial {
 	}
 	
 	@Override
-	public void editorAddPosition(Vec2f position) {
+	public void editorAddPosition(Vec2fi position) {
 		editorView.localPosition.add(position);
 		super.editorAddPosition(position);
 	}

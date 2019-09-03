@@ -3,7 +3,7 @@ package arenashooter.engine.math;
 /**
  * Mutable 4 dimensional vector of floats (x, y, z, w), (r, g, b, a) for colors
  */
-public class Vec4f {
+public class Vec4f implements Vec4fi {
 	
 	public float x, y, z, w;
 	
@@ -63,6 +63,28 @@ public class Vec4f {
 		this.w = w;
 	}
 	
+	/**
+	 * Create a copy of a vector
+	 */
+	public Vec4f(Vec4fi v) {
+		x = v.x();
+		y = v.y();
+		z = v.z();
+		w = v.w();
+	}
+	
+	@Override
+	public float w() { return w; }
+	
+	@Override
+	public float x() { return x; }
+
+	@Override
+	public float y() { return y; }
+
+	@Override
+	public float z() { return z; }
+	
 
 	/**
 	 * <i>This</i> becomes (x, y, z, w) and return <i>this</i>
@@ -117,9 +139,7 @@ public class Vec4f {
 		w *= a;
 	}
 	
-	/**
-	 * @return vector length
-	 */
+	@Override
 	public double length() {
 		return Math.sqrt( (x*x)+(y*y)+(z*z)+(w*w) );
 	}
@@ -154,6 +174,7 @@ public class Vec4f {
 		return new Vec4f(x, y, z, w);
 	}
 	
+	@Override
 	public float[] toArray(float[] target) {
 		target[0] = x;
 		target[1] = y;

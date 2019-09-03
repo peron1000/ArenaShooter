@@ -14,6 +14,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.ui.DoubleInput;
 import arenashooter.engine.ui.MultiUi;
 import arenashooter.engine.ui.ScrollerH;
@@ -545,7 +546,7 @@ class AddGunEditor extends UiElement implements MultiUi {
 		bulletType.getSprite().detach();
 	}
 
-	private boolean setting(Vec2f add) {
+	private boolean setting(Vec2fi add) {
 		switch (state) {
 		case HAND_L:
 			gun.handPosL.add(add);
@@ -557,7 +558,7 @@ class AddGunEditor extends UiElement implements MultiUi {
 			gun.getExtent().add(add);
 			return true;
 		case BULLET_START:
-			addToCanonLenght(add.x);
+			addToCanonLenght(add.x());
 			return true;
 		case NOTHING:
 		default:

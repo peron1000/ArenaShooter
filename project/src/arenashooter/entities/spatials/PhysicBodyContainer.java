@@ -1,6 +1,7 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.bodies.PhysicBody;
 import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.engine.physic.shapes.ShapeBox;
@@ -47,7 +48,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	}
 
 	@Override
-	public Vec2f getWorldPos() {
+	public Vec2fi getWorldPos() {
 		return body.getPosition();
 	}
 	
@@ -87,7 +88,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	}
 
 	@Override
-	public void editorAddPosition(Vec2f position) {
+	public void editorAddPosition(Vec2fi position) {
 		body.setPosition(Vec2f.add(getWorldPos(), position));
 		
 		for (Entity e : getChildren().values())
@@ -95,12 +96,12 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	}
 
 	@Override
-	public void editorAddScale(Vec2f extent) {
+	public void editorAddScale(Vec2fi extent) {
 		PhysicShape oldShape = body.getShape();
 		if(oldShape instanceof ShapeBox)
 			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
 		if(oldShape instanceof ShapeDisk)
-			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x  ));
+			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x()  ));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 
@@ -31,8 +32,8 @@ public class Spatial extends Entity {
 		localPosition = new Vec2f();
 	}
 
-	public Spatial(Vec2f localPosition) {
-		this.localPosition = localPosition.clone();
+	public Spatial(Vec2fi localPosition) {
+		this.localPosition = new Vec2f(localPosition);
 	}
 	
 	@Override
@@ -51,7 +52,7 @@ public class Spatial extends Entity {
 	 * Get this entity's world position
 	 * @return parent position + local position
 	 */
-	public Vec2f getWorldPos() {
+	public Vec2fi getWorldPos() {
 		return Vec2f.add(parentPosition, Vec2f.rotate(localPosition, parentRotation), worldPosition);
 	}
 	
@@ -69,7 +70,7 @@ public class Spatial extends Entity {
 	}
 	
 	@Override
-	public void editorAddPosition(Vec2f position) {
+	public void editorAddPosition(Vec2fi position) {
 		localPosition.add(position);
 		
 		for(Entity e : getChildren().values())

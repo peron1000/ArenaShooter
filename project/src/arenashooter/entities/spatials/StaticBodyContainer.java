@@ -1,6 +1,6 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
@@ -18,7 +18,7 @@ public class StaticBodyContainer extends PhysicBodyContainer<StaticBody> {
 	 * @param extent box extent
 	 * @param worldRotation
 	 */
-	public StaticBodyContainer(Vec2f worldPosition, Vec2f extent, double worldRotation) {
+	public StaticBodyContainer(Vec2fi worldPosition, Vec2fi extent, double worldRotation) {
 		this(new StaticBody(new ShapeBox(extent), worldPosition, worldRotation, CollisionFlags.LANDSCAPE));
 	}
 	
@@ -28,7 +28,7 @@ public class StaticBodyContainer extends PhysicBodyContainer<StaticBody> {
 	 * @param radius disk radius
 	 * @param worldRotation
 	 */
-	public StaticBodyContainer(Vec2f worldPosition, double radius, double worldRotation) {
+	public StaticBodyContainer(Vec2fi worldPosition, double radius, double worldRotation) {
 		this(new StaticBody(new ShapeDisk(radius), worldPosition, worldRotation, CollisionFlags.LANDSCAPE));
 	}
 }

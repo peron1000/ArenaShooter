@@ -5,6 +5,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
@@ -40,8 +41,8 @@ public class Shotgun extends Gun {
 	 * @param thrust
 	 * @param size
 	 */
-	public Shotgun(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			Vec2f extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
+	public Shotgun(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,
+			Vec2fi extent, String soundPickup, double cooldown, int uses, String animPath, double warmupDuration,
 			String soundWarmup, String soundFire, String noAmmoSound, int multiShot, double dispersion, int bulletType,
 			float bulletSpeed, float damage, double cannonLength, double recoil, double thrust) {
 
@@ -88,7 +89,7 @@ public class Shotgun extends Gun {
 				Vec2f aim = Vec2f.fromAngle(getWorldRot());
 
 				Vec2f bulSpeed = Vec2f.multiply(aim, bulletSpeed);
-				Vec2f bulletPos = getWorldPos();
+				Vec2f bulletPos = new Vec2f(getWorldPos());
 				bulletPos.add(Vec2f.multiply(aim, cannonLength));
 
 				Particles flash;

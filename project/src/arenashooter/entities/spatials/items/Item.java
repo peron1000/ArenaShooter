@@ -3,6 +3,7 @@ package arenashooter.entities.spatials.items;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
@@ -29,8 +30,8 @@ public abstract class Item extends Spatial {
 	private boolean isEquipped = false;
 	private Sprite sprite;
 
-	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
-			Vec2f extent, String soundPickup) {
+	public Item(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,
+			Vec2fi extent, String soundPickup) {
 		super(localPosition);
 
 		attachRot = false;
@@ -45,10 +46,13 @@ public abstract class Item extends Spatial {
 		this.name = name;
 		this.setWeight(weight);
 		this.pathSprite = pathSprite;
-		this.handPosL = handPosL;
-		this.handPosR = handPosR;
+		if(handPosL != null)
+			handPosL = new Vec2f(handPosL);
+		if(handPosR != null)
+			handPosR = new Vec2f(handPosR);
 		this.soundPickup = soundPickup;
-		this.extent = extent;
+		if( extent != null )
+			this.extent = new Vec2f(extent);
 	}
 
 	/**
@@ -164,8 +168,8 @@ public abstract class Item extends Spatial {
 		}
 
 		// Destroy when out of bounds
-		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
-				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
+		if (getArena() != null && (getWorldPos().x() < getArena().killBound.x || getWorldPos().x() > getArena().killBound.z
+				|| getWorldPos().y() < getArena().killBound.y || getWorldPos().y() > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 
 		// SpriteFlip

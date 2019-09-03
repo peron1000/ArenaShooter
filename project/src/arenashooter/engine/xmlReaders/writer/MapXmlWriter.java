@@ -1,7 +1,6 @@
 package arenashooter.engine.xmlReaders.writer;
 
 import java.io.File;
-import java.util.List;
 import java.util.Map.Entry;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,9 +20,9 @@ import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
 import arenashooter.engine.math.Quat;
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec2fi;
+import arenashooter.engine.math.Vec3fi;
+import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.entities.Arena;
@@ -401,8 +400,8 @@ public class MapXmlWriter {
 	 * @param vec
 	 * @return new Element
 	 */
-	private static Element createVec2(Document doc, String use, Vec2f vec) {
-		return createVec2(doc, use, vec.x, vec.y);
+	private static Element createVec2(Document doc, String use, Vec2fi vec) {
+		return createVec2(doc, use, vec.x(), vec.y());
 	}
 
 	/**
@@ -430,8 +429,8 @@ public class MapXmlWriter {
 	 * @param vec
 	 * @return new Element
 	 */
-	private static Element createVec3(Document doc, String use, Vec3f vec) {
-		return createVec3(doc, use, vec.x, vec.y, vec.z);
+	private static Element createVec3(Document doc, String use, Vec3fi vec) {
+		return createVec3(doc, use, vec.x(), vec.y(), vec.z());
 	}
 
 	/**
@@ -473,8 +472,8 @@ public class MapXmlWriter {
 	 * @param vec
 	 * @return new Element
 	 */
-	private static Element createVec4(Document doc, String use, Vec4f vec) {
-		return createVec4(doc, use, vec.x, vec.y, vec.z, vec.w);
+	private static Element createVec4(Document doc, String use, Vec4fi vec) {
+		return createVec4(doc, use, vec.x(), vec.y(), vec.z(), vec.w());
 	}
 
 	/**

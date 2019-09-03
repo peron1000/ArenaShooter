@@ -10,6 +10,7 @@ import arenashooter.engine.animation.animevents.AnimEventCustom;
 import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Spatial;
 import arenashooter.entities.spatials.Sprite;
@@ -20,7 +21,7 @@ public class AnimMelee extends Spatial implements IAnimated {
 	protected Melee item = null;
 	protected Sprite sprite = null;
 
-	public AnimMelee(Vec2f position, Melee item) {
+	public AnimMelee(Vec2fi position, Melee item) {
 		super(position);
 		setAnim(new Animation(AnimationData.loadAnim("data/animations/anim_sword_01.xml")));
 		this.item = item;

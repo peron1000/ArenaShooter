@@ -182,7 +182,6 @@ public class MapXmlReader extends XmlReader {
 			soundWarmup = preloadSound(soundWarmup);
 		String attackSound = preloadSound(melee.getAttribute("bangSound"));
 		float damage = Float.parseFloat(melee.getAttribute("damage"));
-		double size = 0;
 		// Vectors
 		List<Element> vectors = getListElementByName("vector", melee);
 		Vec2f handPosL = new Vec2f();

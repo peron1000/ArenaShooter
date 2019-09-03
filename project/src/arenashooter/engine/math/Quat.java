@@ -6,7 +6,7 @@ import arenashooter.game.Main;
  * Mutable rotation quaternion
  */
 
-public class Quat {
+public class Quat implements QuatI{
 	protected float w, x, y, z;
 	
 	public Quat() {
@@ -23,8 +23,20 @@ public class Quat {
 		this.z = z;
 	}
 	
-	public static Quat fromAxis( Vec3f axis, float angle ) {
-		return fromAxis( axis.x, axis.y, axis.z, angle );
+	@Override
+	public float w() { return w; }
+	
+	@Override
+	public float x() { return x; }
+	
+	@Override
+	public float y() { return y; }
+	
+	@Override
+	public float z() { return z; }
+	
+	public static Quat fromAxis( Vec3fi axis, float angle ) {
+		return fromAxis( axis.x(), axis.y(), axis.z(), angle );
 	}
 	
 	public static Quat fromAxis( float x, float y, float z, double angle ) { //TODO: Test
@@ -76,8 +88,8 @@ public class Quat {
      * @param target
      * @return <i>target</i> (modified)
      */
-    public static Quat fromEuler(Vec3f euler, Quat target) {
-    	return fromEuler(euler.x, euler.y, euler.z, target);
+    public static Quat fromEuler(Vec3fi euler, Quat target) {
+    	return fromEuler(euler.x(), euler.y(), euler.z(), target);
     }
     
     /**
@@ -160,7 +172,7 @@ public class Quat {
 	 * @param source vector to rotate
 	 * @return rotated vector as new object
 	 */
-	public Vec3f rotate( Vec3f source ) {
+	public Vec3f rotate( Vec3fi source ) {
 		return rotate(source, new Vec3f());
 	}
 	
@@ -171,10 +183,10 @@ public class Quat {
 	 * @param target 
 	 * @return <i>target</i> (modified)
 	 */
-	public Vec3f rotate( Vec3f source, Vec3f target ) { //TODO: Test
+	public Vec3f rotate( Vec3fi source, Vec3f target ) { //TODO: Test
 		float[][] r = Mat4f.rotation(this).val;
 		
-		float sx = source.x, sy = source.y, sz = source.z;
+		float sx = source.x(), sy = source.y(), sz = source.z();
 		
 		target.x = r[0][0]*sx + r[1][0]*sy + r[2][0]*sz;
 		target.y = r[0][1]*sx + r[1][1]*sy + r[2][1]*sz;
@@ -264,6 +276,7 @@ public class Quat {
     	return new Quat(-q.x, -q.y, -q.z, q.w);
     }
 	
+    @Override
 	public double length() {
 		return Math.sqrt( (x*x)+(y*y)+(z*z)+(w*w) );
 	}

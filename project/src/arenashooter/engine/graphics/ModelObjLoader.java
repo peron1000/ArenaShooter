@@ -13,6 +13,7 @@ import java.util.Map;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 
 final class ModelObjLoader {
 	
@@ -194,7 +195,7 @@ final class ModelObjLoader {
 	 * @param v3
 	 * @return ( (v2-v1) x (v3-v1) ) normalized
 	 */
-	public static Vec3f genNormal( Vec3f v1, Vec3f v2, Vec3f v3 ) {
+	public static Vec3f genNormal( Vec3fi v1, Vec3fi v2, Vec3fi v3 ) {
 		Vec3f res = Vec3f.cross( Vec3f.subtract(v2, v1), Vec3f.subtract(v3, v1) );
 		return Vec3f.normalize(res);
 	}

@@ -6,6 +6,7 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -22,7 +23,7 @@ public class Barrel extends RigidBodyContainer {
 	private double timeSinceLastSpark = 0;
 	double timeUntilNewSpark = 0.2;
 
-	public Barrel(Vec2f worldPosition, double timer) {
+	public Barrel(Vec2fi worldPosition, double timer) {
 		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), worldPosition, 0, CollisionFlags.RIGIDBODY, 3, 1));
 
 		barrelMesh = new Mesh(new Vec3f(), ( timer < 0.5 ? "data/meshes/barrels/barrel_02.obj" : "data/meshes/barrels/barrel_01.obj"));

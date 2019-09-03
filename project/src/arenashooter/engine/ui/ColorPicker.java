@@ -4,6 +4,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.UiImage;
 
@@ -232,9 +233,9 @@ public class ColorPicker extends UiElement {
 		return new Vec3f(rgb.x, rgb.y, rgb.z);
 	}
 	
-	public void setColorRGB(Vec3f rgb) {
+	public void setColorRGB(Vec3fi rgb) {
 		Vec3f hsv = new Vec3f();
-		Vec3f.rgbToHsv(rgb.x, rgb.y, rgb.z, hsv);
+		Vec3f.rgbToHsv(rgb.x(), rgb.y(), rgb.z(), hsv);
 		hue = hsv.x;
 		saturation = hsv.y;
 		value = hsv.z;

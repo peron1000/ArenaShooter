@@ -6,19 +6,20 @@ import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 
 public class Bullet extends Projectile {
 
-	public Bullet(Vec2f position, Vec2f vel, float damage) {
+	public Bullet(Vec2fi position, Vec2fi vel, float damage) {
 		super(new RigidBody(new ShapeDisk(.25), position, vel.angle(), CollisionFlags.PROJ, 1, 1));
 		
 		getBody().setBullet(true);
 		getBody().setIsSensor(true);
 		
-		this.vel = vel.clone();
+		this.vel = new Vec2f(vel);
 
 		this.damage = damage;
 
@@ -45,7 +46,7 @@ public class Bullet extends Projectile {
 		
 		getBody().setLinearVelocity(vel);
 		
-		if (Math.abs(getWorldPos().x) > 1000 || Math.abs(getWorldPos().y) > 1000) {
+		if (Math.abs(getWorldPos().x()) > 1000 || Math.abs(getWorldPos().y()) > 1000) {
 			detach();
 		}
 		

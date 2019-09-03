@@ -8,7 +8,8 @@ import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec2fi;
+import arenashooter.engine.math.Vec4fi;
 
 public class ShapeCharacter extends PhysicShape {
 	private Model model;
@@ -53,7 +54,7 @@ public class ShapeCharacter extends PhysicShape {
 	private static Shader shader;
 	private Mat4f modelM = new Mat4f();
 	@Override
-	public void debugDraw(Vec2f pos, double rot, Vec4f color) {
+	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {
 		if(shader == null)
 			shader = Shader.loadShader("data/shaders/debug_color.vert", "data/shaders/debug_color.frag");
 		

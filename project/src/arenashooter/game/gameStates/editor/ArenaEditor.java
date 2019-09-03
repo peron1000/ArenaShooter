@@ -32,7 +32,6 @@ import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.engine.xmlReaders.writer.MapXmlWriter;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;

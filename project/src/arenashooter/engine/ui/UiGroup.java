@@ -12,6 +12,7 @@ public class UiGroup<E extends UiElement> extends UiElement implements Iterable<
 	
 	private List<E> list = new LinkedList<>();
 	
+	@SafeVarargs
 	public UiGroup(E... elements) {
 		addElements(elements);
 	}

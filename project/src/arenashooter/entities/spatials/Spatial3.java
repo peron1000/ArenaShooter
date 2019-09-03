@@ -4,8 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import arenashooter.engine.math.Quat;
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
 
@@ -36,15 +37,15 @@ public class Spatial3 extends Entity {
 		this.localRotation.toEuler(editorLocalRotEuler);
 	}
 	
-	public Spatial3(Vec3f localPosition) {
+	public Spatial3(Vec3fi localPosition) {
 		super();
-		this.localPosition = localPosition.clone();
+		this.localPosition = new Vec3f(localPosition);
 		this.localRotation.toEuler(editorLocalRotEuler);
 	}
 
-	public Spatial3(Vec3f localPosition, Quat localRotation) {
+	public Spatial3(Vec3fi localPosition, Quat localRotation) {
 		super();
-		this.localPosition = localPosition.clone();
+		this.localPosition = new Vec3f(localPosition);
 		this.localRotation.set(localRotation);
 		this.localRotation.toEuler(editorLocalRotEuler);
 	}
@@ -81,9 +82,9 @@ public class Spatial3 extends Entity {
 	}
 	
 	@Override
-	public void editorAddPosition(Vec2f position) {
-		localPosition.x += position.x;
-		localPosition.y += position.y;
+	public void editorAddPosition(Vec2fi position) {
+		localPosition.x += position.x();
+		localPosition.y += position.y();
 		
 		for(Entity e : getChildren().values())
 			e.updateAttachment();
@@ -130,7 +131,7 @@ public class Spatial3 extends Entity {
 				Quat.fromAngle(0, parentRotation);
 			
 			if(attachPos)
-				parentPosition.set(((Spatial)getParent()).getWorldPos().x, ((Spatial)getParent()).getWorldPos().y, 0);
+				parentPosition.set(((Spatial)getParent()).getWorldPos().x(), ((Spatial)getParent()).getWorldPos().y(), 0);
 			else
 				parentPosition.set(0, 0, 0);
 		} else if (getParent() instanceof Spatial3) {

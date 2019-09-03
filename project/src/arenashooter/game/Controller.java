@@ -6,6 +6,7 @@ import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.spatials.Character;
 import arenashooter.game.gameStates.Game;
 
@@ -39,7 +40,7 @@ public abstract class Controller {
 		info = new CharacterInfo(CharacterClass.Agile);
 	}
 
-	public Character createNewCharacter(Vec2f spawn) {
+	public Character createNewCharacter(Vec2fi spawn) {
 		if (character != null)
 			character.takeDamage(new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
 		character = info.createNewCharacter(spawn);

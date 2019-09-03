@@ -6,6 +6,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.JointEdge;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.PhysicWorld;
@@ -29,7 +30,7 @@ public abstract class PhysicBody {
 
 	protected PhysicWorld world;
 
-	public PhysicBody(PhysicShape shape, Vec2f worldPosition, double worldRotation, CollisionFlags collFlags) {
+	public PhysicBody(PhysicShape shape, Vec2fi worldPosition, double worldRotation, CollisionFlags collFlags) {
 		this.shape = shape;
 		this.collFlags = collFlags;
 		
@@ -175,7 +176,7 @@ public abstract class PhysicBody {
 			body.setActive(active);
 	}
 
-	public Vec2f getPosition() {
+	public Vec2fi getPosition() {
 		if (body == null)
 			return position.set(bodyDef.getPosition());
 		return position.set(body.getPosition());
@@ -186,7 +187,7 @@ public abstract class PhysicBody {
 	 * <br/><b>Do not use this during gameplay, only at construction or in editor</b>
 	 * @param position
 	 */
-	public void setPosition(Vec2f position) {
+	public void setPosition(Vec2fi position) {
 		this.position.set(position);
 		position.toB2Vec(bodyDef.getPosition());
 		

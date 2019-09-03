@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.game.Main;
 
 public class Entity implements Editable {
@@ -206,12 +206,12 @@ public class Entity implements Editable {
 	}
 
 	@Override
-	public void editorAddPosition(Vec2f position) {
+	public void editorAddPosition(Vec2fi position) {
 		// Nothing
 	}
 
 	@Override
-	public void editorAddScale(Vec2f scale) {
+	public void editorAddScale(Vec2fi scale) {
 		// Nothing
 	}
 

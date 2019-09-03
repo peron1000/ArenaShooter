@@ -3,6 +3,7 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.bodies.RigidBody;
 
 public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
@@ -14,7 +15,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	/**
 	 * @return linear velocity at center of mass
 	 */
-	public Vec2f getLinearVelocity() {
+	public Vec2fi getLinearVelocity() {
 		return body.getLinearVelocity();
 	}
 
@@ -23,7 +24,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	 * 
 	 * @param newVelocity
 	 */
-	public void setLinearVelocity(Vec2f newVelocity) {
+	public void setLinearVelocity(Vec2fi newVelocity) {
 		body.setLinearVelocity(newVelocity);
 	}
 	
@@ -36,7 +37,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	 * 
 	 * @param impulse
 	 */
-	public void applyImpulse(Vec2f impulse) {
+	public void applyImpulse(Vec2fi impulse) {
 		body.applyImpulse(impulse);
 	}
 
@@ -46,7 +47,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	 * @param impulse
 	 * @param location world position
 	 */
-	public void applyImpulse(Vec2f impulse, Vec2f location) {
+	public void applyImpulse(Vec2fi impulse, Vec2fi location) {
 		body.applyImpulse(impulse, location);
 	}
 	
@@ -74,8 +75,8 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 		super.step(d);
 
 		// Destroy when out of bounds
-		if (getArena() != null && (getWorldPos().x < getArena().killBound.x || getWorldPos().x > getArena().killBound.z
-				|| getWorldPos().y < getArena().killBound.y || getWorldPos().y > getArena().killBound.w))
+		if (getArena() != null && (getWorldPos().x() < getArena().killBound.x || getWorldPos().x() > getArena().killBound.z
+				|| getWorldPos().y() < getArena().killBound.y || getWorldPos().y() > getArena().killBound.w))
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 
 	}
