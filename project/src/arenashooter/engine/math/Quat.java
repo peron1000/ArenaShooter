@@ -23,6 +23,13 @@ public class Quat implements QuatI{
 		this.z = z;
 	}
 	
+	public Quat( double x, double y, double z, double w ) {
+		this.w = (float)w;
+		this.x = (float)x;
+		this.y = (float)y;
+		this.z = (float)z;
+	}
+	
 	@Override
 	public float w() { return w; }
 	
@@ -154,16 +161,12 @@ public class Quat implements QuatI{
     	return target;
     }
     
-    /**
-     * Copies the values from <i>other</i> into <i>this</i> and return it
-     * @param other Quat to copy
-     * @return <i>this</i> (modified)
-     */
-    public Quat set(Quat other) {
-    	this.w = other.w;
-    	this.x = other.x;
-    	this.y = other.y;
-    	this.z = other.z;
+    @Override
+    public Quat set(QuatI other) {
+    	this.w = other.w();
+    	this.x = other.x();
+    	this.y = other.y();
+    	this.z = other.z();
     	return this;
     }
 	
@@ -272,8 +275,8 @@ public class Quat implements QuatI{
      * @param q quaternion to conjugate
      * @return conjugate of q
      */
-    public static Quat conjugate(Quat q) {
-    	return new Quat(-q.x, -q.y, -q.z, q.w);
+    public static Quat conjugate(QuatI q) {
+    	return new Quat(-q.x(), -q.y(), -q.z(), q.w());
     }
 	
     @Override
@@ -281,19 +284,19 @@ public class Quat implements QuatI{
 		return Math.sqrt( (x*x)+(y*y)+(z*z)+(w*w) );
 	}
 	
-	public static Quat normalize(Quat q) {
+	public static Quat normalize(QuatI q) {
 		Quat res = new Quat();
 		
 		double len = q.length();
 		if(Math.abs(len) <= 0.001) {
 			Main.log.warn("Zero-length quaternion, setting it to default value");
-			return new Quat();
+			return res;
 		}
 		
-		res.x = (float) (q.x/len);
-		res.y = (float) (q.y/len);
-		res.z = (float) (q.z/len);
-		res.w = (float) (q.w/len);
+		res.x = (float) (q.x()/len);
+		res.y = (float) (q.y()/len);
+		res.z = (float) (q.z()/len);
+		res.w = (float) (q.w()/len);
 		
 		return res;
 	}
@@ -305,11 +308,11 @@ public class Quat implements QuatI{
 	 * @param q2
 	 * @return <i>target</i> (modified)
 	 */
-	public static Quat multiply(Quat q1, Quat q2, Quat target) {
-		float x = q1.w*q2.x + q1.x*q2.w + q1.y*q2.z - q1.z*q2.y;
-		float y = q1.w*q2.y - q1.x*q2.z + q1.y*q2.w + q1.z*q2.x;
-		float z = q1.w*q2.z + q1.x*q2.y - q1.y*q2.x + q1.z*q2.w;
-		float w = q1.w*q2.w - q1.x*q2.x - q1.y*q2.y - q1.z*q2.z;
+	public static Quat multiply(QuatI q1, QuatI q2, Quat target) {
+		float x = q1.w()*q2.x() + q1.x()*q2.w() + q1.y()*q2.z() - q1.z()*q2.y();
+		float y = q1.w()*q2.y() - q1.x()*q2.z() + q1.y()*q2.w() + q1.z()*q2.x();
+		float z = q1.w()*q2.z() + q1.x()*q2.y() - q1.y()*q2.x() + q1.z()*q2.w();
+		float w = q1.w()*q2.w() - q1.x()*q2.x() - q1.y()*q2.y() - q1.z()*q2.z();
 		
 		target.x = x;
 		target.y = y;

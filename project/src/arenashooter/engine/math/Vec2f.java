@@ -422,11 +422,11 @@ public class Vec2f implements Vec2fi {
 	 * @param angleTolerated when diffrence is calculated.
 	 * @return if v1 and v2 are opposed, tolerating a given angle
 	 */
-	public static boolean areOpposed(Vec2f v1, Vec2f v2, double angleTolerated) {
-		Vec2f vec1 = v1.clone();
-		Vec2f vec2 = v2.clone();
+	public static boolean areOpposed(Vec2fi v1, Vec2fi v2, double angleTolerated) {
+		Vec2f vec1 = new Vec2f(v1); //TODO: Remove objects creations
+		Vec2f vec2 = new Vec2f(v2);
 		
-		if (v1.x <= v2.x)
+		if (v1.x() <= v2.x())
 			vec1.multiply(-1);
 		else 
 			vec2.multiply(-1);

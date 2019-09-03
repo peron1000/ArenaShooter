@@ -1,6 +1,7 @@
 package arenashooter.engine;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Entity;
 
 public class DamageInfo {
@@ -8,7 +9,7 @@ public class DamageInfo {
 	public final float damage;
 	public final DamageType dmgType;
 	/** Direction of damages, used to apply impulses */
-	public final Vec2f direction;
+	public final Vec2fi direction;
 	/** Force of the impulse */
 	public final float impulse;
 	/** Entity causing damage, Character for bullets and other weapon damages */
@@ -21,10 +22,10 @@ public class DamageInfo {
 	 * @param direction unit vector (or 0,0 if non-oriented) indicating the direction of the damage (for example: normalized bullet velocity)
 	 * @param instigator entity responsible for damage
 	 */
-	public DamageInfo(float damage, DamageType dmgType, Vec2f direction, float impulse, Entity instigator) {
+	public DamageInfo(float damage, DamageType dmgType, Vec2fi direction, float impulse, Entity instigator) {
 		this.damage = damage;
 		this.dmgType = dmgType;
-		this.direction = direction.clone();
+		this.direction = new Vec2f(direction);
 		this.impulse = impulse;
 		this.instigator = instigator;
 	}

@@ -86,7 +86,7 @@ public abstract class XmlReader {
 			log.error("Missing z value in rotation");
 		if(element.hasAttribute("w")) { //If w is present, rotation is a Quaternion, otherwise it's euler angles
 			w = Double.parseDouble(element.getAttribute("w"));
-			return Quat.normalize(new Quat((float)x, (float)y, (float)z, (float)w));
+			return Quat.normalize(new Quat(x, y, z, w));
 		}
 		return Quat.fromEuler(x, y, z);
 	}
