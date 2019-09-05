@@ -190,8 +190,8 @@ public class Vec2f implements Vec2fi {
 	
 	@Override
 	public boolean equals(Object other) {
-		if(other instanceof Vec2f)
-			return ((Vec2f)other).x == x && ((Vec2f)other).y == y;
+		if(other instanceof Vec2fi)
+			return ((Vec2fi)other).x() == x && ((Vec2fi)other).y() == y;
 		return false;
 	}
 	
@@ -390,8 +390,7 @@ public class Vec2f implements Vec2fi {
 	 */
 	public static Vec2f worldToScreen(Vec3fi world) { //TODO: test
 		Mat4f viewProj = Mat4f.mul(Window.getProj(), Window.getView());
-		Mat4f model = Mat4f.translation(world);
-		float res[] = Mat4f.mul(viewProj, model).val[3];
+		float res[] = viewProj.translate(world).val[3];
 		float w = res[3];
 		if(w <= 0) w = 1;
 		w = 1/w;
@@ -406,8 +405,7 @@ public class Vec2f implements Vec2fi {
 	 */
 	public static Vec2f worldToScreen(Vec2fi world) { //TODO: test
 		Mat4f viewProj = Mat4f.mul(Window.getProj(), Window.getView());
-		Mat4f model = Mat4f.translation(world);
-		float res[] = Mat4f.mul(viewProj, model).val[3];
+		float res[] = viewProj.translate(world).val[3];
 		float w = res[3];
 		if(w <= 0) w = 1;
 		w = 1/w;
@@ -423,17 +421,18 @@ public class Vec2f implements Vec2fi {
 	 * @return if v1 and v2 are opposed, tolerating a given angle
 	 */
 	public static boolean areOpposed(Vec2fi v1, Vec2fi v2, double angleTolerated) {
-		Vec2f vec1 = new Vec2f(v1); //TODO: Remove objects creations
-		Vec2f vec2 = new Vec2f(v2);
+		double angle1, angle2;
+		if( v1.x() <= v2.x() ) {
+			angle1 = Math.atan2(-v1.y(), -v1.x());
+			angle2 = Math.atan2(v2.y(), v2.x());
+		} else {
+			angle1 = Math.atan2(v1.y(), v1.x());
+			angle2 = Math.atan2(-v2.y(), -v2.x());
+		}
 		
-		if (v1.x() <= v2.x())
-			vec1.multiply(-1);
-		else 
-			vec2.multiply(-1);
+		System.out.println(angle1);
+		System.out.println(angle2);
 		
-		System.out.println(vec1.angle());
-		System.out.println(vec2.angle());
-		
-		return Math.abs(vec1.angle()-vec2.angle()) <= angleTolerated;
+		return Math.abs(angle1-angle2) <= angleTolerated;
 	}
 }

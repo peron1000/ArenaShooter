@@ -48,7 +48,6 @@ public class Intro extends GameState {
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void launch(InputActionEvent event) {
-				// TODO Auto-generated method stub
 				if (event.getActionState() == ActionState.JUST_PRESSED) {
 					switch (event.getAction()) {
 					case UI_CONTINUE:

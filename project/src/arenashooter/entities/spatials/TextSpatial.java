@@ -18,6 +18,8 @@ public class TextSpatial extends Spatial3 {
 	public Material material;
 
 	public Vec3f scale;
+	
+	private Mat4f modelMatrix = new Mat4f();
 
 	public TextSpatial(Vec3fi localPosition, Vec3fi scale, Text text) {
 		super(localPosition);
@@ -65,7 +67,7 @@ public class TextSpatial extends Spatial3 {
 		Profiler.startTimer(Profiler.MESHES);
 
 		material.setParamTex("distanceField", text.getFont().getTexture());
-		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelMatrix));
 		material.setParamMat4f("view", Window.getView());
 		material.setParamMat4f("projection", Window.getProj());
 		

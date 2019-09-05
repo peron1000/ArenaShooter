@@ -28,6 +28,8 @@ public class Mesh extends Spatial3 implements IAnimated {
 	private int timeMs = 0;
 
 	public Vec3f scale;
+	
+	private Mat4f modelMatrix = new Mat4f();
 
 	public Mesh(Vec3fi localPosition, String modelPath) {
 		this(localPosition, new Quat(), new Vec3f(1), modelPath);
@@ -161,7 +163,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 			materials[i].setLights(getArena().lights);
 		}
 
-		materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
+		materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelMatrix));
 		materials[i].setParamMat4f("view", Window.getView());
 		materials[i].setParamMat4f("projection", Window.getProj());
 

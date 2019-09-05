@@ -152,6 +152,10 @@ public class Emitter {
 		particlesToSpawn -= n;
 	}
 
+	private Vec3f pos = new Vec3f();
+	private Quat rot = new Quat();
+	private Vec3f scale = new Vec3f(1);
+	private Mat4f modelM = new Mat4f();
 	void draw() {
 		shader.bind();
 		
@@ -168,10 +172,7 @@ public class Emitter {
 		
 		model.bind();
 		
-		Vec3f pos = new Vec3f(0, 0, owner.position.z);
-		Quat rot = new Quat();
-		Vec3f scale = new Vec3f(1);
-		Mat4f modelM = new Mat4f();
+		pos.z = owner.position.z;
 		
 		for( int i=0; i<positions.size(); i++ ) {
 			pos.x = positions.get(i).x;
@@ -179,10 +180,8 @@ public class Emitter {
 			Quat.fromAngle(rotations.get(i), rot);
 			scale.x = scales.get(i).y;
 			scale.y = scales.get(i).y;
-//			Mat4f.transform(pos, rot, scale, modelM);
-			modelM = Mat4f.transform(pos, rot, scale); //TODO: replace this to avoid creating a new matrix
 			
-			shader.setUniformM4("model", modelM);
+			shader.setUniformM4( "model", Mat4f.transform(pos, rot, scale, modelM) );
 			
 			shader.setUniformV4("baseColorMod", colors.get(i));
 			

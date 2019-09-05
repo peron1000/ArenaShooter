@@ -17,9 +17,11 @@ public class Mat4f implements Mat4fi {
 	 * i0j2, i1j2, i2j2, j3j2
 	 * i0j3, i1j3, i2j3, i3j3
 	 */
-	public float[][] val = new float[4][4];
+	public final float[][] val;
 	
-	public Mat4f() {}
+	public Mat4f() {
+		val = new float[4][4];
+	}
 	
 	public Mat4f( Mat4fi m ) {
 		val = new float[][]{
@@ -59,9 +61,11 @@ public class Mat4f implements Mat4fi {
 		return target;
 	}
 	
+	/**
+	 * @return new identity matrix
+	 */
 	public static Mat4f identity() {
 		Mat4f res = new Mat4f();
-//		res.m00 = res.m11 = res.m22 = res.m33 = 1;
 		res.val[0][0] = 1;
 		res.val[1][1] = 1;
 		res.val[2][2] = 1;
@@ -170,18 +174,19 @@ public class Mat4f implements Mat4fi {
 	}
 	
 	/**
-	 * Create a translation matrix
+	 * <i>Target</i> becomes a translation matrix for <i>v</i>
 	 * @param v
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f translation(Vec3fi v) {
-		Mat4f res = identity();
+	public static Mat4f translation(Vec3fi v, Mat4f target) {
+		target.setToIdentity();
+
+		target.val[3][0] = v.x();
+		target.val[3][1] = v.y();
+		target.val[3][2] = v.z();
 		
-		res.val[3][0] = v.x();
-		res.val[3][1] = v.y();
-		res.val[3][2] = v.z();
-		
-		return res;
+		return target;
 	}
 	
 	/**
@@ -189,13 +194,60 @@ public class Mat4f implements Mat4fi {
 	 * @param v
 	 * @return
 	 */
+	public static Mat4f translation(Vec3fi v) {
+		return translation(v, new Mat4f());
+	}
+	
+	/**
+	 * <i>Target</i> becomes a translation matrix for <i>v</i>
+	 * @param v
+	 * @param target
+	 * @return <i>target</i>
+	 */
+	public static Mat4f translation(Vec2fi v, Mat4f target) {
+		target.setToIdentity();
+
+		target.val[3][0] = v.x();
+		target.val[3][1] = v.y();
+		
+		return target;
+	}
+
+	/**
+	 * Create a translation matrix
+	 * @param v
+	 * @return
+	 */
 	public static Mat4f translation(Vec2fi v) {
-		Mat4f res = identity();
-		
-		res.val[3][0] = v.x();
-		res.val[3][1] = v.y();
-		
-		return res;
+		return translation(v, new Mat4f());
+	}
+	
+	/**
+	 * Translate this matrix
+	 * @param v translation vector
+	 * @return <i>this</i> translated
+	 */
+	public Mat4f translate(Vec2fi v) {
+		val[3][0] = val[0][0]*v.x() + val[1][0]*v.y() + val[3][0];
+		val[3][1] = val[0][1]*v.x() + val[1][1]*v.y() + val[3][1];
+		val[3][2] = val[0][2]*v.x() + val[1][2]*v.y() + val[3][2];
+		val[3][3] = val[0][3]*v.x() + val[1][3]*v.y() + val[3][3];
+
+		return this;
+	}
+	
+	/**
+	 * Translate this matrix
+	 * @param v translation vector
+	 * @return <i>this</i> translated
+	 */
+	public Mat4f translate(Vec3fi v) {
+		val[3][0] = val[0][0]*v.x() + val[1][0]*v.y() + val[2][0]*v.z() + val[3][0];
+		val[3][1] = val[0][1]*v.x() + val[1][1]*v.y() + val[2][1]*v.z() + val[3][1];
+		val[3][2] = val[0][2]*v.x() + val[1][2]*v.y() + val[2][2]*v.z() + val[3][2];
+		val[3][3] = val[0][3]*v.x() + val[1][3]*v.y() + val[2][3]*v.z() + val[3][3];
+
+		return this;
 	}
 	
 	/**
@@ -203,7 +255,7 @@ public class Mat4f implements Mat4fi {
 	 * @param v
 	 * @return
 	 */
-	public static Mat4f scale(Vec3fi v) {
+	public static Mat4f scaling(Vec3fi v) {
 		Mat4f res = new Mat4f();
 		
 		res.val[0][0] = v.x();
@@ -215,11 +267,41 @@ public class Mat4f implements Mat4fi {
 	}
 	
 	/**
+	 * Scale this matrix
+	 * @param v scaling vector
+	 * @return <i>this</i> scaled
+	 */
+	public Mat4f scale(Vec2fi v) {
+		float m00 = val[0][0];
+		float m10 = val[1][0];
+		float m01 = val[0][1];
+		float m11 = val[1][1];
+		float m02 = val[0][2];
+		float m12 = val[1][2];
+		float m03 = val[0][3];
+		float m13 = val[1][3];
+		
+		val[0][0] = m00*v.x();
+		val[1][0] = m10*v.y();
+		
+		val[0][1] = m01*v.x();
+		val[1][1] = m11*v.y();
+		
+		val[0][2] = m02*v.x();
+		val[1][2] = m12*v.y();
+		
+		val[0][3] = m03*v.x();
+		val[1][3] = m13*v.y();
+		
+		return this;
+	}
+	
+	/**
 	 * Create a scaling matrix
 	 * @param v
 	 * @return
 	 */
-	public static Mat4f scale(Vec2fi v) {
+	public static Mat4f scaling(Vec2fi v) {
 		Mat4f res = new Mat4f();
 		
 		res.val[0][0] = v.x();
@@ -231,17 +313,43 @@ public class Mat4f implements Mat4fi {
 	}
 	
 	/**
+	 * Scale this matrix
+	 * @param v scaling vector
+	 * @return <i>this</i> scaled
+	 */
+	public Mat4f scale(Vec3fi v) {
+		val[0][0] = m00()*v.x();
+		val[1][0] = m10()*v.y();
+		val[2][0] = m20()*v.z();
+		
+		val[0][1] = m01()*v.x();
+		val[1][1] = m11()*v.y();
+		val[2][1] = m21()*v.z();
+		
+		val[0][2] = m02()*v.x();
+		val[1][2] = m12()*v.y();
+		val[2][2] = m22()*v.z();
+		
+		val[0][3] = m03()*v.x();
+		val[1][3] = m13()*v.y();
+		val[2][3] = m23()*v.z();
+		
+		return this;
+	}
+	
+	/**
 	 * Create a transform matrix for a 3D object
 	 * @param loc
 	 * @param rot
 	 * @param scale
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f transform( Vec3fi loc, QuatI rot, Vec3fi scale ) {
-		Mat4f res = new Mat4f();
-		mul(translation(loc), rotation(rot), res);
-		mul(res, scale(scale), res);
-		return res;
+	public static Mat4f transform( Vec3fi loc, QuatI rot, Vec3fi scale, Mat4f target ) {
+		target.setToIdentity().translate(loc);
+		target = mul(target, rotation(rot)); //TODO: Remove matrix creation for rotation
+		target.scale(scale);
+		return target;
 	}
 	
 	/**
@@ -388,37 +496,27 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>target</i> (modified)
 	 */
 	public static Mat4f mul( Mat4fi m1, Mat4fi m2, Mat4f target ) {
-//		float[][] res = new float[4][4];
-//		
-//		for( int j=0; j<4; j++ )
-//			for( int i=0; i<4; i++ )
-//				res[i][j] = (m1.val[0][j]*m2.val[i][0])+
-//							(m1.val[1][j]*m2.val[i][1])+
-//							(m1.val[2][j]*m2.val[i][2])+
-//							(m1.val[3][j]*m2.val[i][3]);
-//		
-//		target.val = res;
-//		return target;
+		float[] val1 = m1.toArray(new float[16]), val2 = m2.toArray(new float[16]);
 		
-		target.val[0][0] = m1.m00()*m2.m00() + m1.m10()*m2.m01() + m1.m20()*m2.m02() +  + m1.m30()*m2.m03();
-		target.val[1][0] = m1.m00()*m2.m10() + m1.m10()*m2.m11() + m1.m20()*m2.m12() +  + m1.m30()*m2.m13();
-		target.val[2][0] = m1.m00()*m2.m20() + m1.m10()*m2.m21() + m1.m20()*m2.m22() +  + m1.m30()*m2.m23();
-		target.val[3][0] = m1.m00()*m2.m30() + m1.m10()*m2.m31() + m1.m20()*m2.m32() +  + m1.m30()*m2.m33();
+		target.val[0][0] = val1[0]*val2[0]  + val1[4]*val2[1]  + val1[8]*val2[2]  + val1[12]*val2[3];
+		target.val[1][0] = val1[0]*val2[4]  + val1[4]*val2[5]  + val1[8]*val2[6]  + val1[12]*val2[7];
+		target.val[2][0] = val1[0]*val2[8]  + val1[4]*val2[9]  + val1[8]*val2[10] + val1[12]*val2[11];
+		target.val[3][0] = val1[0]*val2[12] + val1[4]*val2[13] + val1[8]*val2[14] + val1[12]*val2[15];
 		
-		target.val[0][1] = m1.m01()*m2.m00() + m1.m11()*m2.m01() + m1.m21()*m2.m02() +  + m1.m31()*m2.m03();
-		target.val[1][1] = m1.m01()*m2.m10() + m1.m11()*m2.m11() + m1.m21()*m2.m12() +  + m1.m31()*m2.m13();
-		target.val[2][1] = m1.m01()*m2.m20() + m1.m11()*m2.m21() + m1.m21()*m2.m22() +  + m1.m31()*m2.m23();
-		target.val[3][1] = m1.m01()*m2.m30() + m1.m11()*m2.m31() + m1.m21()*m2.m32() +  + m1.m31()*m2.m33();
+		target.val[0][1] = val1[1]*val2[0]  + val1[5]*val2[1]  + val1[9]*val2[2]  + val1[13]*val2[3];
+		target.val[1][1] = val1[1]*val2[4]  + val1[5]*val2[5]  + val1[9]*val2[6]  + val1[13]*val2[7];
+		target.val[2][1] = val1[1]*val2[8]  + val1[5]*val2[9]  + val1[9]*val2[10] + val1[13]*val2[11];
+		target.val[3][1] = val1[1]*val2[12] + val1[5]*val2[13] + val1[9]*val2[14] + val1[13]*val2[15];
 		
-		target.val[0][2] = m1.m02()*m2.m00() + m1.m12()*m2.m01() + m1.m22()*m2.m02() +  + m1.m32()*m2.m03();
-		target.val[1][2] = m1.m02()*m2.m10() + m1.m12()*m2.m11() + m1.m22()*m2.m12() +  + m1.m32()*m2.m13();
-		target.val[2][2] = m1.m02()*m2.m20() + m1.m12()*m2.m21() + m1.m22()*m2.m22() +  + m1.m32()*m2.m23();
-		target.val[3][2] = m1.m02()*m2.m30() + m1.m12()*m2.m31() + m1.m22()*m2.m32() +  + m1.m32()*m2.m33();
+		target.val[0][2] = val1[2]*val2[0]  + val1[6]*val2[1]  + val1[10]*val2[2]  + val1[14]*val2[3];
+		target.val[1][2] = val1[2]*val2[4]  + val1[6]*val2[5]  + val1[10]*val2[6]  + val1[14]*val2[7];
+		target.val[2][2] = val1[2]*val2[8]  + val1[6]*val2[9]  + val1[10]*val2[10] + val1[14]*val2[11];
+		target.val[3][2] = val1[2]*val2[12] + val1[6]*val2[13] + val1[10]*val2[14] + val1[14]*val2[15];
 		
-		target.val[0][3] = m1.m03()*m2.m00() + m1.m13()*m2.m01() + m1.m23()*m2.m02() +  + m1.m33()*m2.m03();
-		target.val[1][3] = m1.m03()*m2.m10() + m1.m13()*m2.m11() + m1.m23()*m2.m12() +  + m1.m33()*m2.m13();
-		target.val[2][3] = m1.m03()*m2.m20() + m1.m13()*m2.m21() + m1.m23()*m2.m22() +  + m1.m33()*m2.m23();
-		target.val[3][3] = m1.m03()*m2.m30() + m1.m13()*m2.m31() + m1.m23()*m2.m32() +  + m1.m33()*m2.m33();
+		target.val[0][3] = val1[3]*val2[0]  + val1[7]*val2[1]  + val1[11]*val2[2]  + val1[15]*val2[3];
+		target.val[1][3] = val1[3]*val2[4]  + val1[7]*val2[5]  + val1[11]*val2[6]  + val1[15]*val2[7];
+		target.val[2][3] = val1[3]*val2[8]  + val1[7]*val2[9]  + val1[11]*val2[10] + val1[15]*val2[11];
+		target.val[3][3] = val1[3]*val2[12] + val1[7]*val2[13] + val1[11]*val2[14] + val1[15]*val2[15];
 		
 		return target;
 	}
@@ -430,7 +528,29 @@ public class Mat4f implements Mat4fi {
 	 * @return m1*m2
 	 */
 	public static Mat4f mul( Mat4fi m1, Mat4fi m2 ) {
-		return mul(m1, m2, new Mat4f());
+		Mat4f res = new Mat4f();
+		
+		res.val[0][0] = m1.m00()*m2.m00() + m1.m10()*m2.m01() + m1.m20()*m2.m02() + m1.m30()*m2.m03();
+		res.val[1][0] = m1.m00()*m2.m10() + m1.m10()*m2.m11() + m1.m20()*m2.m12() + m1.m30()*m2.m13();
+		res.val[2][0] = m1.m00()*m2.m20() + m1.m10()*m2.m21() + m1.m20()*m2.m22() + m1.m30()*m2.m23();
+		res.val[3][0] = m1.m00()*m2.m30() + m1.m10()*m2.m31() + m1.m20()*m2.m32() + m1.m30()*m2.m33();
+		
+		res.val[0][1] = m1.m01()*m2.m00() + m1.m11()*m2.m01() + m1.m21()*m2.m02() + m1.m31()*m2.m03();
+		res.val[1][1] = m1.m01()*m2.m10() + m1.m11()*m2.m11() + m1.m21()*m2.m12() + m1.m31()*m2.m13();
+		res.val[2][1] = m1.m01()*m2.m20() + m1.m11()*m2.m21() + m1.m21()*m2.m22() + m1.m31()*m2.m23();
+		res.val[3][1] = m1.m01()*m2.m30() + m1.m11()*m2.m31() + m1.m21()*m2.m32() + m1.m31()*m2.m33();
+		
+		res.val[0][2] = m1.m02()*m2.m00() + m1.m12()*m2.m01() + m1.m22()*m2.m02() + m1.m32()*m2.m03();
+		res.val[1][2] = m1.m02()*m2.m10() + m1.m12()*m2.m11() + m1.m22()*m2.m12() + m1.m32()*m2.m13();
+		res.val[2][2] = m1.m02()*m2.m20() + m1.m12()*m2.m21() + m1.m22()*m2.m22() + m1.m32()*m2.m23();
+		res.val[3][2] = m1.m02()*m2.m30() + m1.m12()*m2.m31() + m1.m22()*m2.m32() + m1.m32()*m2.m33();
+		
+		res.val[0][3] = m1.m03()*m2.m00() + m1.m13()*m2.m01() + m1.m23()*m2.m02() + m1.m33()*m2.m03();
+		res.val[1][3] = m1.m03()*m2.m10() + m1.m13()*m2.m11() + m1.m23()*m2.m12() + m1.m33()*m2.m13();
+		res.val[2][3] = m1.m03()*m2.m20() + m1.m13()*m2.m21() + m1.m23()*m2.m22() + m1.m33()*m2.m23();
+		res.val[3][3] = m1.m03()*m2.m30() + m1.m13()*m2.m31() + m1.m23()*m2.m32() + m1.m33()*m2.m33();
+		
+		return res;
 	}
 	
 	public String toString() {
