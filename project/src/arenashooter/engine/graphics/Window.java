@@ -84,7 +84,7 @@ public final class Window {
 	
 	//Post processing
 	/** Current post processing settings */
-	public static PostProcess postProcess;
+	private static PostProcess postProcess;
 	private static Model quad;
 
 	//Framebuffers
@@ -324,6 +324,12 @@ public final class Window {
 			glScissor(prev.x, prev.y, prev.z, prev.w);
 		}
 		
+	}
+	
+	public static PostProcess getPostProcess() { return postProcess; }
+	
+	public static void setPostProcess(PostProcess postProcess) {
+		Window.postProcess = postProcess;
 	}
 	
 	/**

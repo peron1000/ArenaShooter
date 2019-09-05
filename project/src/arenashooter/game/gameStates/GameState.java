@@ -22,7 +22,7 @@ public abstract class GameState {
 	 */
 	public void init() {
 		// Camera
-		Window.postProcess = new PostProcess("data/shaders/post_process/pp_default.frag");
+		Window.setPostProcess( new PostProcess("data/shaders/post_process/pp_default.frag") );
 		Camera cam = new Camera(current.cameraBasePos);
 		cam.attachToParent(current, "camera");
 		Window.setCamera(cam);

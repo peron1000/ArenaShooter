@@ -68,7 +68,7 @@ public class Intro extends GameState {
 	@Override
 	public void init() {
 		super.init();
-		Window.postProcess.fadeToBlack = 1;
+		Window.getPostProcess().fadeToBlack = 1;
 		getCamera().setFOV(55);
 		getCamera().interpolate = false;
 		
@@ -138,7 +138,7 @@ public class Intro extends GameState {
 		}
 		
 		//Fade to black
-		Window.postProcess.fadeToBlack = (float) anim.getTrackD("fadeToBlack");
+		Window.getPostProcess().fadeToBlack = (float) anim.getTrackD("fadeToBlack");
 		
 		//Camera position
 		getCamera().localPosition = anim.getTrackVec3f("cam_pos");

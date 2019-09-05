@@ -160,7 +160,7 @@ public class Game extends GameState {
 
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
-		Window.postProcess.fadeToBlack = 1;
+		Window.getPostProcess().fadeToBlack = 1;
 		endRound.reset();// TODO: remove
 		endCounter = null;
 		chooseWinner.reset();
@@ -203,7 +203,7 @@ public class Game extends GameState {
 				} else {
 					double chromaAbbIntensity = 1 - endCounter.getTime()/endCounter.getLength();
 					chromaAbbIntensity = .3 * (chromaAbbIntensity*chromaAbbIntensity);
-					Window.postProcess.chromaAbbIntensity = (float) chromaAbbIntensity;
+					Window.getPostProcess().chromaAbbIntensity = (float) chromaAbbIntensity;
 					
 					Queue<AnimEvent> events = endCounter.getEvents();
 					AnimEvent current = events.peek();
@@ -317,7 +317,7 @@ public class Game extends GameState {
 					}
 				}
 
-				Window.postProcess.fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
+				Window.getPostProcess().fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
 
 				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
