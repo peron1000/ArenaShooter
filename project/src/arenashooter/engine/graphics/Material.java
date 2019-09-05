@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL20.glActiveTexture;
 
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Mat4fi;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -35,7 +36,7 @@ public class Material {
 	private Map<String, Vec2f> paramsVec2f = new HashMap<>();
 	private Map<String, Vec3f> paramsVec3f = new HashMap<>();
 	private Map<String, Vec4f> paramsVec4f = new HashMap<>();
-	private Map<String, Mat4f> paramsMat4f = new HashMap<>();
+	private Map<String, Mat4fi> paramsMat4f = new HashMap<>();
 	private Map<String, Texture> paramsTex = new HashMap<>();
 	
 	private Material(String name, String shaderPathV, String shaderPathF) {
@@ -95,7 +96,7 @@ public class Material {
 		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
 			shader.setUniformV4(entry.getKey(), entry.getValue());
 		
-		for(Entry<String, Mat4f> entry : paramsMat4f.entrySet())
+		for(Entry<String, Mat4fi> entry : paramsMat4f.entrySet())
 			shader.setUniformM4(entry.getKey(), entry.getValue());
 		
 		int texSlot = 0;
@@ -149,11 +150,11 @@ public class Material {
 		paramsVec4f.put(name, value);
 	}
 	
-	public Mat4f getParamMat4f(String name) {
+	public Mat4fi getParamMat4f(String name) {
 		return paramsMat4f.get(name);
 	}
 
-	public void setParamMat4f(String name, Mat4f value) {
+	public void setParamMat4f(String name, Mat4fi value) {
 		paramsMat4f.put(name, value);
 	}
 	
@@ -246,8 +247,8 @@ public class Material {
 		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
 			res.paramsVec4f.put(entry.getKey(), entry.getValue().clone());
 		
-		for(Entry<String, Mat4f> entry : paramsMat4f.entrySet())
-			res.paramsMat4f.put(entry.getKey(), entry.getValue().clone());
+		for(Entry<String, Mat4fi> entry : paramsMat4f.entrySet())
+			res.paramsMat4f.put(entry.getKey(), new Mat4f(entry.getValue()));
 		
 		res.paramsTex = new HashMap<>(paramsTex);
 		

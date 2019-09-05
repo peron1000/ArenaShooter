@@ -42,6 +42,7 @@ import org.lwjgl.opengl.GL;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Mat4fi;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4i;
@@ -499,7 +500,7 @@ public final class Window {
 	/**
 	 * @return current view matrix
 	 */
-	public static Mat4f getView() {
+	public static Mat4fi getView() {
 		if(camera == null) return Mat4f.identity();
 		else return camera.viewMatrix;
 	}
@@ -507,14 +508,14 @@ public final class Window {
 	/**
 	 * @return perspective projection matrix
 	 */
-	public static Mat4f getProj() {
+	public static Mat4fi getProj() {
 		return proj;
 	}
 	
 	/**
 	 * @return orthogonal projection matrix
 	 */
-	public static Mat4f getProjOrtho() {
+	public static Mat4fi getProjOrtho() {
 		return projOrtho;
 	}
 	

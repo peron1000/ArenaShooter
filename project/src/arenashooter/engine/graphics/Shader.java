@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import arenashooter.engine.FileUtils;
-import arenashooter.engine.math.Mat4f;
+import arenashooter.engine.math.Mat4fi;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4fi;
@@ -147,7 +147,7 @@ public class Shader {
 	 * @param name uniform's name
 	 * @param value uniform value
 	 */
-	public void setUniformM4(String name, Mat4f value) {
+	public void setUniformM4(String name, Mat4fi value) {
 		glUniformMatrix4fv(getUniformLocation(name), false, value.toArray(floatBuffer16));
 	}
 	

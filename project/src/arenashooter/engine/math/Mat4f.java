@@ -3,7 +3,7 @@ package arenashooter.engine.math;
 /**
  * Mutable 4*4 matrix of floats
  */
-public class Mat4f {
+public class Mat4f implements Mat4fi {
 
 //	public float 	m00, m10, m20, m30,
 //					m01, m11, m21, m31,
@@ -21,18 +21,36 @@ public class Mat4f {
 	
 	public Mat4f() {}
 	
-	public Mat4f( Mat4f m ) {
-		this.val = m.val.clone();
+	public Mat4f( Mat4fi m ) {
+		val = new float[][]{
+			{m.m00(), m.m10(), m.m20(), m.m30()},
+			{m.m01(), m.m11(), m.m21(), m.m31()},
+			{m.m02(), m.m12(), m.m22(), m.m32()},
+			{m.m03(), m.m13(), m.m23(), m.m33()}
+		};
 	}
 	
-	public Mat4f clone() {
-		return new Mat4f(this);
-	}
+	public float m00() { return val[0][0]; }
+	public float m10() { return val[1][0]; }
+	public float m20() { return val[2][0]; }
+	public float m30() { return val[3][0]; }
 	
-	/**
-	 * @param target float[16] array used to store the result
-	 * @return This matrix as a 1 dimension array
-	 */
+	public float m01() { return val[0][1]; }
+	public float m11() { return val[1][1]; }
+	public float m21() { return val[2][1]; }
+	public float m31() { return val[3][1]; }
+	
+	public float m02() { return val[0][2]; }
+	public float m12() { return val[1][2]; }
+	public float m22() { return val[2][2]; }
+	public float m32() { return val[3][2]; }
+	
+	public float m03() { return val[0][3]; }
+	public float m13() { return val[1][3]; }
+	public float m23() { return val[2][3]; }
+	public float m33() { return val[3][3]; }
+	
+	@Override
 	public float[] toArray(float[] target) {
 		for(int j=0; j<4; j++)
 			for(int i=0; i<4; i++)
@@ -274,7 +292,7 @@ public class Mat4f {
 	 * @param target
 	 * @return <i>target</i> (modified)
 	 */
-	public static Mat4f viewMatrix(Vec3fi loc, Quat rot, Mat4f target) {
+	public static Mat4f viewMatrix(Vec3fi loc, QuatI rot, Mat4f target) {
 		target.setToIdentity();
 		target.val[3][0] = -loc.x();
 		target.val[3][1] = -loc.y();
@@ -287,12 +305,28 @@ public class Mat4f {
 	 * @param m
 	 * @return m transposed
 	 */
-	public static Mat4f transpose( Mat4f m ) {
+	public static Mat4f transpose( Mat4fi m ) {
 		Mat4f res = new Mat4f();
 		
-		for( int i=0; i<4; i++ )
-			for( int j=0; j<4; j++ )
-				res.val[i][j] = m.val[j][i];
+		res.val[0][0] = m.m00();
+		res.val[1][0] = m.m01();
+		res.val[2][0] = m.m02();
+		res.val[3][0] = m.m03();
+		
+		res.val[0][1] = m.m10();
+		res.val[1][1] = m.m11();
+		res.val[2][1] = m.m12();
+		res.val[3][1] = m.m13();
+		
+		res.val[0][2] = m.m20();
+		res.val[1][2] = m.m21();
+		res.val[2][2] = m.m22();
+		res.val[3][2] = m.m23();
+		
+		res.val[0][3] = m.m30();
+		res.val[1][3] = m.m31();
+		res.val[2][3] = m.m32();
+		res.val[3][3] = m.m33();
 		
 		return res;
 	}
@@ -353,17 +387,39 @@ public class Mat4f {
 	 * @param target
 	 * @return <i>target</i> (modified)
 	 */
-	public static Mat4f mul( Mat4f m1, Mat4f m2, Mat4f target ) { 
-		float[][] res = new float[4][4];
+	public static Mat4f mul( Mat4fi m1, Mat4fi m2, Mat4f target ) {
+//		float[][] res = new float[4][4];
+//		
+//		for( int j=0; j<4; j++ )
+//			for( int i=0; i<4; i++ )
+//				res[i][j] = (m1.val[0][j]*m2.val[i][0])+
+//							(m1.val[1][j]*m2.val[i][1])+
+//							(m1.val[2][j]*m2.val[i][2])+
+//							(m1.val[3][j]*m2.val[i][3]);
+//		
+//		target.val = res;
+//		return target;
 		
-		for( int j=0; j<4; j++ )
-			for( int i=0; i<4; i++ )
-				res[i][j] = (m1.val[0][j]*m2.val[i][0])+
-							(m1.val[1][j]*m2.val[i][1])+
-							(m1.val[2][j]*m2.val[i][2])+
-							(m1.val[3][j]*m2.val[i][3]);
+		target.val[0][0] = m1.m00()*m2.m00() + m1.m10()*m2.m01() + m1.m20()*m2.m02() +  + m1.m30()*m2.m03();
+		target.val[1][0] = m1.m00()*m2.m10() + m1.m10()*m2.m11() + m1.m20()*m2.m12() +  + m1.m30()*m2.m13();
+		target.val[2][0] = m1.m00()*m2.m20() + m1.m10()*m2.m21() + m1.m20()*m2.m22() +  + m1.m30()*m2.m23();
+		target.val[3][0] = m1.m00()*m2.m30() + m1.m10()*m2.m31() + m1.m20()*m2.m32() +  + m1.m30()*m2.m33();
 		
-		target.val = res;
+		target.val[0][1] = m1.m01()*m2.m00() + m1.m11()*m2.m01() + m1.m21()*m2.m02() +  + m1.m31()*m2.m03();
+		target.val[1][1] = m1.m01()*m2.m10() + m1.m11()*m2.m11() + m1.m21()*m2.m12() +  + m1.m31()*m2.m13();
+		target.val[2][1] = m1.m01()*m2.m20() + m1.m11()*m2.m21() + m1.m21()*m2.m22() +  + m1.m31()*m2.m23();
+		target.val[3][1] = m1.m01()*m2.m30() + m1.m11()*m2.m31() + m1.m21()*m2.m32() +  + m1.m31()*m2.m33();
+		
+		target.val[0][2] = m1.m02()*m2.m00() + m1.m12()*m2.m01() + m1.m22()*m2.m02() +  + m1.m32()*m2.m03();
+		target.val[1][2] = m1.m02()*m2.m10() + m1.m12()*m2.m11() + m1.m22()*m2.m12() +  + m1.m32()*m2.m13();
+		target.val[2][2] = m1.m02()*m2.m20() + m1.m12()*m2.m21() + m1.m22()*m2.m22() +  + m1.m32()*m2.m23();
+		target.val[3][2] = m1.m02()*m2.m30() + m1.m12()*m2.m31() + m1.m22()*m2.m32() +  + m1.m32()*m2.m33();
+		
+		target.val[0][3] = m1.m03()*m2.m00() + m1.m13()*m2.m01() + m1.m23()*m2.m02() +  + m1.m33()*m2.m03();
+		target.val[1][3] = m1.m03()*m2.m10() + m1.m13()*m2.m11() + m1.m23()*m2.m12() +  + m1.m33()*m2.m13();
+		target.val[2][3] = m1.m03()*m2.m20() + m1.m13()*m2.m21() + m1.m23()*m2.m22() +  + m1.m33()*m2.m23();
+		target.val[3][3] = m1.m03()*m2.m30() + m1.m13()*m2.m31() + m1.m23()*m2.m32() +  + m1.m33()*m2.m33();
+		
 		return target;
 	}
 	
@@ -373,9 +429,8 @@ public class Mat4f {
 	 * @param m2
 	 * @return m1*m2
 	 */
-	public static Mat4f mul( Mat4f m1, Mat4f m2 ) { 
-		Mat4f res = new Mat4f();
-		return mul(m1, m2, res);
+	public static Mat4f mul( Mat4fi m1, Mat4fi m2 ) {
+		return mul(m1, m2, new Mat4f());
 	}
 	
 	public String toString() {
@@ -390,5 +445,10 @@ public class Mat4f {
 		}
 		
 		return res;
+	}
+	
+	@Override
+	public Mat4f clone() {
+		return new Mat4f(this);
 	}
 }
