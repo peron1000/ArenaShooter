@@ -73,11 +73,11 @@ public final class Window {
 	
 	//Projection
 	/** Perspective projection matrix */
-	private static Mat4f proj;
+	private static Mat4f proj = new Mat4f();
 	private static float fov = 70;
 	private static final float CLIP_NEAR = 0.5f, CLIP_FAR = 4500;
 	/** Orthographic projection matrix */
-	private static Mat4f projOrtho;
+	private static Mat4f projOrtho = new Mat4f();
 	
 	//View
 	private static Camera camera = new Camera(new Vec3f(0, 0, 450));
@@ -531,8 +531,8 @@ public final class Window {
 	public static void createProjectionMatrix() {
 		float sizeY = 100;
 		float sizeX = sizeY*ratio;
-		projOrtho = Mat4f.ortho(0.01f, 100, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
-		proj = Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio);
+		Mat4f.ortho(0.01f, 100, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2, projOrtho);
+		Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio, proj);
 	}
 	
 	private static void createFramebuffer() {

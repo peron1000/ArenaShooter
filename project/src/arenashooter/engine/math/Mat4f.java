@@ -440,30 +440,31 @@ public class Mat4f implements Mat4fi {
 	}
 	
 	/**
-	 * Creates a symmetric perspective projection matrix
+	 * Set <i>target</i> to a symmetric perspective projection matrix
 	 * 
 	 * @param near clip plane distance, should be > 0
 	 * @param far clip plane distance, should be > near
 	 * @param yFOV vertical field of view (degrees)
 	 * @param ratio aspect ratio (width/height)
-	 * @return the projection matrix
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f perspective( float near, float far, float yFOV, float ratio ) {
-		Mat4f res = new Mat4f();
+	public static Mat4f perspective( float near, float far, float yFOV, float ratio, Mat4f target ) {
+		target.setToIdentity();
 		
 		float top = (float) (Math.tan(Math.toRadians(yFOV)/2)*near);
 		float right = top*ratio;
-		res.val[0][0] = near/right;
-		res.val[1][1] = near/-top;
-		res.val[2][2] = -(far+near)/(far-near);
-		res.val[3][2] = -(2*far*near)/(far-near);
-		res.val[2][3] = -1;
+		target.val[0][0] = near/right;
+		target.val[1][1] = near/-top;
+		target.val[2][2] = -(far+near)/(far-near);
+		target.val[3][2] = -(2*far*near)/(far-near);
+		target.val[2][3] = -1;
 		
-		return res;
+		return target;
 	}
 	
 	/**
-	 * Creates an orthographic projection matrix
+	 * Set <i>target</i> to an orthographic projection matrix
 	 * 
 	 * @param near clip plane distance, should be > 0
 	 * @param far clip plane distance, should be > near
@@ -471,21 +472,22 @@ public class Mat4f implements Mat4fi {
 	 * @param bottom 
 	 * @param right 
 	 * @param top 
-	 * @return the projection matrix
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f ortho( float near, float far, float left, float bottom, float right, float top ) {
-		Mat4f res = new Mat4f();
+	public static Mat4f ortho( float near, float far, float left, float bottom, float right, float top, Mat4f target ) {
+		target.setToIdentity();
 		
-		res.val[0][0] = 2f/(right-left);
-		res.val[1][1] = 2f/(top-bottom);
-		res.val[2][2] = -2f/(far-near);
-		res.val[3][3] = 1f;
+		target.val[0][0] = 2f/(right-left);
+		target.val[1][1] = 2f/(top-bottom);
+		target.val[2][2] = -2f/(far-near);
+		target.val[3][3] = 1f;
 		
-		res.val[3][0] = -(right+left)/(right-left);
-		res.val[3][1] = -(top+bottom)/(top-bottom);
-		res.val[3][2] = -(far+near)/(far-near);
+		target.val[3][0] = -(right+left)/(right-left);
+		target.val[3][1] = -(top+bottom)/(top-bottom);
+		target.val[3][2] = -(far+near)/(far-near);
 		
-		return res;
+		return target;
 	}
 	
 	/**
