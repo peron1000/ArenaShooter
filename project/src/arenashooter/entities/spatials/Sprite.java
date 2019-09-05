@@ -60,7 +60,7 @@ public class Sprite extends Spatial {
 
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM));
 		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.proj);
+		material.setParamMat4f("projection", Window.getProj());
 		
 		if(material.bind(model)) {
 			model.bind();

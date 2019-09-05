@@ -119,7 +119,7 @@ public class Label extends UiElement {
 			float ratio = 1 / text.getHeight();
 			material.setParamMat4f("model",
 					Mat4f.transform(getPosition(), getRotation(), Vec2f.multiply(getScale(), ratio), modelM));
-			material.setParamMat4f("projection", Window.projOrtho);
+			material.setParamMat4f("projection", Window.getProjOrtho());
 
 			if (material.bind(text.getModel())) {
 				text.getModel().bind();

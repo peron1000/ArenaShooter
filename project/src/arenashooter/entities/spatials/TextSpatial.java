@@ -67,7 +67,7 @@ public class TextSpatial extends Spatial3 {
 		material.setParamTex("distanceField", text.getFont().getTexture());
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
 		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.proj);
+		material.setParamMat4f("projection", Window.getProj());
 		
 		if(material.bind(text.getModel())) {
 			text.getModel().bind();

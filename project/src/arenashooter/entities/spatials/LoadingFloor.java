@@ -59,7 +59,7 @@ public class LoadingFloor extends Spatial {
 		material.setParamTex("baseColor", tex[currentTex]);
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), size, modelM));
 		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.proj);
+		material.setParamMat4f("projection", Window.getProj());
 		
 		if(material.bind(model)) {
 			model.bind();

@@ -157,7 +157,7 @@ public class Emitter {
 		
 		//Get matrices
 		shader.setUniformM4("view", Window.getView());
-		shader.setUniformM4("projection", Window.proj);
+		shader.setUniformM4("projection", Window.getProj());
 		
 		model.bindToShader(shader);
 		

@@ -48,7 +48,7 @@ import arenashooter.engine.math.Vec4i;
 import arenashooter.entities.spatials.Camera;
 
 /**
- * Game window
+ * Game window using OpenGL
  */
 public final class Window {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
@@ -72,11 +72,11 @@ public final class Window {
 	
 	//Projection
 	/** Perspective projection matrix */
-	public static Mat4f proj;
+	private static Mat4f proj;
 	private static float fov = 70;
 	private static final float CLIP_NEAR = 0.5f, CLIP_FAR = 4500;
 	/** Orthographic projection matrix */
-	public static Mat4f projOrtho;
+	private static Mat4f projOrtho;
 	
 	//View
 	private static Camera camera = new Camera(new Vec3f(0, 0, 450));
@@ -502,6 +502,20 @@ public final class Window {
 	public static Mat4f getView() {
 		if(camera == null) return Mat4f.identity();
 		else return camera.viewMatrix;
+	}
+	
+	/**
+	 * @return perspective projection matrix
+	 */
+	public static Mat4f getProj() {
+		return proj;
+	}
+	
+	/**
+	 * @return orthogonal projection matrix
+	 */
+	public static Mat4f getProjOrtho() {
+		return projOrtho;
 	}
 	
 	/**

@@ -48,7 +48,7 @@ public class ShapeBox extends PhysicShape {
 		Mat4f.transform(pos, rot, Vec2f.multiply( extent, 2 ), modelM);
 		shader.setUniformM4("model", modelM);
 		shader.setUniformM4("view", Window.getView());
-		shader.setUniformM4("projection", Window.proj);
+		shader.setUniformM4("projection", Window.getProj());
 		
 		shader.setUniformV4("color", color);
 		

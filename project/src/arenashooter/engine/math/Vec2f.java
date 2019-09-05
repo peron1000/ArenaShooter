@@ -389,7 +389,7 @@ public class Vec2f implements Vec2fi {
 	 * @return screen space projection
 	 */
 	public static Vec2f worldToScreen(Vec3fi world) { //TODO: test
-		Mat4f viewProj = Mat4f.mul(Window.proj, Window.getView());
+		Mat4f viewProj = Mat4f.mul(Window.getProj(), Window.getView());
 		Mat4f model = Mat4f.translation(world);
 		float res[] = Mat4f.mul(viewProj, model).val[3];
 		float w = res[3];
@@ -405,7 +405,7 @@ public class Vec2f implements Vec2fi {
 	 * @return screen space projection
 	 */
 	public static Vec2f worldToScreen(Vec2fi world) { //TODO: test
-		Mat4f viewProj = Mat4f.mul(Window.proj, Window.getView());
+		Mat4f viewProj = Mat4f.mul(Window.getProj(), Window.getView());
 		Mat4f model = Mat4f.translation(world);
 		float res[] = Mat4f.mul(viewProj, model).val[3];
 		float w = res[3];
