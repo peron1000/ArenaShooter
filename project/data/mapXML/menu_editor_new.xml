@@ -20,7 +20,7 @@
 	</information>
 
 	<entities>
-		<directionalLight>
+		<directionalLight name="Light_Sun">
 			<vector use="color" x="0.929" y="0.906" z="0.753" />
 			<vector use="rotation" x="-0.25009602308273315" y="-0.46358492970466614" z="0.8419439196586609" w="-0.11692503839731216" />
 		</directionalLight>
