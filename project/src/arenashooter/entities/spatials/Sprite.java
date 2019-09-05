@@ -15,6 +15,7 @@ public class Sprite extends Spatial {
 	public Material material;
 	private static Model model;
 	public Vec2f size = new Vec2f(1, 1);
+	private Vec2f scale = new Vec2f();
 	private Mat4f modelM = new Mat4f();
 	
 	public boolean flipX = false, flipY = false;
@@ -55,7 +56,7 @@ public class Sprite extends Spatial {
 		Profiler.startTimer(Profiler.SPRITES);
 		
 		//Create matrices
-		Vec2f scale = new Vec2f( flipX ? -size.x : size.x, flipY ? -size.y : size.y ); //TODO: Remove vector creation
+		scale.set( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
 
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM));
 		material.setParamMat4f("view", Window.getView());
