@@ -272,26 +272,17 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>this</i> scaled
 	 */
 	public Mat4f scale(Vec2fi v) {
-		float m00 = val[0][0];
-		float m10 = val[1][0];
-		float m01 = val[0][1];
-		float m11 = val[1][1];
-		float m02 = val[0][2];
-		float m12 = val[1][2];
-		float m03 = val[0][3];
-		float m13 = val[1][3];
+		val[0][0] *= v.x();
+		val[1][0] *= v.y();
 		
-		val[0][0] = m00*v.x();
-		val[1][0] = m10*v.y();
+		val[0][1] *= v.x();
+		val[1][1] *= v.y();
 		
-		val[0][1] = m01*v.x();
-		val[1][1] = m11*v.y();
+		val[0][2] *= v.x();
+		val[1][2] *= v.y();
 		
-		val[0][2] = m02*v.x();
-		val[1][2] = m12*v.y();
-		
-		val[0][3] = m03*v.x();
-		val[1][3] = m13*v.y();
+		val[0][3] *= v.x();
+		val[1][3] *= v.y();
 		
 		return this;
 	}
@@ -318,21 +309,21 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>this</i> scaled
 	 */
 	public Mat4f scale(Vec3fi v) {
-		val[0][0] = m00()*v.x();
-		val[1][0] = m10()*v.y();
-		val[2][0] = m20()*v.z();
+		val[0][0] *= v.x();
+		val[1][0] *= v.y();
+		val[2][0] *= v.z();
 		
-		val[0][1] = m01()*v.x();
-		val[1][1] = m11()*v.y();
-		val[2][1] = m21()*v.z();
+		val[0][1] *= v.x();
+		val[1][1] *= v.y();
+		val[2][1] *= v.z();
 		
-		val[0][2] = m02()*v.x();
-		val[1][2] = m12()*v.y();
-		val[2][2] = m22()*v.z();
+		val[0][2] *= v.x();
+		val[1][2] *= v.y();
+		val[2][2] *= v.z();
 		
-		val[0][3] = m03()*v.x();
-		val[1][3] = m13()*v.y();
-		val[2][3] = m23()*v.z();
+		val[0][3] *= v.x();
+		val[1][3] *= v.y();
+		val[2][3] *= v.z();
 		
 		return this;
 	}
