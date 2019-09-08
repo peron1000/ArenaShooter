@@ -24,6 +24,11 @@ public interface QuatI {
 	public float z();
 	
 	/**
+	 * @return quaternion length squared, this is cheaper than length()
+	 */
+	public double lengthSquared();
+	
+	/**
 	 * @return quaternion length
 	 */
 	public double length();

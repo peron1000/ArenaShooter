@@ -22,6 +22,7 @@ import org.w3c.dom.Element;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
@@ -461,7 +462,7 @@ public class MapXmlWriter {
 	 * @return new Element
 	 */
 	private static Element createQuat(Document doc, String use, Quat quat) {
-		return createVec4(doc, use, quat.toVec4f());
+		return createVec4(doc, use, quat.toVec4f(new Vec4f()));
 	}
 
 	/**

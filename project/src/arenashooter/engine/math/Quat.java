@@ -255,27 +255,44 @@ public class Quat implements QuatI{
     public static Quat conjugate(QuatI q) {
     	return new Quat(-q.x(), -q.y(), -q.z(), q.w());
     }
+    
+    @Override
+    public double lengthSquared() {
+    	return (x*x)+(y*y)+(z*z)+(w*w);
+    }
 	
     @Override
 	public double length() {
 		return Math.sqrt( (x*x)+(y*y)+(z*z)+(w*w) );
 	}
 	
-	public static Quat normalize(QuatI q) {
-		Quat res = new Quat();
+    public Quat normalize() {
+    	return normalize(this, this);
+    }
+    
+	public static Quat normalize(QuatI q, Quat target) {
+		double len = q.lengthSquared();
 		
-		double len = q.length();
+		if( Math.abs(len-1) <= 0.001 )
+			return target.set(q);
+		
 		if(Math.abs(len) <= 0.001) {
 			Main.log.warn("Zero-length quaternion, setting it to default value");
-			return res;
+			target.w = 1;
+			target.x = 0;
+			target.y = 0;
+			target.z = 0;
+			return target;
 		}
+
+		len = Math.sqrt(len);
 		
-		res.x = (float) (q.x()/len);
-		res.y = (float) (q.y()/len);
-		res.z = (float) (q.z()/len);
-		res.w = (float) (q.w()/len);
+		target.x = (float) (q.x()/len);
+		target.y = (float) (q.y()/len);
+		target.z = (float) (q.z()/len);
+		target.w = (float) (q.w()/len);
 		
-		return res;
+		return target;
 	}
 	
 	/**
@@ -301,10 +318,11 @@ public class Quat implements QuatI{
 	
 	/**
 	 * Create a (x, y, z, w) vector from this Quaternion's values
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public Vec4f toVec4f() {
-		return new Vec4f(x, y, z, w);
+	public Vec4f toVec4f(Vec4f target) {
+		return target.set(x, y, z, w);
 	}
 	
 	public String toString() {
