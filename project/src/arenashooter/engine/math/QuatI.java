@@ -32,11 +32,4 @@ public interface QuatI {
 	 * @return quaternion length
 	 */
 	public double length();
-	
-	/**
-     * Copies the values from <i>other</i> into <i>this</i> and return it
-     * @param other Quat to copy
-     * @return <i>this</i> (modified)
-     */
-    public Quat set(QuatI other);
 }
