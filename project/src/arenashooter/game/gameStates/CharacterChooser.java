@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -219,7 +218,7 @@ public class CharacterChooser extends GameState {
 		classIcon.attachToParent(current, "class_Icon_Player_" + newController.playerNumber);
 		classIcon.getTexture().setFilter(false);
 
-		Audio.playSound("data/sound/ui/ui_join.ogg", AudioChannel.UI, .5f, 1);
+		Main.getAudioManager().playSound("data/sound/ui/ui_join.ogg", AudioChannel.UI, .5f, 1);
 	}
 
 	private void removeController(Device device) {
@@ -253,7 +252,7 @@ public class CharacterChooser extends GameState {
 		Main.log.info("CharacterChoose.pileOrdreJoueur.size()" + pileOrdreJoueur.size());
 		Main.log.info("GameMaster.gm.controllers.size()" + Main.getGameMaster().controllers.size());
 
-		Audio.playSound("data/sound/ui/ui_leave.ogg", AudioChannel.UI, .5f, 1);
+		Main.getAudioManager().playSound("data/sound/ui/ui_leave.ogg", AudioChannel.UI, .5f, 1);
 	}
 
 	/**

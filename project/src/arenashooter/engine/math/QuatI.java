@@ -32,4 +32,22 @@ public interface QuatI {
 	 * @return quaternion length
 	 */
 	public double length();
+	
+	/**
+	 * Get a unit vector pointing in the direction of this quaternion
+	 * @return (0, 0, 1) rotated by this quaternion
+	 */
+	public Vec3f forward();
+	
+	/**
+	 * Get a unit vector pointing upwards of this quaternion
+	 * @return (0, 1, 0) rotated by this quaternion
+	 */
+	public Vec3f up();
+	
+	/**
+	 * Get a unit vector pointing to the right of this quaternion
+	 * @return (1, 0, 0) rotated by this quaternion
+	 */
+	public Vec3f right();
 }

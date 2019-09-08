@@ -7,7 +7,6 @@ import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.animevents.AnimEventCustom;
 import arenashooter.engine.animation.animevents.AnimEventSound;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.EventListener;
@@ -41,8 +40,8 @@ public class Intro extends GameState {
 	public Intro() {
 		anim = new Animation(AnimationData.loadAnim("data/animations/anim_intro.xml"));
 
-		bgm = Audio.createSource("data/music/Juhani Junkala [Chiptune Adventures] 4. Stage Select [Edited].ogg", AudioChannel.MUSIC, .67f, 1);
-		bgmLoop = Audio.createSource("data/music/Juhani Junkala [Retro Game Music Pack] Title Screen.ogg", AudioChannel.MUSIC, .8f, 1.05f);
+		bgm = Main.getAudioManager().createSource("data/music/Juhani Junkala [Chiptune Adventures] 4. Stage Select [Edited].ogg", AudioChannel.MUSIC, .67f, 1);
+		bgmLoop = Main.getAudioManager().createSource("data/music/Juhani Junkala [Retro Game Music Pack] Title Screen.ogg", AudioChannel.MUSIC, .8f, 1.05f);
 		bgmLoop.setLooping(true);
 		
 		inputs.actions.add(new EventListener<InputActionEvent>() {

@@ -1,6 +1,5 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -15,6 +14,7 @@ import arenashooter.entities.spatials.Grenade;
 import arenashooter.entities.spatials.Particles;
 import arenashooter.entities.spatials.SoundEffect;
 import arenashooter.entities.spatials.StarBullet;
+import arenashooter.game.Main;
 
 public class Gun extends Usable {
 	protected float recoil = 0.4f;// High
@@ -352,7 +352,7 @@ public class Gun extends Usable {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
 						getWorldPos());
 
 				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
@@ -364,7 +364,7 @@ public class Gun extends Usable {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.028f);
 			} else {
-				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
 						getWorldPos());
 			}
 

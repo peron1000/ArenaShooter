@@ -9,7 +9,6 @@ import org.jbox2d.dynamics.Fixture;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -26,6 +25,7 @@ import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterClass;
 import arenashooter.game.CharacterInfo;
 import arenashooter.game.Controller;
+import arenashooter.game.Main;
 
 public class Character extends RigidBodyContainer {
 
@@ -142,7 +142,7 @@ public class Character extends RigidBodyContainer {
 			if (canJump || (!justInTime.isOver() && lastJumpCouldMake == 0)) {
 				jumpTimer.reset();
 				jumpTimer.setProcessing(true);
-				Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 						getWorldPos());
 
 				isOnGround = false;
@@ -154,7 +154,7 @@ public class Character extends RigidBodyContainer {
 			} else if (canWallJump != 0 || !justInTime.isOver()) {
 				jumpTimer.reset();
 				jumpTimer.setProcessing(true);
-				Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 						getWorldPos());
 				jumpi = true;
 				if (canWallJump != 0)
@@ -166,7 +166,7 @@ public class Character extends RigidBodyContainer {
 			} else if (bonusJumpsUsed++ < bonusJumpsMax) {
 				jumpTimer.reset();
 				jumpTimer.setProcessing(true);
-				Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 						getWorldPos());
 				// TODO: Skeleton double jump feather Effects
 				((CharacterSprite) getChild("skeleton")).plum();
@@ -180,7 +180,7 @@ public class Character extends RigidBodyContainer {
 		} else if (bonusJumpsUsed++ < bonusJumpsMax) {
 			jumpTimer.reset();
 			jumpTimer.setProcessing(true);
-			Audio.playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
+			Main.getAudioManager().playSound2D("data/sound/jump.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.9f, 1.2f, Math.random()),
 					getWorldPos());
 			// TODO: Skeleton double jump feather Effects
 			((CharacterSprite) getChild("skeleton")).plum();
@@ -432,7 +432,7 @@ public class Character extends RigidBodyContainer {
 
 			if (arme != null) {
 				arme.attachToParent(this, "Item_Weapon");
-				Audio.playSound2D(arme.soundPickup, AudioChannel.SFX, 1, Utils.lerpF(.8f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D(arme.soundPickup, AudioChannel.SFX, 1, Utils.lerpF(.8f, 1.2f, Math.random()),
 						getWorldPos());
 			}
 		}
@@ -451,7 +451,7 @@ public class Character extends RigidBodyContainer {
 				rigBod.setLinearVelocity(Vec2f.multiply(Vec2f.fromAngle(aimInput), 25));
 				rigBod.setAngularVelocity((float) (Math.PI * 2 * Math.random() + 12 * Math.PI * (lookRight ? 1 : -1)));
 				item.canDealDamage = true;
-				Audio.playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
+				Main.getAudioManager().playSound2D("data/sound/throw.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
 						getWorldPos());
 			} else
 				item.detach();
@@ -521,7 +521,7 @@ public class Character extends RigidBodyContainer {
 			if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
 				Window.getCamera().setCameraShake(2);
 				// TODO: Improve random sound
-				Audio.playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1,
+				Main.getAudioManager().playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1,
 						1, getWorldPos());
 			}
 
@@ -562,7 +562,7 @@ public class Character extends RigidBodyContainer {
 		if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
 			Window.getCamera().setCameraShake(2);
 			// TODO: Improve random sound
-			Audio.playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1, 1,
+			Main.getAudioManager().playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1, 1,
 					getWorldPos());
 		}
 		health = 0;
@@ -757,7 +757,7 @@ public class Character extends RigidBodyContainer {
 			skeleton.charging = chargePunch.isProcessing();
 			if (!skeleton.charged && chargePunch.isOver()) {
 				skeleton.charged = true;
-				Audio.playSound2D("data/sound/Souing.ogg", AudioChannel.SFX, 0.7f, 1.5f, getWorldPos());
+				Main.getAudioManager().playSound2D("data/sound/Souing.ogg", AudioChannel.SFX, 0.7f, 1.5f, getWorldPos());
 			}
 		}
 

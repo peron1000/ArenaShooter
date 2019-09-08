@@ -13,7 +13,6 @@ import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.animevents.AnimEventCustom;
 import arenashooter.engine.animation.animevents.AnimEventSound;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.input.InputListener;
@@ -115,7 +114,7 @@ public class Game extends GameState {
 			bgm = null;
 		}
 		bgmPath = bgmPathDefault;
-		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
+		bgm = Main.getAudioManager().createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
 		
 	}
@@ -145,14 +144,14 @@ public class Game extends GameState {
 			if (!bgmPath.equals(current.musicPath)) { // Only restart music if its path changed
 				bgmPath = current.musicPath;
 				bgm.destroy();
-				bgm = Audio.createSource(bgmPath, AudioChannel.MUSIC, .1f, current.musicPitch);
+				bgm = Main.getAudioManager().createSource(bgmPath, AudioChannel.MUSIC, .1f, current.musicPitch);
 				bgm.setLooping(true);
 				bgm.play();
 			}
 		} else if (!bgmPath.equals(bgmPathDefault)) { // Switch to default music
 			bgmPath = bgmPathDefault;
 			bgm.destroy();
-			bgm = Audio.createSource(bgmPath, AudioChannel.MUSIC, .1f, 1);
+			bgm = Main.getAudioManager().createSource(bgmPath, AudioChannel.MUSIC, .1f, 1);
 			bgm.setLooping(true);
 			bgm.play();
 		}
@@ -217,11 +216,11 @@ public class Game extends GameState {
 								double rand = Math.random();
 								if (winner != null) {
 									if (rand < 0.333) {
-										Audio.playSound("data/sound/Winner_01.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound("data/sound/Winner_01.ogg", AudioChannel.UI, 5f, 1);
 									} else if (rand > 0.666) {
-										Audio.playSound("data/sound/Winner_03.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound("data/sound/Winner_03.ogg", AudioChannel.UI, 5f, 1);
 									} else {
-										Audio.playSound("data/sound/Winner_02.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound("data/sound/Winner_02.ogg", AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
 											Texture.loadTexture("data/sprites/interface/Winner_Chroma2.png"));
@@ -229,11 +228,11 @@ public class Game extends GameState {
 
 								} else {
 									if (rand < 0.333) {
-										Audio.playSound("data/sound/Draw_01.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound("data/sound/Draw_01.ogg", AudioChannel.UI, 5f, 1);
 									} else if (rand > 0.666) {
-										Audio.playSound("data/sound/Draw_03.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound("data/sound/Draw_03.ogg", AudioChannel.UI, 5f, 1);
 									} else {
-										Audio.playSound("data/sound/Draw_02.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound("data/sound/Draw_02.ogg", AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
 											Texture.loadTexture("data/sprites/interface/Draw_Chroma2.png"));
@@ -276,9 +275,9 @@ public class Game extends GameState {
 
 			if (getCamera() != null) {
 				getCamera().center(players, current.cameraBasePos, d);
-				Audio.setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
+				Main.getAudioManager().setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
 			} else
-				Audio.setListener(new Vec3f(), new Quat());
+				Main.getAudioManager().setListener(new Vec3f(), new Quat());
 
 			// Update controllers
 			for (Controller controller1 : Main.getGameMaster().controllers)
@@ -290,10 +289,10 @@ public class Game extends GameState {
 
 			if (getCamera() != null) {
 				getCamera().center(players, current.cameraBasePos, d);
-				Audio.setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
+				Main.getAudioManager().setListener(getCamera().getWorldPos(), getCamera().getWorldRot());
 				getCamera().step(d);
 			} else
-				Audio.setListener(new Vec3f(), new Quat());
+				Main.getAudioManager().setListener(new Vec3f(), new Quat());
 
 			if (!startCounter.isPlaying()) {
 				counterImage.setScale(0, 0);

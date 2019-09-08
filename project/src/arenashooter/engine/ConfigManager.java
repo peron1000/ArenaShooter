@@ -11,9 +11,9 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
+import arenashooter.game.Main;
 
 public class ConfigManager {
 	private static File file = new File("config.cfg");
@@ -117,9 +117,9 @@ public class ConfigManager {
 		Window.setVsync(getBool("vsync"));
 		
 		//Audio
-		Audio.setMainVolume(getFloat("volumeMain"));
-		Audio.setChannelVolume(AudioChannel.SFX, getFloat("volumeSFX"));
-		Audio.setChannelVolume(AudioChannel.UI, getFloat("volumeUI"));
-		Audio.setChannelVolume(AudioChannel.MUSIC, getFloat("volumeMusic"));
+		Main.getAudioManager().setMainVolume(getFloat("volumeMain"));
+		Main.getAudioManager().setChannelVolume(AudioChannel.SFX, getFloat("volumeSFX"));
+		Main.getAudioManager().setChannelVolume(AudioChannel.UI, getFloat("volumeUI"));
+		Main.getAudioManager().setChannelVolume(AudioChannel.MUSIC, getFloat("volumeMusic"));
 	}
 }

@@ -1,4 +1,4 @@
-package arenashooter.engine.audio;
+package arenashooter.engine.audio.openAL;
 
 import static org.lwjgl.openal.AL10.alListener3f;
 import static org.lwjgl.openal.AL10.alListenerfv;
@@ -27,7 +27,11 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALUtil;
 
-import arenashooter.engine.math.Quat;
+import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.audio.AudioManager;
+import arenashooter.engine.audio.SoundBuffer;
+import arenashooter.engine.audio.SoundSource;
+import arenashooter.engine.math.QuatI;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
@@ -35,26 +39,28 @@ import arenashooter.engine.math.Vec3fi;
 /**
  * Audio manager
  */
-public final class Audio {
-	private static long device, context;
+public class ALAudio implements AudioManager{
+	private long device, context;
 	
-	private static float mainVolume = 1;
+	private float mainVolume = 1;
 
-	private static Set<SoundSource> sources = new HashSet<>();
-	private static Set<SoundSource> autoDestroySources = new HashSet<>();
+	private Set<ALSoundSource> sources = new HashSet<>();
+	private Set<ALSoundSource> autoDestroySources = new HashSet<>();
 	
-	public static final Logger log = LogManager.getLogger("Audio");
+	private FloatBuffer listenerRot;
 	
-	private static FloatBuffer listenerRot;
+	public static final Logger log;
+	
+	static {
+		log = LogManager.getLogger("Audio");
+	}
+	
+	@Override
+	public Logger getLogger() { return log; }
 
-	//This class cannot be instantiated
-	private Audio() {}
-	
-	/**
-	 * Initialize the audio system. Don't forget to destroy it !
-	 */
-	public static void init() {
-		log.info("Initializing");
+	@Override
+	public void init() {
+		log.info("Initializing (OpenAL)");
 		
 		//Get default device
 		device = alcOpenDevice( (ByteBuffer)null );
@@ -82,10 +88,8 @@ public final class Audio {
 		listenerRot = BufferUtils.createFloatBuffer(6);
 	}
 	
-	/**
-	 * Destroy the audio system
-	 */
-	public static void destroy() {
+	@Override
+	public void destroy() {
 		log.info("Stopping");
 		
 		alcMakeContextCurrent(NULL);
@@ -93,10 +97,8 @@ public final class Audio {
 		alcCloseDevice(device);
 	}
 	
-	/**
-	 * This does not need to be called at every sub-step
-	 */
-	public static void update() {
+	@Override
+	public void update() {
 		//Clean-up sources
 		List<SoundSource> toDestroy = autoDestroySources.stream().filter(p -> !p.isPlaying()).collect(Collectors.toList());
 		for( SoundSource source : toDestroy ) {
@@ -107,18 +109,14 @@ public final class Audio {
 	
 	/**
 	 * Remove a source from collection
-	 * @param source
+	 * @param alSoundSource
 	 */
-	static void unregisterSource(SoundSource source) {
-		sources.remove(source);
+	void unregisterSource(ALSoundSource alSoundSource) {
+		sources.remove(alSoundSource);
 	}
 	
-	/**
-	 * Set the listener ("ears") to a specific location/rotation
-	 * @param loc
-	 * @param rot
-	 */
-	public static void setListener(Vec3fi loc, Quat rot) {
+	@Override
+	public void setListener(Vec3fi loc, QuatI rot) {
 		alListener3f( AL_POSITION, loc.x(), loc.y(), loc.z() );
 		
 		Vec3f forward = Vec3f.multiply(rot.forward(), -1 );
@@ -136,23 +134,17 @@ public final class Audio {
 		alListenerfv( AL_ORIENTATION, listenerRot );
 	}
 	
-	/**
-	 * Play a sound (non-spatialized)
-	 * @param file
-	 * @param channel
-	 * @param volume
-	 * @param pitch
-	 */
-	public static void playSound(String file, AudioChannel channel, float volume, float pitch) {
+	@Override
+	public void playSound(String file, AudioChannel channel, float volume, float pitch) {
 		if(channel.volume <= 0 || volume <= 0 || file == null || file.isEmpty()) return;
 		
-		SoundBuffer buf = SoundBuffer.loadSound(file);
+		SoundBuffer buf = loadSound(file);
 		if(buf == null) {
 			log.error("Cannot play sound \""+file+"\"");
 			return;
 		}
 		
-		SoundSource source = new SoundSource(file, channel);
+		ALSoundSource source = new ALSoundSource(this, file, channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -165,24 +157,17 @@ public final class Audio {
 		autoDestroySources.add(source);
 	}
 	
-	/**
-	 * Play a sound (spatialized)
-	 * @param file
-	 * @param channel
-	 * @param volume
-	 * @param pitch
-	 * @param position
-	 */
-	public static void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2fi position) {
+	@Override
+	public void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2fi position) {
 		if(channel.volume <= 0 || volume <= 0 ||  file == null || file.isEmpty()) return;
 		
-		SoundBuffer buf = SoundBuffer.loadSound(file);
+		SoundBuffer buf = loadSound(file);
 		if(buf == null) {
 			log.error("Cannot play sound \""+file+"\"");
 			return;
 		}
 		
-		SoundSource source = new SoundSource(file, channel);
+		ALSoundSource source = new ALSoundSource(this, file, channel);
 		
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -196,22 +181,17 @@ public final class Audio {
 		autoDestroySources.add(source);
 	}
 	
-	/**
-	 * Create a new source
-	 * @param file
-	 * @param channel
-	 * @return Source or null
-	 */
-	public static SoundSource createSource(String file, AudioChannel channel, float volume, float pitch) {
+	@Override
+	public SoundSource createSource(String file, AudioChannel channel, float volume, float pitch) {
 		if(file == null || file.isEmpty()) return null;
 		
-		SoundBuffer buf = SoundBuffer.loadSound(file);
+		SoundBuffer buf = loadSound(file);
 		if(buf == null) {
 			log.error("Cannot load sound \""+file+"\"");
 			return null;
 		}
 		
-		SoundSource source = new SoundSource(file, channel);
+		ALSoundSource source = new ALSoundSource(this, file, channel);
 
 		source.setBuffer(buf);
 		source.setPitch(pitch);
@@ -223,27 +203,36 @@ public final class Audio {
 		return source;
 	}
 	
-	public static float getMainVolume() { return mainVolume; }
+	@Override
+	public float getMainVolume() { return mainVolume; }
 	
-	public static void setMainVolume(float newVolume) {
+	@Override
+	public void setMainVolume(float newVolume) {
 		mainVolume = newVolume;
 		
-		for(SoundSource source : sources)
+		for(ALSoundSource source : sources)
 			source.updateVolume();
 	}
 	
-	public static float getChannelVolume(AudioChannel channel) { return channel.volume; }
+	@Override
+	public float getChannelVolume(AudioChannel channel) { return channel.volume; }
 	
-	public static void setChannelVolume(AudioChannel channel, float newVolume) {
+	@Override
+	public void setChannelVolume(AudioChannel channel, float newVolume) {
 		channel.volume = Math.max(0, newVolume);
 
-		for(SoundSource source : sources) {
+		for(ALSoundSource source : sources) {
 			if(source.getChannel() == channel)
 				source.updateVolume();
 		}
 	}
+
+	@Override
+	public SoundBuffer loadSound(String path) {
+		return ALSoundBuffer.loadSound(path);
+	}
 	
-	private static void printInitInfo(ALCCapabilities deviceCapabilities) {
+	private void printInitInfo(ALCCapabilities deviceCapabilities) {
 		log.debug("OpenALC10: "+deviceCapabilities.OpenALC10);
 		log.debug("OpenALC11: "+deviceCapabilities.OpenALC11);
 		log.debug("caps.ALC_EXT_EFX: "+deviceCapabilities.ALC_EXT_EFX);

@@ -2,7 +2,6 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -10,6 +9,7 @@ import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.game.Main;
 
 public class Bullet extends Projectile {
 
@@ -35,7 +35,7 @@ public class Bullet extends Projectile {
 		
 		other.takeDamage(new DamageInfo(damage, DamageType.BULLET, Vec2f.normalize(vel), 5, shooter));
 		
-		Audio.playSound2D("data/sound/Ptou.ogg", AudioChannel.SFX, .15f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+		Main.getAudioManager().playSound2D("data/sound/Ptou.ogg", AudioChannel.SFX, .15f, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 		
 		detach();
 	}

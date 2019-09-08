@@ -1,11 +1,11 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Arena;
+import arenashooter.game.Main;
 
 /**
  * Spatial entity containing a sound effect.
@@ -67,7 +67,7 @@ public class SoundEffect extends Spatial {
 	 */
 	public void play() {
 		if(getArena() == null) {
-			Audio.log.warn("Sound "+path+" isn't attached in world and won't be played");
+			Main.getAudioManager().getLogger().warn("Sound "+path+" isn't attached in world and won't be played");
 			return;
 		}
 		if(source == null)
@@ -75,7 +75,7 @@ public class SoundEffect extends Spatial {
 		if(source != null) {
 			source.play();
 			if(!source.isPlaying())
-				Audio.log.error("Despite having a valid source, \""+path+"\" is not playing");
+				Main.getAudioManager().getLogger().error("Despite having a valid source, \""+path+"\" is not playing");
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class SoundEffect extends Spatial {
 	
 	private void createSource() {
 		if(source != null) destroySource();
-		source = Audio.createSource(path, channel, volume, pitch);
+		source = Main.getAudioManager().createSource(path, channel, volume, pitch);
 		if(source == null) return;
 		source.setLooping(looping);
 		source.setPosition2D(getWorldPos());

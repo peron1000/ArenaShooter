@@ -1,12 +1,12 @@
 package arenashooter.entities.spatials;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.game.Main;
 
 public class StarBullet extends Projectile {
 	
@@ -36,11 +36,11 @@ public class StarBullet extends Projectile {
 		((Character)other).stun(damage);
 		
 		if(Math.random() > 0.5)
-			Audio.playSound2D("data/sound/mbggnea1.ogg", AudioChannel.SFX, .25f, (float)( 0.90 + Math.random()*0.2), getWorldPos());
+			Main.getAudioManager().playSound2D("data/sound/mbggnea1.ogg", AudioChannel.SFX, .25f, (float)( 0.90 + Math.random()*0.2), getWorldPos());
 		else if(Math.random() > 0.5)//Oui, les sons ne sont pas equiprobables.
-			Audio.playSound2D("data/sound/mbggnea2.ogg", AudioChannel.SFX, .25f, (float)( 0.90 + Math.random()*0.2), getWorldPos());
+			Main.getAudioManager().playSound2D("data/sound/mbggnea2.ogg", AudioChannel.SFX, .25f, (float)( 0.90 + Math.random()*0.2), getWorldPos());
 		else
-			Audio.playSound2D("data/sound/mbggnea3.ogg", AudioChannel.SFX, .25f, (float)( 0.90 + Math.random()*0.2), getWorldPos());
+			Main.getAudioManager().playSound2D("data/sound/mbggnea3.ogg", AudioChannel.SFX, .25f, (float)( 0.90 + Math.random()*0.2), getWorldPos());
 		
 		detach();
 	}

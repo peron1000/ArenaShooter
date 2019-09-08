@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.util.CircleList;
+import arenashooter.game.Main;
 
 public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 
@@ -355,7 +355,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowRight.addToPositionSuperLerp(arrowLerp, 0, lerp);
 			if (!circleList.isEmpty())
-				Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+				Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
@@ -373,7 +373,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowLeft.addToPositionSuperLerp(-arrowLerp, 0, lerp);
 			if (!circleList.isEmpty())
-				Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+				Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
@@ -388,7 +388,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (scissor) {
 				slideUpdate();
 			}
-			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+			Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
@@ -403,7 +403,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (scissor) {
 				slideUpdate();
 			}
-			Audio.playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+			Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}

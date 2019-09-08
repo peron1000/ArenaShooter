@@ -1,13 +1,13 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.game.Main;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,7 +62,7 @@ public class Punch extends Spatial {
 			if (target.canParryThis(dmgInfo.direction.angle())) {
 
 				if (!superPoing) {
-					Audio.playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 4f, (float) (0.90 + Math.random() * 0.2),
+					Main.getAudioManager().playSound2D("data/sound/Ting.ogg", AudioChannel.SFX, 4f, (float) (0.90 + Math.random() * 0.2),
 							target.getWorldPos());
 					if (getParent() instanceof Character) {
 						Character parent = (Character) getParent();
@@ -70,7 +70,7 @@ public class Punch extends Spatial {
 						parent.getBody().setLinearVelocity(Vec2f.multiply(parent.getBody().getLinearVelocity(), -0.5));
 					}
 				} else {
-					Audio.playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f,
+					Main.getAudioManager().playSound2D("data/sound/punch_01.ogg", AudioChannel.SFX, 3f,
 							(float) (0.90 + Math.random() * 0.2), target.getWorldPos());
 					target.takeDamage(dmgInfo);
 					target.stun(0.5);
@@ -80,7 +80,7 @@ public class Punch extends Spatial {
 					&& Vec2f.areOpposed(dmgInfo.direction, Vec2f.fromAngle(target.aimInput), hitWidth/2)) {
 				Character parent = (Character) getParent();
 				parent.getBody().setLinearVelocity(Vec2f.multiply(parent.getBody().getLinearVelocity(), -0.5));
-				Audio.playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 50, (float) (0.95 + Math.random() * 0.1),
+				Main.getAudioManager().playSound2D("data/sound/Thud.ogg", AudioChannel.SFX, 50, (float) (0.95 + Math.random() * 0.1),
 						getWorldPos());
 			} else {
 				target.takeDamage(dmgInfo);
@@ -112,11 +112,11 @@ public class Punch extends Spatial {
 			if (!punchHit.isEmpty()) {
 				float randomPitch = (float) (1 + (Math.random() - 0.5) * 0.2);
 				if (superPoing) {
-					Audio.playSound2D("data/sound/SuperPunch.ogg", AudioChannel.SFX, 2f, 1 * randomPitch,
+					Main.getAudioManager().playSound2D("data/sound/SuperPunch.ogg", AudioChannel.SFX, 2f, 1 * randomPitch,
 							getWorldPos());
 					Window.getCamera().setCameraShake(0.25f);
 				} else {
-					Audio.playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f, 1 * randomPitch,
+					Main.getAudioManager().playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f, 1 * randomPitch,
 							getWorldPos());
 					Window.getCamera().setCameraShake(0.15f);
 				}

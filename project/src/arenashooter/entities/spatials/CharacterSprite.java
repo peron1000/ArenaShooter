@@ -8,7 +8,6 @@ import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.animevents.AnimEventSound;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
@@ -22,6 +21,7 @@ import arenashooter.entities.Arena;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Usable;
 import arenashooter.game.CharacterInfo;
+import arenashooter.game.Main;
 
 public class CharacterSprite extends Spatial {
 
@@ -204,7 +204,7 @@ public class CharacterSprite extends Spatial {
 	public void punch(int swoosh, double direction) {
 		Vec2f.rotate(new Vec2f(1.5, 0), direction, handR.localPosition);
 		handR.localRotation = direction;
-		Audio.playSound2D("data/sound/woosh_01.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.8f, 1.2f, Math.random()),
+		Main.getAudioManager().playSound2D("data/sound/woosh_01.ogg", AudioChannel.SFX, .7f, Utils.lerpF(.8f, 1.2f, Math.random()),
 				getWorldPos());
 		switch (swoosh) {
 		case 1:
@@ -263,7 +263,7 @@ public class CharacterSprite extends Spatial {
 		blinking = new Animation(redBlinks);
 		blinking.play();
 		//Audio.playSound2D("data/sound/Bushido_Trigger.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random()*0.1), localPosition);
-		Audio.playSound2D("data/sound/Draw_03.ogg", AudioChannel.SFX, 5f, (float) (0.95 + Math.random()*0.1), localPosition);
+		Main.getAudioManager().playSound2D("data/sound/Draw_03.ogg", AudioChannel.SFX, 5f, (float) (0.95 + Math.random()*0.1), localPosition);
 		Particles rageBits = new Particles(new Vec2f(), "data/particles/Rage.xml");
 		rageBits.selfDestruct = true;
 		rageBits.attachToParent(this, rageBits.genName());
@@ -358,7 +358,7 @@ public class CharacterSprite extends Spatial {
 			while ((current = events.poll()) != null) {
 				if (current instanceof AnimEventSound) {
 					AnimEventSound snd = (AnimEventSound) current;
-					Audio.playSound2D(snd.path, snd.channel, snd.volume, (float) (snd.pitch + Math.random() / 4),
+					Main.getAudioManager().playSound2D(snd.path, snd.channel, snd.volume, (float) (snd.pitch + Math.random() / 4),
 							getWorldPos());
 				}
 			}
@@ -453,7 +453,7 @@ public class CharacterSprite extends Spatial {
 		stepTimer.step(d * Math.abs(moveSpeed) / 5);
 		if (!(getParent() instanceof Arena)) { // TODO: Temp stuff for loading screen anim
 			if (isOnGround && stepTimer.isOver()) {
-				Audio.playSound2D("data/sound/step_01.ogg", AudioChannel.SFX, .2f,
+				Main.getAudioManager().playSound2D("data/sound/step_01.ogg", AudioChannel.SFX, .2f,
 						Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 				stepTimer.restart();
 			}

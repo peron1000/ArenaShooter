@@ -1,8 +1,8 @@
 package arenashooter.engine.animation.animevents;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Vec2fi;
+import arenashooter.game.Main;
 
 public class AnimEventSound extends AnimEvent {
 	public final String path;
@@ -24,9 +24,9 @@ public class AnimEventSound extends AnimEvent {
 	 */
 	public void play(Vec2fi position) {
 		if(spatialized)
-			Audio.playSound2D(path, channel, volume, pitch, position);
+			Main.getAudioManager().playSound2D(path, channel, volume, pitch, position);
 		else
-			Audio.playSound(path, channel, volume, pitch);
+			Main.getAudioManager().playSound(path, channel, volume, pitch);
 	}
 
 }

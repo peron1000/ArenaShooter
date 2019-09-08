@@ -179,10 +179,7 @@ public class Quat implements QuatI{
 		return target;
 	}
 	
-	/**
-	 * Get a unit vector pointing in the direction of this quaternion
-	 * @return (0, 0, 1) rotated by this quaternion
-	 */
+	@Override
 	public Vec3f forward() {
 		double ww = w * w;
         double xx = x * x;
@@ -200,10 +197,7 @@ public class Quat implements QuatI{
 		return new Vec3f(x, y, z);
 	}
 	
-	/**
-	 * Get a unit vector pointing upwards of this quaternion
-	 * @return (0, 1, 0) rotated by this quaternion
-	 */
+	@Override
 	public Vec3f up() { //TODO: Test
 		double ww = w * w;
         double xx = x * x;
@@ -221,10 +215,7 @@ public class Quat implements QuatI{
 		return new Vec3f(x, y, z);
 	}
 	
-	/**
-	 * Get a unit vector pointing to the right of this quaternion
-	 * @return (1, 0, 0) rotated by this quaternion
-	 */
+	@Override
 	public Vec3f right() { //TODO: Test
 		double ww = w * w;
         double xx = x * x;

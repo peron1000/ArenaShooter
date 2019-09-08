@@ -1,12 +1,12 @@
 package arenashooter.game.gameStates.loading;
 
-import arenashooter.engine.audio.SoundBuffer;
+import arenashooter.game.Main;
 
 public class PreLoadMainSound extends Thread {
 	
 	@Override
 	public void run() {
-		SoundBuffer.loadSound("data/music/Super_blep_serious_fight.ogg");
+		Main.getAudioManager().loadSound("data/music/Super_blep_serious_fight.ogg");
 	}
 
 }

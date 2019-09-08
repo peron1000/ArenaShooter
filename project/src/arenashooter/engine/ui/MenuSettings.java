@@ -2,7 +2,6 @@ package arenashooter.engine.ui;
 
 import java.text.DecimalFormat;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.ui.Trigger;
@@ -32,46 +31,46 @@ public class MenuSettings extends TabList<UiActionable> {
 		///
 
 		UiSliderV mainVolume = new UiSliderV();
-		mainVolume.value = Audio.getMainVolume();
+		mainVolume.value = Main.getAudioManager().getMainVolume();
 		mainVolume.setTitle("Main volume");
 		mainVolume.setScale(40, 8);
 		mainVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setMainVolume((float) mainVolume.value);
+				Main.getAudioManager().setMainVolume((float) mainVolume.value);
 			}
 		});
 		
 		UiSliderV musicVolume = new UiSliderV();
-		musicVolume.value = Audio.getChannelVolume(AudioChannel.MUSIC);
+		musicVolume.value = Main.getAudioManager().getChannelVolume(AudioChannel.MUSIC);
 		musicVolume.setTitle("Music volume");
 		musicVolume.setScale(40, 8);
 		musicVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.MUSIC, (float) musicVolume.value);
+				Main.getAudioManager().setChannelVolume(AudioChannel.MUSIC, (float) musicVolume.value);
 			}
 		});
 
 		UiSliderV sfxVolume = new UiSliderV();
-		sfxVolume.value = Audio.getChannelVolume(AudioChannel.SFX);
+		sfxVolume.value = Main.getAudioManager().getChannelVolume(AudioChannel.SFX);
 		sfxVolume.setTitle("Sfx volume");
 		sfxVolume.setScale(40, 8);
 		sfxVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.SFX, (float) sfxVolume.value);
+				Main.getAudioManager().setChannelVolume(AudioChannel.SFX, (float) sfxVolume.value);
 			}
 		});
 
 		UiSliderV uiVolume = new UiSliderV();
-		uiVolume.value = Audio.getChannelVolume(AudioChannel.UI);
+		uiVolume.value = Main.getAudioManager().getChannelVolume(AudioChannel.UI);
 		uiVolume.setTitle("UI volume");
 		uiVolume.setScale(40, 8);
 		uiVolume.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Audio.setChannelVolume(AudioChannel.UI, (float) uiVolume.value);
+				Main.getAudioManager().setChannelVolume(AudioChannel.UI, (float) uiVolume.value);
 			}
 		});
 

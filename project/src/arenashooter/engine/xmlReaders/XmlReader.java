@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 
 import arenashooter.engine.audio.SoundBuffer;
 import arenashooter.engine.math.Quat;
+import arenashooter.game.Main;
 
 public abstract class XmlReader {
 	private final static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -61,7 +62,7 @@ public abstract class XmlReader {
 	 * @return path (unchanged)
 	 */
 	protected static String preloadSound(String path) {
-		SoundBuffer.loadSound(path);
+		Main.getAudioManager().loadSound(path);
 		return path;
 	}
 	

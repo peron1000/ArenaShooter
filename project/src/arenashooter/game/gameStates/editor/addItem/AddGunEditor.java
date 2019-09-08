@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import arenashooter.engine.FileUtils;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
@@ -755,7 +754,7 @@ class AddGunEditor extends UiElement implements MultiUi {
 		case SOUND_NOAMMO:
 		case SOUND_PICKUP:
 		case SOUND_WARMUP:
-			Audio.playSound(scrollersSound.get(), AudioChannel.SFX, 0.5f, 1f);
+			Main.getAudioManager().playSound(scrollersSound.get(), AudioChannel.SFX, 0.5f, 1f);
 			return true;
 		case SAVING:
 			return textInput.changeAction();

@@ -1,11 +1,16 @@
 package arenashooter.game;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import arenashooter.engine.ConfigManager;
 import arenashooter.engine.Profiler;
-import arenashooter.engine.audio.Audio;
+import arenashooter.engine.audio.AudioManager;
+import arenashooter.engine.audio.nosound.NoSound;
+import arenashooter.engine.audio.openAL.ALAudio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.game.gameStates.Loading;
@@ -24,6 +29,7 @@ public class Main {
 
 	public static boolean drawCollisions = false, skipTransparency = false;
 
+	private static AudioManager audio;
 	private static GameMaster gameMaster;
 
 	public static Font font = null;
@@ -36,10 +42,19 @@ public class Main {
 	public static PreLoadMainSound preLoadMainSound = new PreLoadMainSound();
 
 	public static void main(String[] args) {
+		List<String> argsL = Arrays.asList(args);
+		
 		log.info("Starting Super Blep version " + version);
 
 		ConfigManager.init();
-		Audio.init();
+
+		//Audio
+		if( argsL.contains("-nosound") )
+			audio = new NoSound();
+		else
+			audio = new ALAudio();
+		audio.init();
+		
 		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
 
 		gameMaster = new GameMaster();
@@ -86,7 +101,7 @@ public class Main {
 			gameMaster.draw();
 			Profiler.endTimer(Profiler.RENDER);
 
-			Audio.update();
+			audio.update();
 
 			Window.endFrame();
 			
@@ -117,7 +132,7 @@ public class Main {
 		}
 
 		Window.destroy();
-		Audio.destroy();
+		audio.destroy();
 
 		log.info("Closing Super Blep...");
 	}
@@ -126,6 +141,8 @@ public class Main {
 	 * @return active GameMaster
 	 */
 	public static GameMaster getGameMaster() { return gameMaster; }
+	
+	public static AudioManager getAudioManager() { return audio; }
 
 	public static void reqestClose() {
 		requestclose = true;

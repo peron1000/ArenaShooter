@@ -1,6 +1,5 @@
 package arenashooter.entities.spatials.items;
 
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
@@ -10,6 +9,7 @@ import arenashooter.entities.spatials.Bullet;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CircleBullet;
 import arenashooter.entities.spatials.Particles;
+import arenashooter.game.Main;
 
 public class Shotgun extends Gun {
 	private int multiShot = 10;
@@ -171,7 +171,7 @@ public class Shotgun extends Gun {
 					getVel().add(Vec2f.multiply(recoilDir, thrust / 10));
 				}
 
-				Audio.playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D(soundFire, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
 						getWorldPos());
 
 				Particles shell = new Particles(new Vec2f(), "data/particles/shell_01.xml");
@@ -183,7 +183,7 @@ public class Shotgun extends Gun {
 				// Add camera shake
 				Window.getCamera().setCameraShake(.029f);
 			} else {
-				Audio.playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
+				Main.getAudioManager().playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
 						getWorldPos());
 			}
 

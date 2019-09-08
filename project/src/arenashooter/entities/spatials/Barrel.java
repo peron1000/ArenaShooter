@@ -2,7 +2,6 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -13,6 +12,7 @@ import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
+import arenashooter.game.Main;
 
 public class Barrel extends RigidBodyContainer {
 	private float damage = 50;
@@ -38,7 +38,7 @@ public class Barrel extends RigidBodyContainer {
 
 	public float takeDamage(DamageInfo info) {
 		applyImpulse(Vec2f.multiply(info.direction, info.damage));
-		Audio.playSound2D("data/sound/nid.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
+		Main.getAudioManager().playSound2D("data/sound/nid.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
 				localPosition);
 
 		health -= info.damage;
@@ -77,7 +77,7 @@ public class Barrel extends RigidBodyContainer {
 			for(int i = 0 ; timeSinceLastSpark >= timeUntilNewSpark && i < timeSinceLastSpark/timeUntilNewSpark ; i++) {//new Particle every 'timeUntilNewSpark' s
 				Particles particles = new Particles(getWorldPos(), "data/particles/fire_sparkles.xml");
 				particles.attachToParent(getArena(), "fire_particles" + genName());
-				Audio.playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(.2 + detonTimer.getValueRatio()/2), localPosition);
+				Main.getAudioManager().playSound2D("data/sound/Tic.ogg", AudioChannel.SFX, 1, (float)(.2 + detonTimer.getValueRatio()/2), localPosition);
 				timeSinceLastSpark -= timeUntilNewSpark;
 				timeUntilNewSpark = 0.05+Math.random()*0.20;
 			}

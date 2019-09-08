@@ -1,7 +1,6 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
-import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
@@ -13,6 +12,7 @@ import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.CollisionFlags;
+import arenashooter.game.Main;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -109,7 +109,7 @@ public class Explosion extends Spatial {
 			Particles particles = new Particles(getWorldPos(), "data/particles/explosion.xml");
 			particles.attachToParent(getArena(), "particles"+genName());
 
-			Audio.playSound2D("data/sound/explosion_01.ogg", AudioChannel.SFX, 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
+			Main.getAudioManager().playSound2D("data/sound/explosion_01.ogg", AudioChannel.SFX, 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			
 			Window.getCamera().setCameraShake(4);
 		}
