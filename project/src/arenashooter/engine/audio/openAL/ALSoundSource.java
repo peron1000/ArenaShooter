@@ -29,7 +29,7 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;
 
-public class ALSoundSource implements SoundSource {
+class ALSoundSource implements SoundSource {
 	private final ALAudio manager;
 	
 	private final int sourceId;

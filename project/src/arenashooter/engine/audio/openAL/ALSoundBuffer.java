@@ -23,7 +23,7 @@ import static org.lwjgl.stb.STBVorbis.*;
 /**
  * Container for OpenAL buffer
  */
-public class ALSoundBuffer implements SoundBuffer {
+class ALSoundBuffer implements SoundBuffer {
 	private static Map<String, ALSoundBuffer> buffers = new HashMap<>();
 	
 	private int bufferId;

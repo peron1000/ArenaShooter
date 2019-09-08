@@ -6,7 +6,7 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;
 
-public class NSSoundSource implements SoundSource {
+class NSSoundSource implements SoundSource {
 	private float volume = 1, pitch = 1;
 	private final AudioChannel channel;
 	
