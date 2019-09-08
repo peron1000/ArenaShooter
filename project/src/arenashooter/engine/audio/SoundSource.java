@@ -35,5 +35,5 @@ public interface SoundSource {
 	
 	public void setLooping(boolean isLooping);
 	
-	public void setBuffer(SoundBuffer buffer);
+	void setBuffer(SoundBuffer buffer);
 }

@@ -48,7 +48,7 @@ public class ALSoundBuffer implements SoundBuffer {
 	 * @param path sound file
 	 * @return buffer object (new or existing if already loaded)
 	 */
-	public static SoundBuffer loadSound(String path) {
+	static SoundBuffer loadSound(String path) {
 		SoundBuffer snd = buffers.get(path);
 		if(snd != null) return snd;
 

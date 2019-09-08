@@ -53,23 +53,26 @@ public class ALSoundSource implements SoundSource {
 		alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, 0 );
 	}
 	
-	/**
-	 * Destroy this source and unregister it from Audio manager
-	 */
+	@Override
 	public void destroy() {
 		alDeleteSources(sourceId);
 		ALAudio.printError("Cannot destroy source "+sourceId);
 		manager.unregisterSource(this);
 	}
-	
+
+	@Override
 	public boolean isPlaying() { return alGetSourcei(sourceId, AL_SOURCE_STATE) == AL_PLAYING; }
-	
+
+	@Override
 	public void play() { alSourcePlay(sourceId); }
-	
+
+	@Override
 	public void pause() { alSourcePause(sourceId); }
-	
+
+	@Override
 	public void stop() { alSourceStop(sourceId); }
-	
+
+	@Override
 	public void setPosition2D(Vec2fi position) {
 		if(position == null) {
 			alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
@@ -83,7 +86,8 @@ public class ALSoundSource implements SoundSource {
 			alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, .0055f );
 		}
 	}
-	
+
+	@Override
 	public void setPosition3D(Vec3fi position) {
 		if(position == null) {
 			alSource3f( sourceId, AL_POSITION, 0, 0, 0 );
@@ -97,11 +101,14 @@ public class ALSoundSource implements SoundSource {
 			alSourcef( sourceId, AL11.AL_ROLLOFF_FACTOR, .0055f );
 		}
 	}
-	
+
+	@Override
 	public AudioChannel getChannel() { return channel; }
-	
+
+	@Override
 	public float getVolume() { return volume; }
-	
+
+	@Override
 	public void setVolume(float newVolume) {
 		volume = newVolume;
 		updateVolume();
@@ -112,22 +119,27 @@ public class ALSoundSource implements SoundSource {
 		ALAudio.printError("Cannot set volume value for source "+sourceId);
 	}
 	
+	@Override
 	public float getPitch() { return pitch; }
 	
+	@Override
 	public void setPitch(float newPitch) {
 		pitch = newPitch;
 		alSourcef(sourceId, AL_PITCH, newPitch);
 		ALAudio.printError("Cannot set pitch value for source "+sourceId);
 	}
 	
+	@Override
 	public boolean isLooping() { return looping; }
 	
+	@Override
 	public void setLooping(boolean isLooping) {
 		looping = isLooping;
 		alSourcei(sourceId, AL_LOOPING, AL_TRUE);
 		ALAudio.printError("Cannot set loop value for source "+sourceId);
 	}
 	
+	@Override
 	public void setBuffer(SoundBuffer buffer) {
 		if( buffer instanceof ALSoundBuffer ) {
 			alSourcei(sourceId, AL_BUFFER, ((ALSoundBuffer)buffer).getBufferId());
