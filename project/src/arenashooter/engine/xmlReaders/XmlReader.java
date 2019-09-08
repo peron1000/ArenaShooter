@@ -88,7 +88,7 @@ public abstract class XmlReader {
 			w = Double.parseDouble(element.getAttribute("w"));
 			return Quat.normalize(new Quat(x, y, z, w));
 		}
-		return Quat.fromEuler(x, y, z);
+		return Quat.fromEuler(x, y, z, new Quat());
 	}
 
 	public static List<Element> getListElementByName(String name, Element parent) {

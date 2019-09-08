@@ -179,31 +179,6 @@ public class Mat4f implements Mat4fi {
 	 * @param target
 	 * @return <i>target</i>
 	 */
-	public static Mat4f translation(Vec3fi v, Mat4f target) {
-		target.setToIdentity();
-
-		target.val[3][0] = v.x();
-		target.val[3][1] = v.y();
-		target.val[3][2] = v.z();
-		
-		return target;
-	}
-	
-	/**
-	 * Create a translation matrix
-	 * @param v
-	 * @return
-	 */
-	public static Mat4f translation(Vec3fi v) {
-		return translation(v, new Mat4f());
-	}
-	
-	/**
-	 * <i>Target</i> becomes a translation matrix for <i>v</i>
-	 * @param v
-	 * @param target
-	 * @return <i>target</i>
-	 */
 	public static Mat4f translation(Vec2fi v, Mat4f target) {
 		target.setToIdentity();
 
@@ -212,14 +187,21 @@ public class Mat4f implements Mat4fi {
 		
 		return target;
 	}
-
+	
 	/**
-	 * Create a translation matrix
+	 * <i>Target</i> becomes a translation matrix for <i>v</i>
 	 * @param v
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f translation(Vec2fi v) {
-		return translation(v, new Mat4f());
+	public static Mat4f translation(Vec3fi v, Mat4f target) {
+		target.setToIdentity();
+
+		target.val[3][0] = v.x();
+		target.val[3][1] = v.y();
+		target.val[3][2] = v.z();
+		
+		return target;
 	}
 	
 	/**
@@ -253,17 +235,17 @@ public class Mat4f implements Mat4fi {
 	/**
 	 * Create a scaling matrix
 	 * @param v
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f scaling(Vec3fi v) {
-		Mat4f res = new Mat4f();
+	public static Mat4f scaling(Vec3fi v, Mat4f target) {
+		target.setToIdentity();
 		
-		res.val[0][0] = v.x();
-		res.val[1][1] = v.y();
-		res.val[2][2] = v.z();
-		res.val[3][3] = 1;
+		target.val[0][0] = v.x();
+		target.val[1][1] = v.y();
+		target.val[2][2] = v.z();
 		
-		return res;
+		return target;
 	}
 	
 	/**
@@ -290,17 +272,16 @@ public class Mat4f implements Mat4fi {
 	/**
 	 * Create a scaling matrix
 	 * @param v
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f scaling(Vec2fi v) {
-		Mat4f res = new Mat4f();
+	public static Mat4f scaling(Vec2fi v, Mat4f target) {
+		target.setToIdentity();
 		
-		res.val[0][0] = v.x();
-		res.val[1][1] = v.y();
-		res.val[2][2] = 1;
-		res.val[3][3] = 1;
-		
-		return res;
+		target.val[0][0] = v.x();
+		target.val[1][1] = v.y();
+
+		return target;
 	}
 	
 	/**

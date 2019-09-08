@@ -75,20 +75,6 @@ public class Quat implements QuatI{
 	}
 
     /**
-     * Converts a rotation in euler angles to a quaternion
-	 * <br/> Creates a new object
-     * @param yaw
-     * @param pitch
-     * @param roll
-     * @param target
-     * @return new quaternion
-     */
-    public static Quat fromEuler(double yaw, double pitch, double roll) {
-    	return fromEuler(yaw, pitch, roll, new Quat());
-    }
-    
-
-    /**
      * Converts a rotation in euler angles to a quaternion, stores the result in <i>target</i>
 	 * <br/> Avoids object creation
      * @param euler (yaw, pitch, roll)
@@ -124,15 +110,6 @@ public class Quat implements QuatI{
     	return target;
     }
 
-    /**
-     * Extract euler angles (yaw, pitch, roll) from <i>this</i>
-	 * <br/> Creates an object
-     * @return (pitch, yaw, roll)
-     */
-    public Vec3f toEuler() {
-    	return toEuler(new Vec3f());
-    }
-    
     /**
      * Extract euler angles (yaw, pitch, roll) from <i>this</i> and stores the result in <i>target</i>
 	 * <br/> Avoids object creation
