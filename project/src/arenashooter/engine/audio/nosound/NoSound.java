@@ -11,6 +11,9 @@ import arenashooter.engine.math.QuatI;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;
 
+/**
+ * Empty audio implementation
+ */
 public class NoSound implements AudioManager {
 
 	private float mainVolume = 1;

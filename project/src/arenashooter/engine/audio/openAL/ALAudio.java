@@ -37,7 +37,7 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
 
 /**
- * Audio manager
+ * OpenAL audio implementation
  */
 public class ALAudio implements AudioManager{
 	private long device, context;
