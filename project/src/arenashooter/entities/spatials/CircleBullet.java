@@ -39,7 +39,7 @@ public class CircleBullet extends Projectile {
 		sprite.size = new Vec2f(sprite.getTexture().getWidth()*.018, sprite.getTexture().getHeight()*.018);
 		sprite.localRotation = getWorldRot();
 		sprite.getTexture().setFilter(false);
-		sprite.material.transparency = true;
+		sprite.material.setTransparency(true);
 		sprite.attachRot = false;
 		sprite.attachToParent(this, "bul_Sprite");
 	}

@@ -73,7 +73,7 @@ public class Intro extends GameState {
 		///Fill map with intro-specific stuff TODO: De-harcode this
 		//Logo
 		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Material.loadMaterial("data/materials/sprite_simple.xml"));
-		logo.getMaterial(0).transparency = true;
+		logo.getMaterial(0).setTransparency(true);
 		logo.attachToParent(current, "logo");
 		
 		//Logo bg
@@ -143,7 +143,9 @@ public class Intro extends GameState {
 		
 		//Logo
 		((Mesh)current.getChild("logo")).getMaterial(0).setParamTex("baseColor", anim.getTrackTex("logo_tex").setFilter(false));
-		((Mesh)current.getChild("logo")).getMaterial(0).getParamVec4f("baseColorMod").w = (float) anim.getTrackD("logo_opacity");
+		Vec4f color = new Vec4f(((Mesh)current.getChild("logo")).getMaterial(0).getParamVec4f("baseColorMod"));
+		color.w = (float) anim.getTrackD("logo_opacity");
+		((Mesh)current.getChild("logo")).getMaterial(0).setParamVec4f("baseColorMod", color);
 		((Mesh)current.getChild("logo")).localPosition.set(anim.getTrackVec3f("logo_pos"));
 		Quat.fromAngle(anim.getTrackD("logo_rot"), ((Mesh)current.getChild("logo")).localRotation);
 		((Mesh)current.getChild("logo")).scale.set(anim.getTrackVec3f("logo_scale"));

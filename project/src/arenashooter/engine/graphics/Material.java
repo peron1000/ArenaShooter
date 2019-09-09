@@ -12,16 +12,15 @@ import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Mat4fi;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.xmlReaders.reader.MaterialXmlReader;
 
 public class Material {
 	private static Map<String, Material> cache = new HashMap<String, Material>();
-	
-	public enum ParamType {
-		INT, FLOAT, VEC2F, VEC3F, VEC4F, MAT4F, TEXTURE2D;
-	}
 	
 	private Shader shader;
 	private final String name, shaderPathV, shaderPathF;
@@ -29,13 +28,13 @@ public class Material {
 	private boolean ready = false;
 	
 	/** Should this material be used during transparency pass */
-	public boolean transparency = false;
+	private boolean transparency = false;
 
 	private Map<String, Integer> paramsI = new HashMap<>();
 	private Map<String, Float> paramsF = new HashMap<>();
-	private Map<String, Vec2f> paramsVec2f = new HashMap<>();
-	private Map<String, Vec3f> paramsVec3f = new HashMap<>();
-	private Map<String, Vec4f> paramsVec4f = new HashMap<>();
+	private Map<String, Vec2fi> paramsVec2f = new HashMap<>();
+	private Map<String, Vec3fi> paramsVec3f = new HashMap<>();
+	private Map<String, Vec4fi> paramsVec4f = new HashMap<>();
 	private Map<String, Mat4fi> paramsMat4f = new HashMap<>();
 	private Map<String, Texture> paramsTex = new HashMap<>();
 	
@@ -68,6 +67,14 @@ public class Material {
 		
 		return res.clone();
 	}
+	
+	public boolean getTransparency() {
+		return transparency;
+	}
+	
+	public void setTransparency(boolean transparency) {
+		this.transparency = transparency;
+	}
 
 	/**
 	 * Attempt to bind this Material for rendering
@@ -87,13 +94,13 @@ public class Material {
 		for(Entry<String, Float> entry : paramsF.entrySet())
 			shader.setUniformF(entry.getKey(), entry.getValue());
 		
-		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet())
+		for(Entry<String, Vec2fi> entry : paramsVec2f.entrySet())
 			shader.setUniformV2(entry.getKey(), entry.getValue());
 		
-		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet())
+		for(Entry<String, Vec3fi> entry : paramsVec3f.entrySet())
 			shader.setUniformV3(entry.getKey(), entry.getValue());
 		
-		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
+		for(Entry<String, Vec4fi> entry : paramsVec4f.entrySet())
 			shader.setUniformV4(entry.getKey(), entry.getValue());
 		
 		for(Entry<String, Mat4fi> entry : paramsMat4f.entrySet())
@@ -126,27 +133,27 @@ public class Material {
 		paramsF.put(name, value);
 	}
 	
-	public Vec2f getParamVec2f(String name) {
+	public Vec2fi getParamVec2f(String name) {
 		return paramsVec2f.get(name);
 	}
 	
-	public void setParamVec2f(String name, Vec2f value) {
+	public void setParamVec2f(String name, Vec2fi value) {
 		paramsVec2f.put(name, value);
 	}
 	
-	public Vec3f getParamVec3f(String name) {
+	public Vec3fi getParamVec3f(String name) {
 		return paramsVec3f.get(name);
 	}
 
-	public void setParamVec3f(String name, Vec3f value) {
+	public void setParamVec3f(String name, Vec3fi value) {
 		paramsVec3f.put(name, value);
 	}
 	
-	public Vec4f getParamVec4f(String name) {
+	public Vec4fi getParamVec4f(String name) {
 		return paramsVec4f.get(name);
 	}
 
-	public void setParamVec4f(String name, Vec4f value) {
+	public void setParamVec4f(String name, Vec4fi value) {
 		paramsVec4f.put(name, value);
 	}
 	
@@ -238,14 +245,14 @@ public class Material {
 		for(Entry<String, Float> entry : paramsF.entrySet())
 			res.paramsF.put(entry.getKey(), entry.getValue().floatValue());
 		
-		for(Entry<String, Vec2f> entry : paramsVec2f.entrySet())
-			res.paramsVec2f.put(entry.getKey(), entry.getValue().clone());
+		for(Entry<String, Vec2fi> entry : paramsVec2f.entrySet())
+			res.paramsVec2f.put(entry.getKey(), new Vec2f(entry.getValue()));
 		
-		for(Entry<String, Vec3f> entry : paramsVec3f.entrySet())
-			res.paramsVec3f.put(entry.getKey(), entry.getValue().clone());
+		for(Entry<String, Vec3fi> entry : paramsVec3f.entrySet())
+			res.paramsVec3f.put(entry.getKey(), new Vec3f(entry.getValue()));
 		
-		for(Entry<String, Vec4f> entry : paramsVec4f.entrySet())
-			res.paramsVec4f.put(entry.getKey(), entry.getValue().clone());
+		for(Entry<String, Vec4fi> entry : paramsVec4f.entrySet())
+			res.paramsVec4f.put(entry.getKey(), new Vec4f(entry.getValue()));
 		
 		for(Entry<String, Mat4fi> entry : paramsMat4f.entrySet())
 			res.paramsMat4f.put(entry.getKey(), new Mat4f(entry.getValue()));

@@ -27,7 +27,7 @@ public class Sprite extends Spatial {
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
 		if(texture.transparency)
-			material.transparency = true;
+			material.setTransparency(true);
 	}
 	
 	public Sprite(Vec2fi localPosition, Material material) {
@@ -49,7 +49,7 @@ public class Sprite extends Spatial {
 	public void setTexture(Texture newTex) { material.setParamTex("baseColor", newTex); };
 	
 	@Override
-	public boolean drawAsTransparent(){ return material.transparency; }
+	public boolean drawAsTransparent(){ return material.getTransparency(); }
 	
 	@Override
 	public void draw(boolean transparency) {

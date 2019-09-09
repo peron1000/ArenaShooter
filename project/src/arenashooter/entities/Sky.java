@@ -4,6 +4,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.engine.math.Vec3fi;
 
 /**
  * World sky<br/>
@@ -36,7 +37,7 @@ public class Sky extends Entity {
 		material.setParamVec3f("colorBot", newColorBot);
 	}
 	
-	public Vec3f getColorBot() {
+	public Vec3fi getColorBot() {
 		return material.getParamVec3f("colorBot");
 	}
 	
@@ -44,7 +45,7 @@ public class Sky extends Entity {
 		material.setParamVec3f("colorTop", newColorTop);
 	}
 	
-	public Vec3f getColorTop() {
+	public Vec3fi getColorTop() {
 		return material.getParamVec3f("colorTop");
 	}
 

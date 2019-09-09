@@ -2,13 +2,13 @@ package arenashooter.engine.physic.shapes;
 
 import org.jbox2d.collision.shapes.CircleShape;
 
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
-import arenashooter.engine.math.Vec4fi;
+import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.physic.PhysicWorld;
 
 public class ShapeDisk extends PhysicShape {
@@ -31,26 +31,24 @@ public class ShapeDisk extends PhysicShape {
 	}
 	
 	private static final Model disk = Model.loadDisk(16);
-	private static Shader shader;
+	private static Material material;
 	private Mat4f modelM = new Mat4f();
 	@Override
-	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {
-		if(shader == null)
-			 shader = Shader.loadShader("data/shaders/debug_color.vert", "data/shaders/debug_color.frag");
-		
-		shader.bind();
+	public void debugDraw(Vec2fi pos, double rot, Vec4f color) {
+		if(material == null)
+			material = Material.loadMaterial("data/materials/debug_color.xml");
 		
 		//Create matrices
 		Mat4f.transform(pos, rot, new Vec2f( radius*2 ), modelM);
-		shader.setUniformM4("model", modelM);
-		shader.setUniformM4("view", Window.getView());
-		shader.setUniformM4("projection", Window.getProj());
+		material.setParamMat4f("model", modelM);
+		material.setParamMat4f("view", Window.getView());
+		material.setParamMat4f("projection", Window.getProj());
 		
-		shader.setUniformV4("color", color);
+		material.setParamVec4f("color", color);
 		
-		disk.bindToShader(shader);
-
-		disk.bind();
-		disk.draw(true);
+		if(material.bind(disk)) {
+			disk.bind();
+			disk.draw(true);
+		}
 	}
 }

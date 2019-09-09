@@ -113,7 +113,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 	@Override
 	public boolean drawAsTransparent() {
 		for(int i=0; i<materials.length; i++) {
-			if(materials[i].transparency)
+			if(materials[i].getTransparency())
 				return true;
 		}
 		return false;
@@ -139,7 +139,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 		Profiler.startTimer(Profiler.MESHES);
 
 		for (int i = 0; i < models.length; i++)
-			if(materials[i].transparency == transparency)
+			if(materials[i].getTransparency() == transparency)
 				drawModel(i);
 
 		Profiler.endTimer(Profiler.MESHES);

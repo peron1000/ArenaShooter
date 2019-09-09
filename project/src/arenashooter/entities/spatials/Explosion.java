@@ -51,7 +51,7 @@ public class Explosion extends Spatial {
 		
 		Mesh shockwave = Mesh.quad(new Vec3f(), new Quat(temp.x, temp.y, temp.z, temp.w), new Vec3f(1), shockwaveMat);
 		shockwave.attachRot = false;
-		shockwave.getMaterial(0).transparency = true;
+		shockwave.getMaterial(0).setTransparency(true);
 		shockwave.attachToParent(this, "shockwave_mesh");
 		
 		int bitsCount = (int)((Math.random()*5)+5);
@@ -125,7 +125,7 @@ public class Explosion extends Spatial {
 			size = Utils.lerpD(size, 35, 1-(oneMinusTime*oneMinusTime));
 			((Mesh)getChild("shockwave_mesh")).scale.set(size, size, size);
 			
-			Vec4f color = ((Mesh)getChild("shockwave_mesh")).getMaterial(0).getParamVec4f("baseColorMod");
+			Vec4f color = new Vec4f(((Mesh)getChild("shockwave_mesh")).getMaterial(0).getParamVec4f("baseColorMod"));
 			((Mesh)getChild("shockwave_mesh")).getMaterial(0).setParamVec4f("baseColorMod", Vec4f.lerp(color, new Vec4f(.976, .367, .161, 0), time*time));
 		}
 		
