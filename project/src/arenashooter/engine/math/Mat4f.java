@@ -104,11 +104,10 @@ public class Mat4f implements Mat4fi {
 	/**
 	 * Create a rotation matrix
 	 * @param q unit quaternion
-	 * @return
+	 * @param target
+	 * @return <i>target</i>
 	 */
-	public static Mat4f rotation(QuatI q) {
-		Mat4f res = new Mat4f();
-		
+	public static Mat4f rotation(QuatI q, Mat4f target) {
 		double ww = q.w() * q.w();
         double xx = q.x() * q.x();
         double yy = q.y() * q.y();
@@ -121,24 +120,30 @@ public class Mat4f implements Mat4fi {
         double xw = q.x() * q.w();
 		
 		//First column
-        res.val[0][0] = (float) (ww + xx - zz - yy);
-        res.val[0][1] = (float) (xy + zw + zw + xy);
-        res.val[0][2] = (float) (xz - yw + xz - yw);
+        target.val[0][0] = (float) (ww + xx - zz - yy);
+        target.val[0][1] = (float) (xy + zw + zw + xy);
+        target.val[0][2] = (float) (xz - yw + xz - yw);
+        target.val[0][3] = 0;
 		
 		//Second column
-        res.val[1][0] = (float) (-zw + xy - zw + xy);
-        res.val[1][1] = (float) (yy - zz + ww - xx);
-        res.val[1][2] = (float) (yz + yz + xw + xw);
+        target.val[1][0] = (float) (-zw + xy - zw + xy);
+        target.val[1][1] = (float) (yy - zz + ww - xx);
+        target.val[1][2] = (float) (yz + yz + xw + xw);
+        target.val[1][3] = 0;
 
 		//Third column
-        res.val[2][0] = (float) (yw + xz + xz + yw);
-        res.val[2][1] = (float) (yz + yz - xw - xw);
-        res.val[2][2] = (float) (zz - yy - xx + ww);
+        target.val[2][0] = (float) (yw + xz + xz + yw);
+        target.val[2][1] = (float) (yz + yz - xw - xw);
+        target.val[2][2] = (float) (zz - yy - xx + ww);
+        target.val[2][3] = 0;
 		
         //Fourth column
-		res.val[3][3] = 1;
+        target.val[3][0] = 0;
+        target.val[3][1] = 0;
+        target.val[3][2] = 0;
+        target.val[3][3] = 1;
 		
-		return res;
+		return target;
 	}
 	
 	/**
@@ -171,6 +176,73 @@ public class Mat4f implements Mat4fi {
 		res.val[3][3] = 1;
 		
 		return res;
+	}
+
+	/**
+	 * Rotate this matrix
+	 * @param q rotation quaternion
+	 * @return <i>this</i> rotated
+	 */
+	public Mat4f rotate(QuatI q) {
+		double ww = q.w() * q.w();
+        double xx = q.x() * q.x();
+        double yy = q.y() * q.y();
+        double zz = q.z() * q.z();
+        double zw = q.z() * q.w();
+        double xy = q.x() * q.y();
+        double xz = q.x() * q.z();
+        double yw = q.y() * q.w();
+        double yz = q.y() * q.z();
+        double xw = q.x() * q.w();
+        
+        //First column
+        double r00 = ww + xx - zz - yy;
+        double r01 = xy + zw + zw + xy;
+        double r02 = xz - yw + xz - yw;
+        
+        //Second column
+        double r10 = -zw + xy - zw + xy;
+        double r11 = yy - zz + ww - xx;
+        double r12 = yz + yz + xw + xw;
+
+        //Third column
+        double r20 = yw + xz + xz + yw;
+        double r21 = yz + yz - xw - xw;
+        double r22 = zz - yy - xx + ww;
+        
+        float m00 = (float) (m00()*r00 + m10()*r01 + m20()*r02);
+        float m10 = (float) (m00()*r10 + m10()*r11 + m20()*r12);
+        float m20 = (float) (m00()*r20 + m10()*r21 + m20()*r22);
+        
+        float m01 = (float) (m01()*r00 + m11()*r01 + m21()*r02);
+        float m11 = (float) (m01()*r10 + m11()*r11 + m21()*r12);
+        float m21 = (float) (m01()*r20 + m11()*r21 + m21()*r22);
+        
+        float m02 = (float) (m02()*r00 + m12()*r01 + m22()*r02);
+        float m12 = (float) (m02()*r10 + m12()*r11 + m22()*r12);
+        float m22 = (float) (m02()*r20 + m12()*r21 + m22()*r22);
+        
+        float m03 = (float) (m03()*r00 + m13()*r01 + m23()*r02);
+        float m13 = (float) (m03()*r10 + m13()*r11 + m23()*r12);
+        float m23 = (float) (m03()*r20 + m13()*r21 + m23()*r22);
+        
+        val[0][0] = m00;
+        val[1][0] = m10;
+        val[2][0] = m20;
+        
+        val[0][1] = m01;
+        val[1][1] = m11;
+        val[2][1] = m21;
+        
+        val[0][2] = m02;
+        val[1][2] = m12;
+        val[2][2] = m22;
+        
+        val[0][3] = m03;
+        val[1][3] = m13;
+        val[2][3] = m23;
+
+        return this;
 	}
 	
 	/**
@@ -315,18 +387,14 @@ public class Mat4f implements Mat4fi {
 	 * @param rot
 	 * @param scale
 	 * @param target
-	 * @return <i>target</i>
+	 * @return <i>target</i> (modified)
 	 */
 	public static Mat4f transform( Vec3fi loc, QuatI rot, Vec3fi scale, Mat4f target ) {
-		target.setToIdentity().translate(loc);
-		target = mul(target, rotation(rot)); //TODO: Remove matrix creation for rotation
-		target.scale(scale);
-		return target;
+		return target.setToIdentity().translate(loc).rotate(rot).scale(scale);
 	}
 	
 	/**
-	 * Create a transform matrix for a 2D object and stores the result in <i>target</i>
-	 * <br/> Avoids object creation
+	 * Create a transform matrix for a 2D object
 	 * @param loc
 	 * @param rot
 	 * @param scale
@@ -377,7 +445,7 @@ public class Mat4f implements Mat4fi {
 		target.val[3][0] = -loc.x();
 		target.val[3][1] = -loc.y();
 		target.val[3][2] = -loc.z();
-		return mul(rotation(Quat.conjugate(rot)), target, target); //TODO: Remove new Quat() caused by conjugate
+		return target.rotate( Quat.conjugate(rot) );
 	}
 	
 	/**

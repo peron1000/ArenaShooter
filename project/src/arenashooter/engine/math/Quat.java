@@ -168,7 +168,7 @@ public class Quat implements QuatI{
 	 * @return <i>target</i> (modified)
 	 */
 	public Vec3f rotate( Vec3fi source, Vec3f target ) { //TODO: Test
-		float[][] r = Mat4f.rotation(this).val;
+		float[][] r = Mat4f.rotation(this, new Mat4f()).val;
 		
 		float sx = source.x(), sy = source.y(), sz = source.z();
 		
