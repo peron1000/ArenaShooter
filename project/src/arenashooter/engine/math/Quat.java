@@ -152,17 +152,7 @@ public class Quat implements QuatI{
     }
 	
 	/**
-	 * Rotate a vector by this quaternion. Original vector is not modified
-	 * @param source vector to rotate
-	 * @return rotated vector as new object
-	 */
-	public Vec3f rotate( Vec3fi source ) {
-		return rotate(source, new Vec3f());
-	}
-	
-	/**
 	 * Rotate a vector by this quaternion and stores the result in <i>target</i>.
-	 * <br/> Avoids object creation
 	 * @param source vector to rotate
 	 * @param target 
 	 * @return <i>target</i> (modified)
@@ -190,11 +180,7 @@ public class Quat implements QuatI{
         double yz = y * z;
         double xw = x * w;
 		
-        double x = yw + xz + xz + yw;
-        double y = yz + yz - xw - xw;
-        double z = zz - yy - xx + ww;
-		
-		return new Vec3f(x, y, z);
+		return new Vec3f( (yw + xz + xz + yw), (yz + yz - xw - xw), (zz - yy - xx + ww) );
 	}
 	
 	@Override
@@ -207,12 +193,8 @@ public class Quat implements QuatI{
         double xy = x * y;
         double yz = y * z;
         double xw = x * w;
-        
-        double x = -zw + xy - zw + xy;
-        double y =  yy - zz + ww - xx;
-        double z =  yz + yz + xw + xw;
 		
-		return new Vec3f(x, y, z);
+		return new Vec3f( (-zw + xy - zw + xy), (yy - zz + ww - xx), (yz + yz + xw + xw) );
 	}
 	
 	@Override
@@ -226,11 +208,7 @@ public class Quat implements QuatI{
         double xz = x * z;
         double yw = y * w;
 		
-		double x = ww + xx - zz - yy;
-		double y = xy + zw + zw + xy;
-		double z = xz - yw + xz - yw;
-		
-		return new Vec3f(x, y, z);
+		return new Vec3f( (ww + xx - zz - yy), (xy + zw + zw + xy), (xz - yw + xz - yw) );
 	}
 	
 	/**
