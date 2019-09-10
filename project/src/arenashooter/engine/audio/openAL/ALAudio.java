@@ -12,8 +12,10 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,7 @@ public class ALAudio implements AudioManager{
 	private long device, context;
 	
 	private float mainVolume = 1;
+	private Map<AudioChannel, Float> channels;
 
 	private Set<ALSoundSource> sources = new HashSet<>();
 	private Set<ALSoundSource> autoDestroySources = new HashSet<>();
@@ -57,6 +60,12 @@ public class ALAudio implements AudioManager{
 	
 	@Override
 	public Logger getLogger() { return log; }
+	
+	public ALAudio() {
+		channels = new HashMap<>();
+		for( AudioChannel c : AudioChannel.values() )
+			channels.put(c, 1f);
+	}
 
 	@Override
 	public void init() {
@@ -136,7 +145,7 @@ public class ALAudio implements AudioManager{
 	
 	@Override
 	public void playSound(String file, AudioChannel channel, float volume, float pitch) {
-		if(channel.volume <= 0 || volume <= 0 || file == null || file.isEmpty()) return;
+		if(getChannelVolume(channel) <= 0 || volume <= 0 || file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = loadSound(file);
 		if(buf == null) {
@@ -159,7 +168,7 @@ public class ALAudio implements AudioManager{
 	
 	@Override
 	public void playSound2D(String file, AudioChannel channel, float volume, float pitch, Vec2fi position) {
-		if(channel.volume <= 0 || volume <= 0 ||  file == null || file.isEmpty()) return;
+		if(getChannelVolume(channel) <= 0 || volume <= 0 ||  file == null || file.isEmpty()) return;
 		
 		SoundBuffer buf = loadSound(file);
 		if(buf == null) {
@@ -215,11 +224,11 @@ public class ALAudio implements AudioManager{
 	}
 	
 	@Override
-	public float getChannelVolume(AudioChannel channel) { return channel.volume; }
+	public float getChannelVolume(AudioChannel channel) { return channels.get(channel); }
 	
 	@Override
 	public void setChannelVolume(AudioChannel channel, float newVolume) {
-		channel.volume = Math.max(0, newVolume);
+		channels.put(channel, Math.max(0, newVolume));
 
 		for(ALSoundSource source : sources) {
 			if(source.getChannel() == channel)

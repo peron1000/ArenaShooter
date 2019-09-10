@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import arenashooter.engine.ConfigManager;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.AudioManager;
-import arenashooter.engine.audio.nosound.NoSound;
+import arenashooter.engine.audio.NoSound;
 import arenashooter.engine.audio.openAL.ALAudio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;

@@ -115,7 +115,7 @@ class ALSoundSource implements SoundSource {
 	}
 	
 	protected void updateVolume() {
-		alSourcef(sourceId, AL_GAIN, volume*channel.volume*manager.getMainVolume());
+		alSourcef(sourceId, AL_GAIN, volume*manager.getChannelVolume(channel)*manager.getMainVolume());
 		ALAudio.printError("Cannot set volume value for source "+sourceId);
 	}
 	
