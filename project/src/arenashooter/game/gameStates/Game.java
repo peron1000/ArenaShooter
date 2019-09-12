@@ -28,6 +28,7 @@ import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.game.Controller;
+import arenashooter.game.ControllerAi;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameMode;
@@ -177,6 +178,11 @@ public class Game extends GameState {
 			if(c.getDevice() == Device.KEYBOARD)
 				Window.setCurorVisibility(true);
 		}
+		
+		//TODO: Remove this test ai character
+		ControllerAi ai = new ControllerAi();
+		Main.getGameMaster().controllers.add(ai);
+		ai.createNewCharacter(new Vec2f(0, -2)).attachToParent(current, "testAiChar");
 	}
 
 	@Override
