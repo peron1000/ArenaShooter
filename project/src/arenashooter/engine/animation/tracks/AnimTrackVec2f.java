@@ -44,7 +44,7 @@ public class AnimTrackVec2f extends AnimTrack<Vec2f> {
 			f = times[next]-times[prev];
 			if(f != 0)
 				f = (time-times[prev])/f;
-			return Vec2f.lerp((Vec2f)values[prev], (Vec2f)values[next], f);
+			return Vec2f.lerp((Vec2f)values[prev], (Vec2f)values[next], f, new Vec2f()); //TODO: Remove vector creation
 		}
 	}
 

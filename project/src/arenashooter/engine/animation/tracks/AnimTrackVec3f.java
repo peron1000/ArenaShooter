@@ -44,7 +44,7 @@ public class AnimTrackVec3f extends AnimTrack<Vec3f> {
 			f = times[next]-times[prev];
 			if(f != 0)
 				f = (time-times[prev])/f;
-			return Vec3f.lerp((Vec3f)values[prev], (Vec3f)values[next], f);
+			return Vec3f.lerp((Vec3f)values[prev], (Vec3f)values[next], f, new Vec3f());
 		}
 	}
 

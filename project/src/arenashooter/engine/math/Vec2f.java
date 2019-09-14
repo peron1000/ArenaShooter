@@ -373,10 +373,6 @@ public class Vec2f implements Vec2fi {
 		return new Vec2f(-v.y(), v.x());
 	}
 	
-	public static Vec2f lerp( Vec2fi a, Vec2fi b, double f ) {
-		return lerp(a, b, f, new Vec2f());
-	}
-	
 	public static Vec2f lerp( Vec2fi a, Vec2fi b, double f, Vec2f target ) {
 		target.x = Utils.lerpF(a.x(), b.x(), f);
 		target.y = Utils.lerpF(a.y(), b.y(), f);

@@ -168,7 +168,7 @@ public class Intro extends GameState {
 		((Mesh)current.getChild("crowd_04")).getMaterial(0).setParamTex("baseColor", anim.getTrackTex("crowd_tex"));
 		
 		//Text
-		((TextSpatial)getCamera().getChild("textPressStart")).setColor( Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d) );
+		((TextSpatial)getCamera().getChild("textPressStart")).setColor( Vec4f.lerp(textColorA, textColorB, (1+Math.sin(time*10))/2d, new Vec4f()) );
 		((TextSpatial)getCamera().getChild("textPressStart")).setThickness( Utils.lerpF(.2f, .42f, (1+Math.sin(time*8))/2d) );
 		
 		((TextSpatial)current.getChild("logo").getChild("textVersion")).setThickness( (float) anim.getTrackD("text_version_thickness") );

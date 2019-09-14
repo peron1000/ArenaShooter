@@ -289,8 +289,8 @@ public abstract class UiElement implements Navigable, NoStatic {
 	}
 
 	public void update(double delta) {
-		scale.set(Vec2f.lerp(scale, reScale, Utils.clampD(delta * 5, 0, 1)));
-		pos.set(Vec2f.lerp(pos, toLerpPos, Utils.clampD(delta * lerp, 0, 1)));
+		Vec2f.lerp(scale, reScale, Utils.clampD(delta * 5, 0, 1), scale);
+		Vec2f.lerp(pos, toLerpPos, Utils.clampD(delta * lerp, 0, 1), pos);
 		if (onSuperLerp) {
 			if (pos.equals(toSuperLerpPos, .05f)) {
 				onSuperLerp = false;

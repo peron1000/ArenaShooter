@@ -452,7 +452,7 @@ public class CharacterChooser extends GameState {
 
 		// Set camera
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
-		cam.setFOV(90);
+		cam.setFOV(83.1f);
 		current.attachToParent(cam, "camera");
 		Window.setCamera(cam);
 	}

@@ -278,10 +278,6 @@ public class Vec3f implements Vec3fi {
 		return target;
 	}
 	
-	public static Vec3f lerp( Vec3fi a, Vec3fi b, double f ) {
-		return lerp(a, b, f, new Vec3f());
-	}
-	
 	public static Vec3f lerp( Vec3fi a, Vec3fi b, double f, Vec3f target ) {
 		target.x = Utils.lerpF(a.x(), b.x(), f);
 		target.y = Utils.lerpF(a.y(), b.y(), f);

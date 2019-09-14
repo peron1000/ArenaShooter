@@ -157,10 +157,6 @@ public class Vec4f implements Vec4fi {
 		return new Vec4f( v.x/len, v.y/len, v.z/len, v.w/len );
 	}
 	
-	public static Vec4f lerp( Vec4f a, Vec4f b, double f ) {
-		return lerp(a, b, f, new Vec4f());
-	}
-	
 	public static Vec4f lerp( Vec4f a, Vec4f b, double f, Vec4f target ) {
 		target.x = Utils.lerpF(a.x, b.x, f);
 		target.y = Utils.lerpF(a.y, b.y, f);

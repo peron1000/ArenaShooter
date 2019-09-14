@@ -46,7 +46,7 @@ public class Explosion extends Spatial {
 		shockwaveMat.setParamVec4f("baseColorMod", new Vec4f(1, .857, .145, .9));
 		
 		Vec4f temp = randomRot();
-		temp = Vec4f.lerp(temp, new Vec4f(0, 0, 0, 1), .75);
+		Vec4f.lerp(temp, new Vec4f(0, 0, 0, 1), .75, temp);
 		Vec4f.normalize(temp);
 		
 		Mesh shockwave = Mesh.quad(new Vec3f(), new Quat(temp.x, temp.y, temp.z, temp.w), new Vec3f(1), shockwaveMat);
@@ -126,7 +126,7 @@ public class Explosion extends Spatial {
 			((Mesh)getChild("shockwave_mesh")).scale.set(size, size, size);
 			
 			Vec4f color = new Vec4f(((Mesh)getChild("shockwave_mesh")).getMaterial(0).getParamVec4f("baseColorMod"));
-			((Mesh)getChild("shockwave_mesh")).getMaterial(0).setParamVec4f("baseColorMod", Vec4f.lerp(color, new Vec4f(.976, .367, .161, 0), time*time));
+			((Mesh)getChild("shockwave_mesh")).getMaterial(0).setParamVec4f("baseColorMod", Vec4f.lerp(color, new Vec4f(.976, .367, .161, 0), time*time, new Vec4f()));
 		}
 		
 		double oneMinusScaleTime = 1-Utils.clampD(time*3, 0, 1);
