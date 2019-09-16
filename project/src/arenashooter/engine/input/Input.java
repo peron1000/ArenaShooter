@@ -14,6 +14,7 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWCharCallback;
 import org.lwjgl.glfw.GLFWGamepadState;
+import org.lwjgl.system.MemoryStack;
 
 import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
@@ -61,8 +62,15 @@ public final class Input {
 			
 			String line = "";
 			while( (line = reader.readLine()) != null ) {
-				if(!glfwUpdateGamepadMappings(line))
-					Main.log.error("Error reading gamepad mapping: "+line);
+				
+				MemoryStack stack = MemoryStack.stackGet();
+				int stackPointer = stack.getPointer();
+				try {
+					if(!glfwUpdateGamepadMappings(stack.ASCII(line)))
+						Main.log.error("Error reading gamepad mapping: "+line);
+				} finally {
+					stack.setPointer(stackPointer);
+				}
 			}
 		
 			reader.close();
