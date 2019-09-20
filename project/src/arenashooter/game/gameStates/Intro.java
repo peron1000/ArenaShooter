@@ -12,7 +12,6 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
@@ -72,12 +71,12 @@ public class Intro extends GameState {
 		
 		///Fill map with intro-specific stuff TODO: De-harcode this
 		//Logo
-		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		logo.getMaterial(0).setTransparency(true);
 		logo.attachToParent(current, "logo");
 		
 		//Logo bg
-		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), Material.loadMaterial("data/materials/color.xml"));
+		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/color.xml"));
 		logoBg.scale.set(7, 5, 1);
 		logoBg.attachToParent(current, "logo_bg");
 		
@@ -93,23 +92,23 @@ public class Intro extends GameState {
 		pressStart.attachToParent(getCamera(), "textPressStart");
 		
 		//Fox
-		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		fox.scale = new Vec3f(1.5f);
 		fox.attachToParent(current, "fox");
 		
 		//Cat
-		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		cat.scale = new Vec3f(1.5f);
 		cat.attachToParent(current, "cat");
 		
 		//Crowds
-		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		crowd.attachToParent(current, "crowd_01");
-		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		crowd.attachToParent(current, "crowd_02");
-		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		crowd.attachToParent(current, "crowd_03");
-		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), Material.loadMaterial("data/materials/sprite_simple.xml"));
+		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
 		crowd.attachToParent(current, "crowd_04");
 		
 		bgm.play();

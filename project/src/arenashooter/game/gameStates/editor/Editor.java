@@ -6,7 +6,6 @@ import java.util.List;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
@@ -42,7 +41,7 @@ public class Editor extends GameState {
 	final double scaleSpeed = 0.005, positionSpeed = 0.02, rotationSpeed = 0.005;
 
 	public Editor() {
-		grid2d = new Sprite(new Vec2f(), Material.loadMaterial("data/materials/editor_grid.xml"));
+		grid2d = new Sprite(new Vec2f(), Window.loadMaterial("data/materials/editor_grid.xml"));
 
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 

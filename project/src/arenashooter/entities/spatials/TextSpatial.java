@@ -1,7 +1,7 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
@@ -15,7 +15,7 @@ import arenashooter.engine.math.Vec4f;
 
 public class TextSpatial extends Spatial3 {
 	private Text text;
-	public Material material;
+	public MaterialI material;
 
 	public Vec3f scale;
 	
@@ -25,7 +25,7 @@ public class TextSpatial extends Spatial3 {
 		super(localPosition);
 		this.scale = new Vec3f(scale);
 		this.text = text;
-		this.material = Material.loadMaterial("data/materials/text_distance_field.xml");
+		this.material = Window.loadMaterial("data/materials/text_distance_field.xml");
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, .5, 1));

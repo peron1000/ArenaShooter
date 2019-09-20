@@ -3,7 +3,7 @@ package arenashooter.engine.physic.shapes;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
@@ -51,12 +51,12 @@ public class ShapeCharacter extends PhysicShape {
 	}
 	
 
-	private static Material material;
+	private static MaterialI material;
 	private Mat4f modelM = new Mat4f();
 	@Override
 	public void debugDraw(Vec2fi pos, double rot, Vec4f color) {
 		if(material == null)
-			material = Material.loadMaterial("data/materials/debug_color.xml");
+			material = Window.loadMaterial("data/materials/debug_color.xml");
 		
 		//Create matrices
 		Mat4f.transform(pos, rot, vec1, modelM);

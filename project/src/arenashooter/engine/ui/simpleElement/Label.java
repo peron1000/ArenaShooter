@@ -1,6 +1,6 @@
 package arenashooter.engine.ui.simpleElement;
 
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
@@ -13,7 +13,7 @@ import arenashooter.engine.ui.Valuable;
 import arenashooter.game.Main;
 
 public class Label extends UiElement {
-	private Material material;
+	private MaterialI material;
 	private Text text;
 	private Mat4f modelM = new Mat4f();
 	private Valuable<?> valuableObject = null;
@@ -25,7 +25,7 @@ public class Label extends UiElement {
 
 	public Label(String text, Text.TextAlignH alignH) {
 		this.text = new Text(Main.font, alignH, TextAlignV.CENTER, text);
-		this.material = Material.loadMaterial("data/materials/ui/ui_text_distance_field.xml");
+		this.material = Window.loadMaterial("data/materials/ui/ui_text_distance_field.xml");
 		material.setParamTex("distanceField", this.text.getFont().getTexture());
 		noModifiedText = text;
 

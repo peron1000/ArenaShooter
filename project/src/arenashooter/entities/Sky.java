@@ -1,8 +1,9 @@
 package arenashooter.entities;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
 
@@ -13,16 +14,16 @@ import arenashooter.engine.math.Vec3fi;
 public class Sky extends Entity {
 	
 	private static Model quad = null;
-	public Material material;
+	public MaterialI material;
 
 	public Sky(Vec3f colorBot, Vec3f colorTop) {
 		if(quad == null) quad = Model.loadQuad();
-		material = Material.loadMaterial("data/materials/sky.xml");
+		material = Window.loadMaterial("data/materials/sky.xml");
 		setColors(colorBot, colorTop);
 		zIndex = -9999;
 	}
 	
-	public Sky(Material material) {
+	public Sky(MaterialI material) {
 		if(quad == null) quad = Model.loadQuad();
 		this.material = material;
 		zIndex = -9999;

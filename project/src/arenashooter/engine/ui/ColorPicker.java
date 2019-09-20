@@ -1,7 +1,8 @@
 package arenashooter.engine.ui;
 
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
@@ -35,7 +36,7 @@ public class ColorPicker extends UiElement {
 		
 		this.hasAlpha = hasAlpha;
 		
-		Material lumiSatMat = Material.loadMaterial("data/materials/ui/ui_gradient_4.xml");
+		MaterialI lumiSatMat = Window.loadMaterial("data/materials/ui/ui_gradient_4.xml");
 		lumiSat = new UiImage(lumiSatMat);
 		
 		hueImg = new UiImage(Texture.loadTexture("data/sprites/interface/hue.png"));

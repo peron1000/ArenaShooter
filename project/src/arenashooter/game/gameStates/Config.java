@@ -10,7 +10,7 @@ import java.util.Map;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
@@ -207,7 +207,7 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			Material thumbnailMat = Material.loadMaterial("data/materials/ui/ui_arena_thumbnail.xml");
+			MaterialI thumbnailMat = Window.loadMaterial("data/materials/ui/ui_arena_thumbnail.xml");
 			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
 			UiImage picture = new UiImage(thumbnailMat);
 			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));

@@ -2,7 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Quat;
@@ -40,7 +40,7 @@ public class Explosion extends Spatial {
 
 		this.radius = radius;
 		
-		Material shockwaveMat = Material.loadMaterial("data/materials/sprite_simple.xml");
+		MaterialI shockwaveMat = Window.loadMaterial("data/materials/sprite_simple.xml");
 		shockwaveMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/shockwave_tr.png").setFilter(false));
 		
 		shockwaveMat.setParamVec4f("baseColorMod", new Vec4f(1, .857, .145, .9));

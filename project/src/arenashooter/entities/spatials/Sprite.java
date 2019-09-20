@@ -1,7 +1,7 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
@@ -12,7 +12,7 @@ import arenashooter.engine.math.Vec4f;
 
 public class Sprite extends Spatial {
 	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");
-	public Material material;
+	public MaterialI material;
 	private static Model model;
 	public Vec2f size = new Vec2f(1, 1);
 	private Vec2f scale = new Vec2f();
@@ -23,14 +23,14 @@ public class Sprite extends Spatial {
 	public Sprite(Vec2fi localPosition, Texture texture) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
-		material = Material.loadMaterial("data/materials/sprite_simple.xml");
+		material = Window.loadMaterial("data/materials/sprite_simple.xml");
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
 		if(texture.transparency)
 			material.setTransparency(true);
 	}
 	
-	public Sprite(Vec2fi localPosition, Material material) {
+	public Sprite(Vec2fi localPosition, MaterialI material) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		this.material = material;

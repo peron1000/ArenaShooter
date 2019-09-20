@@ -661,4 +661,8 @@ public final class Window {
 		else
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
+	
+	public static MaterialI loadMaterial(String path) {
+		return Material.loadMaterial(path);
+	}
 }

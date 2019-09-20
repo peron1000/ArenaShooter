@@ -12,9 +12,9 @@ import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4fi;
 
 /**
- * Container for a shader program
+ * Container for an openGL shader program
  */
-public class Shader {
+public class Shader implements ShaderI {
 	/** Array used to send Vec2f values to openGL */
 	private static float[] floatBuffer2 = new float[2];
 	/** Array used to send Vec3f values to openGL */
@@ -130,7 +130,7 @@ public class Shader {
 			return null;
 	}
 	
-	public int getAttribLocation(String name) { return glGetAttribLocation(program, name); }
+	int getAttribLocation(String name) { return glGetAttribLocation(program, name); }
 	
 	private int getUniformLocation(String name) {
 		if(uniforms.containsKey(name))
@@ -142,63 +142,37 @@ public class Shader {
 		}
 	}
 	
-	/**
-	 * Set a Matrix4f uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
+	@Override
 	public void setUniformM4(String name, Mat4fi value) {
 		glUniformMatrix4fv(getUniformLocation(name), false, value.toArray(floatBuffer16));
 	}
 	
-	/**
-	 * Set a Vec2f uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
+	@Override
 	public void setUniformV2(String name, Vec2fi value) {
 		glUniform2fv(getUniformLocation(name), value.toArray(floatBuffer2));
 	}
 	
-	/**
-	 * Set a Vec3f uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
+	@Override
 	public void setUniformV3(String name, Vec3fi value) {
 		glUniform3fv(getUniformLocation(name), value.toArray(floatBuffer3));
 	}
 	
-	/**
-	 * Set a Vec4f uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
+	@Override
 	public void setUniformV4(String name, Vec4fi value) {
 		glUniform4fv(getUniformLocation(name), value.toArray(floatBuffer4));
 	}
 	
-	/**
-	 * Set a float uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
+	@Override
 	public void setUniformF(String name, float value) {
 		glUniform1f(getUniformLocation(name), value);
 	}
 	
-	/**
-	 * Set an int uniform variable
-	 * @param name uniform's name
-	 * @param value uniform value
-	 */
+	@Override
 	public void setUniformI(String name, int value) {
 		glUniform1i(getUniformLocation(name), value);
 	}
 	
-	/**
-	 * Use this shader
-	 */
+	@Override
 	public void bind() {
 		if( program == boundShader ) return;
 		glUseProgram(program);
@@ -208,7 +182,7 @@ public class Shader {
 	/**
 	 * Stop current shader
 	 */
-	public static void unbind() {
+	static void unbind() {
 		glUseProgram(0);
 		boundShader = 0;
 	}

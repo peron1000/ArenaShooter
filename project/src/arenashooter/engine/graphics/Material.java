@@ -19,7 +19,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.xmlReaders.reader.MaterialXmlReader;
 
-public class Material {
+public class Material implements MaterialI {
 	private static Map<String, Material> cache = new HashMap<String, Material>();
 	
 	private Shader shader;
@@ -44,7 +44,7 @@ public class Material {
 		this.shaderPathF = shaderPathF;
 	}
 	
-	public static Material loadMaterial(String path) {
+	static Material loadMaterial(String path) {
 		Material res = cache.get(path);
 		if(res != null) return res.clone();
 		
@@ -68,19 +68,17 @@ public class Material {
 		return res.clone();
 	}
 	
+	@Override
 	public boolean getTransparency() {
 		return transparency;
 	}
 	
+	@Override
 	public void setTransparency(boolean transparency) {
 		this.transparency = transparency;
 	}
 
-	/**
-	 * Attempt to bind this Material for rendering
-	 * @param model
-	 * @return success
-	 */
+	@Override
 	public boolean bind(Model model) {
 		if(!ready) initMaterial();
 		if(shader == null) return false;
@@ -116,67 +114,78 @@ public class Material {
 		
 		return true;
 	}
-	
+
+	@Override
 	public int getParamI(String name) {
 		return paramsI.get(name);
 	}
 
+	@Override
 	public void setParamI(String name, int value) {
 		paramsI.put(name, value);
 	}
-	
+
+	@Override
 	public float getParamF(String name) {
 		return paramsF.get(name);
 	}
 
+	@Override
 	public void setParamF(String name, float value) {
 		paramsF.put(name, value);
 	}
-	
+
+	@Override
 	public Vec2fi getParamVec2f(String name) {
 		return paramsVec2f.get(name);
 	}
-	
+
+	@Override
 	public void setParamVec2f(String name, Vec2fi value) {
 		paramsVec2f.put(name, value);
 	}
-	
+
+	@Override
 	public Vec3fi getParamVec3f(String name) {
 		return paramsVec3f.get(name);
 	}
 
+	@Override
 	public void setParamVec3f(String name, Vec3fi value) {
 		paramsVec3f.put(name, value);
 	}
-	
+
+	@Override
 	public Vec4fi getParamVec4f(String name) {
 		return paramsVec4f.get(name);
 	}
 
+	@Override
 	public void setParamVec4f(String name, Vec4fi value) {
 		paramsVec4f.put(name, value);
 	}
-	
+
+	@Override
 	public Mat4fi getParamMat4f(String name) {
 		return paramsMat4f.get(name);
 	}
 
+	@Override
 	public void setParamMat4f(String name, Mat4fi value) {
 		paramsMat4f.put(name, value);
 	}
-	
+
+	@Override
 	public Texture getParamTex(String name) {
 		return paramsTex.get(name);
 	}
 
+	@Override
 	public void setParamTex(String name, Texture value) {
 		paramsTex.put(name, value);
 	}
 	
-	/**
-	 * Set lights used on this materials
-	 * @param lights
-	 */
+	@Override
 	public void setLights(Set<Light> lights) {
 		if(!ready) initMaterial();
 		
@@ -230,9 +239,6 @@ public class Material {
 		shader = Shader.loadShader(shaderPathV, shaderPathF);
 	}
 	
-	/**
-	 * Creates a copy of this material, mutable parameters are cloned too
-	 */
 	@Override
 	public Material clone() {
 		Material res = new Material(name, shaderPathV, shaderPathF);

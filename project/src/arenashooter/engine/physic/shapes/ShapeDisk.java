@@ -2,7 +2,7 @@ package arenashooter.engine.physic.shapes;
 
 import org.jbox2d.collision.shapes.CircleShape;
 
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
@@ -31,12 +31,12 @@ public class ShapeDisk extends PhysicShape {
 	}
 	
 	private static final Model disk = Model.loadDisk(16);
-	private static Material material;
+	private static MaterialI material;
 	private Mat4f modelM = new Mat4f();
 	@Override
 	public void debugDraw(Vec2fi pos, double rot, Vec4f color) {
 		if(material == null)
-			material = Material.loadMaterial("data/materials/debug_color.xml");
+			material = Window.loadMaterial("data/materials/debug_color.xml");
 		
 		//Create matrices
 		Mat4f.transform(pos, rot, new Vec2f( radius*2 ), modelM);

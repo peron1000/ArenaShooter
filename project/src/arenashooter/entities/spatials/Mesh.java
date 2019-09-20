@@ -7,6 +7,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.graphics.Window;
@@ -21,7 +22,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
 
 	private Model[] models;
-	private Material[] materials;
+	private MaterialI[] materials;
 	
 	private String modelPath = null;
 
@@ -52,7 +53,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 		materials = data.materials;
 	}
 
-	private Mesh(Vec3fi position, Quat rotation, Vec3fi scale, Model[] models, Material[] materials) {
+	private Mesh(Vec3fi position, Quat rotation, Vec3fi scale, Model[] models, MaterialI[] materials) {
 		super(position);
 
 		this.localRotation.set(rotation);
@@ -70,15 +71,15 @@ public class Mesh extends Spatial3 implements IAnimated {
 		return modelPath;
 	}
 
-	public static Mesh quad(Vec3fi position, Quat rotation, Vec3fi scale, Material material) {
-		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new Material[] { material });
+	public static Mesh quad(Vec3fi position, Quat rotation, Vec3fi scale, MaterialI material) {
+		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new MaterialI[] { material });
 	}
 
-	public static Mesh disk(Vec3fi position, Quat rotation, Vec3fi scale, Material material) {
-		return new Mesh(position, rotation, scale, new Model[] { Model.loadDisk(16) }, new Material[] { material });
+	public static Mesh disk(Vec3fi position, Quat rotation, Vec3fi scale, MaterialI material) {
+		return new Mesh(position, rotation, scale, new Model[] { Model.loadDisk(16) }, new MaterialI[] { material });
 	}
 
-	public Material getMaterial(int id) {
+	public MaterialI getMaterial(int id) {
 		if (id < 0 || id >= materials.length)
 			return null;
 		return materials[id];
@@ -189,7 +190,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 	 */
 	@Override
 	public Mesh clone() {
-		Material[] cloneMats = new Material[materials.length];
+		MaterialI[] cloneMats = new Material[materials.length];
 		for(int i=0; i<materials.length; i++)
 			cloneMats[i] = materials[i].clone();
 		

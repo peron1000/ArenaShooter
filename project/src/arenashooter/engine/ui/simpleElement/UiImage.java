@@ -1,6 +1,6 @@
 package arenashooter.engine.ui.simpleElement;
 
-import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
@@ -10,7 +10,7 @@ import arenashooter.engine.ui.UiElement;
 
 public class UiImage extends UiElement {
 	private static Model model;
-	private Material material;
+	private MaterialI material;
 	private Mat4f modelM = new Mat4f();
 	
 	public static final UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector.png"));
@@ -25,7 +25,7 @@ public class UiImage extends UiElement {
 	 * @param color
 	 */
 	public UiImage(Vec4f color) {
-		this(Material.loadMaterial("data/materials/ui/ui_rectangle.xml"));
+		this(Window.loadMaterial("data/materials/ui/ui_rectangle.xml"));
 		material.setParamVec4f("color", color.clone());
 	}
 
@@ -38,7 +38,7 @@ public class UiImage extends UiElement {
 	 * @param transparency
 	 */
 	public UiImage(double red, double green, double blue, double transparency) {
-		this(Material.loadMaterial("data/materials/ui/ui_rectangle.xml"));
+		this(Window.loadMaterial("data/materials/ui/ui_rectangle.xml"));
 		if (red > 1 || red < 0) {
 			Exception e = new Exception("Color value red given is not valid");
 			e.printStackTrace();
@@ -64,7 +64,7 @@ public class UiImage extends UiElement {
 	 * @param texture
 	 */
 	public UiImage(Texture texture) {
-		this(Material.loadMaterial("data/materials/ui/ui_image.xml"));
+		this(Window.loadMaterial("data/materials/ui/ui_image.xml"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
 	}
@@ -76,24 +76,24 @@ public class UiImage extends UiElement {
 	 * @param color
 	 */
 	public UiImage(Texture texture, Vec4f color) {
-		this(Material.loadMaterial("data/materials/ui/ui_image.xml"));
+		this(Window.loadMaterial("data/materials/ui/ui_image.xml"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
 		material.setParamVec4f("color", color.clone());
 	}
 
-	public UiImage(Material material) {
+	public UiImage(MaterialI material) {
 		if (model == null)
 			model = Model.loadQuad();
 
 		this.material = material;
 	}
 
-	public Material getMaterial() {
+	public MaterialI getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(Material material) {
+	public void setMaterial(MaterialI material) {
 		this.material = material;
 	}
 	
