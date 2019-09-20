@@ -51,17 +51,17 @@ public class GameMaster {
 		});
 	}
 
-//	/**
-//	 * @return current GameState
-//	 */
-//	public GameState getCurrent() {
-//		return current;
-//	} // TODO : remove
+	/**
+	 * @return current GameState
+	 */
+	public GameState getCurrent() {
+		return current;
+	}
 
-	private void launchNextGame() {
+	public void launchNextGame() {
 		if (gameParam == null) {
 			gameParam = new GameParam();
-			System.err.println("gameParam is not well created");
+			Main.log.error("GameParam is not well created");
 		}
 		if (gamesList.isOver()) {
 			requestNextState(new Score());
@@ -70,7 +70,7 @@ public class GameMaster {
 			current = nextGame;
 			nextGame.init();
 		} else {
-			System.out.println("next game not ready yet");// FIXME
+			System.err.println("next game not ready yet");// FIXME
 		}
 	}
 

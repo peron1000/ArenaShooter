@@ -3,6 +3,7 @@ package arenashooter.game.gameStates;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 
@@ -34,7 +35,6 @@ import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameMode;
 import arenashooter.game.gameStates.engineParam.GameParam;
 import arenashooter.game.gameStates.loading.LoadingGame;
-import arenashooter.game.gameStates.loading.LoadingInterRound;
 
 public class Game extends GameState {
 	private int nbPlayers = Main.getGameMaster().controllers.size();
@@ -243,19 +243,7 @@ public class Game extends GameState {
 
 					if (!endCounter.isPlaying()) {
 						endCounter = null;
-						if (currentRound < nbRounds || nbRounds == -1) {
-							currentRound++;
-							for (Controller player : Main.getGameMaster().controllers) {
-								if (player.getCharacter() != null) {
-									player.getCharacter().takeDamage(
-											new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
-								}
-							}
-							newRound();
-						} else {
-							bgm.stop();
-							Main.getGameMaster().requestNextState(new Score());
-						}
+						endGame();
 					}
 				}
 			}
@@ -315,6 +303,17 @@ public class Game extends GameState {
 
 		}
 		inputs.step(d);
+	}
+
+	private void endGame() {
+		for (Controller player : Main.getGameMaster().controllers) {
+			if (player.getCharacter() != null) {
+				player.getCharacter().takeDamage(
+						new DamageInfo(0, DamageType.MISC_ONE_SHOT, new Vec2f(), 0, null));
+			}
+		}
+		bgm.stop();
+		Main.getGameMaster().launchNextGame();
 	}
 
 	@Override

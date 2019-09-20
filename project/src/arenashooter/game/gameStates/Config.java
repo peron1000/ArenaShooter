@@ -68,7 +68,6 @@ public class Config extends GameState {
 					case UI_CONTINUE:
 						if (!menu.continueAction()) {
 							if (!gameParam.maps.isEmpty()) {
-								Main.getGameMaster().requestNewGame(gameParam.mapsString()); // TODO : new Game !!!
 								Main.getGameMaster().requestNextState(new CharacterChooser());
 							}
 						}

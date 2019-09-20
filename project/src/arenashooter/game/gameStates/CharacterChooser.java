@@ -126,12 +126,7 @@ public class CharacterChooser extends GameState {
 						for (Controller cont : controllers.values()) {
 							Main.getGameMaster().controllers.add(cont);
 						}
-						Object[] variable = GameParam.maps.toArray();
-						String[] chosenMaps = new String[variable.length];
-						for (int i = 0; i < variable.length; i++) {
-							chosenMaps[i] = (String) variable[i];
-						}
-						Main.getGameMaster().requestGame();
+						Main.getGameMaster().launchNextGame();
 						break;
 
 					case UI_OK:

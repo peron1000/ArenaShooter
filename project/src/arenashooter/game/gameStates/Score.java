@@ -160,8 +160,9 @@ public class Score extends GameState {
 					switch (event.getAction()) {
 					case UI_OK: //TODO: Use UI action
 						// Rematch
-						Main.getGameMaster().requestNewGame(GameParam.mapsString());
-						Main.getGameMaster().requestGame();
+//						Main.getGameMaster().requestNewGame(GameParam.mapsString());
+//						Main.getGameMaster().requestGame();
+						Main.log.info("reviendra plus tard ... fonctionnalité à refaire");
 						break;
 					case DROP_ITEM: //TODO: Use UI action
 						// New Game

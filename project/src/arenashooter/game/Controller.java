@@ -90,11 +90,11 @@ public abstract class Controller {
 		character = null;
 	}
 
-//	public void zombieChar() {
-//		deadChar = true;
-//		if(Main.getGameMaster().getGame() != null)
-//			Main.getGameMaster().getGame().evalOneLeft();
-//	}
+	public void zombieChar() {
+		deadChar = true;
+		if(Main.getGameMaster().getCurrent() instanceof Game)
+			((Game)(Main.getGameMaster().getCurrent())).evalOneLeft();
+	}
 
 	public void resetScore() {
 		roundsWon = 0;
