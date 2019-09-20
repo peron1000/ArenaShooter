@@ -356,7 +356,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 			@Override
 			public void make() {
-				Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
+				Main.getGameMaster().requestNextState(new MenuStart());
 			}
 		});
 		quit.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
@@ -386,7 +386,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					Main.getGameMaster().requestNextState(new Editor(), file.getPath());
+					// Main.getGameMaster().requestNextState(new Editor(), file.getPath()); FIXME
 				}
 			});
 			vList.addElement(b);

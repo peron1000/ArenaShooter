@@ -1,14 +1,13 @@
 package arenashooter.entities.spatials;
 
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.annotation.JsonField;
-import arenashooter.engine.annotation.JsonType;
-import arenashooter.engine.json.JsonTransformer;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -170,13 +169,55 @@ public class Spatial3 extends Entity {
 			}
 		}
 	}
-	
+
 	@Override
-	protected JsonObject getJson() {
-		JsonObject spatial = super.getJson();
-		spatial.put("position", localPosition);
-		spatial.put("rotation", localRotation);
-		return spatial;
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return localPosition;
+			}
+
+			@Override
+			public String getKey() {
+				return "position";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if (a != null)
+					localPosition = Vec3f.jsonImport(a);
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return localRotation;
+			}
+
+			@Override
+			public String getKey() {
+				return "rotation";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if (a != null)
+					localRotation = Quat.jsonImport(a);
+			}
+		});
+		return set;
 	}
-	
+
+	public static Spatial3 fromJson(JsonObject json) throws Exception {
+		Spatial3 s = new Spatial3();
+		useKeys(s, json);
+		return s;
+	}
+
 }

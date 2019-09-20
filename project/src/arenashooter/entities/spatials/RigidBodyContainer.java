@@ -1,13 +1,16 @@
 package arenashooter.entities.spatials;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.json.EntityTypes;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
-import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
 
@@ -32,10 +35,14 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	public void setLinearVelocity(Vec2f newVelocity) {
 		body.setLinearVelocity(newVelocity);
 	}
-	
-	public float getAngularVelocity() { return body.getAngularVelocity(); }
-	
-	public void setAngularVelocity(float angularVelocity) { body.setAngularVelocity(angularVelocity); }
+
+	public float getAngularVelocity() {
+		return body.getAngularVelocity();
+	}
+
+	public void setAngularVelocity(float angularVelocity) {
+		body.setAngularVelocity(angularVelocity);
+	}
 
 	/**
 	 * Apply an impulse at center of mass
@@ -55,7 +62,7 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 	public void applyImpulse(Vec2f impulse, Vec2f location) {
 		body.applyImpulse(impulse, location);
 	}
-	
+
 	/**
 	 * Apply an impulse depending on damage received. <br/>
 	 * Detach if out of bounds
@@ -65,8 +72,8 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 		applyImpulse(Vec2f.multiply(info.direction, info.impulse));
 
 		// Destroy when out of bounds
-		if(info.dmgType == DamageType.OUT_OF_BOUNDS) {
-			if(ignoreKillBounds)
+		if (info.dmgType == DamageType.OUT_OF_BOUNDS) {
+			if (ignoreKillBounds)
 				return 0;
 			else
 				detach();
@@ -85,34 +92,64 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 
 	}
-	
+
 	@Override
-	protected EntityTypes getType() {
-		PhysicShape shape = getBody().getShape();
-		if(shape instanceof ShapeBox) {
-			return EntityTypes.RIGID_BOX;
-		} else if(shape instanceof ShapeDisk){
-			return EntityTypes.RIGID_DISK;
-		} else {
-			return super.getType();
-		}
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return body.getFriction();
+			}
+
+			@Override
+			public String getKey() {
+				return "friction";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				float friction = json.getFloat(this);
+				body = new RigidBody(body.getShape(), body.getPosition(), body.getRotation(), CollisionFlags.RIGIDBODY,
+						body.getDensity(), friction);
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return body.getDensity();
+			}
+
+			@Override
+			public String getKey() {
+				return "density";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				float density = json.getFloat(this);
+				body = new RigidBody(body.getShape(), body.getPosition(), body.getRotation(), CollisionFlags.RIGIDBODY,
+						density, body.getFriction());
+			}
+		});
+		return set;
 	}
-	
-	@Override
-	protected JsonObject getJson() {
-		JsonObject rigid = super.getJson();
-		rigid.putChain("density", getBody().getDensity());
-		rigid.putChain("friction", getBody().getFriction());
-		rigid.putChain("world position", getWorldPos());
-		rigid.putChain("world rotation", getWorldRot());
-		if(getType() == EntityTypes.RIGID_BOX) {
-			ShapeBox shape = (ShapeBox) getBody().getShape();
-			rigid.put("extent", shape.getExtent());
-		} else if(getType() == EntityTypes.RIGID_DISK) {
-			ShapeDisk shape = (ShapeDisk) getBody().getShape();
-			rigid.put("radius", shape.getRadius());
+
+	public static RigidBodyContainer fromJson(JsonObject json) {
+		RigidBody rBody;
+		if (json.containsKey("radius")) {
+			double radius = ((Number) json.get("radius")).doubleValue();
+			rBody = new RigidBody(new ShapeDisk(radius), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 0, 0);
+		} else if (json.containsKey("extent")) {
+			JsonArray array = (JsonArray) json.get("extent");
+			Vec2f extent = Vec2f.jsonImport(array);
+			rBody = new RigidBody(new ShapeBox(extent), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 0, 0);
+		} else {
+			rBody = new RigidBody(new ShapeBox(new Vec2f()), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 0, 0);
 		}
-		return rigid;
+		return new RigidBodyContainer(rBody);
 	}
 
 }

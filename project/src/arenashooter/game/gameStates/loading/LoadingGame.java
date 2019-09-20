@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import arenashooter.engine.json.JsonTransformer;
 import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
 import arenashooter.game.Main;
@@ -13,15 +14,15 @@ public class LoadingGame extends Thread {
 	private String[] arenaPath;
 	private int nbArenaTotal;
 	private List<Arena> loadedArena;
-	private boolean inf;
+	private boolean infini;
 
 	public LoadingGame(int nbArena, String... strings) {
 		arenaPath = strings;
 		if (nbArena == -1) {
-			inf = true;
+			infini = true;
 			nbArenaTotal = strings.length;
 		} else {
-			inf = false;
+			infini = false;
 			nbArenaTotal = nbArena;
 		}
 		loadedArena = new LinkedList<>();
@@ -36,13 +37,13 @@ public class LoadingGame extends Thread {
 	}
 
 	public synchronized boolean hasNum(int num) {
-		if (inf)
+		if (infini)
 			return loadedArena.size() >= nbArenaTotal;
 		return loadedArena.size() >= num;
 	}
 
 	public synchronized Arena getArena(int num) {
-		if(inf && loadedArena.size() >= nbArenaTotal) {
+		if(infini && loadedArena.size() >= nbArenaTotal) {
 			return loadedArena.get(num%nbArenaTotal);
 		}
 		if (num < loadedArena.size()) {
@@ -66,20 +67,26 @@ public class LoadingGame extends Thread {
 
 		Main.log.info("Begin to load " + nbArenaTotal + " Arena(s)");
 		for (int i = 0; i < nbArenaTotal; i++) {
-			MapXmlReader reader = new MapXmlReader(toShuffel.get(i % toShuffel.size()));
+			String path = toShuffel.get(i % toShuffel.size());
+			//			MapXmlReader reader = new MapXmlReader(toShuffel.get(i % toShuffel.size()));
+//
+//			Arena arena = new Arena();
+//			reader.load(arena);
+//
+//			while (!reader.loadNextEntity()) {
+//			}
+			try {
+				Arena arena = JsonTransformer.importArena(path);
+				if(arena.getChildren().values().size() < 3) {
+					System.err.println(arena+" not well loaded");
+				}
 
-			Arena arena = new Arena();
-			reader.load(arena);
-
-			while (!reader.loadNextEntity()) {
+				loadedArena.add(arena);
+				Main.log.info("Arena loaded: " + toShuffel.get(i % toShuffel.size()));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			if(arena.getChildren().values().size() < 3) {
-				System.err.println(arena+" not well loaded");
-			}
-
-			loadedArena.add(arena);
-			Main.log.info("Arena loaded: " + toShuffel.get(i % toShuffel.size()));
 		}
 		
 		Main.log.info("All Arena loaded");

@@ -18,6 +18,7 @@ import arenashooter.engine.ui.UiListVertical;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.editor.Editor;
 
@@ -35,6 +36,7 @@ public class MenuStart extends GameState {
 	private InputListener inputs = new InputListener();
 
 	public MenuStart() {
+		super(GameMaster.mapEmpty);
 		selector.setScale(100, 8);
 
 		// logo
@@ -95,14 +97,14 @@ public class MenuStart extends GameState {
 		buttonPlay.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Main.getGameMaster().requestNextState(new Config(), "data/mapXML/menu_empty.xml");
+				Main.getGameMaster().requestNextState(new Config());
 			}
 		});
 
 		buttonEditor.setOnArm(new Trigger() {
 			@Override
 			public void make() {
-				Main.getGameMaster().requestNextState(new Editor(), "data/mapXML/menu_editor_new.xml");
+				Main.getGameMaster().requestNextState(new Editor());
 			}
 		});
 
@@ -154,7 +156,7 @@ public class MenuStart extends GameState {
 						break;
 					case UI_BACK:
 						if (!current.backAction()) {
-							Main.getGameMaster().requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
+							Main.getGameMaster().requestNextState(new Intro());
 						}
 						break;
 					

@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import java.util.Set;
+
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.Profiler;
@@ -9,11 +11,12 @@ import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
-import arenashooter.engine.json.EntityTypes;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.Main;
 
 public class TextSpatial extends Spatial3 {
 	private Text text;
@@ -29,6 +32,10 @@ public class TextSpatial extends Spatial3 {
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, .5, 1));
+	}
+
+	private TextSpatial() {
+		this(new Vec3f(), new Vec3f(), new Text(Main.font, TextAlignH.CENTER, TextAlignV.CENTER, "default text"));
 	}
 
 	/**
@@ -53,7 +60,7 @@ public class TextSpatial extends Spatial3 {
 	public void setAlignH(TextAlignH alignH) {
 		text = new Text(text.getFont(), alignH, text.getAlignV(), text.getText());
 	}
-	
+
 	public void setAlignV(TextAlignV alignV) {
 		text = new Text(text.getFont(), text.getAlignH(), alignV, text.getText());
 	}
@@ -70,8 +77,8 @@ public class TextSpatial extends Spatial3 {
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale));
 		material.setParamMat4f("view", Window.getView());
 		material.setParamMat4f("projection", Window.proj);
-		
-		if(material.bind(text.getModel())) {
+
+		if (material.bind(text.getModel())) {
 			text.getModel().bind();
 			text.getModel().draw();
 		}
@@ -93,19 +100,6 @@ public class TextSpatial extends Spatial3 {
 		this.scale.x += scale.x;
 		this.scale.y += scale.y;
 	}
-	
-	@Override
-	protected EntityTypes getType() {
-		return EntityTypes.TEXT;
-	}
-	
-	@Override
-	protected JsonObject getJson() {
-		JsonObject textS = super.getJson();
-		textS.putChain("text", text);
-		textS.putChain("scale", scale);
-		return textS;
-	}
 
 	/**
 	 * Create a copy of this TextSpatial (cloned transform, text and material)
@@ -115,5 +109,107 @@ public class TextSpatial extends Spatial3 {
 		TextSpatial res = new TextSpatial(localPosition, scale, text.clone());
 		res.material = material.clone();
 		return res;
+	}
+
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return text.getText();
+			}
+
+			@Override
+			public String getKey() {
+				return "text to show";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				String str = json.getString(this);
+				text = new Text(text.getFont(), text.getAlignH(), text.getAlignV(), str);
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return text.getAlignH().name();
+			}
+
+			@Override
+			public String getKey() {
+				return "align H";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				TextAlignH align = TextAlignH.valueOf(json.getString(this));
+				text = new Text(text.getFont(), align, text.getAlignV(), text.getText());
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return text.getAlignV().name();
+			}
+
+			@Override
+			public String getKey() {
+				return "align V";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				TextAlignV align = TextAlignV.valueOf(json.getString(this));
+				text = new Text(text.getFont(), text.getAlignH(), align, text.getText());
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return text.getFont().getPath();
+			}
+
+			@Override
+			public String getKey() {
+				return "font";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				String path = json.getString(this);
+				Font font = Font.loadFont(path);
+				text = new Text(font , text.getAlignH(), text.getAlignV(), text.getText());
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return scale;
+			}
+
+			@Override
+			public String getKey() {
+				return "scale";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				scale = Vec3f.jsonImport(json.getCollection(this));
+			}
+		});
+		return set;
+	}
+	
+	public static TextSpatial fromJson(JsonObject json) {
+		TextSpatial t = new TextSpatial();
+		useKeys(t, json);
+		return t;
 	}
 }

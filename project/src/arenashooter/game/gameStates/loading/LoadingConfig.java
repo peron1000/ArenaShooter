@@ -22,10 +22,10 @@ public class LoadingConfig extends Thread {
 	
 	@Override
 	public void run() {
-		File mapFolder = new File("data/mapXML");
+		File mapFolder = new File("data/arena");
 		File[] folderContent = mapFolder.listFiles();
 		for (File file : folderContent) {
-			if (file.getName().endsWith(".xml") && !file.getName().startsWith("menu_")) {
+			if (file.getName().endsWith(".arena") && !file.getName().startsWith("menu_")) {
 				String texture = file.getPath().substring(0, file.getPath().lastIndexOf('.')) + ".png";
 				if(!new File(texture).exists())
 					texture = "data/arena_thumbnail_default.png";

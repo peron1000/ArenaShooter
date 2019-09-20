@@ -1,114 +1,56 @@
 {
-	"spawn items":{
-		"Name Item":{
-			"rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"ENTITY"
-		}
-	},
+	"kill bound":[
+		-100.0,
+		-100.0,
+		100.0,
+		100.0
+	],
+	"music path":"",
 	"ambient light":[
-		51.0,
-		65.0,
-		651.0
-	],
-	"music path":"kjbsef",
-	"fog distance":656511.0,
-	"fog color":[
+		45.0,
 		6.0,
-		21.0,
-		13.0
+		3.0
 	],
-	"type":"ENTITY",
-	"musicPitch":1.0,
-	"players spawn":[
-		{
-			"rotation":0.0,
-			"cooldown":2.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"SPAWN"
-		}
+	"fog distance":3000.0,
+	"music volume":1.0,
+	"fog color":[
+		0.929,
+		0.906,
+		0.753
 	],
+	"type":"arenashooter.entities.Arena",
+	"music pitch":1.0,
 	"children":{
-		"mon entite":{
-			"type":"ENTITY"
-		},
-		"Mon mesh":{
-			"model path":"data\/meshes\/arrow.obj",
-			"rotation":[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale":[
-				1.0,
-				1.0,
-				1.0
-			],
-			"position":[
-				0.0,
-				0.0,
-				0.0
-			],
-			"type":"MESH",
-			"children":{
-				"testChild":{
-					"type":"ENTITY"
-				}
-			}
+		"petite entity":{
+			"type":"arenashooter.entities.Entity"
 		}
 	},
 	"gravity":[
-		9.8,
-		6.3
+		65.0,
+		2.0
 	],
-	"killBound":[
-		51.0,
-		1600.0,
-		345.0,
-		15.0
+	"items available":[
+		
 	],
-	"spawnList":{
-		"Name Item":{
-			"rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"ENTITY"
-		}
-	},
-	"cameraBasePos":[
-		48.0,
-		5818.0,
-		15.0
+	"camera base position":[
+		0.0,
+		0.0,
+		8.0
 	],
-	"musicVolume":1.0,
-	"lights":[
+	"player spawn":[
 		{
-			"color":[
-				0.0,
-				0.0,
-				0.0
-			],
-			"angle":-1.0,
+			"children":{
+				"timer_spawn":{
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"rotation":0.0,
+			"cooldown":46.0,
 			"position":[
-				0.0,
-				0.0,
-				0.0
+				3.0,
+				3.0
 			],
-			"radius":0.0,
-			"direction":[
-				0.0,
-				0.0,
-				0.0
-			]
+			"type":"arenashooter.entities.spatials.Spawner"
 		}
 	]
 }

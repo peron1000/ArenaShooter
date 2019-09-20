@@ -24,6 +24,7 @@ import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.spatials.Mesh;
 import arenashooter.entities.spatials.TextSpatial;
+import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 
 /**
@@ -39,6 +40,7 @@ public class Intro extends GameState {
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
 	
 	public Intro() {
+		super("data/arena/menu_intro.arena");
 		anim = new Animation(AnimationData.loadAnim("data/animations/anim_intro.xml"));
 
 		bgm = Audio.createSource("data/music/Juhani Junkala [Chiptune Adventures] 4. Stage Select [Edited].ogg", AudioChannel.MUSIC, .67f, 1);
@@ -54,7 +56,7 @@ public class Intro extends GameState {
 					case UI_CONTINUE:
 						bgm.destroy();
 						bgmLoop.destroy();
-						Main.getGameMaster().requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
+						Main.getGameMaster().requestNextState(new MenuStart());
 						break;
 					default:
 						break;

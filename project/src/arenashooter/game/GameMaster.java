@@ -10,25 +10,27 @@ import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
-import arenashooter.engine.ui.Trigger;
+import arenashooter.game.gameStates.Config;
 import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.GameState;
 import arenashooter.game.gameStates.Intro;
 import arenashooter.game.gameStates.Loading;
+import arenashooter.game.gameStates.Score;
 import arenashooter.game.gameStates.Start;
 import arenashooter.game.gameStates.Test;
+import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class GameMaster {
-	public static final String mapEmpty = "data/mapXML/menu_empty.xml";
+	public static final String mapEmpty = "data/arena/menu_empty.arena";
 
 	public List<Controller> controllers = new ArrayList<>();
 
 	private Stack<GameState> stateStack = new Stack<>();
 	private GameState current = new Start();
 
-	private static Loading loading = Loading.loading;
+	private GameParam gameParam = null;
 
-	private Game game = null;
+	private GamesList gamesList;
 
 	private InputListener inputs = new InputListener();
 
@@ -49,70 +51,55 @@ public class GameMaster {
 		});
 	}
 
-	/**
-	 * @return current GameState
-	 */
-	public GameState getCurrent() {
-		return current;
-	}
-	
-	public Game getGame() {
-		return game;
-	}
+//	/**
+//	 * @return current GameState
+//	 */
+//	public GameState getCurrent() {
+//		return current;
+//	} // TODO : remove
 
-	public void requestNewGame(String... strings) {
-		game = new Game(strings);
-	}
-
-	/**
-	 * Make sure you have called requestNewGame before
-	 */
-	public void requestGame() {
-		if (game != null) {
-			current = game;
-			game.init();
+	private void launchNextGame() {
+		if (gameParam == null) {
+			gameParam = new GameParam();
+			System.err.println("gameParam is not well created");
+		}
+		if (gamesList.isOver()) {
+			requestNextState(new Score());
+		} else if (gamesList.isNextReady()) {
+			Game nextGame = gamesList.getNextGame();
+			current = nextGame;
+			nextGame.init();
 		} else {
-			Main.log.error("There is no Game -> call requestNewGame");
-			requestNewGame(mapEmpty);
-			requestGame();
+			System.out.println("next game not ready yet");// FIXME
 		}
 	}
 
-	public void requestNextState(GameState nextState, String nextStateMap) {
+	public void requestNextState(GameState nextState) {
 		stateStack.push(current);
-		loading.init();
+
+		if (nextState instanceof Config) {
+			Config configState = (Config) nextState;
+			gameParam = configState.getGameParam();
+			if(gameParam.getRound() < 0) {
+				gamesList = new GamesListInfinite(gameParam.maps);
+			} else {
+				// TODO creer un gamesList avec n rounds
+			}
+		}
 
 		current.destroy();
 
-		current = loading;
-		loading.setOnFinish(new Trigger() {
+		current = new Loading(nextState) {
+
 			@Override
-			public void make() {
-				current = nextState;
-				current.init();
+			public void endLoading() {
+				GameMaster.this.current = nextState;
+				nextState.init();
 			}
-		});
+		};
 
-		loading.setNextState(nextState, nextStateMap);
-
-//		if (current == Loading.loading) { // Loading
-//			current = Loading.loading.getNextState();
-//		} else {
-//			if (current instanceof Start) { // Start
-//			} else if (current instanceof Intro) { // Intro movie
-//			} else if (current instanceof CharacterChooser) { // Character chooser
-//			} else if(current instanceof Config) {
-//			} else if(current instanceof Game) {
-//			} else if(current instanceof Score) {
-//				goBackTo((Class<GameState>) nextState.getClass());
-//			}
-//			stateStack.push(current);
-//			current = Loading.loading;
-//			current.init();
-//			Loading.loading.setNextState(nextState, nextStateMap);
-//		}
 	}
-	
+
 	public void requestNextTest() {
 		current = new Test();
 	}

@@ -1,6 +1,11 @@
 package arenashooter.engine.physic.shapes;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import org.jbox2d.collision.shapes.PolygonShape;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
@@ -56,4 +61,12 @@ public class ShapeBox extends PhysicShape {
 		quad.bind();
 		quad.draw(true);
 	}
+
+	@Override
+	public JsonObject getJson() {
+		JsonObject json = new JsonObject();
+		json.put("extent", extent);
+		return json;
+	}
+
 }

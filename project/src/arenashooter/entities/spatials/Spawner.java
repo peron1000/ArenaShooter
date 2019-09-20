@@ -2,11 +2,12 @@ package arenashooter.entities.spatials;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.json.EntityTypes;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
@@ -21,24 +22,26 @@ public class Spawner extends Spatial {
 	private double probaTotal = 0;
 	/** Last spawned item */
 	private Item currentItem = null;
-	/** Timer of respawn*/
-	private double cooldown = 0;
 	
 	private Sprite editorView;
 
 	public Spawner(Vec2f localPosition, double cooldown) {
 		super(localPosition);
-		this.timerWarmup = new Timer(cooldown);
-		timerWarmup.attachToParent(this, "timer_spawn");
+		setCooldown(cooldown);
 		editorView = new Sprite(localPosition , "data/weapons/alien.png");
 		editorView.size = editorView.getTexture().getSize().multiply(0.03f);
+	}
+	
+	private void setCooldown(double cooldown) {
+		timerWarmup = new Timer(cooldown);
+		timerWarmup.attachToParent(this, "timer_spawn");
 	}
 
 	/**
 	 * @return the cooldown
 	 */
 	public double getCooldown() {
-		return cooldown;
+		return timerWarmup.getMax();
 	}
 
 	/**
@@ -140,15 +143,34 @@ public class Spawner extends Spatial {
 		editorView.draw(false);
 	}
 	
-	@Override
-	protected EntityTypes getType() {
-		return EntityTypes.SPAWN;
-	}
 	
 	@Override
-	protected JsonObject getJson() {
-		JsonObject spawner = super.getJson();
-		spawner.putChain("cooldown", timerWarmup.getMax());
-		return spawner;
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+			
+			@Override
+			public Object getValue() {
+				return new JsonObject(availableItems);
+			}
+			
+			@Override
+			public String getKey() {
+				return "available items";
+			}
+			
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				Map<String, Integer> items = json.getMap(this);
+				availableItems = items;
+			}
+		});
+		return set;
+	}
+	
+	public static Spawner fromJson(JsonObject json) throws Exception {
+		Spawner s = new Spawner(new Vec2f(), 0);
+		useKeys(s, json);
+		return s;
 	}
 }

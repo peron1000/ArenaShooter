@@ -2,6 +2,8 @@ package arenashooter.engine.physic.shapes;
 
 import org.jbox2d.collision.shapes.CircleShape;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
@@ -51,5 +53,12 @@ public class ShapeDisk extends PhysicShape {
 
 		disk.bind();
 		disk.draw(true);
+	}
+
+	@Override
+	public JsonObject getJson() {
+		JsonObject json = new JsonObject();
+		json.put("radius", radius);
+		return json;
 	}
 }

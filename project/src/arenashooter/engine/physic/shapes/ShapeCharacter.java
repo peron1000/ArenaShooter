@@ -3,6 +3,8 @@ package arenashooter.engine.physic.shapes;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.graphics.Window;
@@ -71,5 +73,10 @@ public class ShapeCharacter extends PhysicShape {
 
 		model.bind();
 		model.draw(true);
+	}
+	
+	@Override
+	public JsonObject getJson() {
+		return new JsonObject();
 	}
 }

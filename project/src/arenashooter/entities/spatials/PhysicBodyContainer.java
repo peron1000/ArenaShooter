@@ -1,9 +1,17 @@
 package arenashooter.entities.spatials;
 
+import java.util.Set;
+
+import org.jbox2d.dynamics.Body;
+
+import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.PhysicBody;
+import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
@@ -52,7 +60,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	public Vec2f getWorldPos() {
 		return body.getPosition();
 	}
-	
+
 	@Override
 	public double getWorldRot() {
 		return body.getRotation();
@@ -91,7 +99,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	@Override
 	public void editorAddPosition(Vec2f position) {
 		body.setPosition(Vec2f.add(getWorldPos(), position));
-		
+
 		for (Entity e : getChildren().values())
 			e.updateAttachment();
 	}
@@ -99,16 +107,16 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	@Override
 	public void editorAddScale(Vec2f extent) {
 		PhysicShape oldShape = body.getShape();
-		if(oldShape instanceof ShapeBox)
-			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
-		if(oldShape instanceof ShapeDisk)
-			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x  ));
+		if (oldShape instanceof ShapeBox)
+			body.setShape(new ShapeBox(Vec2f.add(((ShapeBox) oldShape).getExtent(), extent)));
+		if (oldShape instanceof ShapeDisk)
+			body.setShape(new ShapeDisk(((ShapeDisk) oldShape).getRadius() + extent.x));
 	}
 
 	@Override
 	public void editorAddRotationZ(double angle) {
-		body.setRotation((float) (getWorldRot()+angle));
-		
+		body.setRotation((float) (getWorldRot() + angle));
+
 		for (Entity e : getChildren().values())
 			e.updateAttachment();
 	}
@@ -117,18 +125,45 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	public void editorDraw() {
 		body.debugDraw();
 	}
-	
+
 	@Override
-	protected JsonObject getJson() {
-		JsonObject pBody = super.getJson();
-		PhysicShape shape = getBody().getShape();
-		if(shape instanceof ShapeBox) {
-			ShapeBox sBox = (ShapeBox) shape;
-			pBody.putChain("extent", sBox.getExtent());
-		} else if(shape instanceof ShapeDisk){
-			ShapeDisk sDisk = (ShapeDisk) shape;
-			pBody.putChain("radius", sDisk.getRadius());
-		}
-		return pBody;
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return body.getPosition();
+			}
+
+			@Override
+			public String getKey() {
+				return "world position";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				body.setPosition(Vec2f.jsonImport(json.getCollection(this)));
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return body.getRotation();
+			}
+
+			@Override
+			public String getKey() {
+				return "world rotation";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				float angle = json.getFloat(this);
+				body.setRotation(angle );
+			}
+		});
+		return set;
 	}
 }

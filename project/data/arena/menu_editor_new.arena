@@ -1,0 +1,67 @@
+{
+	"kill bound":[
+		-100.0,
+		-100.0,
+		100.0,
+		40.0
+	],
+	"music path":"",
+	"ambient light":[
+		0.78,
+		0.78,
+		0.78
+	],
+	"music volume":1.0,
+	"fog distance":3000.0,
+	"fog color":[
+		0.929,
+		0.906,
+		0.906
+	],
+	"type":"arenashooter.entities.Arena",
+	"music pitch":1.0,
+	"children":{
+		"sky":{
+			"colorTop":[
+				0.016,
+				0.145,
+				0.565
+			],
+			"type":"arenashooter.entities.Sky",
+			"colorBottom":[
+				0.659,
+				0.835,
+				0.996
+			]
+		},
+		"arenashooter.entities.spatials.LightContainer@7cb77d5503171217855600":{
+			"rotation":[
+				-0.250096,
+				-0.4635849,
+				0.84194386,
+				-0.11692503
+			],
+			"position":[
+				0.0,
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.LightContainer"
+		}
+	},
+	"gravity":[
+		0.0,
+		9.807
+	],
+	"items available":[
+		
+	],
+	"camera base position":[
+		0.0,
+		0.0,
+		40.0
+	],
+	"player spawn":[
+		
+	]
+}

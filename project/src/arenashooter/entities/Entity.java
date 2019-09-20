@@ -2,18 +2,22 @@ package arenashooter.entities;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
-import arenashooter.engine.json.EntityTypes;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
 
@@ -259,25 +263,14 @@ public class Entity implements Editable, Jsonable {
 		// Nothing
 	}
 
-	protected EntityTypes getType() {
-		return EntityTypes.ENTITY;
-	}
-
 	protected JsonObject getJson() {
 		JsonObject entity = new JsonObject();
-		if (getType() == null)
-			return null;
-		entity.put("type", getType().name());
-		if (!children.isEmpty()) {
-			JsonObject c = new JsonObject();
-			for (Entry<String, Entity> e : children.entrySet()) {
-				JsonObject json = e.getValue().getJson();
-				if (json == null)
-					break;
-				c.put(e.getKey(), json);
+		for (JsonKey jsonKey : getJsonKey()) {
+			if (jsonKey.getKey() != "children") {
+				entity.put(jsonKey.getKey(), jsonKey.getValue());
+			} else if (!children.isEmpty()) {
+				entity.put(jsonKey.getKey(), jsonKey.getValue());
 			}
-			if (!c.isEmpty())
-				entity.put("children", c);
 		}
 		return entity;
 	}
@@ -292,5 +285,71 @@ public class Entity implements Editable, Jsonable {
 	@Override
 	public void toJson(Writer writable) throws IOException {
 		getJson().toJson(writable);
+	}
+
+	public static Entity fromJson(JsonObject json) throws Exception {
+		Entity e = new Entity();
+		useKeys(e, json);
+		return e;
+	}
+	
+	protected static void useKeys(Entity e , JsonObject json) {
+		for (StrongJsonKey key : e.getJsonKey()) {
+			try {
+				key.useKey(json);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public Set<StrongJsonKey> getJsonKey() {
+		StrongJsonKey type = new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return Entity.this.getClass().getName();
+			}
+
+			@Override
+			public String getKey() {
+				return "type";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				// void
+			}
+		};
+		Set<StrongJsonKey> set = new HashSet<>();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return new JsonObject(children);
+			}
+
+			@Override
+			public String getKey() {
+				return "children";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonObject children = json.getMap(this);
+				if (children == null)
+					return;
+				for (Entry<String, Object> entry : children.entrySet()) {
+					JsonObject child = (JsonObject) entry.getValue();
+					String className = child.getStringOrDefault(type);
+					Class<?> classType = Class.forName(className);
+					Method m = classType.getMethod("fromJson", JsonObject.class);
+					Entity e = (Entity) m.invoke(null, child);
+					e.attachToParent(Entity.this, entry.getKey());
+				}
+			}
+		});
+		set.add(type);
+		return set;
 	}
 }

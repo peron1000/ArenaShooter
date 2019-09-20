@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 
@@ -12,7 +13,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.graphics.Window;
-import arenashooter.engine.json.EntityTypes;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -68,6 +69,9 @@ public class Mesh extends Spatial3 implements IAnimated {
 		this.models = models;
 
 		this.materials = materials;
+	}
+
+	private Mesh() {
 	}
 
 	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
@@ -241,16 +245,54 @@ public class Mesh extends Spatial3 implements IAnimated {
 	}
 
 	@Override
-	protected EntityTypes getType() {
-		return EntityTypes.MESH;
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return modelPath;
+			}
+
+			@Override
+			public String getKey() {
+				return "model path";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				String modelPath = json.getString(this);
+				ModelsData data = ModelsData.loadModel(modelPath);
+
+				models = data.models;
+				materials = data.materials;
+				Mesh.this.modelPath = modelPath;
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return scale;
+			}
+
+			@Override
+			public String getKey() {
+				return "scale";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				scale = Vec3f.jsonImport(json.getCollection(this));
+			}
+		});
+		return set;
 	}
 
-	@Override
-	protected JsonObject getJson() {
-		JsonObject mesh = super.getJson();
-		mesh.put("model path", modelPath);
-		mesh.put("scale", scale);
-		return mesh;
+	public static Mesh fromJson(JsonObject json) {
+		Mesh m = new Mesh();
+		useKeys(m, json);
+		return m;
 	}
-	
+
 }

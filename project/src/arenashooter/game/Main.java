@@ -90,9 +90,6 @@ public class Main {
 
 			Window.endFrame();
 			
-			if (Loading.isLoading())
-				Loading.loadingStep();
-			
 			// FPS counter
 			fpsFrames++;
 			if (fpsFrames >= 10 && (currentFrame - fpsTime) >= 250) {

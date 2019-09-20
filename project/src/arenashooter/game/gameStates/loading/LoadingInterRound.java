@@ -11,6 +11,7 @@ public class LoadingInterRound extends Loading {
 	private LoadingGame loading;
 
 	public LoadingInterRound(Game game, LoadingGame loadingGame) {
+		super(game);
 		this.game = game;
 		this.loading = loadingGame;
 	}
@@ -26,6 +27,12 @@ public class LoadingInterRound extends Loading {
 			Main.log.error("Try to play next Round whereas it has not been loaded yet");
 			return loading.getArena(loading.arenaLoaded()-1);
 		}
+	}
+
+	@Override
+	public void endLoading() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

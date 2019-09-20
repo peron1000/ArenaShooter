@@ -1,5 +1,7 @@
 package arenashooter.entities.spatials;
 
+import java.util.Set;
+
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.animation.Animation;
@@ -9,6 +11,7 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.json.EntityTypes;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -158,19 +161,10 @@ public class LightContainer extends Spatial3 implements IAnimated {
 		return 1;
 	}
 	
-	@Override
-	protected EntityTypes getType() {
-		return EntityTypes.LIGHT;
+	public static LightContainer fromJson(JsonObject json) throws Exception {
+		LightContainer lc = new LightContainer(new Vec3f(), new Light());
+		useKeys(lc, json);
+		return lc;
 	}
 	
-	@Override
-	protected JsonObject getJson() {
-		JsonObject l= super.getJson();
-		l.putChain("angle", light.angle);
-		l.putChain("color", light.color);
-		l.putChain("direction", light.direction);
-		l.putChain("position", light.position);
-		l.putChain("radius", light.radius);
-		return l;
-	}
 }

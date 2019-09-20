@@ -30,19 +30,18 @@ import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Config extends GameState {
 
-	private GameParam gameParam;
+	private GameParam gameParam = new GameParam();
 	private UiGridWeak menu = new UiGridWeak();
-	private UiImage background, selector,enter;
+	private UiImage background, selector, enter;
 	private InputListener inputs = new InputListener();
 	private ScrollerH<Integer> rounds;
 	private UiImage escape, space, a, b;
-	private Label confirm, back,nextgm=new Label("Character Chooser", 2), arenaName = new Label("Test", 8);
+	private Label confirm, back, nextgm = new Label("Character Chooser", 2), arenaName = new Label("Test", 8);
 	private Map<UiImage, String> pictureName = new HashMap<>();
-	
+
 	public Config() {
-		gameParam = new GameParam();
-		GameParam.maps.clear();
-		//Button_Start.png
+		super(GameMaster.mapEmpty);
+		// Button_Start.png
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override
@@ -68,10 +67,9 @@ public class Config extends GameState {
 						break;
 					case UI_CONTINUE:
 						if (!menu.continueAction()) {
-							if (!GameParam.maps.isEmpty()) {
-								Main.getGameMaster().requestNewGame(GameParam.mapsString());
-								Main.getGameMaster().requestNextState(new CharacterChooser(),
-										GameMaster.mapEmpty);
+							if (!gameParam.maps.isEmpty()) {
+								Main.getGameMaster().requestNewGame(gameParam.mapsString()); // TODO : new Game !!!
+								Main.getGameMaster().requestNextState(new CharacterChooser());
 							}
 						}
 						break;
@@ -96,7 +94,7 @@ public class Config extends GameState {
 				} else {
 					selector.setScale(18);
 				}
-				
+
 				arenaName.setText(pictureName.getOrDefault(menu.getTarget(), ""));
 			}
 		});
@@ -105,21 +103,19 @@ public class Config extends GameState {
 	private void ui() {
 		background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png"));
 		selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
-		//boutton_start
+		// boutton_start
 		Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
 		enter = new UiImage(enterTex);
 		enter.setPosition(new Vec2f(72, 39));
-		enter.setScale(enterTex.getWidth()/3, enterTex.getHeight()/3);
-		
+		enter.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
+
 		escape = Imageinput.ESCAPE.getImage();
 		space = Imageinput.SPACE.getImage();
 		a = Imageinput.A.getImage();
 		b = Imageinput.B.getImage();
-		
-		background.setScale(180, 100);
-		
 
-		
+		background.setScale(180, 100);
+
 		arenaName.setPosition(30, -40);
 
 		UiListVertical<UiElement> vlist = new UiListVertical<>();
@@ -140,17 +136,17 @@ public class Config extends GameState {
 				gameParam.setNbRound(rounds.get());
 			}
 		});
-		rounds.setScale(35 , 10);
+		rounds.setScale(35, 10);
 		vlist.addElement(rounds);
 		vlist.setPosition(-57.5, -40);
 
 //		bgU.setScale(35, 10);
 //		bgS.setScale(35, 10);
-		
+
 		menu.addListVertical(vlist);
 
 		selector.setScale(47, 12);
-		//TODO
+		// TODO
 		space.setScale(space.getScale().x / 2, space.getScale().y / 2);
 		space.setPosition(-70, 30);
 		space.getMaterial().getParamTex("image").setFilter(false);
@@ -165,9 +161,9 @@ public class Config extends GameState {
 		back = new Label(" : Back", 3);
 		back.setPosition(-57.5, 38);
 
-		//enter 
+		// enter
 		nextgm.setPosition(new Vec2f(79, 42));
-		
+
 		escape.setScale(escape.getScale().x / 2, escape.getScale().y / 2);
 		escape.setPosition(-70, 38);
 		escape.getMaterial().getParamTex("image").setFilter(false);
@@ -214,20 +210,20 @@ public class Config extends GameState {
 			double scale = 4.5;
 			picture.setScale(14);
 			picture.addToScale(-scale);
-			Vec4f colorUnselect = new Vec4f(0.8, 0.8, 0.8, 0.75) , colorSelect = new Vec4f(1, 1, 1, 1);
+			Vec4f colorUnselect = new Vec4f(0.8, 0.8, 0.8, 0.75), colorSelect = new Vec4f(1, 1, 1, 1);
 			picture.setColor(colorUnselect);
 			everyList.get(i % nbElemH).addElement(picture);
-			
+
 			picture.addAction("selec", new Trigger() {
 				@Override
 				public void make() {
 					double lerp = 10;
-					if (GameParam.maps.contains(file.getPath())) {
-						GameParam.maps.remove(file.getPath());
+					if (gameParam.maps.contains(file.getPath())) {
+						gameParam.maps.remove(file.getPath());
 						picture.addToScaleLerp(-scale, lerp);
 						picture.setColor(colorUnselect);
 					} else {
-						GameParam.maps.add(file.getPath());
+						gameParam.maps.add(file.getPath());
 						picture.addToScaleLerp(scale, lerp);
 						picture.setColor(colorSelect);
 					}
@@ -237,7 +233,7 @@ public class Config extends GameState {
 		}
 
 		selector.setPosition(menu.getTarget().getPosition());
-		
+
 		super.init();
 	}
 
@@ -264,8 +260,12 @@ public class Config extends GameState {
 		confirm.draw();
 		escape.draw();
 		space.draw();
-		//nextgm.draw();
+		// nextgm.draw();
 		Window.endUi();
+	}
+	
+	public GameParam getGameParam() {
+		return gameParam;
 	}
 
 }

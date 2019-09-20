@@ -27,6 +27,7 @@ import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Controller;
 import arenashooter.game.ControllerPlayer;
+import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.engineParam.GameParam;
 
@@ -45,6 +46,7 @@ public class CharacterChooser extends GameState {
 			spaceImage = Imageinput.SPACE.getImage(), aImage = Imageinput.A.getImage(), bImage = Imageinput.B.getImage(), enterImage;
 
 	public CharacterChooser() {
+		super(GameMaster.mapEmpty);
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void launch(InputActionEvent event) {

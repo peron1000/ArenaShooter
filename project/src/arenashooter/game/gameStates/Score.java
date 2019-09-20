@@ -22,6 +22,10 @@ public class Score extends GameState {
 	private InputListener inputs = new InputListener();
 
 	private UiGroup<UiElement> group = new UiGroup<>();
+	
+	public Score() {
+		super(GameMaster.mapEmpty);
+	}
 
 	private void setPositions(UiGroup<UiImage> group, double y, double scale) {
 		final double x = 100 * Window.getRatio() / 4;
@@ -161,11 +165,11 @@ public class Score extends GameState {
 						break;
 					case DROP_ITEM: //TODO: Use UI action
 						// New Game
-						Main.getGameMaster().requestNextState(new Config(), GameMaster.mapEmpty);
+						Main.getGameMaster().requestNextState(new Config());
 						break;
 					case UI_BACK:
 						// Back to menu
-						Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
+						Main.getGameMaster().requestNextState(new MenuStart());
 						break;
 					default:
 						break;

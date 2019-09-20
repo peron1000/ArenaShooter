@@ -40,20 +40,20 @@ public class Game extends GameState {
 	private int nbPlayers = Main.getGameMaster().controllers.size();
 	private List<Character> players = new ArrayList<>(nbPlayers);
 
-	int currentRound = 1;
-	private final GameMode gameMode = GameParam.getGameMode();
-	private final int nbRounds = GameParam.getRound();
+	// int currentRound = 1;
+	// private final GameMode gameMode = GameParam.getGameMode();
+	// private final int nbRounds = GameParam.getRound();
 	private InputListener inputs = new InputListener();
 
 	private static SoundSource bgm;
 	private static String bgmPath;
 	private static final String bgmPathDefault = "data/music/Super_blep_serious_fight.ogg";
 
-	// Les teams sont pour l'instant au nombre de 2. On pourra changer
-	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
-	// voulues.
-	Set<Controller> team1 = new HashSet<Controller>();
-	Set<Controller> team2 = new HashSet<Controller>();
+//	// Les teams sont pour l'instant au nombre de 2. On pourra changer
+//	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
+//	// voulues.
+//	Set<Controller> team1 = new HashSet<Controller>();
+//	Set<Controller> team2 = new HashSet<Controller>();
 	Timer roundTimer;
 	private boolean oneLeft;
 
@@ -68,22 +68,21 @@ public class Game extends GameState {
 	 */
 	private Timer endRound = new Timer(2);
 	private UiImage counterImage = new UiImage(Texture.default_tex);
-	private Animation startCounter = null;
-	private Animation endCounter = null;
 	private AnimationData counterAnimData = AnimationData.loadAnim("data/animations/anim_StartCounter.xml");
 	private AnimationData endAnimData = AnimationData.loadAnim("data/animations/anim_EndCounter.xml");
-	private boolean canPlay = true;
-
+	private Animation startCounter = null;
+	private Animation endCounter = null;
+	/**
+	 * true when the animation counter is finish
+	 */
+	private boolean canPlay = false;
+	
+	private boolean animationCounterFinished = false;
 	private MenuPause menuPause = new MenuPause(this);
-	
-	private LoadingInterRound loading;
-	private boolean readyForNextRound = false, firstUpdate = true;
-	
-	public Game(String[] strings) {
+
+	public Game(String arenaPath) {
+		super(arenaPath);
 		counterImage.setPosition(0, -25);
-		LoadingGame loadingGame = new LoadingGame(GameParam.getRound(), strings);
-		loading = new LoadingInterRound(this, loadingGame);
-		loadingGame.start();
 	}
 
 	/**
@@ -108,8 +107,7 @@ public class Game extends GameState {
 
 	@Override
 	public void init() {
-		loading.init();
-		
+
 		if (bgm != null) {
 			bgm.destroy();
 			bgm = null;
@@ -118,29 +116,6 @@ public class Game extends GameState {
 		bgm = Audio.createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
 		
-	}
-	
-	@Override
-	public void destroy() {
-		super.destroy();
-
-		if (bgm != null)
-			bgm.destroy();
-	}
-
-	public void characterDeath(Controller controller, Character character) {
-		players.remove(character);
-		evalOneLeft();
-	}
-	
-	public int getCurrentRound() {
-		return currentRound;
-	}
-
-	private void newRound() {
-		current = loading.getArenaForNewRound();
-		
-
 		if (!current.musicPath.isEmpty()) { // Arena has custom music
 			if (!bgmPath.equals(current.musicPath)) { // Only restart music if its path changed
 				bgmPath = current.musicPath;
@@ -157,7 +132,25 @@ public class Game extends GameState {
 			bgm.play();
 		}
 		bgm.setVolume(.1f);
+		
+		newRound();
 
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (bgm != null)
+			bgm.destroy();
+	}
+
+	public void characterDeath(Controller controller, Character character) {
+		players.remove(character);
+		evalOneLeft();
+	}
+
+	private void newRound() {
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
 		Window.postProcess.fadeToBlack = 1;
@@ -173,24 +166,17 @@ public class Game extends GameState {
 		}
 		oneLeft = false;
 		super.init();
-		
-		for(ControllerPlayer c : Main.getGameMaster().getPlayerControllers()) {
-			if(c.getDevice() == Device.KEYBOARD)
+
+		for (ControllerPlayer c : Main.getGameMaster().getPlayerControllers()) {
+			if (c.getDevice() == Device.KEYBOARD) {
 				Window.setCurorVisibility(true);
+				break;
+			}
 		}
 	}
 
 	@Override
 	public void update(double d) {
-		readyForNextRound = loading.isReady();
-		if(!readyForNextRound) {
-			loading.update(d);
-			return;
-		}
-		if(firstUpdate) {
-			newRound();
-			firstUpdate = false;
-		}
 		menuPause.update(d);
 		if (menuPause.isPaused()) {
 			return;
@@ -201,10 +187,10 @@ public class Game extends GameState {
 					endCounter.play();
 					// chooseWinner.setProcessing(true);
 				} else {
-					double chromaAbbIntensity = 1 - endCounter.getTime()/endCounter.getLength();
-					chromaAbbIntensity = .3 * (chromaAbbIntensity*chromaAbbIntensity);
+					double chromaAbbIntensity = 1 - endCounter.getTime() / endCounter.getLength();
+					chromaAbbIntensity = .3 * (chromaAbbIntensity * chromaAbbIntensity);
 					Window.postProcess.chromaAbbIntensity = (float) chromaAbbIntensity;
-					
+
 					Queue<AnimEvent> events = endCounter.getEvents();
 					AnimEvent current = events.peek();
 					while ((current = events.poll()) != null) {
@@ -238,7 +224,7 @@ public class Game extends GameState {
 									counterImage.getMaterial().setParamTex("image",
 											Texture.loadTexture("data/sprites/interface/Draw_Chroma2.png"));
 								}
-							} 
+							}
 						} else if (current instanceof AnimEventSound) {
 							((AnimEventSound) current).play(null);
 						}
@@ -254,7 +240,7 @@ public class Game extends GameState {
 					counterImage.setScale(counterTexture.getSize().x * size, counterTexture.getSize().y * size);
 					counterImage.getMaterial().getParamTex("image").setFilter(false);
 					endCounter.step(d);
-					
+
 					if (!endCounter.isPlaying()) {
 						endCounter = null;
 						if (currentRound < nbRounds || nbRounds == -1) {
@@ -268,7 +254,7 @@ public class Game extends GameState {
 							newRound();
 						} else {
 							bgm.stop();
-							Main.getGameMaster().requestNextState(new Score(), "data/mapXML/menu_empty.xml");
+							Main.getGameMaster().requestNextState(new Score());
 						}
 					}
 				}
@@ -333,10 +319,6 @@ public class Game extends GameState {
 
 	@Override
 	public void draw() {
-		if(!readyForNextRound) {
-			loading.draw();
-			return;
-		}
 		super.draw();
 		Window.beginUi();
 		counterImage.draw();
