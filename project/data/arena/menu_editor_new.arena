@@ -34,7 +34,7 @@
 				0.996
 			]
 		},
-		"arenashooter.entities.spatials.LightContainer@7cb77d5503171217855600":{
+		"light_sun":{
 			"rotation":[
 				-0.250096,
 				-0.4635849,
