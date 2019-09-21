@@ -247,8 +247,7 @@ public abstract class Item extends Spatial {
 	 */
 	@Override
 	public Item clone() {
-		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
-				soundPickup) {
+		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent, soundPickup) {
 		};
 		return clone;
 	}
@@ -261,7 +260,63 @@ public abstract class Item extends Spatial {
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {
 		Set<StrongJsonKey> set = super.getJsonKey();
-		
+
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return name;
+			}
+			@Override
+			public String getKey() {
+				return "name";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				name = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return weight;
+			}
+			@Override
+			public String getKey() {
+				return "weight";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				weight = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return pathSprite;
+			}
+			@Override
+			public String getKey() {
+				return "pathSprite";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				pathSprite = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return soundPickup;
+			}
+			@Override
+			public String getKey() {
+				return "sound pickup";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				soundPickup = json.getString(this);
+			}
+		});
 		set.add(new StrongJsonKey() {
 			@Override
 			public Object getValue() {
@@ -273,7 +328,7 @@ public abstract class Item extends Spatial {
 			@Override
 			public String getKey() {
 				return "handPosL";
-			}			
+			}
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				JsonArray a = json.getCollection(this);
@@ -294,7 +349,7 @@ public abstract class Item extends Spatial {
 			@Override
 			public String getKey() {
 				return "handPosR";
-			}			
+			}
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				JsonArray a = json.getCollection(this);
@@ -302,6 +357,22 @@ public abstract class Item extends Spatial {
 					handPosR = Vec2f.jsonImport(a);
 				else
 					handPosR = null;
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return extent;
+			}
+			@Override
+			public String getKey() {
+				return "extent";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if (a != null)
+					extent.set(Vec2f.jsonImport(a));
 			}
 		});
 		return set;

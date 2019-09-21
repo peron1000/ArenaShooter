@@ -54,8 +54,10 @@ public class Spawner extends Spatial {
 	 * @param proba
 	 */
 	public void addItem(String item, int proba) {
-		if(availableItems.containsKey(item))
+		if(availableItems.containsKey(item)) {
 			Main.log.warn("Item \""+item+"\" is already present in spawner");
+			return;
+		}
 		availableItems.put(item, proba);
 		probaTotal += proba;
 	}
@@ -90,15 +92,18 @@ public class Spawner extends Spatial {
 		double counter = 0;
 		Item chosenOne = null;
 		String itemName = "";
+		
 		for(Entry<String, Integer> entry : availableItems.entrySet()) {
 			counter += entry.getValue();
 			if (chosenOne == null && counter >= random) {
 				itemName = entry.getKey();
 				chosenOne = getArena().spawnList.get(itemName);
+				break;
 			}
 		}
 		if(chosenOne == null)
 			Main.log.error("Trying to spawn an invalid item: \""+itemName+"\"");
+		
 		return chosenOne;
 	}
 
@@ -164,13 +169,13 @@ public class Spawner extends Spatial {
 			@Override
 			public String getKey() {
 				return "available items";
-			}			
+			}
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				Map<String, Number> items = json.getMap(this);
 				availableItems.clear();
 				for(Entry<String, Number> e : items.entrySet())
-					availableItems.put(e.getKey(), e.getValue().intValue());
+					addItem(e.getKey(), e.getValue().intValue());
 			}
 		});
 		set.add(new StrongJsonKey() {
@@ -181,7 +186,7 @@ public class Spawner extends Spatial {
 			@Override
 			public String getKey() {
 				return "cooldown";
-			}			
+			}
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				setCooldown(json.getFloat(this));

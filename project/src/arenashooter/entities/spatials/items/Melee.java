@@ -10,8 +10,11 @@ import org.jbox2d.callbacks.RayCastCallback;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Fixture;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.entities.Timer;
@@ -22,19 +25,6 @@ public class Melee extends Usable {
 	protected Timer fireRate = null;
 	protected float damage = 10f;
 
-	/**
-	 * @return the damage
-	 */
-	public float getDamage() {
-		return damage;
-	}
-
-	/**
-	 * @return the animMelee
-	 */
-	public AnimMelee getAnimMelee() {
-		return animMelee;
-	}
 	protected AnimMelee animMelee = null;
 
 	protected Timer timerWarmup = null;
@@ -47,7 +37,10 @@ public class Melee extends Usable {
 	private boolean dealingDamage = false;
 	private float bladeRayFraction = 1;
 	private double size = 0;
-	private Vec2f extent = new Vec2f();
+	
+	private Melee() {
+		super(Texture.default_tex.getPath());
+	}
 	
 	public Melee(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,Vec2f extent,
 			String soundPickup, double cooldown, int uses, String animPath, double warmupDuration, String soundWarmup,
@@ -64,6 +57,21 @@ public class Melee extends Usable {
 		bladeTop = new Spatial();
 		bladeTop.attachToParent(getSprite(), "blade_top");
 		bladeTop.localPosition.set(.5, 0);
+	}
+	
+
+	/**
+	 * @return the damage
+	 */
+	public float getDamage() {
+		return damage;
+	}
+
+	/**
+	 * @return the animMelee
+	 */
+	public AnimMelee getAnimMelee() {
+		return animMelee;
 	}
 
 	/**
@@ -185,4 +193,15 @@ public class Melee extends Usable {
 			return fraction;
 		}
 	};
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	public static Melee fromJson(JsonObject json) throws Exception {
+		Melee e = new Melee();
+		useKeys(e, json);
+		return e;
+	}
 }

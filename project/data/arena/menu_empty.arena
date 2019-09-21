@@ -18,8 +18,8 @@
 		0.906,
 		0.753
 	],
-	"type":"arenashooter.entities.Arena",
 	"music pitch":1.0,
+	"type":"arenashooter.entities.Arena",
 	"children":{
 		"sky":{
 			"colorTop":[

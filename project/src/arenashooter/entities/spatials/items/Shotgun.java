@@ -1,8 +1,14 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.audio.Audio;
 import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.entities.spatials.Bullet;
@@ -13,6 +19,10 @@ import arenashooter.entities.spatials.Particles;
 public class Shotgun extends Gun {
 	private int multiShot = 10;
 	private double dispersion = 0.3;
+	
+	private Shotgun() {
+		super(Texture.default_tex.getPath());
+	}
 
 	/**
 	 * 
@@ -197,5 +207,38 @@ public class Shotgun extends Gun {
 				soundPickup, fireRate, uses, animPath, warmup, soundWarmup, soundFire, soundNoAmmo, multiShot,
 				dispersion, bulletType, bulletSpeed, damage, cannonLength, recoil, thrust);
 		return gun;
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return multiShot;
+			}
+			@Override
+			public String getKey() {
+				return "projectiles per shot";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				multiShot = json.getInteger(this);
+			}
+		});
+		
+		return set;
+	}
+	
+	public static Shotgun fromJson(JsonObject json) throws Exception {
+		Shotgun e = new Shotgun();
+		useKeys(e, json);
+		return e;
 	}
 }

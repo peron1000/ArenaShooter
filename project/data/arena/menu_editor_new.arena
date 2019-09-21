@@ -5,12 +5,12 @@
 		100.0,
 		40.0
 	],
-	"music path":"",
 	"ambient light":[
 		0.78,
 		0.78,
 		0.78
 	],
+	"music path":"",
 	"fog distance":3000.0,
 	"music volume":1.0,
 	"fog color":[
@@ -34,7 +34,7 @@
 				0.996
 			]
 		},
-		"arenashooter.entities.spatials.LightContainer@721e04f131380284814296":{
+		"arenashooter.entities.spatials.LightContainer@2610cb5536899851799765":{
 			"color":[
 				0.929,
 				0.906,
@@ -52,8 +52,8 @@
 				0.0,
 				0.0
 			],
-			"type":"arenashooter.entities.spatials.LightContainer",
-			"radius":-1.0
+			"radius":-1.0,
+			"type":"arenashooter.entities.spatials.LightContainer"
 		}
 	},
 	"gravity":[
