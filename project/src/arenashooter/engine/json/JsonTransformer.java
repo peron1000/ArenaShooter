@@ -95,6 +95,10 @@ public class JsonTransformer {
 
 	public static Arena importArena(String path) throws Exception {
 		Main.log.info("Importing arena "+path);
+		
+		if(path == null)
+			throw new IllegalArgumentException("Arena path is null");
+		
 		Reader readableDeserializable = new FileReader(path);
 		JsonObject o = (JsonObject) Jsoner.deserialize(readableDeserializable);
 		Arena arena = Arena.fromJson(o);
@@ -122,6 +126,8 @@ public class JsonTransformer {
 //		(new Entity()).attachToParent(m, "testChild");
 //		jsonExport(arena, "testArena");
 		
+		System.out.println("Converting XML arenas to JSON...");
+		
 		List<File> list = FileUtils.listFilesByType(new File("data/mapXML"), ".xml");
 		for (File file : list) {
 			String name = file.getName();
@@ -130,6 +136,8 @@ public class JsonTransformer {
 			xmlToJson(name);
 			System.out.println("file converted");
 		}
+		
+		System.out.println("All arenas converted.");
 
 //		Arena a = jsonImportArena("data/arena/testArena.arena");
 //		Field[] fields = a.getClass().getDeclaredFields();

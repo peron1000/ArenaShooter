@@ -72,9 +72,5 @@ public class GameParam {
 
 	// Maps
 	public Set<String> maps = new TreeSet<>();
-	
-	public String[] mapsString() {
-		return maps.toArray(new String[maps.size()]);
-	}
 
 }

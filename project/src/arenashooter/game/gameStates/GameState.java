@@ -33,6 +33,7 @@ public abstract class GameState {
 					current = JsonTransformer.importArena(arenaPath);
 				} catch (Exception e) {
 					e.printStackTrace();
+					current = new Arena();
 				}
 			}
 		});
