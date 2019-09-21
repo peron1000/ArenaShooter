@@ -21,36 +21,11 @@
 	"music pitch":1.0,
 	"type":"arenashooter.entities.Arena",
 	"children":{
-		"arenashooter.entities.spatials.LightContainer@5cb63d0527537551030575":{
-			"color":[
-				1.3,
-				1.3,
-				1.0
-			],
-			"rotation":[
-				-0.250096,
-				-0.4635849,
-				0.84194386,
-				-0.11692503
-			],
-			"angle":-1.0,
-			"position":[
-				0.0,
-				0.0,
-				0.0
-			],
-			"radius":-1.0,
-			"type":"arenashooter.entities.spatials.LightContainer"
-		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@6e48c5b227537513498304":{
-			"extent":[
-				5.0,
-				0.125
-			],
-			"density":1.0,
+		"arenashooter.entities.spatials.Mesh@66b3c47628384138354548":{
+			"model path":"data\/meshes\/windmills\/Windmill_01_Static.obj",
 			"children":{
-				"arenashooter.entities.spatials.Mesh@115cbd9b27537528499874":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+				"arenashooter.entities.spatials.Mesh@34ceabf128384159607186":{
+					"model path":"data\/meshes\/windmills\/Windmill_01_Blades.obj",
 					"rotation":[
 						0.0,
 						0.0,
@@ -58,29 +33,35 @@
 						1.0
 					],
 					"scale":[
-						1.0,
-						1.0,
-						1.0
+						9.5,
+						9.5,
+						9.5
 					],
 					"position":[
-						0.0,
-						-0.25,
+						-20.0,
+						-143.0,
 						0.0
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
-			"world position":[
-				-15.0,
-				-0.25
-			],
-			"world rotation":0.0,
-			"position":[
+			"rotation":[
 				0.0,
-				0.0
+				0.099833414,
+				0.0,
+				0.9950042
 			],
-			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
+			"scale":[
+				9.5,
+				9.5,
+				9.5
+			],
+			"position":[
+				215.0,
+				290.0,
+				-612.0
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
 		},
 		"large_platform":{
 			"extent":[
@@ -88,7 +69,7 @@
 				0.25
 			],
 			"children":{
-				"arenashooter.entities.spatials.Mesh@15dbd88e27537529318388":{
+				"arenashooter.entities.spatials.Mesh@15dbd88e28384140255445":{
 					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
 					"rotation":[
 						0.0,
@@ -108,107 +89,7 @@
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
 				},
-				"arenashooter.entities.spatials.Mesh@783a76d827537529078033":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-35.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@4ecd395f27537529943312":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						35.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@476efc8127537529574419":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						5.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@c7eb2a927537528952891":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-45.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@6cfd4d4d27537529817126":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						25.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@7e775ef327537530088570":{
+				"arenashooter.entities.spatials.Mesh@7e775ef328384140996889":{
 					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
 					"rotation":[
 						0.0,
@@ -228,214 +109,7 @@
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
 				},
-				"arenashooter.entities.spatials.Mesh@6c49db6627537529435431":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-5.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@27a9fe9e27537529697209":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						15.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@a0d555f27537529200823":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-25.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"world position":[
-				0.0,
-				2.25
-			],
-			"rotation":0.0,
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.StaticBodyContainer"
-		},
-		"arenashooter.entities.spatials.Spawner@1c59f6ae27537525915531":{
-			"children":{
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
-				},
-				"arenashooter.entities.spatials.Mesh@3330bdd127537549614569":{
-					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						0.75,
-						0.75,
-						0.75
-					],
-					"position":[
-						0.0,
-						-1.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"available items":{
-				"assault":1,
-				"shotgun":1,
-				"kata":1,
-				"stargun":1,
-				"grenade_launcher":1,
-				"ion":1,
-				"minigun":1
-			},
-			"rotation":0.0,
-			"cooldown":5.0,
-			"position":[
-				0.0,
-				-10.0
-			],
-			"type":"arenashooter.entities.spatials.Spawner"
-		},
-		"arenashooter.entities.spatials.Spawner@6337c48d27537525607511":{
-			"children":{
-				"arenashooter.entities.spatials.Mesh@38dfbd6e27537549326926":{
-					"model path":"data\/meshes\/item_pickup\/weapon_pickup.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						0.5,
-						0.5,
-						0.5
-					],
-					"position":[
-						0.0,
-						1.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":2.0,
-					"type":"arenashooter.entities.Timer"
-				}
-			},
-			"available items":{
-				"assault":1,
-				"shotgun":1,
-				"kata":1,
-				"stargun":1,
-				"grenade_launcher":1,
-				"ion":1,
-				"minigun":1
-			},
-			"rotation":0.0,
-			"cooldown":2.0,
-			"position":[
-				-7.0,
-				1.0
-			],
-			"type":"arenashooter.entities.spatials.Spawner"
-		},
-		"arenashooter.entities.spatials.StaticBodyContainer@1006fe5927537525151097":{
-			"extent":[
-				20.0,
-				0.25
-			],
-			"children":{
-				"arenashooter.entities.spatials.Mesh@1053b20d27537530316647":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-5.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@7337265227537530546813":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						15.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@37f3769927537530432906":{
+				"arenashooter.entities.spatials.Mesh@476efc8128384140510692":{
 					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
 					"rotation":[
 						0.0,
@@ -455,7 +129,205 @@
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
 				},
-				"arenashooter.entities.spatials.Mesh@164212ad27537530205091":{
+				"arenashooter.entities.spatials.Mesh@6cfd4d4d28384140748957":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						25.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@6c49db6628384140375361":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						-5.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@a0d555f28384140134745":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						-25.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@c7eb2a928384139906407":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						-45.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@783a76d828384140017441":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						-35.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@27a9fe9e28384140630608":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						15.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@4ecd395f28384140869919":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						35.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"rotation":0.0,
+			"world position":[
+				0.0,
+				2.25
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.StaticBodyContainer"
+		},
+		"arenashooter.entities.spatials.StaticBodyContainer@5d7b36128384136738419":{
+			"extent":[
+				5.0,
+				0.25
+			],
+			"children":{
+				"arenashooter.entities.spatials.Mesh@5f849a7928384142597342":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"world position":[
+				-5.0,
+				-3.0
+			],
+			"rotation":0.0,
+			"world rotation":0.25,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.StaticBodyContainer"
+		},
+		"arenashooter.entities.spatials.StaticBodyContainer@3dacb92728384136617458":{
+			"extent":[
+				20.0,
+				0.25
+			],
+			"children":{
+				"arenashooter.entities.spatials.Mesh@756695e328384141574787":{
 					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
 					"rotation":[
 						0.0,
@@ -474,13 +346,73 @@
 						0.0
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@7828829828384141689739":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						-5.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@1e0ccdd628384142492840":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						15.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@544364ba28384142367437":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						5.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
-				70.0,
+				-70.0,
 				-1.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -488,14 +420,157 @@
 			],
 			"type":"arenashooter.entities.spatials.StaticBodyContainer"
 		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@38cbc9a727537521145000":{
+		"pinned_crate_05":{
+			"extent":[
+				0.5,
+				1.0
+			],
+			"density":0.5,
+			"children":{
+				"arenashooter.entities.spatials.Mesh@12d644a628384159389037":{
+					"model path":"data\/meshes\/crate\/crate_01.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						2.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"world position":[
+				7.0,
+				-11.0
+			],
+			"rotation":0.0,
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.RigidBodyContainer",
+			"friction":0.8
+		},
+		"pinned_crate_06":{
+			"extent":[
+				0.5,
+				1.0
+			],
+			"density":0.5,
+			"children":{
+				"arenashooter.entities.spatials.LightContainer@4e08c55728384138186821":{
+					"color":[
+						1.0,
+						1.0,
+						0.5
+					],
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"angle":-1.0,
+					"position":[
+						0.0,
+						2.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.LightContainer",
+					"radius":10.0
+				},
+				"arenashooter.entities.spatials.Mesh@2e7e989728384159492233":{
+					"model path":"data\/meshes\/crate\/crate_01.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						2.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"world position":[
+				7.0,
+				-9.0
+			],
+			"rotation":0.0,
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.RigidBodyContainer",
+			"friction":0.8
+		},
+		"arenashooter.entities.spatials.KinematicBodyContainer@d76a6bd28384127477423":{
+			"extent":[
+				0.125,
+				1.0
+			],
+			"density":1.0,
+			"children":{
+				"arenashooter.entities.spatials.Mesh@234a21e928384139719348":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.7068252,
+						0.7073883
+					],
+					"scale":[
+						0.25,
+						0.25,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"rotation":0.0,
+			"world position":[
+				-10.0,
+				-5.0
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
+		},
+		"arenashooter.entities.spatials.KinematicBodyContainer@38cbc9a728384130724572":{
 			"extent":[
 				5.0,
 				0.125
 			],
 			"density":1.0,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@4236d5527537528844993":{
+				"arenashooter.entities.spatials.Mesh@4236d5528384139815490":{
 					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
 					"rotation":[
 						0.0,
@@ -528,208 +603,6 @@
 			],
 			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
 		},
-		"pinned_crate_05":{
-			"extent":[
-				0.5,
-				1.0
-			],
-			"density":0.5,
-			"children":{
-				"arenashooter.entities.spatials.Mesh@12d644a627537550491082":{
-					"model path":"data\/meshes\/crate\/crate_01.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						2.0,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":0.0,
-			"world position":[
-				7.0,
-				-11.0
-			],
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.RigidBodyContainer",
-			"friction":0.8
-		},
-		"pinned_crate_06":{
-			"extent":[
-				0.5,
-				1.0
-			],
-			"density":0.5,
-			"children":{
-				"arenashooter.entities.spatials.LightContainer@4e08c55727537526943834":{
-					"color":[
-						1.0,
-						1.0,
-						0.5
-					],
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"angle":-1.0,
-					"position":[
-						0.0,
-						2.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.LightContainer",
-					"radius":10.0
-				},
-				"arenashooter.entities.spatials.Mesh@2e7e989727537550590882":{
-					"model path":"data\/meshes\/crate\/crate_01.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						2.0,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":0.0,
-			"world position":[
-				7.0,
-				-9.0
-			],
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.RigidBodyContainer",
-			"friction":0.8
-		},
-		"arenashooter.entities.spatials.StaticBodyContainer@3dacb92727537525269707":{
-			"extent":[
-				20.0,
-				0.25
-			],
-			"children":{
-				"arenashooter.entities.spatials.Mesh@1e0ccdd627537531155539":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						15.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@544364ba27537530897418":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						5.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@756695e327537530661243":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-15.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"arenashooter.entities.spatials.Mesh@7828829827537530778808":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						-5.0,
-						-0.25,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":0.0,
-			"world position":[
-				-70.0,
-				-1.0
-			],
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.StaticBodyContainer"
-		},
 		"pinned_crate_03":{
 			"extent":[
 				0.5,
@@ -737,7 +610,7 @@
 			],
 			"density":0.5,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@630f24a527537550256213":{
+				"arenashooter.entities.spatials.Mesh@630f24a528384159160438":{
 					"model path":"data\/meshes\/crate\/crate_01.obj",
 					"rotation":[
 						0.0,
@@ -758,11 +631,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				7.0,
 				-15.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -778,7 +651,7 @@
 			],
 			"density":0.5,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@253dbbc827537550387363":{
+				"arenashooter.entities.spatials.Mesh@253dbbc828384159285841":{
 					"model path":"data\/meshes\/crate\/crate_01.obj",
 					"rotation":[
 						0.0,
@@ -799,10 +672,71 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				7.0,
 				-13.0
+			],
+			"rotation":0.0,
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.RigidBodyContainer",
+			"friction":0.8
+		},
+		"arenashooter.entities.spatials.Mesh@4ee8ba7f28384138662046":{
+			"model path":"data\/meshes\/landscape_field\/Hill.obj",
+			"rotation":[
+				-0.19611613,
+				0.0,
+				0.0,
+				0.9805807
+			],
+			"scale":[
+				3.0,
+				3.0,
+				3.0
+			],
+			"position":[
+				0.0,
+				535.0,
+				-220.0
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.RigidBodyContainer@1db7acc928384137495800":{
+			"extent":[
+				0.5,
+				0.5
+			],
+			"density":1.0,
+			"children":{
+				"arenashooter.entities.spatials.Mesh@1f0b2ffb28384158855553":{
+					"model path":"data\/meshes\/crate\/crate_01.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"rotation":0.0,
+			"world position":[
+				-5.0,
+				-15.0
 			],
 			"world rotation":0.0,
 			"position":[
@@ -819,7 +753,7 @@
 			],
 			"density":0.5,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@29e3c7fe27537550051127":{
+				"arenashooter.entities.spatials.Mesh@29e3c7fe28384158958488":{
 					"model path":"data\/meshes\/crate\/crate_01.obj",
 					"rotation":[
 						0.0,
@@ -860,7 +794,7 @@
 			],
 			"density":0.5,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@1205d23127537550152495":{
+				"arenashooter.entities.spatials.Mesh@1205d23128384159061684":{
 					"model path":"data\/meshes\/crate\/crate_01.obj",
 					"rotation":[
 						0.0,
@@ -894,6 +828,27 @@
 			"type":"arenashooter.entities.spatials.RigidBodyContainer",
 			"friction":0.8
 		},
+		"arenashooter.entities.spatials.LightContainer@5cb63d0528384159938197":{
+			"color":[
+				1.3,
+				1.3,
+				1.0
+			],
+			"rotation":[
+				-0.250096,
+				-0.4635849,
+				0.84194386,
+				-0.11692503
+			],
+			"angle":-1.0,
+			"position":[
+				0.0,
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.LightContainer",
+			"radius":-1.0
+		},
 		"sky":{
 			"colorTop":[
 				0.016,
@@ -907,98 +862,13 @@
 				0.996
 			]
 		},
-		"arenashooter.entities.spatials.Spawner@44640a8427537525762697":{
-			"children":{
-				"arenashooter.entities.spatials.Mesh@5aa345a527537549506148":{
-					"model path":"data\/meshes\/item_pickup\/weapon_pickup.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						0.5,
-						0.5,
-						0.5
-					],
-					"position":[
-						0.0,
-						1.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":2.0,
-					"type":"arenashooter.entities.Timer"
-				}
-			},
-			"available items":{
-				"assault":1,
-				"shotgun":1,
-				"kata":1,
-				"stargun":1,
-				"grenade_launcher":1,
-				"ion":1,
-				"minigun":1
-			},
-			"rotation":0.0,
-			"cooldown":2.0,
-			"position":[
-				7.0,
-				1.0
-			],
-			"type":"arenashooter.entities.spatials.Spawner"
-		},
-		"arenashooter.entities.spatials.RigidBodyContainer@24ad12ff27537526035186":{
+		"arenashooter.entities.spatials.StaticBodyContainer@1006fe5928384136484479":{
 			"extent":[
-				0.5,
-				0.5
-			],
-			"density":1.0,
-			"children":{
-				"arenashooter.entities.spatials.Mesh@1a343d3e27537549727431":{
-					"model path":"data\/meshes\/crate\/crate_01.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":0.0,
-			"world position":[
-				-5.0,
-				-3.0
-			],
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.RigidBodyContainer",
-			"friction":0.8
-		},
-		"arenashooter.entities.spatials.StaticBodyContainer@5d7b36127537525395110":{
-			"extent":[
-				5.0,
+				20.0,
 				0.25
 			],
 			"children":{
-				"arenashooter.entities.spatials.Mesh@5f849a7927537531281987":{
+				"arenashooter.entities.spatials.Mesh@164212ad28384141121508":{
 					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
 					"rotation":[
 						0.0,
@@ -1012,7 +882,67 @@
 						1.0
 					],
 					"position":[
+						-15.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@1053b20d28384141232019":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
 						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						-5.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@37f3769928384141344620":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						5.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"arenashooter.entities.spatials.Mesh@7337265228384141456177":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						15.0,
 						-0.25,
 						0.0
 					],
@@ -1020,168 +950,25 @@
 				}
 			},
 			"world position":[
-				-5.0,
-				-3.0
+				70.0,
+				-1.0
 			],
 			"rotation":0.0,
-			"world rotation":0.25,
+			"world rotation":0.0,
 			"position":[
 				0.0,
 				0.0
 			],
 			"type":"arenashooter.entities.spatials.StaticBodyContainer"
 		},
-		"arenashooter.entities.spatials.Mesh@66b3c47627537527098759":{
-			"model path":"data\/meshes\/windmills\/Windmill_01_Static.obj",
-			"children":{
-				"arenashooter.entities.spatials.Mesh@34ceabf127537550686240":{
-					"model path":"data\/meshes\/windmills\/Windmill_01_Blades.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						9.5,
-						9.5,
-						9.5
-					],
-					"position":[
-						-20.0,
-						-143.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":[
-				0.0,
-				0.099833414,
-				0.0,
-				0.9950042
-			],
-			"scale":[
-				9.5,
-				9.5,
-				9.5
-			],
-			"position":[
-				215.0,
-				290.0,
-				-612.0
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.RigidBodyContainer@1db7acc927537526212579":{
-			"extent":[
-				0.5,
-				0.5
-			],
-			"density":1.0,
-			"children":{
-				"arenashooter.entities.spatials.Mesh@1f0b2ffb27537549950544":{
-					"model path":"data\/meshes\/crate\/crate_01.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":0.0,
-			"world position":[
-				-5.0,
-				-15.0
-			],
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.RigidBodyContainer",
-			"friction":0.8
-		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@d76a6bd27537518024822":{
-			"extent":[
-				0.125,
-				1.0
-			],
-			"density":1.0,
-			"children":{
-				"arenashooter.entities.spatials.Mesh@234a21e927537528727689":{
-					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.7068252,
-						0.7073883
-					],
-					"scale":[
-						0.25,
-						0.25,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"rotation":0.0,
-			"world position":[
-				-10.0,
-				-5.0
-			],
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
-		},
-		"arenashooter.entities.spatials.Mesh@4ee8ba7f27537527449887":{
-			"model path":"data\/meshes\/landscape_field\/Hill.obj",
-			"rotation":[
-				-0.19611613,
-				0.0,
-				0.0,
-				0.9805807
-			],
-			"scale":[
-				3.0,
-				3.0,
-				3.0
-			],
-			"position":[
-				0.0,
-				535.0,
-				-220.0
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.RigidBodyContainer@7963a94b27537526121401":{
+		"arenashooter.entities.spatials.RigidBodyContainer@7963a94b28384137408279":{
 			"extent":[
 				1.0,
 				0.5
 			],
 			"density":1.0,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@5f45d7db27537549838726":{
+				"arenashooter.entities.spatials.Mesh@5f45d7db28384158747915":{
 					"model path":"data\/meshes\/crate\/crate_01.obj",
 					"rotation":[
 						0.0,
@@ -1215,10 +1002,139 @@
 			"type":"arenashooter.entities.spatials.RigidBodyContainer",
 			"friction":0.8
 		},
-		"arenashooter.entities.spatials.Mesh@46c2ed8d27537527246107":{
+		"arenashooter.entities.spatials.RigidBodyContainer@24ad12ff28384137323110":{
+			"extent":[
+				0.5,
+				0.5
+			],
+			"density":1.0,
+			"children":{
+				"arenashooter.entities.spatials.Mesh@1a343d3e28384158636098":{
+					"model path":"data\/meshes\/crate\/crate_01.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"world position":[
+				-5.0,
+				-3.0
+			],
+			"rotation":0.0,
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.RigidBodyContainer",
+			"friction":0.8
+		},
+		"arenashooter.entities.spatials.Spawner@6337c48d28384136906407":{
+			"children":{
+				"timer_spawn":{
+					"cooldown":2.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.spatials.Mesh@38dfbd6e28384158247872":{
+					"model path":"data\/meshes\/item_pickup\/weapon_pickup.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						0.5,
+						0.5,
+						0.5
+					],
+					"position":[
+						0.0,
+						1.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"available items":{
+				"assault":1,
+				"shotgun":1,
+				"kata":1,
+				"stargun":1,
+				"grenade_launcher":1,
+				"ion":1,
+				"minigun":1
+			},
+			"rotation":0.0,
+			"cooldown":2.0,
+			"position":[
+				-7.0,
+				1.0
+			],
+			"type":"arenashooter.entities.spatials.Spawner"
+		},
+		"arenashooter.entities.spatials.Spawner@1c59f6ae28384137208941":{
+			"children":{
+				"arenashooter.entities.spatials.Mesh@3330bdd128384158523758":{
+					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						0.75,
+						0.75,
+						0.75
+					],
+					"position":[
+						0.0,
+						-1.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"available items":{
+				"assault":1,
+				"shotgun":1,
+				"kata":1,
+				"stargun":1,
+				"grenade_launcher":1,
+				"ion":1,
+				"minigun":1
+			},
+			"rotation":0.0,
+			"cooldown":5.0,
+			"position":[
+				0.0,
+				-10.0
+			],
+			"type":"arenashooter.entities.spatials.Spawner"
+		},
+		"arenashooter.entities.spatials.Mesh@46c2ed8d28384138500328":{
 			"model path":"data\/meshes\/windmills\/Windmill_01_Static.obj",
 			"children":{
-				"arenashooter.entities.spatials.Mesh@7c65b55b27537550795445":{
+				"arenashooter.entities.spatials.Mesh@7c65b55b28384159728931":{
 					"model path":"data\/meshes\/windmills\/Windmill_01_Blades.obj",
 					"rotation":[
 						0.0,
@@ -1256,24 +1172,50 @@
 				-1300.0
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
-		}
-	},
-	"gravity":[
-		0.0,
-		9.807
-	],
-	"items available":[
-		
-	],
-	"camera base position":[
-		0.0,
-		-15.0,
-		100.0
-	],
-	"player spawn":[
-		{
+		},
+		"arenashooter.entities.spatials.KinematicBodyContainer@6e48c5b228384123319276":{
+			"extent":[
+				5.0,
+				0.125
+			],
+			"density":1.0,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@38dfbd6e27537549326926":{
+				"arenashooter.entities.spatials.Mesh@115cbd9b28384139541172":{
+					"model path":"data\/meshes\/catwalk\/catwalk_10.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						-0.25,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"rotation":0.0,
+			"world position":[
+				-15.0,
+				-0.25
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
+		},
+		"arenashooter.entities.spatials.Spawner@44640a8428384137062115":{
+			"children":{
+				"arenashooter.entities.spatials.Mesh@5aa345a528384158416904":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup.obj",
 					"rotation":[
 						0.0,
@@ -1310,6 +1252,64 @@
 			"rotation":0.0,
 			"cooldown":2.0,
 			"position":[
+				7.0,
+				1.0
+			],
+			"type":"arenashooter.entities.spatials.Spawner"
+		}
+	},
+	"gravity":[
+		0.0,
+		9.807
+	],
+	"items available":[
+		
+	],
+	"camera base position":[
+		0.0,
+		-15.0,
+		100.0
+	],
+	"player spawn":[
+		{
+			"children":{
+				"timer_spawn":{
+					"cooldown":2.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.spatials.Mesh@38dfbd6e28384158247872":{
+					"model path":"data\/meshes\/item_pickup\/weapon_pickup.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						0.5,
+						0.5,
+						0.5
+					],
+					"position":[
+						0.0,
+						1.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"available items":{
+				"assault":1,
+				"shotgun":1,
+				"kata":1,
+				"stargun":1,
+				"grenade_launcher":1,
+				"ion":1,
+				"minigun":1
+			},
+			"rotation":0.0,
+			"cooldown":2.0,
+			"position":[
 				-7.0,
 				1.0
 			],
@@ -1317,7 +1317,7 @@
 		},
 		{
 			"children":{
-				"arenashooter.entities.spatials.Mesh@5aa345a527537549506148":{
+				"arenashooter.entities.spatials.Mesh@5aa345a528384158416904":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup.obj",
 					"rotation":[
 						0.0,
@@ -1361,11 +1361,7 @@
 		},
 		{
 			"children":{
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
-				},
-				"arenashooter.entities.spatials.Mesh@3330bdd127537549614569":{
+				"arenashooter.entities.spatials.Mesh@3330bdd128384158523758":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
 					"rotation":[
 						0.0,
@@ -1384,6 +1380,10 @@
 						0.0
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
 				}
 			},
 			"available items":{

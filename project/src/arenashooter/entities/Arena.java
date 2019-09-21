@@ -126,21 +126,23 @@ public class Arena extends Entity implements Jsonable {
 		return randi;
 	}
 
+	
+	/*
+	 * JSON
+	 */
+	
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {
 		Set<StrongJsonKey> set = super.getJsonKey();
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return gravity;
 			}
-
 			@Override
 			public String getKey() {
 				return "gravity";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				JsonArray g = json.getCollection(this);
@@ -149,17 +151,14 @@ public class Arena extends Entity implements Jsonable {
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return ambientLight;
 			}
-
 			@Override
 			public String getKey() {
 				return "ambient light";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				JsonArray a = json.getCollection(this);
@@ -168,17 +167,14 @@ public class Arena extends Entity implements Jsonable {
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
-				return new JsonArray(playerSpawns);
+				return playerSpawns;
 			}
-
 			@Override
 			public String getKey() {
 				return "player spawn";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				List<Spawner> a = json.getCollection(this);
@@ -187,17 +183,14 @@ public class Arena extends Entity implements Jsonable {
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return fogColor;
 			}
-
 			@Override
 			public String getKey() {
 				return "fog color";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				JsonArray a = json.getCollection(this);
@@ -206,119 +199,98 @@ public class Arena extends Entity implements Jsonable {
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return fogDistance;
 			}
-
 			@Override
 			public String getKey() {
 				return "fog distance";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				fogDistance = json.getFloat(this);
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return musicPath;
 			}
-
 			@Override
 			public String getKey() {
 				return "music path";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				musicPath = json.getString(this);
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return musicPitch;
 			}
-
 			@Override
 			public String getKey() {
 				return "music pitch";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				musicPitch = json.getFloat(this);
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return musicVolume;
 			}
-
 			@Override
 			public String getKey() {
 				return "music volume";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				musicVolume = json.getFloat(this);
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
-				return new JsonArray(items);
+				return items;
 			}
-
 			@Override
 			public String getKey() {
 				return "items available";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				items = json.getCollection(this);
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return killBound;
 			}
-
 			@Override
 			public String getKey() {
 				return "kill bound";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				killBound = Vec4f.jsonImport(json.getCollection(this));
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return cameraBasePos;
 			}
-
 			@Override
 			public String getKey() {
 				return "camera base position";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				cameraBasePos = Vec3f.jsonImport(json.getCollection(this));

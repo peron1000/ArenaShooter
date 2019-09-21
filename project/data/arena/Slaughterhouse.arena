@@ -34,51 +34,142 @@
 				0.0
 			]
 		},
-		"arenashooter.entities.spatials.StaticBodyContainer@4132dadd27549644524626":{
-			"extent":[
-				50.0,
-				1.0
-			],
-			"world position":[
-				0.0,
-				-18.591
-			],
+		"arenashooter.entities.spatials.Spawner@2c7221d128396302713716":{
+			"children":{
+				"arenashooter.entities.spatials.Mesh@20dea0c128396741891533":{
+					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						0.75,
+						0.75,
+						0.75
+					],
+					"position":[
+						0.0,
+						-1.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"available items":{
+				"assault":1,
+				"shotgun":1,
+				"kata":1,
+				"stargun":1,
+				"grenade_launcher":1,
+				"ion":1,
+				"minigun":1
+			},
 			"rotation":0.0,
-			"world rotation":0.0,
+			"cooldown":5.0,
 			"position":[
-				0.0,
-				0.0
+				-15.0,
+				-16.5
 			],
-			"type":"arenashooter.entities.spatials.StaticBodyContainer"
+			"type":"arenashooter.entities.spatials.Spawner"
 		},
-		"arenashooter.entities.spatials.Mesh@70a56d5d27550075079434":{
-			"model path":"data\/meshes\/slaughterhouse\/slaughterhouse.obj",
-			"rotation":[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale":[
-				1.0,
-				1.0,
-				1.0
-			],
-			"position":[
-				0.0,
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@75224ace27549637327290":{
+		"arenashooter.entities.spatials.KinematicBodyContainer@3481bc4428396297235443":{
 			"extent":[
 				1.2,
 				1.0
 			],
 			"density":1.0,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@1ae721d627550077928168":{
+				"arenashooter.entities.spatials.Mesh@7a28868f28396741631845":{
+					"model path":"data\/meshes\/slaughterhouse\/carcass_01.obj",
+					"rotation":[
+						0.6912918,
+						-0.06361242,
+						0.14737809,
+						0.7045202
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"rotation":0.0,
+			"world position":[
+				-40.0,
+				-1.0
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
+		},
+		"arenashooter.entities.spatials.Spawner@154a077e28396302631420":{
+			"children":{
+				"arenashooter.entities.spatials.Mesh@1efc516f28396741820994":{
+					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						0.75,
+						0.75,
+						0.75
+					],
+					"position":[
+						0.0,
+						-1.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				},
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"available items":{
+				"assault":1,
+				"shotgun":1,
+				"kata":1,
+				"stargun":1,
+				"grenade_launcher":1,
+				"ion":1,
+				"minigun":1
+			},
+			"rotation":0.0,
+			"cooldown":5.0,
+			"position":[
+				15.0,
+				-16.5
+			],
+			"type":"arenashooter.entities.spatials.Spawner"
+		},
+		"arenashooter.entities.spatials.KinematicBodyContainer@75224ace28396294077382":{
+			"extent":[
+				1.2,
+				1.0
+			],
+			"density":1.0,
+			"children":{
+				"arenashooter.entities.spatials.Mesh@1ae721d628396741569405":{
 					"model path":"data\/meshes\/slaughterhouse\/carcass_01.obj",
 					"rotation":[
 						0.5988263,
@@ -111,184 +202,16 @@
 			],
 			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
 		},
-		"arenashooter.entities.spatials.Spawner@2c7221d127549644916510":{
-			"children":{
-				"arenashooter.entities.spatials.Mesh@20dea0c127550078228873":{
-					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						0.75,
-						0.75,
-						0.75
-					],
-					"position":[
-						0.0,
-						-1.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
-				}
-			},
-			"available items":{
-				"assault":1,
-				"shotgun":1,
-				"kata":1,
-				"stargun":1,
-				"grenade_launcher":1,
-				"ion":1,
-				"minigun":1
-			},
-			"rotation":0.0,
-			"cooldown":5.0,
-			"position":[
-				-15.0,
-				-16.5
-			],
-			"type":"arenashooter.entities.spatials.Spawner"
-		},
-		"arenashooter.entities.spatials.Spawner@6811a12827549645010562":{
-			"children":{
-				"arenashooter.entities.spatials.Mesh@3eec817a27550078287133":{
-					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						0.75,
-						0.75,
-						0.75
-					],
-					"position":[
-						0.0,
-						-1.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
-				}
-			},
-			"available items":{
-				"assault":1,
-				"shotgun":1,
-				"kata":1,
-				"stargun":1,
-				"grenade_launcher":1,
-				"ion":1,
-				"minigun":1
-			},
-			"rotation":0.0,
-			"cooldown":5.0,
-			"position":[
-				5.0,
-				-16.5
-			],
-			"type":"arenashooter.entities.spatials.Spawner"
-		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@3481bc4427549639597864":{
-			"extent":[
-				1.2,
-				1.0
-			],
-			"density":1.0,
-			"children":{
-				"arenashooter.entities.spatials.Mesh@7a28868f27550077986428":{
-					"model path":"data\/meshes\/slaughterhouse\/carcass_01.obj",
-					"rotation":[
-						0.6912918,
-						-0.06361242,
-						0.14737809,
-						0.7045202
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"world position":[
-				-40.0,
-				-1.0
-			],
-			"rotation":0.0,
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
-		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@a2345de27549641982607":{
-			"extent":[
-				1.2,
-				1.0
-			],
-			"density":1.0,
-			"children":{
-				"arenashooter.entities.spatials.Mesh@10a1d1b927550078045210":{
-					"model path":"data\/meshes\/slaughterhouse\/carcass_01.obj",
-					"rotation":[
-						0.68571293,
-						0.11621222,
-						-0.17146696,
-						0.6977762
-					],
-					"scale":[
-						1.0,
-						1.0,
-						1.0
-					],
-					"position":[
-						0.0,
-						0.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				}
-			},
-			"world position":[
-				-40.0,
-				-1.0
-			],
-			"rotation":0.0,
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
-		},
-		"arenashooter.entities.spatials.StaticBodyContainer@26a190fd27549644467150":{
+		"arenashooter.entities.spatials.StaticBodyContainer@4132dadd28396302370687":{
 			"extent":[
 				50.0,
 				1.0
 			],
+			"rotation":0.0,
 			"world position":[
 				0.0,
-				1.0
+				-18.591
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -296,58 +219,14 @@
 			],
 			"type":"arenashooter.entities.spatials.StaticBodyContainer"
 		},
-		"arenashooter.entities.spatials.Spawner@154a077e27549644819584":{
-			"children":{
-				"arenashooter.entities.spatials.Mesh@1efc516f27550078171919":{
-					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
-					"rotation":[
-						0.0,
-						0.0,
-						0.0,
-						1.0
-					],
-					"scale":[
-						0.75,
-						0.75,
-						0.75
-					],
-					"position":[
-						0.0,
-						-1.0,
-						0.0
-					],
-					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
-				}
-			},
-			"available items":{
-				"assault":1,
-				"shotgun":1,
-				"kata":1,
-				"stargun":1,
-				"grenade_launcher":1,
-				"ion":1,
-				"minigun":1
-			},
-			"rotation":0.0,
-			"cooldown":5.0,
-			"position":[
-				15.0,
-				-16.5
-			],
-			"type":"arenashooter.entities.spatials.Spawner"
-		},
-		"arenashooter.entities.spatials.KinematicBodyContainer@583e921d27549634752353":{
+		"arenashooter.entities.spatials.KinematicBodyContainer@583e921d28396291522301":{
 			"extent":[
 				1.0,
 				1.0
 			],
 			"density":1.0,
 			"children":{
-				"arenashooter.entities.spatials.Mesh@68577f427550077796234":{
+				"arenashooter.entities.spatials.Mesh@68577f428396741442696":{
 					"model path":"data\/meshes\/slaughterhouse\/carcass_01.obj",
 					"rotation":[
 						0.5793105,
@@ -380,7 +259,24 @@
 			],
 			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
 		},
-		"arenashooter.entities.spatials.LightContainer@1c5f791a27549645150334":{
+		"arenashooter.entities.spatials.StaticBodyContainer@68f58a5528396302463955":{
+			"extent":[
+				1.0,
+				8.16644
+			],
+			"rotation":0.0,
+			"world position":[
+				27.2416,
+				-17.59102
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.StaticBodyContainer"
+		},
+		"arenashooter.entities.spatials.LightContainer@1c5f791a28396302915928":{
 			"color":[
 				0.9,
 				0.0,
@@ -398,10 +294,67 @@
 				-5.0,
 				0.0
 			],
-			"radius":18.0,
-			"type":"arenashooter.entities.spatials.LightContainer"
+			"type":"arenashooter.entities.spatials.LightContainer",
+			"radius":18.0
 		},
-		"arenashooter.entities.spatials.LightContainer@4caf7e7b27549645198405":{
+		"arenashooter.entities.spatials.KinematicBodyContainer@a2345de28396299315300":{
+			"extent":[
+				1.2,
+				1.0
+			],
+			"density":1.0,
+			"children":{
+				"arenashooter.entities.spatials.Mesh@10a1d1b928396741695853":{
+					"model path":"data\/meshes\/slaughterhouse\/carcass_01.obj",
+					"rotation":[
+						0.68571293,
+						0.11621222,
+						-0.17146696,
+						0.6977762
+					],
+					"scale":[
+						1.0,
+						1.0,
+						1.0
+					],
+					"position":[
+						0.0,
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"rotation":0.0,
+			"world position":[
+				-40.0,
+				-1.0
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.KinematicBodyContainer"
+		},
+		"arenashooter.entities.spatials.StaticBodyContainer@26a190fd28396302318697":{
+			"extent":[
+				50.0,
+				1.0
+			],
+			"rotation":0.0,
+			"world position":[
+				0.0,
+				1.0
+			],
+			"world rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.StaticBodyContainer"
+		},
+		"arenashooter.entities.spatials.LightContainer@4caf7e7b28396302957729":{
 			"color":[
 				0.9,
 				0.0,
@@ -422,16 +375,16 @@
 			"type":"arenashooter.entities.spatials.LightContainer",
 			"radius":18.0
 		},
-		"arenashooter.entities.spatials.StaticBodyContainer@78e83d2327549644571391":{
+		"arenashooter.entities.spatials.StaticBodyContainer@78e83d2328396302411965":{
 			"extent":[
 				1.0,
 				8.16644
 			],
+			"rotation":0.0,
 			"world position":[
 				-27.2416,
 				-17.59102
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -439,24 +392,7 @@
 			],
 			"type":"arenashooter.entities.spatials.StaticBodyContainer"
 		},
-		"arenashooter.entities.spatials.StaticBodyContainer@68f58a5527549644630696":{
-			"extent":[
-				1.0,
-				8.16644
-			],
-			"world position":[
-				27.2416,
-				-17.59102
-			],
-			"rotation":0.0,
-			"world rotation":0.0,
-			"position":[
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.StaticBodyContainer"
-		},
-		"arenashooter.entities.spatials.LightContainer@64aa224d27549645098083":{
+		"arenashooter.entities.spatials.LightContainer@64aa224d28396302869163":{
 			"color":[
 				0.6,
 				0.6,
@@ -474,12 +410,16 @@
 				-8.0,
 				0.0
 			],
-			"radius":20.0,
-			"type":"arenashooter.entities.spatials.LightContainer"
+			"type":"arenashooter.entities.spatials.LightContainer",
+			"radius":20.0
 		},
-		"arenashooter.entities.spatials.Spawner@42f9d9ce27549644717433":{
+		"arenashooter.entities.spatials.Spawner@42f9d9ce28396302547296":{
 			"children":{
-				"arenashooter.entities.spatials.Mesh@3d363e8e27550078101903":{
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.spatials.Mesh@3d363e8e28396741758032":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
 					"rotation":[
 						0.0,
@@ -498,10 +438,6 @@
 						0.0
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
 				}
 			},
 			"available items":{
@@ -517,6 +453,70 @@
 			"cooldown":5.0,
 			"position":[
 				-5.0,
+				-16.5
+			],
+			"type":"arenashooter.entities.spatials.Spawner"
+		},
+		"arenashooter.entities.spatials.Mesh@70a56d5d28396738846597":{
+			"model path":"data\/meshes\/slaughterhouse\/slaughterhouse.obj",
+			"rotation":[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale":[
+				1.0,
+				1.0,
+				1.0
+			],
+			"position":[
+				0.0,
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Spawner@6811a12828396302796534":{
+			"children":{
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.spatials.Mesh@3eec817a28396741952667":{
+					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
+					"rotation":[
+						0.0,
+						0.0,
+						0.0,
+						1.0
+					],
+					"scale":[
+						0.75,
+						0.75,
+						0.75
+					],
+					"position":[
+						0.0,
+						-1.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Mesh"
+				}
+			},
+			"available items":{
+				"assault":1,
+				"shotgun":1,
+				"kata":1,
+				"stargun":1,
+				"grenade_launcher":1,
+				"ion":1,
+				"minigun":1
+			},
+			"rotation":0.0,
+			"cooldown":5.0,
+			"position":[
+				5.0,
 				-16.5
 			],
 			"type":"arenashooter.entities.spatials.Spawner"
@@ -537,7 +537,11 @@
 	"player spawn":[
 		{
 			"children":{
-				"arenashooter.entities.spatials.Mesh@3d363e8e27550078101903":{
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.spatials.Mesh@3d363e8e28396741758032":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
 					"rotation":[
 						0.0,
@@ -556,10 +560,6 @@
 						0.0
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
 				}
 			},
 			"available items":{
@@ -581,7 +581,7 @@
 		},
 		{
 			"children":{
-				"arenashooter.entities.spatials.Mesh@1efc516f27550078171919":{
+				"arenashooter.entities.spatials.Mesh@1efc516f28396741820994":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
 					"rotation":[
 						0.0,
@@ -625,7 +625,7 @@
 		},
 		{
 			"children":{
-				"arenashooter.entities.spatials.Mesh@20dea0c127550078228873":{
+				"arenashooter.entities.spatials.Mesh@20dea0c128396741891533":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
 					"rotation":[
 						0.0,
@@ -669,7 +669,11 @@
 		},
 		{
 			"children":{
-				"arenashooter.entities.spatials.Mesh@3eec817a27550078287133":{
+				"timer_spawn":{
+					"cooldown":5.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.spatials.Mesh@3eec817a28396741952667":{
 					"model path":"data\/meshes\/item_pickup\/weapon_pickup_ceiling.obj",
 					"rotation":[
 						0.0,
@@ -688,10 +692,6 @@
 						0.0
 					],
 					"type":"arenashooter.entities.spatials.Mesh"
-				},
-				"timer_spawn":{
-					"cooldown":5.0,
-					"type":"arenashooter.entities.Timer"
 				}
 			},
 			"available items":{
