@@ -312,23 +312,6 @@ public class Entity implements Editable, Jsonable {
 	}
 
 	public Set<StrongJsonKey> getJsonKey() {
-		StrongJsonKey type = new StrongJsonKey() {
-
-			@Override
-			public Object getValue() {
-				return Entity.this.getClass().getName();
-			}
-
-			@Override
-			public String getKey() {
-				return "type";
-			}
-
-			@Override
-			public void useKey(JsonObject json) throws Exception {
-				// void
-			}
-		};
 		Set<StrongJsonKey> set = new HashSet<>();
 		set.add(new StrongJsonKey() {
 
@@ -360,4 +343,19 @@ public class Entity implements Editable, Jsonable {
 		set.add(type);
 		return set;
 	}
+	
+	protected StrongJsonKey type = new StrongJsonKey() {
+		@Override
+		public Object getValue() {
+			return Entity.this.getClass().getName();
+		}
+		@Override
+		public String getKey() {
+			return "type";
+		}
+		@Override
+		public void useKey(JsonObject json) throws Exception {
+			// void
+		}
+	};
 }

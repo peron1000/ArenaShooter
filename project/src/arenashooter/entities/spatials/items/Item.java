@@ -1,7 +1,13 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
@@ -28,7 +34,7 @@ public abstract class Item extends Spatial {
 
 	private boolean isEquipped = false;
 	private Sprite sprite;
-
+	
 	public Item(Vec2f localPosition, String name, double weight, String pathSprite, Vec2f handPosL, Vec2f handPosR,
 			Vec2f extent, String soundPickup) {
 		super(localPosition);
@@ -247,4 +253,58 @@ public abstract class Item extends Spatial {
 		return clone;
 	}
 
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(handPosL == null)
+					return new int[0];
+				else
+					return handPosL;
+			}
+			@Override
+			public String getKey() {
+				return "handPosL";
+			}			
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if( a.size() == 2 )
+					handPosL = Vec2f.jsonImport(a);
+				else
+					handPosL = null;
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(handPosR == null)
+					return new int[0];
+				else
+					return handPosR;
+			}
+			@Override
+			public String getKey() {
+				return "handPosR";
+			}			
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if( a.size() == 2 )
+					handPosR = Vec2f.jsonImport(a);
+				else
+					handPosR = null;
+			}
+		});
+		return set;
+	}
+	
 }

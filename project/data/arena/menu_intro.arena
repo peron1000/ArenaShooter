@@ -18,643 +18,10 @@
 		0.906,
 		0.906
 	],
-	"type":"arenashooter.entities.Arena",
 	"music pitch":1.0,
+	"type":"arenashooter.entities.Arena",
 	"children":{
-		"arenashooter.entities.spatials.Mesh@299f081428385960248098":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.8094709,
-				0.0,
-				0.58716
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				31.508797,
-				-0.20351702,
-				11.257007
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@4aadf49d28385961368886":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.51079077,
-				0.0,
-				0.85970503
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				20.217947,
-				-2.5047095,
-				-62.328194
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@ff291f928385959929628":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.002326474,
-				0.0,
-				0.9999973
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-15.211962,
-				-4.7610593,
-				-15.607431
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@6f21aa2b28385956767387":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.45812598,
-				0.0,
-				-0.8888873
-			],
-			"scale":[
-				1.4319694,
-				1.4319694,
-				1.4319689
-			],
-			"position":[
-				-56.248344,
-				-5.0202794,
-				-96.20074
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@60f6c83628385960426797":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.85128826,
-				0.0,
-				0.52469826
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				51.75446,
-				-5.17124,
-				-3.5379028
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@6e4b15e928385960085336":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.847971,
-				0.0,
-				0.5300426
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-28.06017,
-				0.08357198,
-				9.699648
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@5699119e28385956901411":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.82135,
-				0.0,
-				-0.57042456
-			],
-			"scale":[
-				1.6472639,
-				1.6472638,
-				1.6472635
-			],
-			"position":[
-				64.29119,
-				3.9728227,
-				-97.602356
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@65fa1b8f28385962798739":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.17101394,
-				0.0,
-				0.9852686
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				37.738228,
-				-3.2275262,
-				-53.76272
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@7b10e08828385960601055":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.818511,
-				0.0,
-				0.5744909
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				64.60267,
-				-4.2655983,
-				-45.97593
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@1a6b7add28385969567616":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.1431395,
-				0.0,
-				0.9897025
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				28.394077,
-				-0.7902561,
-				-12.49271
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@4bee9f7d28385962467467":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.6838967,
-				0.0,
-				0.7295788
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-0.41705322,
-				-2.9535818,
-				-57.656113
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@7985f34128385957442734":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale":[
-				1.4745498,
-				1.88542,
-				1.4745493
-			],
-			"position":[
-				39.061985,
-				-1.5338736,
-				-76.57802
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@1ccc384a28385961152566":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.6195812,
-				0.0,
-				0.78493255
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				28.78342,
-				-5.0202794,
-				-40.135834
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@130b556428385959758505":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.8646172,
-				0.0,
-				0.5024311
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-51.03121,
-				-13.473782,
-				-13.660733
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@55eb10c028385962631013":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.9915198,
-				0.0,
-				0.12995584
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				54.090492,
-				-6.9197044,
-				-23.783562
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@69ea89d028385961721059":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.002326474,
-				0.0,
-				0.9999973
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-37.40432,
-				-5.613616,
-				-64.66423
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@134eb26328385958636150":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.7784151,
-				0.0,
-				0.6277499
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				15.156521,
-				-0.80326825,
-				54.473713
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@59c99b528385957180694":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.98889804,
-				0.0,
-				0.14859559
-			],
-			"scale":[
-				1.5569745,
-				1.5569744,
-				1.5569742
-			],
-			"position":[
-				10.562328,
-				6.022944,
-				-95.26632
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"sky":{
-			"colorTop":[
-				0.65,
-				0.65,
-				1.0
-			],
-			"type":"arenashooter.entities.Sky",
-			"colorBottom":[
-				0.85,
-				0.85,
-				1.0
-			]
-		},
-		"arenashooter.entities.spatials.Mesh@670e1bdf28385957316547":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.8887891,
-				0.0,
-				0.45831633
-			],
-			"scale":[
-				1.6082569,
-				1.6082568,
-				1.6082566
-			],
-			"position":[
-				-17.002914,
-				-5.0202794,
-				-81.25009
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@7233cd7228385957771393":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.57834166,
-				0.0,
-				0.81579465
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-31.953575,
-				-0.00021867715,
-				26.441256
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@32ceaba728385959604364":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.5669121,
-				0.0,
-				0.8237783
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-66.99414,
-				-10.085057,
-				-19.111488
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@25410c7f28385962981357":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.9996928,
-				0.0,
-				0.024786156
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				8.927095,
-				-1.1136779,
-				-30.012997
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@6b71453328385959443169":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.83045137,
-				0.0,
-				0.5570911
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-70.10886,
-				-6.8510747,
-				-0.8125229
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@51f86cf428385958468424":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.47956243,
-				0.0,
-				0.87750775
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-14.822632,
-				-0.000006811959,
-				43.96154
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@3ef173c28385935446300":{
-			"model path":"data\/meshes\/intro\/intro.obj",
-			"rotation":[
-				0.0,
-				0.0,
-				0.0,
-				1.0
-			],
-			"scale":[
-				1.0,
-				1.0,
-				1.0
-			],
-			"position":[
-				0.0,
-				0.0,
-				0.0
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@48e835fe28385958791075":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.37514317,
-				0.0,
-				0.9269669
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				46.30369,
-				-2.0518003,
-				46.68692
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@1499f2cf28385961865794":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.8198428,
-				0.0,
-				0.5725887
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-70.10885,
-				-11.470554,
-				-33.127712
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@1383af8628385957625351":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.20918736,
-				0.0,
-				0.9778756
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-67.77283,
-				-2.0479481,
-				38.900124
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@623fcb4f28385959263425":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.31769904,
-				0.0,
-				0.9481916
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-51.03121,
-				-1.0988759,
-				24.494556
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@3135f5dd28385962019413":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.21141571,
-				0.0,
-				0.97739625
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				-62.322056,
-				-10.950334,
-				-66.22159
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@4d42465e28385960820771":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				-0.97582155,
-				0.0,
-				0.21856883
-			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
-			"position":[
-				63.823986,
-				-2.4862537,
-				-63.496216
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@3da82b4428385956548977":{
+		"arenashooter.entities.spatials.Mesh@7b1ddbcf31381979077850":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
@@ -674,7 +41,87 @@
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@2da3a04228385962172509":{
+		"arenashooter.entities.spatials.Mesh@4a29ed4331381982046500":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.31769904,
+				0.0,
+				0.9481916
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-51.03121,
+				-1.0988759,
+				24.494556
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@793f45f231381982245577":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				0.83045137,
+				0.0,
+				0.5570911
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-70.10886,
+				-6.8510747,
+				-0.8125229
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@5eb5e36631381982910212":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				0.847971,
+				0.0,
+				0.5300426
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-28.06017,
+				0.08357198,
+				9.699648
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@499c2c1431381982411736":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.5669121,
+				0.0,
+				0.8237783
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-66.99414,
+				-10.085057,
+				-19.111488
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@5d262de531381982745620":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
@@ -688,19 +135,19 @@
 				1.1431588
 			],
 			"position":[
-				-52.977905,
-				-13.356427,
-				-37.79979
+				-15.211962,
+				-4.7610593,
+				-15.607431
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@333d081c28385958066090":{
+		"arenashooter.entities.spatials.Mesh@2a5f8c5331381983237043":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
-				-0.5449812,
+				0.85128826,
 				0.0,
-				0.8384483
+				0.52469826
 			],
 			"scale":[
 				1.1431589,
@@ -708,19 +155,19 @@
 				1.1431588
 			],
 			"position":[
-				12.041803,
-				-3.9568036,
-				-47.922626
+				51.75446,
+				-5.17124,
+				-3.5379028
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@1609fdff28385958959062":{
+		"arenashooter.entities.spatials.Mesh@4d7f5e9631381983821472":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
-				0.6369596,
+				-0.6195812,
 				0.0,
-				0.7708972
+				0.78493255
 			],
 			"scale":[
 				1.1431589,
@@ -728,39 +175,19 @@
 				1.1431588
 			],
 			"position":[
-				45.914352,
-				-1.3010112,
-				28.387955
+				28.78342,
+				-5.0202794,
+				-40.135834
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@79927fc828385957054246":{
+		"arenashooter.entities.spatials.Mesh@1461af2131381981148564":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
-				-0.82135,
+				0.7784151,
 				0.0,
-				-0.57042456
-			],
-			"scale":[
-				1.9772215,
-				1.9772213,
-				1.9772211
-			],
-			"position":[
-				30.185043,
-				6.022944,
-				-113.48741
-			],
-			"type":"arenashooter.entities.spatials.Mesh"
-		},
-		"arenashooter.entities.spatials.Mesh@404ac0628385959115032":{
-			"model path":"data\/meshes\/intro\/tree.obj",
-			"rotation":[
-				0.0,
-				0.31002724,
-				0.0,
-				0.95072764
+				0.6277499
 			],
 			"scale":[
 				1.1431589,
@@ -768,13 +195,13 @@
 				1.1431588
 			],
 			"position":[
-				-39.740364,
-				-0.4391686,
-				42.79352
+				15.156521,
+				-0.80326825,
+				54.473713
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@36c559e028385961563260":{
+		"arenashooter.entities.spatials.Mesh@b513df131381984152483":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
@@ -794,28 +221,127 @@
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.LightContainer@178b144028385969793863":{
-			"color":[
-				1.3,
-				1.3,
-				1.0
-			],
+		"arenashooter.entities.spatials.Mesh@546df3ad31381979688666":{
+			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
-				-0.250096,
-				-0.4635849,
-				0.84194386,
-				-0.11692503
+				0.0,
+				-0.98889804,
+				0.0,
+				0.14859559
 			],
-			"angle":-1.0,
+			"scale":[
+				1.5569745,
+				1.5569744,
+				1.5569742
+			],
 			"position":[
-				0.0,
-				0.0,
-				0.0
+				10.562328,
+				6.022944,
+				-95.26632
 			],
-			"radius":-1.0,
-			"type":"arenashooter.entities.spatials.LightContainer"
+			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@3dcc6e6228385958192538":{
+		"arenashooter.entities.spatials.Mesh@1f344be31381980268915":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.57834166,
+				0.0,
+				0.81579465
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-31.953575,
+				-0.00021867715,
+				26.441256
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@2afd2c0831381985573192":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.17101394,
+				0.0,
+				0.9852686
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				37.738228,
+				-3.2275262,
+				-53.76272
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@53a858b031381981727768":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				0.31002724,
+				0.0,
+				0.95072764
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-39.740364,
+				-0.4391686,
+				42.79352
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@46bed5b431381981542276":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				0.6369596,
+				0.0,
+				0.7708972
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				45.914352,
+				-1.3010112,
+				28.387955
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@3a3828cf31381980100405":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.20918736,
+				0.0,
+				0.9778756
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-67.77283,
+				-2.0479481,
+				38.900124
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@73c4cb831381980712266":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
@@ -835,7 +361,480 @@
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@6574e00828385957939642":{
+		"arenashooter.entities.spatials.Mesh@48e77e5131381985122003":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.6838967,
+				0.0,
+				0.7295788
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-0.41705322,
+				-2.9535818,
+				-57.656113
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@58e0804f31381982583381":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.8646172,
+				0.0,
+				0.5024311
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-51.03121,
+				-13.473782,
+				-13.660733
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@7cb97db031381980569360":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.5449812,
+				0.0,
+				0.8384483
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				12.041803,
+				-3.9568036,
+				-47.922626
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@230214e031381981347118":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.37514317,
+				0.0,
+				0.9269669
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				46.30369,
+				-2.0518003,
+				46.68692
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@26d6daec31381984468341":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				0.8198428,
+				0.0,
+				0.5725887
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-70.10885,
+				-11.470554,
+				-33.127712
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@1b83579c31381985283982":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.9915198,
+				0.0,
+				0.12995584
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				54.090492,
+				-6.9197044,
+				-23.783562
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@5948957231381979240874":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.45812598,
+				0.0,
+				-0.8888873
+			],
+			"scale":[
+				1.4319694,
+				1.4319694,
+				1.4319689
+			],
+			"position":[
+				-56.248344,
+				-5.0202794,
+				-96.20074
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@49131f5731381979833402":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.8887891,
+				0.0,
+				0.45831633
+			],
+			"scale":[
+				1.6082569,
+				1.6082568,
+				1.6082566
+			],
+			"position":[
+				-17.002914,
+				-5.0202794,
+				-81.25009
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"sky":{
+			"colorTop":[
+				0.65,
+				0.65,
+				1.0
+			],
+			"type":"arenashooter.entities.Sky",
+			"colorBottom":[
+				0.85,
+				0.85,
+				1.0
+			]
+		},
+		"arenashooter.entities.spatials.Mesh@7661882831381983078722":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.8094709,
+				0.0,
+				0.58716
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				31.508797,
+				-0.20351702,
+				11.257007
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@f284a7a31381963950355":{
+			"model path":"data\/meshes\/intro\/intro.obj",
+			"rotation":[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale":[
+				1.0,
+				1.0,
+				1.0
+			],
+			"position":[
+				0.0,
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@467ac5f831381983406859":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.818511,
+				0.0,
+				0.5744909
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				64.60267,
+				-4.2655983,
+				-45.97593
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@116aadb931381984316552":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.002326474,
+				0.0,
+				0.9999973
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-37.40432,
+				-5.613616,
+				-64.66423
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@5d76795631381979375420":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.82135,
+				0.0,
+				-0.57042456
+			],
+			"scale":[
+				1.6472639,
+				1.6472638,
+				1.6472635
+			],
+			"position":[
+				64.29119,
+				3.9728227,
+				-97.602356
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@37a5b08231381983580855":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.97582155,
+				0.0,
+				0.21856883
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				63.823986,
+				-2.4862537,
+				-63.496216
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@3773d26d31381985899762":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.1431395,
+				0.0,
+				0.9897025
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				28.394077,
+				-0.7902561,
+				-12.49271
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@1c35bf4331381984794911":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.002326474,
+				0.0,
+				0.9999973
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-52.977905,
+				-13.356427,
+				-37.79979
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@41bb9bf631381979550462":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.82135,
+				0.0,
+				-0.57042456
+			],
+			"scale":[
+				1.9772215,
+				1.9772213,
+				1.9772211
+			],
+			"position":[
+				30.185043,
+				6.022944,
+				-113.48741
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@58f6de1931381984959241":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.9997299,
+				0.0,
+				0.02324141
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-41.687054,
+				-9.779229,
+				-49.47998
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@27c173ea31381979966642":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				0.0,
+				0.0,
+				1.0
+			],
+			"scale":[
+				1.4745498,
+				1.88542,
+				1.4745493
+			],
+			"position":[
+				39.061985,
+				-1.5338736,
+				-76.57802
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@1e89b7d631381984633455":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.21141571,
+				0.0,
+				0.97739625
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-62.322056,
+				-10.950334,
+				-66.22159
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@4495395831381985736216":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.9996928,
+				0.0,
+				0.024786156
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				8.927095,
+				-1.1136779,
+				-30.012997
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@1c712e5531381980956279":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.47956243,
+				0.0,
+				0.87750775
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				-14.822632,
+				-0.000006811959,
+				43.96154
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@1b946e7e31381983988153":{
+			"model path":"data\/meshes\/intro\/tree.obj",
+			"rotation":[
+				0.0,
+				-0.51079077,
+				0.0,
+				0.85970503
+			],
+			"scale":[
+				1.1431589,
+				1.1431588,
+				1.1431588
+			],
+			"position":[
+				20.217947,
+				-2.5047095,
+				-62.328194
+			],
+			"type":"arenashooter.entities.spatials.Mesh"
+		},
+		"arenashooter.entities.spatials.Mesh@504b0a7031381980420182":{
 			"model path":"data\/meshes\/intro\/tree.obj",
 			"rotation":[
 				0.0,
@@ -855,34 +854,35 @@
 			],
 			"type":"arenashooter.entities.spatials.Mesh"
 		},
-		"arenashooter.entities.spatials.Mesh@10ba182f28385962314109":{
-			"model path":"data\/meshes\/intro\/tree.obj",
+		"arenashooter.entities.spatials.LightContainer@36cd4ca831381986071407":{
+			"color":[
+				1.3,
+				1.3,
+				1.0
+			],
 			"rotation":[
-				0.0,
-				-0.9997299,
-				0.0,
-				0.02324141
+				-0.250096,
+				-0.4635849,
+				0.84194386,
+				-0.11692503
 			],
-			"scale":[
-				1.1431589,
-				1.1431588,
-				1.1431588
-			],
+			"angle":-1.0,
 			"position":[
-				-41.687054,
-				-9.779229,
-				-49.47998
+				0.0,
+				0.0,
+				0.0
 			],
-			"type":"arenashooter.entities.spatials.Mesh"
+			"type":"arenashooter.entities.spatials.LightContainer",
+			"radius":-1.0
 		}
 	},
 	"gravity":[
 		0.0,
 		9.807
 	],
-	"items available":[
+	"items available":{
 		
-	],
+	},
 	"camera base position":[
 		0.0,
 		0.0,

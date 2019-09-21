@@ -5,12 +5,12 @@
 		20.0,
 		40.0
 	],
-	"music path":"",
 	"ambient light":[
 		1.0,
 		1.0,
 		1.0
 	],
+	"music path":"",
 	"music volume":1.0,
 	"fog distance":3000.0,
 	"fog color":[
@@ -145,11 +145,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				-5.0,
 				-3.0
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -263,11 +263,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				-12.140088,
 				3.5199974
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -302,11 +302,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				12.560098,
 				3.5199976
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -341,11 +341,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				0.100000024,
 				7.919994
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -381,11 +381,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				7.0,
 				-11.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -412,8 +412,8 @@
 				0.0,
 				0.0
 			],
-			"radius":-1.0,
-			"type":"arenashooter.entities.spatials.LightContainer"
+			"type":"arenashooter.entities.spatials.LightContainer",
+			"radius":-1.0
 		},
 		"pinned_crate_06":{
 			"extent":[
@@ -460,8 +460,8 @@
 						2.0,
 						0.0
 					],
-					"radius":10.0,
-					"type":"arenashooter.entities.spatials.LightContainer"
+					"type":"arenashooter.entities.spatials.LightContainer",
+					"radius":10.0
 				}
 			},
 			"world position":[
@@ -651,11 +651,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				7.0,
 				-13.0
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -736,11 +736,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				7.0,
 				-19.0
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -821,11 +821,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				7.0,
 				-17.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -839,9 +839,270 @@
 		0.0,
 		9.807
 	],
-	"items available":[
-		
-	],
+	"items available":{
+		"assault":{
+			"handPosL":[
+				-0.32,
+				0.15
+			],
+			"children":{
+				"Item_Sprite":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Sprite"
+				},
+				"arenashooter.entities.Timer@7d2464531392480648781":{
+					"cooldown":0.09,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.Timer@642342bd31392480658448":{
+					"cooldown":0.09,
+					"type":"arenashooter.entities.Timer"
+				},
+				"particle_container":{
+					"type":"arenashooter.entities.Entity"
+				},
+				"timer_warmup":{
+					"cooldown":0.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.items.Gun",
+			"handPosR":[
+				0.25,
+				0.05
+			]
+		},
+		"shotgun":{
+			"children":{
+				"Item_Sprite":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Sprite"
+				},
+				"particle_container":{
+					"type":"arenashooter.entities.Entity"
+				},
+				"arenashooter.entities.Timer@33db8d3a31392482111030":{
+					"cooldown":1.2,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.Timer@703bd69c31392482120697":{
+					"cooldown":1.2,
+					"type":"arenashooter.entities.Timer"
+				},
+				"timer_warmup":{
+					"cooldown":0.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"handPosL":[
+				-0.65,
+				0.15
+			],
+			"rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.items.Shotgun",
+			"handPosR":[
+				0.067,
+				0.125
+			]
+		},
+		"stargun":{
+			"children":{
+				"Item_Sprite":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Sprite"
+				},
+				"arenashooter.entities.Timer@4a687cba31392482238523":{
+					"cooldown":1.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"particle_container":{
+					"type":"arenashooter.entities.Entity"
+				},
+				"timer_warmup":{
+					"cooldown":0.0,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.Timer@a3289a331392482229640":{
+					"cooldown":1.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"handPosL":[
+				-0.4,
+				-0.1
+			],
+			"rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.items.Gun",
+			"handPosR":[
+				-0.6,
+				0.2
+			]
+		},
+		"grenade_launcher":{
+			"handPosL":[
+				-0.32,
+				0.2
+			],
+			"children":{
+				"Item_Sprite":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Sprite"
+				},
+				"particle_container":{
+					"type":"arenashooter.entities.Entity"
+				},
+				"arenashooter.entities.Timer@56db546a31392480771049":{
+					"cooldown":0.9,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.Timer@5492e62331392480780715":{
+					"cooldown":0.9,
+					"type":"arenashooter.entities.Timer"
+				},
+				"timer_warmup":{
+					"cooldown":0.0,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.items.Gun",
+			"handPosR":[
+				0.3,
+				0.1
+			]
+		},
+		"ion":{
+			"children":{
+				"Item_Sprite":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Sprite"
+				},
+				"arenashooter.entities.Timer@4167729a31392480891227":{
+					"cooldown":0.12,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.Timer@3faff6a131392481891053":{
+					"cooldown":0.12,
+					"type":"arenashooter.entities.Timer"
+				},
+				"particle_container":{
+					"type":"arenashooter.entities.Entity"
+				},
+				"snd_Warmup":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.SoundEffect"
+				},
+				"timer_warmup":{
+					"cooldown":0.8,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"handPosL":[
+				-0.32,
+				0.2
+			],
+			"rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.items.Gun",
+			"handPosR":[
+				0.3,
+				0.1
+			]
+		},
+		"minigun":{
+			"children":{
+				"Item_Sprite":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.Sprite"
+				},
+				"arenashooter.entities.Timer@400e589331392480509793":{
+					"cooldown":0.015,
+					"type":"arenashooter.entities.Timer"
+				},
+				"arenashooter.entities.Timer@1106b7131392480524685":{
+					"cooldown":0.015,
+					"type":"arenashooter.entities.Timer"
+				},
+				"particle_container":{
+					"type":"arenashooter.entities.Entity"
+				},
+				"snd_Warmup":{
+					"rotation":0.0,
+					"position":[
+						0.0,
+						0.0
+					],
+					"type":"arenashooter.entities.spatials.SoundEffect"
+				},
+				"timer_warmup":{
+					"cooldown":0.3,
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"handPosL":[
+				-0.8,
+				-0.1
+			],
+			"rotation":0.0,
+			"position":[
+				0.0,
+				0.0
+			],
+			"type":"arenashooter.entities.spatials.items.Gun",
+			"handPosR":[
+				0.0,
+				-0.28
+			]
+		}
+	},
 	"camera base position":[
 		0.0,
 		0.0,

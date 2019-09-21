@@ -18,8 +18,8 @@
 		0.906,
 		0.753
 	],
-	"music pitch":1.0,
 	"type":"arenashooter.entities.Arena",
+	"music pitch":1.0,
 	"children":{
 		"sky":{
 			"colorTop":[
@@ -39,9 +39,9 @@
 		0.0,
 		9.807
 	],
-	"items available":[
+	"items available":{
 		
-	],
+	},
 	"camera base position":[
 		0.0,
 		0.0,

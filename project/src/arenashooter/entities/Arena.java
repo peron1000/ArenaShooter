@@ -1,11 +1,13 @@
 package arenashooter.entities;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
@@ -257,7 +259,7 @@ public class Arena extends Entity implements Jsonable {
 		set.add(new StrongJsonKey() {
 			@Override
 			public Object getValue() {
-				return items;
+				return spawnList;
 			}
 			@Override
 			public String getKey() {
@@ -265,7 +267,18 @@ public class Arena extends Entity implements Jsonable {
 			}
 			@Override
 			public void useKey(JsonObject json) throws Exception {
-				items = json.getCollection(this);
+				spawnList.clear();
+				Map<String, JsonObject> items = json.getMap(this);
+				for(Entry<String, JsonObject> e : items.entrySet()) {
+					String className = e.getValue().getStringOrDefault( type );
+					Class<?> classType = Class.forName(className);
+					Method m = classType.getMethod("fromJson", JsonObject.class);
+					Entity ent = (Entity) m.invoke(null, e.getValue());
+					if(ent instanceof Item)
+						spawnList.put(e.getKey(), (Item)ent);
+					else
+						Main.log.error("Error filling arena's items list: "+e.getKey()+" is not an item: "+ent);
+				}
 			}
 		});
 		set.add(new StrongJsonKey() {
