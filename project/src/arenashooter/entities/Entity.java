@@ -262,7 +262,15 @@ public class Entity implements Editable, Jsonable {
 	public void editorAddRotationY(double angle) {
 		// Nothing
 	}
+	
+	
+	/**
+	 * JSON
+	 */
 
+	/**
+	 * @return a JsonObject representing this Entity
+	 */
 	protected JsonObject getJson() {
 		JsonObject entity = new JsonObject();
 		for (JsonKey jsonKey : getJsonKey()) {

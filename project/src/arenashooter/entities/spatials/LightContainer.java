@@ -2,6 +2,7 @@ package arenashooter.entities.spatials;
 
 import java.util.Set;
 
+import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.animation.Animation;
@@ -10,6 +11,7 @@ import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Light.LightType;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -159,10 +161,67 @@ public class LightContainer extends Spatial3 implements IAnimated {
 		return 1;
 	}
 	
+	
+	/**
+	 * JSON
+	 */
+
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return light.angle;
+			}
+			@Override
+			public String getKey() {
+				return "angle";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				light.angle = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return light.radius;
+			}
+			@Override
+			public String getKey() {
+				return "radius";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				light.radius = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return light.color;
+			}
+			@Override
+			public String getKey() {
+				return "color";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if (a != null)
+					light.color.set(Vec3f.jsonImport(a));
+			}
+		});
+		
+		return set;
+	}
+	
 	public static LightContainer fromJson(JsonObject json) throws Exception {
 		LightContainer lc = new LightContainer(new Vec3f(), new Light());
 		useKeys(lc, json);
 		return lc;
 	}
+	
 	
 }
