@@ -264,7 +264,7 @@ public class Entity implements Editable, Jsonable {
 	}
 	
 	
-	/**
+	/*
 	 * JSON
 	 */
 

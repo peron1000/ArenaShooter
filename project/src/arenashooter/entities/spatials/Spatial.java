@@ -132,6 +132,11 @@ public class Spatial extends Entity {
 			}
 		}
 	}
+	
+	
+	/*
+	 * JSON
+	 */
 
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {

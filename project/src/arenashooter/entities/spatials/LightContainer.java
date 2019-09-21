@@ -162,7 +162,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	}
 	
 	
-	/**
+	/*
 	 * JSON
 	 */
 

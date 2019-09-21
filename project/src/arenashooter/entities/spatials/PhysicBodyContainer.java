@@ -121,6 +121,11 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 		body.debugDraw();
 	}
 
+	
+	/*
+	 * JSON
+	 */
+	
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {
 		Set<StrongJsonKey> set = super.getJsonKey();
