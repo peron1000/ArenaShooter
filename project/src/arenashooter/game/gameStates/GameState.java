@@ -22,6 +22,9 @@ public abstract class GameState {
 	}
 
 	public GameState(String arenaPath) {
+		if(arenaPath == null)
+			Main.log.fatal("Null arena path in GameState!");
+		
 		arenaLoading = new Thread(new Runnable() {
 
 			@Override

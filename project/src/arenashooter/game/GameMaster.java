@@ -70,7 +70,7 @@ public class GameMaster {
 			current = nextGame;
 			nextGame.init();
 		} else {
-			System.err.println("next game not ready yet");// FIXME
+			Main.log.warn("Next game is not ready yet");// FIXME
 		}
 	}
 
@@ -83,7 +83,7 @@ public class GameMaster {
 			if(gameParam.getRound() < 0) {
 				gamesList = new GamesListInfinite(gameParam.maps);
 			} else {
-				// TODO creer un gamesList avec n rounds
+				gamesList = new GamesListN(gameParam.maps, gameParam.getRound());
 			}
 		}
 

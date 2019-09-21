@@ -18,6 +18,7 @@ import arenashooter.engine.FileUtils;
 import arenashooter.engine.annotation.JsonRoot;
 import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
+import arenashooter.game.Main;
 
 public class JsonTransformer {
 
@@ -93,6 +94,7 @@ public class JsonTransformer {
 //	}
 
 	public static Arena importArena(String path) throws Exception {
+		Main.log.info("Importing arena "+path);
 		Reader readableDeserializable = new FileReader(path);
 		JsonObject o = (JsonObject) Jsoner.deserialize(readableDeserializable);
 		Arena arena = Arena.fromJson(o);

@@ -74,13 +74,7 @@ public class GameParam {
 	public Set<String> maps = new TreeSet<>();
 	
 	public String[] mapsString() {
-		String[] ret = new String[maps.size()];
-		int i =0;
-		for (String map : maps) {
-			ret[i] = map;
-			i++;
-		}
-		return ret;
+		return maps.toArray(new String[maps.size()]);
 	}
 
 }

@@ -29,7 +29,6 @@ import arenashooter.game.Controller;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
-import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class CharacterChooser extends GameState {
 
@@ -461,6 +460,7 @@ public class CharacterChooser extends GameState {
 		inputs.step(delta);
 	}
 
+	@Override
 	public void draw() {
 		super.draw();
 		aImage.draw();
