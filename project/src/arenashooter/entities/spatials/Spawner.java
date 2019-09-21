@@ -25,6 +25,10 @@ public class Spawner extends Spatial {
 	
 	private Sprite editorView;
 
+	private Spawner() {
+		super();
+	}
+	
 	public Spawner(Vec2f localPosition, double cooldown) {
 		super(localPosition);
 		setCooldown(cooldown);
@@ -144,32 +148,50 @@ public class Spawner extends Spatial {
 	}
 	
 	
+	/*
+	 * JSON
+	 */
+	
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {
 		Set<StrongJsonKey> set = super.getJsonKey();
+		
 		set.add(new StrongJsonKey() {
-			
 			@Override
 			public Object getValue() {
 				return new JsonObject(availableItems);
 			}
-			
 			@Override
 			public String getKey() {
 				return "available items";
-			}
-			
+			}			
 			@Override
 			public void useKey(JsonObject json) throws Exception {
-				Map<String, Integer> items = json.getMap(this);
-				availableItems = items;
+				Map<String, Number> items = json.getMap(this);
+				availableItems.clear();
+				for(Entry<String, Number> e : items.entrySet())
+					availableItems.put(e.getKey(), e.getValue().intValue());
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return getCooldown();
+			}
+			@Override
+			public String getKey() {
+				return "cooldown";
+			}			
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				setCooldown(json.getFloat(this));
 			}
 		});
 		return set;
 	}
 	
 	public static Spawner fromJson(JsonObject json) throws Exception {
-		Spawner s = new Spawner(new Vec2f(), 0);
+		Spawner s = new Spawner();
 		useKeys(s, json);
 		return s;
 	}
