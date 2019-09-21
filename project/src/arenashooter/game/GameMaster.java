@@ -77,9 +77,8 @@ public class GameMaster {
 	public void requestNextState(GameState nextState) {
 		stateStack.push(current);
 
-		if (nextState instanceof Config) {
-			Config configState = (Config) nextState;
-			gameParam = configState.getGameParam();
+		if (current instanceof Config) {
+			gameParam = ((Config) current).getGameParam();
 			if(gameParam.getRound() < 0) {
 				gamesList = new GamesListInfinite(gameParam.maps);
 			} else {
