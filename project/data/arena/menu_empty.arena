@@ -5,12 +5,12 @@
 		1000.0,
 		1000.0
 	],
-	"music path":"",
 	"ambient light":[
 		0.48,
 		0.48,
 		0.48
 	],
+	"music path":"",
 	"music volume":1.0,
 	"fog distance":3000.0,
 	"fog color":[

@@ -5,12 +5,12 @@
 		20.0,
 		40.0
 	],
+	"music path":"",
 	"ambient light":[
 		1.0,
 		1.0,
 		1.0
 	],
-	"music path":"",
 	"music volume":1.0,
 	"fog distance":3000.0,
 	"fog color":[
@@ -18,8 +18,8 @@
 		0.906,
 		0.753
 	],
-	"music pitch":1.0,
 	"type":"arenashooter.entities.Arena",
+	"music pitch":1.0,
 	"children":{
 		"sky":{
 			"colorTop":[
@@ -71,6 +71,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				-11.900083,
 				2.5599983
@@ -144,11 +145,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				-5.0,
 				-3.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -184,11 +185,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				-12.320092,
 				-2.9199986
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -223,11 +224,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				12.580098,
 				-2.939998
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -262,11 +263,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				-12.140088,
 				3.5199974
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -340,11 +341,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				0.100000024,
 				7.919994
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -380,11 +381,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				7.0,
 				-11.0
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -459,15 +460,15 @@
 						2.0,
 						0.0
 					],
-					"type":"arenashooter.entities.spatials.LightContainer",
-					"radius":10.0
+					"radius":10.0,
+					"type":"arenashooter.entities.spatials.LightContainer"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				7.0,
 				-9.0
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -524,11 +525,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				-5.0,
 				-10.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -574,6 +575,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				12.620099,
 				2.5199983
@@ -649,11 +651,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
+			"rotation":0.0,
 			"world position":[
 				7.0,
 				-13.0
 			],
-			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -699,6 +701,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				-12.040085,
 				-4.219997
@@ -783,6 +786,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				12.6801,
 				-4.019997
@@ -817,11 +821,11 @@
 					"type":"arenashooter.entities.spatials.Mesh"
 				}
 			},
-			"rotation":0.0,
 			"world position":[
 				7.0,
 				-17.0
 			],
+			"rotation":0.0,
 			"world rotation":0.0,
 			"position":[
 				0.0,
@@ -881,6 +885,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				-11.900083,
 				2.5599983
@@ -924,6 +929,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				12.620099,
 				2.5199983
@@ -967,6 +973,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				-12.040085,
 				-4.219997
@@ -1010,6 +1017,7 @@
 				"minigun":1
 			},
 			"rotation":0.0,
+			"cooldown":0.0,
 			"position":[
 				12.6801,
 				-4.019997
