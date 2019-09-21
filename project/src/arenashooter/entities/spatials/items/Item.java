@@ -1,10 +1,5 @@
 package arenashooter.entities.spatials.items;
 
-import java.io.IOException;
-import java.io.Writer;
-
-import com.github.cliftonlabs.json_simple.JsonObject;
-
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.math.Vec2f;

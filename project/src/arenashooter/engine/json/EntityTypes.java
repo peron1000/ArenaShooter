@@ -3,9 +3,7 @@ package arenashooter.engine.json;
 import java.util.Map.Entry;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.JsonObject;
-import com.github.cliftonlabs.json_simple.Jsoner;
 
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Font;

@@ -8,43 +8,16 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 import com.github.cliftonlabs.json_simple.Jsoner;
 
 import arenashooter.engine.FileUtils;
-import arenashooter.engine.annotation.JsonField;
-import arenashooter.engine.annotation.JsonParam;
-import arenashooter.engine.annotation.JsonRef;
 import arenashooter.engine.annotation.JsonRoot;
-import arenashooter.engine.annotation.JsonType;
-import arenashooter.engine.graphics.Light;
-import arenashooter.engine.math.Quat;
-import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
-import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
-import arenashooter.entities.Entity;
-import arenashooter.entities.spatials.Mesh;
-import arenashooter.entities.spatials.Spawner;
-import arenashooter.entities.spatials.items.Gun;
 
 public class JsonTransformer {
 

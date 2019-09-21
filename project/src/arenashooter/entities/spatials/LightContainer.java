@@ -10,8 +10,6 @@ import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Light.LightType;
-import arenashooter.engine.json.EntityTypes;
-import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;

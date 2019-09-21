@@ -6,16 +6,13 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
-import arenashooter.engine.annotation.JsonField;
 import arenashooter.engine.annotation.JsonRoot;
-import arenashooter.engine.annotation.JsonType;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;

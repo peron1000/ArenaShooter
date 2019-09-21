@@ -2,16 +2,11 @@ package arenashooter.entities.spatials;
 
 import java.util.Set;
 
-import org.jbox2d.dynamics.Body;
-
-import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.PhysicBody;
-import arenashooter.engine.physic.bodies.StaticBody;
 import arenashooter.engine.physic.shapes.PhysicShape;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
