@@ -140,7 +140,8 @@ public class Vec3f implements Vec3fi {
 		
 		return new Vec3f( v.x()/len, v.y()/len, v.z()/len );
 	}
-	
+
+	@Override
 	public Vec3f clone() {
 		return new Vec3f(x, y, z);
 	}
@@ -152,7 +153,8 @@ public class Vec3f implements Vec3fi {
 		target[2] = z;
 		return target;
 	}
-	
+
+	@Override
 	public String toString() { return "( "+x+", "+y+", "+z+" )"; }
 	
 	//

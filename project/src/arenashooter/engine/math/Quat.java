@@ -297,7 +297,8 @@ public class Quat implements QuatI{
 	public Vec4f toVec4f(Vec4f target) {
 		return target.set(x, y, z, w);
 	}
-	
+
+	@Override
 	public String toString() {
 		return "Quat("+w+", "+x+", "+y+", "+z+")";
 	}

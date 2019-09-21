@@ -37,11 +37,13 @@ public class Vec4i {
 		z += v.z;
 		w += v.w;
 	}
-	
+
+	@Override
 	public Vec4i clone() {
 		return new Vec4i(x, y, z, w);
 	}
-	
+
+	@Override
 	public String toString() { return "( "+x+", "+y+", "+z+", "+w+" )"; }
 	
 	//

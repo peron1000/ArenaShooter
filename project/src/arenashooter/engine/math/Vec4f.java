@@ -165,7 +165,8 @@ public class Vec4f implements Vec4fi {
 		
 		return target;
 	}
-	
+
+	@Override
 	public Vec4f clone() {
 		return new Vec4f(x, y, z, w);
 	}
@@ -178,7 +179,8 @@ public class Vec4f implements Vec4fi {
 		target[3] = w;
 		return target;
 	}
-	
+
+	@Override
 	public String toString() { return "( "+x+", "+y+", "+z+", "+w+" )"; }
 	
 	//

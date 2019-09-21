@@ -32,24 +32,40 @@ public class Mat4f implements Mat4fi {
 		};
 	}
 	
+	@Override
 	public float m00() { return val[0][0]; }
+	@Override
 	public float m10() { return val[1][0]; }
+	@Override
 	public float m20() { return val[2][0]; }
+	@Override
 	public float m30() { return val[3][0]; }
-	
+
+	@Override
 	public float m01() { return val[0][1]; }
+	@Override
 	public float m11() { return val[1][1]; }
+	@Override
 	public float m21() { return val[2][1]; }
+	@Override
 	public float m31() { return val[3][1]; }
-	
+
+	@Override
 	public float m02() { return val[0][2]; }
+	@Override
 	public float m12() { return val[1][2]; }
+	@Override
 	public float m22() { return val[2][2]; }
+	@Override
 	public float m32() { return val[3][2]; }
-	
+
+	@Override
 	public float m03() { return val[0][3]; }
+	@Override
 	public float m13() { return val[1][3]; }
+	@Override
 	public float m23() { return val[2][3]; }
+	@Override
 	public float m33() { return val[3][3]; }
 	
 	@Override
@@ -594,7 +610,8 @@ public class Mat4f implements Mat4fi {
 		
 		return res;
 	}
-	
+
+	@Override
 	public String toString() {
 		String res = "Mat4f:\n";
 		
