@@ -11,8 +11,8 @@
 		0.78
 	],
 	"music path":"",
-	"fog distance":3000.0,
 	"music volume":1.0,
+	"fog distance":3000.0,
 	"fog color":[
 		0.929,
 		0.906,
@@ -34,7 +34,7 @@
 				0.996
 			]
 		},
-		"arenashooter.entities.spatials.LightContainer@3cf0993019616958202465":{
+		"arenashooter.entities.spatials.LightContainer@39fd1bfd26658681679383":{
 			"color":[
 				0.929,
 				0.906,

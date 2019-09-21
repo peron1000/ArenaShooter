@@ -13,6 +13,7 @@ import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.RigidBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.game.Main;
 
 public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 
@@ -92,22 +93,36 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 			takeDamage(new DamageInfo(0, DamageType.OUT_OF_BOUNDS, new Vec2f(), 0, null));
 
 	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	protected JsonObject getJson() {
+		JsonObject entity = super.getJson();
+		
+		if(body.getShape() instanceof ShapeBox)
+			entity.put("extent", ((ShapeBox)body.getShape()).getExtent());
+		else if(body.getShape() instanceof ShapeDisk)
+			entity.put("radius", ((ShapeDisk)body.getShape()).getRadius());
+		
+		return entity;
+	}
 
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {
 		Set<StrongJsonKey> set = super.getJsonKey();
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return body.getFriction();
 			}
-
 			@Override
 			public String getKey() {
 				return "friction";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				float friction = json.getFloat(this);
@@ -116,17 +131,14 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 			}
 		});
 		set.add(new StrongJsonKey() {
-
 			@Override
 			public Object getValue() {
 				return body.getDensity();
 			}
-
 			@Override
 			public String getKey() {
 				return "density";
 			}
-
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				float density = json.getFloat(this);
@@ -147,9 +159,13 @@ public class RigidBodyContainer extends PhysicBodyContainer<RigidBody> {
 			Vec2f extent = Vec2f.jsonImport(array);
 			rBody = new RigidBody(new ShapeBox(extent), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 0, 0);
 		} else {
+			Main.log.error("Invalid RigidBody definition.");
 			rBody = new RigidBody(new ShapeBox(new Vec2f()), new Vec2f(), 0, CollisionFlags.RIGIDBODY, 0, 0);
 		}
-		return new RigidBodyContainer(rBody);
+
+		RigidBodyContainer container = new RigidBodyContainer(rBody);
+		useKeys(container, json);
+		return container;
 	}
 
 }

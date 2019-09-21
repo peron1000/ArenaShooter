@@ -15,6 +15,7 @@ import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.KinematicBody;
 import arenashooter.engine.physic.shapes.ShapeBox;
 import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.game.Main;
 
 public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> implements IAnimated {
 
@@ -114,21 +115,35 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 		return currentAnim.getPlaySpeed();
 	}
 	
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	protected JsonObject getJson() {
+		JsonObject entity = super.getJson();
+		
+		if(body.getShape() instanceof ShapeBox)
+			entity.put("extent", ((ShapeBox)body.getShape()).getExtent());
+		else if(body.getShape() instanceof ShapeDisk)
+			entity.put("radius", ((ShapeDisk)body.getShape()).getRadius());
+		
+		return entity;
+	}
+	
 	@Override
 	public Set<StrongJsonKey> getJsonKey() {
 		Set<StrongJsonKey> set = super.getJsonKey();
 		set.add(new StrongJsonKey() {
-			
 			@Override
 			public Object getValue() {
 				return body.getDensity();
 			}
-			
 			@Override
 			public String getKey() {
 				return "density";
 			}
-			
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				float density = json.getFloat(this);
@@ -149,8 +164,12 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 			Vec2f extent = Vec2f.jsonImport(array);
 			kBody = new KinematicBody(new ShapeBox(extent), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0);
 		} else {
-			kBody = new KinematicBody(new ShapeBox(new Vec2f(10)), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0);
+			Main.log.error("Invalid KinematicBody definition.");
+			kBody = new KinematicBody(new ShapeBox(new Vec2f()), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0);
 		}
-		return new KinematicBodyContainer(kBody);
+		
+		KinematicBodyContainer container = new KinematicBodyContainer(kBody);
+		useKeys(container, json);
+		return container;
 	}
 }
