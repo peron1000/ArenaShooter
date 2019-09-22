@@ -67,7 +67,7 @@ public class Intro extends GameState {
 	public void init() {
 		super.init();
 		Window.getPostProcess().fadeToBlack = 1;
-		getCamera().setFOV(55);
+		getCamera().setFOV(38.3f);
 		getCamera().interpolate = false;
 		
 		///Fill map with intro-specific stuff TODO: De-harcode this

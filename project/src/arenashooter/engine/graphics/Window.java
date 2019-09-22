@@ -75,7 +75,7 @@ public final class Window {
 	/** Perspective projection matrix */
 	private static Mat4f proj = new Mat4f();
 	private static float fov = 70;
-	private static final float CLIP_NEAR = 0.5f, CLIP_FAR = 4500;
+	private static final float CLIP_NEAR = 1.0f, CLIP_FAR = 4500;
 	/** Orthographic projection matrix */
 	private static Mat4f projOrtho = new Mat4f();
 	
@@ -495,7 +495,7 @@ public final class Window {
 	public static float getRatio() { return ratio; }
 	
 	/**
-	 * Set the camera's field of view
+	 * Set the perspective field of view (regenerates matrices)
 	 * @param verticalFOV new FOV
 	 */
 	private static void setFOV(float verticalFOV) {
@@ -531,7 +531,12 @@ public final class Window {
 	public static void createProjectionMatrix() {
 		float sizeY = 100;
 		float sizeX = sizeY*ratio;
+		
 		Mat4f.ortho(0.01f, 100, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2, projOrtho);
+		
+		if(getCamera() != null)
+			fov = getCamera().getFOV();
+		
 		Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio, proj);
 	}
 	
