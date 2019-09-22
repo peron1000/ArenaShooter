@@ -3,14 +3,14 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
+import arenashooter.game.Main;
 
 public class LoadingFloor extends Spatial {
-	private static final Texture[] tex;
+	private static final TextureI[] tex;
 	private static final MaterialI material;
 	private static final Model model;
 	static private final Vec2f size = new Vec2f(1.28, 2.56);
@@ -20,14 +20,14 @@ public class LoadingFloor extends Spatial {
 	private double timer = 0;
 	
 	static {
-		material = Window.loadMaterial("data/materials/sprite_simple.material");
+		material = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
 		model = Model.loadQuad();
-		tex = new Texture[] {
-				Texture.loadTexture("data/sprites/loading_floor/floor_01.png"),
-				Texture.loadTexture("data/sprites/loading_floor/floor_02.png"),
-				Texture.loadTexture("data/sprites/loading_floor/floor_03.png"),
-				Texture.loadTexture("data/sprites/loading_floor/floor_04.png"),
-				Texture.loadTexture("data/sprites/loading_floor/floor_05.png")
+		tex = new TextureI[] {
+				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_01.png"),
+				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_02.png"),
+				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_03.png"),
+				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_04.png"),
+				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_05.png")
 		};
 	}
 	
@@ -58,8 +58,8 @@ public class LoadingFloor extends Spatial {
 		
 		material.setParamTex("baseColor", tex[currentTex]);
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), size, modelM));
-		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.getProj());
+		material.setParamMat4f("view", Main.getRenderer().getView());
+		material.setParamMat4f("projection", Main.getRenderer().getProj());
 		
 		if(material.bind(model)) {
 			model.bind();

@@ -9,10 +9,11 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.Main;
 
 public class JsonReader {
 	protected enum TextureKeys implements JsonKey {
@@ -24,7 +25,7 @@ public class JsonReader {
 
 			@Override
 			public Object getValue() {
-				return Texture.default_tex.getPath();
+				return Main.getRenderer().getDefaultTexture().getPath();
 			}
 		}, 
 		filtered {
@@ -134,16 +135,16 @@ public class JsonReader {
 		return new Vec4f(x, y, z, w);
 	}
 	
-	protected static Texture readTexture(JsonObject obj) {
+	protected static TextureI readTexture(JsonObject obj) {
 		try {
 			obj.requireKeys(TextureKeys.values());
 		} catch(NoSuchElementException e) {
 			log.error("Missing element in texture definition "+e.getLocalizedMessage());
 			e.printStackTrace();
-			return Texture.default_tex;
+			return Main.getRenderer().getDefaultTexture();
 		}
 		
-		return Texture.loadTexture(obj.getStringOrDefault(TextureKeys.path)).setFilter(obj.getBooleanOrDefault(TextureKeys.filtered));
+		return Main.getRenderer().loadTexture(obj.getStringOrDefault(TextureKeys.path)).setFilter(obj.getBooleanOrDefault(TextureKeys.filtered));
 	}
 
 }

@@ -12,7 +12,6 @@ import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.input.ActionState;
@@ -66,18 +65,18 @@ public class Intro extends GameState {
 	@Override
 	public void init() {
 		super.init();
-		Window.getPostProcess().fadeToBlack = 1;
+		Main.getRenderer().getPostProcess().fadeToBlack = 1;
 		getCamera().setFOV(38.3f);
 		getCamera().interpolate = false;
 		
 		///Fill map with intro-specific stuff TODO: De-harcode this
 		//Logo
-		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.material"));
+		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		logo.getMaterial(0).setTransparency(true);
 		logo.attachToParent(current, "logo");
 		
 		//Logo bg
-		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/color.material"));
+		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), Main.getRenderer().loadMaterial("data/materials/color.material"));
 		logoBg.scale.set(7, 5, 1);
 		logoBg.attachToParent(current, "logo_bg");
 		
@@ -93,23 +92,23 @@ public class Intro extends GameState {
 		pressStart.attachToParent(getCamera(), "textPressStart");
 		
 		//Fox
-		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.material"));
+		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		fox.scale = new Vec3f(1.5f);
 		fox.attachToParent(current, "fox");
 		
 		//Cat
-		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.material"));
+		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		cat.scale = new Vec3f(1.5f);
 		cat.attachToParent(current, "cat");
 		
 		//Crowds
-		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
+		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_01");
-		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
+		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_02");
-		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
+		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_03");
-		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
+		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), Main.getRenderer().loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_04");
 		
 		bgm.play();
@@ -136,7 +135,7 @@ public class Intro extends GameState {
 		}
 		
 		//Fade to black
-		Window.getPostProcess().fadeToBlack = (float) anim.getTrackD("fadeToBlack");
+		Main.getRenderer().getPostProcess().fadeToBlack = (float) anim.getTrackD("fadeToBlack");
 		
 		//Camera position
 		getCamera().localPosition = anim.getTrackVec3f("cam_pos");

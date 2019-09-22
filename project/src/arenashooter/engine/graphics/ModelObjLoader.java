@@ -22,7 +22,7 @@ final class ModelObjLoader {
 	static ModelsData loadObj( String path ) {
 		List<Model> models = new ArrayList<>(1);
 		List<String> materialPaths = new ArrayList<>(1);
-		List<Texture> textures = new ArrayList<>(1);
+		List<TextureI> textures = new ArrayList<>(1);
 		
 		Map<String, String> materialOverrides = ModelsData.getMaterialOverrides(path);
 		
@@ -42,7 +42,7 @@ final class ModelObjLoader {
 			List<int[]> faces = new ArrayList<int[]>(); //(Point1, Point2, Point3)[]
 			
 			//Materials
-			HashMap<String, Texture> materials = new HashMap<>();
+			Map<String, TextureI> materials = new HashMap<>();
 			String currentMat = "";
 
 			//Read data
@@ -60,7 +60,7 @@ final class ModelObjLoader {
 				case "o": //Begin object
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+						textures.add( materials.getOrDefault(currentMat, GLTexture.default_tex) );
 						materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 						
 						//Clear faces
@@ -70,7 +70,7 @@ final class ModelObjLoader {
 				case "usemtl": //End current model and change current material
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-						textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+						textures.add( materials.getOrDefault(currentMat, GLTexture.default_tex) );
 						materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 						
 						//Clear faces
@@ -134,24 +134,24 @@ final class ModelObjLoader {
 			}
 
 			models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-			textures.add( materials.getOrDefault(currentMat, Texture.default_tex) );
+			textures.add( materials.getOrDefault(currentMat, GLTexture.default_tex) );
 			materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 
 			reader.close();
 			inReader.close();
 			in.close();
 		} catch (Exception e) {
-			Window.log.error("Cannot load model: "+path);
+			GLRenderer.log.error("Cannot load model: "+path);
 		}
 		
 		//If textures are missing, replace them with default texture
 		if(textures.size()<models.size())
-			Window.log.error("Missing textures for "+path);
+			GLRenderer.log.error("Missing textures for "+path);
 		for( int i=textures.size()-1; i<models.size(); i++ )
-			textures.add(Texture.default_tex);
+			textures.add(GLTexture.default_tex);
 		//If materials are mmissing, replace them with default material
 		if(materialPaths.size()<models.size())
-			Window.log.error("Missing materil for "+path);
+			GLRenderer.log.error("Missing materil for "+path);
 		for( int i=materialPaths.size()-1; i<models.size(); i++ )
 			materialPaths.add(ModelsData.default_mat);
 		
@@ -239,8 +239,8 @@ final class ModelObjLoader {
 		return new Model(data, ids);
 	}
 
-	private static HashMap<String, Texture> loadMaterials(String path) {
-		HashMap<String, Texture> res = new HashMap<>();
+	private static Map<String, TextureI> loadMaterials(String path) {
+		Map<String, TextureI> res = new HashMap<>();
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -270,7 +270,7 @@ final class ModelObjLoader {
 					else
 						texPath = texPath.substring(dataIndex+1);
 						
-					Texture tex = Texture.loadTexture(texPath);
+					TextureI tex = GLTexture.loadTexture(texPath);
 					//Disable texture filtering
 					tex.setFilter(false);
 					res.put(currentMat, tex);
@@ -281,7 +281,7 @@ final class ModelObjLoader {
 			reader.close();
 			in.close();
 		} catch(Exception e) {
-			Window.log.error("Error loading materials");
+			GLRenderer.log.error("Error loading materials");
 			e.printStackTrace();
 		}
 

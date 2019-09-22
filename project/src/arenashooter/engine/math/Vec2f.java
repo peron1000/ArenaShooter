@@ -8,7 +8,7 @@ import org.jbox2d.common.Vec2;
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
-import arenashooter.engine.graphics.Window;
+import arenashooter.game.Main;
 
 /**
  * Mutable 2 dimensional vector of floats (x, y)
@@ -82,7 +82,7 @@ public class Vec2f implements Vec2fi, Jsonable {
 	/**
 	 * <i>This</i> becomes Other
 	 * @param other Box-2d vector to copy into <i>this</i>
-	 * @return <i>this</i>
+	 * @return <i>this</i> (modified)
 	 */
 	public Vec2f set(Vec2 other) {
 		x = other.x;
@@ -93,12 +93,13 @@ public class Vec2f implements Vec2fi, Jsonable {
 	/**
 	 * <i>This</i> becomes Other
 	 * 
-	 * @param other
-	 *            vector to copy
+	 * @param other vector to copy
+	 * @return <i>this</i> (modified)
 	 */
-	public void set(Vec2fi other) {
+	public Vec2f set(Vec2fi other) {
 		x = other.x();
 		y = other.y();
+		return this;
 	}
 	
 	/**
@@ -391,7 +392,7 @@ public class Vec2f implements Vec2fi, Jsonable {
 	 * @return screen space projection
 	 */
 	public static Vec2f worldToScreen(Vec3fi world) { //TODO: test
-		Mat4f viewProj = Mat4f.mul(Window.getProj(), Window.getView());
+		Mat4f viewProj = Mat4f.mul(Main.getRenderer().getProj(), Main.getRenderer().getView());
 		float res[] = viewProj.translate(world).val[3];
 		float w = res[3];
 		if(w <= 0) w = 1;
@@ -406,7 +407,7 @@ public class Vec2f implements Vec2fi, Jsonable {
 	 * @return screen space projection
 	 */
 	public static Vec2f worldToScreen(Vec2fi world) { //TODO: test
-		Mat4f viewProj = Mat4f.mul(Window.getProj(), Window.getView());
+		Mat4f viewProj = Mat4f.mul(Main.getRenderer().getProj(), Main.getRenderer().getView());
 		float res[] = viewProj.translate(world).val[3];
 		float w = res[3];
 		if(w <= 0) w = 1;

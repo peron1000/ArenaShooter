@@ -8,10 +8,10 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
+import arenashooter.game.Main;
 
 /**
  * World sky<br/>
@@ -24,7 +24,7 @@ public class Sky extends Entity {
 
 	private Sky() {
 		if(quad == null) quad = Model.loadQuad();
-		material = Window.loadMaterial("data/materials/sky.material");
+		material = Main.getRenderer().loadMaterial("data/materials/sky.material");
 		zIndex = -9999;
 	}
 	

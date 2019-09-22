@@ -2,8 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
@@ -39,7 +38,7 @@ public class Punch extends Spatial {
 
 		this.superPoing = superPoing;
 
-		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
+		TextureI tex = Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png");
 		tex.setFilter(false);
 	}
 
@@ -52,7 +51,7 @@ public class Punch extends Spatial {
 
 		this.superPoing = superPoing;
 
-		Texture tex = Texture.loadTexture("data/sprites/shockwave_tr.png");
+		TextureI tex = Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png");
 		tex.setFilter(false);
 	}
 
@@ -114,14 +113,14 @@ public class Punch extends Spatial {
 				if (superPoing) {
 					Main.getAudioManager().playSound2D("data/sound/SuperPunch.ogg", AudioChannel.SFX, 2f, 1 * randomPitch,
 							getWorldPos());
-					Window.getCamera().setCameraShake(0.25f);
+					Main.getRenderer().getCamera().setCameraShake(0.25f);
 				} else {
 					Main.getAudioManager().playSound2D("data/sound/snd_Punch_Hit2.ogg", AudioChannel.SFX, .7f, 1 * randomPitch,
 							getWorldPos());
-					Window.getCamera().setCameraShake(0.15f);
+					Main.getRenderer().getCamera().setCameraShake(0.15f);
 				}
 			} else
-				Window.getCamera().setCameraShake(0.05f);
+				Main.getRenderer().getCamera().setCameraShake(0.05f);
 		}
 
 		if (time >= 1) {

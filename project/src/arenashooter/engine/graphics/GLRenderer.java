@@ -51,60 +51,57 @@ import arenashooter.entities.spatials.Camera;
 /**
  * Game window using OpenGL
  */
-public final class Window {
+public final class GLRenderer implements Renderer {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
 	
 	public static final Logger log = LogManager.getLogger("Render");
 	
-	private static long window;
-	private static GLFWVidMode vidmode;
+	private long window;
+	private GLFWVidMode vidmode;
 
 	/** Window width or x res for fullscreen */
-	private static int width;
+	private int width;
 	/** Window height or y res for fullscreen */
-	private static int height;
-	private static float ratio;
-	private static boolean fullscreen = false;
+	private int height;
+	private float ratio;
+	private boolean fullscreen = false;
 	
 	/** Current Window state is Transparency */
-	private static boolean stateTransparency = false;
+	private boolean stateTransparency = false;
 	/** Current Window state is UI */
-	private static boolean stateUi = false;
+	private boolean stateUi = false;
 	
 	//Projection
 	/** Perspective projection matrix */
-	private static Mat4f proj = new Mat4f();
-	private static float fov = 70;
+	private Mat4f proj = new Mat4f();
+	private float fov = 70;
 	private static final float CLIP_NEAR = 1.0f, CLIP_FAR = 4500;
 	/** Orthographic projection matrix */
-	private static Mat4f projOrtho = new Mat4f();
+	private Mat4f projOrtho = new Mat4f();
 	
 	//View
-	private static Camera camera = new Camera(new Vec3f(0, 0, 450));
+	private Camera camera = new Camera(new Vec3f(0, 0, 450));
 	
 	//Post processing
 	/** Current post processing settings */
-	private static PostProcess postProcess;
-	private static Model quad;
+	private PostProcess postProcess;
+	private Model quad;
 
 	//Framebuffers
 	/** Main framebuffer object */
-	private static int fbo;
+	private int fbo;
 	/** Scene color texture */
-	private static int renderTarget;
-	private static int colorRenderBuffer, depthRenderBuffer;
+	private int renderTarget;
+	private int colorRenderBuffer, depthRenderBuffer;
 	//Internal rendering resolution
-	private static int resX, resY;
-	private static float resolutionScale = 1;
+	private int resX, resY;
+	private float resolutionScale = 1;
 	
 	//Scissor
-	private static final Stack<Vec4i> scissorStack = new Stack<>();
+	private final Stack<Vec4i> scissorStack = new Stack<>();
 	
 	//Callbacks
-	private static GLFWErrorCallback callbackError;
-	
-	//This class cannot be instantiated
-	private Window() {}
+	private GLFWErrorCallback callbackError;
 	
 	/**
 	 * Initialize OpenGL and create game window.<br/>
@@ -113,7 +110,8 @@ public final class Window {
 	 * @param windowHeight
 	 * @param windowTtitle
 	 */
-	public static void init(int windowWidth, int windowHeight, boolean fullscreen, float resolutionScale, String windowTtitle) {
+	@Override
+	public void init(int windowWidth, int windowHeight, boolean fullscreen, float resolutionScale, String windowTtitle) {
 		log.info("Initializing");
 		
 		callbackError = GLFWErrorCallback.createPrint(System.err);
@@ -192,17 +190,13 @@ public final class Window {
 		setCurorVisibility(false);
 	}
 	
-	/**
-	 * @return User tries to close the window
-	 */
-	public static boolean requestClose() {
+	@Override
+	public boolean requestedClose() {
 		return glfwWindowShouldClose(window);
 	}
 	
-	/**
-	 * Begin a frame, this will update Input and prepare the window for rendering
-	 */
-	public static void beginFrame() {
+	@Override
+	public void beginFrame() {
 		glfwPollEvents();
 		Input.update();
 		
@@ -214,10 +208,8 @@ public final class Window {
 		glEnable(GL_DEPTH_TEST);
 	}
 	
-	/**
-	 * End a frame, this will swap framebuffers
-	 */
-	public static void endFrame() {
+	@Override
+	public void endFrame() {
 		if(!scissorStack.empty()) {
 			log.warn("Scissor stack is not empty!");
 			scissorStack.clear();
@@ -244,15 +236,16 @@ public final class Window {
 		quad.bind();
 		quad.draw();
 		Model.unbind();
-		Shader.unbind();
-		Texture.unbind();
+		GLShader.unbind();
+		GLTexture.unbind();
 
 		glfwSwapBuffers(window);
 		
 		Profiler.endTimer(Profiler.POSTPROCESS);
 	}
 	
-	public static void beginTransparency() {
+	@Override
+	public void beginTransparency() {
 		Profiler.startTimer(Profiler.TRANSPARENCY);
 		if(stateTransparency) return;
 		stateTransparency = true;
@@ -260,7 +253,8 @@ public final class Window {
 		glEnable(GL_BLEND);
 	}
 	
-	public static void endTransparency() {
+	@Override
+	public void endTransparency() {
 		if(!stateTransparency) {
 			Profiler.endTimer(Profiler.TRANSPARENCY);
 			return;
@@ -272,7 +266,8 @@ public final class Window {
 		}
 	}
 
-	public static void beginUi() {
+	@Override
+	public void beginUi() {
 //		Profiler.startTimer(Profiler.TRANSPARENCY);
 		if(stateUi) return;
 		stateUi = true;
@@ -281,7 +276,8 @@ public final class Window {
 		glEnable(GL_BLEND);
 	}
 	
-	public static void endUi() {
+	@Override
+	public void endUi() {
 		if(!stateUi) {
 //			Profiler.endTimer(Profiler.TRANSPARENCY);
 			return;
@@ -294,14 +290,8 @@ public final class Window {
 		}
 	}
 	
-	/**
-	 * Add a scissor box
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 */
-	public static void stackScissor(float x, float y, float width, float height) {
+	@Override
+	public void stackScissor(float x, float y, float width, float height) {
 		int screenX = (int) Utils.lerpF(0, resX, Utils.inverseLerpF(-50*ratio, 50*ratio, x));
 		int screenY = (int) Utils.lerpF(0, resY, Utils.inverseLerpF(50, -50, y));
 		int screenW = (int) (resX*(width/(100*ratio)));
@@ -312,10 +302,8 @@ public final class Window {
 		scissorStack.push(new Vec4i(screenX, screenY, screenW, screenH));
 	}
 	
-	/**
-	 * Pop the last scissor box
-	 */
-	public static void popScissor() {
+	@Override
+	public void popScissor() {
 		scissorStack.pop();
 		if(scissorStack.empty()) {
 			glDisable(GL_SCISSOR_TEST);
@@ -326,16 +314,16 @@ public final class Window {
 		
 	}
 	
-	public static PostProcess getPostProcess() { return postProcess; }
+	@Override
+	public PostProcess getPostProcess() { return postProcess; }
 	
-	public static void setPostProcess(PostProcess postProcess) {
-		Window.postProcess = postProcess;
+	@Override
+	public void setPostProcess(PostProcess postProcess) {
+		this.postProcess = postProcess;
 	}
 	
-	/**
-	 * Destroy the window and terminates GLFW
-	 */
-	public static void destroy() {
+	@Override
+	public void destroy() {
 		log.info("Stopping");
 		
 		glfwDestroyWindow(window);
@@ -343,44 +331,31 @@ public final class Window {
 		glfwTerminate();
 	}
 	
-	/**
-	 * @return current resolution scale
-	 */
-	public static float getResScale() { return resolutionScale; }
+	@Override
+	public float getResScale() { return resolutionScale; }
 	
-	/**
-	 * Change resolution scale
-	 * @param newScale
-	 */
-	public static void setResScale(float newScale) {
+	@Override
+	public void setResScale(float newScale) {
 		resize(width, height, fullscreen, newScale);
 	}
 
-	/**
-	 * Change the window size or fullscreen resolution
-	 * @param newWidth
-	 * @param newHeight
-	 */
-	public static void resize(int newWidth, int newHeight) {
-		Window.resize(newWidth, newHeight, fullscreen, resolutionScale);
+	@Override
+	public void resize(int newWidth, int newHeight) {
+		resize(newWidth, newHeight, fullscreen, resolutionScale);
 	}
 	
-	public static boolean isFullscreen() {
+	@Override
+	public boolean isFullscreen() {
 		return fullscreen;
 	}
 	
-	public static void setFullscreen(boolean fullscreen) {
+	@Override
+	public void setFullscreen(boolean fullscreen) {
 		resize(width, height, fullscreen, resolutionScale);
 	}
 	
-	/**
-	 * Change the window size, resolution scale and set fullscreen mode
-	 * @param newWidth
-	 * @param newHeight
-	 * @param fullscreen
-	 * @param resolutionScale
-	 */
-	public static void resize(int newWidth, int newHeight, boolean fullscreen, float resolutionScale) {
+	@Override
+	public void resize(int newWidth, int newHeight, boolean fullscreen, float resolutionScale) {
 		int oldW = width, oldH = height;
 //		width = Utils.clampI(newWidth, WIDTH_MIN, vidmode.width());
 //		height = Utils.clampI(newWidth, HEIGHT_MIN, vidmode.height());
@@ -390,13 +365,13 @@ public final class Window {
 		vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		
 		if(fullscreen) {
-			if(Window.fullscreen) { //Change fullscreen res
+			if(this.fullscreen) { //Change fullscreen res
 				if( oldW != width || oldH != height ) //Check that resolution was changed
 					glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
 			} else //Switch to fullscreen
 				glfwSetWindowMonitor(window, glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
 		} else {
-			if(Window.fullscreen) { //Switch to windowed mode
+			if(this.fullscreen) { //Switch to windowed mode
 				glfwSetWindowMonitor(window, NULL, 0, 0, width, height, vidmode.refreshRate());
 
 				//Center window
@@ -405,16 +380,16 @@ public final class Window {
 				glfwSetWindowSize(window, width, height);
 		}
 		
-		Window.fullscreen = fullscreen;
+		this.fullscreen = fullscreen;
 		
 		glfwFocusWindow(window);
 		
 		ratio = (float)width/(float)height;
 		
 		//Update resolution scale
-		Window.resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
-		resX = (int)(width*Window.resolutionScale);
-		resY = (int)(height*Window.resolutionScale);
+		this.resolutionScale = Utils.clampF(resolutionScale, 0.5f, 2);
+		resX = (int)(width*this.resolutionScale);
+		resY = (int)(height*this.resolutionScale);
 		
 		glViewport(0, 0, resX, resY);
 
@@ -425,29 +400,22 @@ public final class Window {
 		//Recreate projection matrix
 		createProjectionMatrix();
 		
-		if(Window.fullscreen)
+		if(this.fullscreen)
 			log.info("Set fullscreen resolution to: "+width+"x"+height);
 		else
 			log.info("Set window size to: "+width+"x"+height);
 		
-		log.info("Set resolution scale to: "+Window.resolutionScale);
+		log.info("Set resolution scale to: "+this.resolutionScale);
 	}
 	
-	/**
-	 * @return window's width
-	 */
-	public static int getWidth() { return width; }
+	@Override
+	public int getWidth() { return width; }
 
-	/**
-	 * @return window's height
-	 */
-	public static int getHeight() { return height; }
+	@Override
+	public int getHeight() { return height; }
 	
-	/**
-	 * Get all available resolutions for primary monitor
-	 * @return sorted list of int[] in {width, height} format
-	 */
-	public static List<int[]> getAvailableResolutions() {
+	@Override
+	public List<int[]> getAvailableResolutions() {
 		Buffer modes = glfwGetVideoModes(glfwGetPrimaryMonitor());
 
 		List<int[]> res = new ArrayList<>();
@@ -489,46 +457,36 @@ public final class Window {
 		return res;
 	}
 	
-	/**
-	 * Get screen aspect ratio (width/height)
-	 */
-	public static float getRatio() { return ratio; }
+	@Override
+	public float getRatio() { return ratio; }
 	
 	/**
 	 * Set the perspective field of view (regenerates matrices)
 	 * @param verticalFOV new FOV
 	 */
-	private static void setFOV(float verticalFOV) {
+	private void setFOV(float verticalFOV) {
 		fov = verticalFOV;
 		createProjectionMatrix();
 	}
 	
-	/**
-	 * @return current view matrix
-	 */
-	public static Mat4fi getView() {
+	@Override
+	public Mat4fi getView() {
 		if(camera == null) return Mat4f.identity();
 		else return camera.viewMatrix;
 	}
 	
-	/**
-	 * @return perspective projection matrix
-	 */
-	public static Mat4fi getProj() {
+	@Override
+	public Mat4fi getProj() {
 		return proj;
 	}
 	
-	/**
-	 * @return orthogonal projection matrix
-	 */
-	public static Mat4fi getProjOrtho() {
+	@Override
+	public Mat4fi getProjOrtho() {
 		return projOrtho;
 	}
-	
-	/**
-	 * Create the projection matrix based on window size
-	 */
-	public static void createProjectionMatrix() {
+
+	@Override
+	public void createProjectionMatrix() {
 		float sizeY = 100;
 		float sizeX = sizeY*ratio;
 		
@@ -540,7 +498,7 @@ public final class Window {
 		Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio, proj);
 	}
 	
-	private static void createFramebuffer() {
+	private void createFramebuffer() {
 		//Create framebuffer
 		fbo = glGenFramebuffers();
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -588,44 +546,33 @@ public final class Window {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	
-	private static void destroyFramebuffer() {
+	private void destroyFramebuffer() {
 		glDeleteRenderbuffers(depthRenderBuffer);
 		glDeleteRenderbuffers(colorRenderBuffer);
 		glDeleteFramebuffers(fbo);
 		glDeleteTextures(renderTarget);
 	}
 	
-	/**
-	 * Set the window title
-	 * @param title new title
-	 */
-	public static void setTitle(String title) {
+	@Override
+	public void setTitle(String title) {
 		glfwSetWindowTitle(window, title);
 	}
 	
-	/**
-	 * Enable or disable vertical synchronization
-	 * @param enable new vSync state
-	 */
-	public static void setVsync(boolean enable) {
+	@Override
+	public void setVsync(boolean enable) {
 		glfwSwapInterval( enable ? 1 : 0 );
 	}
 	
-	/**
-	 * @return current camera
-	 */
-	public static Camera getCamera() { return camera; }
+	@Override
+	public Camera getCamera() { return camera; }
 	
-	/**
-	 * Change the current camera, affecting view and projection matrices
-	 * @param newCam
-	 */
-	public static void setCamera(Camera newCam) {
+	@Override
+	public void setCamera(Camera newCam) {
 		camera = newCam;
 		setFOV(newCam.getFOV());
 	}
 	
-	private static void setIcon(String[] paths) {
+	private void setIcon(String[] paths) {
 		Image image[] = new Image[paths.length];
 		
 		for( int i=0; i<paths.length; i++ )
@@ -649,7 +596,7 @@ public final class Window {
 		}
 	}
 	
-	private static void setCursor(String path) {
+	private void setCursor(String path) {
 		Image image = Image.loadImage(path);
 		
 		GLFWImage glfwImg = GLFWImage.create();
@@ -660,14 +607,26 @@ public final class Window {
 		glfwSetCursor(window, cursor);
 	}
 	
-	public static void setCurorVisibility(boolean visibility) {
+	@Override
+	public void setCurorVisibility(boolean visibility) {
 		if(visibility)
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		else
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	}
 	
-	public static MaterialI loadMaterial(String path) {
+	@Override
+	public TextureI loadTexture(String path) {
+		return GLTexture.loadTexture(path);
+	}
+	
+	@Override
+	public TextureI getDefaultTexture() {
+		return GLTexture.default_tex;
+	}
+	
+	@Override
+	public MaterialI loadMaterial(String path) {
 		return Material.loadMaterial(path);
 	}
 }

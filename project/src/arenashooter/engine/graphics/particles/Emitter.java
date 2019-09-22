@@ -6,9 +6,8 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 import java.util.ArrayList;
 import java.util.List;
 
+import arenashooter.engine.graphics.GLShader;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Shader;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.particles.modules.ParticleModule;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
@@ -16,6 +15,7 @@ import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.Main;
 
 public class Emitter {
 	static final protected Model model = Model.loadQuad();
@@ -26,7 +26,7 @@ public class Emitter {
 	/** Remaining number of particles to spawn */
 	int remaining;
 
-	private Shader shader;
+	private GLShader shader;
 
 	/** World space positions */
 	public List<Vec2f> positions = new ArrayList<>();
@@ -61,7 +61,7 @@ public class Emitter {
 		else
 			remaining = (int) Math.max(1, data.rate*data.duration);
 		
-		shader = Shader.loadShader("data/shaders/particle_simple.vert", "data/shaders/particle_simple.frag");
+		shader = GLShader.loadShader("data/shaders/particle_simple.vert", "data/shaders/particle_simple.frag");
 	}
 	
 	/**
@@ -160,8 +160,8 @@ public class Emitter {
 		shader.bind();
 		
 		//Get matrices
-		shader.setUniformM4("view", Window.getView());
-		shader.setUniformM4("projection", Window.getProj());
+		shader.setUniformM4("view", Main.getRenderer().getView());
+		shader.setUniformM4("projection", Main.getRenderer().getProj());
 		
 		model.bindToShader(shader);
 		

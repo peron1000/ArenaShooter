@@ -1,7 +1,6 @@
 package arenashooter.engine.ui.simpleElement;
 
 import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
@@ -25,7 +24,7 @@ public class Label extends UiElement {
 
 	public Label(String text, Text.TextAlignH alignH) {
 		this.text = new Text(Main.font, alignH, TextAlignV.CENTER, text);
-		this.material = Window.loadMaterial("data/materials/ui/ui_text_distance_field.material");
+		this.material = Main.getRenderer().loadMaterial("data/materials/ui/ui_text_distance_field.material");
 		material.setParamTex("distanceField", this.text.getFont().getTexture());
 		noModifiedText = text;
 
@@ -119,7 +118,7 @@ public class Label extends UiElement {
 			float ratio = 1 / text.getHeight();
 			material.setParamMat4f("model",
 					Mat4f.transform(getPosition(), getRotation(), Vec2f.multiply(getScale(), ratio), modelM));
-			material.setParamMat4f("projection", Window.getProjOrtho());
+			material.setParamMat4f("projection", Main.getRenderer().getProjOrtho());
 
 			if (material.bind(text.getModel())) {
 				text.getModel().bind();

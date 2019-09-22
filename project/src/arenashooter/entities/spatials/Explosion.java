@@ -3,8 +3,6 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -40,8 +38,8 @@ public class Explosion extends Spatial {
 
 		this.radius = radius;
 		
-		MaterialI shockwaveMat = Window.loadMaterial("data/materials/sprite_simple.material");
-		shockwaveMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/shockwave_tr.png").setFilter(false));
+		MaterialI shockwaveMat = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
+		shockwaveMat.setParamTex("baseColor", Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png").setFilter(false));
 		
 		shockwaveMat.setParamVec4f("baseColorMod", new Vec4f(1, .857, .145, .9));
 		
@@ -111,7 +109,7 @@ public class Explosion extends Spatial {
 
 			Main.getAudioManager().playSound2D("data/sound/explosion_01.ogg", AudioChannel.SFX, 1, Utils.lerpF(.8f, 1.2f, Math.random()), getWorldPos());
 			
-			Window.getCamera().setCameraShake(4);
+			Main.getRenderer().getCamera().setCameraShake(4);
 		}
 		
 		if(time >= 1) detach();

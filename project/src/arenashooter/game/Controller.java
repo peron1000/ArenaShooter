@@ -4,7 +4,7 @@ import java.io.File;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.spatials.Character;
@@ -57,13 +57,13 @@ public abstract class Controller {
 		return info;
 	}
 
-	public Texture getPortrait() {
-		Texture portrait;
+	public TextureI getPortrait() {
+		TextureI portrait;
 		String path = "data/sprites/characters/" + info.getSkin();
 		if (new File(path + "/head.png").exists())
-			portrait = Texture.loadTexture(path + "/head.png");
+			portrait = Main.getRenderer().loadTexture(path + "/head.png");
 		else
-			portrait = Texture.loadTexture(path + "/head_tr.png");
+			portrait = Main.getRenderer().loadTexture(path + "/head_tr.png");
 		portrait.setFilter(false);
 		return portrait;
 	}

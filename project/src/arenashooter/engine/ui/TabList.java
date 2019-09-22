@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.util.CircleList;
@@ -24,8 +22,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 	private boolean backgroundVisible = false, scissor = false;
 	private double spacing = 1;
 	private UiImage arrowRight = new UiImage(
-			Texture.loadTexture("data/sprites/interface/WhatsRight.png").setFilter(false)),
-			arrowLeft = new UiImage(Texture.loadTexture("data/sprites/interface/WhatsLeft.png").setFilter(false));
+			Main.getRenderer().loadTexture("data/sprites/interface/WhatsRight.png").setFilter(false)),
+			arrowLeft = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/WhatsLeft.png").setFilter(false));
 
 	public TabList() {
 		setTitleSpacing(titleSpacing);
@@ -465,9 +463,9 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (!scissor) {
 				vlist.draw();
 			} else {
-				Window.stackScissor(getLeft(), topMainList() + getScale().y, getScale().x, getScale().y);
+				Main.getRenderer().stackScissor(getLeft(), topMainList() + getScale().y, getScale().x, getScale().y);
 				vlist.draw();
-				Window.popScissor();
+				Main.getRenderer().popScissor();
 			}
 			labelsInfo.get(vlist).forEach(l -> l.draw());
 			if (circleList.size() > 1) {

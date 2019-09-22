@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import arenashooter.engine.graphics.PostProcess;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.json.JsonTransformer;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
@@ -45,12 +44,12 @@ public abstract class GameState {
 	 */
 	public void init() {
 		// Camera
-		Window.setPostProcess( new PostProcess("data/shaders/post_process/pp_default.frag") );
+		Main.getRenderer().setPostProcess( new PostProcess("data/shaders/post_process/pp_default.frag") );
 		Camera cam = new Camera(current.cameraBasePos);
 		cam.attachToParent(current, "camera");
-		Window.setCamera(cam);
+		Main.getRenderer().setCamera(cam);
 
-		Window.setCurorVisibility(false);
+		Main.getRenderer().setCurorVisibility(false);
 	}
 
 	/**
@@ -79,11 +78,11 @@ public abstract class GameState {
 		current.renderFirstPass();
 
 		if (!Main.skipTransparency) {
-			Window.beginTransparency();
+			Main.getRenderer().beginTransparency();
 			for (Entity e : current.transparent)
 				e.draw(true);
 			current.transparent.clear();
-			Window.endTransparency();
+			Main.getRenderer().endTransparency();
 		}
 	}
 

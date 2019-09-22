@@ -9,7 +9,7 @@ import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -30,8 +30,8 @@ public class CharacterSprite extends Spatial {
 	private Sprite punchSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/swoosh_1_1.png");
 	private Sprite chargeSprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Tching2.png");
 	private Sprite parrySprite = new Sprite(new Vec2f(), "data/sprites/swooshes/Parry_Oriented2.png");
-	private Texture brokenParry = Texture.loadTexture("data/sprites/swooshes/Broken_Parry.png");
-	private Texture parryShield = Texture.loadTexture("data/sprites/swooshes/Parry_Oriented2.png");
+	private TextureI brokenParry = Main.getRenderer().loadTexture("data/sprites/swooshes/Broken_Parry.png");
+	private TextureI parryShield = Main.getRenderer().loadTexture("data/sprites/swooshes/Parry_Oriented2.png");
 	private Sprite stunStars = new Sprite(new Vec2f(0, -0.5), "data/sprites/StunStars.png");
 	private String bloodParticles = "data/particles/blood.xml";
 	private String stun = "data/particles/stun.xml";
@@ -61,8 +61,8 @@ public class CharacterSprite extends Spatial {
 	private Animation shieldWiggling = null;
 	private Animation animStun = null;
 	private Animation currentPunchAnim = null;
-	private Texture charge1 = Texture.loadTexture("data/sprites/swooshes/Tching1.png");
-	private Texture charge2 = Texture.loadTexture("data/sprites/swooshes/Tching2.png");
+	private TextureI charge1 = Main.getRenderer().loadTexture("data/sprites/swooshes/Tching1.png");
+	private TextureI charge2 = Main.getRenderer().loadTexture("data/sprites/swooshes/Tching2.png");
 
 	private Timer stepTimer = new Timer(.25); // TODO: Improve step detection
 

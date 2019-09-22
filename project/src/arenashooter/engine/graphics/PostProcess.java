@@ -6,16 +6,16 @@ package arenashooter.engine.graphics;
 public class PostProcess {
 	private static final String vertexShader = "data/shaders/post_process/pp.vert";
 	
-	private Shader shader;
+	private GLShader shader;
 	public float vignetteIntensity = 1.4f;
 	public float chromaAbbIntensity = 0;
 	public float fadeToBlack = 0;
 
 	public PostProcess(String framgnetShader) {
-		this.shader = Shader.loadShader(vertexShader, framgnetShader);
+		this.shader = GLShader.loadShader(vertexShader, framgnetShader);
 	}
 	
-	Shader getShader() { return shader; }
+	GLShader getShader() { return shader; }
 	
 	/**
 	 * Bind post process shader and set parameters

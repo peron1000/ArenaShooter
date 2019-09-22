@@ -2,12 +2,12 @@ package arenashooter.entities.spatials;
 
 import java.util.List;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
+import arenashooter.game.Main;
 
 public class Camera extends Spatial3 {
 	/** View matrix (updated at every step) */
@@ -72,8 +72,8 @@ public class Camera extends Spatial3 {
 		this.fov = fov;
 		
 		//Update projection matrix if this is the current camera
-		if(Window.getCamera() == this)
-			Window.createProjectionMatrix();
+		if(Main.getRenderer().getCamera() == this)
+			Main.getRenderer().createProjectionMatrix();
 	}
 	
 	/**
@@ -123,8 +123,8 @@ public class Camera extends Spatial3 {
 		float boundsH = Math.max(0, boundsYD - boundsYU);
 		
 		float newZ;
-		if( boundsW/boundsH > Window.getRatio() ) { //TODO: Test with different window sizes and aspects
-			newZ = zoomMin+(350/((800*Window.getRatio())/boundsW));
+		if( boundsW/boundsH > Main.getRenderer().getRatio() ) { //TODO: Test with different window sizes and aspects
+			newZ = zoomMin+(350/((800*Main.getRenderer().getRatio())/boundsW));
 		} else {
 			newZ = zoomMin+(350/(800/boundsH));
 		}
@@ -142,7 +142,7 @@ public class Camera extends Spatial3 {
 	}
 	
 	float getHorizontalFov() {
-		return (float)( 2*Math.atan(Math.tan(getFOV()/2)*(1/Window.getRatio())) );
+		return (float)( 2*Math.atan(Math.tan(getFOV()/2)*(1/Main.getRenderer().getRatio())) );
 	}
 	
 	float getUpperX(Vec3fi basePos, float z) {

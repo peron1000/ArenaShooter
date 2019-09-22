@@ -14,8 +14,7 @@ import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -61,7 +60,7 @@ public class Game extends GameState {
 	 * Time before switching to next map. After the winner has been found
 	 */
 	private Timer endRound = new Timer(2);
-	private UiImage counterImage = new UiImage(Texture.default_tex);
+	private UiImage counterImage = new UiImage(Main.getRenderer().getDefaultTexture());
 	private AnimationData counterAnimData = AnimationData.loadAnim("data/animations/anim_StartCounter.xml");
 	private AnimationData endAnimData = AnimationData.loadAnim("data/animations/anim_EndCounter.xml");
 	private Animation startCounter = null;
@@ -147,7 +146,7 @@ public class Game extends GameState {
 	private void newRound() {
 		startCounter = new Animation(counterAnimData);
 		startCounter.play();
-		Window.getPostProcess().fadeToBlack = 1;
+		Main.getRenderer().getPostProcess().fadeToBlack = 1;
 		endRound.reset();// TODO: remove
 		endCounter = null;
 		chooseWinner.reset();
@@ -162,7 +161,7 @@ public class Game extends GameState {
 
 		for (ControllerPlayer c : Main.getGameMaster().getPlayerControllers()) {
 			if (c.getDevice() == Device.KEYBOARD) {
-				Window.setCurorVisibility(true);
+				Main.getRenderer().setCurorVisibility(true);
 				break;
 			}
 		}
@@ -187,7 +186,7 @@ public class Game extends GameState {
 				} else {
 					double chromaAbbIntensity = 1 - endCounter.getTime() / endCounter.getLength();
 					chromaAbbIntensity = .3 * (chromaAbbIntensity * chromaAbbIntensity);
-					Window.getPostProcess().chromaAbbIntensity = (float) chromaAbbIntensity;
+					Main.getRenderer().getPostProcess().chromaAbbIntensity = (float) chromaAbbIntensity;
 
 					Queue<AnimEvent> events = endCounter.getEvents();
 					AnimEvent current = events.peek();
@@ -208,7 +207,7 @@ public class Game extends GameState {
 										Main.getAudioManager().playSound("data/sound/Winner_02.ogg", AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
-											Texture.loadTexture("data/sprites/interface/Winner_Chroma2.png"));
+											Main.getRenderer().loadTexture("data/sprites/interface/Winner_Chroma2.png"));
 									((CharacterSprite) winner.getCharacter().getChild("skeleton")).rainConfetti();
 
 								} else {
@@ -220,7 +219,7 @@ public class Game extends GameState {
 										Main.getAudioManager().playSound("data/sound/Draw_02.ogg", AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
-											Texture.loadTexture("data/sprites/interface/Draw_Chroma2.png"));
+											Main.getRenderer().loadTexture("data/sprites/interface/Draw_Chroma2.png"));
 								}
 							}
 						} else if (current instanceof AnimEventSound) {
@@ -229,13 +228,13 @@ public class Game extends GameState {
 
 					}
 
-					Texture counterTexture = counterImage.getMaterial().getParamTex("image");
+					TextureI counterTexture = counterImage.getMaterial().getParamTex("image");
 					if (endCounter.getTime() < 3.2) {
 						counterTexture = endCounter.getTrackTex("CounterSprite");
 						counterImage.getMaterial().setParamTex("image", counterTexture);
 					}
 					double size = endCounter.getTrackD("SizeOfCounterSprite");
-					counterImage.setScale(counterTexture.getSize().x * size, counterTexture.getSize().y * size);
+					counterImage.setScale(counterTexture.getWidth() * size, counterTexture.getHeight() * size);
 					counterImage.getMaterial().getParamTex("image").setFilter(false);
 					endCounter.step(d);
 
@@ -289,12 +288,12 @@ public class Game extends GameState {
 					}
 				}
 
-				Window.getPostProcess().fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
+				Main.getRenderer().getPostProcess().fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
 
-				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
+				TextureI counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);
-				counterImage.setScale(counterTexture.getSize().x * size, counterTexture.getSize().y * size);
+				counterImage.setScale(counterTexture.getWidth() * size, counterTexture.getHeight() * size);
 				counterImage.getMaterial().getParamTex("image").setFilter(false);
 				startCounter.step(d);
 			}
@@ -317,9 +316,9 @@ public class Game extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
-		Window.beginUi();
+		Main.getRenderer().beginUi();
 		counterImage.draw();
 		menuPause.draw();
-		Window.endUi();
+		Main.getRenderer().endUi();
 	}
 }

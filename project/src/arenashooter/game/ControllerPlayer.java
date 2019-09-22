@@ -1,6 +1,5 @@
 package arenashooter.game;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.input.Action;
@@ -31,14 +30,14 @@ public class ControllerPlayer extends Controller {
 				getCharacter().movementInputY = Input.getAxis(device, Axis.MOVE_Y);
 				if (device == Device.KEYBOARD) {
 					Vec2f charPos = Vec2f.worldToScreen(getCharacter().getWorldPos());
-					charPos.x *= Window.getRatio();
+					charPos.x *= Main.getRenderer().getRatio();
 					charPos.y *= -1;
 
 					Vec2f mouseCentered = Input.mousePos.clone();
-					mouseCentered.x /= Window.getWidth();
+					mouseCentered.x /= Main.getRenderer().getWidth();
 					mouseCentered.x -= .5;
-					mouseCentered.x *= Window.getRatio();
-					mouseCentered.y /= Window.getHeight();
+					mouseCentered.x *= Main.getRenderer().getRatio();
+					mouseCentered.y /= Main.getRenderer().getHeight();
 					mouseCentered.y -= .5;
 					mouseCentered.multiply(2);
 

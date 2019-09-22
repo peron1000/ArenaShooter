@@ -2,19 +2,19 @@ package arenashooter.engine.ui.simpleElement;
 
 import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.ui.UiElement;
+import arenashooter.game.Main;
 
 public class UiImage extends UiElement {
 	private static Model model;
 	private MaterialI material;
 	private Mat4f modelM = new Mat4f();
 	
-	public static final UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector.png"));
+	public static final UiImage selector = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Selector.png"));
 	
 	static {
 		selector.setScale(45, 10);
@@ -38,7 +38,7 @@ public class UiImage extends UiElement {
 	 * @param transparency
 	 */
 	public UiImage(double red, double green, double blue, double transparency) {
-		this(Window.loadMaterial("data/materials/ui/ui_rectangle.material"));
+		this(Main.getRenderer().loadMaterial("data/materials/ui/ui_rectangle.material"));
 		if (red > 1 || red < 0) {
 			Exception e = new Exception("Color value red given is not valid");
 			e.printStackTrace();
@@ -63,7 +63,7 @@ public class UiImage extends UiElement {
 	 * 
 	 * @param texture
 	 */
-	public UiImage(Texture texture) {
+	public UiImage(TextureI texture) {
 		this(texture, new Vec4f(1));
 	}
 
@@ -73,8 +73,8 @@ public class UiImage extends UiElement {
 	 * @param texture
 	 * @param color
 	 */
-	public UiImage(Texture texture, Vec4fi color) {
-		this(Window.loadMaterial("data/materials/ui/ui_image.material"));
+	public UiImage(TextureI texture, Vec4fi color) {
+		this(Main.getRenderer().loadMaterial("data/materials/ui/ui_image.material"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
 		material.setParamVec4f("color", new Vec4f(color));
@@ -107,7 +107,7 @@ public class UiImage extends UiElement {
 	public void draw() {
 		if (isVisible()) {
 			material.setParamMat4f("model", Mat4f.transform(getPosition(), getRotation(), getScale(), modelM));
-			material.setParamMat4f("projection", Window.getProjOrtho());
+			material.setParamMat4f("projection", Main.getRenderer().getProjOrtho());
 
 			if(material.bind(model)) {
 				model.bind();

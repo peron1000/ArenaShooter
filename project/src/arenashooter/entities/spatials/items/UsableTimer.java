@@ -2,12 +2,12 @@ package arenashooter.entities.spatials.items;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
+import arenashooter.game.Main;
 
 public class UsableTimer extends Item {
 
@@ -21,7 +21,7 @@ public class UsableTimer extends Item {
 	protected String soundFire = "";
 	
 	private UsableTimer() {
-		super(Texture.default_tex.getPath());
+		super(Main.getRenderer().getDefaultTexture().getPath());
 	}
 
 	public UsableTimer(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL,

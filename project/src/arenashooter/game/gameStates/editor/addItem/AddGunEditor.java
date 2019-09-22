@@ -9,8 +9,6 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -412,10 +410,10 @@ class AddGunEditor extends UiElement implements MultiUi {
 		titleLabel.setPosition(0, -10);
 
 		// Instructions
-		UiImage moveLeft = new UiImage(Texture.loadTexture("data/sprites/interface/left.png")),
-				moveRight = new UiImage(Texture.loadTexture("data/sprites/interface/right.png")),
-				moveUp = new UiImage(Texture.loadTexture("data/sprites/interface/up.png")),
-				moveDown = new UiImage(Texture.loadTexture("data/sprites/interface/down.png"));
+		UiImage moveLeft = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/left.png")),
+				moveRight = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/right.png")),
+				moveUp = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/up.png")),
+				moveDown = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/down.png"));
 		moveLeft.setScale(textScale);
 		moveRight.setScale(textScale);
 		moveUp.setScale(textScale);
@@ -790,17 +788,17 @@ class AddGunEditor extends UiElement implements MultiUi {
 	@Override
 	public void draw() {
 		menu.draw();
-		Window.endUi();
+		Main.getRenderer().endUi();
 		arena.renderFirstPass();
 
 		if (!Main.skipTransparency) {
-			Window.beginTransparency();
+			Main.getRenderer().beginTransparency();
 			for (Entity e : arena.transparent)
 				e.draw(true);
 			arena.transparent.clear();
-			Window.endTransparency();
+			Main.getRenderer().endTransparency();
 		}
-		Window.beginUi();
+		Main.getRenderer().beginUi();
 		if (popup != null) {
 			popup.draw();
 		}

@@ -7,11 +7,11 @@ import arenashooter.engine.graphics.MaterialI;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4fi;
+import arenashooter.game.Main;
 
 public class ShapeCharacter extends PhysicShape {
 	private Model model;
@@ -58,13 +58,13 @@ public class ShapeCharacter extends PhysicShape {
 	@Override
 	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {
 		if(material == null)
-			material = Window.loadMaterial("data/materials/debug_color.xml");
+			material = Main.getRenderer().loadMaterial("data/materials/debug_color.xml");
 		
 		//Create matrices
 		Mat4f.transform(pos, rot, vec1, modelM);
 		material.setParamMat4f("model", modelM);
-		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.getProj());
+		material.setParamMat4f("view", Main.getRenderer().getView());
+		material.setParamMat4f("projection", Main.getRenderer().getProj());
 		
 		material.setParamVec4f("color", color);
 		

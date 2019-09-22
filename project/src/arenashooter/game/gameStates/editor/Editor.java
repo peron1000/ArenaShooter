@@ -6,7 +6,6 @@ import java.util.List;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -42,7 +41,7 @@ public class Editor extends GameState {
 
 	public Editor() {
 		super("data/arena/menu_editor_new.arena");
-		grid2d = new Sprite(new Vec2f(), Window.loadMaterial("data/materials/editor_grid.material"));
+		grid2d = new Sprite(new Vec2f(), Main.getRenderer().loadMaterial("data/materials/editor_grid.material"));
 
 		while( !isReady() ) {} // Wait for arena to be entirely loaded
 		
@@ -247,8 +246,8 @@ public class Editor extends GameState {
 
 	@Override
 	public void update(double delta) {
-		forNotVisible = -50*Window.getRatio()-25;
-		forVisible = -50*Window.getRatio()+25;
+		forNotVisible = -50*Main.getRenderer().getRatio()-25;
+		forVisible = -50*Main.getRenderer().getRatio()+25;
 		
 		inputs.step(delta);
 		currentMenu.update(delta);
@@ -270,17 +269,17 @@ public class Editor extends GameState {
 			editable.editorDraw();
 		}
 
-		Window.beginTransparency();
+		Main.getRenderer().beginTransparency();
 		float gridSize = (float) (getCamera().getWorldPos().z * 1.5);
 		grid2d.size.set(gridSize, gridSize);
 		grid2d.localPosition.set(getCamera().getWorldPos().x, getCamera().getWorldPos().y);
 		grid2d.material.setParamF("lineThickness", (float) Math.min(.5, gridSize * .002));
 		grid2d.draw(true);
-		Window.endTransparency();
+		Main.getRenderer().endTransparency();
 
-		Window.beginUi();
+		Main.getRenderer().beginUi();
 		currentMenu.draw();
-		Window.endUi();
+		Main.getRenderer().endUi();
 	}
 
 }

@@ -5,8 +5,7 @@ import java.util.function.Consumer;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.ui.Imageinput;
 import arenashooter.engine.ui.MenuSettings;
@@ -24,8 +23,8 @@ import arenashooter.game.gameStates.editor.Editor;
 
 public class MenuStart extends GameState {
 	/* MenuStart Menu */
-	private UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_MainMenu_tr.png")),
-			background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu_Main.png")), logo,
+	private UiImage selector = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Selector_MainMenu_tr.png")),
+			background = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Fond Menu_Main.png")), logo,
 			/*Escape = Imageinput.ESCAPE.getImage(), Up = Imageinput.UP.getImage(), Down = Imageinput.DOWN.getImage(),
 			Right = Imageinput.RIGHT.getImage(), Left = Imageinput.LEFT.getImage(),*/ Space = Imageinput.SPACE.getImage(),
 			A = Imageinput.A.getImage()/*, B = Imageinput.B.getImage()*/;
@@ -40,7 +39,7 @@ public class MenuStart extends GameState {
 		selector.setScale(100, 8);
 
 		// logo
-		Texture logoTex = Texture.loadTexture("data/logo.png");
+		TextureI logoTex = Main.getRenderer().loadTexture("data/logo.png");
 		logo = new UiImage(logoTex);
 		logo.setScale(logoTex.getWidth() / 6, logoTex.getHeight() / 6);
 		logo.setPosition(-2.25, -24);
@@ -196,9 +195,9 @@ public class MenuStart extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
-		Window.beginUi();
+		Main.getRenderer().beginUi();
 		actionOnAll(e -> e.draw());
-		Window.endUi();
+		Main.getRenderer().endUi();
 	}
 
 }

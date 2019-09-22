@@ -14,7 +14,7 @@ import arenashooter.engine.math.Vec4fi;
 /**
  * Container for an openGL shader program
  */
-public class Shader implements ShaderI {
+public class GLShader implements ShaderI {
 	/** Array used to send Vec2f values to openGL */
 	private static float[] floatBuffer2 = new float[2];
 	/** Array used to send Vec3f values to openGL */
@@ -25,7 +25,7 @@ public class Shader implements ShaderI {
 	private static float[] floatBuffer16 = new float[16];
 	
 	/** Cached shaders */
-	private static Map<String, Shader> cache = new HashMap<>();
+	private static Map<String, GLShader> cache = new HashMap<>();
 	/** Cached shader source code */
 	private static Map<String, String> cacheSrc = new HashMap<>();
 
@@ -36,7 +36,7 @@ public class Shader implements ShaderI {
 	
 	private int program;
 	
-	private Shader(int program) {
+	private GLShader(int program) {
 		this.program = program;
 	}
 	
@@ -45,12 +45,12 @@ public class Shader implements ShaderI {
 	 * @param path resource path to the files, excluding file extensions
 	 * @return 
 	 */
-	public static Shader loadShader(String pathVertex, String pathFragment) {
+	public static GLShader loadShader(String pathVertex, String pathFragment) {
 		String key = pathVertex+"/~\\"+pathFragment;
-		Shader cached = cache.get(key);
+		GLShader cached = cache.get(key);
 		if(cached != null) return cached;
 		
-		Shader shader = loadShaderFromDisk(pathVertex, pathFragment);
+		GLShader shader = loadShaderFromDisk(pathVertex, pathFragment);
 		cache.put(key, shader);
 		return shader;
 	}
@@ -61,7 +61,7 @@ public class Shader implements ShaderI {
 	 * @param fragmentPath resource path to the fragment shader
 	 * @return 
 	 */
-	private static Shader loadShaderFromDisk(String vertexPath, String fragmentPath) {
+	private static GLShader loadShaderFromDisk(String vertexPath, String fragmentPath) {
 		//Vertex shader
 		String vertexSrc;
 		
@@ -76,8 +76,8 @@ public class Shader implements ShaderI {
 		glShaderSource(vertex, FileUtils.resToString(vertexPath));
 		glCompileShader(vertex);
 		if( glGetShaderi(vertex, GL_COMPILE_STATUS) != GL_TRUE ) {
-			Window.log.error("Cannot compile vertex shader: "+vertexPath);
-			Window.log.error(glGetShaderInfoLog(vertex));
+			GLRenderer.log.error("Cannot compile vertex shader: "+vertexPath);
+			GLRenderer.log.error(glGetShaderInfoLog(vertex));
 		}
 
 		//Fragment shader
@@ -94,8 +94,8 @@ public class Shader implements ShaderI {
 		glShaderSource(fragment, fragmentSrc);
 		glCompileShader(fragment);
 		if( glGetShaderi(fragment, GL_COMPILE_STATUS) != GL_TRUE ) {
-			Window.log.error("Cannot compile fragment shader: "+fragmentPath);
-			Window.log.error(glGetShaderInfoLog(fragment));
+			GLRenderer.log.error("Cannot compile fragment shader: "+fragmentPath);
+			GLRenderer.log.error(glGetShaderInfoLog(fragment));
 		}
 
 		//Program
@@ -105,15 +105,15 @@ public class Shader implements ShaderI {
 		
 		glLinkProgram(program);
 		if( glGetProgrami(program, GL_LINK_STATUS) != GL_TRUE ) {
-			Window.log.error("Cannot link shaders: "+vertexPath+", "+fragmentPath);
-			Window.log.error(glGetProgramInfoLog(program));
+			GLRenderer.log.error("Cannot link shaders: "+vertexPath+", "+fragmentPath);
+			GLRenderer.log.error(glGetProgramInfoLog(program));
 		}
 		glValidateProgram(program);
 		
 		boolean success = glGetProgrami(program, GL_VALIDATE_STATUS) == GL_TRUE;
 		if( !success ) {
-			Window.log.error("Cannot validate shaders: "+vertexPath+", "+fragmentPath);
-			Window.log.error(glGetProgramInfoLog(program));
+			GLRenderer.log.error("Cannot validate shaders: "+vertexPath+", "+fragmentPath);
+			GLRenderer.log.error(glGetProgramInfoLog(program));
 		}
 		
 		//Cleanup vertex and fragment shaders after linking
@@ -125,7 +125,7 @@ public class Shader implements ShaderI {
 		glDeleteShader(fragment);
 		
 		if(success)
-			return new Shader(program);
+			return new GLShader(program);
 		else
 			return null;
 	}

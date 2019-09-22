@@ -4,13 +4,13 @@ import java.util.Set;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
+import arenashooter.game.Main;
 
 public class Usable extends Item {
 
@@ -25,7 +25,7 @@ public class Usable extends Item {
 	protected boolean demo = false;
 	
 	private Usable() {
-		super(Texture.default_tex.getPath());
+		super(Main.getRenderer().getDefaultTexture().getPath());
 	}
 
 	public Usable(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,

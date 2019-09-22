@@ -10,7 +10,6 @@ import org.jbox2d.dynamics.Fixture;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -519,7 +518,7 @@ public class Character extends RigidBodyContainer {
 			((CharacterSprite) getChild("skeleton")).explode(Vec2f.multiply(deathCause.direction, deathCause.damage));
 
 			if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
-				Window.getCamera().setCameraShake(2);
+				Main.getRenderer().getCamera().setCameraShake(2);
 				// TODO: Improve random sound
 				Main.getAudioManager().playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1,
 						1, getWorldPos());
@@ -560,7 +559,7 @@ public class Character extends RigidBodyContainer {
 		}
 
 		if (health > 0 && deathCause.dmgType == DamageType.OUT_OF_BOUNDS) {
-			Window.getCamera().setCameraShake(2);
+			Main.getRenderer().getCamera().setCameraShake(2);
 			// TODO: Improve random sound
 			Main.getAudioManager().playSound2D("data/sound/crush_0" + ((int) (Math.random() * 5) + 1) + ".ogg", AudioChannel.SFX, 1, 1,
 					getWorldPos());

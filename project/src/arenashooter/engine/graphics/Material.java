@@ -28,7 +28,7 @@ import arenashooter.engine.math.Vec4fi;
 public class Material implements MaterialI, Jsonable {
 	private static Map<String, Material> cache = new HashMap<String, Material>();
 	
-	private Shader shader;
+	private GLShader shader;
 	private final String name, shaderPathV, shaderPathF;
 	
 	private boolean ready = false;
@@ -42,7 +42,7 @@ public class Material implements MaterialI, Jsonable {
 	private Map<String, Vec3fi> paramsVec3f = new HashMap<>();
 	private Map<String, Vec4fi> paramsVec4f = new HashMap<>();
 	private Map<String, Mat4fi> paramsMat4f = new HashMap<>();
-	private Map<String, Texture> paramsTex = new HashMap<>();
+	private Map<String, GLTexture> paramsTex = new HashMap<>();
 	
 	private Material(String name, String shaderPathV, String shaderPathF) {
 		this.name = name;
@@ -62,7 +62,9 @@ public class Material implements MaterialI, Jsonable {
 		res.paramsVec2f.putAll(reader.paramsVec2f);
 		res.paramsVec3f.putAll(reader.paramsVec3f);
 		res.paramsVec4f.putAll(reader.paramsVec4f);
-		res.paramsTex.putAll(reader.paramsTex);
+		//Cast Textures to openGL textures
+		for(Entry<String, TextureI> e : reader.paramsTex.entrySet())
+			res.paramsTex.put(e.getKey(), (GLTexture)e.getValue());
 		
 		//Add matrices
 		res.paramsMat4f.put("model", Mat4f.identity());
@@ -111,7 +113,7 @@ public class Material implements MaterialI, Jsonable {
 			shader.setUniformM4(entry.getKey(), entry.getValue());
 		
 		int texSlot = 0;
-		for(Entry<String, Texture> entry : paramsTex.entrySet()) {
+		for(Entry<String, GLTexture> entry : paramsTex.entrySet()) {
 			glActiveTexture(GL_TEXTURE0+texSlot);
 			entry.getValue().bind();
 			shader.setUniformI(entry.getKey(), texSlot);
@@ -182,13 +184,14 @@ public class Material implements MaterialI, Jsonable {
 	}
 
 	@Override
-	public Texture getParamTex(String name) {
+	public TextureI getParamTex(String name) {
 		return paramsTex.get(name);
 	}
 
 	@Override
-	public void setParamTex(String name, Texture value) {
-		paramsTex.put(name, value);
+	public void setParamTex(String name, TextureI value) {
+		//Cast Textures to openGL textures
+		paramsTex.put(name, (GLTexture)value);
 	}
 	
 	@Override
@@ -227,11 +230,11 @@ public class Material implements MaterialI, Jsonable {
 			}
 			
 			if(lightsDir >= 2)
-				Window.log.warn("Too many directional lights (2 max)");
+				GLRenderer.log.warn("Too many directional lights (2 max)");
 			else if(lightsPoint >= 8)
-				Window.log.warn("Too many point lights (8 max)");
+				GLRenderer.log.warn("Too many point lights (8 max)");
 			else if(lightsSpot >= 8)
-				Window.log.warn("Too many spot lights (8 max)");
+				GLRenderer.log.warn("Too many spot lights (8 max)");
 		}
 		
 		setParamI("activeLightsDir", Math.min(lightsDir, 2));
@@ -242,7 +245,7 @@ public class Material implements MaterialI, Jsonable {
 	private void initMaterial() {
 		if(ready) return;
 		ready = true;
-		shader = Shader.loadShader(shaderPathV, shaderPathF);
+		shader = GLShader.loadShader(shaderPathV, shaderPathF);
 	}
 	
 	@Override

@@ -158,7 +158,7 @@ public class Model {
 	 * Send this model's data to a shader
 	 * @param shader
 	 */
-	public void bindToShader( Shader shader ) {
+	public void bindToShader( GLShader shader ) {
 		if(!ready) initModel();
 		glBindVertexArray(vaoID);
 

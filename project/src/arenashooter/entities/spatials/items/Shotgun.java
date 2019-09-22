@@ -5,8 +5,6 @@ import java.util.Set;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
@@ -22,7 +20,7 @@ public class Shotgun extends Gun {
 	private double dispersion = 0.3;
 	
 	private Shotgun() {
-		super(Texture.default_tex.getPath());
+		super(Main.getRenderer().getDefaultTexture().getPath());
 	}
 
 	/**
@@ -191,7 +189,7 @@ public class Shotgun extends Gun {
 				localRotation += ((Math.random()) - 0.5) * recoil;
 
 				// Add camera shake
-				Window.getCamera().setCameraShake(.029f);
+				Main.getRenderer().getCamera().setCameraShake(.029f);
 			} else {
 				Main.getAudioManager().playSound2D(soundNoAmmo, AudioChannel.SFX, .25f, Utils.lerpF(.8f, 1.2f, Math.random()),
 						getWorldPos());

@@ -24,7 +24,7 @@ import arenashooter.engine.animation.AnimationDataEditable;
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.animation.animevents.AnimEventCustom;
 import arenashooter.engine.animation.animevents.AnimEventSound;
-import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
@@ -126,12 +126,12 @@ public class AnimXmlWriter {
 				 * keyframeT EMPTY> <!ATTLIST keyframeT time CDATA #REQUIRED> <!ATTLIST
 				 * keyframeT value CDATA #REQUIRED>
 				 */
-				for (Entry<String, Map<Double, Texture>> tT : anim.tracksT.entrySet()) {
+				for (Entry<String, Map<Double, TextureI>> tT : anim.tracksT.entrySet()) {
 					Element tracksT = doc.createElement("tracksT");
 					tracksT.setAttribute("name", tT.getKey());
 					animation.appendChild(tracksT);
 					
-					for (Entry<Double, Texture> AuDD : tT.getValue().entrySet()) {
+					for (Entry<Double, TextureI> AuDD : tT.getValue().entrySet()) {
 						Element keyframeT = doc.createElement("keyframeT");
 						keyframeT.setAttribute("time", AuDD.getKey() + "");
 						keyframeT.setAttribute("value", AuDD.getValue() + "");

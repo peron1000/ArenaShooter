@@ -11,7 +11,8 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.AudioManager;
 import arenashooter.engine.audio.NoSound;
 import arenashooter.engine.audio.openAL.ALAudio;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.Renderer;
+import arenashooter.engine.graphics.GLRenderer;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.game.gameStates.loading.LoadingConfig;
 import arenashooter.game.gameStates.loading.PreLoadMainSound;
@@ -29,6 +30,7 @@ public class Main {
 	public static boolean drawCollisions = false, skipTransparency = false;
 
 	private static AudioManager audio;
+	private static Renderer renderer;
 	private static GameMaster gameMaster;
 
 	public static Font font = null;
@@ -54,7 +56,9 @@ public class Main {
 			audio = new ALAudio();
 		audio.init();
 		
-		Window.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
+		renderer = new GLRenderer();
+		
+		renderer.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
 
 		gameMaster = new GameMaster();
 
@@ -73,7 +77,7 @@ public class Main {
 		loadingConfig.start();
 		preLoadMainSound.start();
 
-		while (!Window.requestClose() && !requestclose) {
+		while (!renderer.requestedClose() && !requestclose) {
 
 			currentFrame = System.currentTimeMillis();
 
@@ -88,7 +92,7 @@ public class Main {
 			Profiler.startTimer(Profiler.STEP);
 
 			while (remaining > tickLength) {
-				Window.beginFrame();
+				renderer.beginFrame();
 				gameMaster.update(tickLength);
 				Profiler.subSteps++;
 				remaining -= tickLength;
@@ -102,13 +106,13 @@ public class Main {
 
 			audio.update();
 
-			Window.endFrame();
+			renderer.endFrame();
 			
 			// FPS counter
 			fpsFrames++;
 			if (fpsFrames >= 10 && (currentFrame - fpsTime) >= 250) {
 				double time = ((double) (currentFrame - fpsTime)) / fpsFrames;
-				Window.setTitle("Super Blep - " + (int) (1 / (time / 1000d)) + "fps");
+				Main.getRenderer().setTitle("Super Blep - " + (int) (1 / (time / 1000d)) + "fps");
 				fpsTime = currentFrame;
 				fpsFrames = 0;
 			}
@@ -127,7 +131,7 @@ public class Main {
 			Profiler.printData();
 		}
 
-		Window.destroy();
+		renderer.destroy();
 		audio.destroy();
 
 		log.info("Closing Super Blep...");
@@ -139,6 +143,8 @@ public class Main {
 	public static GameMaster getGameMaster() { return gameMaster; }
 	
 	public static AudioManager getAudioManager() { return audio; }
+	
+	public static Renderer getRenderer() { return renderer; }
 
 	public static void reqestClose() {
 		requestclose = true;

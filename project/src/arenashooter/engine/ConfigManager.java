@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Window;
 import arenashooter.game.Main;
 
 public class ConfigManager {
@@ -113,8 +112,8 @@ public class ConfigManager {
 	 */
 	public static void applyAllSettings() {
 		//Video
-		Window.resize(getInt("resX"), getInt("resY"), getBool("fullscreen"), getFloat("resScale"));
-		Window.setVsync(getBool("vsync"));
+		Main.getRenderer().resize(getInt("resX"), getInt("resY"), getBool("fullscreen"), getFloat("resScale"));
+		Main.getRenderer().setVsync(getBool("vsync"));
 		
 		//Audio
 		Main.getAudioManager().setMainVolume(getFloat("volumeMain"));

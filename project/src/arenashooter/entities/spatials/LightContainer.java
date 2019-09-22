@@ -9,8 +9,6 @@ import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Quat;
@@ -19,6 +17,7 @@ import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.entities.Arena;
 import arenashooter.entities.Entity;
+import arenashooter.game.Main;
 
 public class LightContainer extends Spatial3 implements IAnimated {
 	private final Light light;
@@ -100,8 +99,8 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	@Override
 	public void editorDraw() {
 		if(editorSprite == null) {
-			editorSpriteMat = Window.loadMaterial("data/materials/sprite_simple.material");
-			editorSpriteMat.setParamTex("baseColor", Texture.loadTexture("data/sprites/icon_light.png").setFilter(false));
+			editorSpriteMat = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
+			editorSpriteMat.setParamTex("baseColor", Main.getRenderer().loadTexture("data/sprites/icon_light.png").setFilter(false));
 			editorSprite = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(1), editorSpriteMat);
 		}
 		if(editorMesh == null) {

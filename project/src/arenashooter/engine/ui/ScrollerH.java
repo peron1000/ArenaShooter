@@ -3,13 +3,13 @@ package arenashooter.engine.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.engine.util.CircleList;
+import arenashooter.game.Main;
 
 public class ScrollerH<E> extends UiActionable {
 	private Vec4f colorOnUnSelect = new Vec4f(1);
@@ -299,9 +299,9 @@ public class ScrollerH<E> extends UiActionable {
 				}
 			}
 			if(isScissorOk()) {
-				Window.stackScissor(getLeft(), getBottom(), getScale().x, getScale().y);
+				Main.getRenderer().stackScissor(getLeft(), getBottom(), getScale().x, getScale().y);
 				label.draw();
-				Window.popScissor();
+				Main.getRenderer().popScissor();
 			} else {
 				label.draw();
 			}

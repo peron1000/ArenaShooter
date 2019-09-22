@@ -14,13 +14,13 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.Character;
 import arenashooter.entities.spatials.Spatial;
+import arenashooter.game.Main;
 
 public class Melee extends Usable {
 	protected Timer fireRate = null;
@@ -40,7 +40,7 @@ public class Melee extends Usable {
 	private double size = 0;
 	
 	private Melee() {
-		super(Texture.default_tex.getPath());
+		super(Main.getRenderer().getDefaultTexture().getPath());
 	}
 	
 	public Melee(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,Vec2fi extent,

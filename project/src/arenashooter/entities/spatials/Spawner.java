@@ -38,7 +38,7 @@ public class Spawner extends Spatial {
 		super(localPosition);
 		setCooldown(cooldown);
 		editorView = new Sprite(localPosition , "data/weapons/alien.png");
-		editorView.size = editorView.getTexture().getSize().multiply(0.03f);
+		editorView.size.set(editorView.getTexture().getSize()).multiply(0.03f);
 	}
 	
 	@Override

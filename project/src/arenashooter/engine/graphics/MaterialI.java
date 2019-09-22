@@ -43,9 +43,9 @@ public interface MaterialI {
 
 	public void setParamMat4f(String name, Mat4fi value);
 	
-	public Texture getParamTex(String name);
+	public TextureI getParamTex(String name);
 
-	public void setParamTex(String name, Texture value);
+	public void setParamTex(String name, TextureI value);
 	
 	/**
 	 * Set lights used on this materials

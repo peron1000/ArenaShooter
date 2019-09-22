@@ -13,7 +13,6 @@ import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
@@ -21,6 +20,7 @@ import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
 import arenashooter.entities.Entity;
+import arenashooter.game.Main;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
@@ -175,8 +175,8 @@ public class Mesh extends Spatial3 implements IAnimated {
 		}
 
 		materials[i].setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelMatrix));
-		materials[i].setParamMat4f("view", Window.getView());
-		materials[i].setParamMat4f("projection", Window.getProj());
+		materials[i].setParamMat4f("view", Main.getRenderer().getView());
+		materials[i].setParamMat4f("projection", Main.getRenderer().getProj());
 
 		materials[i].setParamI("time", timeMs);
 

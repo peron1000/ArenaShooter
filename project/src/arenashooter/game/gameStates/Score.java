@@ -3,8 +3,7 @@ package arenashooter.game.gameStates;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiElement;
@@ -27,7 +26,7 @@ public class Score extends GameState {
 	}
 
 	private void setPositions(UiGroup<UiImage> group, double y, double scale) {
-		final double x = 100 * Window.getRatio() / 4;
+		final double x = 100 * Main.getRenderer().getRatio() / 4;
 		double i = -1.5;
 		for (UiImage uiImage : group) {
 			uiImage.setScale(scale);
@@ -38,13 +37,13 @@ public class Score extends GameState {
 
 	@Override
 	public void init() {
-		UiImage bg = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu_Score.png"), new Vec4f(1));
+		UiImage bg = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Fond Menu_Score.png"), new Vec4f(1));
 		bg.setScale(177.78, 100);
 		group.setBackground(bg);
 
-		Texture texButtonA = Texture.loadTexture("data/sprites/interface/Button_A.png");
-		Texture texButtonY = Texture.loadTexture("data/sprites/interface/Button_Y.png");
-		Texture texButtonB = Texture.loadTexture("data/sprites/interface/Button_B.png");
+		TextureI texButtonA = Main.getRenderer().loadTexture("data/sprites/interface/Button_A.png");
+		TextureI texButtonY = Main.getRenderer().loadTexture("data/sprites/interface/Button_Y.png");
+		TextureI texButtonB = Main.getRenderer().loadTexture("data/sprites/interface/Button_B.png");
 
 		UiImageLabel buttonA = new UiImageLabel(new UiImage(texButtonA, new Vec4f(1)), texButtonA.getWidth() / 2,
 				texButtonA.getHeight() / 2);
@@ -105,10 +104,10 @@ public class Score extends GameState {
 
 		// Medals
 		UiGroup<UiImage> medals = new UiGroup<>();
-		medals.addElements(new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_winner.png")),
-				new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_kills.png")),
-				new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_survivor.png")),
-				new UiImage(Texture.loadTexture("data/sprites/interface/medals/medal_congration.png")));
+		medals.addElements(new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/medals/medal_winner.png")),
+				new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/medals/medal_kills.png")),
+				new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/medals/medal_survivor.png")),
+				new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/medals/medal_congration.png")));
 
 		setPositions(medals, 0, 24);
 
@@ -121,13 +120,13 @@ public class Score extends GameState {
 		// Numbers
 		UiGroup<UiImage> numbers = new UiGroup<>();
 		numbers.addElements(
-				new UiImage(Texture
+				new UiImage(Main.getRenderer()
 						.loadTexture("data/sprites/interface/Player_" + (winner.playerNumber + 1) + "_Arrow.png")),
-				new UiImage(Texture
+				new UiImage(Main.getRenderer()
 						.loadTexture("data/sprites/interface/Player_" + (killer.playerNumber + 1) + "_Arrow.png")),
-				new UiImage(Texture
+				new UiImage(Main.getRenderer()
 						.loadTexture("data/sprites/interface/Player_" + (survivor.playerNumber + 1) + "_Arrow.png")),
-				new UiImage(Texture
+				new UiImage(Main.getRenderer()
 						.loadTexture("data/sprites/interface/Player_" + (bestest.playerNumber + 1) + "_Arrow.png")));
 		setPositions(numbers, -40, 8);
 
@@ -141,15 +140,15 @@ public class Score extends GameState {
 					switch (event.getAction()) {
 					case UI_OK: //TODO: Use UI action
 						buttonA.setImage(
-								new UiImage(Texture.loadTexture("data/sprites/interface/Button_A_Activated.png")));
+								new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Button_A_Activated.png")));
 						break;
 					case DROP_ITEM: //TODO: Use UI action
 						buttonY.setImage(
-								new UiImage(Texture.loadTexture("data/sprites/interface/Button_Y_Activated.png")));
+								new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Button_Y_Activated.png")));
 						break;
 					case UI_BACK:
 						buttonB.setImage(
-								new UiImage(Texture.loadTexture("data/sprites/interface/Button_B_Activated.png")));
+								new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Button_B_Activated.png")));
 						break;
 
 					default:
@@ -216,8 +215,8 @@ public class Score extends GameState {
 	@Override
 	public void draw() {
 		super.draw();
-		Window.beginUi();
+		Main.getRenderer().beginUi();
 		group.draw();
-		Window.endUi();
+		Main.getRenderer().endUi();
 	}
 }

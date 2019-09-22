@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
-import com.github.cliftonlabs.json_simple.Jsonable;
 
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 
 /**
- * Container for OpenGL texture
+ * Container for an OpenGL texture
  */
-public class Texture implements Jsonable {
+public final class GLTexture implements TextureI { //TODO: Remove public modifier
 	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
-	public static final Texture default_tex = loadTexture( "data/default_texture.png" );
+	public static final TextureI default_tex = loadTexture( "data/default_texture.png" );
 	
 	private boolean ready = false;
 	private Image img;
@@ -34,9 +34,9 @@ public class Texture implements Jsonable {
 	private boolean filterTarget = true;
 	
 	/** Does this texture use non-1bit transparency */
-	public final boolean transparency;
+	private final boolean transparency;
 	
-	private Texture( String path, int id, int width, int height, boolean transparency ) {
+	private GLTexture( String path, int id, int width, int height, boolean transparency ) {
 		file = path;
 		this.id = id;
 		this.width = width;
@@ -50,7 +50,7 @@ public class Texture implements Jsonable {
 	 * @param path image file
 	 * @return texture object (with filtering enabled) or the default texture if an error occurred
 	 */
-	public static Texture loadTexture( String path ) {
+	public static TextureI loadTexture( String path ) {
 		//Check if the texture has already been loaded
 		TextureEntry entry = textures.get(path);
 		if( entry != null && entry.texture.get() != null )
@@ -59,7 +59,7 @@ public class Texture implements Jsonable {
 		Image img = Image.loadImage(path);
 		
 		if( img == null ) {
-			Window.log.error("Cannot load texture : "+path);
+			GLRenderer.log.error("Cannot load texture : "+path);
 			return default_tex;
 		}
 		
@@ -78,7 +78,7 @@ public class Texture implements Jsonable {
 			pixelFormat = GL_RGBA;
 			break;
 		default:
-			Window.log.error("Unsupported channel count ("+channels+") for texture : "+path);
+			GLRenderer.log.error("Unsupported channel count ("+channels+") for texture : "+path);
 			return default_tex;
 		}
 		
@@ -87,7 +87,7 @@ public class Texture implements Jsonable {
 		
 		boolean transparency = img.transparency;
 		if( pixelFormat != GL_RGBA ) transparency = false;
-		Texture tex = new Texture(path, -2, width, height, transparency);
+		GLTexture tex = new GLTexture(path, -2, width, height, transparency);
 		
 		tex.img = img;
 		tex.pixelFormat = pixelFormat;
@@ -121,9 +121,7 @@ public class Texture implements Jsonable {
 		img = null;
 	}
 	
-	/**
-	 * Bind this texture for rendering
-	 */
+	@Override
 	public void bind() {
 		if(!ready) initTexture();
 		glBindTexture(GL_TEXTURE_2D, id);
@@ -148,43 +146,34 @@ public class Texture implements Jsonable {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
-	/**
-	 * @return path to image file
-	 */
+	@Override
 	public String getPath() {
 		return file;
 	}
 	
-	/**
-	 * @return the texture's width in pixels
-	 */
+	@Override
 	public int getWidth() { return width; }
 	
-	/**
-	 * @return the texture's height in pixels
-	 */
+	@Override
 	public int getHeight() { return height; }
 	
-	/**
-	 * @return Size in pixels (width, height)
-	 */
-	public Vec2f getSize() { return new Vec2f(width, height); }
+	@Override
+	public Vec2fi getSize() { return new Vec2f(width, height); }
 	
-	/**
-	 * Set filtering on this texture (nearest or linear)
-	 * @param val enable linear filtering
-	 * @return <i>this</i>
-	 */
-	public Texture setFilter(boolean val) {
+	@Override
+	public GLTexture setFilter(boolean val) {
 		filterTarget = val;
 		return this;
 	}
 	
-	/**
-	 * @return true if this texture is using filtering
-	 */
+	@Override
 	public boolean isFiltered() {
 		return filterTarget;
+	}
+
+	@Override
+	public boolean isTranslucent() {
+		return transparency;
 	}
 	
 	//
@@ -195,11 +184,11 @@ public class Texture implements Jsonable {
 	 * Remove unused textures from memory
 	 */
 	public static void cleanTextures() { //TODO: Test
-		Window.log.info("Cleaning textures...");
+		GLRenderer.log.info("Cleaning textures...");
 		
 		List<String> toRemove = new ArrayList<String>(0);
 		
-		Texture.unbind();
+		GLTexture.unbind();
 		
 		for ( TextureEntry entry : textures.values() ) {
 		    if( entry.texture.get() == null ) { //Texture has been garbage collected
@@ -212,20 +201,24 @@ public class Texture implements Jsonable {
 		for( String s : toRemove )
 			textures.remove(s);
 		
-		Window.log.info("Cleaned up "+toRemove.size()+" textures.");
+		GLRenderer.log.info("Cleaned up "+toRemove.size()+" textures.");
 	}
 	
 	private static class TextureEntry {
 		int id;
 		String file;
-		WeakReference<Texture> texture;
+		WeakReference<GLTexture> texture;
 		
-		TextureEntry(Texture texture) {
+		TextureEntry(GLTexture texture) {
 			this.id = texture.id;
 			this.file = texture.getPath();
-			this.texture = new WeakReference<Texture>(texture);
+			this.texture = new WeakReference<GLTexture>(texture);
 		}
 	}
+	
+	/*
+	 * JSON
+	 */
 	
 	@Override
 	public String toJson() {

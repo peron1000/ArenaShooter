@@ -6,7 +6,6 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
@@ -31,7 +30,7 @@ public class TextSpatial extends Spatial3 {
 		super(localPosition);
 		this.scale = new Vec3f(scale);
 		this.text = text;
-		this.material = Window.loadMaterial("data/materials/text_distance_field.material");
+		this.material = Main.getRenderer().loadMaterial("data/materials/text_distance_field.material");
 
 		setThickness(.3f);
 		setColor(new Vec4f(1, 1, .5, 1));
@@ -78,8 +77,8 @@ public class TextSpatial extends Spatial3 {
 
 		material.setParamTex("distanceField", text.getFont().getTexture());
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelMatrix));
-		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.getProj());
+		material.setParamMat4f("view", Main.getRenderer().getView());
+		material.setParamMat4f("projection", Main.getRenderer().getProj());
 		
 		if(material.bind(text.getModel())) {
 			text.getModel().bind();

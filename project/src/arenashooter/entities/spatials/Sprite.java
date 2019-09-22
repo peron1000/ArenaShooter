@@ -3,15 +3,15 @@ package arenashooter.entities.spatials;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.Main;
 
 public class Sprite extends Spatial {
-	private static final Texture defaultTex = Texture.loadTexture("data/white_pixel.png");
+	private static final TextureI defaultTex = Main.getRenderer().loadTexture("data/white_pixel.png");
 	public MaterialI material;
 	private static Model model;
 	public Vec2f size = new Vec2f(1, 1);
@@ -20,13 +20,13 @@ public class Sprite extends Spatial {
 	
 	public boolean flipX = false, flipY = false;
 	
-	public Sprite(Vec2fi localPosition, Texture texture) {
+	public Sprite(Vec2fi localPosition, TextureI texture) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
-		material = Window.loadMaterial("data/materials/sprite_simple.material");
+		material = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
-		if(texture.transparency)
+		if(texture.isTranslucent())
 			material.setTransparency(true);
 	}
 	
@@ -37,16 +37,16 @@ public class Sprite extends Spatial {
 	}
 	
 	public Sprite(Vec2fi localPosition, String texture) {
-		this(localPosition, Texture.loadTexture(texture));
+		this(localPosition, Main.getRenderer().loadTexture(texture));
 	}
 	
 	public Sprite(Vec2fi localPosition) {
 		this(localPosition, defaultTex);
 	}
 	
-	public Texture getTexture() { return material.getParamTex("baseColor"); }
+	public TextureI getTexture() { return material.getParamTex("baseColor"); }
 	
-	public void setTexture(Texture newTex) { material.setParamTex("baseColor", newTex); };
+	public void setTexture(TextureI newTex) { material.setParamTex("baseColor", newTex); };
 	
 	@Override
 	public boolean drawAsTransparent(){ return material.getTransparency(); }
@@ -59,8 +59,8 @@ public class Sprite extends Spatial {
 		scale.set( flipX ? -size.x : size.x, flipY ? -size.y : size.y );
 
 		material.setParamMat4f("model", Mat4f.transform(getWorldPos(), getWorldRot(), scale, modelM));
-		material.setParamMat4f("view", Window.getView());
-		material.setParamMat4f("projection", Window.getProj());
+		material.setParamMat4f("view", Main.getRenderer().getView());
+		material.setParamMat4f("projection", Main.getRenderer().getProj());
 		
 		if(material.bind(model)) {
 			model.bind();

@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.ui.simpleElement.Button;
@@ -16,7 +15,7 @@ import arenashooter.game.gameStates.MenuStart;
 
 public class MenuPause {
 
-	private UiImage selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector.png")),
+	private UiImage selector = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Selector.png")),
 			background = new UiImage(0.5, 0.5, 0.5, 0.3);
 	private TabList<UiActionable> mainMenu = new TabList<>();
 	private TabList<UiActionable> current = mainMenu;

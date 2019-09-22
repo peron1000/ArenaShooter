@@ -1,13 +1,12 @@
 package arenashooter.engine.ui;
 
 import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.game.Main;
 
 public class ColorPicker extends UiElement {
 
@@ -36,15 +35,15 @@ public class ColorPicker extends UiElement {
 		
 		this.hasAlpha = hasAlpha;
 		
-		MaterialI lumiSatMat = Window.loadMaterial("data/materials/ui/ui_gradient_4.material");
+		MaterialI lumiSatMat = Main.getRenderer().loadMaterial("data/materials/ui/ui_gradient_4.material");
 		lumiSat = new UiImage(lumiSatMat);
 		
-		hueImg = new UiImage(Texture.loadTexture("data/sprites/interface/hue.png"));
+		hueImg = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/hue.png"));
 		hueImg.setRotation(-Math.PI/2);
 		hueImg.setPosition(6, 0);
 		hueImg.setScale(10, 2);
 		
-		lumiSatSelector = new UiImage( Texture.loadTexture("data/sprites/interface/selector_round.png").setFilter(true) );
+		lumiSatSelector = new UiImage( Main.getRenderer().loadTexture("data/sprites/interface/selector_round.png").setFilter(true) );
 		lumiSatSelector.setScale(2.5, 2.5);
 		
 		hueSelector = new UiImage(new Vec4f(1));

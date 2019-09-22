@@ -11,8 +11,7 @@ import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
 import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.Texture;
-import arenashooter.engine.graphics.Window;
+import arenashooter.engine.graphics.TextureI;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
@@ -100,10 +99,10 @@ public class Config extends GameState {
 	}
 
 	private void ui() {
-		background = new UiImage(Texture.loadTexture("data/sprites/interface/Fond Menu.png"));
-		selector = new UiImage(Texture.loadTexture("data/sprites/interface/Selector_1.png"));
+		background = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Fond Menu.png"));
+		selector = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Selector_1.png"));
 		// boutton_start
-		Texture enterTex = Texture.loadTexture("data/sprites/interface/Button_Start.png");
+		TextureI enterTex = Main.getRenderer().loadTexture("data/sprites/interface/Button_Start.png");
 		enter = new UiImage(enterTex);
 		enter.setPosition(new Vec2f(72, 39));
 		enter.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
@@ -202,7 +201,7 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			MaterialI thumbnailMat = Window.loadMaterial("data/materials/ui/ui_arena_thumbnail.material");
+			MaterialI thumbnailMat = Main.getRenderer().loadMaterial("data/materials/ui/ui_arena_thumbnail.material");
 			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
 			UiImage picture = new UiImage(thumbnailMat);
 			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));
@@ -247,7 +246,7 @@ public class Config extends GameState {
 	@Override
 	public void draw() {
 		// super.draw();
-		Window.beginUi();
+		Main.getRenderer().beginUi();
 		background.draw();
 		menu.draw();
 		selector.draw();
@@ -260,7 +259,7 @@ public class Config extends GameState {
 		escape.draw();
 		space.draw();
 		// nextgm.draw();
-		Window.endUi();
+		Main.getRenderer().endUi();
 	}
 	
 	public GameParam getGameParam() {

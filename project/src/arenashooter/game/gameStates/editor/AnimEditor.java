@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arenashooter.engine.animation.AnimationDataEditable;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
@@ -13,6 +12,7 @@ import arenashooter.engine.ui.AnimEditorTimeline;
 import arenashooter.engine.ui.UiElement;
 import arenashooter.engine.ui.simpleElement.Label;
 import arenashooter.engine.ui.simpleElement.UiImage;
+import arenashooter.game.Main;
 
 public class AnimEditor extends UiElement {
 	DecimalFormat df = new DecimalFormat("#0.000");
@@ -53,7 +53,7 @@ public class AnimEditor extends UiElement {
 		elems.add(timeline);
 	}
 	
-	private float screenWidth() { return Window.getRatio()*100; }
+	private float screenWidth() { return Main.getRenderer().getRatio()*100; }
 	
 	private float screenLeft() { return -screenWidth()/2; }
 	

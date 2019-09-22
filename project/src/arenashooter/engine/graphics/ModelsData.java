@@ -41,7 +41,7 @@ public class ModelsData {
 		}
 		
 		//Unsupported format
-		Window.log.error(path+" is not a wavefront obj file");
+		GLRenderer.log.error(path+" is not a wavefront obj file");
 		return new ModelsData(new Model[0], new Material[0]);
 	}
 	

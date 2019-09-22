@@ -8,7 +8,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.graphics.GLTexture;
 import arenashooter.engine.graphics.particles.EmitterTemplate;
 import arenashooter.engine.graphics.particles.modules.AccelConstant;
 import arenashooter.engine.graphics.particles.modules.ColorOverLife;
@@ -20,6 +20,7 @@ import arenashooter.engine.graphics.particles.modules.ParticleModule;
 import arenashooter.engine.graphics.particles.modules.SizeOverLife;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.game.Main;
 
 public class ParticlesXmlReader extends XmlReader {
 
@@ -51,7 +52,7 @@ public class ParticlesXmlReader extends XmlReader {
 			if(texElem == null) continue;
 			String path = texElem.getAttribute("src");
 			boolean filtered = Boolean.parseBoolean(texElem.getAttribute("filtered"));
-			Texture tex = Texture.loadTexture(path).setFilter(filtered);
+			GLTexture tex = (GLTexture)Main.getRenderer().loadTexture(path).setFilter(filtered);
 			
 			List<ParticleModule> modules = readModules(getFirstElementByName("modules", emitter).getChildNodes());
 

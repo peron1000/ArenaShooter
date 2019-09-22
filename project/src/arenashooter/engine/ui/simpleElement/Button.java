@@ -1,10 +1,10 @@
 package arenashooter.engine.ui.simpleElement;
 
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiActionable;
+import arenashooter.game.Main;
 
 public class Button extends UiActionable {
 	private double ratio = 3;
@@ -150,9 +150,9 @@ public class Button extends UiActionable {
 		if (isVisible()) {
 			if (isScissorOk()) {
 				rect.draw();
-				Window.stackScissor(getLeft(), getBottom(), getScale().x, getScale().y);
+				Main.getRenderer().stackScissor(getLeft(), getBottom(), getScale().x, getScale().y);
 				label.draw();
-				Window.popScissor();
+				Main.getRenderer().popScissor();
 			} else {
 				rect.draw();
 				label.draw();

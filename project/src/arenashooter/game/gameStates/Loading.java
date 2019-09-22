@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import arenashooter.engine.graphics.PostProcess;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.entities.Entity;
@@ -26,7 +25,7 @@ public abstract class Loading extends GameState {
 
 	@Override
 	public void init() {
-		Window.setPostProcess(new PostProcess("data/shaders/post_process/pp_loading.frag"));
+		Main.getRenderer().setPostProcess(new PostProcess("data/shaders/post_process/pp_loading.frag"));
 
 		List<Entity> entities = new ArrayList<>();
 
@@ -34,7 +33,7 @@ public abstract class Loading extends GameState {
 		Camera cam = new Camera(new Vec3f(0, 0, 8));
 		cam.setFOV(90);
 		entities.add(cam);
-		Window.setCamera(cam);
+		Main.getRenderer().setCamera(cam);
 
 		List<ControllerPlayer> players = Main.getGameMaster().getPlayerControllers();
 

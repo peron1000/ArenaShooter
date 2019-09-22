@@ -3,7 +3,6 @@ package arenashooter.engine.ui;
 import java.text.DecimalFormat;
 
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.Window;
 import arenashooter.engine.ui.Trigger;
 import arenashooter.engine.ui.UiActionable;
 import arenashooter.engine.ui.simpleElement.Button;
@@ -80,10 +79,10 @@ public class MenuSettings extends TabList<UiActionable> {
 		final double xScaleScH = 40 , yScaleScH = 8;
 		final float ratio = 0.8f;
 		ScrollerH<int[]> reso = new ScrollerH<>();
-		for (int[] is : Window.getAvailableResolutions()) {
+		for (int[] is : Main.getRenderer().getAvailableResolutions()) {
 			reso.add(is);
 			reso.changeValueView(is, is[0] + "x" + is[1]);
-			if (is[0] == Window.getWidth() && is[1] == Window.getHeight()) {
+			if (is[0] == Main.getRenderer().getWidth() && is[1] == Main.getRenderer().getHeight()) {
 				if (!reso.setValue(is))
 					Main.log.warn("Couldn't set resolution button initial value");
 			}
@@ -95,7 +94,7 @@ public class MenuSettings extends TabList<UiActionable> {
 
 			@Override
 			public void make() {
-				Window.resize(reso.get()[0], reso.get()[1]);
+				Main.getRenderer().resize(reso.get()[0], reso.get()[1]);
 			}
 		});
 
@@ -107,12 +106,12 @@ public class MenuSettings extends TabList<UiActionable> {
 		fullscreen.setTitle("Mode");
 		fullscreen.setScale(xScaleScH, yScaleScH);
 		fullscreen.setLabelRatio(ratio);
-		if (!fullscreen.setValue(Window.isFullscreen()))
+		if (!fullscreen.setValue(Main.getRenderer().isFullscreen()))
 			Main.log.warn("Couldn't set fullscreen button initial value");
 		fullscreen.setOnValidation(new Trigger() {
 			@Override
 			public void make() {
-				Window.setFullscreen(fullscreen.get().booleanValue());
+				Main.getRenderer().setFullscreen(fullscreen.get().booleanValue());
 			}
 		});
 
@@ -124,8 +123,8 @@ public class MenuSettings extends TabList<UiActionable> {
 			scale.add(f);
 			scale.changeValueView(f, df.format(f.floatValue()));
 		}
-		if (scale.containValue(Window.getResScale())) {
-			if (!scale.setValue(Window.getResScale())) {
+		if (scale.containValue(Main.getRenderer().getResScale())) {
+			if (!scale.setValue(Main.getRenderer().getResScale())) {
 				Main.log.warn("Couldn't set resolution scale button initial value");
 			}
 		} else {
@@ -137,7 +136,7 @@ public class MenuSettings extends TabList<UiActionable> {
 		scale.setOnValidation(new Trigger() {
 			@Override
 			public void make() {
-				Window.setResScale(scale.get().floatValue());
+				Main.getRenderer().setResScale(scale.get().floatValue());
 			}
 		});
 
