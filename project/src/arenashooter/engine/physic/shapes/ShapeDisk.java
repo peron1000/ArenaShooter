@@ -38,7 +38,7 @@ public class ShapeDisk extends PhysicShape {
 	@Override
 	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {
 		if(material == null)
-			material = Main.getRenderer().loadMaterial("data/materials/debug_color.xml");
+			material = Main.getRenderer().loadMaterial("data/materials/debug_color.material");
 		
 		//Create matrices
 		Mat4f.transform(pos, rot, new Vec2f( radius*2 ), modelM);
