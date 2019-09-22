@@ -50,7 +50,7 @@ public final class GLTexture implements Texture { //TODO: Remove public modifier
 	 * @param path image file
 	 * @return texture object (with filtering enabled) or the default texture if an error occurred
 	 */
-	public static Texture loadTexture( String path ) {
+	public static Texture loadTexture( String path ) { //TODO: remove public modifier
 		//Check if the texture has already been loaded
 		TextureEntry entry = textures.get(path);
 		if( entry != null && entry.texture.get() != null )
@@ -161,7 +161,7 @@ public final class GLTexture implements Texture { //TODO: Remove public modifier
 	public Vec2fi getSize() { return new Vec2f(width, height); }
 	
 	@Override
-	public GLTexture setFilter(boolean val) {
+	public Texture setFilter(boolean val) {
 		filterTarget = val;
 		return this;
 	}
@@ -215,6 +215,7 @@ public final class GLTexture implements Texture { //TODO: Remove public modifier
 			this.texture = new WeakReference<GLTexture>(texture);
 		}
 	}
+	
 	
 	/*
 	 * JSON

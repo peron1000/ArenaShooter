@@ -9,7 +9,6 @@ import java.util.Set;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
-import com.github.cliftonlabs.json_simple.Jsonable;
 
 import static org.lwjgl.opengl.GL20.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL20.glActiveTexture;
@@ -25,7 +24,7 @@ import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.math.Vec4fi;
 
-final class GLMaterial implements Material, Jsonable {
+final class GLMaterial implements Material {
 	private static Map<String, GLMaterial> cache = new HashMap<String, GLMaterial>();
 	
 	private GLShader shader;

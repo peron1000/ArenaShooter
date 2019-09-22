@@ -38,7 +38,7 @@ public interface Texture extends Jsonable {
 	 * @param val enable linear filtering
 	 * @return <i>this</i>
 	 */
-	public GLTexture setFilter(boolean val);
+	public Texture setFilter(boolean val);
 	
 	/**
 	 * @return true if this texture is using filtering

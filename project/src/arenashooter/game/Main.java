@@ -13,6 +13,7 @@ import arenashooter.engine.audio.NoSound;
 import arenashooter.engine.audio.openAL.ALAudio;
 import arenashooter.engine.graphics.Renderer;
 import arenashooter.engine.graphics.GLRenderer;
+import arenashooter.engine.graphics.NoRender;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.game.gameStates.loading.LoadingConfig;
 import arenashooter.game.gameStates.loading.PreLoadMainSound;
@@ -55,8 +56,12 @@ public class Main {
 		else
 			audio = new ALAudio();
 		audio.init();
-		
-		renderer = new GLRenderer();
+
+		//Rendering
+		if( argsL.contains("-norender") )
+			renderer = new NoRender();
+		else
+			renderer = new GLRenderer();
 		
 		renderer.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
 

@@ -2,12 +2,14 @@ package arenashooter.engine.graphics;
 
 import java.util.Set;
 
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 import arenashooter.engine.math.Mat4fi;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;
 import arenashooter.engine.math.Vec4fi;
 
-public interface Material {
+public interface Material extends Jsonable {
 	public boolean getTransparency();
 	
 	public void setTransparency(boolean transparency);

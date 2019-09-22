@@ -20,7 +20,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 
 /**
- * Contains geometry data for a single model 
+ * Contains geometry data for a single openGL model 
  * Doesn't have any shader or texture
  */
 public class Model {

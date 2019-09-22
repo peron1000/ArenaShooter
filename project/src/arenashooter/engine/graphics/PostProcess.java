@@ -1,7 +1,7 @@
 package arenashooter.engine.graphics;
 
 /**
- * Post processing settings
+ * Post processing settings for openGL
  */
 public class PostProcess {
 	private static final String vertexShader = "data/shaders/post_process/pp.vert";
