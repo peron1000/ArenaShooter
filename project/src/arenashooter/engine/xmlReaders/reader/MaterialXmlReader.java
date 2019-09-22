@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.w3c.dom.Element;
 
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -24,7 +24,7 @@ public class MaterialXmlReader extends XmlReader {
 	public Map<String, Vec2f> paramsVec2f = new HashMap<>();
 	public Map<String, Vec3f> paramsVec3f = new HashMap<>();
 	public Map<String, Vec4f> paramsVec4f = new HashMap<>();
-	public Map<String, TextureI> paramsTex = new HashMap<>();
+	public Map<String, Texture> paramsTex = new HashMap<>();
 
 	public MaterialXmlReader(String path) {
 		parse(path);
@@ -83,7 +83,7 @@ public class MaterialXmlReader extends XmlReader {
 
 	private void loadParamsTex(List<Element> elems) {
 		for(Element elem : elems) {
-			TextureI tex = Main.getRenderer().loadTexture(elem.getAttribute("path"));
+			Texture tex = Main.getRenderer().loadTexture(elem.getAttribute("path"));
 
 			tex.setFilter( Boolean.parseBoolean(elem.getAttribute("filtered")) );
 

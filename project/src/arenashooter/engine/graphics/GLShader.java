@@ -14,7 +14,7 @@ import arenashooter.engine.math.Vec4fi;
 /**
  * Container for an openGL shader program
  */
-public class GLShader implements ShaderI {
+public final class GLShader implements Shader { //TODO remove public modifier
 	/** Array used to send Vec2f values to openGL */
 	private static float[] floatBuffer2 = new float[2];
 	/** Array used to send Vec3f values to openGL */

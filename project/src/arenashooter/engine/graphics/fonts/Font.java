@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import arenashooter.engine.graphics.GLTexture;
-import arenashooter.engine.graphics.TextureI;
-import arenashooter.engine.graphics.GLRenderer;
+import arenashooter.engine.graphics.Texture;
+import arenashooter.game.Main;
 
 /**
  * Represents a distance field font generated using <a href="https://github.com/libgdx/libgdx/wiki/Hiero">Hiero</a><br/>
@@ -21,7 +21,7 @@ public class Font {
 	/** Path to the fnt file */
 	final String path;
 	int scaleW, scaleH;
-	private TextureI tex;
+	private Texture tex;
 	Map<Character, FontChar> chars = new HashMap<>();
 	int[] padding = new int[4];
 
@@ -29,7 +29,7 @@ public class Font {
 		this.path = path;
 	}
 	
-	public TextureI getTexture() { return tex; }
+	public Texture getTexture() { return tex; }
 	
 	public static Font loadFont(String path) {
 		//Check if the font has already been loaded
@@ -52,7 +52,7 @@ public class Font {
 			
 			reader.close();
 		} catch(Exception e) {
-			GLRenderer.log.error("Could not load font : "+path);
+			Main.getRenderer().getLogger().error("Could not load font : "+path);
 			e.printStackTrace();
 			return null;
 		}

@@ -10,12 +10,12 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Material;
-import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
+import arenashooter.engine.math.QuatI;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
@@ -26,7 +26,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
 
 	private Model[] models;
-	private MaterialI[] materials;
+	private Material[] materials;
 	
 	private String modelPath = null;
 
@@ -57,7 +57,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 		materials = data.materials;
 	}
 
-	private Mesh(Vec3fi position, Quat rotation, Vec3fi scale, Model[] models, MaterialI[] materials) {
+	private Mesh(Vec3fi position, QuatI rotation, Vec3fi scale, Model[] models, Material[] materials) {
 		super(position);
 
 		this.localRotation.set(rotation);
@@ -70,23 +70,19 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 	private Mesh() { }
 
-	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
+	public static Mesh quad(Vec3fi position, QuatI rotation, Vec3fi scale, Material material) {
 		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new Material[] { material });
 	}
 
-	public static Mesh quad(Vec3fi position, Quat rotation, Vec3fi scale, MaterialI material) {
-		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new MaterialI[] { material });
-	}
-
-	public static Mesh disk(Vec3fi position, Quat rotation, Vec3fi scale, MaterialI material) {
-		return new Mesh(position, rotation, scale, new Model[] { Model.loadDisk(16) }, new MaterialI[] { material });
+	public static Mesh disk(Vec3fi position, QuatI rotation, Vec3fi scale, Material material) {
+		return new Mesh(position, rotation, scale, new Model[] { Model.loadDisk(16) }, new Material[] { material });
 	}
 	
 	public String getModelPath() {
 		return modelPath;
 	}
 
-	public MaterialI getMaterial(int id) {
+	public Material getMaterial(int id) {
 		if (id < 0 || id >= materials.length)
 			return null;
 		return materials[id];
@@ -200,7 +196,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 	 */
 	@Override
 	public Mesh clone() {
-		MaterialI[] cloneMats = new Material[materials.length];
+		Material[] cloneMats = new Material[materials.length];
 		for(int i=0; i<materials.length; i++)
 			cloneMats[i] = materials[i].clone();
 

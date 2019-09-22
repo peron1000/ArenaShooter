@@ -12,8 +12,10 @@ import java.util.Map;
 
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec3fi;
+import arenashooter.game.Main;
 
 final class ModelObjLoader {
 	
@@ -22,7 +24,7 @@ final class ModelObjLoader {
 	static ModelsData loadObj( String path ) {
 		List<Model> models = new ArrayList<>(1);
 		List<String> materialPaths = new ArrayList<>(1);
-		List<TextureI> textures = new ArrayList<>(1);
+		List<Texture> textures = new ArrayList<>(1);
 		
 		Map<String, String> materialOverrides = ModelsData.getMaterialOverrides(path);
 		
@@ -42,7 +44,7 @@ final class ModelObjLoader {
 			List<int[]> faces = new ArrayList<int[]>(); //(Point1, Point2, Point3)[]
 			
 			//Materials
-			Map<String, TextureI> materials = new HashMap<>();
+			Map<String, Texture> materials = new HashMap<>();
 			String currentMat = "";
 
 			//Read data
@@ -60,7 +62,7 @@ final class ModelObjLoader {
 				case "o": //Begin object
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-						textures.add( materials.getOrDefault(currentMat, GLTexture.default_tex) );
+						textures.add( materials.getOrDefault(currentMat, Main.getRenderer().getDefaultTexture()) );
 						materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 						
 						//Clear faces
@@ -70,7 +72,7 @@ final class ModelObjLoader {
 				case "usemtl": //End current model and change current material
 					if( !faces.isEmpty() ) { //Only create a new model if last isn't empty
 						models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-						textures.add( materials.getOrDefault(currentMat, GLTexture.default_tex) );
+						textures.add( materials.getOrDefault(currentMat, Main.getRenderer().getDefaultTexture()) );
 						materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 						
 						//Clear faces
@@ -134,24 +136,24 @@ final class ModelObjLoader {
 			}
 
 			models.add(finishModel(vertices, texCoords, normals, generatedNormals, points, faces));
-			textures.add( materials.getOrDefault(currentMat, GLTexture.default_tex) );
+			textures.add( materials.getOrDefault(currentMat, Main.getRenderer().getDefaultTexture()) );
 			materialPaths.add( materialOverrides.getOrDefault(currentMat, ModelsData.default_mat) );
 
 			reader.close();
 			inReader.close();
 			in.close();
 		} catch (Exception e) {
-			GLRenderer.log.error("Cannot load model: "+path);
+			Main.getRenderer().getLogger().error("Cannot load model: "+path);
 		}
 		
 		//If textures are missing, replace them with default texture
 		if(textures.size()<models.size())
-			GLRenderer.log.error("Missing textures for "+path);
+			Main.getRenderer().getLogger().error("Missing textures for "+path);
 		for( int i=textures.size()-1; i<models.size(); i++ )
-			textures.add(GLTexture.default_tex);
+			textures.add(Main.getRenderer().getDefaultTexture());
 		//If materials are mmissing, replace them with default material
 		if(materialPaths.size()<models.size())
-			GLRenderer.log.error("Missing materil for "+path);
+			Main.getRenderer().getLogger().error("Missing materil for "+path);
 		for( int i=materialPaths.size()-1; i<models.size(); i++ )
 			materialPaths.add(ModelsData.default_mat);
 		
@@ -159,7 +161,7 @@ final class ModelObjLoader {
 		Material[] materialsArray = new Material[textures.size()];
 		
 		for(int i=0; i<materialsArray.length; i++) {
-			materialsArray[i] = Material.loadMaterial(materialPaths.get(i));
+			materialsArray[i] = Main.getRenderer().loadMaterial(materialPaths.get(i));
 			materialsArray[i].setParamTex("baseColor", textures.get(i));
 		}
 		
@@ -200,24 +202,24 @@ final class ModelObjLoader {
 		return Vec3f.normalize(res);
 	}
 	
-	private static Model finishModel( List<Vec3f> vertices, List<Vec2f> texCoords, List<Vec3f> normals, List<Vec3f> generatedNormals, List<int[]> points, List<int[]> faces ) {
+	private static Model finishModel( List<? extends Vec3fi> vertices, List<? extends Vec2fi> texCoords, List<? extends Vec3fi> normals, List<? extends Vec3fi> generatedNormals, List<int[]> points, List<int[]> faces ) {
 		//Convert data to arrays
 		List<Float> dataList = new ArrayList<Float>();
 		for(int[] point : points) {
-			dataList.add(vertices.get(point[0]).x);
-			dataList.add(vertices.get(point[0]).y);
-			dataList.add(vertices.get(point[0]).z);
-			dataList.add((float) texCoords.get(point[1]).x);
-			dataList.add((float) texCoords.get(point[1]).y);
+			dataList.add(vertices.get(point[0]).x());
+			dataList.add(vertices.get(point[0]).y());
+			dataList.add(vertices.get(point[0]).z());
+			dataList.add((float) texCoords.get(point[1]).x());
+			dataList.add((float) texCoords.get(point[1]).y());
 			
 			if( point[2] <= 0 ) { //Negative values are generated normals
-				dataList.add(generatedNormals.get(-point[2]).x);
-				dataList.add(generatedNormals.get(-point[2]).y);
-				dataList.add(generatedNormals.get(-point[2]).z);
+				dataList.add(generatedNormals.get(-point[2]).x());
+				dataList.add(generatedNormals.get(-point[2]).y());
+				dataList.add(generatedNormals.get(-point[2]).z());
 			} else {
-				dataList.add(normals.get(point[2]).x);
-				dataList.add(normals.get(point[2]).y);
-				dataList.add(normals.get(point[2]).z);
+				dataList.add(normals.get(point[2]).x());
+				dataList.add(normals.get(point[2]).y());
+				dataList.add(normals.get(point[2]).z());
 			}
 		}
 		List<Integer> idsList = new ArrayList<Integer>();
@@ -239,8 +241,8 @@ final class ModelObjLoader {
 		return new Model(data, ids);
 	}
 
-	private static Map<String, TextureI> loadMaterials(String path) {
-		Map<String, TextureI> res = new HashMap<>();
+	private static Map<String, Texture> loadMaterials(String path) {
+		Map<String, Texture> res = new HashMap<>();
 		
 		try {
 			InputStream in = new FileInputStream(new File(path));
@@ -270,7 +272,7 @@ final class ModelObjLoader {
 					else
 						texPath = texPath.substring(dataIndex+1);
 						
-					TextureI tex = GLTexture.loadTexture(texPath);
+					Texture tex = Main.getRenderer().loadTexture(texPath);
 					//Disable texture filtering
 					tex.setFilter(false);
 					res.put(currentMat, tex);
@@ -281,7 +283,7 @@ final class ModelObjLoader {
 			reader.close();
 			in.close();
 		} catch(Exception e) {
-			GLRenderer.log.error("Error loading materials");
+			Main.getRenderer().getLogger().error("Error loading materials");
 			e.printStackTrace();
 		}
 

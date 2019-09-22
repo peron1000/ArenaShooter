@@ -8,7 +8,7 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Light;
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Quat;
@@ -23,7 +23,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	private final Light light;
 	
 	private Mesh editorSprite;
-	private MaterialI editorSpriteMat;
+	private Material editorSpriteMat;
 	private Mesh editorMesh;
 	
 	private Animation anim;

@@ -1,17 +1,17 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.game.Main;
 
 public class LoadingFloor extends Spatial {
-	private static final TextureI[] tex;
-	private static final MaterialI material;
+	private static final Texture[] tex;
+	private static final Material material;
 	private static final Model model;
 	static private final Vec2f size = new Vec2f(1.28, 2.56);
 	private Mat4f modelM = new Mat4f();
@@ -22,7 +22,7 @@ public class LoadingFloor extends Spatial {
 	static {
 		material = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
 		model = Model.loadQuad();
-		tex = new TextureI[] {
+		tex = new Texture[] {
 				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_01.png"),
 				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_02.png"),
 				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_03.png"),

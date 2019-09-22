@@ -1,8 +1,8 @@
 package arenashooter.engine.ui.simpleElement;
 
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.math.Vec4fi;
@@ -11,7 +11,7 @@ import arenashooter.game.Main;
 
 public class UiImage extends UiElement {
 	private static Model model;
-	private MaterialI material;
+	private Material material;
 	private Mat4f modelM = new Mat4f();
 	
 	public static final UiImage selector = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Selector.png"));
@@ -63,7 +63,7 @@ public class UiImage extends UiElement {
 	 * 
 	 * @param texture
 	 */
-	public UiImage(TextureI texture) {
+	public UiImage(Texture texture) {
 		this(texture, new Vec4f(1));
 	}
 
@@ -73,25 +73,25 @@ public class UiImage extends UiElement {
 	 * @param texture
 	 * @param color
 	 */
-	public UiImage(TextureI texture, Vec4fi color) {
+	public UiImage(Texture texture, Vec4fi color) {
 		this(Main.getRenderer().loadMaterial("data/materials/ui/ui_image.material"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
 		material.setParamVec4f("color", new Vec4f(color));
 	}
 
-	public UiImage(MaterialI material) {
+	public UiImage(Material material) {
 		if (model == null)
 			model = Model.loadQuad();
 
 		this.material = material;
 	}
 
-	public MaterialI getMaterial() {
+	public Material getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(MaterialI material) {
+	public void setMaterial(Material material) {
 		this.material = material;
 	}
 	

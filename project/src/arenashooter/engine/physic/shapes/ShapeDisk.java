@@ -2,7 +2,7 @@ package arenashooter.engine.physic.shapes;
 
 import org.jbox2d.collision.shapes.CircleShape;
 
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.graphics.Model;
@@ -33,7 +33,7 @@ public class ShapeDisk extends PhysicShape {
 	}
 	
 	private static final Model disk = Model.loadDisk(16);
-	private static MaterialI material;
+	private static Material material;
 	private Mat4f modelM = new Mat4f();
 	@Override
 	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {

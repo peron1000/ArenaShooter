@@ -5,7 +5,7 @@ import java.util.Set;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.fonts.Font;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
@@ -20,7 +20,7 @@ import arenashooter.game.Main;
 
 public class TextSpatial extends Spatial3 {
 	private Text text;
-	public MaterialI material;
+	public Material material;
 
 	public Vec3f scale;
 	

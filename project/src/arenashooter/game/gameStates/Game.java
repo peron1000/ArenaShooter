@@ -14,7 +14,7 @@ import arenashooter.engine.animation.animevents.AnimEventSound;
 import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.audio.SoundSource;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.Device;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2f;
@@ -228,7 +228,7 @@ public class Game extends GameState {
 
 					}
 
-					TextureI counterTexture = counterImage.getMaterial().getParamTex("image");
+					Texture counterTexture = counterImage.getMaterial().getParamTex("image");
 					if (endCounter.getTime() < 3.2) {
 						counterTexture = endCounter.getTrackTex("CounterSprite");
 						counterImage.getMaterial().setParamTex("image", counterTexture);
@@ -290,7 +290,7 @@ public class Game extends GameState {
 
 				Main.getRenderer().getPostProcess().fadeToBlack = (float) startCounter.getTrackD("fadeToBlack");
 
-				TextureI counterTexture = startCounter.getTrackTex("CounterSprite");
+				Texture counterTexture = startCounter.getTrackTex("CounterSprite");
 				double size = startCounter.getTrackD("SizeOfCounterSprite");
 				counterImage.getMaterial().setParamTex("image", counterTexture);
 				counterImage.setScale(counterTexture.getWidth() * size, counterTexture.getHeight() * size);

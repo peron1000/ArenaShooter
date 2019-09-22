@@ -2,7 +2,7 @@ package arenashooter.entities.spatials;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
@@ -38,7 +38,7 @@ public class Punch extends Spatial {
 
 		this.superPoing = superPoing;
 
-		TextureI tex = Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png");
+		Texture tex = Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png");
 		tex.setFilter(false);
 	}
 
@@ -51,7 +51,7 @@ public class Punch extends Spatial {
 
 		this.superPoing = superPoing;
 
-		TextureI tex = Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png");
+		Texture tex = Main.getRenderer().loadTexture("data/sprites/shockwave_tr.png");
 		tex.setFilter(false);
 	}
 

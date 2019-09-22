@@ -9,7 +9,7 @@ import arenashooter.engine.animation.tracks.AnimTrackDouble;
 import arenashooter.engine.animation.tracks.AnimTrackTexture;
 import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 
@@ -20,7 +20,7 @@ public class AnimationDataEditable {
 	
 	public Map<Double, AnimEvent>		 trackEvents;
 	public Map<String, Map<Double, Double>>  tracksD;
-	public Map<String, Map<Double, TextureI>> tracksT;
+	public Map<String, Map<Double, Texture>> tracksT;
 	public Map<String, Map<Double, Vec2f>>   tracksVec2f;
 	public Map<String, Map<Double, Vec3f>>   tracksVec3f;
 	

@@ -1,9 +1,9 @@
 package arenashooter.entities.spatials;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -11,8 +11,8 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Main;
 
 public class Sprite extends Spatial {
-	private static final TextureI defaultTex = Main.getRenderer().loadTexture("data/white_pixel.png");
-	public MaterialI material;
+	private static final Texture defaultTex = Main.getRenderer().loadTexture("data/white_pixel.png");
+	public Material material;
 	private static Model model;
 	public Vec2f size = new Vec2f(1, 1);
 	private Vec2f scale = new Vec2f();
@@ -20,7 +20,7 @@ public class Sprite extends Spatial {
 	
 	public boolean flipX = false, flipY = false;
 	
-	public Sprite(Vec2fi localPosition, TextureI texture) {
+	public Sprite(Vec2fi localPosition, Texture texture) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		material = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
@@ -30,7 +30,7 @@ public class Sprite extends Spatial {
 			material.setTransparency(true);
 	}
 	
-	public Sprite(Vec2fi localPosition, MaterialI material) {
+	public Sprite(Vec2fi localPosition, Material material) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
 		this.material = material;
@@ -44,9 +44,9 @@ public class Sprite extends Spatial {
 		this(localPosition, defaultTex);
 	}
 	
-	public TextureI getTexture() { return material.getParamTex("baseColor"); }
+	public Texture getTexture() { return material.getParamTex("baseColor"); }
 	
-	public void setTexture(TextureI newTex) { material.setParamTex("baseColor", newTex); };
+	public void setTexture(Texture newTex) { material.setParamTex("baseColor", newTex); };
 	
 	@Override
 	public boolean drawAsTransparent(){ return material.getTransparency(); }

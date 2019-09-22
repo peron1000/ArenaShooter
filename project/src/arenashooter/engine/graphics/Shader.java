@@ -8,7 +8,7 @@ import arenashooter.engine.math.Vec4fi;
 /**
  * Container for a shader program
  */
-public interface ShaderI {
+public interface Shader {
 	
 	/**
 	 * Set an int uniform variable

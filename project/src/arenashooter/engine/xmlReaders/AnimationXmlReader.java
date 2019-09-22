@@ -18,7 +18,7 @@ import arenashooter.engine.animation.tracks.AnimTrackVec2f;
 import arenashooter.engine.animation.tracks.AnimTrackVec3f;
 import arenashooter.engine.animation.tracks.EventTrack;
 import arenashooter.engine.audio.AudioChannel;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.game.Main;
@@ -126,7 +126,7 @@ public class AnimationXmlReader extends XmlReader {
 	}
 	
 	private static void readTrackT(Element node) {
-		Map<Double, TextureI> keyframes = new HashMap<>();
+		Map<Double, Texture> keyframes = new HashMap<>();
 		
 		NodeList children = node.getChildNodes();
 		Element current;
@@ -135,7 +135,7 @@ public class AnimationXmlReader extends XmlReader {
 			current = (Element)children.item(i);
 
 			double time = Double.parseDouble(current.getAttribute("time"));
-			TextureI value = Main.getRenderer().loadTexture(current.getAttribute("value"));
+			Texture value = Main.getRenderer().loadTexture(current.getAttribute("value"));
 			keyframes.put(time, value);
 		}
 

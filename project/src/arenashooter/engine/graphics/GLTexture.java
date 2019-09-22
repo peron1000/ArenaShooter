@@ -18,10 +18,10 @@ import arenashooter.engine.math.Vec2fi;
 /**
  * Container for an OpenGL texture
  */
-public final class GLTexture implements TextureI { //TODO: Remove public modifier
+public final class GLTexture implements Texture { //TODO: Remove public modifier
 	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
-	public static final TextureI default_tex = loadTexture( "data/default_texture.png" );
+	public static final Texture default_tex = loadTexture( "data/default_texture.png" );
 	
 	private boolean ready = false;
 	private Image img;
@@ -50,7 +50,7 @@ public final class GLTexture implements TextureI { //TODO: Remove public modifie
 	 * @param path image file
 	 * @return texture object (with filtering enabled) or the default texture if an error occurred
 	 */
-	public static TextureI loadTexture( String path ) {
+	public static Texture loadTexture( String path ) {
 		//Check if the texture has already been loaded
 		TextureEntry entry = textures.get(path);
 		if( entry != null && entry.texture.get() != null )

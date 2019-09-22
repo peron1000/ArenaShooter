@@ -10,8 +10,8 @@ import java.util.Map;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.MaterialI;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec4f;
@@ -102,7 +102,7 @@ public class Config extends GameState {
 		background = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Fond Menu.png"));
 		selector = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/Selector_1.png"));
 		// boutton_start
-		TextureI enterTex = Main.getRenderer().loadTexture("data/sprites/interface/Button_Start.png");
+		Texture enterTex = Main.getRenderer().loadTexture("data/sprites/interface/Button_Start.png");
 		enter = new UiImage(enterTex);
 		enter.setPosition(new Vec2f(72, 39));
 		enter.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
@@ -201,7 +201,7 @@ public class Config extends GameState {
 		}
 
 		for (File file : maps) {
-			MaterialI thumbnailMat = Main.getRenderer().loadMaterial("data/materials/ui/ui_arena_thumbnail.material");
+			Material thumbnailMat = Main.getRenderer().loadMaterial("data/materials/ui/ui_arena_thumbnail.material");
 			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
 			UiImage picture = new UiImage(thumbnailMat);
 			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));

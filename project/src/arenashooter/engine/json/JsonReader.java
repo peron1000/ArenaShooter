@@ -9,7 +9,7 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -135,7 +135,7 @@ public class JsonReader {
 		return new Vec4f(x, y, z, w);
 	}
 	
-	protected static TextureI readTexture(JsonObject obj) {
+	protected static Texture readTexture(JsonObject obj) {
 		try {
 			obj.requireKeys(TextureKeys.values());
 		} catch(NoSuchElementException e) {

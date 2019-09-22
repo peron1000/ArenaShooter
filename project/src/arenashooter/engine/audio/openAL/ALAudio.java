@@ -52,7 +52,7 @@ public class ALAudio implements AudioManager{
 	
 	private FloatBuffer listenerRot;
 	
-	public static final Logger log;
+	static final Logger log;
 	
 	static {
 		log = LogManager.getLogger("Audio");

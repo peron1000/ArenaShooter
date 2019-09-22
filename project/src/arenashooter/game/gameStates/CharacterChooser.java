@@ -9,7 +9,7 @@ import arenashooter.engine.audio.AudioChannel;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.input.Device;
 
@@ -370,7 +370,7 @@ public class CharacterChooser extends GameState {
 		downImage.getMaterial().getParamTex("image").setFilter(false);
 
 		// botton_start
-		TextureI enterTex = Main.getRenderer().loadTexture("data/sprites/interface/Button_Start.png");
+		Texture enterTex = Main.getRenderer().loadTexture("data/sprites/interface/Button_Start.png");
 		enterImage = new UiImage(enterTex);
 		enterImage.setPosition(new Vec2f(72, 39));
 		enterImage.setScale(enterTex.getWidth() / 3, enterTex.getHeight() / 3);
@@ -421,7 +421,7 @@ public class CharacterChooser extends GameState {
 		Sprite backGroundCharacChooser = new Sprite(new Vec2f(),
 				"data/sprites/interface/BackGround_CharacterChooser_PreRendered.png");
 		backGroundCharacChooser.attachToParent(current, "BackGround");
-		TextureI tex = backGroundCharacChooser.getTexture();
+		Texture tex = backGroundCharacChooser.getTexture();
 		backGroundCharacChooser.size.set(tex.getWidth() * .0711, tex.getHeight() * .0711);
 		backGroundCharacChooser.zIndex = -126;
 		backGroundCharacChooser.getTexture().setFilter(false);

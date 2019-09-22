@@ -1,6 +1,6 @@
 package arenashooter.engine.ui.simpleElement;
 
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
@@ -12,7 +12,7 @@ import arenashooter.engine.ui.Valuable;
 import arenashooter.game.Main;
 
 public class Label extends UiElement {
-	private MaterialI material;
+	private Material material;
 	private Text text;
 	private Mat4f modelM = new Mat4f();
 	private Valuable<?> valuableObject = null;

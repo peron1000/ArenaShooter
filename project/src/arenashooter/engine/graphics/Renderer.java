@@ -2,6 +2,8 @@ package arenashooter.engine.graphics;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+
 import arenashooter.engine.math.Mat4fi;
 import arenashooter.entities.spatials.Camera;
 
@@ -18,6 +20,8 @@ public interface Renderer {
 	 * Destroy the window and terminates the renderer
 	 */
 	public void destroy();
+	
+	public Logger getLogger();
 	
 	/**
 	 * @return User tries to close the window
@@ -157,9 +161,9 @@ public interface Renderer {
 	
 	public void setCurorVisibility(boolean visibility);
 	
-	public TextureI loadTexture(String path);
+	public Texture loadTexture(String path);
 	
-	public TextureI getDefaultTexture();
+	public Texture getDefaultTexture();
 	
-	public MaterialI loadMaterial(String path);
+	public Material loadMaterial(String path);
 }

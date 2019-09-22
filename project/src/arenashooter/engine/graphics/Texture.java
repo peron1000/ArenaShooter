@@ -7,7 +7,7 @@ import arenashooter.engine.math.Vec2fi;
 /**
  * Container for a texture
  */
-public interface TextureI extends Jsonable {
+public interface Texture extends Jsonable {
 	/**
 	 * Bind this texture for rendering
 	 */

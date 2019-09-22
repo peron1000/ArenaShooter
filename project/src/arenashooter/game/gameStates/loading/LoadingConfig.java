@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.ui.Imageinput;
 import arenashooter.game.Main;
 
 public class LoadingConfig extends Thread {
 	
-	private Map<File, TextureI> load = new HashMap<>();
+	private Map<File, Texture> load = new HashMap<>();
 	
 	public synchronized Set<File> getFile() {
 		return load.keySet();
 	}
 	
-	public synchronized TextureI getTexture(File file) {
+	public synchronized Texture getTexture(File file) {
 		return load.getOrDefault(file, Main.getRenderer().getDefaultTexture());
 	}
 	

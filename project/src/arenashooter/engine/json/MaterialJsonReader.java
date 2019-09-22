@@ -11,7 +11,7 @@ import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -85,7 +85,7 @@ public class MaterialJsonReader extends JsonReader {
 	public Map<String, Vec2f> paramsVec2f = new HashMap<>();
 	public Map<String, Vec3f> paramsVec3f = new HashMap<>();
 	public Map<String, Vec4f> paramsVec4f = new HashMap<>();
-	public Map<String, TextureI> paramsTex = new HashMap<>();
+	public Map<String, Texture> paramsTex = new HashMap<>();
 
 	public MaterialJsonReader(String path) {
 		super(path);

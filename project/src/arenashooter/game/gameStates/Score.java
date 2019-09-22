@@ -3,7 +3,7 @@ package arenashooter.game.gameStates;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
-import arenashooter.engine.graphics.TextureI;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.input.ActionState;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.UiElement;
@@ -41,9 +41,9 @@ public class Score extends GameState {
 		bg.setScale(177.78, 100);
 		group.setBackground(bg);
 
-		TextureI texButtonA = Main.getRenderer().loadTexture("data/sprites/interface/Button_A.png");
-		TextureI texButtonY = Main.getRenderer().loadTexture("data/sprites/interface/Button_Y.png");
-		TextureI texButtonB = Main.getRenderer().loadTexture("data/sprites/interface/Button_B.png");
+		Texture texButtonA = Main.getRenderer().loadTexture("data/sprites/interface/Button_A.png");
+		Texture texButtonY = Main.getRenderer().loadTexture("data/sprites/interface/Button_Y.png");
+		Texture texButtonB = Main.getRenderer().loadTexture("data/sprites/interface/Button_B.png");
 
 		UiImageLabel buttonA = new UiImageLabel(new UiImage(texButtonA, new Vec4f(1)), texButtonA.getWidth() / 2,
 				texButtonA.getHeight() / 2);

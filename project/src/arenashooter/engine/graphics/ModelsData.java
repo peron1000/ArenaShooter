@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenashooter.game.Main;
+
 /**
  * Contains data about a model: models and textures
  *
@@ -41,7 +43,7 @@ public class ModelsData {
 		}
 		
 		//Unsupported format
-		GLRenderer.log.error(path+" is not a wavefront obj file");
+		Main.getRenderer().getLogger().error(path+" is not a wavefront obj file");
 		return new ModelsData(new Model[0], new Material[0]);
 	}
 	

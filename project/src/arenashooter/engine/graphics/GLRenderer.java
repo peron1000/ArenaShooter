@@ -54,7 +54,7 @@ import arenashooter.entities.spatials.Camera;
 public final class GLRenderer implements Renderer {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
 	
-	public static final Logger log = LogManager.getLogger("Render");
+	static final Logger log = LogManager.getLogger("Render");
 	
 	private long window;
 	private GLFWVidMode vidmode;
@@ -188,6 +188,11 @@ public final class GLRenderer implements Renderer {
 		//Cursor
 		setCursor("data/cursor.png");
 		setCurorVisibility(false);
+	}
+	
+	@Override
+	public Logger getLogger() {
+		return log;
 	}
 	
 	@Override
@@ -616,17 +621,17 @@ public final class GLRenderer implements Renderer {
 	}
 	
 	@Override
-	public TextureI loadTexture(String path) {
+	public Texture loadTexture(String path) {
 		return GLTexture.loadTexture(path);
 	}
 	
 	@Override
-	public TextureI getDefaultTexture() {
+	public Texture getDefaultTexture() {
 		return GLTexture.default_tex;
 	}
 	
 	@Override
-	public MaterialI loadMaterial(String path) {
-		return Material.loadMaterial(path);
+	public Material loadMaterial(String path) {
+		return GLMaterial.loadMaterial(path);
 	}
 }

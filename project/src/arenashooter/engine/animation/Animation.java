@@ -5,10 +5,10 @@ import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
 import arenashooter.engine.graphics.GLTexture;
-import arenashooter.engine.graphics.TextureI;
-import arenashooter.engine.graphics.GLRenderer;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
+import arenashooter.game.Main;
 
 /**
  * Instance of an animation
@@ -113,7 +113,7 @@ public class Animation {
 		if(animData.tracksD.containsKey(track)) 
 			return animData.tracksD.get(track).valueAt(time);
 		else {
-			GLRenderer.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0.0)");
+			Main.getRenderer().getLogger().error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0.0)");
 			return 0.0;
 		}
 	}
@@ -123,11 +123,11 @@ public class Animation {
 	 * @param track name
 	 * @return current value or default if inexistent track
 	 */
-	public TextureI getTrackTex(String track) {
+	public Texture getTrackTex(String track) {
 		if(animData.tracksT.containsKey(track))
 			return animData.tracksT.get(track).valueAt(time);
 		else {
-			GLRenderer.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default texture");
+			Main.getRenderer().getLogger().error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default texture");
 			return GLTexture.default_tex;
 		}
 	}
@@ -141,7 +141,7 @@ public class Animation {
 		if(animData.tracksVec2f.containsKey(track)) 
 			return animData.tracksVec2f.get(track).valueAt(time);
 		else {
-			GLRenderer.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0)");
+			Main.getRenderer().getLogger().error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0)");
 			return new Vec2f();
 		}
 	}
@@ -155,7 +155,7 @@ public class Animation {
 		if(animData.tracksVec3f.containsKey(track)) 
 			return animData.tracksVec3f.get(track).valueAt(time);
 		else {
-			GLRenderer.log.error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0, 0)");
+			Main.getRenderer().getLogger().error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default value (0, 0, 0)");
 			return new Vec3f();
 		}
 	}

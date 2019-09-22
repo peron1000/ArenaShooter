@@ -6,7 +6,7 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.Profiler;
-import arenashooter.engine.graphics.MaterialI;
+import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec3f;
@@ -20,7 +20,7 @@ import arenashooter.game.Main;
 public class Sky extends Entity {
 	
 	private static Model quad = null;
-	public MaterialI material;
+	public Material material;
 
 	private Sky() {
 		if(quad == null) quad = Model.loadQuad();
