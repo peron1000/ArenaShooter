@@ -19,7 +19,7 @@
 				0.996
 			]
 		},
-		"arenashooter.entities.spatials.LightContainer@7148320d2910603498440":{
+		"arenashooter.entities.spatials.LightContainer@4260de0d4997208130720":{
 			"color":[
 				0.929,
 				0.906,
@@ -37,8 +37,8 @@
 				0.0,
 				0.0
 			],
-			"type":"arenashooter.entities.spatials.LightContainer",
-			"radius":-1.0
+			"radius":-1.0,
+			"type":"arenashooter.entities.spatials.LightContainer"
 		}
 	},
 	"gravity":[
@@ -56,15 +56,15 @@
 	],
 	"fog distance":3000.0,
 	"music volume":1.0,
-	"fog color":[
-		0.929,
-		0.906,
-		0.906
-	],
 	"camera base position":[
 		0.0,
 		0.0,
 		40.0
+	],
+	"fog color":[
+		0.929,
+		0.906,
+		0.906
 	],
 	"type":"arenashooter.entities.Arena",
 	"music pitch":1.0

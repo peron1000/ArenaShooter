@@ -232,7 +232,20 @@ public class Shotgun extends Gun {
 				multiShot = json.getInteger(this);
 			}
 		});
-		
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return getDispersion();
+			}
+			@Override
+			public String getKey() {
+				return "dispersion";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				dispersion = json.getDouble(this);
+			}
+		});
 		return set;
 	}
 	

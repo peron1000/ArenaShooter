@@ -490,6 +490,20 @@ public class Gun extends Usable {
 				setBulletSpeed(json.getFloat(this));
 			}
 		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return damage;
+			}
+			@Override
+			public String getKey() {
+				return "damage";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				damage = json.getFloat(this);
+			}
+		});
 		return set;
 	}
 	

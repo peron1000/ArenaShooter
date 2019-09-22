@@ -27,14 +27,14 @@
 	"items available":{
 		
 	},
-	"music path":"",
 	"ambient light":[
 		0.48,
 		0.48,
 		0.48
 	],
-	"music volume":1.0,
+	"music path":"",
 	"fog distance":3000.0,
+	"music volume":1.0,
 	"fog color":[
 		0.929,
 		0.906,
