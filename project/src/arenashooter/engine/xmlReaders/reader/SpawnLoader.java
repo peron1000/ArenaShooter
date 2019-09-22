@@ -64,6 +64,9 @@ public class SpawnLoader implements EntitiesLoader<Spawner> {
 		boolean playerSpawn = true;
 		if (element.hasAttribute("playerSpawn"))
 			playerSpawn = Boolean.parseBoolean(element.getAttribute("playerSpawn"));
+		
+		spawner.setPlayerSpawn(playerSpawn);
+		
 		if (playerSpawn) {
 			if (parent.getArena() != null)
 				parent.getArena().playerSpawns.add(spawner);

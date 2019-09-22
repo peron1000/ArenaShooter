@@ -9,6 +9,8 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
+import arenashooter.entities.Arena;
+import arenashooter.entities.Entity;
 import arenashooter.entities.Timer;
 import arenashooter.entities.spatials.items.Item;
 import arenashooter.game.Main;
@@ -24,7 +26,9 @@ public class Spawner extends Spatial {
 	private Item currentItem = null;
 	
 	private Sprite editorView;
-
+	
+	private boolean playerSpawn = false;
+	
 	private Spawner() {
 		super();
 	}
@@ -34,6 +38,40 @@ public class Spawner extends Spatial {
 		setCooldown(cooldown);
 		editorView = new Sprite(localPosition , "data/weapons/alien.png");
 		editorView.size = editorView.getTexture().getSize().multiply(0.03f);
+	}
+	
+	@Override
+	protected void recursiveAttach(Entity newParent) {
+		super.recursiveAttach(newParent);
+		
+		refreshPlayerSpawn();
+	}
+
+	@Override
+	protected void recursiveDetach(Arena oldArena) {
+		super.recursiveDetach(oldArena);
+		if(oldArena != null) oldArena.playerSpawns.remove(this);
+	}
+	
+	/**
+	 * @return if this spawn is used to spawn player characters
+	 */
+	public boolean isPlayerSpawn() { return playerSpawn; }
+	
+	public void setPlayerSpawn(boolean playerSpawn) {
+		this.playerSpawn = playerSpawn;
+		
+		refreshPlayerSpawn();
+	}
+	
+	private void refreshPlayerSpawn() {
+		if(getArena() != null) {
+			if(playerSpawn) {
+				if( !getArena().playerSpawns.contains(this) )
+					getArena().playerSpawns.add(this);
+			} else
+				getArena().playerSpawns.remove(this);
+		}
 	}
 	
 	private void setCooldown(double cooldown) {
@@ -190,6 +228,20 @@ public class Spawner extends Spatial {
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				setCooldown(json.getFloat(this));
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return isPlayerSpawn();
+			}
+			@Override
+			public String getKey() {
+				return "player spawn";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				setPlayerSpawn(json.getBoolean(this));
 			}
 		});
 		return set;

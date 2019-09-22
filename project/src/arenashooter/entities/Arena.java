@@ -168,22 +168,22 @@ public class Arena extends Entity implements Jsonable {
 					ambientLight = Vec3f.jsonImport(a);
 			}
 		});
-		set.add(new StrongJsonKey() {
-			@Override
-			public Object getValue() {
-				return playerSpawns;
-			}
-			@Override
-			public String getKey() {
-				return "player spawn";
-			}
-			@Override
-			public void useKey(JsonObject json) throws Exception {
-				List<Spawner> a = json.getCollection(this);
-				if (a != null)
-					playerSpawns = a;
-			}
-		});
+//		set.add(new StrongJsonKey() {
+//			@Override
+//			public Object getValue() {
+//				return playerSpawns;
+//			}
+//			@Override
+//			public String getKey() {
+//				return "player spawn";
+//			}
+//			@Override
+//			public void useKey(JsonObject json) throws Exception {
+//				List<Spawner> a = json.getCollection(this);
+//				if (a != null)
+//					playerSpawns = a;
+//			}
+//		});
 		set.add(new StrongJsonKey() {
 			@Override
 			public Object getValue() {

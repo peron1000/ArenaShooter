@@ -5,21 +5,6 @@
 		100.0,
 		40.0
 	],
-	"ambient light":[
-		0.78,
-		0.78,
-		0.78
-	],
-	"music path":"",
-	"fog distance":3000.0,
-	"music volume":1.0,
-	"fog color":[
-		0.929,
-		0.906,
-		0.906
-	],
-	"music pitch":1.0,
-	"type":"arenashooter.entities.Arena",
 	"children":{
 		"sky":{
 			"colorTop":[
@@ -34,7 +19,7 @@
 				0.996
 			]
 		},
-		"arenashooter.entities.spatials.LightContainer@2610cb5536899851799765":{
+		"arenashooter.entities.spatials.LightContainer@7148320d2910603498440":{
 			"color":[
 				0.929,
 				0.906,
@@ -52,8 +37,8 @@
 				0.0,
 				0.0
 			],
-			"radius":-1.0,
-			"type":"arenashooter.entities.spatials.LightContainer"
+			"type":"arenashooter.entities.spatials.LightContainer",
+			"radius":-1.0
 		}
 	},
 	"gravity":[
@@ -63,12 +48,24 @@
 	"items available":{
 		
 	},
+	"music path":"",
+	"ambient light":[
+		0.78,
+		0.78,
+		0.78
+	],
+	"fog distance":3000.0,
+	"music volume":1.0,
+	"fog color":[
+		0.929,
+		0.906,
+		0.906
+	],
 	"camera base position":[
 		0.0,
 		0.0,
 		40.0
 	],
-	"player spawn":[
-		
-	]
+	"type":"arenashooter.entities.Arena",
+	"music pitch":1.0
 }
