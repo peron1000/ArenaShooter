@@ -22,6 +22,7 @@ public class EventTrack {
 		List<Double> timesList = new ArrayList<>(keyframes.size());
 		timesList.addAll(keyframes.keySet());
 		timesList.sort( new Comparator<Double>() {
+			@Override
 			public int compare(Double d1, Double d2) {
 				return d1.compareTo(d2);
 			}

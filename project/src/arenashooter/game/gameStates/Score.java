@@ -15,7 +15,6 @@ import arenashooter.engine.ui.simpleElement.UiImage;
 import arenashooter.game.Controller;
 import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
-import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class Score extends GameState {
 
@@ -162,7 +161,7 @@ public class Score extends GameState {
 						// Rematch
 //						Main.getGameMaster().requestNewGame(GameParam.mapsString());
 //						Main.getGameMaster().requestGame();
-						Main.log.info("reviendra plus tard ... fonctionnalité à refaire");
+						Main.log.info("reviendra plus tard ... fonctionnalitï¿½ ï¿½ refaire");
 						break;
 					case DROP_ITEM: //TODO: Use UI action
 						// New Game
@@ -214,6 +213,7 @@ public class Score extends GameState {
 		super.update(d);
 	}
 
+	@Override
 	public void draw() {
 		super.draw();
 		Window.beginUi();

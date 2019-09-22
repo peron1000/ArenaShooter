@@ -4,7 +4,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import arenashooter.engine.xmlReaders.XmlVector;
 import arenashooter.entities.Entity;
 
 public class SpawnXml extends AbstractElement {
@@ -34,10 +33,6 @@ public class SpawnXml extends AbstractElement {
 		}
 	}
 	
-	public void setVector(float x, float y) {
-		XmlVector vec = new XmlVector(spawn);
-	}
-
 	@Override
 	public Element getElement() {
 		return (Element) spawn.cloneNode(true);

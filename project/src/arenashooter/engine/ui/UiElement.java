@@ -90,6 +90,7 @@ public abstract class UiElement implements Navigable, NoStatic {
 		actions.remove(name);
 	}
 
+	@Override
 	public Vec2f getPosition() {
 		return pos;
 	}
@@ -98,11 +99,13 @@ public abstract class UiElement implements Navigable, NoStatic {
 		setPosition(position.x, position.y);
 	}
 
+	@Override
 	public void setPosition(double x, double y) {
 		pos.set(x, y);
 		toLerpPos.set(x, y);
 	}
 
+	@Override
 	public void setPositionLerp(double x, double y, double lerp) {
 		toLerpPos.set(x, y);
 		this.lerp = lerp;
@@ -153,6 +156,7 @@ public abstract class UiElement implements Navigable, NoStatic {
 		setPositionSuperLerp(x + pos.x, y + pos.y, lerp);
 	}
 
+	@Override
 	public Vec2f getScale() {
 		return scale;
 	}
@@ -161,6 +165,7 @@ public abstract class UiElement implements Navigable, NoStatic {
 		setScale(scale.x, scale.y);
 	}
 
+	@Override
 	public void setScale(double x, double y) {
 		scale.set(x, y);
 		reScale.set(x, y);
@@ -170,6 +175,7 @@ public abstract class UiElement implements Navigable, NoStatic {
 		setScale(square, square);
 	}
 
+	@Override
 	public void setScaleLerp(double x, double y, double lerp) {
 		reScale.set(x, y);
 		this.lerp = lerp;
@@ -288,6 +294,7 @@ public abstract class UiElement implements Navigable, NoStatic {
 		return getPosition().y + getScale().y / 2;
 	}
 
+	@Override
 	public void update(double delta) {
 		Vec2f.lerp(scale, reScale, Utils.clampD(delta * 5, 0, 1), scale);
 		Vec2f.lerp(pos, toLerpPos, Utils.clampD(delta * lerp, 0, 1), pos);

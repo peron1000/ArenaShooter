@@ -32,6 +32,7 @@ public class UiListVertical<E extends UiElement> extends UiElement implements It
 		updatePositionElements();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addElements(E... elements) {
 		for (E uiElement : elements) {
 			addElement(uiElement);

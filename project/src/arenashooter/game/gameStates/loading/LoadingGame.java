@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import arenashooter.engine.json.JsonTransformer;
-import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
 import arenashooter.game.Main;
 

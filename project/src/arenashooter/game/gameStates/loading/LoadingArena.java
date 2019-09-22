@@ -1,12 +1,8 @@
 package arenashooter.game.gameStates.loading;
 
-import java.util.Map.Entry;
-
 import arenashooter.engine.json.JsonTransformer;
 import arenashooter.engine.ui.Trigger;
-import arenashooter.engine.xmlReaders.reader.MapXmlReader;
 import arenashooter.entities.Arena;
-import arenashooter.entities.Entity;
 import arenashooter.game.gameStates.GameState;
 
 public class LoadingArena extends Thread {

@@ -121,6 +121,7 @@ public class UiGridWeak extends UiElement implements Iterable<UiElement> {
 		return true;
 	}
 
+	@Override
 	public boolean selectAction() {
 		return getTarget().selectAction();
 	}

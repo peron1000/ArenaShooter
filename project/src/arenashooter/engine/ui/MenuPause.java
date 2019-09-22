@@ -10,7 +10,6 @@ import arenashooter.engine.input.ActionState;
 import arenashooter.engine.input.ActionV2;
 import arenashooter.engine.ui.simpleElement.Button;
 import arenashooter.engine.ui.simpleElement.UiImage;
-import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.Game;
 import arenashooter.game.gameStates.MenuStart;

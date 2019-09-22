@@ -81,6 +81,7 @@ public class UiGrid extends UiElement implements Iterable<UiElement>, MultiUi {
 		return list.get(index);
 	}
 
+	@Override
 	public UiElement getTarget() {
 		return list.get(index);
 	}

@@ -45,7 +45,6 @@ import arenashooter.entities.spatials.RigidBodyContainer;
 import arenashooter.entities.spatials.Spawner;
 import arenashooter.entities.spatials.StaticBodyContainer;
 import arenashooter.entities.spatials.TextSpatial;
-import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.addItem.AddItemEditor;

@@ -24,10 +24,12 @@ public class TextPopup extends UiPopup {
 		return label;
 	}
 
+	@Override
 	public void setOnCancel(Trigger t) {
 		textInput.setOnCancel(t);
 	}
 
+	@Override
 	public void setOnValidation(Trigger t) {
 		textInput.setOnFinish(t);
 	}

@@ -1,15 +1,11 @@
 package arenashooter.engine.xmlReaders.writer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class MeshXml extends AbstractElement {
 	Element mesh;
-	private List<Element> meshes = new ArrayList<>();
 
 	// Vector 1 position du mesh
 	float xPosition = 0f;

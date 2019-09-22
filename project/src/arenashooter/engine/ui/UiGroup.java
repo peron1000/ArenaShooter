@@ -24,6 +24,7 @@ public class UiGroup<E extends UiElement> extends UiElement implements Iterable<
 		list.add(uiElement);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void addElements(E...elements) {
 		for (E uiElement : elements) {
 			addElement(uiElement);
