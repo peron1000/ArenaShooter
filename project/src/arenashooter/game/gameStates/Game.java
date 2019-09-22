@@ -1,11 +1,8 @@
 package arenashooter.game.gameStates;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Queue;
-import java.util.Set;
 
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
@@ -32,9 +29,6 @@ import arenashooter.entities.spatials.CharacterSprite;
 import arenashooter.game.Controller;
 import arenashooter.game.ControllerPlayer;
 import arenashooter.game.Main;
-import arenashooter.game.gameStates.engineParam.GameMode;
-import arenashooter.game.gameStates.engineParam.GameParam;
-import arenashooter.game.gameStates.loading.LoadingGame;
 
 public class Game extends GameState {
 	private int nbPlayers = Main.getGameMaster().controllers.size();
@@ -159,8 +153,7 @@ public class Game extends GameState {
 		chooseWinner.reset();
 		canPlay = false;
 		for (Controller controller : Main.getGameMaster().controllers) {
-			// Ce n'est plus un spawn aleatoire
-			Character character = controller.createNewCharacter(current.GetRandomRespawnch2());
+			Character character = controller.createNewCharacter(current.GetPlayerSpawn());
 			players.add(character);
 			character.attachToParent(current, character.genName());
 		}

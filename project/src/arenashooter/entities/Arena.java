@@ -93,20 +93,10 @@ public class Arena extends Entity implements Jsonable {
 		physic.step(d);
 	}
 
-	// TODO : remove ?
-//	/**
-//	 * Get a spawn location that is not currently occupied by a Character <br/>
-//	 * Use this to give a random spawn to each Character
-//	 * 
-//	 * @author Shervin
-//	 * @return Vec2f
-//	 */
-//	public Vec2f GetRandomRespawnch() {
-//		Vec2f rand = new Vec2f(0, 0);
-//		return rand;
-//	}
-
-	public Vec2f GetRandomRespawnch2() {
+	/**
+	 * @return Suitable world position to spawn a player character
+	 */
+	public Vec2f GetPlayerSpawn() {
 		Vec2f randi = new Vec2f();
 
 		try {
@@ -117,7 +107,7 @@ public class Arena extends Entity implements Jsonable {
 			int etapes = 0;
 			while (usedSpawns.contains(randi) && etapes < max) {
 				rand = (int) (Math.random() * playerSpawns.size());
-				randi = playerSpawns.get(rand).getWorldPos();
+				randi.set( playerSpawns.get(rand).getWorldPos() );
 				etapes++;
 			}
 		} catch (Exception e) {
@@ -168,22 +158,6 @@ public class Arena extends Entity implements Jsonable {
 					ambientLight = Vec3f.jsonImport(a);
 			}
 		});
-//		set.add(new StrongJsonKey() {
-//			@Override
-//			public Object getValue() {
-//				return playerSpawns;
-//			}
-//			@Override
-//			public String getKey() {
-//				return "player spawn";
-//			}
-//			@Override
-//			public void useKey(JsonObject json) throws Exception {
-//				List<Spawner> a = json.getCollection(this);
-//				if (a != null)
-//					playerSpawns = a;
-//			}
-//		});
 		set.add(new StrongJsonKey() {
 			@Override
 			public Object getValue() {
