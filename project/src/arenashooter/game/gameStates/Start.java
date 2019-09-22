@@ -8,7 +8,7 @@ import arenashooter.game.Main;
 public class Start extends GameState {
 	@Override
 	public void update(double delta) {
-		Main.getGameMaster().requestNextState(new Intro(), "data/mapXML/menu_intro.xml");
+		Main.getGameMaster().requestNextState(new Intro());
 	}
 
 }

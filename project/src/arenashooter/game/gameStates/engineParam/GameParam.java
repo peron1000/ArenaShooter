@@ -6,7 +6,7 @@ import java.util.TreeSet;
 public class GameParam {
 
 	// GameMode
-	private static ParamElement<GameMode> gameMode = new ParamElement<GameMode>("Game Mode", GameMode.values()) {
+	private ParamElement<GameMode> gameMode = new ParamElement<GameMode>("Game Mode", GameMode.values()) {
 
 		@Override
 		String getStringValue() {
@@ -26,23 +26,23 @@ public class GameParam {
 		return gameMode.getTitle() + " : " + gameMode.getStringValue();
 	}
 
-	public static GameMode getGameMode() {
+	public GameMode getGameMode() {
 		return gameMode.getValue();
 	}
 
 	// Rounds
-	private static Integer nbRound = Integer.valueOf(1);
+	private Integer nbRound = Integer.valueOf(1);
 
 	public void setNbRound(Integer nbRound) {
-		GameParam.nbRound = nbRound;
+		this.nbRound = nbRound;
 	}
 
-	public static int getRound() {
+	public int getRound() {
 		return nbRound;
 	}
 
 	// Team
-	private static ParamElement<Boolean> team = new ParamElement<Boolean>("Team", true, false) {
+	private ParamElement<Boolean> team = new ParamElement<Boolean>("Team", true, false) {
 
 		@Override
 		String getStringValue() {
@@ -66,21 +66,11 @@ public class GameParam {
 		return team.getTitle() + " : " + team.getStringValue();
 	}
 
-	public static boolean getTeam() {
+	public boolean getTeam() {
 		return team.getValue();
 	}
 
 	// Maps
-	public static Set<String> maps = new TreeSet<>();
-	
-	public static String[] mapsString() {
-		String[] ret = new String[maps.size()];
-		int i =0;
-		for (String map : maps) {
-			ret[i] = map;
-			i++;
-		}
-		return ret;
-	}
+	public Set<String> maps = new TreeSet<>();
 
 }

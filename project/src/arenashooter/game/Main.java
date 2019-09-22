@@ -13,7 +13,6 @@ import arenashooter.engine.audio.NoSound;
 import arenashooter.engine.audio.openAL.ALAudio;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.graphics.fonts.Font;
-import arenashooter.game.gameStates.Loading;
 import arenashooter.game.gameStates.loading.LoadingConfig;
 import arenashooter.game.gameStates.loading.PreLoadMainSound;
 
@@ -104,9 +103,6 @@ public class Main {
 			audio.update();
 
 			Window.endFrame();
-			
-			if (Loading.isLoading())
-				Loading.loadingStep();
 			
 			// FPS counter
 			fpsFrames++;

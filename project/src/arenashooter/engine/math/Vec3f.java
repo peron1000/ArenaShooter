@@ -1,9 +1,16 @@
 package arenashooter.engine.math;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.Jsonable;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+
 /**
  * Mutable 3 dimensional vector of floats (x, y, z)
  */
-public class Vec3f implements Vec3fi {
+public class Vec3f implements Vec3fi, Jsonable {
 	
 	public float x, y, z;
 	
@@ -51,9 +58,9 @@ public class Vec3f implements Vec3fi {
 	 * @param xy
 	 * @param z
 	 */
-	public Vec3f(Vec2f xy, float z) {
-		x = xy.x;
-		y = xy.y;
+	public Vec3f(Vec2fi xy, float z) {
+		x = xy.x();
+		y = xy.y();
 		this.z = z;
 	}
 	
@@ -285,5 +292,31 @@ public class Vec3f implements Vec3fi {
 		target.y = Utils.lerpF(a.y(), b.y(), f);
 		target.z = Utils.lerpF(a.z(), b.z(), f);
 		return target;
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	public static Vec3f jsonImport(JsonArray array) {
+		double x = ((Number) array.get(0)).doubleValue();
+		double y = ((Number) array.get(1)).doubleValue();
+		double z = ((Number) array.get(2)).doubleValue();
+		return new Vec3f(x, y, z);
+	}
+
+	private JsonArray getJson() {
+		return new JsonArray().addChain(x).addChain(y).addChain(z);
+	}
+	
+	@Override
+	public String toJson() {
+		return getJson().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		getJson().toJson(writable);
 	}
 }

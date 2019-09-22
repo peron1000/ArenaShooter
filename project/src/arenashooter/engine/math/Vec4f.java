@@ -1,9 +1,15 @@
 package arenashooter.engine.math;
 
+import java.io.IOException;
+import java.io.Writer;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
 /**
  * Mutable 4 dimensional vector of floats (x, y, z, w), (r, g, b, a) for colors
  */
-public class Vec4f implements Vec4fi {
+public class Vec4f implements Vec4fi, Jsonable {
 	
 	public float x, y, z, w;
 	
@@ -56,10 +62,10 @@ public class Vec4f implements Vec4fi {
 	 * @param xyz
 	 * @param w
 	 */
-	public Vec4f(Vec3f xyz, float w) {
-		x = xyz.x;
-		y = xyz.y;
-		z = xyz.z;
+	public Vec4f(Vec3fi xyz, float w) {
+		x = xyz.x();
+		y = xyz.y();
+		z = xyz.z();
 		this.w = w;
 	}
 	
@@ -215,5 +221,33 @@ public class Vec4f implements Vec4fi {
 	 */
 	public static Vec4f multiply( Vec4f v, double a ) {
 		return new Vec4f( v.x*a, v.y*a, v.z*a, v.w*a );
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	public static Vec4f jsonImport(JsonArray array) {
+		double x = ((Number) array.get(0)).doubleValue();
+		double y = ((Number) array.get(1)).doubleValue();
+		double z = ((Number) array.get(2)).doubleValue();
+		double w = ((Number) array.get(3)).doubleValue();
+		return new Vec4f(x, y, z, w);
+	}
+	
+	private JsonArray getJson() {
+		return new JsonArray().addChain(x).addChain(y).addChain(z).addChain(w);
+	}
+	
+	@Override
+	public String toJson() {
+		return getJson().toJson();
+	}
+
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		getJson().toJson(writable);
 	}
 }

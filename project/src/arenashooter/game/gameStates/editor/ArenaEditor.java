@@ -11,6 +11,7 @@ import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.fonts.Text;
 import arenashooter.engine.graphics.fonts.Text.TextAlignH;
 import arenashooter.engine.graphics.fonts.Text.TextAlignV;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
@@ -48,7 +49,6 @@ import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
 import arenashooter.game.gameStates.MenuStart;
 import arenashooter.game.gameStates.editor.addItem.AddItemEditor;
-import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 import arenashooter.game.gameStates.loading.LoadingConfig;
 
@@ -355,7 +355,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 			@Override
 			public void make() {
-				Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
+				Main.getGameMaster().requestNextState(new MenuStart());
 			}
 		});
 		quit.setColorRect(new Vec4f(0.25, 0.25, 1, 1));
@@ -385,7 +385,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 
 				@Override
 				public void make() {
-					Main.getGameMaster().requestNextState(new Editor(), file.getPath());
+					// Main.getGameMaster().requestNextState(new Editor(), file.getPath()); FIXME
 				}
 			});
 			vList.addElement(b);
@@ -800,6 +800,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		}
 	}
 
+	@Override
 	public boolean changeAction() {
 		switch (ui_InputState) {
 		case DOUBLE:
@@ -813,6 +814,7 @@ public class ArenaEditor extends UiElement implements MultiUi {
 		}
 	}
 
+	@Override
 	public boolean cancelAction() {
 		switch (ui_InputState) {
 		case DOUBLE:

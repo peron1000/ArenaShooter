@@ -1,0 +1,9 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/debug_color.vert",
+    "shaderFragment": "data/shaders/debug_color.frag",
+    "transparent": true,
+    "params": {
+        "color": [1.0, 1.0, 1.0, 1.0]
+    }
+}

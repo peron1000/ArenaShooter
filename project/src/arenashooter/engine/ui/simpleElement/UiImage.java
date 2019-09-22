@@ -6,6 +6,7 @@ import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.ui.UiElement;
 
 public class UiImage extends UiElement {
@@ -24,9 +25,8 @@ public class UiImage extends UiElement {
 	 * 
 	 * @param color
 	 */
-	public UiImage(Vec4f color) {
-		this(Window.loadMaterial("data/materials/ui/ui_rectangle.xml"));
-		material.setParamVec4f("color", color.clone());
+	public UiImage(Vec4fi color) {
+		this(color.x(), color.y(), color.z(), color.w());
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class UiImage extends UiElement {
 	 * @param transparency
 	 */
 	public UiImage(double red, double green, double blue, double transparency) {
-		this(Window.loadMaterial("data/materials/ui/ui_rectangle.xml"));
+		this(Window.loadMaterial("data/materials/ui/ui_rectangle.material"));
 		if (red > 1 || red < 0) {
 			Exception e = new Exception("Color value red given is not valid");
 			e.printStackTrace();
@@ -64,9 +64,7 @@ public class UiImage extends UiElement {
 	 * @param texture
 	 */
 	public UiImage(Texture texture) {
-		this(Window.loadMaterial("data/materials/ui/ui_image.xml"));
-		texture.setFilter(false);
-		material.setParamTex("image", texture);
+		this(texture, new Vec4f(1));
 	}
 
 	/**
@@ -75,11 +73,11 @@ public class UiImage extends UiElement {
 	 * @param texture
 	 * @param color
 	 */
-	public UiImage(Texture texture, Vec4f color) {
-		this(Window.loadMaterial("data/materials/ui/ui_image.xml"));
+	public UiImage(Texture texture, Vec4fi color) {
+		this(Window.loadMaterial("data/materials/ui/ui_image.material"));
 		texture.setFilter(false);
 		material.setParamTex("image", texture);
-		material.setParamVec4f("color", color.clone());
+		material.setParamVec4f("color", new Vec4f(color));
 	}
 
 	public UiImage(MaterialI material) {

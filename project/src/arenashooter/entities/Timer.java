@@ -1,5 +1,11 @@
 package arenashooter.entities;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import arenashooter.engine.json.StrongJsonKey;
+
 /**
  * @author Nathan Timer until a given integer<br/>
  *         To change the border integer, you have to create a new Timer
@@ -18,6 +24,9 @@ public class Timer extends Entity {
 
 	public Timer(double timer) {
 		max = timer;
+	}
+	
+	private Timer() {
 	}
 	
 	public double getValueRatio() { return current/max; }
@@ -97,5 +106,33 @@ public class Timer extends Entity {
 		over = (current >= max);
 		super.step(d);
 	}
-
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+			
+			@Override
+			public Object getValue() {
+				return max;
+			}
+			
+			@Override
+			public String getKey() {
+				return "cooldown";
+			}
+			
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				max = json.getDouble(this);
+			}
+		});
+		return set;
+	}
+	
+	public static Timer fromJson(JsonObject json) {
+		Timer t = new Timer();
+		useKeys(t, json);
+		return t;
+	}
 }

@@ -4,12 +4,14 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 
 import arenashooter.engine.graphics.MaterialI;
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
-import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec4fi;
 
 public class ShapeCharacter extends PhysicShape {
 	private Model model;
@@ -54,7 +56,7 @@ public class ShapeCharacter extends PhysicShape {
 	private static MaterialI material;
 	private Mat4f modelM = new Mat4f();
 	@Override
-	public void debugDraw(Vec2fi pos, double rot, Vec4f color) {
+	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {
 		if(material == null)
 			material = Window.loadMaterial("data/materials/debug_color.xml");
 		
@@ -70,5 +72,14 @@ public class ShapeCharacter extends PhysicShape {
 			model.bind();
 			model.draw(true);
 		}
+	}
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public JsonObject getJson() {
+		return new JsonObject();
 	}
 }

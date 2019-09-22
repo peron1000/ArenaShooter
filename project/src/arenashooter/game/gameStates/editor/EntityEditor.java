@@ -2,6 +2,7 @@ package arenashooter.game.gameStates.editor;
 
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Light.LightType;
+import arenashooter.engine.json.EntityTypes;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.engine.ui.ScrollerH;
 import arenashooter.engine.ui.TabList;
@@ -18,7 +19,6 @@ import arenashooter.entities.spatials.Camera;
 import arenashooter.entities.spatials.LightContainer;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.gameStates.editor.editorEnum.SetEditable;
-import arenashooter.game.gameStates.editor.editorEnum.EntityTypes;
 import arenashooter.game.gameStates.editor.editorEnum.Ui_Input;
 
 class EntityEditor extends ArenaEditor {

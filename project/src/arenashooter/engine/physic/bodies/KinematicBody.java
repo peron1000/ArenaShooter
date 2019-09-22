@@ -91,5 +91,9 @@ public class KinematicBody extends PhysicBody {
 		
 		return body;
 	}
+	
+	public float getDensity() {
+		return density;
+	}
 
 }

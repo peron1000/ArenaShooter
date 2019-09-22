@@ -3,12 +3,14 @@ package arenashooter.engine.physic.shapes;
 import org.jbox2d.collision.shapes.PolygonShape;
 
 import arenashooter.engine.graphics.MaterialI;
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.Window;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
-import arenashooter.engine.math.Vec4f;
+import arenashooter.engine.math.Vec4fi;
 import arenashooter.engine.physic.PhysicWorld;
 
 public class ShapeBox extends PhysicShape {
@@ -38,7 +40,7 @@ public class ShapeBox extends PhysicShape {
 	private static MaterialI material;
 	private Mat4f modelM = new Mat4f();
 	@Override
-	public void debugDraw(Vec2fi pos, double rot, Vec4f color) {
+	public void debugDraw(Vec2fi pos, double rot, Vec4fi color) {
 		if(material == null)
 			material = Window.loadMaterial("data/materials/debug_color.xml");
 		
@@ -55,4 +57,17 @@ public class ShapeBox extends PhysicShape {
 			quad.draw(true);
 		}
 	}
+	
+	
+	/*
+	 * JSON
+	 */
+
+	@Override
+	public JsonObject getJson() {
+		JsonObject json = new JsonObject();
+		json.put("extent", extent);
+		return json;
+	}
+
 }

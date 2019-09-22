@@ -36,7 +36,7 @@ public class ColorPicker extends UiElement {
 		
 		this.hasAlpha = hasAlpha;
 		
-		MaterialI lumiSatMat = Window.loadMaterial("data/materials/ui/ui_gradient_4.xml");
+		MaterialI lumiSatMat = Window.loadMaterial("data/materials/ui/ui_gradient_4.material");
 		lumiSat = new UiImage(lumiSatMat);
 		
 		hueImg = new UiImage(Texture.loadTexture("data/sprites/interface/hue.png"));

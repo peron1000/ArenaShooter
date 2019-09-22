@@ -37,6 +37,7 @@ public class Intro extends GameState {
 	private Vec4f textColorA = new Vec4f(.925, .635, .110, 1), textColorB = new Vec4f(.859, .125, .714, 1);
 	
 	public Intro() {
+		super("data/arena/menu_intro.arena");
 		anim = new Animation(AnimationData.loadAnim("data/animations/anim_intro.xml"));
 
 		bgm = Main.getAudioManager().createSource("data/music/Juhani Junkala [Chiptune Adventures] 4. Stage Select [Edited].ogg", AudioChannel.MUSIC, .67f, 1);
@@ -51,7 +52,7 @@ public class Intro extends GameState {
 					case UI_CONTINUE:
 						bgm.destroy();
 						bgmLoop.destroy();
-						Main.getGameMaster().requestNextState(new MenuStart(), "data/mapXML/menu_empty.xml");
+						Main.getGameMaster().requestNextState(new MenuStart());
 						break;
 					default:
 						break;
@@ -71,12 +72,12 @@ public class Intro extends GameState {
 		
 		///Fill map with intro-specific stuff TODO: De-harcode this
 		//Logo
-		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh logo = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.material"));
 		logo.getMaterial(0).setTransparency(true);
 		logo.attachToParent(current, "logo");
 		
 		//Logo bg
-		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/color.xml"));
+		Mesh logoBg = Mesh.quad(new Vec3f(0, -7.5, 7.95), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/color.material"));
 		logoBg.scale.set(7, 5, 1);
 		logoBg.attachToParent(current, "logo_bg");
 		
@@ -92,23 +93,23 @@ public class Intro extends GameState {
 		pressStart.attachToParent(getCamera(), "textPressStart");
 		
 		//Fox
-		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh fox= Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.material"));
 		fox.scale = new Vec3f(1.5f);
 		fox.attachToParent(current, "fox");
 		
 		//Cat
-		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh cat = Mesh.quad(new Vec3f(), new Quat(), new Vec3f(), Window.loadMaterial("data/materials/sprite_simple.material"));
 		cat.scale = new Vec3f(1.5f);
 		cat.attachToParent(current, "cat");
 		
 		//Crowds
-		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		Mesh crowd = Mesh.quad(new Vec3f(-5.3, -1, 15), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_01");
-		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		crowd = Mesh.quad(new Vec3f(-2, -1, 12), new Quat(), new Vec3f(5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_02");
-		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		crowd = Mesh.quad(new Vec3f(2, -1, 11), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_03");
-		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.xml"));
+		crowd = Mesh.quad(new Vec3f(5.5, -1, 13), new Quat(), new Vec3f(-5, 2.5, 1), Window.loadMaterial("data/materials/sprite_simple.material"));
 		crowd.attachToParent(current, "crowd_04");
 		
 		bgm.play();

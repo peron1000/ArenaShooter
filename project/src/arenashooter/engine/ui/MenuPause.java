@@ -70,7 +70,7 @@ public class MenuPause {
 
 			@Override
 			public void make() {
-				Main.getGameMaster().requestNextState(new MenuStart(), GameMaster.mapEmpty);
+				Main.getGameMaster().requestNextState(new MenuStart());
 			}
 		});
 

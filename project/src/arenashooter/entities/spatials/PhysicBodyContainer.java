@@ -1,5 +1,10 @@
 package arenashooter.entities.spatials;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.bodies.PhysicBody;
@@ -51,7 +56,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	public Vec2fi getWorldPos() {
 		return body.getPosition();
 	}
-	
+
 	@Override
 	public double getWorldRot() {
 		return body.getRotation();
@@ -90,7 +95,7 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	@Override
 	public void editorAddPosition(Vec2fi position) {
 		body.setPosition(Vec2f.add(getWorldPos(), position));
-		
+
 		for (Entity e : getChildren().values())
 			e.updateAttachment();
 	}
@@ -98,16 +103,16 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	@Override
 	public void editorAddScale(Vec2fi extent) {
 		PhysicShape oldShape = body.getShape();
-		if(oldShape instanceof ShapeBox)
-			body.setShape(new ShapeBox( Vec2f.add(((ShapeBox)oldShape).getExtent(), extent)  ));
-		if(oldShape instanceof ShapeDisk)
-			body.setShape(new ShapeDisk( ((ShapeDisk)oldShape).getRadius() + extent.x()  ));
+		if (oldShape instanceof ShapeBox)
+			body.setShape(new ShapeBox(Vec2f.add(((ShapeBox) oldShape).getExtent(), extent)));
+		if (oldShape instanceof ShapeDisk)
+			body.setShape(new ShapeDisk(((ShapeDisk) oldShape).getRadius() + extent.x()));
 	}
 
 	@Override
 	public void editorAddRotationZ(double angle) {
-		body.setRotation((float) (getWorldRot()+angle));
-		
+		body.setRotation((float) (getWorldRot() + angle));
+
 		for (Entity e : getChildren().values())
 			e.updateAttachment();
 	}
@@ -115,5 +120,51 @@ public abstract class PhysicBodyContainer<T extends PhysicBody> extends Spatial 
 	@Override
 	public void editorDraw() {
 		body.debugDraw();
+	}
+
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return body.getPosition();
+			}
+
+			@Override
+			public String getKey() {
+				return "world position";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				body.setPosition(Vec2f.jsonImport(json.getCollection(this)));
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return body.getRotation();
+			}
+
+			@Override
+			public String getKey() {
+				return "world rotation";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				float angle = json.getFloat(this);
+				body.setRotation(angle );
+			}
+		});
+		return set;
 	}
 }

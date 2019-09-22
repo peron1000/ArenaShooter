@@ -28,7 +28,7 @@ public class Editor extends GameState {
 	List<Editable> allEditable = new LinkedList<>();
 	Editable onSetting = null;
 
-	private ArenaEditor mainMenu = new ArenaEditor(current , this);
+	private ArenaEditor mainMenu;
 
 	private UiElement currentMenu = mainMenu;
 
@@ -41,8 +41,13 @@ public class Editor extends GameState {
 	final double scaleSpeed = 0.005, positionSpeed = 0.02, rotationSpeed = 0.005;
 
 	public Editor() {
-		grid2d = new Sprite(new Vec2f(), Window.loadMaterial("data/materials/editor_grid.xml"));
+		super("data/arena/menu_editor_new.arena");
+		grid2d = new Sprite(new Vec2f(), Window.loadMaterial("data/materials/editor_grid.material"));
 
+		while( !isReady() ) {} // Wait for arena to be entirely loaded
+		
+		mainMenu = new ArenaEditor(current , this);
+		
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 
 			@Override

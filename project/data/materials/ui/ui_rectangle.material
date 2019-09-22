@@ -1,0 +1,9 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/ui/ui_simple.vert",
+    "shaderFragment": "data/shaders/ui/ui_rectangle.frag",
+    "transparent": true,
+    "params": {
+        "color": [1.0, 1.0, 1.0, 1.0]
+    }
+}

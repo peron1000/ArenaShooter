@@ -1,5 +1,11 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import arenashooter.engine.graphics.Texture;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -17,11 +23,15 @@ public class Usable extends Item {
 	protected String soundWarmup = "";
 	protected String soundFire = "";
 	protected boolean demo = false;
+	
+	private Usable() {
+		super(Texture.default_tex.getPath());
+	}
 
 	public Usable(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,
-			Vec2fi size, String soundPickup, double fireRate, int uses, String animPath, double warmup,
+			Vec2fi extent, String soundPickup, double fireRate, int uses, String animPath, double warmup,
 			String soundWarmup, String soundFire) {
-		super(localPosition, name, weight, pathSprite, handPosL, handPosR, size, soundPickup);
+		super(localPosition, name, weight, pathSprite, handPosL, handPosR, extent, soundPickup);
 
 		// Cooldown
 		timerCooldown = new Timer(fireRate);
@@ -127,6 +137,7 @@ public class Usable extends Item {
 		timerCooldown.setIncreasing(false);
 	}
 
+	@Override
 	public void step(double d) {
 		Vec2f targetOffSet = Vec2f.rotate(new Vec2f(0, 0), getWorldRot());
 		localPosition.x = (float) Utils.lerpD((double) localPosition.x, targetOffSet.x, Math.min(1, d * 55));
@@ -141,8 +152,97 @@ public class Usable extends Item {
 	@Override
 	public Usable clone() {
 		Usable clone = new Usable(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
-				soundPickup, fireRate, uses, animPath, fireRate, animPath, animPath) {
+				soundPickup, fireRate, uses, animPath, fireRate, soundWarmup, soundFire) {
 		};
 		return clone;
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return soundWarmup;
+			}
+			@Override
+			public String getKey() {
+				return "sound warmup";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				soundWarmup = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return soundFire;
+			}
+			@Override
+			public String getKey() {
+				return "sound fire";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				soundFire = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return fireRate;
+			}
+			@Override
+			public String getKey() {
+				return "fireRate";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				fireRate = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return warmup;
+			}
+			@Override
+			public String getKey() {
+				return "warmup";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				warmup = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return uses;
+			}
+			@Override
+			public String getKey() {
+				return "uses";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				uses = json.getInteger(this);
+			}
+		});
+		
+		return set;
+	}
+	
+	public static Usable fromJson(JsonObject json) throws Exception {
+		Usable e = new Usable();
+		useKeys(e, json);
+		return e;
 	}
 }

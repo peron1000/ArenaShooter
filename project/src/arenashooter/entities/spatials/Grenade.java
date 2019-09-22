@@ -44,6 +44,7 @@ public class Grenade extends Projectile {
 	@Override
 	public void impact(Spatial other) { } //Don't do anything special on impact, just bounce around
 
+	@Override
 	public void step(double d) {
 		if(blinking == null && grenadeTimer.getMax()- grenadeTimer.getValue() < 1 ) {
 			blinking = new Animation(redBlinks);

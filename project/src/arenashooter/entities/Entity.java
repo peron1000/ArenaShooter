@@ -1,16 +1,27 @@
 package arenashooter.entities;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import arenashooter.engine.math.Vec2fi;
+import com.github.cliftonlabs.json_simple.JsonKey;
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.game.Main;
 
-public class Entity implements Editable {
+public class Entity implements Editable, Jsonable {
 	/** Arena containing this */
 	private Arena arena = null;
 	/** Arena value needs to be refreshed */
@@ -22,9 +33,9 @@ public class Entity implements Editable {
 
 	/** Drawing priority relative to parent used in getZIndex() */
 	public int zIndex = 0;
-	
+
 	private boolean isEditorTarget = false;
-	
+
 	// Entity comparator based on zIndex
 	protected static Comparator<Entity> comparatorZindex = new Comparator<Entity>() {
 		@Override
@@ -45,9 +56,10 @@ public class Entity implements Editable {
 			Main.log.warn("Trying to attach an entity to itself!");
 			return null;
 		}
-		
-		//Trying to attach the entity to its current parent, nothing to do
-		if(newParent == parent) return null;
+
+		// Trying to attach the entity to its current parent, nothing to do
+		if (newParent == parent)
+			return null;
 
 		// Detach this from current parent
 		if (parent != null)
@@ -64,7 +76,7 @@ public class Entity implements Editable {
 		this.parent = newParent;
 
 		recursiveAttach(this.parent);
-		
+
 		return previousChild;
 	}
 
@@ -79,23 +91,24 @@ public class Entity implements Editable {
 		name = "";
 		recursiveDetach(arena);
 	}
-	
+
 	protected void recursiveAttach(Entity newParent) {
 		arenaDirty = true;
-		for(Entity e : children.values())
+		for (Entity e : children.values())
 			e.recursiveAttach(newParent);
 	}
-	
+
 	protected void recursiveDetach(Arena oldArena) {
 		arenaDirty = true;
-		for(Entity e : children.values())
+		for (Entity e : children.values())
 			e.recursiveDetach(oldArena);
 	}
-	
+
 	/**
-	 * Update position/rotation according to parent	
+	 * Update position/rotation according to parent
 	 */
-	public void updateAttachment() {} //Entities aren't spatials, they don't need that
+	public void updateAttachment() {
+	} // Entities aren't spatials, they don't need that
 
 	/**
 	 * @return this Entity's parent (null if not attached)
@@ -105,15 +118,19 @@ public class Entity implements Editable {
 	}
 
 	/**
-	 * Get the entire children map. 
-	 * If you intend to use this for get(), you should use getChild() instead.
+	 * Get the entire children map. If you intend to use this for get(), you should
+	 * use getChild() instead.
+	 * 
 	 * @return this Entity's children map (name->child)
 	 */
-	public Map<String, Entity> getChildren() { return children; }
-	
+	public Map<String, Entity> getChildren() {
+		return children;
+	}
+
 	/**
-	 * Get a child Entity from its name.
-	 * <br/> This is a shortcut for getChildren().get(<i>name</i>).
+	 * Get a child Entity from its name. <br/>
+	 * This is a shortcut for getChildren().get(<i>name</i>).
+	 * 
 	 * @param name
 	 * @return child Entity attached as <i>name</i> or null if none
 	 */
@@ -138,18 +155,19 @@ public class Entity implements Editable {
 	/**
 	 * @return Arena containing this entity
 	 */
-	public Arena getArena() { //TODO: test
-		if(!arenaDirty && arena != null) return arena;
-		
+	public Arena getArena() { // TODO: test
+		if (!arenaDirty && arena != null)
+			return arena;
+
 		Entity current = parent;
 		while (current != null && !(current instanceof Arena))
 			current = current.parent;
 
 		if (current instanceof Arena)
-			arena = (Arena)current;
+			arena = (Arena) current;
 		else
 			arena = null;
-		
+
 		arenaDirty = false;
 		return arena;
 	}
@@ -172,7 +190,7 @@ public class Entity implements Editable {
 	 * Render opaque/masked entities and add transparent ones to Arena's list
 	 */
 	public void renderFirstPass() {
-		if(drawAsTransparent())
+		if (drawAsTransparent())
 			getArena().transparent.add(this);
 		else
 			draw(false);
@@ -186,13 +204,16 @@ public class Entity implements Editable {
 
 	/**
 	 * Draw this entity<br/>
-	 * This will be called during the opaque pass or the transparency pass if drawAsTransparent()
+	 * This will be called during the opaque pass or the transparency pass if
+	 * drawAsTransparent()
+	 * 
 	 * @param transparency is this called during transparency pass
 	 */
-	public void draw(boolean transparency) { }
+	public void draw(boolean transparency) {
+	}
 
 	public String genName() {
-		return String.valueOf(toString()+System.nanoTime());
+		return String.valueOf(toString() + System.nanoTime());
 	}
 
 	@Override
@@ -224,11 +245,12 @@ public class Entity implements Editable {
 	 * This is used to draw additional elements such as icons in arena editor
 	 */
 	@Override
-	public void editorDraw() { }
+	public void editorDraw() {
+	}
 
 	@Override
 	public void editorAddDepth(float depth) {
-		// Nothing		
+		// Nothing
 	}
 
 	@Override
@@ -240,4 +262,100 @@ public class Entity implements Editable {
 	public void editorAddRotationY(double angle) {
 		// Nothing
 	}
+	
+	
+	/*
+	 * JSON
+	 */
+
+	/**
+	 * @return a JsonObject representing this Entity
+	 */
+	protected JsonObject getJson() {
+		JsonObject entity = new JsonObject();
+		for (JsonKey jsonKey : getJsonKey()) {
+			if (jsonKey.getKey() != "children") {
+				entity.put(jsonKey.getKey(), jsonKey.getValue());
+			} else if (!children.isEmpty()) {
+				entity.put(jsonKey.getKey(), jsonKey.getValue());
+			}
+		}
+		return entity;
+	}
+
+	@Override
+	public String toJson() {
+		if (getJson() == null)
+			return null;
+		return getJson().toJson();
+	}
+
+	@Override
+	public void toJson(Writer writable) throws IOException {
+		getJson().toJson(writable);
+	}
+
+	public static Entity fromJson(JsonObject json) throws Exception {
+		Entity e = new Entity();
+		useKeys(e, json);
+		return e;
+	}
+	
+	protected static void useKeys(Entity e , JsonObject json) {
+		for (StrongJsonKey key : e.getJsonKey()) {
+			try {
+				key.useKey(json);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = new HashSet<>();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return new JsonObject(children);
+			}
+
+			@Override
+			public String getKey() {
+				return "children";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonObject children = json.getMap(this);
+				if (children == null)
+					return;
+				for (Entry<String, Object> entry : children.entrySet()) {
+					JsonObject child = (JsonObject) entry.getValue();
+					String className = child.getStringOrDefault(type);
+					Class<?> classType = Class.forName(className);
+					Method m = classType.getMethod("fromJson", JsonObject.class);
+					Entity e = (Entity) m.invoke(null, child);
+					e.attachToParent(Entity.this, entry.getKey());
+				}
+			}
+		});
+		set.add(type);
+		return set;
+	}
+	
+	protected StrongJsonKey type = new StrongJsonKey() {
+		@Override
+		public Object getValue() {
+			return Entity.this.getClass().getName();
+		}
+		@Override
+		public String getKey() {
+			return "type";
+		}
+		@Override
+		public void useKey(JsonObject json) throws Exception {
+			// void
+		}
+	};
 }

@@ -40,6 +40,7 @@ public class Bullet extends Projectile {
 		detach();
 	}
 
+	@Override
 	public void step(double d) {
 		if(getBody().getBody() != null)
 			getBody().getBody().setGravityScale(0);

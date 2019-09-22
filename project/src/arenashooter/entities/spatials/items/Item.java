@@ -1,7 +1,13 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.physic.CollisionFlags;
@@ -30,8 +36,7 @@ public abstract class Item extends Spatial {
 	private boolean isEquipped = false;
 	private Sprite sprite;
 
-	public Item(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR,
-			Vec2fi extent, String soundPickup) {
+	public Item(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL, Vec2fi handPosR, Vec2fi extent, String soundPickup) {
 		super(localPosition);
 
 		attachRot = false;
@@ -245,9 +250,135 @@ public abstract class Item extends Spatial {
 	 */
 	@Override
 	public Item clone() {
-		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent,
-				soundPickup) {
+		Item clone = new Item(localPosition, this.genName(), weight, pathSprite, handPosL, handPosR, extent, soundPickup) {
 		};
 		return clone;
 	}
+
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return name;
+			}
+			@Override
+			public String getKey() {
+				return "name";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				name = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return weight;
+			}
+			@Override
+			public String getKey() {
+				return "weight";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				weight = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return pathSprite;
+			}
+			@Override
+			public String getKey() {
+				return "pathSprite";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				pathSprite = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return soundPickup;
+			}
+			@Override
+			public String getKey() {
+				return "sound pickup";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				soundPickup = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(handPosL == null)
+					return new int[0];
+				else
+					return handPosL;
+			}
+			@Override
+			public String getKey() {
+				return "handPosL";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if( a.size() == 2 )
+					handPosL = Vec2f.jsonImport(a);
+				else
+					handPosL = null;
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(handPosR == null)
+					return new int[0];
+				else
+					return handPosR;
+			}
+			@Override
+			public String getKey() {
+				return "handPosR";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if( a.size() == 2 )
+					handPosR = Vec2f.jsonImport(a);
+				else
+					handPosR = null;
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return extent;
+			}
+			@Override
+			public String getKey() {
+				return "extent";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				JsonArray a = json.getCollection(this);
+				if (a != null)
+					extent.set(Vec2f.jsonImport(a));
+			}
+		});
+		return set;
+	}
+	
 }

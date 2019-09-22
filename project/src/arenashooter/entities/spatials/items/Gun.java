@@ -1,7 +1,13 @@
 package arenashooter.entities.spatials.items;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.audio.AudioChannel;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -30,6 +36,10 @@ public class Gun extends Usable {
 	protected float sndChargeVol;
 	protected float sndChargePitch;
 
+	private Gun() {
+		super(Texture.default_tex.getPath());
+	}
+	
 	/**
 	 * 
 	 * @param localPosition
@@ -386,5 +396,121 @@ public class Gun extends Usable {
 				fireRate, uses, animPath, warmup, soundWarmup, soundFire, soundNoAmmo, bulletType, bulletSpeed, damage,
 				cannonLength, recoil, thrust);
 		return gun;
+	}
+
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return recoil;
+			}
+			@Override
+			public String getKey() {
+				return "recoil";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				recoil = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return thrust;
+			}
+			@Override
+			public String getKey() {
+				return "thrust";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				thrust = json.getFloat(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return cannonLength;
+			}
+			@Override
+			public String getKey() {
+				return "cannonLength";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				cannonLength = json.getDouble(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return soundNoAmmo;
+			}
+			@Override
+			public String getKey() {
+				return "sound no ammo";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				soundNoAmmo = json.getString(this);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return getBulletType();
+			}
+			@Override
+			public String getKey() {
+				return "bullet type";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				setBulletType(json.getInteger(this));
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return getBulletSpeed();
+			}
+			@Override
+			public String getKey() {
+				return "bullet speed";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				setBulletSpeed(json.getFloat(this));
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return damage;
+			}
+			@Override
+			public String getKey() {
+				return "damage";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				damage = json.getFloat(this);
+			}
+		});
+		return set;
+	}
+	
+	public static Gun fromJson(JsonObject json) throws Exception {
+		Gun e = new Gun();
+		useKeys(e, json);
+		return e;
 	}
 }

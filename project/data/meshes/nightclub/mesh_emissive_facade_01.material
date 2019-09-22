@@ -1,0 +1,15 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/mesh_simple.vert",
+    "shaderFragment": "data/shaders/mesh_emissive.frag",
+    "transparent": false,
+    "params": {
+        "editorFilter": [0.0],
+        "fogDistance": [3000],
+        "fogColor": [0.929, 0.906, 0.753],
+        "baseColor": { "path": "data/default_texture.png", "filtered": false },
+        "baseColorMod": [1.0, 1.0, 1.0, 1.0],
+        "emissive": { "path": "data/meshes/nightclub/facade_01.png", "filtered": false },
+        "emissiveMod": [2.0, 2.0, 2.0]
+    }
+}

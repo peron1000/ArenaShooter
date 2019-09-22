@@ -1,12 +1,22 @@
 package arenashooter.entities.spatials;
 
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
+
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.IAnimated;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
+import arenashooter.engine.physic.CollisionFlags;
 import arenashooter.engine.physic.bodies.KinematicBody;
+import arenashooter.engine.physic.shapes.ShapeBox;
+import arenashooter.engine.physic.shapes.ShapeDisk;
+import arenashooter.game.Main;
 
 public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> implements IAnimated {
 
@@ -104,5 +114,63 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 	public double getAnimSpeed() {
 		if(currentAnim == null) return 0;
 		return currentAnim.getPlaySpeed();
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	@Override
+	protected JsonObject getJson() {
+		JsonObject entity = super.getJson();
+		
+		if(body.getShape() instanceof ShapeBox)
+			entity.put("extent", ((ShapeBox)body.getShape()).getExtent());
+		else if(body.getShape() instanceof ShapeDisk)
+			entity.put("radius", ((ShapeDisk)body.getShape()).getRadius());
+		
+		return entity;
+	}
+	
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				return body.getDensity();
+			}
+			@Override
+			public String getKey() {
+				return "density";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				float density = json.getFloat(this);
+				body = new KinematicBody(body.getShape(), body.getPosition(), body.getRotation(),
+						CollisionFlags.ARENA_KINEMATIC, density);
+			}
+		});
+		return set;
+	}
+	
+	public static KinematicBodyContainer fromJson(JsonObject json) {
+		KinematicBody kBody;
+		if (json.containsKey("radius")) {
+			double radius = ((Number) json.get("radius")).doubleValue();
+			kBody = new KinematicBody(new ShapeDisk(radius), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0);
+		} else if (json.containsKey("extent")) {
+			JsonArray array = (JsonArray) json.get("extent");
+			Vec2f extent = Vec2f.jsonImport(array);
+			kBody = new KinematicBody(new ShapeBox(extent), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0);
+		} else {
+			Main.log.error("Invalid KinematicBody definition.");
+			kBody = new KinematicBody(new ShapeBox(new Vec2f()), new Vec2f(), 0, CollisionFlags.ARENA_KINEMATIC, 0);
+		}
+		
+		KinematicBodyContainer container = new KinematicBodyContainer(kBody);
+		useKeys(container, json);
+		return container;
 	}
 }

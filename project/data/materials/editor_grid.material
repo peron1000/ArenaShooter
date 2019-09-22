@@ -1,0 +1,9 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/editor_grid.vert",
+    "shaderFragment": "data/shaders/editor_grid.frag",
+    "transparent": true,
+    "params": {
+        "lineThickness": [0.1]
+    }
+}

@@ -23,7 +23,7 @@ public class Sprite extends Spatial {
 	public Sprite(Vec2fi localPosition, Texture texture) {
 		super(localPosition);
 		if(model == null) model = Model.loadQuad();
-		material = Window.loadMaterial("data/materials/sprite_simple.xml");
+		material = Window.loadMaterial("data/materials/sprite_simple.material");
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
 		if(texture.transparency)

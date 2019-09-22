@@ -1,0 +1,10 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/color.vert",
+    "shaderFragment": "data/shaders/color.frag",
+    "transparent": false,
+    "params": {
+        "baseColor": [1.0, 1.0, 1.0, 1.0],
+        "editorFilter": [0.0]
+    }
+}

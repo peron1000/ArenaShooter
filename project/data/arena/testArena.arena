@@ -1,0 +1,56 @@
+{
+	"kill bound":[
+		-100.0,
+		-100.0,
+		100.0,
+		100.0
+	],
+	"music path":"",
+	"ambient light":[
+		45.0,
+		6.0,
+		3.0
+	],
+	"fog distance":3000.0,
+	"music volume":1.0,
+	"fog color":[
+		0.929,
+		0.906,
+		0.753
+	],
+	"type":"arenashooter.entities.Arena",
+	"music pitch":1.0,
+	"children":{
+		"petite entity":{
+			"type":"arenashooter.entities.Entity"
+		}
+	},
+	"gravity":[
+		65.0,
+		2.0
+	],
+	"items available":[
+		
+	],
+	"camera base position":[
+		0.0,
+		0.0,
+		8.0
+	],
+	"player spawn":[
+		{
+			"children":{
+				"timer_spawn":{
+					"type":"arenashooter.entities.Timer"
+				}
+			},
+			"rotation":0.0,
+			"cooldown":46.0,
+			"position":[
+				3.0,
+				3.0
+			],
+			"type":"arenashooter.entities.spatials.Spawner"
+		}
+	]
+}

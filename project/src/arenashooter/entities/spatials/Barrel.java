@@ -36,6 +36,7 @@ public class Barrel extends RigidBodyContainer {
 		detonTimer.reset();
 	}
 
+	@Override
 	public float takeDamage(DamageInfo info) {
 		applyImpulse(Vec2f.multiply(info.direction, info.damage));
 		Main.getAudioManager().playSound2D("data/sound/nid.ogg", AudioChannel.SFX, 1, (float) (0.95 + Math.random() * 0.1),
@@ -69,6 +70,7 @@ public class Barrel extends RigidBodyContainer {
 		detach();
 	}
 
+	@Override
 	public void step(double d) {
 		if (detonTimer.isOver()) {
 			detonate();

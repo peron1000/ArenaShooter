@@ -26,8 +26,8 @@ import arenashooter.entities.spatials.Sprite;
 import arenashooter.entities.spatials.TextSpatial;
 import arenashooter.game.Controller;
 import arenashooter.game.ControllerPlayer;
+import arenashooter.game.GameMaster;
 import arenashooter.game.Main;
-import arenashooter.game.gameStates.engineParam.GameParam;
 
 public class CharacterChooser extends GameState {
 
@@ -44,6 +44,7 @@ public class CharacterChooser extends GameState {
 			spaceImage = Imageinput.SPACE.getImage(), aImage = Imageinput.A.getImage(), bImage = Imageinput.B.getImage(), enterImage;
 
 	public CharacterChooser() {
+		super(GameMaster.mapEmpty);
 		inputs.actions.add(new EventListener<InputActionEvent>() {
 			@Override
 			public void launch(InputActionEvent event) {
@@ -123,12 +124,7 @@ public class CharacterChooser extends GameState {
 						for (Controller cont : controllers.values()) {
 							Main.getGameMaster().controllers.add(cont);
 						}
-						Object[] variable = GameParam.maps.toArray();
-						String[] chosenMaps = new String[variable.length];
-						for (int i = 0; i < variable.length; i++) {
-							chosenMaps[i] = (String) variable[i];
-						}
-						Main.getGameMaster().requestGame();
+						Main.getGameMaster().launchNextGame();
 						break;
 
 					case UI_OK:
@@ -463,6 +459,7 @@ public class CharacterChooser extends GameState {
 		inputs.step(delta);
 	}
 
+	@Override
 	public void draw() {
 		super.draw();
 		aImage.draw();

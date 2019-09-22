@@ -2,6 +2,9 @@ package arenashooter.entities.spatials;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
@@ -11,6 +14,7 @@ import arenashooter.engine.graphics.MaterialI;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.ModelsData;
 import arenashooter.engine.graphics.Window;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec2fi;
@@ -44,7 +48,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 		super(localPosition, localRotation);
 
 		this.scale = scale.clone();
-		
+
 		this.modelPath = modelPath;
 
 		ModelsData data = ModelsData.loadModel(modelPath);
@@ -64,11 +68,10 @@ public class Mesh extends Spatial3 implements IAnimated {
 		this.materials = materials;
 	}
 
-	/**
-	 * @return the modelPath
-	 */
-	public String getModelPath() {
-		return modelPath;
+	private Mesh() { }
+
+	public static Mesh quad(Vec3f position, Quat rotation, Vec3f scale, Material material) {
+		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new Material[] { material });
 	}
 
 	public static Mesh quad(Vec3fi position, Quat rotation, Vec3fi scale, MaterialI material) {
@@ -78,37 +81,42 @@ public class Mesh extends Spatial3 implements IAnimated {
 	public static Mesh disk(Vec3fi position, Quat rotation, Vec3fi scale, MaterialI material) {
 		return new Mesh(position, rotation, scale, new Model[] { Model.loadDisk(16) }, new MaterialI[] { material });
 	}
+	
+	public String getModelPath() {
+		return modelPath;
+	}
 
 	public MaterialI getMaterial(int id) {
 		if (id < 0 || id >= materials.length)
 			return null;
 		return materials[id];
 	}
-	
+
 	@Override
 	public void step(double d) {
 		timeMs += d * 1000;
-		
+
 		updateAnim(d);
-		
+
 		super.step(d);
 	}
-	
+
 	protected void updateAnim(double d) {
-		if(currentAnim != null) {
+		if (currentAnim != null) {
 			currentAnim.step(d);
-			if(currentAnim.hasTrackVec3f("pos"))
+			if (currentAnim.hasTrackVec3f("pos"))
 				localPosition.set(currentAnim.getTrackVec3f("pos"));
-			
-			if(currentAnim.hasTrackVec3f("rot"))
+
+			if (currentAnim.hasTrackVec3f("rot"))
 				Quat.fromEuler(currentAnim.getTrackVec3f("rot"), localRotation);
 
-			//TODO: Add Quat rotation
+			// TODO: Add Quat rotation
 		}
 	}
 
 	/**
 	 * This will return true is at least one material is transparent
+	 * 
 	 * @return should this entity be drawn during transparency pass
 	 */
 	@Override
@@ -119,12 +127,13 @@ public class Mesh extends Spatial3 implements IAnimated {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Render opaque/masked entities and add transparent ones to Arena's list
 	 */
+	@Override
 	public void renderFirstPass() {
-		if(drawAsTransparent())
+		if (drawAsTransparent())
 			getArena().transparent.add(this);
 		draw(false);
 
@@ -134,7 +143,7 @@ public class Mesh extends Spatial3 implements IAnimated {
 		for (Entity e : toDraw)
 			e.renderFirstPass();
 	}
-	
+
 	@Override
 	public void draw(boolean transparency) {
 		Profiler.startTimer(Profiler.MESHES);
@@ -145,19 +154,20 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 		Profiler.endTimer(Profiler.MESHES);
 	}
-	
+
 	@Override
 	public void editorAddScale(Vec2fi scale) {
 		this.scale.x += scale.x();
 		this.scale.y += scale.y();
 	}
-	
+
 	/**
 	 * Draw one of the models from this Mesh
+	 * 
 	 * @param i
 	 */
 	private void drawModel(int i) {
-		if(getArena() != null) {
+		if (getArena() != null) {
 			materials[i].setParamVec3f("ambient", getArena().ambientLight);
 			materials[i].setParamVec3f("fogColor", getArena().fogColor);
 			materials[i].setParamF("fogDistance", getArena().fogDistance);
@@ -170,18 +180,18 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 		materials[i].setParamI("time", timeMs);
 
-		if(materials[i].bind(models[i])) {
+		if (materials[i].bind(models[i])) {
 			models[i].bind();
 			models[i].draw();
 		}
 	}
-	
+
 	@Override
 	public void editorDraw() {
 		float editorFilter = 0;
 		if (isEditorTarget())
 			editorFilter = (float) (Math.sin(System.currentTimeMillis() * 0.006) + 1) / 2f;
-		for(int i=0; i<materials.length; i++)
+		for (int i = 0; i < materials.length; i++)
 			materials[i].setParamF("editorFilter", editorFilter);
 	}
 
@@ -193,11 +203,11 @@ public class Mesh extends Spatial3 implements IAnimated {
 		MaterialI[] cloneMats = new Material[materials.length];
 		for(int i=0; i<materials.length; i++)
 			cloneMats[i] = materials[i].clone();
-		
+
 		Mesh res = new Mesh(localPosition, localRotation, scale, models.clone(), cloneMats);
 		return res;
 	}
-	
+
 	@Override
 	public void setAnim(Animation anim) {
 		currentAnim = anim;
@@ -205,17 +215,20 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 	@Override
 	public void playAnim() {
-		if(currentAnim != null) currentAnim.play();
+		if (currentAnim != null)
+			currentAnim.play();
 	}
 
 	@Override
 	public void stopAnim() {
-		if(currentAnim != null) currentAnim.stopPlaying();
+		if (currentAnim != null)
+			currentAnim.stopPlaying();
 	}
 
 	@Override
 	public void animJumpToEnd() {
-		if(currentAnim != null) currentAnim.setTime(currentAnim.getLength());
+		if (currentAnim != null)
+			currentAnim.setTime(currentAnim.getLength());
 	}
 
 	@Override
@@ -225,12 +238,66 @@ public class Mesh extends Spatial3 implements IAnimated {
 
 	@Override
 	public void setAnimSpeed(double speed) {
-		if(currentAnim != null) currentAnim.setplaySpeed(speed);
+		if (currentAnim != null)
+			currentAnim.setplaySpeed(speed);
 	}
 
 	@Override
 	public double getAnimSpeed() {
-		if(currentAnim == null) return 0;
+		if (currentAnim == null)
+			return 0;
 		return currentAnim.getPlaySpeed();
 	}
+
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return modelPath;
+			}
+
+			@Override
+			public String getKey() {
+				return "model path";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				String modelPath = json.getString(this);
+				ModelsData data = ModelsData.loadModel(modelPath);
+
+				models = data.models;
+				materials = data.materials;
+				Mesh.this.modelPath = modelPath;
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return scale;
+			}
+
+			@Override
+			public String getKey() {
+				return "scale";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				scale = Vec3f.jsonImport(json.getCollection(this));
+			}
+		});
+		return set;
+	}
+
+	public static Mesh fromJson(JsonObject json) {
+		Mesh m = new Mesh();
+		useKeys(m, json);
+		return m;
+	}
+
 }

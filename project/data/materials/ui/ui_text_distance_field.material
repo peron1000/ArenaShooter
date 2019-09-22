@@ -1,0 +1,13 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/ui/ui_simple.vert",
+    "shaderFragment": "data/shaders/ui/ui_text_distance_field.frag",
+    "transparent": true,
+    "params": {
+        "distanceField": { "path": "data/default_texture.png", "filtered": true },
+        "baseColor": [1.0, 1.0, 1.0, 1.0],
+        "thickness": [0.25],
+        "shadowColor": [0.0, 0.0, 0.0, 0.7],
+        "shadowThickness": [0.01]
+    }
+}

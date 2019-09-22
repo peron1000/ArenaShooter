@@ -1,5 +1,8 @@
 package arenashooter.entities.spatials.items;
 
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -16,6 +19,10 @@ public class UsableTimer extends Item {
 	protected double warmup = 0;
 	protected String soundWarmup = "";
 	protected String soundFire = "";
+	
+	private UsableTimer() {
+		super(Texture.default_tex.getPath());
+	}
 
 	public UsableTimer(Vec2fi localPosition, String name, double weight, String pathSprite, Vec2fi handPosL,
 			Vec2fi handPosR, Vec2fi size, String soundPickup, double fireRate, int duration, String animPath,
@@ -40,6 +47,7 @@ public class UsableTimer extends Item {
 		timerCooldown.setIncreasing(false);
 	}
 
+	@Override
 	public void step(double d) {
 		if (timerCooldown.isOver()) {
 			timerCooldown.restart();
@@ -61,5 +69,16 @@ public class UsableTimer extends Item {
 		UsableTimer clone = new UsableTimer(localPosition, animPath, duration, animPath, handPosL, handPosR, extent,
 				animPath, fireRate, duration, animPath, warmup, soundWarmup, soundFire);
 		return clone;
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+	
+	public static UsableTimer fromJson(JsonObject json) throws Exception {
+		UsableTimer e = new UsableTimer();
+		useKeys(e, json);
+		return e;
 	}
 }

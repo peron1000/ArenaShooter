@@ -2,8 +2,12 @@ package arenashooter.entities.spatials;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
+import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.DamageInfo;
+import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.entities.Arena;
@@ -24,8 +28,7 @@ public class Spatial extends Entity {
 	protected double parentRotation = 0;
 	/** World space rotation */
 	public double localRotation = 0;
-	
-	
+
 	public boolean ignoreKillBounds = false;
 
 	public Spatial() {
@@ -35,13 +38,13 @@ public class Spatial extends Entity {
 	public Spatial(Vec2fi localPosition) {
 		this.localPosition = new Vec2f(localPosition);
 	}
-	
+
 	@Override
 	protected void recursiveAttach(Entity newParent) {
 		super.recursiveAttach(newParent);
 		updateAttachment();
 	}
-	
+
 	@Override
 	protected void recursiveDetach(Arena oldArena) {
 		super.recursiveDetach(oldArena);
@@ -50,62 +53,64 @@ public class Spatial extends Entity {
 
 	/**
 	 * Get this entity's world position
+	 * 
 	 * @return parent position + local position
 	 */
 	public Vec2fi getWorldPos() {
 		return Vec2f.add(parentPosition, Vec2f.rotate(localPosition, parentRotation), worldPosition);
 	}
-	
+
 	public double getWorldRot() {
-		return parentRotation+localRotation;
+		return parentRotation + localRotation;
 	}
-	
+
 	/**
 	 * Apply damage on this entity
+	 * 
 	 * @param info
 	 * @return actual damages taken
 	 */
 	public float takeDamage(DamageInfo info) {
 		return 0;
 	}
-	
+
 	@Override
 	public void editorAddPosition(Vec2fi position) {
 		localPosition.add(position);
-		
-		for(Entity e : getChildren().values())
+
+		for (Entity e : getChildren().values())
 			e.updateAttachment();
 	}
-	
+
 	@Override
 	public void editorAddRotationZ(double angle) {
 		localRotation += angle;
-		
-		for(Entity e : getChildren().values())
+
+		for (Entity e : getChildren().values())
 			e.updateAttachment();
 	}
-	
+
 	@Override
 	public void updateAttachment() {
-		if(getParent() instanceof Spatial) {
-			if(attachRot)
-				parentRotation = ((Spatial)getParent()).getWorldRot();
+		if (getParent() instanceof Spatial) {
+			if (attachRot)
+				parentRotation = ((Spatial) getParent()).getWorldRot();
 			else
 				parentRotation = 0;
-			
-			if(attachPos)
-				parentPosition.set(((Spatial)getParent()).getWorldPos());
+
+			if (attachPos)
+				parentPosition.set(((Spatial) getParent()).getWorldPos());
 			else
 				parentPosition.set(0, 0);
 		} else if (getParent() instanceof Spatial3) {
-			//TODO: Rotation from spatial3
+			// TODO: Rotation from spatial3
 //			if(attachRot)
 //				parentRotation = ((Spatial3)getParent()).getWorldRot()
 //			else
-				parentRotation = 0;
-				
-			if(attachPos)
-				parentPosition.set( ((Spatial3)getParent()).getWorldPos().x, ((Spatial3)getParent()).getWorldPos().y );
+			parentRotation = 0;
+
+			if (attachPos)
+				parentPosition.set(((Spatial3) getParent()).getWorldPos().x, ((Spatial3) getParent()).getWorldPos().y);
 			else
 				parentPosition.set(0, 0);
 		} else {
@@ -119,7 +124,7 @@ public class Spatial extends Entity {
 	 */
 	@Override
 	public void step(double d) {
-		if(!getChildren().isEmpty()) {
+		if (!getChildren().isEmpty()) {
 			List<Entity> toUpdate = new LinkedList<>();
 			toUpdate.addAll(getChildren().values());
 			for (Entity e : toUpdate) {
@@ -127,5 +132,50 @@ public class Spatial extends Entity {
 				e.step(d);
 			}
 		}
+	}
+	
+	
+	/*
+	 * JSON
+	 */
+
+	@Override
+	public Set<StrongJsonKey> getJsonKey() {
+		Set<StrongJsonKey> set = super.getJsonKey();
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return localPosition;
+			}
+
+			@Override
+			public String getKey() {
+				return "position";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				localPosition = Vec2f.jsonImport(json.getCollection(this));
+			}
+		});
+		set.add(new StrongJsonKey() {
+
+			@Override
+			public Object getValue() {
+				return localRotation;
+			}
+
+			@Override
+			public String getKey() {
+				return "rotation";
+			}
+
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				localRotation = json.getDouble(this);
+			}
+		});
+		return set;
 	}
 }

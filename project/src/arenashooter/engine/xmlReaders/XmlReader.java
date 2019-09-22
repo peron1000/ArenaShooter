@@ -61,7 +61,8 @@ public abstract class XmlReader {
 	 * @return path (unchanged)
 	 */
 	protected static String preloadSound(String path) {
-		Main.getAudioManager().loadSound(path);
+		if( Main.getAudioManager() != null)
+			Main.getAudioManager().loadSound(path);
 		return path;
 	}
 	

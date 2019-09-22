@@ -122,4 +122,7 @@ dependencies {
   
   // JBox-2d
   compile files('lib/jbox-2d/jbox2d-library.jar')
+  
+  // Json-simple
+  runtime 'com.github.cliftonlabs:json-simple:3.1.0'
 } 
