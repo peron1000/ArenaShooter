@@ -71,11 +71,11 @@ public class Mesh extends Spatial3 implements IAnimated {
 	private Mesh() { }
 
 	public static Mesh quad(Vec3fi position, QuatI rotation, Vec3fi scale, Material material) {
-		return new Mesh(position, rotation, scale, new Model[] { Model.loadQuad() }, new Material[] { material });
+		return new Mesh(position, rotation, scale, new Model[] { Main.getRenderer().loadQuad() }, new Material[] { material });
 	}
 
 	public static Mesh disk(Vec3fi position, QuatI rotation, Vec3fi scale, Material material) {
-		return new Mesh(position, rotation, scale, new Model[] { Model.loadDisk(16) }, new Material[] { material });
+		return new Mesh(position, rotation, scale, new Model[] { Main.getRenderer().loadDisk(16) }, new Material[] { material });
 	}
 	
 	public String getModelPath() {

@@ -19,10 +19,10 @@ public class ModelsData {
 	
 	static final String default_mat = "data/materials/mesh_simple.material";
 	
-	public Model[] models;
+	public GLModel[] models;
 	public Material[] materials;
 	
-	ModelsData(Model[] models, Material[] materials) {
+	ModelsData(GLModel[] models, Material[] materials) {
 		this.models = models;
 		this.materials = materials;
 	}
@@ -44,7 +44,7 @@ public class ModelsData {
 		
 		//Unsupported format
 		Main.getRenderer().getLogger().error(path+" is not a wavefront obj file");
-		return new ModelsData(new Model[0], new Material[0]);
+		return new ModelsData(new GLModel[0], new Material[0]);
 	}
 	
 	/**

@@ -18,7 +18,7 @@ import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Main;
 
 public class Emitter {
-	static final protected Model model = Model.loadQuad();
+	static final protected Model model = Main.getRenderer().loadQuad();
 	
 	/** Remaining time before starting this emitter */
 	private float delay;

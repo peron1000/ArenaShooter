@@ -226,6 +226,16 @@ public class NoRender implements Renderer {
 		return NRMaterial.loadMaterial(path);
 	}
 	
+	@Override
+	public Model loadQuad() {
+		return new NRModel();
+	}
+	
+	@Override
+	public Model loadDisk(int sides) {
+		return new NRModel();
+	}
+	
 	private final NRTexture default_tex = new NRTexture("data/default_texture.png");
 	
 	private class NRTexture implements Texture {
@@ -489,6 +499,21 @@ public class NoRender implements Renderer {
 		public void toJson(Writer writable) throws IOException {
 			toJsonObject().toJson(writable);
 		}
+	}
+	
+	private class NRModel implements Model {
+		@Override
+		public void bindToShader(Shader shader) {}
+
+		@Override
+		public void bind() {}
+
+		@Override
+		public void draw() {}
+
+		@Override
+		public void draw(boolean wireframe) {}
+		
 	}
 
 }

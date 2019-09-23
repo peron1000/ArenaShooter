@@ -85,7 +85,7 @@ public final class GLRenderer implements Renderer {
 	//Post processing
 	/** Current post processing settings */
 	private PostProcess postProcess;
-	private Model quad;
+	private GLModel quad;
 
 	//Framebuffers
 	/** Main framebuffer object */
@@ -174,7 +174,7 @@ public final class GLRenderer implements Renderer {
 		Input.init(window);
 		
 		//Load default quad
-		quad = Model.loadQuad();
+		quad = GLModel.loadQuad();
 		
 		//Load post-processing
 		postProcess = new PostProcess("data/shaders/post_process/pp_default.frag");
@@ -240,7 +240,7 @@ public final class GLRenderer implements Renderer {
 		quad.bindToShader(postProcess.getShader());
 		quad.bind();
 		quad.draw();
-		Model.unbind();
+		GLModel.unbind();
 		GLShader.unbind();
 		GLTexture.unbind();
 
@@ -633,5 +633,15 @@ public final class GLRenderer implements Renderer {
 	@Override
 	public Material loadMaterial(String path) {
 		return GLMaterial.loadMaterial(path);
+	}
+	
+	@Override
+	public Model loadQuad() {
+		return GLModel.loadQuad();
+	}
+	
+	@Override
+	public Model loadDisk(int sides) {
+		return GLModel.loadDisk(sides);
 	}
 }

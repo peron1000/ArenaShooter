@@ -32,7 +32,7 @@ public class ShapeDisk extends PhysicShape {
 		b2Shape.setRadius((float) this.radius);
 	}
 	
-	private static final Model disk = Model.loadDisk(16);
+	private static final Model disk = Main.getRenderer().loadDisk(16);
 	private static Material material;
 	private Mat4f modelM = new Mat4f();
 	@Override

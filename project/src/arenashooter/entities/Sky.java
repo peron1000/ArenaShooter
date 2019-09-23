@@ -23,7 +23,7 @@ public class Sky extends Entity {
 	public Material material;
 
 	private Sky() {
-		if(quad == null) quad = Model.loadQuad();
+		if(quad == null) quad = Main.getRenderer().loadQuad();
 		material = Main.getRenderer().loadMaterial("data/materials/sky.material");
 		zIndex = -9999;
 	}

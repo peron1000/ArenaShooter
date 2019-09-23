@@ -36,7 +36,7 @@ public class ShapeBox extends PhysicShape {
 		((PolygonShape)b2Shape).setAsBox(this.extent.x, this.extent.y);
 	}
 
-	private static final Model quad = Model.loadQuad();
+	private static final Model quad = Main.getRenderer().loadQuad();
 	private static Material material;
 	private Mat4f modelM = new Mat4f();
 	@Override

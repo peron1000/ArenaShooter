@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.GLModel;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
@@ -22,7 +22,7 @@ final class ModelObjLoader {
 	private ModelObjLoader() {};
 	
 	static ModelsData loadObj( String path ) {
-		List<Model> models = new ArrayList<>(1);
+		List<GLModel> models = new ArrayList<>(1);
 		List<String> materialPaths = new ArrayList<>(1);
 		List<Texture> textures = new ArrayList<>(1);
 		
@@ -157,7 +157,7 @@ final class ModelObjLoader {
 		for( int i=materialPaths.size()-1; i<models.size(); i++ )
 			materialPaths.add(ModelsData.default_mat);
 		
-		Model[] modelsArray = models.toArray(new Model[models.size()]);
+		GLModel[] modelsArray = models.toArray(new GLModel[models.size()]);
 		Material[] materialsArray = new Material[textures.size()];
 		
 		for(int i=0; i<materialsArray.length; i++) {
@@ -202,7 +202,7 @@ final class ModelObjLoader {
 		return Vec3f.normalize(res);
 	}
 	
-	private static Model finishModel( List<? extends Vec3fi> vertices, List<? extends Vec2fi> texCoords, List<? extends Vec3fi> normals, List<? extends Vec3fi> generatedNormals, List<int[]> points, List<int[]> faces ) {
+	private static GLModel finishModel( List<? extends Vec3fi> vertices, List<? extends Vec2fi> texCoords, List<? extends Vec3fi> normals, List<? extends Vec3fi> generatedNormals, List<int[]> points, List<int[]> faces ) {
 		//Convert data to arrays
 		List<Float> dataList = new ArrayList<Float>();
 		for(int[] point : points) {
@@ -238,7 +238,7 @@ final class ModelObjLoader {
 		for( int i=0; i<ids.length; i++ )
 			ids[i] = idsList.get(i);
 		
-		return new Model(data, ids);
+		return new GLModel(data, ids);
 	}
 
 	private static Map<String, Texture> loadMaterials(String path) {

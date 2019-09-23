@@ -82,7 +82,7 @@ public class UiImage extends UiElement {
 
 	public UiImage(Material material) {
 		if (model == null)
-			model = Model.loadQuad();
+			model = Main.getRenderer().loadQuad();
 
 		this.material = material;
 	}

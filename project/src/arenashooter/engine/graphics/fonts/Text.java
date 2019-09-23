@@ -8,7 +8,7 @@ import java.util.List;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 
-import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.GLModel;
 import arenashooter.engine.graphics.fonts.Font.FontChar;
 
 public class Text implements Jsonable {
@@ -21,7 +21,7 @@ public class Text implements Jsonable {
 	private Font font;
 	private String text;
 	private float width;
-	private Model model;
+	private GLModel model;
 
 	public Text(Font font, TextAlignH alignH, TextAlignV alignV, String text) {
 		this.font = font;
@@ -37,7 +37,7 @@ public class Text implements Jsonable {
 		return alignV;
 	}
 
-	public Model getModel() { return model; }
+	public GLModel getModel() { return model; }
 	
 	public Font getFont() { return font; }
 	
@@ -110,7 +110,7 @@ public class Text implements Jsonable {
 		for(int i=0; i<indices.size(); i++)
 			indicesArray[i] = indices.get(i);
 		
-		model = new Model(dataArray, indicesArray);
+		model = new GLModel(dataArray, indicesArray);
 	}
 	
 	/**

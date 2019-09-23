@@ -22,7 +22,7 @@ public class Sprite extends Spatial {
 	
 	public Sprite(Vec2fi localPosition, Texture texture) {
 		super(localPosition);
-		if(model == null) model = Model.loadQuad();
+		if(model == null) model = Main.getRenderer().loadQuad();
 		material = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
 		setTexture(texture);
 		material.setParamVec4f("baseColorMod", new Vec4f(1));
@@ -32,7 +32,7 @@ public class Sprite extends Spatial {
 	
 	public Sprite(Vec2fi localPosition, Material material) {
 		super(localPosition);
-		if(model == null) model = Model.loadQuad();
+		if(model == null) model = Main.getRenderer().loadQuad();
 		this.material = material;
 	}
 	

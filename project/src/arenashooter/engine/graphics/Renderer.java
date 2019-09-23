@@ -166,4 +166,17 @@ public interface Renderer {
 	public Texture getDefaultTexture();
 	
 	public Material loadMaterial(String path);
+	
+	/**
+	 * Create a simple quad from (-.5, -.5, 0) to (.5, .5, 0) with corresponding texture coordinates
+	 * @return the quad model
+	 */
+	public Model loadQuad();
+
+	/**
+	 * Create a simple disk centered at (0,0) with a diameter of 1 with corresponding texture coordinates
+	 * @param sides number of vertices, increasing this will improve the shape
+	 * @return the disk model
+	 */
+	public Model loadDisk(int sides);
 }

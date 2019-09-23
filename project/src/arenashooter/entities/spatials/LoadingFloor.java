@@ -21,7 +21,7 @@ public class LoadingFloor extends Spatial {
 	
 	static {
 		material = Main.getRenderer().loadMaterial("data/materials/sprite_simple.material");
-		model = Model.loadQuad();
+		model = Main.getRenderer().loadQuad();
 		tex = new Texture[] {
 				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_01.png"),
 				Main.getRenderer().loadTexture("data/sprites/loading_floor/floor_02.png"),
