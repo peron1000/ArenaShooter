@@ -1,4 +1,4 @@
-package arenashooter.engine.graphics;
+package arenashooter.engine.graphics.openGL;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import arenashooter.engine.FileUtils;
+import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.math.Mat4fi;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3fi;

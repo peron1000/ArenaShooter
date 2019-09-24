@@ -8,7 +8,7 @@ import org.lwjgl.system.MemoryStack;
 
 import arenashooter.engine.FileUtils;
 
-class Image {
+public class Image {
 
 	public final String file;
 	public final int width, height, channels;

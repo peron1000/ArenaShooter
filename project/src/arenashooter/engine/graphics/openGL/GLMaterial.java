@@ -1,4 +1,4 @@
-package arenashooter.engine.graphics;
+package arenashooter.engine.graphics.openGL;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -13,6 +13,10 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import static org.lwjgl.opengl.GL20.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL20.glActiveTexture;
 
+import arenashooter.engine.graphics.Light;
+import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.Light.LightType;
 import arenashooter.engine.json.MaterialJsonReader;
 import arenashooter.engine.math.Mat4f;

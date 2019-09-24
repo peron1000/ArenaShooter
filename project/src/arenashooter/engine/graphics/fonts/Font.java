@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import arenashooter.engine.graphics.GLTexture;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.game.Main;
 
@@ -138,7 +137,7 @@ public class Font {
 				if(lastIndex >= 0)
 					texturePath = font.path.substring(0, lastIndex)+'/'+texturePath;
 				
-				font.tex = GLTexture.loadTexture(texturePath);
+				font.tex = Main.getRenderer().loadTexture(texturePath);
 				break;
 				
 			default:

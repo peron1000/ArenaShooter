@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import arenashooter.engine.animation.animevents.AnimEvent;
-import arenashooter.engine.graphics.GLTexture;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -128,7 +127,7 @@ public class Animation {
 			return animData.tracksT.get(track).valueAt(time);
 		else {
 			Main.getRenderer().getLogger().error("Fetching inexistant animation track \""+track+"\" in "+this+", returning default texture");
-			return GLTexture.default_tex;
+			return Main.getRenderer().getDefaultTexture();
 		}
 	}
 

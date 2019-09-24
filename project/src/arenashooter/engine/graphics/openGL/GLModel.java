@@ -1,4 +1,4 @@
-package arenashooter.engine.graphics;
+package arenashooter.engine.graphics.openGL;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -17,13 +17,15 @@ import java.nio.IntBuffer;
 import org.lwjgl.system.MemoryUtil;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.Shader;
 import arenashooter.engine.math.Vec2f;
 
 /**
  * Contains geometry data for a single openGL model 
  * Doesn't have any shader or texture information
  */
-class GLModel implements Model {
+final class GLModel implements Model {
 	//Floats per vertex: x, y, z + u, v + nx, ny, nz
 	private static final int floatsPerVertex = 3 + 2 + 3;
 	//Float size in bytes

@@ -1,4 +1,4 @@
-package arenashooter.engine.graphics;
+package arenashooter.engine.graphics.openGL;
 
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -11,7 +11,7 @@ import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.game.Main;
 
-public class GLEmitter extends Emitter {
+final class GLEmitter extends Emitter {
 	
 	private GLShader shader;
 	

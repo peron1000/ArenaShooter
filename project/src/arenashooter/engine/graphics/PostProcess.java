@@ -1,5 +1,7 @@
 package arenashooter.engine.graphics;
 
+import arenashooter.engine.graphics.openGL.GLRenderer;
+import arenashooter.engine.graphics.openGL.GLShader;
 import arenashooter.game.Main;
 
 /**
@@ -18,12 +20,12 @@ public class PostProcess {
 			this.shader = GLShader.loadShader(vertexShader, framgnetShader);
 	}
 	
-	GLShader getShader() { return shader; }
+	public Shader getShader() { return shader; }
 	
 	/**
 	 * Bind post process shader and set parameters
 	 */
-	void bind() {
+	public void bind() {
 		shader.bind();
 		shader.setUniformF("vignetteIntensity", vignetteIntensity);
 		shader.setUniformF("chromaAbbIntensity", chromaAbbIntensity);

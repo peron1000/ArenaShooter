@@ -12,9 +12,9 @@ import arenashooter.engine.audio.AudioManager;
 import arenashooter.engine.audio.NoSound;
 import arenashooter.engine.audio.openAL.ALAudio;
 import arenashooter.engine.graphics.Renderer;
-import arenashooter.engine.graphics.GLRenderer;
 import arenashooter.engine.graphics.NoRender;
 import arenashooter.engine.graphics.fonts.Font;
+import arenashooter.engine.graphics.openGL.GLRenderer;
 import arenashooter.game.gameStates.loading.LoadingConfig;
 import arenashooter.game.gameStates.loading.PreLoadMainSound;
 

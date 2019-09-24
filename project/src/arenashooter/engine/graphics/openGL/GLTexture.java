@@ -1,4 +1,4 @@
-package arenashooter.engine.graphics;
+package arenashooter.engine.graphics.openGL;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -12,13 +12,15 @@ import java.util.Map;
 
 import com.github.cliftonlabs.json_simple.JsonObject;
 
+import arenashooter.engine.graphics.Image;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 
 /**
  * Container for an OpenGL texture
  */
-public final class GLTexture implements Texture { //TODO: Remove public modifier
+final class GLTexture implements Texture {
 	private static Map<String, TextureEntry> textures = new HashMap<String, TextureEntry>();
 	
 	public static final Texture default_tex = loadTexture( "data/default_texture.png" );

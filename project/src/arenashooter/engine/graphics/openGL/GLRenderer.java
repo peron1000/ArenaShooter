@@ -1,4 +1,4 @@
-package arenashooter.engine.graphics;
+package arenashooter.engine.graphics.openGL;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -40,6 +40,12 @@ import org.lwjgl.glfw.GLFWVidMode.Buffer;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.graphics.Image;
+import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.Model;
+import arenashooter.engine.graphics.PostProcess;
+import arenashooter.engine.graphics.Renderer;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.particles.Emitter;
 import arenashooter.engine.graphics.particles.EmitterTemplate;
 import arenashooter.engine.graphics.particles.ParticleSystem;
@@ -52,7 +58,7 @@ import arenashooter.engine.math.Vec4i;
 import arenashooter.entities.spatials.Camera;
 
 /**
- * Game window using OpenGL
+ * GLFW Game window and OpenGL rendering
  */
 public final class GLRenderer implements Renderer {
 	private static final int WIDTH_MIN = 640, HEIGHT_MIN = 480;
