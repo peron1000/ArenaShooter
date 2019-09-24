@@ -236,6 +236,11 @@ public class NoRender implements Renderer {
 		return new NRModel();
 	}
 	
+	@Override
+	public Model createModel(float[] data, int[] indices) {
+		return new NRModel();
+	}
+	
 	private final NRTexture default_tex = new NRTexture("data/default_texture.png");
 	
 	private class NRTexture implements Texture {

@@ -23,7 +23,7 @@ import arenashooter.engine.math.Vec2f;
  * Contains geometry data for a single openGL model 
  * Doesn't have any shader or texture information
  */
-public class GLModel implements Model {
+class GLModel implements Model {
 	//Floats per vertex: x, y, z + u, v + nx, ny, nz
 	private static final int floatsPerVertex = 3 + 2 + 3;
 	//Float size in bytes
@@ -41,7 +41,7 @@ public class GLModel implements Model {
 	 * @param data vertices data (position + uv)
 	 * @param indices vertices indices ()
 	 */
-	public GLModel( float[] data, int[] indices ) {
+	GLModel( float[] data, int[] indices ) {
 		//Memory allocation
 		dataBuffer = MemoryUtil.memAllocFloat(data.length);
 		dataBuffer.put(data);

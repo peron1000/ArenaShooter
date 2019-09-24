@@ -179,4 +179,11 @@ public interface Renderer {
 	 * @return the disk model
 	 */
 	public Model loadDisk(int sides);
+	
+	/**
+	 * Load a model
+	 * @param data vertices data (position + uv)
+	 * @param indices vertices indices ()
+	 */
+	public Model createModel(float[] data, int[] indices);
 }

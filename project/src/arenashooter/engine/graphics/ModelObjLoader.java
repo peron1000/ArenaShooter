@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import arenashooter.engine.graphics.GLModel;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
@@ -238,7 +237,7 @@ final class ModelObjLoader {
 		for( int i=0; i<ids.length; i++ )
 			ids[i] = idsList.get(i);
 		
-		return new GLModel(data, ids); //TODO: Get rid of implementation specific Model class
+		return Main.getRenderer().createModel(data, ids);
 	}
 
 	private static Map<String, Texture> loadMaterials(String path) {

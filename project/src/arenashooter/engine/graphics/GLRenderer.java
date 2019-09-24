@@ -644,4 +644,9 @@ public final class GLRenderer implements Renderer {
 	public Model loadDisk(int sides) {
 		return GLModel.loadDisk(sides);
 	}
+
+	@Override
+	public Model createModel(float[] data, int[] indices) {
+		return new GLModel(data, indices);
+	}
 }

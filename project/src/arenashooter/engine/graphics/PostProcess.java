@@ -1,5 +1,7 @@
 package arenashooter.engine.graphics;
 
+import arenashooter.game.Main;
+
 /**
  * Post processing settings for openGL
  */
@@ -12,7 +14,8 @@ public class PostProcess {
 	public float fadeToBlack = 0;
 
 	public PostProcess(String framgnetShader) {
-		this.shader = GLShader.loadShader(vertexShader, framgnetShader);
+		if(Main.getRenderer() instanceof GLRenderer) //TODO: Remove this
+			this.shader = GLShader.loadShader(vertexShader, framgnetShader);
 	}
 	
 	GLShader getShader() { return shader; }
