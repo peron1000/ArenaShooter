@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
+import arenashooter.engine.graphics.particles.Emitter;
+import arenashooter.engine.graphics.particles.EmitterTemplate;
+import arenashooter.engine.graphics.particles.ParticleSystem;
 import arenashooter.engine.math.Mat4fi;
 import arenashooter.entities.spatials.Camera;
 
@@ -179,4 +182,6 @@ public interface Renderer {
 	 * @return the disk model
 	 */
 	public Model loadDisk(int sides);
+	
+	Emitter createEmitter(ParticleSystem owner, EmitterTemplate data);
 }

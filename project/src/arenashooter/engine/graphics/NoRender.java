@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
+import arenashooter.engine.graphics.particles.Emitter;
+import arenashooter.engine.graphics.particles.EmitterTemplate;
+import arenashooter.engine.graphics.particles.ParticleSystem;
 import arenashooter.engine.json.MaterialJsonReader;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Mat4fi;
@@ -234,6 +237,11 @@ public class NoRender implements Renderer {
 	@Override
 	public Model loadDisk(int sides) {
 		return new NRModel();
+	}
+	
+	@Override
+	public Emitter createEmitter(ParticleSystem owner, EmitterTemplate data) {
+		return new NREmitter(owner, data);
 	}
 	
 	private final NRTexture default_tex = new NRTexture("data/default_texture.png");
@@ -513,7 +521,15 @@ public class NoRender implements Renderer {
 
 		@Override
 		public void draw(boolean wireframe) {}
-		
+	}
+	
+	private class NREmitter extends Emitter {
+		public NREmitter(ParticleSystem owner, EmitterTemplate data) {
+			super(owner, data);
+		}
+
+		@Override
+		public void draw() {}
 	}
 
 }

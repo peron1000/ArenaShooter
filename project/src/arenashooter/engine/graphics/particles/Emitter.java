@@ -1,23 +1,16 @@
 package arenashooter.engine.graphics.particles;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import arenashooter.engine.graphics.GLShader;
 import arenashooter.engine.graphics.Model;
 import arenashooter.engine.graphics.particles.modules.ParticleModule;
-import arenashooter.engine.math.Mat4f;
-import arenashooter.engine.math.Quat;
 import arenashooter.engine.math.Utils;
 import arenashooter.engine.math.Vec2f;
-import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.math.Vec4f;
 import arenashooter.game.Main;
 
-public class Emitter {
+public abstract class Emitter {
 	static final protected Model model = Main.getRenderer().loadQuad();
 	
 	/** Remaining time before starting this emitter */
@@ -25,8 +18,6 @@ public class Emitter {
 	
 	/** Remaining number of particles to spawn */
 	int remaining;
-
-	private GLShader shader;
 
 	/** World space positions */
 	public List<Vec2f> positions = new ArrayList<>();
@@ -42,7 +33,7 @@ public class Emitter {
 	
 	public final ParticleSystem owner;
 	
-	private final EmitterTemplate data;
+	protected final EmitterTemplate data;
 	
 	/** Particles to create */
 	private int particlesToSpawn = 0;
@@ -60,8 +51,6 @@ public class Emitter {
 			remaining = -1;
 		else
 			remaining = (int) Math.max(1, data.rate*data.duration);
-		
-		shader = GLShader.loadShader("data/shaders/particle_simple.vert", "data/shaders/particle_simple.frag");
 	}
 	
 	/**
@@ -152,40 +141,5 @@ public class Emitter {
 		particlesToSpawn -= n;
 	}
 
-	private Vec3f pos = new Vec3f();
-	private Quat rot = new Quat();
-	private Vec3f scale = new Vec3f(1);
-	private Mat4f modelM = new Mat4f();
-	void draw() {
-		shader.bind();
-		
-		//Get matrices
-		shader.setUniformM4("view", Main.getRenderer().getView());
-		shader.setUniformM4("projection", Main.getRenderer().getProj());
-		
-		model.bindToShader(shader);
-		
-		//Bind texture
-		glActiveTexture(GL_TEXTURE0);
-		data.tex.bind();
-		shader.setUniformI("baseColor", 0);
-		
-		model.bind();
-		
-		pos.z = owner.position.z;
-		
-		for( int i=0; i<positions.size(); i++ ) {
-			pos.x = positions.get(i).x;
-			pos.y = positions.get(i).y;
-			Quat.fromAngle(rotations.get(i), rot);
-			scale.x = scales.get(i).y;
-			scale.y = scales.get(i).y;
-			
-			shader.setUniformM4( "model", Mat4f.transform(pos, rot, scale, modelM) );
-			
-			shader.setUniformV4("baseColorMod", colors.get(i));
-			
-			model.draw();
-		}
-	}
+	public abstract void draw();
 }

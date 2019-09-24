@@ -1,0 +1,10 @@
+{
+    "type": "material",
+    "shaderVertex": "data/shaders/particle_simple.vert",
+    "shaderFragment": "data/shaders/particle_simple.frag",
+    "transparent": true,
+    "params": {
+        "baseColor": { "path": "data/default_texture.png", "filtered": false },
+        "baseColorMod": [1.0, 1.0, 1.0, 1.0]
+    }
+}

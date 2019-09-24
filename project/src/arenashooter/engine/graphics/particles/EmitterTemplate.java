@@ -3,11 +3,11 @@ package arenashooter.engine.graphics.particles;
 import java.util.LinkedList;
 import java.util.List;
 
-import arenashooter.engine.graphics.GLTexture;
+import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.particles.modules.ParticleModule;
 
 public class EmitterTemplate {
-	final GLTexture tex;
+	final Texture tex;
 	
 	final float lifetimeMin, lifetimeMax;
 
@@ -22,7 +22,7 @@ public class EmitterTemplate {
 	
 	final List<ParticleModule> modules;
 
-	public EmitterTemplate(GLTexture tex, float delay, float duration, float rate, float lifetimeMin, float lifetimeMax, float initialRotMin, float initialRotMax, List<ParticleModule> modules) {
+	public EmitterTemplate(Texture tex, float delay, float duration, float rate, float lifetimeMin, float lifetimeMax, float initialRotMin, float initialRotMax, List<ParticleModule> modules) {
 		this.tex = tex;
 		this.delay = delay;
 		this.duration = duration;
@@ -32,6 +32,10 @@ public class EmitterTemplate {
 		this.initialRotMin = initialRotMin;
 		this.initialRotMax = initialRotMax;
 		this.modules = new LinkedList<>(modules);
+	}
+	
+	public Texture getTexture() {
+		return tex;
 	}
 
 }

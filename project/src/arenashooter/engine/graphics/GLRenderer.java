@@ -40,6 +40,9 @@ import org.lwjgl.glfw.GLFWVidMode.Buffer;
 import org.lwjgl.opengl.GL;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.graphics.particles.Emitter;
+import arenashooter.engine.graphics.particles.EmitterTemplate;
+import arenashooter.engine.graphics.particles.ParticleSystem;
 import arenashooter.engine.input.Input;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Mat4fi;
@@ -643,5 +646,10 @@ public final class GLRenderer implements Renderer {
 	@Override
 	public Model loadDisk(int sides) {
 		return GLModel.loadDisk(sides);
+	}
+
+	@Override
+	public Emitter createEmitter(ParticleSystem owner, EmitterTemplate data) {
+		return new GLEmitter(owner, data);
 	}
 }

@@ -9,6 +9,7 @@ import arenashooter.engine.Profiler;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.ParticlesXmlReader;
+import arenashooter.game.Main;
 
 public class ParticleSystem {
 	private static Map<String, EmitterTemplate[]> cache = new HashMap<>();
@@ -26,7 +27,7 @@ public class ParticleSystem {
 		emitters = new ArrayList<>();
 
 		for (EmitterTemplate emitterData : data) {
-			emitters.add(new Emitter(this, emitterData));
+			emitters.add( Main.getRenderer().createEmitter(this, emitterData) );
 		}
 	}
 
