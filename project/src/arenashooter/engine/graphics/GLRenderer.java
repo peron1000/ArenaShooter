@@ -647,6 +647,11 @@ public final class GLRenderer implements Renderer {
 	public Model loadDisk(int sides) {
 		return GLModel.loadDisk(sides);
 	}
+	
+	@Override
+	public Model createModel(float[] data, int[] indices) {
+		return new GLModel(data, indices);
+	}
 
 	@Override
 	public Emitter createEmitter(ParticleSystem owner, EmitterTemplate data) {

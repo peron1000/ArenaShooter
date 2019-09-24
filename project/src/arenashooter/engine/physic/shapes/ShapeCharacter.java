@@ -4,9 +4,10 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 
 import arenashooter.engine.graphics.Material;
+import arenashooter.engine.graphics.Model;
+
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import arenashooter.engine.graphics.GLModel;
 import arenashooter.engine.math.Mat4f;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
@@ -14,7 +15,7 @@ import arenashooter.engine.math.Vec4fi;
 import arenashooter.game.Main;
 
 public class ShapeCharacter extends PhysicShape {
-	private GLModel model;
+	private Model model;
 	private static final Vec2f vec1 = new Vec2f(1);
 	
 	//   1     -1
@@ -49,7 +50,7 @@ public class ShapeCharacter extends PhysicShape {
 				2, 3, 4,
 				4, 5, 6
 		};
-		model = new GLModel(modelData, modelIndices);
+		model = Main.getRenderer().createModel(modelData, modelIndices);
 	}
 	
 

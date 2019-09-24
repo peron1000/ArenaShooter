@@ -240,6 +240,11 @@ public class NoRender implements Renderer {
 	}
 	
 	@Override
+	public Model createModel(float[] data, int[] indices) {
+		return new NRModel();
+	}
+	
+	@Override
 	public Emitter createEmitter(ParticleSystem owner, EmitterTemplate data) {
 		return new NREmitter(owner, data);
 	}

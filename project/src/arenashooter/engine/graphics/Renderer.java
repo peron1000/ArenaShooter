@@ -183,5 +183,12 @@ public interface Renderer {
 	 */
 	public Model loadDisk(int sides);
 	
+	/**
+	 * Load a model
+	 * @param data vertices data (position + uv)
+	 * @param indices vertices indices ()
+	 */
+	public Model createModel(float[] data, int[] indices);
+
 	Emitter createEmitter(ParticleSystem owner, EmitterTemplate data);
 }
