@@ -54,6 +54,8 @@ public final class Input {
 		currentGamepad = GLFWGamepadState.create();
 		
 		//Load gamepad mappings
+		Main.log.info("Loading gamepad mappings...");
+		int mappings = 0;
 		try {
 			File file = new File("data/gamecontrollerdb.txt");
 			InputStream in = new FileInputStream(file);
@@ -66,7 +68,9 @@ public final class Input {
 				MemoryStack stack = MemoryStack.stackGet();
 				int stackPointer = stack.getPointer();
 				try {
-					if(!glfwUpdateGamepadMappings(stack.ASCII(line)))
+					if(glfwUpdateGamepadMappings(stack.ASCII(line)))
+						mappings++;
+					else
 						Main.log.error("Error reading gamepad mapping: "+line);
 				} finally {
 					stack.setPointer(stackPointer);
@@ -80,6 +84,7 @@ public final class Input {
 			Main.log.error("Cannot load gamepad mappings!");
 			e.printStackTrace();
 		}
+		Main.log.info("Loaded "+ mappings +" gamepad mappings");
 	}
 	
 	/**
