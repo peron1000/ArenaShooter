@@ -162,13 +162,10 @@ class AddGunEditor extends UiElement implements MultiUi {
 				case ATTACK:
 					switch (event.getActionState()) {
 					case JUST_PRESSED:
-						character.attackStartDemo(true);
+						character.attackStartDemo();
 						break;
 					case JUST_RELEASED:
 						character.attackStopDemo();
-						break;
-					case PRESSED:
-						character.attackStart(false);
 						break;
 					default:
 						break;

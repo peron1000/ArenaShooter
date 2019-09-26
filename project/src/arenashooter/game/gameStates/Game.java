@@ -45,8 +45,8 @@ public class Game extends GameState {
 //	// Les teams sont pour l'instant au nombre de 2. On pourra changer
 //	// l'implementation plus tard en faisant en sorte d'avoir autant de team que
 //	// voulues.
-//	Set<Controller> team1 = new HashSet<Controller>();
-//	Set<Controller> team2 = new HashSet<Controller>();
+//	Set<Controller> team1 = new HashSet<>();
+//	Set<Controller> team2 = new HashSet<>();
 	Timer roundTimer;
 	private boolean oneLeft;
 

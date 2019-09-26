@@ -1,6 +1,9 @@
 package arenashooter.game;
 
 import arenashooter.engine.math.Utils;
+import arenashooter.engine.math.Vec2f;
+
+import arenashooter.entities.spatials.Character;
 
 public class ControllerAi extends Controller {
 	double punchTime = 0;
@@ -14,6 +17,8 @@ public class ControllerAi extends Controller {
 	public void step(double d) {
 		if(getCharacter() == null) return;
 		
+		getCharacter().movementInputX = 0;
+		
 		if(punching) {
 			punchTime += d;
 			if(punchTime >= 1) {
@@ -23,24 +28,26 @@ public class ControllerAi extends Controller {
 		}
 		
 		
-		Controller target = Main.getGameMaster().getPlayerControllers().get(0);
+		Controller targetController = Main.getGameMaster().getPlayerControllers().get(0);
+		Character target = targetController.getCharacter();
 		
 		if(target == null) {
 			
 		} else {
-			float xDiff = target.getCharacter().getWorldPos().x() - getCharacter().getWorldPos().x();
+			float xDiff = target.getWorldPos().x() - getCharacter().getWorldPos().x();
 			
-			if( Math.abs(xDiff) > 2 )
-				getCharacter().movementInputX = Utils.clampF(xDiff*0.8f, -1, 1);
+			getCharacter().aimInput = Vec2f.direction(getCharacter().getWorldPos(), target.getWorldPos());
+			
+			if( Math.abs(xDiff) > 5 ) getCharacter().jump();
+			if( Math.abs(xDiff) > 3 )
+				getCharacter().movementInputX = Utils.clampF(xDiff*0.6f, -1, 1);
 			else {
 				if(!punching) {
-					getCharacter().attackStart(true);
+					getCharacter().attackStart();
 					punchTime = 0;
 					punching = true;
 				}
 			}
 		}
-		
-		getCharacter().jump();
 	}
 }

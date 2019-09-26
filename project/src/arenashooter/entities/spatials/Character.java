@@ -265,22 +265,21 @@ public class Character extends RigidBodyContainer {
 		skeleton.stopCharge();
 	}
 
-	public void attackStart(boolean justPressed) {
+	public void attackStart() {
 		if (stunned)
 			return;
 
 		if (getWeapon() != null) {
-				getWeapon().attackStart(justPressed);
+			getWeapon().attackStart(false);
 		} else if (attackCooldown.isOver()) {
 			parryStop();
 			chargePunch.setProcessing(true);
 		}
 	}
 	
-	public void attackStartDemo(boolean justPressed) {
+	public void attackStartDemo() {
 		if (getWeapon() != null) {
-			if (justPressed)
-				getWeapon().attackStart(true);
+			getWeapon().attackStart(true);
 		} else if (attackCooldown.isOver()) {
 			chargePunch.setProcessing(true);
 		}
