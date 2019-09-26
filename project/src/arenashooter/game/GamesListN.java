@@ -46,6 +46,7 @@ public class GamesListN implements GamesList {
 		Game next = games[indexNext];
 		games[indexNext] = new Game(getNextArenaPath());
 		indexNext = (indexNext+1) % bufferedGame;
+		remaining--;
 		return next;
 	}
 
