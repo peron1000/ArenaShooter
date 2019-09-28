@@ -11,11 +11,5 @@ uniform sampler2D shadowMask;
 out vec4 FragmentColor;
 
 void main() {
-    vec4 mask = texture(shadowMask, texCoord);
-
-    if(mask.a <= 0) discard;
-
-    vec4 thumbnail = texture(image, texCoord);
-
-    FragmentColor = thumbnail*mask;
+    FragmentColor = texture(image, texCoord) * texture(shadowMask, texCoord);
 }

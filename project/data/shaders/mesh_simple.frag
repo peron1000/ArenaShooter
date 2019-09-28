@@ -72,6 +72,10 @@ vec3 spotLight(spotLightStruct light, vec3 worldNormal) {
 }
 
 void main() {
+    vec4 textureSample = texture(baseColor, texCoord);
+    //Alpha masking
+    if(textureSample.a <= 0) discard;
+    
 	//Two-sided lighting
 	vec3 normalCamSpace = normalCamSpaceIn;
 	vec3 worldNormal = worldNormalIn;
@@ -79,10 +83,6 @@ void main() {
 		normalCamSpace *= -1.0;
 		worldNormal *= -1.0;
 	}
-
-    vec4 textureSample = texture(baseColor, texCoord);
-    
-    if(textureSample.a <= 0) discard;
 
     //Lighting
     vec3 lightColor = vec3(0, 0, 0);

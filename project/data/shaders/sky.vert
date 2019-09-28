@@ -13,9 +13,5 @@ out vec3 color;
 void main() {
     gl_Position = vec4((uv*2.0)-1.0, 1.0, 1.0);
 
-    if( uv.t <= 0.5 ) {
-        color = colorBot;
-    } else {
-        color = colorTop;
-    }
+    color = mix( colorBot, colorTop, step(0.5, uv.t) );
 }

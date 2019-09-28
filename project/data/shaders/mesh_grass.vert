@@ -25,7 +25,7 @@ void main() {
     
     //Wind
     float xOffset = 0.0;
-    if(uv.y < 0.1) xOffset = sin(0.02*position.x+time*.0032+cos(time*0.001))*2.5;
+    xOffset = step( uv.y, 0.1 ) * sin(0.02*position.x+time*.0032+cos(time*0.001))*2.5;
     vec3 position_wind = vec3( position.x+xOffset, position.y, position.z );
     
     gl_Position = mvp * vec4(position_wind, 1.0);

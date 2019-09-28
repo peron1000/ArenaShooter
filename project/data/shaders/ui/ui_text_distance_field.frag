@@ -22,6 +22,7 @@ void main() {
 
     
     //Solid color
+    //color = mix( color, baseColor, step(textureSample.r, thickness) ); //TODO: Fix this to remove the if statement
     if(textureSample.r > 1-thickness) color = baseColor;
 
     FragmentColor = color;
