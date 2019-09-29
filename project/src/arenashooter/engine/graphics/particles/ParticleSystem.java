@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import arenashooter.engine.Profiler;
+import arenashooter.engine.json.ParticlesJsonReader;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
 import arenashooter.engine.xmlReaders.ParticlesXmlReader;
@@ -37,7 +38,12 @@ public class ParticleSystem {
 		if (emitters != null)
 			return new ParticleSystem(emitters);
 
-		emitters = ParticlesXmlReader.read(path);
+		if( path.endsWith(".xml") ) //TODO: Remove XML reader
+			emitters = ParticlesXmlReader.read(path);
+		else {
+			ParticlesJsonReader reader = new ParticlesJsonReader(path);
+			emitters = reader.getData();
+		}
 
 		cache.put(path, emitters);
 

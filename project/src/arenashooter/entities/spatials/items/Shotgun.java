@@ -132,7 +132,7 @@ public class Shotgun extends Gun {
 								bul.shooter = ((Character) getParent());
 						}
 					}
-					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+					flash = new Particles(bulletPos, "data/particles/flash_01.particles");
 					flash.attachToParent(getChild("particle_container"), "particles_flash");
 					break;
 
@@ -165,7 +165,7 @@ public class Shotgun extends Gun {
 					bul1.attachToParent(getArena(), ("bullet_" + bul1.genName()));
 					if (isEquipped())
 						bul1.shooter = ((Character) getParent());
-					flash = new Particles(bulletPos, "data/particles/flash_01.xml");
+					flash = new Particles(bulletPos, "data/particles/flash_01.particles");
 					flash.attachToParent(getChild("particle_container"), "particles_flash");
 
 					break;

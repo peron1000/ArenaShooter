@@ -1,0 +1,27 @@
+﻿{
+	"type": "particles",
+	"emitters": [
+		{
+			"delay": 0,
+			"duration": 0,
+			"lifetimeMin": 0.05,
+			"lifetimeMax": 0.1,
+			"rate": 1,
+			"initialRotMin": -3.14159,
+			"initialRotMax": 3.14159,
+			"texture": { "path": "data/particles/flash_01.png", "filtered": true }
+			"modules": [
+				{
+					"type": "color over life",
+					"color start": [1, 1, 1, 1],
+					"color end": [1, 1, 1, 0.5]
+				},
+				{
+					"type": "size over life",
+					"size start": [3, 3],
+					"size end": [9, 9]
+				}
+			]
+		}
+	]
+}

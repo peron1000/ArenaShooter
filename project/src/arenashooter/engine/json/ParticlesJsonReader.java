@@ -79,6 +79,10 @@ public class ParticlesJsonReader extends JsonReader {
 		}
 	}
 	
+	public EmitterTemplate[] getData() {
+		return data.toArray( new EmitterTemplate[data.size()] );
+	}
+	
 	private void readEmitters(JsonArray emitters) {
 		for(Object emitterO : emitters) {
 			if( !(emitterO instanceof JsonObject) ) {
