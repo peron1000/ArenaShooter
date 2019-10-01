@@ -9,7 +9,7 @@
 			"rate": 1,
 			"initialRotMin": -3.14159,
 			"initialRotMax": 3.14159,
-			"texture": { "path": "data/particles/flash_01.png", "filtered": true }
+			"texture": { "path": "data/particles/flash_01.png", "filtered": true },
 			"modules": [
 				{
 					"type": "color over life",

@@ -48,7 +48,7 @@ public class ParticlesJsonReader extends JsonReader {
 	}
 
 	private final String path;
-	private List<EmitterTemplate> data;
+	private List<EmitterTemplate> data = new ArrayList<>();
 
 	public ParticlesJsonReader(String path) {
 		super(path);
@@ -69,9 +69,6 @@ public class ParticlesJsonReader extends JsonReader {
 			if( !deserialize.getStringOrDefault(Keys.type).equals("particles") )
 				log.error(path+" is not a particle system.");
 
-
-			data = new ArrayList<>();
-			
 			readEmitters(deserialize.getCollectionOrDefault(Keys.emitters));
 		} catch(Exception e) {
 			log.error("Error parsing "+path);
