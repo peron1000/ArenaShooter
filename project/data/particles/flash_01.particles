@@ -1,5 +1,5 @@
-﻿{
-	"type": "particles",
+{
+    "type": "particles",
 	"emitters": [
 		{
 			"delay": 0,

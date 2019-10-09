@@ -62,7 +62,7 @@ public class ParticlesJsonReader extends JsonReader {
 			try {
 				deserialize.requireKeys(Keys.values());
 			} catch(NoSuchElementException e) {
-				log.error("Missing element in material definition "+e.getLocalizedMessage());
+				log.error("Missing element in particle system definition "+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 
