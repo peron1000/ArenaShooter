@@ -110,11 +110,13 @@ public class Vec3f implements Vec3fi, Jsonable {
 	 * Add two vectors together.
 	 * This becomes this+v
 	 * @param v
+	 * @return <i>this</i> (modified)
 	 */
-	public void add(Vec3f v) {
+	public Vec3f add(Vec3f v) {
 		x += v.x;
 		y += v.y;
 		z += v.z;
+		return this;
 	}
 	
 	/**

@@ -23,6 +23,10 @@ public class Mat4f implements Mat4fi {
 		val = new float[4][4];
 	}
 	
+	/**
+	 * Clones a matrix
+	 * @param m
+	 */
 	public Mat4f( Mat4fi m ) {
 		val = new float[][]{
 			{m.m00(), m.m10(), m.m20(), m.m30()},
@@ -93,7 +97,7 @@ public class Mat4f implements Mat4fi {
 	 * Set <i>this</i> to identity and return it
 	 * @return <i>this</i> (modified)
 	 */
-	public Mat4f setToIdentity() {
+	public Mat4f toIdentity() {
 		val[0][0] = 1;
 		val[0][1] = 0;
 		val[0][2] = 0;
@@ -165,7 +169,7 @@ public class Mat4f implements Mat4fi {
 	/**
 	 * Create a rotation matrix
 	 * @param angle
-	 * @return
+	 * @return new matrix object
 	 */
 	public static Mat4f rotation(float angle) {
 		Mat4f res = new Mat4f();
@@ -268,7 +272,7 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>target</i>
 	 */
 	public static Mat4f translation(Vec2fi v, Mat4f target) {
-		target.setToIdentity();
+		target.toIdentity();
 
 		target.val[3][0] = v.x();
 		target.val[3][1] = v.y();
@@ -283,7 +287,7 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>target</i>
 	 */
 	public static Mat4f translation(Vec3fi v, Mat4f target) {
-		target.setToIdentity();
+		target.toIdentity();
 
 		target.val[3][0] = v.x();
 		target.val[3][1] = v.y();
@@ -327,7 +331,7 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>target</i>
 	 */
 	public static Mat4f scaling(Vec3fi v, Mat4f target) {
-		target.setToIdentity();
+		target.toIdentity();
 		
 		target.val[0][0] = v.x();
 		target.val[1][1] = v.y();
@@ -364,7 +368,7 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>target</i>
 	 */
 	public static Mat4f scaling(Vec2fi v, Mat4f target) {
-		target.setToIdentity();
+		target.toIdentity();
 		
 		target.val[0][0] = v.x();
 		target.val[1][1] = v.y();
@@ -406,7 +410,7 @@ public class Mat4f implements Mat4fi {
 	 * @return <i>target</i> (modified)
 	 */
 	public static Mat4f transform( Vec3fi loc, QuatI rot, Vec3fi scale, Mat4f target ) {
-		return target.setToIdentity().translate(loc).rotate(rot).scale(scale);
+		return target.toIdentity().translate(loc).rotate(rot).scale(scale);
 	}
 	
 	/**
@@ -450,21 +454,6 @@ public class Mat4f implements Mat4fi {
 	}
 	
 	/**
-	 * Create a view matrix
-	 * @param loc
-	 * @param rot
-	 * @param target
-	 * @return <i>target</i> (modified)
-	 */
-	public static Mat4f viewMatrix(Vec3fi loc, QuatI rot, Mat4f target) {
-		target.setToIdentity();
-		target.val[3][0] = -loc.x();
-		target.val[3][1] = -loc.y();
-		target.val[3][2] = -loc.z();
-		return target.rotate( Quat.conjugate(rot) );
-	}
-	
-	/**
 	 * Transpose a matrix
 	 * @param m
 	 * @return m transposed
@@ -496,31 +485,46 @@ public class Mat4f implements Mat4fi {
 	}
 	
 	/**
-	 * Set <i>target</i> to a symmetric perspective projection matrix
+	 * Set <i>this</i> to a view matrix
+	 * @param loc
+	 * @param rot
+	 * @return <i>this</i> as a view matrix
+	 */
+	public Mat4f viewMatrix(Vec3fi loc, QuatI rot) {
+		toIdentity();
+		val[3][0] = -loc.x();
+		val[3][1] = -loc.y();
+		val[3][2] = -loc.z();
+		rotate( Quat.conjugate(rot) );
+		return this;
+	}
+	
+	/**
+	 * Set <i>this</i> to a symmetric perspective projection matrix
 	 * 
 	 * @param near clip plane distance, should be > 0
 	 * @param far clip plane distance, should be > near
 	 * @param yFOV vertical field of view (degrees)
 	 * @param ratio aspect ratio (width/height)
 	 * @param target
-	 * @return <i>target</i>
+	 * @return <i>this</i> as a perspective projection matrix
 	 */
-	public static Mat4f perspective( float near, float far, float yFOV, float ratio, Mat4f target ) {
-		target.setToIdentity();
+	public Mat4f perspective( float near, float far, float yFOV, float ratio ) {
+		toIdentity();
 		
 		float top = (float) (Math.tan(Math.toRadians(yFOV)/2)*near);
 		float right = top*ratio;
-		target.val[0][0] = near/right;
-		target.val[1][1] = near/-top;
-		target.val[2][2] = -(far+near)/(far-near);
-		target.val[3][2] = -(2*far*near)/(far-near);
-		target.val[2][3] = -1;
+		val[0][0] = near/right;
+		val[1][1] = near/-top;
+		val[2][2] = -(far+near)/(far-near);
+		val[3][2] = -(2*far*near)/(far-near);
+		val[2][3] = -1;
 		
-		return target;
+		return this;
 	}
 	
 	/**
-	 * Set <i>target</i> to an orthographic projection matrix
+	 * Set <i>this</i> to an orthographic projection matrix
 	 * 
 	 * @param near clip plane distance, should be > 0
 	 * @param far clip plane distance, should be > near
@@ -529,21 +533,21 @@ public class Mat4f implements Mat4fi {
 	 * @param right 
 	 * @param top 
 	 * @param target
-	 * @return <i>target</i>
+	 * @return <i>this</i> as an orthographic projection matrix
 	 */
-	public static Mat4f ortho( float near, float far, float left, float bottom, float right, float top, Mat4f target ) {
-		target.setToIdentity();
+	public Mat4f ortho( float near, float far, float left, float bottom, float right, float top ) {
+		toIdentity();
 		
-		target.val[0][0] = 2f/(right-left);
-		target.val[1][1] = 2f/(top-bottom);
-		target.val[2][2] = -2f/(far-near);
-		target.val[3][3] = 1f;
+		val[0][0] = 2f/(right-left);
+		val[1][1] = 2f/(top-bottom);
+		val[2][2] = -2f/(far-near);
+		val[3][3] = 1f;
 		
-		target.val[3][0] = -(right+left)/(right-left);
-		target.val[3][1] = -(top+bottom)/(top-bottom);
-		target.val[3][2] = -(far+near)/(far-near);
+		val[3][0] = -(right+left)/(right-left);
+		val[3][1] = -(top+bottom)/(top-bottom);
+		val[3][2] = -(far+near)/(far-near);
 		
-		return target;
+		return this;
 	}
 	
 	/**

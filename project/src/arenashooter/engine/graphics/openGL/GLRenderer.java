@@ -504,12 +504,12 @@ public final class GLRenderer implements Renderer {
 		float sizeY = 100;
 		float sizeX = sizeY*ratio;
 		
-		Mat4f.ortho(0.01f, 100, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2, projOrtho);
+		projOrtho.ortho(0.01f, 100, -sizeX/2, sizeY/2, sizeX/2, -sizeY/2);
 		
 		if(getCamera() != null)
 			fov = getCamera().getFOV();
 		
-		Mat4f.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio, proj);
+		proj.perspective(CLIP_NEAR, CLIP_FAR, fov, ratio);
 	}
 	
 	private void createFramebuffer() {
