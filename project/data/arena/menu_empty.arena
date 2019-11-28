@@ -27,23 +27,23 @@
 	"items available":{
 		
 	},
+	"music path":"",
 	"ambient light":[
 		0.48,
 		0.48,
 		0.48
 	],
-	"music path":"",
-	"fog distance":3000.0,
 	"music volume":1.0,
-	"camera base position":[
-		0.0,
-		0.0,
-		8.0
-	],
+	"fog distance":3000.0,
 	"fog color":[
 		0.929,
 		0.906,
 		0.753
+	],
+	"camera base position":[
+		0.0,
+		0.0,
+		8.0
 	],
 	"music pitch":1.0,
 	"type":"arenashooter.entities.Arena"

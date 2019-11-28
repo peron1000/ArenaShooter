@@ -6,6 +6,7 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Light;
 import arenashooter.engine.graphics.Material;
@@ -27,6 +28,7 @@ public class LightContainer extends Spatial3 implements IAnimated {
 	private Mesh editorMesh;
 	
 	private Animation anim;
+	public String savedAnimPath;
 
 	public LightContainer(Vec3fi localPosition, Light light) {
 		super(localPosition);
@@ -212,6 +214,27 @@ public class LightContainer extends Spatial3 implements IAnimated {
 				JsonArray a = json.getCollection(this);
 				if (a != null)
 					light.color.set(Vec3f.jsonImport(a));
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(savedAnimPath != null)
+					return savedAnimPath;
+				return "";
+			}
+			@Override
+			public String getKey() {
+				return "animation";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				savedAnimPath = json.getStringOrDefault(this);
+				if(!savedAnimPath.isEmpty()) {
+					AnimationData animData = AnimationData.loadAnim(savedAnimPath);
+					setAnim(new Animation(animData));
+					playAnim();
+				}
 			}
 		});
 		

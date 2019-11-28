@@ -64,6 +64,7 @@ public class DirectionalLightLoader implements EntitiesLoader<LightContainer> {
 
 		// Load animation
 		if (element.hasAttribute("animation")) {
+			container.savedAnimPath = element.getAttribute("animation");
 			AnimationData animData = AnimationData.loadAnim(element.getAttribute("animation"));
 			container.setAnim(new Animation(animData));
 			container.playAnim();

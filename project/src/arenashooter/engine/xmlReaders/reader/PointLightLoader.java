@@ -64,7 +64,8 @@ public class PointLightLoader implements EntitiesLoader<LightContainer> {
 
 		// Load animation
 		if (element.hasAttribute("animation")) {
-			AnimationData animData = AnimationData.loadAnim(element.getAttribute("animation"));
+			container.savedAnimPath = element.getAttribute("animation");
+			AnimationData animData = AnimationData.loadAnim(container.savedAnimPath);
 			container.setAnim(new Animation(animData));
 			container.playAnim();
 		}

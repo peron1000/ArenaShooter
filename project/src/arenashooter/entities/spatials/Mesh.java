@@ -8,6 +8,7 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 
 import arenashooter.engine.Profiler;
 import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.graphics.Material;
 import arenashooter.engine.graphics.Model;
@@ -24,6 +25,7 @@ import arenashooter.game.Main;
 
 public class Mesh extends Spatial3 implements IAnimated {
 	private Animation currentAnim = null;
+	public String savedAnimPath;
 
 	private Model[] models;
 	private Material[] materials;
@@ -285,6 +287,27 @@ public class Mesh extends Spatial3 implements IAnimated {
 			@Override
 			public void useKey(JsonObject json) throws Exception {
 				scale = Vec3f.jsonImport(json.getCollection(this));
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(savedAnimPath != null)
+					return savedAnimPath;
+				return "";
+			}
+			@Override
+			public String getKey() {
+				return "animation";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				savedAnimPath = json.getStringOrDefault(this);
+				if(!savedAnimPath.isEmpty()) {
+					AnimationData animData = AnimationData.loadAnim(savedAnimPath);
+					setAnim(new Animation(animData));
+					playAnim();
+				}
 			}
 		});
 		return set;

@@ -68,7 +68,8 @@ public class KinematicLoader implements EntitiesLoader<KinematicBodyContainer> {
 
 		// Load animation
 		if (element.hasAttribute("animation")) {
-			AnimationData animData = AnimationData.loadAnim(element.getAttribute("animation"));
+			container.savedAnimPath = element.getAttribute("animation");
+			AnimationData animData = AnimationData.loadAnim(container.savedAnimPath);
 			container.ignoreKillBounds = true;
 			container.setAnim(new Animation(animData));
 			container.playAnim();

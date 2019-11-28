@@ -62,7 +62,8 @@ public class MeshLoader implements EntitiesLoader<Mesh> {
 		
 		// Load animation
 		if (element.hasAttribute("animation")) {
-			AnimationData animData = AnimationData.loadAnim(element.getAttribute("animation"));
+			m.savedAnimPath = element.getAttribute("animation");
+			AnimationData animData = AnimationData.loadAnim(m.savedAnimPath);
 			m.setAnim(new Animation(animData));
 			m.playAnim();
 		}

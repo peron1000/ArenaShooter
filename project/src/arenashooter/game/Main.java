@@ -143,6 +143,17 @@ public class Main {
 	}
 	
 	/**
+	 * Initialize the game without visual or audio output.
+	 */
+	public static void initEmpty() {
+		Main.audio = new NoSound();
+		Main.audio.init();
+		
+		Main.renderer = new NoRender();
+		Main.renderer.init(640, 480, false, 1, "No rendering");
+	}
+	
+	/**
 	 * @return active GameMaster
 	 */
 	public static GameMaster getGameMaster() { return gameMaster; }

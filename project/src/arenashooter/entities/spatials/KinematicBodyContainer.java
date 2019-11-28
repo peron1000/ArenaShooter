@@ -8,6 +8,7 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.animation.Animation;
+import arenashooter.engine.animation.AnimationData;
 import arenashooter.engine.animation.IAnimated;
 import arenashooter.engine.json.StrongJsonKey;
 import arenashooter.engine.math.Vec2f;
@@ -21,6 +22,7 @@ import arenashooter.game.Main;
 public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> implements IAnimated {
 
 	private Animation currentAnim = null;
+	public String savedAnimPath;
 
 	public KinematicBodyContainer(KinematicBody body) {
 		super(body);
@@ -150,6 +152,28 @@ public class KinematicBodyContainer extends PhysicBodyContainer<KinematicBody> i
 				float density = json.getFloat(this);
 				body = new KinematicBody(body.getShape(), body.getPosition(), body.getRotation(),
 						CollisionFlags.ARENA_KINEMATIC, density);
+			}
+		});
+		set.add(new StrongJsonKey() {
+			@Override
+			public Object getValue() {
+				if(savedAnimPath != null)
+					return savedAnimPath;
+				return "";
+			}
+			@Override
+			public String getKey() {
+				return "animation";
+			}
+			@Override
+			public void useKey(JsonObject json) throws Exception {
+				savedAnimPath = json.getStringOrDefault(this);
+				if(!savedAnimPath.isEmpty()) {
+					AnimationData animData = AnimationData.loadAnim(savedAnimPath);
+					ignoreKillBounds = true;
+					setAnim(new Animation(animData));
+					playAnim();
+				}
 			}
 		});
 		return set;

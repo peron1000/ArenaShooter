@@ -126,6 +126,8 @@ public class JsonTransformer {
 //		(new Entity()).attachToParent(m, "testChild");
 //		jsonExport(arena, "testArena");
 		
+		Main.initEmpty();
+		
 		System.out.println("Converting XML arenas to JSON...");
 		
 		List<File> list = FileUtils.listFilesByType(new File("data/mapXML"), ".xml");

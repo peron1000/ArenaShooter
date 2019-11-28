@@ -38,7 +38,8 @@
 				0.0
 			],
 			"type":"arenashooter.entities.spatials.LightContainer",
-			"radius":-1.0
+			"radius":-1.0,
+			"animation":""
 		}
 	},
 	"gravity":[
@@ -48,14 +49,14 @@
 	"items available":{
 		
 	},
+	"music path":"",
 	"ambient light":[
 		0.78,
 		0.78,
 		0.78
 	],
-	"music path":"",
-	"music volume":1.0,
 	"fog distance":3000.0,
+	"music volume":1.0,
 	"fog color":[
 		0.929,
 		0.906,
