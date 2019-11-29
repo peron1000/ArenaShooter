@@ -127,7 +127,7 @@ public final class GLRenderer implements Renderer {
 		glfwSetErrorCallback(callbackError);
 		
 		if(!glfwInit()) {
-			log.error("Cannot initialize GLFW");
+			log.fatal("Cannot initialize GLFW");
 			System.exit(1);
 		}
 		
