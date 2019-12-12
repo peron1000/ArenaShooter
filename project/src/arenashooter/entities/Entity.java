@@ -92,12 +92,20 @@ public class Entity implements Editable, Jsonable {
 		recursiveDetach(arena);
 	}
 
+	/**
+	 * Called when this entity or one of its parent was attached
+	 * @param newParent
+	 */
 	protected void recursiveAttach(Entity newParent) {
 		arenaDirty = true;
 		for (Entity e : children.values())
 			e.recursiveAttach(newParent);
 	}
 
+	/**
+	 * Called when this entity or one of its parent was detached
+	 * @param oldArena
+	 */
 	protected void recursiveDetach(Arena oldArena) {
 		arenaDirty = true;
 		for (Entity e : children.values())
@@ -241,9 +249,6 @@ public class Entity implements Editable, Jsonable {
 		// Nothing
 	}
 
-	/**
-	 * This is used to draw additional elements such as icons in arena editor
-	 */
 	@Override
 	public void editorDraw() {
 	}
