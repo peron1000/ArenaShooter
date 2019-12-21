@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,20 +26,22 @@ public class ConfigManager {
 	 */
 	public static void init() {
 		log.info("Reading config file");
+		
+		file = Paths.get(FileUtils.getUserDirPath(), "config.cfg").toFile();
 
 		try {
 			if(!file.exists()) {
 				file.createNewFile();
 				save();
 			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e) {
+			log.error("Cannot create config file", e);
 		}
 		
 		try( InputStream in = new FileInputStream(file) ) {
 			p.load(in);
 		} catch(Exception e) {
-			
+			log.fatal("Cannot read config file", e);
 		}
 		
 		//Fill default values
@@ -63,7 +66,7 @@ public class ConfigManager {
 		try( OutputStream out = new FileOutputStream(file) ) {
 			p.store(out, "SuperBlep Config");
 		} catch(Exception e) {
-			log.error("Error writing configuration file");
+			log.error("Error writing configuration file", e);
 		}
 	}
 	
