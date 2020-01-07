@@ -27,7 +27,7 @@ public final class FileUtils {
 	private static final String userHome = System.getProperty("user.home");
 	
 	private static File userDir;
-	private static String userDirPath;
+	private static Path userDirPath;
 
 	static {
 		// Initialize user directory to the default one
@@ -48,7 +48,7 @@ public final class FileUtils {
 			System.exit(1);
 		}
 
-		userDirPath = userDir.toString();
+		userDirPath = userDir;
 		FileUtils.userDir = userDir.toFile();
 		
 		Main.log.info("User directory set to: "+userDirPath);
@@ -76,7 +76,7 @@ public final class FileUtils {
 		return userDir;
 	}
 	
-	public static String getUserDirPath() {
+	public static Path getUserDirPath() {
 		return userDirPath;
 	}
 

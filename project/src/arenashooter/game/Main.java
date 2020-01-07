@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import arenashooter.engine.ConfigManager;
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.AudioManager;
 import arenashooter.engine.audio.NoSound;
@@ -49,6 +50,8 @@ public class Main {
 		log.info("Starting Super Blep version " + version);
 
 		ConfigManager.init();
+		
+		ContentManager.scanMods();
 
 		//Audio
 		if( argsL.contains("-nosound") )
