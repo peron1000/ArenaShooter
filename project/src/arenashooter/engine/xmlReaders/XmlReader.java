@@ -16,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.math.Quat;
 import arenashooter.game.Main;
 
@@ -44,7 +45,7 @@ public abstract class XmlReader {
 
 	protected synchronized static void parse(String path) {
 		try {
-			document = builder.parse(path);
+			document = builder.parse(ContentManager.transformPath(path));
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

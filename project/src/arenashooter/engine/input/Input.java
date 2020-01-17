@@ -56,11 +56,9 @@ public final class Input {
 		//Load gamepad mappings
 		Main.log.info("Loading gamepad mappings...");
 		int mappings = 0;
-		try {
-			File file = new File("data/gamecontrollerdb.txt");
-			InputStream in = new FileInputStream(file);
-			InputStreamReader inReader = new InputStreamReader(in);
-			BufferedReader reader = new BufferedReader(inReader);
+		try ( InputStream in = new FileInputStream(new File("data/gamecontrollerdb.txt"));
+				InputStreamReader inReader = new InputStreamReader(in);
+				BufferedReader reader = new BufferedReader(inReader); ) {
 			
 			String line = "";
 			while( (line = reader.readLine()) != null ) {
@@ -76,10 +74,6 @@ public final class Input {
 					stack.setPointer(stackPointer);
 				}
 			}
-		
-			reader.close();
-			inReader.close();
-			in.close();
 		} catch(Exception e) {
 			Main.log.error("Cannot load gamepad mappings!");
 			e.printStackTrace();

@@ -1,15 +1,21 @@
 package arenashooter.engine;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +46,11 @@ public final class ContentManager {
 	private ContentManager() {}
 	
 	private static List<String> loadOrder = new ArrayList<>();
+	
+	/** Mods found in user directory */
 	private static Map<String, ModDescriptor> mods = new HashMap<>();
+	
+	private static Map<String, String> contentOverride = new HashMap<>();
 
 	public static void scanMods() {
 		Path modsDirP = FileUtils.getUserDirPath().resolve("mods");
@@ -69,16 +79,36 @@ public final class ContentManager {
 		} catch (IOException e) {
 			log.error(e);
 		}
+		
+		loadMods();
+
+		saveLoadOrderToDisk();
+	}
+	
+	/**
+	 * Get the real path to a resource, using content override. 
+	 * If the path is overridden by a mod, it will return its global path. 
+	 * Otherwise, it will be returned unchanged
+	 * @param path
+	 * @return
+	 */
+	public static String transformPath(String path) {
+		return contentOverride.getOrDefault(path, path);
 	}
 	
 	/**
 	 * Test if the provided path is a mod, 
-	 * otherwhise look if it contains a mod
+	 * if it is, load it, 
+	 * otherwhise look if it contains mods
 	 * @param dir directory to explore
 	 * @param depth current exploration depth
 	 */
 	private static void searchMods(Path dir, int depth) {
-		if(depth > MAX_MOD_DISCOVERY_DEPTH) return;
+		if(depth > MAX_MOD_DISCOVERY_DEPTH) {
+			log.warn("Max directory depth exceeded while searching for mods!\n"
+					+ "The content of "+dir+" will be ignored");
+			return;
+		}
 		if( !Files.isDirectory(dir) ) return;
 		
 		Path modP = dir.resolve(MOD_FILE);
@@ -125,6 +155,11 @@ public final class ContentManager {
 				return null;
 			}
 			
+			if( modId.startsWith("#") ) {
+				log.error("Invalid mod id: "+modId+" (id cannot start with a '#')");
+				return null;
+			}
+			
 			modName = json.getStringOrDefault(modDescName);
 			modAuthor = json.getStringOrDefault(modDescAuthor);
 			modDesc = json.getStringOrDefault(modDescDescription);
@@ -141,6 +176,64 @@ public final class ContentManager {
 		return new ModDescriptor( modId, file.getParent(), modName, modDesc, modAuthor, modVer );
 	}
 	
+	/**
+	 * Load all mods contained in the mods Map, filling the content override map according to the load order. 
+	 * If a mod is missing from the load order, it will be added at its top. 
+	 * If a mod is present in the load order but not in the mod Map, it is left where it is. 
+	 */
+	private static void loadMods() {
+		contentOverride.clear();
+		
+		Set<String> remaining = new HashSet<>(mods.keySet());
+		
+		// Iterate backwards to ensure correct load order
+		for(int i=loadOrder.size()-1; i>=0; i--) {
+			if(mods.containsKey(loadOrder.get(i))) {
+				addContentOverride( mods.get(loadOrder.get(i)).path, contentOverride );
+				remaining.remove(loadOrder.get(i));
+			}
+		}
+		
+		// Add missing mods to load order and load them
+		for(String mod : remaining) {
+			addContentOverride( mods.get(mod).path, contentOverride );
+			loadOrder.add(0, mod);
+		}
+	}
+	
+	/**
+	 * Fills a content override map with data from a given mod
+	 * @param modPath path to this mod
+	 * @param current current content override map
+	 */
+	private static void addContentOverride(Path modPath, Map<String, String> currentOverride) {
+		try {
+			Files.walkFileTree(modPath, new FileVisitor<Path>() {
+				@Override
+				public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+					return FileVisitResult.CONTINUE;
+				}
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+					if(!file.getFileName().toString().equals(MOD_FILE))
+						currentOverride.put( modPath.relativize(file).toString(), file.toString() );
+					return FileVisitResult.CONTINUE;
+				}
+				@Override
+				public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+					log.error("Error accessing mod file"+file.toString(), exc);
+					return FileVisitResult.CONTINUE;
+				}
+				@Override
+				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		} catch (IOException e) {
+			log.error(e);
+		}
+	}
+	
 	private static void readLoadOrderFromDisk() {
 		log.info("Loading mods load order...");
 		
@@ -151,7 +244,7 @@ public final class ContentManager {
 					loadOrder.clear();
 					String line;
 					while( (line = reader.readLine()) != null) {
-						if( !line.startsWith("#") )
+						if( !line.startsWith("#") && !line.isEmpty() )
 							loadOrder.add(line);
 					}
 				} catch (IOException e) {
@@ -173,6 +266,21 @@ public final class ContentManager {
 			} else {
 				log.error("Load order file is not a file.");
 			}
+		}
+	}
+	
+	private static void saveLoadOrderToDisk() {
+		log.info("Saving mods load order...");
+		
+		Path loadOrderFP = FileUtils.getUserDirPath().resolve("modsLoadOrder.txt");
+		
+		try(BufferedWriter writer = Files.newBufferedWriter(loadOrderFP, StandardCharsets.UTF_8)) {
+			writer.append(loadOrderHeader);
+			for(String mod : loadOrder)
+				writer.append("\r\n"+mod);
+			writer.append("\r\n");
+		} catch (IOException e) {
+			log.error(e);
 		}
 	}
 	

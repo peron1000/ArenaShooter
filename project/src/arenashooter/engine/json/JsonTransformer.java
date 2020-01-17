@@ -2,9 +2,9 @@ package arenashooter.engine.json;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
@@ -99,7 +99,7 @@ public class JsonTransformer {
 		if(path == null)
 			throw new IllegalArgumentException("Arena path is null");
 		
-		Reader readableDeserializable = new FileReader(path);
+		Reader readableDeserializable = new InputStreamReader(FileUtils.getRes(path));
 		JsonObject o = (JsonObject) Jsoner.deserialize(readableDeserializable);
 		Arena arena = Arena.fromJson(o);
 		return arena;

@@ -1,11 +1,11 @@
 package arenashooter.engine.graphics.fonts;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.game.Main;
 
@@ -37,19 +37,11 @@ public class Font {
 		else font = new Font(path);
 		
 		//Attempt to load fnt file
-		File fileFnt = new File(path);
-
-		BufferedReader reader = null;
-		
-		try {
-			reader = new BufferedReader(new FileReader(fileFnt));
-			
+		try( BufferedReader reader = new BufferedReader(new InputStreamReader(FileUtils.getRes(path))) ) {
 			String line = "";
 			while( (line = reader.readLine()) != null ) {
 				readLine(font, line);
 			}
-			
-			reader.close();
 		} catch(Exception e) {
 			Main.getRenderer().getLogger().error("Could not load font : "+path);
 			e.printStackTrace();

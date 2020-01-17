@@ -1,6 +1,7 @@
 package arenashooter.engine.json;
 
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.graphics.particles.EmitterTemplate;
 import arenashooter.engine.graphics.particles.modules.AccelConstant;
@@ -55,9 +57,9 @@ public class ParticlesJsonReader extends JsonReader {
 		
 		this.path = path;
 
-		try (FileReader fileReader = new FileReader((path))) {
+		try (Reader reader = new InputStreamReader(FileUtils.getRes(path))) {
 
-			JsonObject deserialize = (JsonObject) Jsoner.deserialize(fileReader);
+			JsonObject deserialize = (JsonObject) Jsoner.deserialize(reader);
 
 			try {
 				deserialize.requireKeys(Keys.values());

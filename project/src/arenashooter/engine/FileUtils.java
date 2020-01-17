@@ -79,6 +79,22 @@ public final class FileUtils {
 	public static Path getUserDirPath() {
 		return userDirPath;
 	}
+	
+	/**
+	 * Get a game resource as an InputStream. 
+	 * This will take content override (mods) in account
+	 * @param path resource path
+	 * @return an InputStream or null is something went wrong
+	 */
+	public static InputStream getRes(String path) {
+		try {
+			InputStream res = new FileInputStream(new File( ContentManager.transformPath(path) ));
+			return res;
+		} catch(Exception e) {
+			Main.log.error(e);
+			return null;
+		}
+	}
 
 	/**
 	 * Read a file as a string
@@ -88,7 +104,7 @@ public final class FileUtils {
 	public static String resToString(String path) {
 		String res = "";
 
-		try( InputStream in = new FileInputStream(new File(path)) ) {
+		try( InputStream in = getRes(path) ) {
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);
 
@@ -110,14 +126,14 @@ public final class FileUtils {
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		try( InputStream in = new FileInputStream(new File(path)) ) {
+		try( InputStream in = getRes(path) ) {
 			int val = in.read();
 			while( val != -1 ) {
 				out.write(val);
 				val = in.read();
 			}
 		} catch (Exception e) {
-			Main.log.error( "Cannot load file : "+path );
+			Main.log.error( "Cannot load file : "+path, e );
 			e.printStackTrace();
 			return null;
 		}

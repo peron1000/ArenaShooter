@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import arenashooter.engine.ContentManager;
 import arenashooter.game.Main;
 
 /**
@@ -55,13 +56,14 @@ public class ModelsData {
 	static Map<String, String> getMaterialOverrides(String path) {
 		Map<String, String> res = new HashMap<>();
 		
-		File file = new File( path.substring(0, path.lastIndexOf('.'))+".materials" );
+		String materialsFilePath = path.substring(0, path.lastIndexOf('.'))+".materials";
+		File file = new File( ContentManager.transformPath(materialsFilePath) );
 		
 		if(!file.exists()) return res;
 		
-		try( InputStream in = new FileInputStream(file) ) {
-			InputStreamReader inReader = new InputStreamReader(in);
-			BufferedReader reader = new BufferedReader(inReader);
+		try( InputStream in = new FileInputStream(file);
+				InputStreamReader inReader = new InputStreamReader(in);
+				BufferedReader reader = new BufferedReader(inReader); ) {
 			
 			String line = "";
 			boolean isMatName = true;
@@ -75,8 +77,6 @@ public class ModelsData {
 				
 				isMatName = !isMatName;
 			}
-			
-			reader.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

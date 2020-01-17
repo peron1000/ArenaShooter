@@ -1,8 +1,6 @@
 package arenashooter.engine.graphics;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -10,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
@@ -28,7 +27,7 @@ final class ModelObjLoader {
 		Map<String, String> materialOverrides = ModelsData.getMaterialOverrides(path);
 		
 		try {
-			InputStream in = new FileInputStream(new File(path));
+			InputStream in = FileUtils.getRes(path);
 
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);
@@ -243,12 +242,9 @@ final class ModelObjLoader {
 	private static Map<String, Texture> loadMaterials(String path) {
 		Map<String, Texture> res = new HashMap<>();
 		
-		try {
-			InputStream in = new FileInputStream(new File(path));
-
-			InputStreamReader inReader = new InputStreamReader(in);
-			BufferedReader reader = new BufferedReader(inReader);
-
+		try (InputStream in = FileUtils.getRes(path);
+				InputStreamReader inReader = new InputStreamReader(in);
+				BufferedReader reader = new BufferedReader(inReader); ) {
 			//Read data
 			String line = "";
 			String[] lineParts;
@@ -278,9 +274,6 @@ final class ModelObjLoader {
 					break;
 				}
 			}
-			
-			reader.close();
-			in.close();
 		} catch(Exception e) {
 			Main.getRenderer().getLogger().error("Error loading materials");
 			e.printStackTrace();
