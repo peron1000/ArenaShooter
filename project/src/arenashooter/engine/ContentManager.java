@@ -2,13 +2,17 @@ package arenashooter.engine;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +57,7 @@ public final class ContentManager {
 	private static Map<String, String> contentOverride = new HashMap<>();
 
 	public static void scanMods() {
-		Path modsDirP = FileUtils.getUserDirPath().resolve("mods");
+		Path modsDirP = FileUtils.getUserDir().resolve("mods");
 		
 		try {
 			Files.createDirectories(modsDirP);
@@ -94,6 +98,51 @@ public final class ContentManager {
 	 */
 	public static String transformPath(String path) {
 		return contentOverride.getOrDefault(path, path);
+	}
+	
+	/**
+	 * Get a game resource as an InputStream. 
+	 * This will take content override (mods) in account
+	 * @param path resource path
+	 * @return an InputStream or null is something went wrong
+	 */
+	public static InputStream getRes(String path) {
+		String moddedPath = contentOverride.get(path);
+		try {
+			InputStream res = null;
+			if(moddedPath == null)
+				res = ClassLoader.getSystemResourceAsStream(path);
+			else
+				res = new FileInputStream(new File(moddedPath));
+			return res;
+		} catch(Exception e) {
+			Main.log.error(e);
+			return null;
+		}
+	}
+	
+	/**
+	 * Tests if a file exists as a game resource
+	 * @param path
+	 * @return
+	 */
+	public static boolean resExists(String path) {
+		String moddedPath = contentOverride.get(path);
+		if(moddedPath == null)
+			return ClassLoader.getSystemResource(path) != null;
+		else
+			return Files.isRegularFile(Paths.get(path));
+	}
+	
+	public static List<String> listRes(String folderPath) {
+		List<String> res = new ArrayList<>();
+		
+		String[] javaRes = FileUtils.listJavaRes(folderPath); // TODO: Look in mods too
+		for(String f : javaRes) {
+			res.add( folderPath+"/"+f );
+		}
+		
+		return res;
 	}
 	
 	/**
@@ -237,7 +286,7 @@ public final class ContentManager {
 	private static void readLoadOrderFromDisk() {
 		log.info("Loading mods load order...");
 		
-		Path loadOrderFP = FileUtils.getUserDirPath().resolve("modsLoadOrder.txt");
+		Path loadOrderFP = FileUtils.getUserDir().resolve("modsLoadOrder.txt");
 		if( Files.isRegularFile(loadOrderFP) ) {
 			if( Files.isReadable(loadOrderFP) ) {
 				try( BufferedReader reader = Files.newBufferedReader(loadOrderFP, StandardCharsets.UTF_8) ) {
@@ -272,7 +321,7 @@ public final class ContentManager {
 	private static void saveLoadOrderToDisk() {
 		log.info("Saving mods load order...");
 		
-		Path loadOrderFP = FileUtils.getUserDirPath().resolve("modsLoadOrder.txt");
+		Path loadOrderFP = FileUtils.getUserDir().resolve("modsLoadOrder.txt");
 		
 		try(BufferedWriter writer = Files.newBufferedWriter(loadOrderFP, StandardCharsets.UTF_8)) {
 			writer.append(loadOrderHeader);

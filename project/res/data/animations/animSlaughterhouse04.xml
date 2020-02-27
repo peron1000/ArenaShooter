@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation length="24.0" loop="true">
+	
+	<trackVec2f name="pos" interpolation="linear">
+		<keyframeVec2f time="3.0" x="-40.0" y="-1.0" />
+		<keyframeVec2f time="13.0" x="40.0" y="-1.0" />
+		<keyframeVec2f time="13.5" x="40.0" y="5.0" />
+		<keyframeVec2f time="14.5" x="-40.0" y="5.0" />
+		<keyframeVec2f time="15.0" x="-40.0" y="-1.0" />
+	</trackVec2f>
+
+</animation>

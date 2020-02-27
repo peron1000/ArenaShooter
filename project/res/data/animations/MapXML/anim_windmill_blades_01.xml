@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation length="5.0" loop="true">
+	
+	<trackVec3f name="rot" interpolation="linear">
+		<keyframeVec3f time="0.0" z="0" x="0" y="0" />
+		<keyframeVec3f time="5.0" z="0" x="0" y="6.28318530718"/>
+	</trackVec3f>
+
+</animation>

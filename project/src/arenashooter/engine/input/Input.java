@@ -3,8 +3,6 @@ package arenashooter.engine.input;
 import static org.lwjgl.glfw.GLFW.*;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
@@ -16,6 +14,7 @@ import org.lwjgl.glfw.GLFWCharCallback;
 import org.lwjgl.glfw.GLFWGamepadState;
 import org.lwjgl.system.MemoryStack;
 
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.game.Main;
 
@@ -56,7 +55,7 @@ public final class Input {
 		//Load gamepad mappings
 		Main.log.info("Loading gamepad mappings...");
 		int mappings = 0;
-		try ( InputStream in = new FileInputStream(new File("data/gamecontrollerdb.txt"));
+		try ( InputStream in = ContentManager.getRes("data/gamecontrollerdb.txt");
 				InputStreamReader inReader = new InputStreamReader(in);
 				BufferedReader reader = new BufferedReader(inReader); ) {
 			

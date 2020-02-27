@@ -1,13 +1,14 @@
 package arenashooter.game;
 
-import java.util.Arrays;
-import java.util.List;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import arenashooter.engine.ConfigManager;
 import arenashooter.engine.ContentManager;
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.Profiler;
 import arenashooter.engine.audio.AudioManager;
 import arenashooter.engine.audio.NoSound;
@@ -31,8 +32,8 @@ public class Main {
 
 	public static boolean drawCollisions = false, skipTransparency = false;
 
-	private static AudioManager audio;
-	private static Renderer renderer;
+	private static AudioManager audio = null;
+	private static Renderer renderer = null;
 	private static GameMaster gameMaster;
 
 	public static Font font = null;
@@ -45,7 +46,11 @@ public class Main {
 	public static PreLoadMainSound preLoadMainSound = new PreLoadMainSound();
 
 	public static void main(String[] args) {
-		List<String> argsL = Arrays.asList(args);
+		parseArgs(args);
+
+		// Initialize user directory to the default one
+		if(FileUtils.getUserDir() == null)
+			FileUtils.setUserDir(FileUtils.getDefaultUserDir());
 		
 		log.info("Starting Super Blep version " + version);
 
@@ -54,18 +59,13 @@ public class Main {
 		ContentManager.scanMods();
 
 		//Audio
-		if( argsL.contains("-nosound") )
-			audio = new NoSound();
-		else
+		if(audio == null)
 			audio = new ALAudio();
 		audio.init();
 
 		//Rendering
-		if( argsL.contains("-norender") )
-			renderer = new NoRender();
-		else
+		if(renderer == null)
 			renderer = new GLRenderer();
-		
 		renderer.init(ConfigManager.getInt("resX"), ConfigManager.getInt("resY"), ConfigManager.getBool("fullscreen"), ConfigManager.getFloat("resScale"), "Super Blep");
 
 		gameMaster = new GameMaster();
@@ -169,4 +169,70 @@ public class Main {
 		requestclose = true;
 	}
 
+	/**
+	 * Parse command line arguments. This will not set any default values
+	 * @param args
+	 */
+	private static void parseArgs(String[] args) {
+		for(int i=0; i<args.length; i++) {
+			switch(args[i]) {
+			case "-userdir":
+				if(i >= args.length)
+					log.error("Missing value for launch argument: "+args[i]);
+				else {
+					String dirStr = args[i+1];
+					try {
+						FileUtils.setUserDir( Paths.get(dirStr) );
+						i++;
+					} catch(InvalidPathException e) {
+						log.fatal("Invalid path for user directory: "+dirStr, e);
+						System.exit(1);
+					}
+				}
+				break;
+			
+			case "-render":
+				if(i >= args.length)
+					log.error("Missing value for launch argument: "+args[i]);
+				else {
+					switch(args[i+1]) {
+					case "opengl":
+						renderer = new GLRenderer();
+						break;
+					case "none":
+						renderer = new NoRender();
+						break;
+					default:
+						log.error("Unknown value for "+args[i]+" : "+args[i+1]);
+						break;
+					}
+					i++;
+				}
+				break;
+				
+			case "-audio":
+				if(i >= args.length)
+					log.error("Missing value for launch argument: "+args[i]);
+				else {
+					switch(args[i+1]) {
+					case "openal":
+						audio = new ALAudio();
+						break;
+					case "none":
+						audio = new NoSound();
+						break;
+					default:
+						log.error("Unknown value for "+args[i]+" : "+args[i+1]);
+						break;
+					}
+					i++;
+				}
+				break;
+				
+			default:
+				log.warn("Unknown launch argument: "+args[i]);
+				break;
+			}
+		}
+	}
 }

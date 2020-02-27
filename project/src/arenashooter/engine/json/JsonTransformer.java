@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -14,6 +15,7 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 import com.github.cliftonlabs.json_simple.Jsoner;
 
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.FileUtils;
 import arenashooter.engine.annotation.JsonRoot;
 import arenashooter.engine.xmlReaders.reader.MapXmlReader;
@@ -99,7 +101,12 @@ public class JsonTransformer {
 		if(path == null)
 			throw new IllegalArgumentException("Arena path is null");
 		
-		Reader readableDeserializable = new InputStreamReader(FileUtils.getRes(path));
+		InputStream in = ContentManager.getRes(path);
+		if(in == null) {
+			Main.log.error("Unable to access arena file: "+path);
+			return null;
+		}
+		Reader readableDeserializable = new InputStreamReader(in);
 		JsonObject o = (JsonObject) Jsoner.deserialize(readableDeserializable);
 		Arena arena = Arena.fromJson(o);
 		return arena;

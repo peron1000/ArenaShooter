@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<particleSystem>
+	<emitter delay="0" duration="0" lifetimeMin=".1" lifetimeMax=".2" rate="2" initialRotMin="-3.14159" initialRotMax="3.14159">
+		<texture filtered="false" src="data/sprites/star.png"/>
+		<modules>
+			<colorOverLife>
+				<vec4 x="1" y="1" z="1" w="1" use="colorStart"/>
+				<vec4 x="1" y="1" z="1" w="0" use="colorEnd"/>
+			</colorOverLife>
+			<sizeOverLife>
+				<vec2 x=".7" y=".7" use="sizeStart"/>
+				<vec2 x=".5" y=".5" use="sizeEnd"/>
+			</sizeOverLife>
+			<initialVelCone angleMin="-3.14159" angleMax="3.14159" velMin="30" velMax="40"/>
+		</modules>
+	</emitter>
+	
+	<!--
+	<emitter angleMin="-3.14159" angleMax="3.14159" delay="0" duration="0" lifetimeMin="0.10" lifetimeMax="0.20" rate="2" velocityMin="30" velocityMax="40" gravityScale="0">
+	<basic sizeInitial="0.7" sizeEnd="0.5"></basic>
+	<texture filtered="false" src="data/sprites/star.png"/>
+	<vec4 x="1" y="1" z="1" w="1" use="colorStart"/>
+	<vec4 x="1" y="1" z="1" w="0" use="colorEnd"/>
+	</emitter>
+	-->
+</particleSystem>

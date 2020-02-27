@@ -72,6 +72,13 @@ public class Game extends GameState {
 	
 	private boolean animationCounterFinished = false;
 	private MenuPause menuPause = new MenuPause(this);
+	
+	private String resWinner01 = "data/sound/Winner_01.ogg";
+	private String resWinner02 = "data/sound/Winner_02.ogg";
+	private String resWinner03 = "data/sound/Winner_03.ogg";
+	private String resDraw01 = "data/sound/Draw_01.ogg";
+	private String resDraw02 = "data/sound/Draw_02.ogg";
+	private String resDraw03 = "data/sound/Draw_03.ogg";
 
 	public Game(String arenaPath) {
 		super(arenaPath);
@@ -106,7 +113,7 @@ public class Game extends GameState {
 			bgm = null;
 		}
 		bgmPath = bgmPathDefault;
-		bgm = Main.getAudioManager().createSource("data/music/Super_blep_serious_fight.ogg", AudioChannel.MUSIC, .1f, 1);
+		bgm = Main.getAudioManager().createSource(bgmPath, AudioChannel.MUSIC, .1f, 1);
 		bgm.setLooping(true);
 		
 		if (!current.musicPath.isEmpty()) { // Arena has custom music
@@ -200,11 +207,11 @@ public class Game extends GameState {
 								double rand = Math.random();
 								if (winner != null) {
 									if (rand < 0.333) {
-										Main.getAudioManager().playSound("data/sound/Winner_01.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound(resWinner01, AudioChannel.UI, 5f, 1);
 									} else if (rand > 0.666) {
-										Main.getAudioManager().playSound("data/sound/Winner_03.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound(resWinner02, AudioChannel.UI, 5f, 1);
 									} else {
-										Main.getAudioManager().playSound("data/sound/Winner_02.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound(resWinner03, AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
 											Main.getRenderer().loadTexture("data/sprites/interface/Winner_Chroma2.png"));
@@ -212,11 +219,11 @@ public class Game extends GameState {
 
 								} else {
 									if (rand < 0.333) {
-										Main.getAudioManager().playSound("data/sound/Draw_01.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound(resDraw01, AudioChannel.UI, 5f, 1);
 									} else if (rand > 0.666) {
-										Main.getAudioManager().playSound("data/sound/Draw_03.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound(resDraw03, AudioChannel.UI, 5f, 1);
 									} else {
-										Main.getAudioManager().playSound("data/sound/Draw_02.ogg", AudioChannel.UI, 5f, 1);
+										Main.getAudioManager().playSound(resDraw02, AudioChannel.UI, 5f, 1);
 									}
 									counterImage.getMaterial().setParamTex("image",
 											Main.getRenderer().loadTexture("data/sprites/interface/Draw_Chroma2.png"));

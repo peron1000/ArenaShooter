@@ -25,6 +25,8 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			Main.getRenderer().loadTexture("data/sprites/interface/WhatsRight.png").setFilter(false)),
 			arrowLeft = new UiImage(Main.getRenderer().loadTexture("data/sprites/interface/WhatsLeft.png").setFilter(false));
 
+	private String popSound = "data/sound/ui/pop.ogg";
+	
 	public TabList() {
 		setTitleSpacing(titleSpacing);
 	}
@@ -354,7 +356,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowRight.addToPositionSuperLerp(arrowLerp, 0, lerp);
 			if (!circleList.isEmpty())
-				Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+				Main.getAudioManager().playSound(popSound, AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
@@ -372,7 +374,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			tabTitle.setText(binding.getOrDefault(circleList.get(), "title error"));
 			arrowLeft.addToPositionSuperLerp(-arrowLerp, 0, lerp);
 			if (!circleList.isEmpty())
-				Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+				Main.getAudioManager().playSound(popSound, AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
@@ -387,7 +389,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (scissor) {
 				slideUpdate();
 			}
-			Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+			Main.getAudioManager().playSound(popSound, AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}
@@ -402,7 +404,7 @@ public class TabList<E extends UiElement> extends UiElement implements MultiUi {
 			if (scissor) {
 				slideUpdate();
 			}
-			Main.getAudioManager().playSound("data/sound/ui/pop.ogg", AudioChannel.UI, .5f, 1);
+			Main.getAudioManager().playSound(popSound, AudioChannel.UI, .5f, 1);
 		}
 		return true;
 	}

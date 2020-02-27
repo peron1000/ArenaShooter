@@ -3,18 +3,26 @@ package arenashooter.engine;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import org.lwjgl.BufferUtils;
 
@@ -26,14 +34,9 @@ public final class FileUtils {
 	
 	private static final String userHome = System.getProperty("user.home");
 	
-	private static File userDir;
-	private static Path userDirPath;
+	private static File userDir = null;
+	private static Path userDirPath = null;
 
-	static {
-		// Initialize user directory to the default one
-		setUserDir( getDefaultUserDir() );
-	}
-	
 	public static void setUserDir(Path userDir) {
 		try {
 			Files.createDirectories(userDir);
@@ -72,30 +75,92 @@ public final class FileUtils {
 		return userDir;
 	}
 
-	public static File getUserDir() {
-		return userDir;
-	}
-	
-	public static Path getUserDirPath() {
+	/**
+	 * @return current user directory, or null if not set
+	 */
+	public static Path getUserDir() {
 		return userDirPath;
 	}
 	
-	/**
-	 * Get a game resource as an InputStream. 
-	 * This will take content override (mods) in account
-	 * @param path resource path
-	 * @return an InputStream or null is something went wrong
-	 */
-	public static InputStream getRes(String path) {
-		try {
-			InputStream res = new FileInputStream(new File( ContentManager.transformPath(path) ));
-			return res;
-		} catch(Exception e) {
-			Main.log.error(e);
-			return null;
-		}
+	public static File getUserDirFile() {
+		return userDir;
 	}
+	
+	public static String getName(String path) {
+		return Paths.get(path).getFileName().toString();
+	}
+	
+	public static String[] listJavaRes(String folderPath) { // TODO: Clean this mess
+		if(folderPath.startsWith("/"))
+			folderPath = folderPath.substring(1);
+		if(!folderPath.endsWith("/"))
+			folderPath += "/";
+		try {
+			String[] paths = getResourceListing(folderPath);
+			return paths;
+		} catch (URISyntaxException e) {
+			Main.log.error(e);
+		} catch (IOException e) {
+			Main.log.error(e);
+		}
+		
+	    Main.log.error("Unable to list java resources in "+folderPath);
+	    return new String[0];
+	}
+	
+	/**
+	   * List directory contents for a resource folder. Not recursive. 
+	   * This is basically a brute-force implementation. 
+	   * Works for regular files and also JARs. 
+	   * From http://www.uofr.net/~greg/java/get-resource-listing.html
+	   * 
+	   * @author Greg Briggs
+	   * @param path Should end with "/", but not start with one.
+	   * @return Just the name of each member item, not the full paths.
+	   * @throws URISyntaxException 
+	   * @throws IOException 
+	   */
+	private static String[] getResourceListing(String path) throws URISyntaxException, IOException {
+		URL dirURL = FileUtils.class.getClassLoader().getResource(path);
+		if (dirURL != null && dirURL.getProtocol().equals("file")) {
+			/* A file path: easy enough */
+			return new File(dirURL.toURI()).list();
+		} 
 
+		if (dirURL == null) {
+			/* 
+			 * In case of a jar file, we can't actually find a directory.
+			 * Have to assume the same jar as clazz.
+			 */
+			String me = FileUtils.class.getName().replace(".", "/")+".class";
+			dirURL = FileUtils.class.getClassLoader().getResource(me);
+		}
+
+		if (dirURL.getProtocol().equals("jar")) {
+			/* A JAR path */
+			String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); //strip out only the JAR file
+			JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+			Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+			Set<String> result = new HashSet<String>(); //avoid duplicates in case it is a subdirectory
+			while(entries.hasMoreElements()) {
+				String name = entries.nextElement().getName();
+				if (name.startsWith(path)) { //filter according to the path
+					String entry = name.substring(path.length());
+					int checkSubdir = entry.indexOf("/");
+					if (checkSubdir >= 0) {
+						// if it is a subdirectory, we just return the directory name
+						entry = entry.substring(0, checkSubdir);
+					}
+					result.add(entry);
+				}
+			}
+			jar.close();
+			return result.toArray(new String[result.size()]);
+		} 
+
+		throw new UnsupportedOperationException("Cannot list files for URL "+dirURL);
+	}
+	
 	/**
 	 * Read a file as a string
 	 * @param path
@@ -104,7 +169,7 @@ public final class FileUtils {
 	public static String resToString(String path) {
 		String res = "";
 
-		try( InputStream in = getRes(path) ) {
+		try( InputStream in = ContentManager.getRes(path) ) {
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);
 
@@ -120,13 +185,13 @@ public final class FileUtils {
 
 		return res;
 	}
-
+	
 	public static ByteBuffer resToByteBuffer(String path) {
 		ByteBuffer res = null;
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		try( InputStream in = getRes(path) ) {
+		try( InputStream in = ContentManager.getRes(path) ) {
 			int val = in.read();
 			while( val != -1 ) {
 				out.write(val);
@@ -148,7 +213,7 @@ public final class FileUtils {
 
 		return res;
 	}
-
+	
 	/**
 	 * Get a list of all files ending with a specific String
 	 * @param parent directory used as root
@@ -156,6 +221,10 @@ public final class FileUtils {
 	 * @return list of all matches (sorted by path)
 	 */
 	public static List<File> listFilesByType(File parent, String endsWith) {
+		if(parent == null) {
+			Main.log.error("Null file, returning an empty list!");
+			return Collections.emptyList();
+		}
 		List<File> res = listFilesByTypeAux(parent, endsWith);
 
 		res.sort(new Comparator<File>() {

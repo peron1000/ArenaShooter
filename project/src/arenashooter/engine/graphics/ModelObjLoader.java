@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import arenashooter.engine.FileUtils;
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec2fi;
 import arenashooter.engine.math.Vec3f;
@@ -27,7 +27,7 @@ final class ModelObjLoader {
 		Map<String, String> materialOverrides = ModelsData.getMaterialOverrides(path);
 		
 		try {
-			InputStream in = FileUtils.getRes(path);
+			InputStream in = ContentManager.getRes(path);
 
 			InputStreamReader inReader = new InputStreamReader(in);
 			BufferedReader reader = new BufferedReader(inReader);
@@ -242,7 +242,7 @@ final class ModelObjLoader {
 	private static Map<String, Texture> loadMaterials(String path) {
 		Map<String, Texture> res = new HashMap<>();
 		
-		try (InputStream in = FileUtils.getRes(path);
+		try (InputStream in = ContentManager.getRes(path);
 				InputStreamReader inReader = new InputStreamReader(in);
 				BufferedReader reader = new BufferedReader(inReader); ) {
 			//Read data

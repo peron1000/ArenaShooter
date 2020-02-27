@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation length="0.2" loop="false">
+
+	<trackT name="AnimTrackPunch1">
+		<keyframeT time="0.0" value = "data/sprites/swooshes/swoosh_super_1.png" />
+		<keyframeT time="0.08" value = "data/sprites/swooshes/swoosh_super_2.png" />
+		<keyframeT time="0.15" value = "data/sprites/swooshes/swoosh_super_3.png" />
+	</trackT>
+
+</animation>

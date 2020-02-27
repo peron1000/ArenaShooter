@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<particleSystem>
+
+	<emitter angleMin="0.507" angleMax="2.507" delay="0" duration="6" lifetimeMin="1" lifetimeMax="3" rate="22" velocityMin="0.1" velocityMax="2" gravityScale=".3">
+	<basic sizeInitial=".15" sizeEnd=".3"></basic>
+<!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented> -->
+	<texture filtered="false" src="data/white_pixel.png"/>
+	<vec4 x="1" y=".5" z="7" w="1" use="colorStart"/>
+	<vec4 x="1" y=".5" z="7" w=".5" use="colorEnd"/>
+	</emitter>
+</particleSystem>

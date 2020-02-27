@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation length="0.4" loop="false">
+
+	<trackEvent>
+		<keyframeEvent time ="0.01">
+			<eventCustom data="startDamage" />
+		</keyframeEvent>
+		<keyframeEvent time ="3.99">
+			<eventCustom data="stopDamage" />
+		</keyframeEvent>
+	</trackEvent>
+
+	<trackVec2f name="rightPos" interpolation="cubic">
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.1" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.2" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.3" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.4" x="0.0" y="0.0" />
+	</trackVec2f>
+
+	<trackD name="rightRot" interpolation="cubic">
+		<keyframeD time="0.0" value="-1.57" />
+		<keyframeD time="0.1" value="-1.2925" />
+		<keyframeD time="0.2" value="-0.8925" />
+		<keyframeD time="0.3" value="-0.3925" />
+		<keyframeD time="0.4" value="-0.000" />
+	</trackD>
+
+	<trackVec2f name="leftPos" interpolation="cubic">
+		<keyframeVec2f time="0.0" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.1" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.2" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.3" x="0.0" y="0.0" />
+		<keyframeVec2f time="0.4" x="0.0" y="0.0" />
+	</trackVec2f>
+
+	<trackD name="leftRot" interpolation="cubic">
+		<keyframeD time="0.0" value="-1.58" />
+		<keyframeD time="0.1" value="-2.00" />
+		<keyframeD time="0.2" value="-2.27" />
+		<keyframeD time="0.3" value="-2.57" />
+		<keyframeD time="0.4" value="-3.14" />
+	</trackD>
+
+</animation>

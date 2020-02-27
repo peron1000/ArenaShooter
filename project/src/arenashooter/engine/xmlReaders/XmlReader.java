@@ -1,6 +1,5 @@
 package arenashooter.engine.xmlReaders;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import arenashooter.engine.ContentManager;
 import arenashooter.engine.math.Quat;
@@ -34,8 +32,7 @@ public abstract class XmlReader {
 		try {
 			builder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			System.err.println("Xml builder construction has failed");
-			e.printStackTrace();
+			log.error("Xml builder construction has failed", e);
 		}
 	}
 
@@ -45,15 +42,11 @@ public abstract class XmlReader {
 
 	protected synchronized static void parse(String path) {
 		try {
-			document = builder.parse(ContentManager.transformPath(path));
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			document = builder.parse(ContentManager.getRes(path));
+			root = document.getDocumentElement();
+		} catch (Exception e) {
+			log.error("Can't parse "+path, e);
 		}
-		root = document.getDocumentElement();
 	}
 	
 	/**
@@ -111,7 +104,6 @@ public abstract class XmlReader {
 	 * @return Le premier Element correspondant au name parmi les enfants de parent
 	 */
 	public static Element getFirstElementByName(String name, Element parent) {
-
 		List<Element> list = getListElementByName(name, parent);
 		if (list.isEmpty())
 			return null;

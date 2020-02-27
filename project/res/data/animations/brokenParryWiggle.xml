@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation length="0.3" loop="true">
+
+	<trackD name="BrokenShieldPosX" interpolation="linear">
+		<keyframeD time="0.0001" value = "-0.13" />
+		<keyframeD time="0.0750" value = "0.13" />
+		<keyframeD time="0.1500" value = "-0.13" />
+		<keyframeD time="0.2250" value = "0.13" />
+		<keyframeD time="0.2999" value = "-0.13" />
+	</trackD>
+
+</animation>

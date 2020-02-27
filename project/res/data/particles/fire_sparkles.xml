@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<particleSystem>
+	<emitter delay="0" duration="0" lifetimeMin="1" lifetimeMax="3" rate="2" initialRotMin="0" initialRotMax="0">
+		<texture filtered="false" src="data/fire.png"/>
+		<modules>
+			<colorOverLife>
+				<vec4 x="1" y="1" z="1" w="1" use="colorStart"/>
+				<vec4 x="1" y="1" z="1" w="1" use="colorEnd"/>
+			</colorOverLife>
+			<sizeOverLife>
+				<vec2 x=".4" y=".4" use="sizeStart"/>
+				<vec2 x=".65" y=".65" use="sizeEnd"/>
+			</sizeOverLife>
+			<gravity gravityScale="2"/>
+			<initialVelCone angleMin="-1.007" angleMax="2.107" velMin="5" velMax="15"/>
+		</modules>
+	</emitter>
+
+<!--	<emitter angleMin="-1.007" angleMax="-2.107" delay="0" duration="0" lifetimeMin="2" lifetimeMax="4" rate="1" velocityMin="11" velocityMax="15" gravityScale="2">
+	<basic sizeInitial=".4" sizeEnd=".65"></basic>
+<!-- 	<oriented><vec2 x="10.5" y="10.15"/></oriented>
+	<texture filtered="false" src="data/particles/fire.png"/>
+	<vec4 x="1" y="1" z="1" w="1" use="colorStart"/>
+	<vec4 x="1" y="1" z="1" w="1" use="colorEnd"/>
+	</emitter> -->
+</particleSystem>

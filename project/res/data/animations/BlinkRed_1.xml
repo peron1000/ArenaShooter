@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation length="0.2" loop="true">
+
+	<trackVec3f name="BlinkColor" interpolation="linear">
+		<keyframeVec2f time="0.0001" x = "1" y = "1" z = "1" />
+		<keyframeVec2f time="0.0900" x = "1" y = "1" z = "1" />
+		<keyframeVec2f time="0.1000" x = "1.5" y = "0.3" z = "0.3" />
+		<keyframeVec2f time="0.1900" x = "1.5" y = "0.3" z = "0.3" />
+		<keyframeVec2f time="0.1999" x = "1" y = "1" z = "1" />
+	</trackVec3f>
+
+</animation>

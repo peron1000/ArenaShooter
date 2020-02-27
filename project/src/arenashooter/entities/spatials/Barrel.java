@@ -22,6 +22,7 @@ public class Barrel extends RigidBodyContainer {
 	private Entity instigator;
 	private double timeSinceLastSpark = 0;
 	double timeUntilNewSpark = 0.2;
+	
 
 	public Barrel(Vec2fi worldPosition, double timer) {
 		super(new RigidBody(new ShapeBox(new Vec2f(0.75, 1)), worldPosition, 0, CollisionFlags.RIGIDBODY, 3, 1));

@@ -26,7 +26,7 @@ public class ConfigManager {
 	public static void init() {
 		log.info("Reading config file");
 		
-		file = FileUtils.getUserDirPath().resolve("config.cfg").toFile();
+		file = FileUtils.getUserDir().resolve("config.cfg").toFile();
 
 		try {
 			if(!file.exists()) {

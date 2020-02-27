@@ -1,8 +1,6 @@
 package arenashooter.engine.graphics;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -57,11 +55,10 @@ public class ModelsData {
 		Map<String, String> res = new HashMap<>();
 		
 		String materialsFilePath = path.substring(0, path.lastIndexOf('.'))+".materials";
-		File file = new File( ContentManager.transformPath(materialsFilePath) );
 		
-		if(!file.exists()) return res;
+		if(!ContentManager.resExists(materialsFilePath)) return res;
 		
-		try( InputStream in = new FileInputStream(file);
+		try( InputStream in = ContentManager.getRes(materialsFilePath);
 				InputStreamReader inReader = new InputStreamReader(in);
 				BufferedReader reader = new BufferedReader(inReader); ) {
 			

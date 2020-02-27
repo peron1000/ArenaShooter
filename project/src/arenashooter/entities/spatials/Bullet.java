@@ -12,7 +12,7 @@ import arenashooter.engine.physic.shapes.ShapeDisk;
 import arenashooter.game.Main;
 
 public class Bullet extends Projectile {
-
+	
 	public Bullet(Vec2fi position, Vec2fi vel, float damage) {
 		super(new RigidBody(new ShapeDisk(.25), position, vel.angle(), CollisionFlags.PROJ, 1, 1));
 		
@@ -28,7 +28,7 @@ public class Bullet extends Projectile {
 		sprite.getTexture().setFilter(false);
 		sprite.attachToParent(this, "bul_Sprite");
 	}
-
+	
 	@Override
 	public void impact(Spatial other) {
 		if(other == shooter) return; //Ignore instigator

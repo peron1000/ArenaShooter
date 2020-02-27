@@ -63,7 +63,7 @@ class ALSoundBuffer implements SoundBuffer {
 			}
 
 			ALSoundBuffer res = new ALSoundBuffer(path, pcm, info.channels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, info.sample_rate());
-			buffers.put(path, res);
+			buffers.put(res.path, res);
 			
 			ALAudio.log.debug("Loading new sound \""+path+"\": "+(System.currentTimeMillis() - time)+" ms");
 			return res;
@@ -98,10 +98,10 @@ class ALSoundBuffer implements SoundBuffer {
 		return path;
 	}
 	
-	private static ShortBuffer loadVorbis(String resource, STBVorbisInfo info) {
+	private static ShortBuffer loadVorbis(String path, STBVorbisInfo info) {
 		ByteBuffer vorbis;
 		
-		vorbis = FileUtils.resToByteBuffer(resource);
+		vorbis = FileUtils.resToByteBuffer(path);
 		
 		if( vorbis == null )
 			return null;
@@ -110,7 +110,7 @@ class ALSoundBuffer implements SoundBuffer {
 		long decoder = stb_vorbis_open_memory(vorbis, error, null);
 		
 		if(decoder == NULL) {
-			ALAudio.log.error("Can't load vorbis file : "+resource);
+			ALAudio.log.error("Can't load vorbis file : "+path);
 			return null;
 		}
 		
@@ -119,7 +119,7 @@ class ALSoundBuffer implements SoundBuffer {
 		int channels = info.channels();
 		
 		if( channels != 1 && channels != 2 ) {
-			ALAudio.log.error("Unsupported channel count for "+resource+" ("+channels+") !");
+			ALAudio.log.error("Unsupported channel count for "+path+" ("+channels+") !");
 		}
 		
 		ShortBuffer pcm = BufferUtils.createShortBuffer( stb_vorbis_stream_length_in_samples(decoder) * channels );

@@ -1,12 +1,12 @@
 package arenashooter.game.gameStates;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import arenashooter.engine.FileUtils;
 import arenashooter.engine.events.EventListener;
 import arenashooter.engine.events.input.InputActionEvent;
 import arenashooter.engine.events.input.InputListener;
@@ -180,11 +180,11 @@ public class Config extends GameState {
 
 		ui();
 
-		List<File> maps = new ArrayList<>(Main.loadingConfig.getFile());
-		maps.sort(new Comparator<File>() {
+		List<String> maps = new ArrayList<>(Main.loadingConfig.getFile());
+		maps.sort(new Comparator<String>() {
 			@Override
-			public int compare(File o1, File o2) {
-				return o1.getName().compareTo(o2.getName());
+			public int compare(String o1, String o2) {
+				return FileUtils.getName(o1).compareTo(FileUtils.getName(o2));
 			}
 		});
 
@@ -200,11 +200,11 @@ public class Config extends GameState {
 			menu.addListVertical(newList);
 		}
 
-		for (File file : maps) {
+		for (String file : maps) {
 			Material thumbnailMat = Main.getRenderer().loadMaterial("data/materials/ui/ui_arena_thumbnail.material");
 			thumbnailMat.setParamTex("image", Main.loadingConfig.getTexture(file));
 			UiImage picture = new UiImage(thumbnailMat);
-			pictureName.put(picture, file.getName().substring(0, file.getName().indexOf('.')));
+			pictureName.put(picture, FileUtils.getName(file).substring(0, FileUtils.getName(file).indexOf('.')));
 			double scale = 4.5;
 			picture.setScale(14);
 			picture.addToScale(-scale);
@@ -216,12 +216,12 @@ public class Config extends GameState {
 				@Override
 				public void make() {
 					double lerp = 10;
-					if (gameParam.maps.contains(file.getPath())) {
-						gameParam.maps.remove(file.getPath());
+					if (gameParam.maps.contains(file)) {
+						gameParam.maps.remove(file);
 						picture.addToScaleLerp(-scale, lerp);
 						picture.setColor(colorUnselect);
 					} else {
-						gameParam.maps.add(file.getPath());
+						gameParam.maps.add(file);
 						picture.addToScaleLerp(scale, lerp);
 						picture.setColor(colorSelect);
 					}

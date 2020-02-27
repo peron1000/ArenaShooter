@@ -1,7 +1,6 @@
 package arenashooter.game;
 
-import java.io.File;
-
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.DamageType;
 import arenashooter.engine.graphics.Texture;
@@ -60,7 +59,7 @@ public abstract class Controller {
 	public Texture getPortrait() {
 		Texture portrait;
 		String path = "data/sprites/characters/" + info.getSkin();
-		if (new File(path + "/head.png").exists())
+		if ( ContentManager.resExists(path+"/head.png") )
 			portrait = Main.getRenderer().loadTexture(path + "/head.png");
 		else
 			portrait = Main.getRenderer().loadTexture(path + "/head_tr.png");

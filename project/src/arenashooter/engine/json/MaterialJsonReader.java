@@ -12,7 +12,7 @@ import com.github.cliftonlabs.json_simple.JsonKey;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 
-import arenashooter.engine.FileUtils;
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.graphics.Texture;
 import arenashooter.engine.math.Vec2f;
 import arenashooter.engine.math.Vec3f;
@@ -91,7 +91,7 @@ public class MaterialJsonReader extends JsonReader {
 
 	public MaterialJsonReader(String path) {
 		super(path);
-		try (Reader reader = new InputStreamReader(FileUtils.getRes(path))) {
+		try (Reader reader = new InputStreamReader(ContentManager.getRes(path))) {
 
             JsonObject deserialize = (JsonObject) Jsoner.deserialize(reader);
             
@@ -141,8 +141,7 @@ public class MaterialJsonReader extends JsonReader {
             	}
             }
         } catch(Exception e) {
-        	log.error("Error parsing "+path);
-        	e.printStackTrace();
+        	log.error("Error parsing "+path, e);
         }
 	}
 

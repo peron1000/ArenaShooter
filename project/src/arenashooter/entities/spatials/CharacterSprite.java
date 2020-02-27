@@ -1,8 +1,8 @@
 package arenashooter.entities.spatials;
 
-import java.io.File;
 import java.util.Queue;
 
+import arenashooter.engine.ContentManager;
 import arenashooter.engine.DamageInfo;
 import arenashooter.engine.animation.Animation;
 import arenashooter.engine.animation.AnimationData;
@@ -75,20 +75,18 @@ public class CharacterSprite extends Spatial {
 		folder = "data/sprites/characters/" + charInfo.getSkin();
 		this.mirrorLeftFoot = charInfo.mirrorLeftFoot();
 
-		File f = new File(folder + "/body.png");
-		if (f.exists() && !f.isDirectory()) {
+		if( ContentManager.resExists(folder+"/body.png") ) {
 			body = new Sprite(new Vec2f(0, -.2), folder + "/body.png");
-		} else if (new File(folder + "/body_tr.png").exists()) {
+		} else if( ContentManager.resExists(folder+"/body_tr.png") ) {
 			body = new Sprite(new Vec2f(0, -.2), folder + "/body_tr.png");
 		}
 		body.size = new Vec2f(body.getTexture().getWidth() * .052, body.getTexture().getHeight() * .052);
 		body.getTexture().setFilter(false);
 		body.attachToParent(this, "body");
 
-		f = new File(folder + "/head.png");
-		if (f.exists() && !f.isDirectory()) {
+		if( ContentManager.resExists(folder+"/head.png") ) {
 			head = new Sprite(new Vec2f(0, -.2), folder + "/head.png");
-		} else if (new File(folder + "/head_tr.png").exists()) {
+		} else if( ContentManager.resExists(folder+"/head_tr.png") ) {
 			head = new Sprite(new Vec2f(0, -.2), folder + "/head_tr.png");
 		}
 		head.size = new Vec2f(head.getTexture().getWidth() * .052, head.getTexture().getHeight() * .052);
@@ -97,11 +95,10 @@ public class CharacterSprite extends Spatial {
 		head.attachToParent(this, "head");
 
 		// Feet
-		f = new File(folder + "/foot.png");
-		if (f.exists() && !f.isDirectory()) {
+		if( ContentManager.resExists(folder+"/foot.png") ) {
 			footL = new Sprite(new Vec2f((mirrorLeftFoot ? -.5 : -.3) + .08, .81), folder + "/foot.png");
 			footR = new Sprite(new Vec2f(.3 - .08, .81), folder + "/foot.png");
-		} else if (new File(folder + "/foot_tr.png").exists()) {
+		} else if( ContentManager.resExists(folder+"/foot_tr.png") ) {
 			footL = new Sprite(new Vec2f((mirrorLeftFoot ? -.5 : -.3) + .08, .81), folder + "/foot_tr.png");
 			footR = new Sprite(new Vec2f(.3 - .08, .81), folder + "/foot_tr.png");
 		}
@@ -117,11 +114,10 @@ public class CharacterSprite extends Spatial {
 		footR.zIndex = -1;
 
 		// Hands
-		f = new File(folder + "/foot.png");
-		if (f.exists() && !f.isDirectory()) {
+		if( ContentManager.resExists(folder+"/hand.png") ) {
 			handL = new Sprite(new Vec2f(), folder + "/hand.png");
 			handR = new Sprite(new Vec2f(), folder + "/hand.png");
-		} else if (new File(folder + "/foot_tr.png").exists()) {
+		} else if( ContentManager.resExists(folder+"/hand_tr.png") ) {
 			handL = new Sprite(new Vec2f(), folder + "/hand_tr.png");
 			handR = new Sprite(new Vec2f(), folder + "/hand_tr.png");
 		}

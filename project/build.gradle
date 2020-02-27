@@ -20,6 +20,13 @@ sourceSets {
     java {
      srcDirs = ["src"]
     }
+    resources {
+     srcDirs = ["res"]
+     // Exclude Blender and Gimp project files
+     exclude '**/*.blend'
+     exclude '**/*.blend1'
+     exclude '**/*.xcf'
+    }
   }
 }
 
@@ -27,15 +34,6 @@ task fatJar(type: Jar) {
   description 'Creates a runnable jar and copy game data next to it.'
   manifest {
     attributes 'Main-Class': "$mainClassName"
-  }
-
-  // Copy data folder (exclude Blender and Gimp project files)
-  copy {
-    from 'data'
-    into 'build/libs/data'
-    exclude '**/*.blend'
-    exclude '**/*.blend1'
-    exclude '**/*.xcf'
   }
   
   from {
@@ -52,15 +50,6 @@ jar {
   from {
     configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
-}
-
-task zipGame(type: Zip) {
-  description 'Creates a runnable jar and copy game data next to it, then zip it to the distribution directory.'
-  dependsOn fatJar
-  from 'build/libs/'
-  include '*.jar' //Include jar
-  include 'data/**' //Include data
-  archiveName archivesBaseName+version+classifier+'.zip'
 }
 
 repositories {
@@ -124,5 +113,5 @@ dependencies {
   compile files('lib/jbox-2d/jbox2d-library.jar')
   
   // Json-simple
-  runtime 'com.github.cliftonlabs:json-simple:3.1.0'
+  compile 'com.github.cliftonlabs:json-simple:3.1.0'
 } 

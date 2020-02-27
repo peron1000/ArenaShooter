@@ -51,8 +51,7 @@ public class JsonReader {
 			float val = array.getFloat(0);
 			return val;
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(0).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(0).toString(), e);
 			return 0;
 		}
 	}
@@ -62,15 +61,13 @@ public class JsonReader {
 		try {
 			x = array.getFloat(0);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(0).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(0).toString(), e);
 			return null;
 		}
 		try {
 			y = array.getFloat(1);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(1).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(1).toString(), e);
 			return null;
 		}
 		return new Vec2f(x, y);
@@ -81,22 +78,19 @@ public class JsonReader {
 		try {
 			x = array.getFloat(0);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(0).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(0).toString(), e);
 			return null;
 		}
 		try {
 			y = array.getFloat(1);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(1).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(1).toString(), e);
 			return null;
 		}
 		try {
 			z = array.getFloat(2);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(2).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(2).toString(), e);
 			return null;
 		}
 		return new Vec3f(x, y, z);
@@ -107,29 +101,25 @@ public class JsonReader {
 		try {
 			x = array.getFloat(0);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(0).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(0).toString(), e);
 			return null;
 		}
 		try {
 			y = array.getFloat(1);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(1).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(1).toString(), e);
 			return null;
 		}
 		try {
 			z = array.getFloat(2);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(2).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(2).toString(), e);
 			return null;
 		}
 		try {
 			w = array.getFloat(3);
 		} catch(Exception e) {
-			log.error("Value is not a float: "+array.get(3).toString());
-			e.printStackTrace();
+			log.error("Value is not a float: "+array.get(3).toString(), e);
 			return null;
 		}
 		return new Vec4f(x, y, z, w);
@@ -139,8 +129,7 @@ public class JsonReader {
 		try {
 			obj.requireKeys(TextureKeys.values());
 		} catch(NoSuchElementException e) {
-			log.error("Missing element in texture definition "+e.getLocalizedMessage());
-			e.printStackTrace();
+			log.error("Missing element in texture definition "+e.getLocalizedMessage(), e);
 			return Main.getRenderer().getDefaultTexture();
 		}
 		
