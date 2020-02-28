@@ -11,49 +11,39 @@ def mainClassName = 'arenashooter.game.Main'
 
 // Force UTF-8
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+	options.encoding = 'UTF-8'
 }
 
 
 sourceSets {
-  main {
-    java {
-     srcDirs = ["src"]
-    }
-    resources {
-     srcDirs = ["res"]
-     // Exclude Blender and Gimp project files
-     exclude '**/*.blend'
-     exclude '**/*.blend1'
-     exclude '**/*.xcf'
-    }
-  }
+	main {
+		java {
+			srcDirs = ["src"]
+		}
+		resources {
+			srcDirs = ["res"]
+			// Exclude Blender and Gimp project files
+			exclude '**/*.blend'
+			exclude '**/*.blend1'
+			exclude '**/*.xcf'
+		}
+	}
 }
 
 task fatJar(type: Jar) {
-  description 'Creates a runnable jar and copy game data next to it.'
-  manifest {
-    attributes 'Main-Class': "$mainClassName"
-  }
-  
-  from {
-    configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) }
-  }
-  with jar
-}
+	manifest {
+		attributes 'Main-Class': "$mainClassName"
+	}
 
-jar {
-  manifest {
-    attributes 'Main-Class': "$mainClassName"
-  }
-  from {
-    configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-  }
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	with jar
 }
 
 repositories {
-  mavenCentral()
+	mavenCentral()
 }
 
 project.ext.lwjglVersion = "3.2.3"
@@ -74,44 +64,44 @@ switch (OperatingSystem.current()) {
 }
 
 dependencies {
-  // Log4J 2
-  compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.0'
-  compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.0'
-  
-  // LWJGL 3
-  implementation "org.lwjgl:lwjgl:$lwjglVersion"
-  implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
-  implementation "org.lwjgl:lwjgl-openal:$lwjglVersion"
-  implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
-  implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
-  //Platform-specific
-  //runtime "org.lwjgl:lwjgl:$lwjglVersion:$lwjglNatives"
-  //runtime "org.lwjgl:lwjgl-glfw:$lwjglVersion:$lwjglNatives"
-  //runtime "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
-  //runtime "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
-  //runtime "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
-  //Windows
-  runtime "org.lwjgl:lwjgl:$lwjglVersion:natives-windows"
-  runtime "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-windows"
-  runtime "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-windows"
-  runtime "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-windows"
-  runtime "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-windows"
-  //Linux
-  runtime "org.lwjgl:lwjgl:$lwjglVersion:natives-linux"
-  runtime "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-linux"
-  runtime "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-linux"
-  runtime "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-linux"
-  runtime "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-linux"
-  //Mac
-  runtime "org.lwjgl:lwjgl:$lwjglVersion:natives-macos"
-  runtime "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-macos"
-  runtime "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-macos"
-  runtime "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-macos"
-  runtime "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-macos"
-  
-  // JBox-2d
-  compile files('lib/jbox-2d/jbox2d-library.jar')
-  
-  // Json-simple
-  compile 'com.github.cliftonlabs:json-simple:3.1.0'
+	// Log4J 2
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.0'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.0'
+
+	// LWJGL 3
+	implementation "org.lwjgl:lwjgl:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-openal:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
+	implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
+	//Platform-specific
+	//runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:$lwjglNatives"
+	//runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:$lwjglNatives"
+	//runtimeOnly "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
+	//runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
+	//runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
+	//Windows
+	runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:natives-windows"
+	runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-windows"
+	runtimeOnly "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-windows"
+	runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-windows"
+	runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-windows"
+	//Linux
+	runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:natives-linux"
+	runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-linux"
+	runtimeOnly "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-linux"
+	runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-linux"
+	runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-linux"
+	//Mac
+	runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:natives-macos"
+	runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-macos"
+	runtimeOnly "org.lwjgl:lwjgl-openal:$lwjglVersion:natives-macos"
+	runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-macos"
+	runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-macos"
+
+	// JBox-2d
+	implementation files('lib/jbox-2d/jbox2d-library.jar')
+
+	// Json-simple
+	implementation 'com.github.cliftonlabs:json-simple:3.1.0'
 } 
