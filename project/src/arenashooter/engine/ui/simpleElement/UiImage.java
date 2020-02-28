@@ -39,22 +39,6 @@ public class UiImage extends UiElement {
 	 */
 	public UiImage(double red, double green, double blue, double transparency) {
 		this(Main.getRenderer().loadMaterial("data/materials/ui/ui_rectangle.material"));
-		if (red > 1 || red < 0) {
-			Exception e = new Exception("Color value red given is not valid");
-			e.printStackTrace();
-		}
-		if (green > 1 || green < 0) {
-			Exception e = new Exception("Color value green given is not valid");
-			e.printStackTrace();
-		}
-		if (blue > 1 || blue < 0) {
-			Exception e = new Exception("Color value blue given is not valid");
-			e.printStackTrace();
-		}
-		if (transparency > 1 || transparency < 0) {
-			Exception e = new Exception("Color value opacity given is not valid");
-			e.printStackTrace();
-		}
 		material.setParamVec4f("color", new Vec4f(red, green, blue, transparency));
 	}
 
