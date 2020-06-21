@@ -3,11 +3,12 @@ package arenashooter.engine.input;
 import static org.lwjgl.glfw.GLFW.*;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
+
+import com.xenoamess.cyan_potion.sdl_game_controller_db_util.SDL_GameControllerDB_Util;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWCharCallback;
@@ -55,9 +56,8 @@ public final class Input {
 		//Load gamepad mappings
 		Main.log.info("Loading gamepad mappings...");
 		int mappings = 0;
-		try ( InputStream in = ContentManager.getRes("data/gamecontrollerdb.txt");
-				InputStreamReader inReader = new InputStreamReader(in);
-				BufferedReader reader = new BufferedReader(inReader); ) {
+		try (StringReader stringReader = new StringReader(SDL_GameControllerDB_Util.getSDL_GameControllerDB_String());
+			 BufferedReader reader = new BufferedReader(stringReader); ) {
 			
 			String line = "";
 			while( (line = reader.readLine()) != null ) {
