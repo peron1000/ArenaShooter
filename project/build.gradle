@@ -104,4 +104,6 @@ dependencies {
 
 	// Json-simple
 	implementation 'com.github.cliftonlabs:json-simple:3.1.0'
+
+	implementation "com.xenoamess.cyan_potion:SDL_GameControllerDB_Util:[1.7.0,2.0.0)"
 } 
