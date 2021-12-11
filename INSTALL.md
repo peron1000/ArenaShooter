@@ -16,6 +16,6 @@ If you encounter issues running the game, check our [wiki](https://github.com/pe
 * A JDK with Java 8 support
 ### Building
 After cloning the repository,
-* Run `gradlew fatjar` (`gradlew.bat zipGame` on Windows) from the [`/project`](/project) directory to produce an executable jar into `/project/build/libs`.
+* Run `gradlew fatjar` (`gradlew.bat fatjar` on Windows) from the [`/project`](/project) directory to produce an executable jar into `/project/build/libs`.
 
 If you previously built another version, it is recommended to run `gradlew clean` (`gradlew.bat clean` on Windows) before building.

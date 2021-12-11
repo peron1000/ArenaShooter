@@ -46,7 +46,7 @@ repositories {
 	mavenCentral()
 }
 
-project.ext.lwjglVersion = "3.2.3"
+project.ext.lwjglVersion = "3.3.0"
 
 switch (OperatingSystem.current()) {
 	case OperatingSystem.LINUX:
@@ -65,8 +65,8 @@ switch (OperatingSystem.current()) {
 
 dependencies {
 	// Log4J 2
-	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.0'
-	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.0'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.15.0'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.15.0'
 
 	// LWJGL 3
 	implementation "org.lwjgl:lwjgl:$lwjglVersion"
@@ -103,7 +103,7 @@ dependencies {
 	implementation files('lib/jbox-2d/jbox2d-library.jar')
 
 	// Json-simple
-	implementation 'com.github.cliftonlabs:json-simple:3.1.0'
+	implementation 'com.github.cliftonlabs:json-simple:4.0.0'
 
 	implementation "com.xenoamess.cyan_potion:SDL_GameControllerDB_Util:[1.7.0,2.0.0)"
 } 
